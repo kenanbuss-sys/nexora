@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DATABASE_URL: postgresql://app:app@localhost:5432/enterprise_os
+  REDIS_URL: redis://localhost:6379
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: enterprise_os
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U app -d enterprise_os"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+      redis:
+        image: redis:8-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate spec pack
+        run: python3 scripts/validate_spec_pack.py
+
+      - name: Format check
+        run: pnpm format
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Validate Prisma schema and generate client
+        run: pnpm db:generate
+
+      - name: Migrate from empty database
+        run: pnpm db:migrate
+
+      - name: Test (unit + integration against real PostgreSQL/Redis)
+        run: pnpm test
+        env:
+          INTEGRATION: '1'
+
+      - name: Build
+        run: pnpm build

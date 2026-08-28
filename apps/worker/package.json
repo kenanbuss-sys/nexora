@@ -1,0 +1,25 @@
+{
+  "name": "@nexora/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "node --watch -r ts-node/register src/main.ts",
+    "start": "node dist/main.js",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@nexora/config": "workspace:*",
+    "@nexora/observability": "workspace:*",
+    "bullmq": "^6.3.0",
+    "ioredis": "^5.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.0"
+  }
+}

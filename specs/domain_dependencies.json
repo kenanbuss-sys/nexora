@@ -1,0 +1,200 @@
+{
+  "version": "1.0",
+  "dependencies": {
+    "CORE": [],
+    "IAM": [
+      "CORE"
+    ],
+    "MDM": [
+      "CORE",
+      "IAM"
+    ],
+    "PIM": [
+      "CORE",
+      "IAM",
+      "MDM"
+    ],
+    "CRM": [
+      "CORE",
+      "IAM",
+      "MDM"
+    ],
+    "CPQ": [
+      "CORE",
+      "IAM",
+      "MDM",
+      "PIM",
+      "CRM"
+    ],
+    "COM": [
+      "CORE",
+      "IAM",
+      "PIM",
+      "CPQ",
+      "OMS"
+    ],
+    "OMS": [
+      "CORE",
+      "IAM",
+      "MDM",
+      "PIM",
+      "CPQ",
+      "WMS"
+    ],
+    "B2B": [
+      "CORE",
+      "IAM",
+      "CRM",
+      "PIM",
+      "CPQ",
+      "OMS",
+      "DOC"
+    ],
+    "PROC": [
+      "CORE",
+      "IAM",
+      "MDM",
+      "PIM",
+      "WMS"
+    ],
+    "WMS": [
+      "CORE",
+      "IAM",
+      "MDM",
+      "PIM"
+    ],
+    "ENG": [
+      "CORE",
+      "IAM",
+      "PIM",
+      "DOC"
+    ],
+    "PLAN": [
+      "CORE",
+      "IAM",
+      "PIM",
+      "ENG",
+      "WMS",
+      "PROC",
+      "MES"
+    ],
+    "MES": [
+      "CORE",
+      "IAM",
+      "PIM",
+      "ENG",
+      "WMS",
+      "DEV",
+      "VER"
+    ],
+    "VER": [
+      "CORE",
+      "IAM",
+      "DEV"
+    ],
+    "QMS": [
+      "CORE",
+      "IAM",
+      "PIM",
+      "WMS",
+      "MES",
+      "EAM"
+    ],
+    "EAM": [
+      "CORE",
+      "IAM",
+      "PIM",
+      "WMS"
+    ],
+    "SVC": [
+      "CORE",
+      "IAM",
+      "CRM",
+      "PIM",
+      "WMS",
+      "DOC"
+    ],
+    "LOG": [
+      "CORE",
+      "IAM",
+      "OMS",
+      "WMS"
+    ],
+    "PRJ": [
+      "CORE",
+      "IAM",
+      "CRM",
+      "PROC",
+      "WMS",
+      "FIN"
+    ],
+    "HCM": [
+      "CORE",
+      "IAM"
+    ],
+    "DOC": [
+      "CORE",
+      "IAM"
+    ],
+    "FIN": [
+      "CORE",
+      "IAM",
+      "MDM"
+    ],
+    "BI": [
+      "CORE",
+      "IAM"
+    ],
+    "AI": [
+      "CORE",
+      "IAM",
+      "BI",
+      "INT"
+    ],
+    "INT": [
+      "CORE",
+      "IAM"
+    ],
+    "DEV": [
+      "CORE",
+      "IAM"
+    ],
+    "WF": [
+      "CORE",
+      "IAM"
+    ],
+    "OPS": [
+      "CORE",
+      "IAM",
+      "INT",
+      "DEV"
+    ],
+    "GRC": [
+      "CORE",
+      "IAM",
+      "DOC",
+      "WF"
+    ],
+    "EXT": [
+      "CORE",
+      "IAM"
+    ],
+    "CSM": [
+      "CORE",
+      "IAM",
+      "CRM",
+      "DOC"
+    ],
+    "MKT": [
+      "CORE",
+      "IAM",
+      "CRM",
+      "COM"
+    ],
+    "ESG": [
+      "CORE",
+      "IAM",
+      "BI"
+    ]
+  }
+}

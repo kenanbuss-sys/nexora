@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.next/
+coverage/
+pnpm-lock.yaml
+prisma/migrations/
+docs/
+specs/
+CLAUDE.md
+README.md
+START_CLAUDE_CODE.md
+prompts/
+prototype/
+.claude/
+MANIFEST.json

@@ -1,0 +1,6 @@
+{
+  "name": "@nexora/mobile",
+  "version": "0.0.0",
+  "private": true,
+  "description": "React Native mobile operations app — placeholder until Sprint 005 (device/verification MVP)."
+}

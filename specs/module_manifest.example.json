@@ -1,0 +1,29 @@
+{
+  "name": "domain-wms",
+  "capabilityPrefixes": [
+    "WMS"
+  ],
+  "dependencies": [
+    "CORE",
+    "IAM",
+    "MDM",
+    "PIM"
+  ],
+  "owns": [
+    "StockMovement",
+    "StockReservation",
+    "WarehouseLocation"
+  ],
+  "publishes": [
+    "stock.moved",
+    "stock.reserved"
+  ],
+  "consumes": [
+    "order.confirmed"
+  ],
+  "permissions": [
+    "inventory.read",
+    "inventory.receive"
+  ],
+  "version": "1.0.0"
+}

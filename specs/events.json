@@ -1,0 +1,786 @@
+{
+  "version": "1.0",
+  "events": [
+    {
+      "name": "tenant.created",
+      "owner": "CORE",
+      "meaning": "Tenant created",
+      "requiredPayload": [
+        "tenantId"
+      ]
+    },
+    {
+      "name": "tenant.configuration.changed",
+      "owner": "CORE",
+      "meaning": "Configuration published",
+      "requiredPayload": [
+        "tenantId",
+        "configVersion"
+      ]
+    },
+    {
+      "name": "user.invited",
+      "owner": "IAM",
+      "meaning": "User invitation created",
+      "requiredPayload": [
+        "userId",
+        "email"
+      ]
+    },
+    {
+      "name": "permission.changed",
+      "owner": "IAM",
+      "meaning": "Authorization changed",
+      "requiredPayload": [
+        "subjectId",
+        "scope"
+      ]
+    },
+    {
+      "name": "party.created",
+      "owner": "MDM",
+      "meaning": "Canonical party created",
+      "requiredPayload": [
+        "partyId"
+      ]
+    },
+    {
+      "name": "customer.approved",
+      "owner": "CRM",
+      "meaning": "Customer onboarding approved",
+      "requiredPayload": [
+        "customerId"
+      ]
+    },
+    {
+      "name": "product.created",
+      "owner": "PIM",
+      "meaning": "Product created",
+      "requiredPayload": [
+        "productId"
+      ]
+    },
+    {
+      "name": "sku.activated",
+      "owner": "PIM",
+      "meaning": "SKU activated",
+      "requiredPayload": [
+        "skuId"
+      ]
+    },
+    {
+      "name": "price_list.published",
+      "owner": "CPQ",
+      "meaning": "Price list effective",
+      "requiredPayload": [
+        "priceListId",
+        "version"
+      ]
+    },
+    {
+      "name": "quote.created",
+      "owner": "CPQ",
+      "meaning": "Quote created",
+      "requiredPayload": [
+        "quoteId",
+        "customerId"
+      ]
+    },
+    {
+      "name": "quote.approved",
+      "owner": "CPQ",
+      "meaning": "Quote approved",
+      "requiredPayload": [
+        "quoteId"
+      ]
+    },
+    {
+      "name": "quote.accepted",
+      "owner": "CPQ",
+      "meaning": "Quote accepted",
+      "requiredPayload": [
+        "quoteId"
+      ]
+    },
+    {
+      "name": "order.created",
+      "owner": "OMS",
+      "meaning": "Sales order captured",
+      "requiredPayload": [
+        "orderId",
+        "customerId",
+        "channel"
+      ]
+    },
+    {
+      "name": "order.validated",
+      "owner": "OMS",
+      "meaning": "Order validation passed",
+      "requiredPayload": [
+        "orderId"
+      ]
+    },
+    {
+      "name": "order.confirmed",
+      "owner": "OMS",
+      "meaning": "Order firm demand",
+      "requiredPayload": [
+        "orderId"
+      ]
+    },
+    {
+      "name": "order.held",
+      "owner": "OMS",
+      "meaning": "Order held",
+      "requiredPayload": [
+        "orderId",
+        "reason"
+      ]
+    },
+    {
+      "name": "order.released",
+      "owner": "OMS",
+      "meaning": "Hold released",
+      "requiredPayload": [
+        "orderId"
+      ]
+    },
+    {
+      "name": "order.cancelled",
+      "owner": "OMS",
+      "meaning": "Order cancelled",
+      "requiredPayload": [
+        "orderId",
+        "reason"
+      ]
+    },
+    {
+      "name": "order.fulfillment.planned",
+      "owner": "OMS",
+      "meaning": "Fulfillment plan generated",
+      "requiredPayload": [
+        "orderId",
+        "fulfillmentIds"
+      ]
+    },
+    {
+      "name": "stock.reserved",
+      "owner": "WMS",
+      "meaning": "Inventory reserved",
+      "requiredPayload": [
+        "reservationId",
+        "skuId",
+        "quantity",
+        "locationScope"
+      ]
+    },
+    {
+      "name": "stock.released",
+      "owner": "WMS",
+      "meaning": "Reservation released",
+      "requiredPayload": [
+        "reservationId"
+      ]
+    },
+    {
+      "name": "stock.moved",
+      "owner": "WMS",
+      "meaning": "Stock movement posted",
+      "requiredPayload": [
+        "movementId",
+        "skuId",
+        "quantity",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "name": "goods.receipt.created",
+      "owner": "WMS",
+      "meaning": "Receiving session created",
+      "requiredPayload": [
+        "receiptId",
+        "inboundShipmentId"
+      ]
+    },
+    {
+      "name": "goods.received",
+      "owner": "WMS",
+      "meaning": "Receipt posted",
+      "requiredPayload": [
+        "receiptId"
+      ]
+    },
+    {
+      "name": "goods.receipt.discrepancy",
+      "owner": "WMS",
+      "meaning": "Inbound discrepancy",
+      "requiredPayload": [
+        "receiptId",
+        "type"
+      ]
+    },
+    {
+      "name": "inventory.count.started",
+      "owner": "WMS",
+      "meaning": "Count started",
+      "requiredPayload": [
+        "countId"
+      ]
+    },
+    {
+      "name": "inventory.adjustment.requested",
+      "owner": "WMS",
+      "meaning": "Adjustment requested",
+      "requiredPayload": [
+        "adjustmentId"
+      ]
+    },
+    {
+      "name": "inventory.adjusted",
+      "owner": "WMS",
+      "meaning": "Adjustment posted",
+      "requiredPayload": [
+        "adjustmentId"
+      ]
+    },
+    {
+      "name": "transfer.created",
+      "owner": "WMS",
+      "meaning": "Transfer created",
+      "requiredPayload": [
+        "transferId"
+      ]
+    },
+    {
+      "name": "transfer.dispatched",
+      "owner": "WMS",
+      "meaning": "Transfer dispatched",
+      "requiredPayload": [
+        "transferId"
+      ]
+    },
+    {
+      "name": "transfer.received",
+      "owner": "WMS",
+      "meaning": "Transfer received",
+      "requiredPayload": [
+        "transferId"
+      ]
+    },
+    {
+      "name": "pick.task.created",
+      "owner": "WMS",
+      "meaning": "Pick task created",
+      "requiredPayload": [
+        "pickTaskId"
+      ]
+    },
+    {
+      "name": "pick.completed",
+      "owner": "WMS",
+      "meaning": "Pick completed",
+      "requiredPayload": [
+        "pickTaskId"
+      ]
+    },
+    {
+      "name": "pack.completed",
+      "owner": "WMS",
+      "meaning": "Pack completed",
+      "requiredPayload": [
+        "packTaskId",
+        "packageIds"
+      ]
+    },
+    {
+      "name": "purchase.requested",
+      "owner": "PROC",
+      "meaning": "Purchase demand requested",
+      "requiredPayload": [
+        "purchaseRequestId"
+      ]
+    },
+    {
+      "name": "purchase.approved",
+      "owner": "PROC",
+      "meaning": "Purchase request approved",
+      "requiredPayload": [
+        "purchaseRequestId"
+      ]
+    },
+    {
+      "name": "purchase_order.issued",
+      "owner": "PROC",
+      "meaning": "PO issued",
+      "requiredPayload": [
+        "purchaseOrderId"
+      ]
+    },
+    {
+      "name": "purchase_order.acknowledged",
+      "owner": "PROC",
+      "meaning": "Supplier acknowledged PO",
+      "requiredPayload": [
+        "purchaseOrderId"
+      ]
+    },
+    {
+      "name": "inbound_shipment.created",
+      "owner": "PROC",
+      "meaning": "Inbound created",
+      "requiredPayload": [
+        "inboundShipmentId"
+      ]
+    },
+    {
+      "name": "inbound_shipment.arrived",
+      "owner": "PROC",
+      "meaning": "Inbound arrived",
+      "requiredPayload": [
+        "inboundShipmentId"
+      ]
+    },
+    {
+      "name": "landed_cost.allocated",
+      "owner": "PROC",
+      "meaning": "Landed cost allocated",
+      "requiredPayload": [
+        "allocationId"
+      ]
+    },
+    {
+      "name": "bom.revision.released",
+      "owner": "ENG",
+      "meaning": "BOM revision released",
+      "requiredPayload": [
+        "bomRevisionId"
+      ]
+    },
+    {
+      "name": "routing.revision.released",
+      "owner": "ENG",
+      "meaning": "Routing released",
+      "requiredPayload": [
+        "routingRevisionId"
+      ]
+    },
+    {
+      "name": "engineering_change.approved",
+      "owner": "ENG",
+      "meaning": "Engineering change approved",
+      "requiredPayload": [
+        "changeOrderId"
+      ]
+    },
+    {
+      "name": "forecast.published",
+      "owner": "PLAN",
+      "meaning": "Forecast published",
+      "requiredPayload": [
+        "forecastId",
+        "version"
+      ]
+    },
+    {
+      "name": "mrp.run.completed",
+      "owner": "PLAN",
+      "meaning": "MRP completed",
+      "requiredPayload": [
+        "mrpRunId"
+      ]
+    },
+    {
+      "name": "planned_order.created",
+      "owner": "PLAN",
+      "meaning": "Planned supply created",
+      "requiredPayload": [
+        "plannedOrderId",
+        "type"
+      ]
+    },
+    {
+      "name": "work_order.created",
+      "owner": "MES",
+      "meaning": "Work order created",
+      "requiredPayload": [
+        "workOrderId"
+      ]
+    },
+    {
+      "name": "work_order.released",
+      "owner": "MES",
+      "meaning": "Work order released",
+      "requiredPayload": [
+        "workOrderId"
+      ]
+    },
+    {
+      "name": "work_order.started",
+      "owner": "MES",
+      "meaning": "Work started",
+      "requiredPayload": [
+        "workOrderId"
+      ]
+    },
+    {
+      "name": "work_order.completed",
+      "owner": "MES",
+      "meaning": "Work completed",
+      "requiredPayload": [
+        "workOrderId",
+        "goodQty",
+        "scrapQty"
+      ]
+    },
+    {
+      "name": "work_order.cancelled",
+      "owner": "MES",
+      "meaning": "Work cancelled",
+      "requiredPayload": [
+        "workOrderId",
+        "reason"
+      ]
+    },
+    {
+      "name": "operation.ready",
+      "owner": "MES",
+      "meaning": "Operation ready",
+      "requiredPayload": [
+        "operationId"
+      ]
+    },
+    {
+      "name": "operation.started",
+      "owner": "MES",
+      "meaning": "Operation started",
+      "requiredPayload": [
+        "operationId",
+        "operatorId",
+        "machineId"
+      ]
+    },
+    {
+      "name": "operation.paused",
+      "owner": "MES",
+      "meaning": "Operation paused",
+      "requiredPayload": [
+        "operationId",
+        "reason"
+      ]
+    },
+    {
+      "name": "operation.completed",
+      "owner": "MES",
+      "meaning": "Operation completed",
+      "requiredPayload": [
+        "operationId",
+        "goodQty",
+        "scrapQty"
+      ]
+    },
+    {
+      "name": "material.issued_to_production",
+      "owner": "MES",
+      "meaning": "Material issued",
+      "requiredPayload": [
+        "workOrderId",
+        "stockMovementIds"
+      ]
+    },
+    {
+      "name": "scrap.recorded",
+      "owner": "MES",
+      "meaning": "Scrap recorded",
+      "requiredPayload": [
+        "scrapId",
+        "workOrderId"
+      ]
+    },
+    {
+      "name": "rework.created",
+      "owner": "MES",
+      "meaning": "Rework created",
+      "requiredPayload": [
+        "reworkId"
+      ]
+    },
+    {
+      "name": "verification.passed",
+      "owner": "VER",
+      "meaning": "Verification passed",
+      "requiredPayload": [
+        "verificationId",
+        "type",
+        "subjectId"
+      ]
+    },
+    {
+      "name": "verification.failed",
+      "owner": "VER",
+      "meaning": "Verification blocked",
+      "requiredPayload": [
+        "verificationId",
+        "type",
+        "reason"
+      ]
+    },
+    {
+      "name": "qc.inspection.created",
+      "owner": "QMS",
+      "meaning": "Inspection required",
+      "requiredPayload": [
+        "inspectionId"
+      ]
+    },
+    {
+      "name": "qc.passed",
+      "owner": "QMS",
+      "meaning": "Inspection passed",
+      "requiredPayload": [
+        "inspectionId"
+      ]
+    },
+    {
+      "name": "qc.failed",
+      "owner": "QMS",
+      "meaning": "Inspection failed",
+      "requiredPayload": [
+        "inspectionId"
+      ]
+    },
+    {
+      "name": "ncr.created",
+      "owner": "QMS",
+      "meaning": "Nonconformance created",
+      "requiredPayload": [
+        "ncrId"
+      ]
+    },
+    {
+      "name": "capa.created",
+      "owner": "QMS",
+      "meaning": "CAPA opened",
+      "requiredPayload": [
+        "capaId"
+      ]
+    },
+    {
+      "name": "asset.breakdown.reported",
+      "owner": "EAM",
+      "meaning": "Breakdown reported",
+      "requiredPayload": [
+        "assetId",
+        "ticketId"
+      ]
+    },
+    {
+      "name": "maintenance_order.created",
+      "owner": "EAM",
+      "meaning": "Maintenance created",
+      "requiredPayload": [
+        "maintenanceOrderId"
+      ]
+    },
+    {
+      "name": "maintenance_order.completed",
+      "owner": "EAM",
+      "meaning": "Maintenance completed",
+      "requiredPayload": [
+        "maintenanceOrderId"
+      ]
+    },
+    {
+      "name": "service_order.created",
+      "owner": "SVC",
+      "meaning": "Service created",
+      "requiredPayload": [
+        "serviceOrderId"
+      ]
+    },
+    {
+      "name": "service_order.completed",
+      "owner": "SVC",
+      "meaning": "Service completed",
+      "requiredPayload": [
+        "serviceOrderId"
+      ]
+    },
+    {
+      "name": "rma.created",
+      "owner": "SVC",
+      "meaning": "RMA created",
+      "requiredPayload": [
+        "rmaId"
+      ]
+    },
+    {
+      "name": "shipment.created",
+      "owner": "LOG",
+      "meaning": "Shipment created",
+      "requiredPayload": [
+        "shipmentId"
+      ]
+    },
+    {
+      "name": "shipment.dispatched",
+      "owner": "LOG",
+      "meaning": "Shipment dispatched",
+      "requiredPayload": [
+        "shipmentId"
+      ]
+    },
+    {
+      "name": "shipment.delivered",
+      "owner": "LOG",
+      "meaning": "Shipment delivered",
+      "requiredPayload": [
+        "shipmentId"
+      ]
+    },
+    {
+      "name": "delivery.exception",
+      "owner": "LOG",
+      "meaning": "Delivery exception",
+      "requiredPayload": [
+        "shipmentId",
+        "reason"
+      ]
+    },
+    {
+      "name": "document.issued",
+      "owner": "DOC",
+      "meaning": "Document issued",
+      "requiredPayload": [
+        "documentId",
+        "type"
+      ]
+    },
+    {
+      "name": "contract.expiring",
+      "owner": "DOC",
+      "meaning": "Contract approaching expiry",
+      "requiredPayload": [
+        "contractId"
+      ]
+    },
+    {
+      "name": "invoice.issued",
+      "owner": "FIN",
+      "meaning": "Operational invoice issued/imported",
+      "requiredPayload": [
+        "invoiceId"
+      ]
+    },
+    {
+      "name": "payment.received",
+      "owner": "FIN",
+      "meaning": "Payment received/imported",
+      "requiredPayload": [
+        "paymentId"
+      ]
+    },
+    {
+      "name": "payment.matched",
+      "owner": "FIN",
+      "meaning": "Payment matched",
+      "requiredPayload": [
+        "paymentId"
+      ]
+    },
+    {
+      "name": "budget.published",
+      "owner": "FIN",
+      "meaning": "Budget published",
+      "requiredPayload": [
+        "budgetId",
+        "version"
+      ]
+    },
+    {
+      "name": "integration.failed",
+      "owner": "INT",
+      "meaning": "Integration failed",
+      "requiredPayload": [
+        "connectionId",
+        "runId"
+      ]
+    },
+    {
+      "name": "integration.recovered",
+      "owner": "INT",
+      "meaning": "Integration recovered",
+      "requiredPayload": [
+        "connectionId"
+      ]
+    },
+    {
+      "name": "device.enrolled",
+      "owner": "DEV",
+      "meaning": "Device enrolled",
+      "requiredPayload": [
+        "deviceId"
+      ]
+    },
+    {
+      "name": "device.offline",
+      "owner": "DEV",
+      "meaning": "Device offline",
+      "requiredPayload": [
+        "deviceId"
+      ]
+    },
+    {
+      "name": "device.event.received",
+      "owner": "DEV",
+      "meaning": "Canonical physical event",
+      "requiredPayload": [
+        "deviceEventId",
+        "type"
+      ]
+    },
+    {
+      "name": "workflow.started",
+      "owner": "WF",
+      "meaning": "Workflow started",
+      "requiredPayload": [
+        "workflowInstanceId",
+        "definitionVersion"
+      ]
+    },
+    {
+      "name": "workflow.transitioned",
+      "owner": "WF",
+      "meaning": "Workflow transitioned",
+      "requiredPayload": [
+        "workflowInstanceId",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "name": "approval.requested",
+      "owner": "WF",
+      "meaning": "Approval requested",
+      "requiredPayload": [
+        "approvalId"
+      ]
+    },
+    {
+      "name": "approval.granted",
+      "owner": "WF",
+      "meaning": "Approval granted",
+      "requiredPayload": [
+        "approvalId"
+      ]
+    },
+    {
+      "name": "approval.rejected",
+      "owner": "WF",
+      "meaning": "Approval rejected",
+      "requiredPayload": [
+        "approvalId"
+      ]
+    }
+  ]
+}

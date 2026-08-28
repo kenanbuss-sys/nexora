@@ -1,0 +1,13 @@
+// NEXORA — Enterprise Business OS
+// Sprint 000: intentionally empty schema. No business tables exist yet.
+// Business models are added sprint by sprint, each owned by exactly one
+// bounded context (see docs/architecture/01_DOMAIN_MAP.md).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

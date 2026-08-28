@@ -1,0 +1,3077 @@
+{
+  "version": "1.0",
+  "capabilities": [
+    {
+      "id": "CORE-001",
+      "domain": "CORE",
+      "name": "Tenant management",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-002",
+      "domain": "CORE",
+      "name": "Organization hierarchy",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-003",
+      "domain": "CORE",
+      "name": "White-label branding",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-004",
+      "domain": "CORE",
+      "name": "Terminology dictionary",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-005",
+      "domain": "CORE",
+      "name": "Localization",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-006",
+      "domain": "CORE",
+      "name": "Feature flags & licensing",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-007",
+      "domain": "CORE",
+      "name": "Configuration versioning",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-008",
+      "domain": "CORE",
+      "name": "Global numbering",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-009",
+      "domain": "CORE",
+      "name": "Attachments",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-010",
+      "domain": "CORE",
+      "name": "Comments/mentions",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-011",
+      "domain": "CORE",
+      "name": "Global search",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-012",
+      "domain": "CORE",
+      "name": "Unified inbox",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-013",
+      "domain": "CORE",
+      "name": "Notifications",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-014",
+      "domain": "CORE",
+      "name": "Task engine",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-015",
+      "domain": "CORE",
+      "name": "Custom fields",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-016",
+      "domain": "CORE",
+      "name": "Custom objects",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-017",
+      "domain": "CORE",
+      "name": "Form builder",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-018",
+      "domain": "CORE",
+      "name": "Reference data",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-019",
+      "domain": "CORE",
+      "name": "Import/export framework",
+      "priority": "P0"
+    },
+    {
+      "id": "CORE-020",
+      "domain": "CORE",
+      "name": "Audit ledger",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-001",
+      "domain": "IAM",
+      "name": "User lifecycle",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-002",
+      "domain": "IAM",
+      "name": "RBAC",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-003",
+      "domain": "IAM",
+      "name": "Scoped permissions",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-004",
+      "domain": "IAM",
+      "name": "Field-level permissions",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-005",
+      "domain": "IAM",
+      "name": "Record-level access",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-006",
+      "domain": "IAM",
+      "name": "MFA",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-007",
+      "domain": "IAM",
+      "name": "SSO/OIDC/SAML",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-008",
+      "domain": "IAM",
+      "name": "Session management",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-009",
+      "domain": "IAM",
+      "name": "Service accounts",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-010",
+      "domain": "IAM",
+      "name": "Approval authority matrix",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-011",
+      "domain": "IAM",
+      "name": "Segregation of duties",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-012",
+      "domain": "IAM",
+      "name": "Step-up authentication",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-013",
+      "domain": "IAM",
+      "name": "Security event logging",
+      "priority": "P0"
+    },
+    {
+      "id": "IAM-014",
+      "domain": "IAM",
+      "name": "Break-glass access",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-001",
+      "domain": "MDM",
+      "name": "Party master",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-002",
+      "domain": "MDM",
+      "name": "Product master governance",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-003",
+      "domain": "MDM",
+      "name": "Location master",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-004",
+      "domain": "MDM",
+      "name": "UOM master",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-005",
+      "domain": "MDM",
+      "name": "Duplicate detection/merge",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-006",
+      "domain": "MDM",
+      "name": "Master data approvals",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-007",
+      "domain": "MDM",
+      "name": "Data quality rules",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-008",
+      "domain": "MDM",
+      "name": "Golden record policy",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-009",
+      "domain": "MDM",
+      "name": "External ID mapping",
+      "priority": "P0"
+    },
+    {
+      "id": "MDM-010",
+      "domain": "MDM",
+      "name": "Effective dating",
+      "priority": "P0"
+    },
+    {
+      "id": "CRM-001",
+      "domain": "CRM",
+      "name": "Leads",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-002",
+      "domain": "CRM",
+      "name": "Accounts & contacts",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-003",
+      "domain": "CRM",
+      "name": "Opportunities",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-004",
+      "domain": "CRM",
+      "name": "Activities",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-005",
+      "domain": "CRM",
+      "name": "Customer 360",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-006",
+      "domain": "CRM",
+      "name": "Territories",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-007",
+      "domain": "CRM",
+      "name": "Sales teams",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-008",
+      "domain": "CRM",
+      "name": "Credit profile",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-009",
+      "domain": "CRM",
+      "name": "Segmentation",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-010",
+      "domain": "CRM",
+      "name": "Interaction timeline",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-011",
+      "domain": "CRM",
+      "name": "Consent/preferences",
+      "priority": "P1"
+    },
+    {
+      "id": "CRM-012",
+      "domain": "CRM",
+      "name": "Customer onboarding",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-001",
+      "domain": "PIM",
+      "name": "Products/SKUs",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-002",
+      "domain": "PIM",
+      "name": "Variants",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-003",
+      "domain": "PIM",
+      "name": "Attributes",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-004",
+      "domain": "PIM",
+      "name": "Categories",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-005",
+      "domain": "PIM",
+      "name": "Barcode/GTIN",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-006",
+      "domain": "PIM",
+      "name": "Packaging hierarchy",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-007",
+      "domain": "PIM",
+      "name": "Units of measure",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-008",
+      "domain": "PIM",
+      "name": "Media",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-009",
+      "domain": "PIM",
+      "name": "Channel content",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-010",
+      "domain": "PIM",
+      "name": "Lot policy",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-011",
+      "domain": "PIM",
+      "name": "Serial policy",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-012",
+      "domain": "PIM",
+      "name": "Expiry policy",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-013",
+      "domain": "PIM",
+      "name": "Dimensions/weight",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-014",
+      "domain": "PIM",
+      "name": "Substitutions",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-015",
+      "domain": "PIM",
+      "name": "Bundles/kits",
+      "priority": "P1"
+    },
+    {
+      "id": "PIM-016",
+      "domain": "PIM",
+      "name": "Lifecycle status",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-001",
+      "domain": "CPQ",
+      "name": "Price lists",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-002",
+      "domain": "CPQ",
+      "name": "Quantity breaks",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-003",
+      "domain": "CPQ",
+      "name": "Discount rules",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-004",
+      "domain": "CPQ",
+      "name": "Margin floors",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-005",
+      "domain": "CPQ",
+      "name": "Discount approvals",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-006",
+      "domain": "CPQ",
+      "name": "Promotions",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-007",
+      "domain": "CPQ",
+      "name": "Product configurator",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-008",
+      "domain": "CPQ",
+      "name": "Compatibility rules",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-009",
+      "domain": "CPQ",
+      "name": "Formula pricing",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-010",
+      "domain": "CPQ",
+      "name": "Cost-aware pricing",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-011",
+      "domain": "CPQ",
+      "name": "Quote generation",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-012",
+      "domain": "CPQ",
+      "name": "Quote versioning",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-013",
+      "domain": "CPQ",
+      "name": "Promise-date calculation",
+      "priority": "P1"
+    },
+    {
+      "id": "CPQ-014",
+      "domain": "CPQ",
+      "name": "Contract pricing",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-001",
+      "domain": "COM",
+      "name": "B2C channel integration",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-002",
+      "domain": "COM",
+      "name": "B2B commerce portal",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-003",
+      "domain": "COM",
+      "name": "POS",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-004",
+      "domain": "COM",
+      "name": "Sales-rep ordering",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-005",
+      "domain": "COM",
+      "name": "Marketplace adapters",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-006",
+      "domain": "COM",
+      "name": "Unified cart/order",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-007",
+      "domain": "COM",
+      "name": "Click & collect",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-008",
+      "domain": "COM",
+      "name": "Ship from store",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-009",
+      "domain": "COM",
+      "name": "Endless aisle",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-010",
+      "domain": "COM",
+      "name": "Channel availability",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-011",
+      "domain": "COM",
+      "name": "Returns/exchanges",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-012",
+      "domain": "COM",
+      "name": "Vouchers",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-013",
+      "domain": "COM",
+      "name": "Loyalty",
+      "priority": "P1"
+    },
+    {
+      "id": "COM-014",
+      "domain": "COM",
+      "name": "Abandoned-order hooks",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-001",
+      "domain": "OMS",
+      "name": "Order capture",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-002",
+      "domain": "OMS",
+      "name": "Validation",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-003",
+      "domain": "OMS",
+      "name": "Allocation",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-004",
+      "domain": "OMS",
+      "name": "Reservation",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-005",
+      "domain": "OMS",
+      "name": "Split fulfillment",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-006",
+      "domain": "OMS",
+      "name": "Backorders",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-007",
+      "domain": "OMS",
+      "name": "Substitution",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-008",
+      "domain": "OMS",
+      "name": "Holds",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-009",
+      "domain": "OMS",
+      "name": "Order amendments",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-010",
+      "domain": "OMS",
+      "name": "Cancellation",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-011",
+      "domain": "OMS",
+      "name": "Fulfillment orchestration",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-012",
+      "domain": "OMS",
+      "name": "Returns orchestration",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-013",
+      "domain": "OMS",
+      "name": "Status timeline",
+      "priority": "P1"
+    },
+    {
+      "id": "OMS-014",
+      "domain": "OMS",
+      "name": "SLA/promise monitoring",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-001",
+      "domain": "B2B",
+      "name": "Company accounts",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-002",
+      "domain": "B2B",
+      "name": "Customer roles",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-003",
+      "domain": "B2B",
+      "name": "Entitled catalog",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-004",
+      "domain": "B2B",
+      "name": "Customer prices",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-005",
+      "domain": "B2B",
+      "name": "Self-service quotes",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-006",
+      "domain": "B2B",
+      "name": "Self-service orders",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-007",
+      "domain": "B2B",
+      "name": "Customer-side approvals",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-008",
+      "domain": "B2B",
+      "name": "Repeat order",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-009",
+      "domain": "B2B",
+      "name": "Project/site ordering",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-010",
+      "domain": "B2B",
+      "name": "Production tracking",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-011",
+      "domain": "B2B",
+      "name": "Invoices/documents",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-012",
+      "domain": "B2B",
+      "name": "Credit visibility",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-013",
+      "domain": "B2B",
+      "name": "Claims/service",
+      "priority": "P1"
+    },
+    {
+      "id": "B2B-014",
+      "domain": "B2B",
+      "name": "API/EDI customer integration",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-001",
+      "domain": "PROC",
+      "name": "Supplier master",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-002",
+      "domain": "PROC",
+      "name": "Purchase requisition",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-003",
+      "domain": "PROC",
+      "name": "Approval workflow",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-004",
+      "domain": "PROC",
+      "name": "RFQ",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-005",
+      "domain": "PROC",
+      "name": "Purchase orders",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-006",
+      "domain": "PROC",
+      "name": "Framework orders",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-007",
+      "domain": "PROC",
+      "name": "Lead times",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-008",
+      "domain": "PROC",
+      "name": "Supplier portal",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-009",
+      "domain": "PROC",
+      "name": "Inbound shipment",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-010",
+      "domain": "PROC",
+      "name": "Container/import tracking",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-011",
+      "domain": "PROC",
+      "name": "Landed cost",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-012",
+      "domain": "PROC",
+      "name": "Supplier performance",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-013",
+      "domain": "PROC",
+      "name": "Purchase price history",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-014",
+      "domain": "PROC",
+      "name": "Three-way-match hooks",
+      "priority": "P1"
+    },
+    {
+      "id": "PROC-015",
+      "domain": "PROC",
+      "name": "Purchase suggestions",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-001",
+      "domain": "WMS",
+      "name": "Warehouse topology",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-002",
+      "domain": "WMS",
+      "name": "Stock ledger",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-003",
+      "domain": "WMS",
+      "name": "Stock projections",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-004",
+      "domain": "WMS",
+      "name": "Receiving",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-005",
+      "domain": "WMS",
+      "name": "Receiving discrepancies",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-006",
+      "domain": "WMS",
+      "name": "Inbound QC hold",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-007",
+      "domain": "WMS",
+      "name": "Putaway",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-008",
+      "domain": "WMS",
+      "name": "Replenishment",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-009",
+      "domain": "WMS",
+      "name": "Reservations",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-010",
+      "domain": "WMS",
+      "name": "Picking",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-011",
+      "domain": "WMS",
+      "name": "Packing",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-012",
+      "domain": "WMS",
+      "name": "Shipping staging",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-013",
+      "domain": "WMS",
+      "name": "Transfers",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-014",
+      "domain": "WMS",
+      "name": "Cycle counting",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-015",
+      "domain": "WMS",
+      "name": "Full inventory",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-016",
+      "domain": "WMS",
+      "name": "Adjustment governance",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-017",
+      "domain": "WMS",
+      "name": "Lot control",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-018",
+      "domain": "WMS",
+      "name": "Serial control",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-019",
+      "domain": "WMS",
+      "name": "Expiry/FEFO",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-020",
+      "domain": "WMS",
+      "name": "Pallet/SSCC handling",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-021",
+      "domain": "WMS",
+      "name": "Cross-docking",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-022",
+      "domain": "WMS",
+      "name": "Kitting",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-023",
+      "domain": "WMS",
+      "name": "Returns receiving",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-024",
+      "domain": "WMS",
+      "name": "Warehouse labor tasks",
+      "priority": "P1"
+    },
+    {
+      "id": "WMS-025",
+      "domain": "WMS",
+      "name": "Offline mobile execution",
+      "priority": "P1"
+    },
+    {
+      "id": "ENG-001",
+      "domain": "ENG",
+      "name": "Product revisions",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-002",
+      "domain": "ENG",
+      "name": "Engineering BOM",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-003",
+      "domain": "ENG",
+      "name": "Manufacturing BOM",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-004",
+      "domain": "ENG",
+      "name": "Parametric BOM",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-005",
+      "domain": "ENG",
+      "name": "BOM alternatives",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-006",
+      "domain": "ENG",
+      "name": "Effective dates",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-007",
+      "domain": "ENG",
+      "name": "Engineering change request",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-008",
+      "domain": "ENG",
+      "name": "Engineering change order",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-009",
+      "domain": "ENG",
+      "name": "Technical drawings",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-010",
+      "domain": "ENG",
+      "name": "CAD/PDM hooks",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-011",
+      "domain": "ENG",
+      "name": "Routing",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-012",
+      "domain": "ENG",
+      "name": "Work instructions",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-013",
+      "domain": "ENG",
+      "name": "Standard times",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-014",
+      "domain": "ENG",
+      "name": "Tooling requirements",
+      "priority": "P2"
+    },
+    {
+      "id": "ENG-015",
+      "domain": "ENG",
+      "name": "Compliance specifications",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-001",
+      "domain": "PLAN",
+      "name": "Demand planning",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-002",
+      "domain": "PLAN",
+      "name": "Forecast versions",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-003",
+      "domain": "PLAN",
+      "name": "S&OP",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-004",
+      "domain": "PLAN",
+      "name": "Safety stock",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-005",
+      "domain": "PLAN",
+      "name": "Reorder policies",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-006",
+      "domain": "PLAN",
+      "name": "MRP explosion",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-007",
+      "domain": "PLAN",
+      "name": "Net requirements",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-008",
+      "domain": "PLAN",
+      "name": "Planned orders",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-009",
+      "domain": "PLAN",
+      "name": "Lead-time planning",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-010",
+      "domain": "PLAN",
+      "name": "Capacity requirements",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-011",
+      "domain": "PLAN",
+      "name": "Finite scheduling",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-012",
+      "domain": "PLAN",
+      "name": "Sequence optimization",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-013",
+      "domain": "PLAN",
+      "name": "Constraint management",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-014",
+      "domain": "PLAN",
+      "name": "What-if scenarios",
+      "priority": "P2"
+    },
+    {
+      "id": "PLAN-015",
+      "domain": "PLAN",
+      "name": "Promise-date engine",
+      "priority": "P2"
+    },
+    {
+      "id": "MES-001",
+      "domain": "MES",
+      "name": "Work orders",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-002",
+      "domain": "MES",
+      "name": "Operations",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-003",
+      "domain": "MES",
+      "name": "Work centers",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-004",
+      "domain": "MES",
+      "name": "Machine assignment",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-005",
+      "domain": "MES",
+      "name": "Operator assignment",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-006",
+      "domain": "MES",
+      "name": "Material issue",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-007",
+      "domain": "MES",
+      "name": "Backflush",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-008",
+      "domain": "MES",
+      "name": "WIP tracking",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-009",
+      "domain": "MES",
+      "name": "Start/pause/complete",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-010",
+      "domain": "MES",
+      "name": "Good quantity",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-011",
+      "domain": "MES",
+      "name": "Scrap",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-012",
+      "domain": "MES",
+      "name": "Rework",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-013",
+      "domain": "MES",
+      "name": "Co/by-products",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-014",
+      "domain": "MES",
+      "name": "Downtime",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-015",
+      "domain": "MES",
+      "name": "Setup/changeover",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-016",
+      "domain": "MES",
+      "name": "Digital work instructions",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-017",
+      "domain": "MES",
+      "name": "Production labels",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-018",
+      "domain": "MES",
+      "name": "Shop-floor kiosk",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-019",
+      "domain": "MES",
+      "name": "Mobile production",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-020",
+      "domain": "MES",
+      "name": "Genealogy",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-021",
+      "domain": "MES",
+      "name": "OEE inputs",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-022",
+      "domain": "MES",
+      "name": "Andon/alerts",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-023",
+      "domain": "MES",
+      "name": "Shift production",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-024",
+      "domain": "MES",
+      "name": "Production confirmations",
+      "priority": "P1"
+    },
+    {
+      "id": "MES-025",
+      "domain": "MES",
+      "name": "Machine hooks",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-001",
+      "domain": "VER",
+      "name": "Barcode events",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-002",
+      "domain": "VER",
+      "name": "QR workflow IDs",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-003",
+      "domain": "VER",
+      "name": "RFID support",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-004",
+      "domain": "VER",
+      "name": "NFC verification",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-005",
+      "domain": "VER",
+      "name": "Worker check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-006",
+      "domain": "VER",
+      "name": "Work-order check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-007",
+      "domain": "VER",
+      "name": "Material check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-008",
+      "domain": "VER",
+      "name": "Machine check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-009",
+      "domain": "VER",
+      "name": "Tool check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-010",
+      "domain": "VER",
+      "name": "Location check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-011",
+      "domain": "VER",
+      "name": "Quantity check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-012",
+      "domain": "VER",
+      "name": "Sequence check",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-013",
+      "domain": "VER",
+      "name": "QC checkpoint",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-014",
+      "domain": "VER",
+      "name": "Supervisor approval",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-015",
+      "domain": "VER",
+      "name": "Photo evidence",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-016",
+      "domain": "VER",
+      "name": "Digital signature",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-017",
+      "domain": "VER",
+      "name": "Offline queue",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-018",
+      "domain": "VER",
+      "name": "Idempotent replay",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-019",
+      "domain": "VER",
+      "name": "Device capability detection",
+      "priority": "P1"
+    },
+    {
+      "id": "VER-020",
+      "domain": "VER",
+      "name": "Event correlation",
+      "priority": "P1"
+    },
+    {
+      "id": "QMS-001",
+      "domain": "QMS",
+      "name": "Inspection plans",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-002",
+      "domain": "QMS",
+      "name": "Incoming inspection",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-003",
+      "domain": "QMS",
+      "name": "In-process inspection",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-004",
+      "domain": "QMS",
+      "name": "Final inspection",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-005",
+      "domain": "QMS",
+      "name": "Disposition",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-006",
+      "domain": "QMS",
+      "name": "Quarantine",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-007",
+      "domain": "QMS",
+      "name": "NCR",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-008",
+      "domain": "QMS",
+      "name": "CAPA",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-009",
+      "domain": "QMS",
+      "name": "Root cause",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-010",
+      "domain": "QMS",
+      "name": "Defect taxonomy",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-011",
+      "domain": "QMS",
+      "name": "Supplier quality",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-012",
+      "domain": "QMS",
+      "name": "Certificates",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-013",
+      "domain": "QMS",
+      "name": "Calibration linkage",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-014",
+      "domain": "QMS",
+      "name": "Quality audits",
+      "priority": "P2"
+    },
+    {
+      "id": "QMS-015",
+      "domain": "QMS",
+      "name": "Quality analytics",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-001",
+      "domain": "EAM",
+      "name": "Asset registry",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-002",
+      "domain": "EAM",
+      "name": "Asset hierarchy/history",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-003",
+      "domain": "EAM",
+      "name": "Preventive maintenance",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-004",
+      "domain": "EAM",
+      "name": "Corrective maintenance",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-005",
+      "domain": "EAM",
+      "name": "Downtime",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-006",
+      "domain": "EAM",
+      "name": "Spare parts",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-007",
+      "domain": "EAM",
+      "name": "Maintenance labor",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-008",
+      "domain": "EAM",
+      "name": "Maintenance checklists",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-009",
+      "domain": "EAM",
+      "name": "Meters/counters",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-010",
+      "domain": "EAM",
+      "name": "Calibration",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-011",
+      "domain": "EAM",
+      "name": "Tool checkout",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-012",
+      "domain": "EAM",
+      "name": "Asset warranty/contracts",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-013",
+      "domain": "EAM",
+      "name": "Asset costs",
+      "priority": "P2"
+    },
+    {
+      "id": "EAM-014",
+      "domain": "EAM",
+      "name": "Condition-monitoring hooks",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-001",
+      "domain": "SVC",
+      "name": "Installed base",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-002",
+      "domain": "SVC",
+      "name": "Warranty",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-003",
+      "domain": "SVC",
+      "name": "Service requests",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-004",
+      "domain": "SVC",
+      "name": "Service orders",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-005",
+      "domain": "SVC",
+      "name": "RMA",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-006",
+      "domain": "SVC",
+      "name": "Field scheduling",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-007",
+      "domain": "SVC",
+      "name": "Skills-based assignment",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-008",
+      "domain": "SVC",
+      "name": "Field mobile",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-009",
+      "domain": "SVC",
+      "name": "Measurements/surveys",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-010",
+      "domain": "SVC",
+      "name": "Installation orders",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-011",
+      "domain": "SVC",
+      "name": "Proof of service",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-012",
+      "domain": "SVC",
+      "name": "Service parts",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-013",
+      "domain": "SVC",
+      "name": "Customer approvals",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-014",
+      "domain": "SVC",
+      "name": "SLA",
+      "priority": "P2"
+    },
+    {
+      "id": "SVC-015",
+      "domain": "SVC",
+      "name": "Service history",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-001",
+      "domain": "LOG",
+      "name": "Shipment planning",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-002",
+      "domain": "LOG",
+      "name": "Carrier management",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-003",
+      "domain": "LOG",
+      "name": "Courier adapters",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-004",
+      "domain": "LOG",
+      "name": "Fleet",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-005",
+      "domain": "LOG",
+      "name": "Drivers",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-006",
+      "domain": "LOG",
+      "name": "Route planning",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-007",
+      "domain": "LOG",
+      "name": "Load planning",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-008",
+      "domain": "LOG",
+      "name": "Dispatch",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-009",
+      "domain": "LOG",
+      "name": "Track & trace",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-010",
+      "domain": "LOG",
+      "name": "Proof of delivery",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-011",
+      "domain": "LOG",
+      "name": "Delivery exceptions",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-012",
+      "domain": "LOG",
+      "name": "Reverse logistics",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-013",
+      "domain": "LOG",
+      "name": "Freight cost",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-014",
+      "domain": "LOG",
+      "name": "Dock scheduling",
+      "priority": "P2"
+    },
+    {
+      "id": "LOG-015",
+      "domain": "LOG",
+      "name": "Yard events",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-001",
+      "domain": "PRJ",
+      "name": "Projects",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-002",
+      "domain": "PRJ",
+      "name": "Sites",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-003",
+      "domain": "PRJ",
+      "name": "Milestones",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-004",
+      "domain": "PRJ",
+      "name": "Budgets",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-005",
+      "domain": "PRJ",
+      "name": "Job costing",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-006",
+      "domain": "PRJ",
+      "name": "Project procurement",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-007",
+      "domain": "PRJ",
+      "name": "Project inventory",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-008",
+      "domain": "PRJ",
+      "name": "Subcontractors",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-009",
+      "domain": "PRJ",
+      "name": "Timesheets",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-010",
+      "domain": "PRJ",
+      "name": "Project documents",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-011",
+      "domain": "PRJ",
+      "name": "Change orders",
+      "priority": "P2"
+    },
+    {
+      "id": "PRJ-012",
+      "domain": "PRJ",
+      "name": "Project profitability",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-001",
+      "domain": "HCM",
+      "name": "Employee master",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-002",
+      "domain": "HCM",
+      "name": "Shift planning",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-003",
+      "domain": "HCM",
+      "name": "Attendance",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-004",
+      "domain": "HCM",
+      "name": "Leave",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-005",
+      "domain": "HCM",
+      "name": "Skills matrix",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-006",
+      "domain": "HCM",
+      "name": "Certifications",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-007",
+      "domain": "HCM",
+      "name": "Training/LMS",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-008",
+      "domain": "HCM",
+      "name": "Production labor capture",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-009",
+      "domain": "HCM",
+      "name": "Performance metrics",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-010",
+      "domain": "HCM",
+      "name": "Onboarding/offboarding",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-011",
+      "domain": "HCM",
+      "name": "Safety/EHS hooks",
+      "priority": "P2"
+    },
+    {
+      "id": "HCM-012",
+      "domain": "HCM",
+      "name": "Payroll integration",
+      "priority": "P2"
+    },
+    {
+      "id": "DOC-001",
+      "domain": "DOC",
+      "name": "Document templates",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-002",
+      "domain": "DOC",
+      "name": "PDF generation",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-003",
+      "domain": "DOC",
+      "name": "Template versioning",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-004",
+      "domain": "DOC",
+      "name": "Document numbering",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-005",
+      "domain": "DOC",
+      "name": "Document lifecycle",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-006",
+      "domain": "DOC",
+      "name": "Electronic-signature adapter",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-007",
+      "domain": "DOC",
+      "name": "Contract repository",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-008",
+      "domain": "DOC",
+      "name": "Contract approvals",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-009",
+      "domain": "DOC",
+      "name": "Obligations/renewals",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-010",
+      "domain": "DOC",
+      "name": "OCR capture hooks",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-011",
+      "domain": "DOC",
+      "name": "Retention",
+      "priority": "P1"
+    },
+    {
+      "id": "DOC-012",
+      "domain": "DOC",
+      "name": "Document access policy",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-001",
+      "domain": "FIN",
+      "name": "Financial dimensions",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-002",
+      "domain": "FIN",
+      "name": "Revenue/cost capture",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-003",
+      "domain": "FIN",
+      "name": "COGS",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-004",
+      "domain": "FIN",
+      "name": "Inventory valuation hooks",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-005",
+      "domain": "FIN",
+      "name": "Product costing",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-006",
+      "domain": "FIN",
+      "name": "Standard vs actual",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-007",
+      "domain": "FIN",
+      "name": "Margin analysis",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-008",
+      "domain": "FIN",
+      "name": "Budgets",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-009",
+      "domain": "FIN",
+      "name": "Forecast",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-010",
+      "domain": "FIN",
+      "name": "Cash flow",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-011",
+      "domain": "FIN",
+      "name": "AR",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-012",
+      "domain": "FIN",
+      "name": "AP",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-013",
+      "domain": "FIN",
+      "name": "Bank feed hooks",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-014",
+      "domain": "FIN",
+      "name": "Payment matching",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-015",
+      "domain": "FIN",
+      "name": "Treasury snapshot",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-016",
+      "domain": "FIN",
+      "name": "Cost centers",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-017",
+      "domain": "FIN",
+      "name": "Profit centers",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-018",
+      "domain": "FIN",
+      "name": "Project profitability",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-019",
+      "domain": "FIN",
+      "name": "Operational P&L",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-020",
+      "domain": "FIN",
+      "name": "Accounting integration",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-021",
+      "domain": "FIN",
+      "name": "Tax/fiscal/eInvoice adapters",
+      "priority": "P1"
+    },
+    {
+      "id": "FIN-022",
+      "domain": "FIN",
+      "name": "Invoice matching",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-001",
+      "domain": "BI",
+      "name": "Executive dashboards",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-002",
+      "domain": "BI",
+      "name": "Operational dashboards",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-003",
+      "domain": "BI",
+      "name": "KPI catalog",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-004",
+      "domain": "BI",
+      "name": "Semantic layer",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-005",
+      "domain": "BI",
+      "name": "Report builder",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-006",
+      "domain": "BI",
+      "name": "Scheduled reports",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-007",
+      "domain": "BI",
+      "name": "Drill-through",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-008",
+      "domain": "BI",
+      "name": "Profitability analytics",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-009",
+      "domain": "BI",
+      "name": "Inventory analytics",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-010",
+      "domain": "BI",
+      "name": "Manufacturing analytics",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-011",
+      "domain": "BI",
+      "name": "Customer analytics",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-012",
+      "domain": "BI",
+      "name": "Supplier analytics",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-013",
+      "domain": "BI",
+      "name": "Process analytics",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-014",
+      "domain": "BI",
+      "name": "Control Center",
+      "priority": "P1"
+    },
+    {
+      "id": "BI-015",
+      "domain": "BI",
+      "name": "Governed data export",
+      "priority": "P1"
+    },
+    {
+      "id": "AI-001",
+      "domain": "AI",
+      "name": "Executive copilot",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-002",
+      "domain": "AI",
+      "name": "Role copilots",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-003",
+      "domain": "AI",
+      "name": "Document extraction",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-004",
+      "domain": "AI",
+      "name": "Demand forecasting",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-005",
+      "domain": "AI",
+      "name": "Stockout prediction",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-006",
+      "domain": "AI",
+      "name": "Production-delay prediction",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-007",
+      "domain": "AI",
+      "name": "Cash forecasting",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-008",
+      "domain": "AI",
+      "name": "Anomaly detection",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-009",
+      "domain": "AI",
+      "name": "Process mining",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-010",
+      "domain": "AI",
+      "name": "Bottleneck detection",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-011",
+      "domain": "AI",
+      "name": "Recommendations",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-012",
+      "domain": "AI",
+      "name": "Controlled agents",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-013",
+      "domain": "AI",
+      "name": "Knowledge assistant",
+      "priority": "P3"
+    },
+    {
+      "id": "AI-014",
+      "domain": "AI",
+      "name": "AI explanation/audit",
+      "priority": "P3"
+    },
+    {
+      "id": "INT-001",
+      "domain": "INT",
+      "name": "Connector framework",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-002",
+      "domain": "INT",
+      "name": "Accounting connectors",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-003",
+      "domain": "INT",
+      "name": "Commerce connectors",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-004",
+      "domain": "INT",
+      "name": "Bank/payment connectors",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-005",
+      "domain": "INT",
+      "name": "Courier connectors",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-006",
+      "domain": "INT",
+      "name": "Fiscal/eInvoice connectors",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-007",
+      "domain": "INT",
+      "name": "EDI",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-008",
+      "domain": "INT",
+      "name": "Webhooks",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-009",
+      "domain": "INT",
+      "name": "Public API",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-010",
+      "domain": "INT",
+      "name": "Mapping engine",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-011",
+      "domain": "INT",
+      "name": "Idempotency",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-012",
+      "domain": "INT",
+      "name": "Retry policy",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-013",
+      "domain": "INT",
+      "name": "Dead-letter queue",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-014",
+      "domain": "INT",
+      "name": "Reconciliation",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-015",
+      "domain": "INT",
+      "name": "Health monitoring",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-016",
+      "domain": "INT",
+      "name": "Run history",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-017",
+      "domain": "INT",
+      "name": "Secrets management",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-018",
+      "domain": "INT",
+      "name": "Rate-limit handling",
+      "priority": "P0"
+    },
+    {
+      "id": "INT-019",
+      "domain": "INT",
+      "name": "Versioned mappings",
+      "priority": "P0"
+    },
+    {
+      "id": "DEV-001",
+      "domain": "DEV",
+      "name": "Device registry",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-002",
+      "domain": "DEV",
+      "name": "Enrollment",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-003",
+      "domain": "DEV",
+      "name": "Assignment",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-004",
+      "domain": "DEV",
+      "name": "Health/last seen",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-005",
+      "domain": "DEV",
+      "name": "Scanner adapter",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-006",
+      "domain": "DEV",
+      "name": "Printer adapter",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-007",
+      "domain": "DEV",
+      "name": "RFID adapter",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-008",
+      "domain": "DEV",
+      "name": "Scale adapter",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-009",
+      "domain": "DEV",
+      "name": "Signature/camera adapter",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-010",
+      "domain": "DEV",
+      "name": "Kiosk/tablet mode",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-011",
+      "domain": "DEV",
+      "name": "Mobile version management",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-012",
+      "domain": "DEV",
+      "name": "Offline synchronization",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-013",
+      "domain": "DEV",
+      "name": "Machine gateway",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-014",
+      "domain": "DEV",
+      "name": "Machine events",
+      "priority": "P1"
+    },
+    {
+      "id": "DEV-015",
+      "domain": "DEV",
+      "name": "Device event audit",
+      "priority": "P1"
+    },
+    {
+      "id": "WF-001",
+      "domain": "WF",
+      "name": "Workflow designer",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-002",
+      "domain": "WF",
+      "name": "Approval builder",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-003",
+      "domain": "WF",
+      "name": "Rules designer",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-004",
+      "domain": "WF",
+      "name": "Timers/SLA",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-005",
+      "domain": "WF",
+      "name": "Automation actions",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-006",
+      "domain": "WF",
+      "name": "Conditional forms",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-007",
+      "domain": "WF",
+      "name": "Validation rules",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-008",
+      "domain": "WF",
+      "name": "Workflow versioning",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-009",
+      "domain": "WF",
+      "name": "Simulation/test mode",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-010",
+      "domain": "WF",
+      "name": "Audit/explanation",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-011",
+      "domain": "WF",
+      "name": "Reusable templates",
+      "priority": "P0"
+    },
+    {
+      "id": "WF-012",
+      "domain": "WF",
+      "name": "Override governance",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-001",
+      "domain": "OPS",
+      "name": "Platform admin",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-002",
+      "domain": "OPS",
+      "name": "Tenant provisioning",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-003",
+      "domain": "OPS",
+      "name": "Environment management",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-004",
+      "domain": "OPS",
+      "name": "Release management",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-005",
+      "domain": "OPS",
+      "name": "Tenant rollout",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-006",
+      "domain": "OPS",
+      "name": "Database migrations",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-007",
+      "domain": "OPS",
+      "name": "Observability",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-008",
+      "domain": "OPS",
+      "name": "Error tracking",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-009",
+      "domain": "OPS",
+      "name": "Integration monitoring",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-010",
+      "domain": "OPS",
+      "name": "Device monitoring",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-011",
+      "domain": "OPS",
+      "name": "Backups",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-012",
+      "domain": "OPS",
+      "name": "PITR",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-013",
+      "domain": "OPS",
+      "name": "Disaster recovery",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-014",
+      "domain": "OPS",
+      "name": "Usage analytics",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-015",
+      "domain": "OPS",
+      "name": "Support portal",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-016",
+      "domain": "OPS",
+      "name": "Status-page hooks",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-017",
+      "domain": "OPS",
+      "name": "Tenant data export/offboarding",
+      "priority": "P0"
+    },
+    {
+      "id": "OPS-018",
+      "domain": "OPS",
+      "name": "Cost observability",
+      "priority": "P0"
+    },
+    {
+      "id": "GRC-001",
+      "domain": "GRC",
+      "name": "Policies",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-002",
+      "domain": "GRC",
+      "name": "Risk register",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-003",
+      "domain": "GRC",
+      "name": "Controls",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-004",
+      "domain": "GRC",
+      "name": "Internal audits",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-005",
+      "domain": "GRC",
+      "name": "Compliance tasks",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-006",
+      "domain": "GRC",
+      "name": "Incident management",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-007",
+      "domain": "GRC",
+      "name": "Near-miss",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-008",
+      "domain": "GRC",
+      "name": "PPE requirements",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-009",
+      "domain": "GRC",
+      "name": "Safety checklists",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-010",
+      "domain": "GRC",
+      "name": "Data governance",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-011",
+      "domain": "GRC",
+      "name": "Legal hold hooks",
+      "priority": "P3"
+    },
+    {
+      "id": "GRC-012",
+      "domain": "GRC",
+      "name": "Privacy-request workflows",
+      "priority": "P3"
+    },
+    {
+      "id": "EXT-001",
+      "domain": "EXT",
+      "name": "Extension SDK",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-002",
+      "domain": "EXT",
+      "name": "Module manifest",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-003",
+      "domain": "EXT",
+      "name": "Custom UI slots",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-004",
+      "domain": "EXT",
+      "name": "Custom actions",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-005",
+      "domain": "EXT",
+      "name": "Event subscribers",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-006",
+      "domain": "EXT",
+      "name": "Industry packs",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-007",
+      "domain": "EXT",
+      "name": "Template marketplace",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-008",
+      "domain": "EXT",
+      "name": "Connector marketplace",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-009",
+      "domain": "EXT",
+      "name": "Compatibility policy",
+      "priority": "P2"
+    },
+    {
+      "id": "EXT-010",
+      "domain": "EXT",
+      "name": "Extension isolation/security",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-001",
+      "domain": "CSM",
+      "name": "Customer support cases",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-002",
+      "domain": "CSM",
+      "name": "Omnichannel case intake",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-003",
+      "domain": "CSM",
+      "name": "Case routing/assignment",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-004",
+      "domain": "CSM",
+      "name": "Customer complaint handling",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-005",
+      "domain": "CSM",
+      "name": "SLA policies",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-006",
+      "domain": "CSM",
+      "name": "Escalations",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-007",
+      "domain": "CSM",
+      "name": "Case collaboration",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-008",
+      "domain": "CSM",
+      "name": "Canned responses/templates",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-009",
+      "domain": "CSM",
+      "name": "Knowledge base",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-010",
+      "domain": "CSM",
+      "name": "Customer support portal",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-011",
+      "domain": "CSM",
+      "name": "Case-to-order linkage",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-012",
+      "domain": "CSM",
+      "name": "Case-to-service linkage",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-013",
+      "domain": "CSM",
+      "name": "Case-to-RMA linkage",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-014",
+      "domain": "CSM",
+      "name": "Support analytics",
+      "priority": "P2"
+    },
+    {
+      "id": "CSM-015",
+      "domain": "CSM",
+      "name": "Customer satisfaction feedback",
+      "priority": "P2"
+    },
+    {
+      "id": "MKT-001",
+      "domain": "MKT",
+      "name": "Campaigns",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-002",
+      "domain": "MKT",
+      "name": "Audience segmentation",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-003",
+      "domain": "MKT",
+      "name": "Marketing lists",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-004",
+      "domain": "MKT",
+      "name": "Campaign journeys",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-005",
+      "domain": "MKT",
+      "name": "Email/SMS/push campaign adapters",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-006",
+      "domain": "MKT",
+      "name": "Lead capture forms",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-007",
+      "domain": "MKT",
+      "name": "Promotion linkage",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-008",
+      "domain": "MKT",
+      "name": "Coupon/audience targeting",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-009",
+      "domain": "MKT",
+      "name": "Consent-aware communication",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-010",
+      "domain": "MKT",
+      "name": "Campaign attribution",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-011",
+      "domain": "MKT",
+      "name": "Marketing analytics",
+      "priority": "P3"
+    },
+    {
+      "id": "MKT-012",
+      "domain": "MKT",
+      "name": "Experiment/A-B hooks",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-001",
+      "domain": "ESG",
+      "name": "Energy consumption tracking",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-002",
+      "domain": "ESG",
+      "name": "Waste tracking",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-003",
+      "domain": "ESG",
+      "name": "Material sustainability attributes",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-004",
+      "domain": "ESG",
+      "name": "Environmental KPI definitions",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-005",
+      "domain": "ESG",
+      "name": "Carbon/emissions data hooks",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-006",
+      "domain": "ESG",
+      "name": "Supplier sustainability attributes",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-007",
+      "domain": "ESG",
+      "name": "Compliance evidence",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-008",
+      "domain": "ESG",
+      "name": "Sustainability targets",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-009",
+      "domain": "ESG",
+      "name": "ESG reporting hooks",
+      "priority": "P3"
+    },
+    {
+      "id": "ESG-010",
+      "domain": "ESG",
+      "name": "Operational sustainability analytics",
+      "priority": "P3"
+    }
+  ]
+}
