@@ -1,11 +1,13 @@
 import { Controller, Get, Inject, ServiceUnavailableException } from '@nestjs/common';
 import { getCorrelationId } from '@nexora/observability';
+import { Public } from '../auth/auth.guard';
 import type { HealthReport } from './health.service';
 import type { HealthService } from './health.service';
 
 export const HEALTH_SERVICE = 'HEALTH_SERVICE';
 
 @Controller()
+@Public()
 export class HealthController {
   constructor(@Inject(HEALTH_SERVICE) private readonly health: HealthService) {}
 

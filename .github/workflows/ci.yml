@@ -47,6 +47,9 @@ jobs:
       - name: Install (frozen lockfile)
         run: pnpm install --frozen-lockfile
 
+      - name: Validate Prisma schema and generate client
+        run: pnpm db:generate
+
       - name: Validate spec pack
         run: python3 scripts/validate_spec_pack.py
 
@@ -59,11 +62,11 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Validate Prisma schema and generate client
-        run: pnpm db:generate
-
       - name: Migrate from empty database
         run: pnpm db:migrate
+
+      - name: Verify migrations match the schema (no drift)
+        run: pnpm exec prisma migrate diff --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --exit-code
 
       - name: Test (unit + integration against real PostgreSQL/Redis)
         run: pnpm test

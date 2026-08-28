@@ -4,7 +4,7 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "dev": "node --watch -r ts-node/register src/main.ts",
     "start": "node dist/main.js",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nexora/config": "workspace:*",
+    "@nexora/db": "workspace:*",
     "@nexora/observability": "workspace:*",
     "bullmq": "^6.3.0",
     "ioredis": "^5.9.0"

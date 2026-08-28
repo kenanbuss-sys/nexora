@@ -1,28 +1,50 @@
-import { Module } from '@nestjs/common';
+import type { OnApplicationShutdown } from '@nestjs/common';
+import { Inject, Module } from '@nestjs/common';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import type { Env } from '@nexora/config';
 import { loadEnv } from '@nexora/config';
+import type { PrismaClient } from '@nexora/db';
+import { createDb } from '@nexora/db';
+import { OrganizationService, TenantService } from '@nexora/domain-core';
+import { RoleService, UserService } from '@nexora/domain-iam';
+import type { IdentityPort } from '@nexora/tenancy';
+import { DevIdentityAdapter } from '@nexora/tenancy';
 import Redis from 'ioredis';
-import { Pool } from 'pg';
+import { AuthGuard, IDENTITY_PORT, PRISMA } from './auth/auth.guard';
+import { PermissionsGuard, ROLE_SERVICE } from './auth/permissions.guard';
+import { CanonicalErrorFilter } from './common/domain-error.filter';
 import { HEALTH_SERVICE, HealthController } from './health/health.controller';
 import { HealthService } from './health/health.service';
+import { MeController, RolesController, USER_SERVICE, UsersController } from './iam/iam.controller';
+import {
+  ORGANIZATION_SERVICE,
+  OrganizationController,
+} from './organization/organization.controller';
+import {
+  TENANT_SERVICE,
+  TenantController,
+  TenantsAdminController,
+} from './tenants/tenants.controller';
 
 export const ENV = 'ENV';
-export const PG_POOL = 'PG_POOL';
 export const REDIS = 'REDIS';
 
-// Note (Sprint 000): the platform standard for persistence is PostgreSQL +
-// Prisma (docs/architecture/00_DECISIONS_LOCKED.md); schema and migrations
-// live in /prisma. Sprint 000 has no domain models yet, so the only database
-// access is this infrastructure health ping over the raw driver. Domain code
-// from Sprint 001 onward uses the generated Prisma client, never this pool.
 @Module({
-  controllers: [HealthController],
+  controllers: [
+    HealthController,
+    TenantsAdminController,
+    TenantController,
+    OrganizationController,
+    UsersController,
+    RolesController,
+    MeController,
+  ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
     {
-      provide: PG_POOL,
-      useFactory: (env: Env): Pool =>
-        new Pool({ connectionString: env.DATABASE_URL, max: 2, connectionTimeoutMillis: 2_000 }),
+      provide: PRISMA,
+      useFactory: (env: Env): PrismaClient =>
+        createDb({ connectionString: env.DATABASE_URL, max: 5 }),
       inject: [ENV],
     },
     {
@@ -32,12 +54,44 @@ export const REDIS = 'REDIS';
       inject: [ENV],
     },
     {
+      provide: IDENTITY_PORT,
+      useFactory: (env: Env): IdentityPort => {
+        if (env.AUTH_MODE === 'oidc') {
+          throw new Error(
+            'AUTH_MODE=oidc is not implemented yet; the OIDC adapter arrives in a later sprint',
+          );
+        }
+        return new DevIdentityAdapter(env.DEV_AUTH_SECRET);
+      },
+      inject: [ENV],
+    },
+    {
+      provide: TENANT_SERVICE,
+      useFactory: (prisma: PrismaClient) => new TenantService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: ORGANIZATION_SERVICE,
+      useFactory: (prisma: PrismaClient) => new OrganizationService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: USER_SERVICE,
+      useFactory: (prisma: PrismaClient) => new UserService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: ROLE_SERVICE,
+      useFactory: (prisma: PrismaClient) => new RoleService(prisma),
+      inject: [PRISMA],
+    },
+    {
       provide: HEALTH_SERVICE,
-      useFactory: (pool: Pool, redis: Redis): HealthService =>
+      useFactory: (prisma: PrismaClient, redis: Redis): HealthService =>
         new HealthService(
           {
             ping: async () => {
-              await pool.query('SELECT 1');
+              await prisma.$queryRaw`SELECT 1`;
             },
           },
           {
@@ -46,8 +100,21 @@ export const REDIS = 'REDIS';
             },
           },
         ),
-      inject: [PG_POOL, REDIS],
+      inject: [PRISMA, REDIS],
     },
+    { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_GUARD, useClass: PermissionsGuard },
+    { provide: APP_FILTER, useClass: CanonicalErrorFilter },
   ],
 })
-export class AppModule {}
+export class AppModule implements OnApplicationShutdown {
+  constructor(
+    @Inject(PRISMA) private readonly prisma: PrismaClient,
+    @Inject(REDIS) private readonly redis: Redis,
+  ) {}
+
+  async onApplicationShutdown(): Promise<void> {
+    await this.prisma.$disconnect();
+    this.redis.disconnect();
+  }
+}

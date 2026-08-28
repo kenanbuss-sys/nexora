@@ -50,31 +50,43 @@ importers:
       '@nexora/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@nexora/domain-core':
+        specifier: workspace:*
+        version: link:../../packages/domain-core
+      '@nexora/domain-iam':
+        specifier: workspace:*
+        version: link:../../packages/domain-iam
+      '@nexora/kernel':
+        specifier: workspace:*
+        version: link:../../packages/kernel
       '@nexora/observability':
         specifier: workspace:*
         version: link:../../packages/observability
+      '@nexora/tenancy':
+        specifier: workspace:*
+        version: link:../../packages/tenancy
       fastify:
         specifier: ^5.12.0
         version: 5.12.1
       ioredis:
         specifier: ^5.9.0
         version: 5.11.1
-      pg:
-        specifier: ^8.16.0
-        version: 8.23.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
+      zod:
+        specifier: ^3.25.0
+        version: 3.25.76
     devDependencies:
       '@types/node':
         specifier: ^22.20.1
         version: 22.20.1
-      '@types/pg':
-        specifier: ^8.15.0
-        version: 8.15.6
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.20.1)(typescript@5.9.3)
@@ -142,6 +154,9 @@ importers:
       '@nexora/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@nexora/observability':
         specifier: workspace:*
         version: link:../../packages/observability
@@ -165,6 +180,22 @@ importers:
         specifier: ^4.1.0
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
 
+  packages/audit:
+    dependencies:
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../db
+      '@nexora/observability':
+        specifier: workspace:*
+        version: link:../observability
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
   packages/config:
     dependencies:
       zod:
@@ -180,6 +211,106 @@ importers:
       vitest:
         specifier: ^4.1.0
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/db:
+    dependencies:
+      '@prisma/adapter-pg':
+        specifier: ^6.19.0
+        version: 6.19.3
+      '@prisma/client':
+        specifier: ^6.19.0
+        version: 6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3)
+      pg:
+        specifier: ^8.16.0
+        version: 8.23.0
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      '@types/pg':
+        specifier: ^8.15.0
+        version: 8.15.6
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
+  packages/domain-core:
+    dependencies:
+      '@nexora/audit':
+        specifier: workspace:*
+        version: link:../audit
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../db
+      '@nexora/events':
+        specifier: workspace:*
+        version: link:../events
+      '@nexora/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+      '@nexora/tenancy':
+        specifier: workspace:*
+        version: link:../tenancy
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
+  packages/domain-iam:
+    dependencies:
+      '@nexora/audit':
+        specifier: workspace:*
+        version: link:../audit
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../db
+      '@nexora/events':
+        specifier: workspace:*
+        version: link:../events
+      '@nexora/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+      '@nexora/tenancy':
+        specifier: workspace:*
+        version: link:../tenancy
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.0
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/events:
+    dependencies:
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../db
+      '@nexora/observability':
+        specifier: workspace:*
+        version: link:../observability
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
+  packages/kernel:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
 
   packages/observability:
     dependencies:
@@ -204,6 +335,18 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ^22.20.1
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.0
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/tenancy:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
         version: 22.20.1
       typescript:
         specifier: ^5.9.0
@@ -1093,6 +1236,9 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
+  '@prisma/adapter-pg@6.19.3':
+    resolution: {integrity: sha512-ocbvVIP/wX2uJWWLvo1/UK0nH8L5dv4MlE1DddVPID0/VRiEZDguWmAgKLVuPM6BuWTH3wGluZR40VgXb4WjiQ==}
+
   '@prisma/client@6.19.3':
     resolution: {integrity: sha512-mKq3jQFhjvko5LTJFHGilsuQs+W+T3Gm451NzuTDGQxwCzwXHYnIu2zGkRoW+Exq3Rob7yp2MfzSrdIiZVhrBg==}
     engines: {node: '>=18.18'}
@@ -1110,6 +1256,9 @@ packages:
 
   '@prisma/debug@6.19.3':
     resolution: {integrity: sha512-ljkJ+SgpXNktLG0Q/n4JGYCkKf0f8oYLyjImS2I8e2q2WCfdRRtWER062ZV/ixaNP2M2VKlWXVJiGzZaUgbKZw==}
+
+  '@prisma/driver-adapter-utils@6.19.3':
+    resolution: {integrity: sha512-UUxn6VLfKKVqm5n9vexOQgFJ9TCBIxupb7F5FzLQ6iM2VV0WZxhgzbQVqBDsGY+VmQLmqaSoKRusEfy3O5KZpA==}
 
   '@prisma/engines-version@7.1.1-3.c2990dca591cba766e3b7ef5d9e8a84796e47ab7':
     resolution: {integrity: sha512-03bgb1VD5gvuumNf+7fVGBzfpJPjmqV423l/WxsWk2cNQ42JD0/SsFBPhN6z8iAvdHs07/7ei77SKu7aZfq8bA==}
@@ -2288,6 +2437,10 @@ packages:
   postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
     engines: {node: '>=4'}
+
+  postgres-array@3.0.4:
+    resolution: {integrity: sha512-nAUSGfSDGOaOAEGwqsRY27GPOea7CNipJPOA7lPbdEpx5Kg3qzdP0AaWC5MlhTWV9s4hFX39nomVZ+C4tnGOJQ==}
+    engines: {node: '>=12'}
 
   postgres-bytea@1.0.1:
     resolution: {integrity: sha512-5+5HqXnsZPE65IJZSMkZtURARZelel2oXUEO8rH83VS/hxH5vv1uHquPg5wZs8yMAfdv971IU+kcPUczi7NVBQ==}
@@ -3775,6 +3928,14 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
+  '@prisma/adapter-pg@6.19.3':
+    dependencies:
+      '@prisma/driver-adapter-utils': 6.19.3
+      pg: 8.23.0
+      postgres-array: 3.0.4
+    transitivePeerDependencies:
+      - pg-native
+
   '@prisma/client@6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3)':
     optionalDependencies:
       prisma: 6.19.3(typescript@5.9.3)
@@ -3790,6 +3951,10 @@ snapshots:
       - magicast
 
   '@prisma/debug@6.19.3': {}
+
+  '@prisma/driver-adapter-utils@6.19.3':
+    dependencies:
+      '@prisma/debug': 6.19.3
 
   '@prisma/engines-version@7.1.1-3.c2990dca591cba766e3b7ef5d9e8a84796e47ab7': {}
 
@@ -4930,6 +5095,8 @@ snapshots:
       source-map-js: 1.2.1
 
   postgres-array@2.0.0: {}
+
+  postgres-array@3.0.4: {}
 
   postgres-bytea@1.0.1: {}
 

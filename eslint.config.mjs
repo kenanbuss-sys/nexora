@@ -10,6 +10,8 @@ export default tseslint.config(
       '**/dist/**',
       '**/.next/**',
       '**/coverage/**',
+      'packages/db/generated/**',
+      'packages/db/index.js',
       'apps/web/next-env.d.ts',
       'apps/platform-admin/next-env.d.ts',
     ],

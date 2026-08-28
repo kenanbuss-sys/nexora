@@ -1,13 +1,290 @@
 // NEXORA — Enterprise Business OS
-// Sprint 000: intentionally empty schema. No business tables exist yet.
-// Business models are added sprint by sprint, each owned by exactly one
-// bounded context (see docs/architecture/01_DOMAIN_MAP.md).
+// Sprint 001: CORE (tenant, organization, configuration, audit) + IAM
+// (users, roles, scoped permissions) + transactional outbox.
+//
+// Conventions (docs/architecture/02_CANONICAL_DATA_MODEL.md):
+// - every transactional aggregate: immutable ID, tenant ownership, timestamps,
+//   explicit lifecycle state, optimistic version where contention matters
+// - no customer-specific columns
+//
+// The client is generated engine-free (queryCompiler + driverAdapters) into
+// packages/db/generated and committed; CI verifies it matches this schema.
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["queryCompiler", "driverAdapters"]
+  output          = "../packages/db/generated/client"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// CORE — tenant & configuration
+// ---------------------------------------------------------------------------
+
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+model Tenant {
+  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug      String       @unique
+  name      String
+  status    TenantStatus @default(ACTIVE)
+  version   Int          @default(1)
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  configurationVersions TenantConfigurationVersion[]
+  legalEntities         LegalEntity[]
+  businessUnits         BusinessUnit[]
+  branches              Branch[]
+  factories             Factory[]
+  users                 User[]
+  roles                 Role[]
+  roleAssignments       UserRoleAssignment[]
+  auditEvents           AuditEvent[]
+  outboxEvents          OutboxEvent[]
+
+  @@map("tenant")
+}
+
+model TenantConfigurationVersion {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  version     Int
+  config      Json
+  publishedAt DateTime @default(now()) @map("published_at")
+  publishedBy String?  @map("published_by") @db.Uuid
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, version])
+  @@map("tenant_configuration_version")
+}
+
+// ---------------------------------------------------------------------------
+// CORE — organization tree (LegalEntity -> BusinessUnit -> Branch/Factory)
+// ---------------------------------------------------------------------------
+
+model LegalEntity {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  name      String
+  code      String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  businessUnits BusinessUnit[]
+
+  @@unique([tenantId, name])
+  @@map("legal_entity")
+}
+
+model BusinessUnit {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  legalEntityId String   @map("legal_entity_id") @db.Uuid
+  parentId      String?  @map("parent_id") @db.Uuid
+  name          String
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant      Tenant         @relation(fields: [tenantId], references: [id])
+  legalEntity LegalEntity    @relation(fields: [legalEntityId], references: [id])
+  parent      BusinessUnit?  @relation("BusinessUnitTree", fields: [parentId], references: [id])
+  children    BusinessUnit[] @relation("BusinessUnitTree")
+  branches    Branch[]
+  factories   Factory[]
+
+  @@unique([tenantId, legalEntityId, name])
+  @@map("business_unit")
+}
+
+model Branch {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String   @map("tenant_id") @db.Uuid
+  businessUnitId String   @map("business_unit_id") @db.Uuid
+  name           String
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  tenant       Tenant       @relation(fields: [tenantId], references: [id])
+  businessUnit BusinessUnit @relation(fields: [businessUnitId], references: [id])
+
+  @@unique([tenantId, businessUnitId, name])
+  @@map("branch")
+}
+
+model Factory {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String   @map("tenant_id") @db.Uuid
+  businessUnitId String   @map("business_unit_id") @db.Uuid
+  name           String
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  tenant       Tenant       @relation(fields: [tenantId], references: [id])
+  businessUnit BusinessUnit @relation(fields: [businessUnitId], references: [id])
+
+  @@unique([tenantId, businessUnitId, name])
+  @@map("factory")
+}
+
+// ---------------------------------------------------------------------------
+// IAM — users, roles, scoped permissions
+// ---------------------------------------------------------------------------
+
+enum UserStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+}
+
+model User {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String     @map("tenant_id") @db.Uuid
+  email       String
+  displayName String     @map("display_name")
+  status      UserStatus @default(INVITED)
+  /// Subject identifier at the OIDC identity provider (provider-neutral linkage).
+  idpSubject  String?    @map("idp_subject")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  tenant          Tenant               @relation(fields: [tenantId], references: [id])
+  roleAssignments UserRoleAssignment[]
+
+  @@unique([tenantId, email])
+  @@index([tenantId, idpSubject])
+  @@map("user")
+}
+
+model Role {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tenant      Tenant               @relation(fields: [tenantId], references: [id])
+  permissions RolePermission[]
+  assignments UserRoleAssignment[]
+
+  @@unique([tenantId, name])
+  @@map("role")
+}
+
+model RolePermission {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String @map("tenant_id") @db.Uuid
+  roleId        String @map("role_id") @db.Uuid
+  /// Permission key, `<domain>.<resource/action>` (specs/permissions.csv).
+  permissionKey String @map("permission_key")
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@unique([roleId, permissionKey])
+  @@index([tenantId])
+  @@map("role_permission")
+}
+
+enum ScopeType {
+  TENANT
+  LEGAL_ENTITY
+  BUSINESS_UNIT
+  BRANCH
+  FACTORY
+}
+
+model UserRoleAssignment {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String    @map("tenant_id") @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  roleId    String    @map("role_id") @db.Uuid
+  scopeType ScopeType @default(TENANT) @map("scope_type")
+  /// Scope target: the tenant id for TENANT scope, otherwise the org node id.
+  scopeId   String    @map("scope_id") @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+  role   Role   @relation(fields: [roleId], references: [id])
+
+  @@unique([tenantId, userId, roleId, scopeType, scopeId])
+  @@index([tenantId, userId])
+  @@map("user_role_assignment")
+}
+
+// ---------------------------------------------------------------------------
+// CORE — immutable audit (docs/security/03_AUDIT_SPEC.md)
+// ---------------------------------------------------------------------------
+
+enum ActorType {
+  USER
+  SERVICE
+  SYSTEM
+}
+
+model AuditEvent {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String    @map("tenant_id") @db.Uuid
+  actorType      ActorType @map("actor_type")
+  actorId        String?   @map("actor_id")
+  action         String
+  objectType     String    @map("object_type")
+  objectId       String    @map("object_id")
+  occurredAt     DateTime  @default(now()) @map("occurred_at")
+  correlationId  String    @map("correlation_id")
+  /// Source channel: api | worker | integration | device | system
+  source         String
+  previousValues Json?     @map("previous_values")
+  newValues      Json?     @map("new_values")
+  reason         String?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, objectType, objectId])
+  @@index([tenantId, occurredAt])
+  @@map("audit_event")
+}
+
+// ---------------------------------------------------------------------------
+// Transactional outbox (docs/architecture/03_EVENT_ARCHITECTURE.md)
+// ---------------------------------------------------------------------------
+
+enum OutboxStatus {
+  PENDING
+  DISPATCHED
+  FAILED
+}
+
+model OutboxEvent {
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String       @map("tenant_id") @db.Uuid
+  eventType     String       @map("event_type")
+  eventVersion  Int          @default(1) @map("event_version")
+  aggregateType String       @map("aggregate_type")
+  aggregateId   String       @map("aggregate_id")
+  occurredAt    DateTime     @default(now()) @map("occurred_at")
+  actorType     ActorType    @map("actor_type")
+  actorId       String?      @map("actor_id")
+  correlationId String       @map("correlation_id")
+  causationId   String?      @map("causation_id")
+  payload       Json
+  status        OutboxStatus @default(PENDING)
+  attempts      Int          @default(0)
+  dispatchedAt  DateTime?    @map("dispatched_at")
+  lastError     String?      @map("last_error")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([status, occurredAt])
+  @@map("outbox_event")
 }

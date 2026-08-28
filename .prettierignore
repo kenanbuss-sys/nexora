@@ -13,3 +13,4 @@ prompts/
 prototype/
 .claude/
 MANIFEST.json
+packages/db/generated/

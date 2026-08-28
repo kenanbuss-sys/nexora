@@ -1,0 +1,47 @@
+name: Generate Prisma client
+
+# Regenerates the engine-free Prisma client into packages/db/generated and
+# commits it, so offline development environments can typecheck against the
+# real generated types. Main CI regenerates from the schema on every run and
+# never depends on the committed copy.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['prisma/schema.prisma']
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate client
+        run: pnpm db:generate
+        env:
+          DATABASE_URL: postgresql://app:app@localhost:5432/enterprise_os
+
+      - name: Commit generated client
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f packages/db/generated
+          if git diff --cached --quiet; then
+            echo "Generated client unchanged."
+          else
+            git commit -m "chore: regenerate Prisma client from schema"
+            git push
+          fi

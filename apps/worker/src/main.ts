@@ -1,19 +1,20 @@
 import { loadEnv } from '@nexora/config';
+import { createDb } from '@nexora/db';
 import {
   getOrCreateCorrelationId,
   runWithCorrelationId,
   startTelemetry,
 } from '@nexora/observability';
 import { Queue, Worker } from 'bullmq';
+import { dispatchPendingOutbox } from './outbox';
 
 /**
- * NEXORA background worker.
- *
- * Sprint 000 scope: process skeleton only — queue wiring, correlation-aware
- * processing, graceful shutdown. The transactional outbox dispatcher and
- * integration jobs land in later sprints on top of this shell.
+ * NEXORA background worker: outbox dispatch + heartbeat.
+ * The outbox job runs every 5s; claims use FOR UPDATE SKIP LOCKED so multiple
+ * worker replicas are safe.
  */
 const HEARTBEAT_QUEUE = 'system.heartbeat';
+const OUTBOX_QUEUE = 'system.outbox-dispatch';
 
 async function main(): Promise<void> {
   const env = loadEnv();
@@ -21,13 +22,13 @@ async function main(): Promise<void> {
     serviceName: 'nexora-worker',
     otlpEndpoint: env.OTEL_EXPORTER_OTLP_ENDPOINT,
   });
+  const prisma = createDb({ connectionString: env.DATABASE_URL, max: 3 });
 
   const connection = { url: env.REDIS_URL };
 
-  const queue = new Queue(HEARTBEAT_QUEUE, { connection });
-  await queue.upsertJobScheduler('heartbeat-every-minute', { every: 60_000 });
-
-  const worker = new Worker(
+  const heartbeatQueue = new Queue(HEARTBEAT_QUEUE, { connection });
+  await heartbeatQueue.upsertJobScheduler('heartbeat-every-minute', { every: 60_000 });
+  const heartbeatWorker = new Worker(
     HEARTBEAT_QUEUE,
     async (job) =>
       runWithCorrelationId(undefined, () => {
@@ -38,20 +39,45 @@ async function main(): Promise<void> {
     { connection },
   );
 
-  worker.on('failed', (job, err) => {
-    console.error(`[nexora-worker] job ${job?.id ?? 'n/a'} failed: ${err.message}`);
-  });
+  const outboxQueue = new Queue(OUTBOX_QUEUE, { connection });
+  await outboxQueue.upsertJobScheduler('outbox-dispatch', { every: 5_000 });
+  const outboxWorker = new Worker(
+    OUTBOX_QUEUE,
+    async () =>
+      runWithCorrelationId(undefined, async () => {
+        const result = await dispatchPendingOutbox(prisma, async (event) => {
+          // Sprint 001 delivery target: structured log. Real consumers/bus
+          // attach in later sprints behind the same claim semantics.
+          console.log(
+            `[nexora-worker] event ${event.eventType} aggregate=${event.aggregateType}/${event.aggregateId} tenant=${event.tenantId} correlationId=${event.correlationId}`,
+          );
+        });
+        if (result.dispatched > 0 || result.failed > 0) {
+          console.log(
+            `[nexora-worker] outbox dispatched=${result.dispatched} failed=${result.failed}`,
+          );
+        }
+      }),
+    { connection },
+  );
+
+  for (const w of [heartbeatWorker, outboxWorker]) {
+    w.on('failed', (job, err) => {
+      console.error(`[nexora-worker] job ${job?.id ?? 'n/a'} failed: ${err.message}`);
+    });
+  }
 
   const shutdown = async (): Promise<void> => {
-    await worker.close();
-    await queue.close();
+    await Promise.all([heartbeatWorker.close(), outboxWorker.close()]);
+    await Promise.all([heartbeatQueue.close(), outboxQueue.close()]);
+    await prisma.$disconnect();
     await stopTelemetry();
     process.exit(0);
   };
   process.on('SIGTERM', () => void shutdown());
   process.on('SIGINT', () => void shutdown());
 
-  console.log(`[nexora-worker] started (${env.NODE_ENV}), queue "${HEARTBEAT_QUEUE}"`);
+  console.log(`[nexora-worker] started (${env.NODE_ENV}); outbox dispatch every 5s`);
 }
 
 void main();

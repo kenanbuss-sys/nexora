@@ -23,6 +23,10 @@ export const envSchema = z.object({
     }),
   API_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+  /** Identity adapter behind the OIDC-first port. Only 'dev' is implemented so far. */
+  AUTH_MODE: z.enum(['dev', 'oidc']).default('dev'),
+  /** HMAC secret for the dev identity adapter. Never used in production OIDC mode. */
+  DEV_AUTH_SECRET: z.string().min(8).default('dev-secret-change-me'),
   /** OTLP endpoint; when unset, telemetry is collected but not exported. */
   OTEL_EXPORTER_OTLP_ENDPOINT: z.string().url().optional(),
 });
