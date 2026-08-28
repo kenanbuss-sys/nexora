@@ -13,7 +13,6 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["queryCompiler", "driverAdapters"]
-  engineType      = "client"
   output          = "../packages/db/generated/client"
 }
 

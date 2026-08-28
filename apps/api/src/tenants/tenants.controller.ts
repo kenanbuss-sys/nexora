@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import type { Prisma } from '@nexora/db';
 import type { TenantService, TenantView } from '@nexora/domain-core';
 import type { RoleService, UserService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
@@ -115,6 +116,6 @@ export class TenantController {
   @RequirePermission('configuration.publish')
   async publishConfiguration(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(publishConfigSchema, body);
-    return this.tenants.publishConfiguration(input.config, ctx);
+    return this.tenants.publishConfiguration(input.config as Prisma.InputJsonValue, ctx);
   }
 }

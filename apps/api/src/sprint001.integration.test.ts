@@ -58,7 +58,7 @@ integration('Sprint 001 — tenant, identity, organization & audit', () => {
        "role", "user", "branch", "factory", "business_unit", "legal_entity",
        "tenant_configuration_version", "tenant" CASCADE`,
     );
-    const { createApiApp } = await import('./app.factory');
+    const { createApiApp } = await import('./app.factory.js');
     app = await createApiApp();
     await app.init();
     await app.getHttpAdapter().getInstance().ready();

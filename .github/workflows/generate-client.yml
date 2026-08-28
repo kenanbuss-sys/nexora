@@ -36,6 +36,7 @@ jobs:
 
       - name: Commit generated client
         run: |
+          rm -f packages/db/generated/client/*.so.node
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f packages/db/generated
