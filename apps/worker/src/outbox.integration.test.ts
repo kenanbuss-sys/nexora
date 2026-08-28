@@ -43,17 +43,27 @@ integration('outbox dispatcher (integration)', () => {
   });
 
   it('dispatches each pending event exactly once, even across repeated runs', async () => {
+    // The shared test database may hold pending events from other suites;
+    // assert on this suite's own tenant only.
     const delivered: string[] = [];
     const first = await dispatchPendingOutbox(prisma, async (e) => {
       delivered.push(e.id);
     });
-    expect(first.dispatched).toBe(3);
+    expect(first.dispatched).toBeGreaterThanOrEqual(3);
     expect(first.failed).toBe(0);
+    const own = await prisma.outboxEvent.findMany({ where: { tenantId } });
+    expect(own).toHaveLength(3);
+    for (const e of own) expect(delivered).toContain(e.id);
 
-    const second = await dispatchPendingOutbox(prisma, async (e) => {
+    let second = await dispatchPendingOutbox(prisma, async (e) => {
       delivered.push(e.id);
     });
-    expect(second.dispatched).toBe(0);
+    while (second.dispatched > 0) {
+      // Drain any backlog from other suites; nothing may be delivered twice.
+      second = await dispatchPendingOutbox(prisma, async (e) => {
+        delivered.push(e.id);
+      });
+    }
     expect(new Set(delivered).size).toBe(delivered.length);
 
     const statuses = await prisma.outboxEvent.findMany({ where: { tenantId } });

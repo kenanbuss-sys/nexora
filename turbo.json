@@ -15,6 +15,10 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "@nexora/worker#test": {
+      "dependsOn": ["^build", "@nexora/api#test"],
+      "env": ["DATABASE_URL", "REDIS_URL", "INTEGRATION"]
     }
   }
 }

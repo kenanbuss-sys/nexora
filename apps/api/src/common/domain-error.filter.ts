@@ -1,6 +1,6 @@
 import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common';
 import { Catch, HttpException } from '@nestjs/common';
-import { DomainError } from '@nexora/kernel';
+import type { DomainError } from '@nexora/kernel';
 import { getOrCreateCorrelationId } from '@nexora/observability';
 import type { FastifyReply } from 'fastify';
 
@@ -23,7 +23,7 @@ export class CanonicalErrorFilter implements ExceptionFilter {
     const reply = host.switchToHttp().getResponse<FastifyReply>();
     const correlationId = getOrCreateCorrelationId();
 
-    if (exception instanceof DomainError) {
+    if (isDomainError(exception)) {
       const { fieldErrors, ...details } = exception.details ?? {};
       const body: CanonicalError = {
         code: exception.code,
@@ -63,6 +63,21 @@ export class CanonicalErrorFilter implements ExceptionFilter {
       correlationId,
     } satisfies CanonicalError);
   }
+}
+
+/**
+ * Structural check instead of instanceof: test runners and layered builds can
+ * load a second copy of @nexora/kernel, and instanceof must not decide error
+ * semantics across module instances.
+ */
+function isDomainError(e: unknown): e is DomainError {
+  if (typeof e !== 'object' || e === null) return false;
+  const candidate = e as { name?: unknown; code?: unknown; httpStatus?: unknown };
+  return (
+    candidate.name === 'DomainError' &&
+    typeof candidate.code === 'string' &&
+    typeof candidate.httpStatus === 'number'
+  );
 }
 
 function httpCode(status: number): string {
