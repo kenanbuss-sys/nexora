@@ -1,11 +1,11 @@
 ﻿Capability ID,Domain,Capability,Priority,Status,Target Release,Spec,Owner,Notes
-CORE-001,CORE,Tenant management,P0,PLANNED,R0,,,
-CORE-002,CORE,Organization hierarchy,P0,PLANNED,R0,,,
-CORE-003,CORE,White-label branding,P0,PLANNED,R0,,,
+CORE-001,CORE,Tenant management,P0,Implemented (Sprint 001),R0,,,"Tenant lifecycle, suspension, provisioning API"
+CORE-002,CORE,Organization hierarchy,P0,Implemented (Sprint 001),R0,,,LegalEntity/BusinessUnit/Branch/Factory tree + API
+CORE-003,CORE,White-label branding,P0,Partially implemented (Sprint 001),R0,,,Versioned brand config publish/retrieve (retrieval part)
 CORE-004,CORE,Terminology dictionary,P0,PLANNED,R0,,,
 CORE-005,CORE,Localization,P0,PLANNED,R0,,,
 CORE-006,CORE,Feature flags & licensing,P0,PLANNED,R0,,,
-CORE-007,CORE,Configuration versioning,P0,PLANNED,R0,,,
+CORE-007,CORE,Configuration versioning,P0,Partially implemented (Sprint 001),R0,,,TenantConfigurationVersion (foundation)
 CORE-008,CORE,Global numbering,P0,PLANNED,R0,,,
 CORE-009,CORE,Attachments,P0,PLANNED,R0,,,
 CORE-010,CORE,Comments/mentions,P0,PLANNED,R0,,,
@@ -18,10 +18,10 @@ CORE-016,CORE,Custom objects,P0,PLANNED,R0,,,
 CORE-017,CORE,Form builder,P0,PLANNED,R0,,,
 CORE-018,CORE,Reference data,P0,PLANNED,R0,,,
 CORE-019,CORE,Import/export framework,P0,PLANNED,R0,,,
-CORE-020,CORE,Audit ledger,P0,PLANNED,R0,,,
-IAM-001,IAM,User lifecycle,P0,PLANNED,R0,,,
-IAM-002,IAM,RBAC,P0,PLANNED,R0,,,
-IAM-003,IAM,Scoped permissions,P0,PLANNED,R0,,,
+CORE-020,CORE,Audit ledger,P0,Implemented (Sprint 001),R0,,,Immutable audit ledger + writer
+IAM-001,IAM,User lifecycle,P0,Implemented (Sprint 001),R0,,,Invite/suspend/idp-linkage lifecycle
+IAM-002,IAM,RBAC,P0,Implemented (Sprint 001),R0,,,"Roles, role permissions, tenant-admin bootstrap"
+IAM-003,IAM,Scoped permissions,P0,Implemented (Sprint 001),R0,,,"Org-scoped role assignments, default-deny evaluation"
 IAM-004,IAM,Field-level permissions,P0,PLANNED,R0,,,
 IAM-005,IAM,Record-level access,P0,PLANNED,R0,,,
 IAM-006,IAM,MFA,P0,PLANNED,R0,,,

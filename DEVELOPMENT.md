@@ -36,3 +36,14 @@ CI always sets it.
   `docs/00_SOURCE_OF_TRUTH.md` first
 
 Architecture changes require an ADR in `docs/architecture/adr/` — see `CLAUDE.md`.
+
+## Sprint 001 quick reference
+
+Auth (dev mode): sign a bearer token with the `DevIdentityAdapter` from
+`@nexora/tenancy` using `DEV_AUTH_SECRET`. Claims: `tenantSlug`, `subject`
+(IdP subject linked to a user), optional `platformAdmin: true` for
+provisioning. Provision a tenant with an initial admin via
+`POST /api/v1/tenants` (platform token), then act as that admin.
+
+Key endpoints: `/api/v1/tenant/configuration`, `/api/v1/organization/*`,
+`/api/v1/users/*`, `/api/v1/roles/*`, `/api/v1/me/permissions`.
