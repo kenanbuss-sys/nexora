@@ -60,6 +60,8 @@ model Tenant {
   approvals             Approval[]
   processedEvents       ProcessedEvent[]
   documentTemplates     DocumentTemplate[]
+  parties               Party[]
+  products              Product[]
 
   @@map("tenant")
 }
@@ -562,4 +564,137 @@ model DocumentTemplateVersion {
 
   @@unique([templateId, version])
   @@map("document_template_version")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 003 — MDM: canonical parties, merge, external identity mapping
+// ---------------------------------------------------------------------------
+
+enum PartyType {
+  PERSON
+  ORGANIZATION
+}
+
+enum PartyStatus {
+  ACTIVE
+  MERGED
+}
+
+model Party {
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String      @map("tenant_id") @db.Uuid
+  partyType      PartyType   @map("party_type")
+  name           String
+  /// Lowercased/trimmed name for duplicate detection.
+  normalizedName String      @map("normalized_name")
+  email          String?
+  taxId          String?     @map("tax_id")
+  status         PartyStatus @default(ACTIVE)
+  /// Set when status=MERGED: the surviving canonical party (redirect preserved).
+  mergedIntoId   String?     @map("merged_into_id") @db.Uuid
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+
+  tenant             Tenant                  @relation(fields: [tenantId], references: [id])
+  mergedInto         Party?                  @relation("PartyMergeRedirect", fields: [mergedIntoId], references: [id])
+  mergedParties      Party[]                 @relation("PartyMergeRedirect")
+  externalIdentities PartyExternalIdentity[]
+
+  @@index([tenantId, normalizedName])
+  @@map("party")
+}
+
+model PartyExternalIdentity {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  partyId      String   @map("party_id") @db.Uuid
+  sourceSystem String   @map("source_system")
+  externalId   String   @map("external_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  party Party @relation(fields: [partyId], references: [id])
+
+  @@unique([tenantId, sourceSystem, externalId])
+  @@map("party_external_identity")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 003 — PIM: products, SKUs, barcodes, UOM conversions
+// ---------------------------------------------------------------------------
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum SkuStatus {
+  DRAFT
+  ACTIVE
+  DISCONTINUED
+}
+
+model Product {
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String        @map("tenant_id") @db.Uuid
+  code        String
+  name        String
+  description String?
+  status      ProductStatus @default(DRAFT)
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  skus   Sku[]
+
+  @@unique([tenantId, code])
+  @@map("product")
+}
+
+model Sku {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String    @map("tenant_id") @db.Uuid
+  productId String    @map("product_id") @db.Uuid
+  code      String
+  name      String
+  /// Base unit of measure; cannot casually change once transactions exist.
+  baseUom   String    @map("base_uom")
+  status    SkuStatus @default(DRAFT)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  product        Product         @relation(fields: [productId], references: [id])
+  barcodes       Barcode[]
+  uomConversions UomConversion[]
+
+  @@unique([tenantId, code])
+  @@map("sku")
+}
+
+model Barcode {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  skuId       String   @map("sku_id") @db.Uuid
+  value       String
+  barcodeType String   @default("GTIN") @map("barcode_type")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  sku Sku @relation(fields: [skuId], references: [id])
+
+  @@unique([tenantId, value])
+  @@map("barcode")
+}
+
+model UomConversion {
+  id      String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId String @map("tenant_id") @db.Uuid
+  skuId   String  @map("sku_id") @db.Uuid
+  fromUom String  @map("from_uom")
+  toUom   String  @map("to_uom")
+  factor  Decimal @db.Decimal(18, 6)
+
+  sku Sku @relation(fields: [skuId], references: [id])
+
+  @@unique([skuId, fromUom, toUom])
+  @@map("uom_conversion")
 }
