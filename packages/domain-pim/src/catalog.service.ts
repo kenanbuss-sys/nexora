@@ -370,6 +370,16 @@ export class CatalogService {
     });
   }
 
+  /** Public cross-domain gate: SKU existence/activity (used by WMS et al.). */
+  async getSkuState(
+    tenantId: string,
+    skuId: string,
+  ): Promise<{ exists: boolean; active: boolean }> {
+    const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId } });
+    if (!sku) return { exists: false, active: false };
+    return { exists: true, active: sku.status === 'ACTIVE' };
+  }
+
   async getUomConversions(
     skuId: string,
     ctx: RequestContext,

@@ -142,15 +142,15 @@ PROC-012,PROC,Supplier performance,P1,PLANNED,R1,,,
 PROC-013,PROC,Purchase price history,P1,PLANNED,R1,,,
 PROC-014,PROC,Three-way-match hooks,P1,PLANNED,R1,,,
 PROC-015,PROC,Purchase suggestions,P1,PLANNED,R1,,,
-WMS-001,WMS,Warehouse topology,P1,PLANNED,R1,,,
-WMS-002,WMS,Stock ledger,P1,PLANNED,R1,,,
-WMS-003,WMS,Stock projections,P1,PLANNED,R1,,,
+WMS-001,WMS,Warehouse topology,P1,Implemented (Sprint 004),R1,,,Warehouse + location topology
+WMS-002,WMS,Stock ledger,P1,Implemented (Sprint 004),R1,,,"Immutable movement ledger, idempotent posting"
+WMS-003,WMS,Stock projections,P1,Implemented (Sprint 004),R1,,,On-hand/reserved/available derived from ledger
 WMS-004,WMS,Receiving,P1,PLANNED,R1,,,
 WMS-005,WMS,Receiving discrepancies,P1,PLANNED,R1,,,
 WMS-006,WMS,Inbound QC hold,P1,PLANNED,R1,,,
 WMS-007,WMS,Putaway,P1,PLANNED,R1,,,
 WMS-008,WMS,Replenishment,P1,PLANNED,R1,,,
-WMS-009,WMS,Reservations,P1,PLANNED,R1,,,
+WMS-009,WMS,Reservations,P1,Implemented (Sprint 004),R1,,,Atomic reservations under stock lock; no-oversell proven by concurrency test
 WMS-010,WMS,Picking,P1,PLANNED,R1,,,
 WMS-011,WMS,Packing,P1,PLANNED,R1,,,
 WMS-012,WMS,Shipping staging,P1,PLANNED,R1,,,

@@ -14,6 +14,7 @@ import {
 import { DocumentTemplateService } from '@nexora/domain-doc';
 import { PartyService } from '@nexora/domain-mdm';
 import { CatalogService } from '@nexora/domain-pim';
+import { InventoryService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import { RoleService, UserService } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
@@ -26,6 +27,7 @@ import { HEALTH_SERVICE, HealthController } from './health/health.controller';
 import { HealthService } from './health/health.service';
 import { CONFIGURATION_SERVICE, ConfigController } from './config/config.controller';
 import { PartiesController, PARTY_SERVICE } from './mdm/mdm.controller';
+import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
 import {
   BarcodesController,
   CATALOG_SERVICE,
@@ -82,6 +84,8 @@ export const REDIS = 'REDIS';
     ProductsController,
     SkusController,
     BarcodesController,
+    WarehousesController,
+    StockController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -168,6 +172,14 @@ export const REDIS = 'REDIS';
       provide: CATALOG_SERVICE,
       useFactory: (prisma: PrismaClient) => new CatalogService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: INVENTORY_SERVICE,
+      useFactory: (prisma: PrismaClient, catalog: CatalogService) =>
+        new InventoryService(prisma, {
+          getSkuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId),
+        }),
+      inject: [PRISMA, CATALOG_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,

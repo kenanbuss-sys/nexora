@@ -29,7 +29,8 @@
     "@nexora/domain-wf": "workspace:*",
     "@nexora/domain-doc": "workspace:*",
     "@nexora/domain-mdm": "workspace:*",
-    "@nexora/domain-pim": "workspace:*"
+    "@nexora/domain-pim": "workspace:*",
+    "@nexora/domain-wms": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

@@ -42,6 +42,14 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'product.manage',
   'product.barcode.manage',
   'product.publish',
+  'inventory.read',
+  'inventory.receive',
+  'inventory.transfer',
+  'inventory.pick',
+  'inventory.pack',
+  'inventory.count',
+  'inventory.adjust',
+  'inventory.adjust.approve',
 ];
 
 const createTenantSchema = z.object({

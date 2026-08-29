@@ -62,6 +62,9 @@ model Tenant {
   documentTemplates     DocumentTemplate[]
   parties               Party[]
   products              Product[]
+  warehouses            Warehouse[]
+  stockMovements        StockMovement[]
+  stockReservations     StockReservation[]
 
   @@map("tenant")
 }
@@ -697,4 +700,90 @@ model UomConversion {
 
   @@unique([skuId, fromUom, toUom])
   @@map("uom_conversion")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 004 — WMS: warehouse topology, immutable stock ledger, reservations
+// ---------------------------------------------------------------------------
+
+model Warehouse {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId String @map("tenant_id") @db.Uuid
+  code     String
+  name     String
+
+  tenant    Tenant              @relation(fields: [tenantId], references: [id])
+  locations WarehouseLocation[]
+
+  @@unique([tenantId, code])
+  @@map("warehouse")
+}
+
+model WarehouseLocation {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String @map("tenant_id") @db.Uuid
+  warehouseId String @map("warehouse_id") @db.Uuid
+  code        String
+
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+
+  @@unique([warehouseId, code])
+  @@map("warehouse_location")
+}
+
+enum StockMovementType {
+  RECEIPT
+  ISSUE
+  ADJUSTMENT_IN
+  ADJUSTMENT_OUT
+  TRANSFER_IN
+  TRANSFER_OUT
+}
+
+/// Immutable inventory ledger: stock truth is the sum of movements.
+/// Corrections are new (reversal) movements; rows are never edited.
+model StockMovement {
+  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String            @map("tenant_id") @db.Uuid
+  warehouseId    String            @map("warehouse_id") @db.Uuid
+  locationId     String?           @map("location_id") @db.Uuid
+  skuId          String            @map("sku_id") @db.Uuid
+  movementType   StockMovementType @map("movement_type")
+  /// Always positive; the sign comes from movementType.
+  quantity       Decimal           @db.Decimal(18, 6)
+  reason         String?
+  /// Business idempotency key: duplicate submissions produce one stock effect.
+  idempotencyKey String            @map("idempotency_key")
+  occurredAt     DateTime          @default(now()) @map("occurred_at")
+  createdBy      String?           @map("created_by")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, idempotencyKey])
+  @@index([tenantId, warehouseId, skuId])
+  @@map("stock_movement")
+}
+
+enum ReservationStatus {
+  ACTIVE
+  RELEASED
+  CONSUMED
+}
+
+model StockReservation {
+  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String            @map("tenant_id") @db.Uuid
+  warehouseId String            @map("warehouse_id") @db.Uuid
+  skuId       String            @map("sku_id") @db.Uuid
+  quantity    Decimal           @db.Decimal(18, 6)
+  status      ReservationStatus @default(ACTIVE)
+  /// Demand reference, e.g. a sales order id (OMS orchestrates through WMS).
+  reference   String?
+  createdAt   DateTime          @default(now()) @map("created_at")
+  releasedAt  DateTime?         @map("released_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, warehouseId, skuId, status])
+  @@map("stock_reservation")
 }

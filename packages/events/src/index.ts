@@ -23,6 +23,9 @@ export const EVENT_TYPES = {
   PARTY_CREATED: 'party.created',
   PRODUCT_CREATED: 'product.created',
   SKU_ACTIVATED: 'sku.activated',
+  STOCK_MOVED: 'stock.moved',
+  STOCK_RESERVED: 'stock.reserved',
+  STOCK_RELEASED: 'stock.released',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];
