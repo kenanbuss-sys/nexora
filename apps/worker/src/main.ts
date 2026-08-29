@@ -7,6 +7,7 @@ import {
 } from '@nexora/observability';
 import { Queue, Worker } from 'bullmq';
 import { dispatchPendingOutbox } from './outbox';
+import { createRuleEngineConsumer } from './rule-engine';
 
 /**
  * NEXORA background worker: outbox dispatch + heartbeat.
@@ -23,6 +24,7 @@ async function main(): Promise<void> {
     otlpEndpoint: env.OTEL_EXPORTER_OTLP_ENDPOINT,
   });
   const prisma = createDb({ connectionString: env.DATABASE_URL, max: 3 });
+  const ruleEngine = createRuleEngineConsumer(prisma);
 
   const connection = { url: env.REDIS_URL };
 
@@ -46,11 +48,11 @@ async function main(): Promise<void> {
     async () =>
       runWithCorrelationId(undefined, async () => {
         const result = await dispatchPendingOutbox(prisma, async (event) => {
-          // Sprint 001 delivery target: structured log. Real consumers/bus
-          // attach in later sprints behind the same claim semantics.
           console.log(
             `[nexora-worker] event ${event.eventType} aggregate=${event.aggregateType}/${event.aggregateId} tenant=${event.tenantId} correlationId=${event.correlationId}`,
           );
+          // Declarative automation (Sprint 002): idempotent rule evaluation.
+          await ruleEngine.handle(event);
         });
         if (result.dispatched > 0 || result.failed > 0) {
           console.log(

@@ -249,6 +249,149 @@ exports.Prisma.OutboxEventScalarFieldEnum = {
   lastError: 'lastError'
 };
 
+exports.Prisma.TerminologyEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  locale: 'locale',
+  key: 'key',
+  label: 'label'
+};
+
+exports.Prisma.ModuleActivationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  moduleKey: 'moduleKey',
+  enabled: 'enabled',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CustomFieldDefinitionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  objectType: 'objectType',
+  key: 'key',
+  label: 'label',
+  fieldType: 'fieldType',
+  required: 'required',
+  config: 'config',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TaskScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  assigneeUserId: 'assigneeUserId',
+  dueAt: 'dueAt',
+  relatedObjectType: 'relatedObjectType',
+  relatedObjectId: 'relatedObjectId',
+  createdByUserId: 'createdByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  readAt: 'readAt',
+  relatedObjectType: 'relatedObjectType',
+  relatedObjectId: 'relatedObjectId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WorkflowDefinitionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  key: 'key',
+  name: 'name'
+};
+
+exports.Prisma.WorkflowVersionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  definitionId: 'definitionId',
+  version: 'version',
+  spec: 'spec',
+  publishedAt: 'publishedAt'
+};
+
+exports.Prisma.WorkflowInstanceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  definitionId: 'definitionId',
+  versionId: 'versionId',
+  currentState: 'currentState',
+  status: 'status',
+  subjectObjectType: 'subjectObjectType',
+  subjectObjectId: 'subjectObjectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RuleDefinitionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  key: 'key',
+  name: 'name'
+};
+
+exports.Prisma.RuleVersionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  ruleId: 'ruleId',
+  version: 'version',
+  spec: 'spec',
+  enabled: 'enabled',
+  publishedAt: 'publishedAt'
+};
+
+exports.Prisma.ApprovalScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  subjectObjectType: 'subjectObjectType',
+  subjectObjectId: 'subjectObjectId',
+  title: 'title',
+  status: 'status',
+  requestedByUserId: 'requestedByUserId',
+  decidedByUserId: 'decidedByUserId',
+  reason: 'reason',
+  workflowInstanceId: 'workflowInstanceId',
+  createdAt: 'createdAt',
+  decidedAt: 'decidedAt'
+};
+
+exports.Prisma.ProcessedEventScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  eventId: 'eventId',
+  consumer: 'consumer',
+  processedAt: 'processedAt'
+};
+
+exports.Prisma.DocumentTemplateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  key: 'key',
+  name: 'name'
+};
+
+exports.Prisma.DocumentTemplateVersionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  templateId: 'templateId',
+  version: 'version',
+  content: 'content',
+  publishedAt: 'publishedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -309,6 +452,33 @@ exports.OutboxStatus = exports.$Enums.OutboxStatus = {
   FAILED: 'FAILED'
 };
 
+exports.CustomFieldType = exports.$Enums.CustomFieldType = {
+  TEXT: 'TEXT',
+  NUMBER: 'NUMBER',
+  BOOLEAN: 'BOOLEAN',
+  DATE: 'DATE',
+  SELECT: 'SELECT',
+  JSON: 'JSON'
+};
+
+exports.TaskStatus = exports.$Enums.TaskStatus = {
+  OPEN: 'OPEN',
+  DONE: 'DONE',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.WorkflowInstanceStatus = exports.$Enums.WorkflowInstanceStatus = {
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
+  REQUESTED: 'REQUESTED',
+  GRANTED: 'GRANTED',
+  REJECTED: 'REJECTED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -321,7 +491,21 @@ exports.Prisma.ModelName = {
   RolePermission: 'RolePermission',
   UserRoleAssignment: 'UserRoleAssignment',
   AuditEvent: 'AuditEvent',
-  OutboxEvent: 'OutboxEvent'
+  OutboxEvent: 'OutboxEvent',
+  TerminologyEntry: 'TerminologyEntry',
+  ModuleActivation: 'ModuleActivation',
+  CustomFieldDefinition: 'CustomFieldDefinition',
+  Task: 'Task',
+  Notification: 'Notification',
+  WorkflowDefinition: 'WorkflowDefinition',
+  WorkflowVersion: 'WorkflowVersion',
+  WorkflowInstance: 'WorkflowInstance',
+  RuleDefinition: 'RuleDefinition',
+  RuleVersion: 'RuleVersion',
+  Approval: 'Approval',
+  ProcessedEvent: 'ProcessedEvent',
+  DocumentTemplate: 'DocumentTemplate',
+  DocumentTemplateVersion: 'DocumentTemplateVersion'
 };
 
 /**

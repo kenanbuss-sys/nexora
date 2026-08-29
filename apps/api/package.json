@@ -25,7 +25,9 @@
     "ioredis": "^5.9.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.0",
-    "zod": "^3.25.0"
+    "zod": "^3.25.0",
+    "@nexora/domain-wf": "workspace:*",
+    "@nexora/domain-doc": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

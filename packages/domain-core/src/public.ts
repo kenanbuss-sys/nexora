@@ -8,3 +8,5 @@ export {
   type OrganizationTree,
   type OrgNodeView,
 } from './organization.service';
+export { ConfigurationService, type CustomFieldView } from './configuration.service';
+export { TaskService, type NotificationView, type TaskView } from './task.service';

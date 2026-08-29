@@ -2,18 +2,18 @@
 CORE-001,CORE,Tenant management,P0,Implemented (Sprint 001),R0,,,"Tenant lifecycle, suspension, provisioning API"
 CORE-002,CORE,Organization hierarchy,P0,Implemented (Sprint 001),R0,,,LegalEntity/BusinessUnit/Branch/Factory tree + API
 CORE-003,CORE,White-label branding,P0,Partially implemented (Sprint 001),R0,,,Versioned brand config publish/retrieve (retrieval part)
-CORE-004,CORE,Terminology dictionary,P0,PLANNED,R0,,,
+CORE-004,CORE,Terminology dictionary,P0,Implemented (Sprint 002),R0,,,Terminology entries per locale + API
 CORE-005,CORE,Localization,P0,PLANNED,R0,,,
-CORE-006,CORE,Feature flags & licensing,P0,PLANNED,R0,,,
+CORE-006,CORE,Feature flags & licensing,P0,Partially implemented (Sprint 002),R0,,,Module activation flags (licensing later)
 CORE-007,CORE,Configuration versioning,P0,Partially implemented (Sprint 001),R0,,,TenantConfigurationVersion (foundation)
 CORE-008,CORE,Global numbering,P0,PLANNED,R0,,,
 CORE-009,CORE,Attachments,P0,PLANNED,R0,,,
 CORE-010,CORE,Comments/mentions,P0,PLANNED,R0,,,
 CORE-011,CORE,Global search,P0,PLANNED,R0,,,
-CORE-012,CORE,Unified inbox,P0,PLANNED,R0,,,
-CORE-013,CORE,Notifications,P0,PLANNED,R0,,,
-CORE-014,CORE,Task engine,P0,PLANNED,R0,,,
-CORE-015,CORE,Custom fields,P0,PLANNED,R0,,,
+CORE-012,CORE,Unified inbox,P0,Partially implemented (Sprint 002),R0,,,Unified inbox: tasks+approvals+notifications
+CORE-013,CORE,Notifications,P0,Partially implemented (Sprint 002),R0,,,Notification storage/read (channels later)
+CORE-014,CORE,Task engine,P0,Implemented (Sprint 002),R0,,,Task engine (create/complete/list) + audit
+CORE-015,CORE,Custom fields,P0,Partially implemented (Sprint 002),R0,,,Custom field definitions (dynamic forms later)
 CORE-016,CORE,Custom objects,P0,PLANNED,R0,,,
 CORE-017,CORE,Form builder,P0,PLANNED,R0,,,
 CORE-018,CORE,Reference data,P0,PLANNED,R0,,,
@@ -325,9 +325,9 @@ HCM-009,HCM,Performance metrics,P2,PLANNED,R4+,,,
 HCM-010,HCM,Onboarding/offboarding,P2,PLANNED,R4+,,,
 HCM-011,HCM,Safety/EHS hooks,P2,PLANNED,R4+,,,
 HCM-012,HCM,Payroll integration,P2,PLANNED,R4+,,,
-DOC-001,DOC,Document templates,P1,PLANNED,R0/R1,,,
+DOC-001,DOC,Document templates,P1,Partially implemented (Sprint 002),R0/R1,,,Template storage (rendering later)
 DOC-002,DOC,PDF generation,P1,PLANNED,R0/R1,,,
-DOC-003,DOC,Template versioning,P1,PLANNED,R0/R1,,,
+DOC-003,DOC,Template versioning,P1,Partially implemented (Sprint 002),R0/R1,,,Immutable template versions
 DOC-004,DOC,Document numbering,P1,PLANNED,R0/R1,,,
 DOC-005,DOC,Document lifecycle,P1,PLANNED,R0/R1,,,
 DOC-006,DOC,Electronic-signature adapter,P1,PLANNED,R0/R1,,,
@@ -423,15 +423,15 @@ DEV-013,DEV,Machine gateway,P1,PLANNED,R1,,,
 DEV-014,DEV,Machine events,P1,PLANNED,R1,,,
 DEV-015,DEV,Device event audit,P1,PLANNED,R1,,,
 WF-001,WF,Workflow designer,P0,PLANNED,R0,,,
-WF-002,WF,Approval builder,P0,PLANNED,R0,,,
-WF-003,WF,Rules designer,P0,PLANNED,R0,,,
+WF-002,WF,Approval builder,P0,Partially implemented (Sprint 002),R0,,,Approval primitive with SoD (builder UI later)
+WF-003,WF,Rules designer,P0,Partially implemented (Sprint 002),R0,,,Declarative rule spec + publish (designer later)
 WF-004,WF,Timers/SLA,P0,PLANNED,R0,,,
-WF-005,WF,Automation actions,P0,PLANNED,R0,,,
+WF-005,WF,Automation actions,P0,Partially implemented (Sprint 002),R0,,,"Automation actions: task/notify/approval, idempotent"
 WF-006,WF,Conditional forms,P0,PLANNED,R0,,,
 WF-007,WF,Validation rules,P0,PLANNED,R0,,,
-WF-008,WF,Workflow versioning,P0,PLANNED,R0,,,
+WF-008,WF,Workflow versioning,P0,Implemented (Sprint 002),R0,,,Versioned workflow definitions; instances pinned to version
 WF-009,WF,Simulation/test mode,P0,PLANNED,R0,,,
-WF-010,WF,Audit/explanation,P0,PLANNED,R0,,,
+WF-010,WF,Audit/explanation,P0,Partially implemented (Sprint 002),R0,,,Workflow/rule/approval audit trail
 WF-011,WF,Reusable templates,P0,PLANNED,R0,,,
 WF-012,WF,Override governance,P0,PLANNED,R0,,,
 OPS-001,OPS,Platform admin,P0,PLANNED,R0,,,

@@ -27,6 +27,13 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'iam.security.read',
   'audit.read',
   'task.manage',
+  'workflow.read',
+  'workflow.design',
+  'workflow.publish',
+  'approval.act',
+  'automation.manage',
+  'document.read',
+  'document.issue',
 ];
 
 const createTenantSchema = z.object({

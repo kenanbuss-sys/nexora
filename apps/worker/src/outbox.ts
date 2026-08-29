@@ -16,6 +16,7 @@ export interface DispatchedEvent {
   aggregateType: string;
   aggregateId: string;
   correlationId: string;
+  payload: unknown;
 }
 
 export type EventDeliverer = (event: DispatchedEvent) => Promise<void>;
@@ -37,8 +38,9 @@ export async function dispatchPendingOutbox(
         aggregate_type: string;
         aggregate_id: string;
         correlation_id: string;
+        payload: unknown;
       }>
-    >`SELECT id, tenant_id, event_type, aggregate_type, aggregate_id, correlation_id
+    >`SELECT id, tenant_id, event_type, aggregate_type, aggregate_id, correlation_id, payload
       FROM "outbox_event"
       WHERE status = 'PENDING'
       ORDER BY occurred_at
@@ -55,6 +57,7 @@ export async function dispatchPendingOutbox(
       aggregateType: row.aggregate_type,
       aggregateId: row.aggregate_id,
       correlationId: row.correlation_id,
+      payload: row.payload,
     };
     try {
       await deliver(event);

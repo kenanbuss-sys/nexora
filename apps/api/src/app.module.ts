@@ -5,7 +5,14 @@ import type { Env } from '@nexora/config';
 import { loadEnv } from '@nexora/config';
 import type { PrismaClient } from '@nexora/db';
 import { createDb } from '@nexora/db';
-import { OrganizationService, TenantService } from '@nexora/domain-core';
+import {
+  ConfigurationService,
+  OrganizationService,
+  TaskService,
+  TenantService,
+} from '@nexora/domain-core';
+import { DocumentTemplateService } from '@nexora/domain-doc';
+import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import { RoleService, UserService } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
 import { DevIdentityAdapter } from '@nexora/tenancy';
@@ -15,7 +22,23 @@ import { PermissionsGuard, ROLE_SERVICE } from './auth/permissions.guard';
 import { CanonicalErrorFilter } from './common/domain-error.filter';
 import { HEALTH_SERVICE, HealthController } from './health/health.controller';
 import { HealthService } from './health/health.service';
+import { CONFIGURATION_SERVICE, ConfigController } from './config/config.controller';
+import { DocumentTemplatesController, TEMPLATE_SERVICE } from './documents/templates.controller';
 import { MeController, RolesController, USER_SERVICE, UsersController } from './iam/iam.controller';
+import {
+  APPROVAL_SERVICE,
+  InboxController,
+  NotificationsController,
+  TASK_SERVICE,
+  TasksController,
+} from './tasks/tasks.controller';
+import {
+  ApprovalsController,
+  RulesController as WfRulesController,
+  WF_RULE_SERVICE,
+  WorkflowsController,
+  WORKFLOW_SERVICE,
+} from './workflow/workflow.controller';
 import {
   ORGANIZATION_SERVICE,
   OrganizationController,
@@ -38,6 +61,14 @@ export const REDIS = 'REDIS';
     UsersController,
     RolesController,
     MeController,
+    ConfigController,
+    TasksController,
+    InboxController,
+    NotificationsController,
+    WorkflowsController,
+    WfRulesController,
+    ApprovalsController,
+    DocumentTemplatesController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -83,6 +114,36 @@ export const REDIS = 'REDIS';
     {
       provide: ROLE_SERVICE,
       useFactory: (prisma: PrismaClient) => new RoleService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: CONFIGURATION_SERVICE,
+      useFactory: (prisma: PrismaClient) => new ConfigurationService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: TASK_SERVICE,
+      useFactory: (prisma: PrismaClient) => new TaskService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: WORKFLOW_SERVICE,
+      useFactory: (prisma: PrismaClient) => new WorkflowService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: WF_RULE_SERVICE,
+      useFactory: (prisma: PrismaClient) => new WfRuleService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: APPROVAL_SERVICE,
+      useFactory: (prisma: PrismaClient) => new ApprovalService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: TEMPLATE_SERVICE,
+      useFactory: (prisma: PrismaClient) => new DocumentTemplateService(prisma),
       inject: [PRISMA],
     },
     {

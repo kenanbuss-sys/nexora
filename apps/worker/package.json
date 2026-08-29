@@ -15,7 +15,9 @@
     "@nexora/db": "workspace:*",
     "@nexora/observability": "workspace:*",
     "bullmq": "^6.3.0",
-    "ioredis": "^5.9.0"
+    "ioredis": "^5.9.0",
+    "@nexora/domain-wf": "workspace:*",
+    "@nexora/domain-core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

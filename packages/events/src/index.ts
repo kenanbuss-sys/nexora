@@ -15,6 +15,11 @@ export const EVENT_TYPES = {
   TENANT_CONFIGURATION_CHANGED: 'tenant.configuration.changed',
   USER_INVITED: 'user.invited',
   PERMISSION_CHANGED: 'permission.changed',
+  WORKFLOW_STARTED: 'workflow.started',
+  WORKFLOW_TRANSITIONED: 'workflow.transitioned',
+  APPROVAL_REQUESTED: 'approval.requested',
+  APPROVAL_GRANTED: 'approval.granted',
+  APPROVAL_REJECTED: 'approval.rejected',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];
