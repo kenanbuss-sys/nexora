@@ -12,6 +12,8 @@ import {
   TenantService,
 } from '@nexora/domain-core';
 import { DocumentTemplateService } from '@nexora/domain-doc';
+import { PartyService } from '@nexora/domain-mdm';
+import { CatalogService } from '@nexora/domain-pim';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import { RoleService, UserService } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
@@ -23,6 +25,13 @@ import { CanonicalErrorFilter } from './common/domain-error.filter';
 import { HEALTH_SERVICE, HealthController } from './health/health.controller';
 import { HealthService } from './health/health.service';
 import { CONFIGURATION_SERVICE, ConfigController } from './config/config.controller';
+import { PartiesController, PARTY_SERVICE } from './mdm/mdm.controller';
+import {
+  BarcodesController,
+  CATALOG_SERVICE,
+  ProductsController,
+  SkusController,
+} from './pim/pim.controller';
 import { DocumentTemplatesController, TEMPLATE_SERVICE } from './documents/templates.controller';
 import { MeController, RolesController, USER_SERVICE, UsersController } from './iam/iam.controller';
 import {
@@ -69,6 +78,10 @@ export const REDIS = 'REDIS';
     WfRulesController,
     ApprovalsController,
     DocumentTemplatesController,
+    PartiesController,
+    ProductsController,
+    SkusController,
+    BarcodesController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -144,6 +157,16 @@ export const REDIS = 'REDIS';
     {
       provide: TEMPLATE_SERVICE,
       useFactory: (prisma: PrismaClient) => new DocumentTemplateService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: PARTY_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PartyService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: CATALOG_SERVICE,
+      useFactory: (prisma: PrismaClient) => new CatalogService(prisma),
       inject: [PRISMA],
     },
     {

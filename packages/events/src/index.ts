@@ -20,6 +20,9 @@ export const EVENT_TYPES = {
   APPROVAL_REQUESTED: 'approval.requested',
   APPROVAL_GRANTED: 'approval.granted',
   APPROVAL_REJECTED: 'approval.rejected',
+  PARTY_CREATED: 'party.created',
+  PRODUCT_CREATED: 'product.created',
+  SKU_ACTIVATED: 'sku.activated',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

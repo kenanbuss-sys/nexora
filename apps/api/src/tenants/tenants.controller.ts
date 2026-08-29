@@ -34,6 +34,14 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'automation.manage',
   'document.read',
   'document.issue',
+  'mdm.read',
+  'mdm.create',
+  'mdm.merge',
+  'mdm.steward',
+  'product.read',
+  'product.manage',
+  'product.barcode.manage',
+  'product.publish',
 ];
 
 const createTenantSchema = z.object({
