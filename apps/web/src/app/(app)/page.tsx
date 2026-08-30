@@ -35,7 +35,6 @@ export default function DashboardPage() {
     api<{ tasks: unknown[] }>('GET', '/api/v1/inbox')
       .then((r) => setCounts((c) => ({ ...c, tasks: r.tasks.length })))
       .catch(() => undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -52,7 +52,6 @@ export default function UsersPage() {
         .then((r) => setRoles(r.roles))
         .catch(() => setRoles([]));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(load, [load]);

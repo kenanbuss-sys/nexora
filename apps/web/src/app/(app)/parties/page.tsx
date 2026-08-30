@@ -51,7 +51,6 @@ export default function PartiesPage() {
     api<{ duplicates: DuplicateGroup[] }>('GET', '/api/v1/parties/duplicates')
       .then((r) => setDuplicates(r.duplicates))
       .catch(() => setDuplicates([]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function createParty(e: React.FormEvent) {
