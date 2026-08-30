@@ -787,3 +787,5 @@ model StockReservation {
   @@index([tenantId, warehouseId, skuId, status])
   @@map("stock_reservation")
 }
+
+// touch: trigger client regeneration (sprint 004 models)
