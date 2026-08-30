@@ -496,6 +496,59 @@ exports.Prisma.StockReservationScalarFieldEnum = {
   releasedAt: 'releasedAt'
 };
 
+exports.Prisma.DeviceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  deviceType: 'deviceType',
+  status: 'status',
+  enrollmentToken: 'enrollmentToken',
+  capabilities: 'capabilities',
+  assignedUserId: 'assignedUserId',
+  branchId: 'branchId',
+  lastSeenAt: 'lastSeenAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ScanEventScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  deviceId: 'deviceId',
+  kind: 'kind',
+  value: 'value',
+  context: 'context',
+  clientEventId: 'clientEventId',
+  capturedAt: 'capturedAt',
+  receivedAt: 'receivedAt',
+  correlationId: 'correlationId',
+  resolvedSkuId: 'resolvedSkuId'
+};
+
+exports.Prisma.WmsOrderScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  orderType: 'orderType',
+  status: 'status',
+  warehouseId: 'warehouseId',
+  toWarehouseId: 'toWarehouseId',
+  reference: 'reference',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt'
+};
+
+exports.Prisma.WmsOrderLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  orderId: 'orderId',
+  skuId: 'skuId',
+  expectedQty: 'expectedQty',
+  processedQty: 'processedQty'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -620,6 +673,41 @@ exports.ReservationStatus = exports.$Enums.ReservationStatus = {
   CONSUMED: 'CONSUMED'
 };
 
+exports.DeviceType = exports.$Enums.DeviceType = {
+  SCANNER: 'SCANNER',
+  TABLET: 'TABLET',
+  PRINTER: 'PRINTER',
+  SCALE: 'SCALE',
+  OTHER: 'OTHER'
+};
+
+exports.DeviceStatus = exports.$Enums.DeviceStatus = {
+  ENROLLED: 'ENROLLED',
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED'
+};
+
+exports.ScanKind = exports.$Enums.ScanKind = {
+  BARCODE: 'BARCODE',
+  QR: 'QR',
+  RFID: 'RFID',
+  NFC: 'NFC'
+};
+
+exports.WmsOrderType = exports.$Enums.WmsOrderType = {
+  RECEIVING: 'RECEIVING',
+  TRANSFER: 'TRANSFER',
+  COUNT: 'COUNT',
+  PICK: 'PICK'
+};
+
+exports.WmsOrderStatus = exports.$Enums.WmsOrderStatus = {
+  DRAFT: 'DRAFT',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -656,7 +744,11 @@ exports.Prisma.ModelName = {
   Warehouse: 'Warehouse',
   WarehouseLocation: 'WarehouseLocation',
   StockMovement: 'StockMovement',
-  StockReservation: 'StockReservation'
+  StockReservation: 'StockReservation',
+  Device: 'Device',
+  ScanEvent: 'ScanEvent',
+  WmsOrder: 'WmsOrder',
+  WmsOrderLine: 'WmsOrderLine'
 };
 
 /**

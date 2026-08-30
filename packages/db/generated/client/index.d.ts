@@ -194,6 +194,31 @@ export type StockMovement = $Result.DefaultSelection<Prisma.$StockMovementPayloa
  * 
  */
 export type StockReservation = $Result.DefaultSelection<Prisma.$StockReservationPayload>
+/**
+ * Model Device
+ * Device registry (DEV-001..004). Hardware specifics live behind adapters;
+ * business logic never binds to a hardware model (Sprint 005 rule).
+ */
+export type Device = $Result.DefaultSelection<Prisma.$DevicePayload>
+/**
+ * Model ScanEvent
+ * Verification event stream (VER-001/002, offline queue VER-017, idempotent
+ * replay VER-018, correlation VER-020). Client-generated ids make replays
+ * after offline periods exactly-once.
+ */
+export type ScanEvent = $Result.DefaultSelection<Prisma.$ScanEventPayload>
+/**
+ * Model WmsOrder
+ * Warehouse execution document (WMS-004 receiving, WMS-013 transfers,
+ * WMS-014 counts, WMS-010/011 pick/pack). Executing lines posts movements
+ * through the inventory ledger — the document never stores stock truth.
+ */
+export type WmsOrder = $Result.DefaultSelection<Prisma.$WmsOrderPayload>
+/**
+ * Model WmsOrderLine
+ * 
+ */
+export type WmsOrderLine = $Result.DefaultSelection<Prisma.$WmsOrderLinePayload>
 
 /**
  * Enums
@@ -338,6 +363,56 @@ export const ReservationStatus: {
 
 export type ReservationStatus = (typeof ReservationStatus)[keyof typeof ReservationStatus]
 
+
+export const DeviceType: {
+  SCANNER: 'SCANNER',
+  TABLET: 'TABLET',
+  PRINTER: 'PRINTER',
+  SCALE: 'SCALE',
+  OTHER: 'OTHER'
+};
+
+export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType]
+
+
+export const DeviceStatus: {
+  ENROLLED: 'ENROLLED',
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED'
+};
+
+export type DeviceStatus = (typeof DeviceStatus)[keyof typeof DeviceStatus]
+
+
+export const ScanKind: {
+  BARCODE: 'BARCODE',
+  QR: 'QR',
+  RFID: 'RFID',
+  NFC: 'NFC'
+};
+
+export type ScanKind = (typeof ScanKind)[keyof typeof ScanKind]
+
+
+export const WmsOrderType: {
+  RECEIVING: 'RECEIVING',
+  TRANSFER: 'TRANSFER',
+  COUNT: 'COUNT',
+  PICK: 'PICK'
+};
+
+export type WmsOrderType = (typeof WmsOrderType)[keyof typeof WmsOrderType]
+
+
+export const WmsOrderStatus: {
+  DRAFT: 'DRAFT',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type WmsOrderStatus = (typeof WmsOrderStatus)[keyof typeof WmsOrderStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -399,6 +474,26 @@ export const StockMovementType: typeof $Enums.StockMovementType
 export type ReservationStatus = $Enums.ReservationStatus
 
 export const ReservationStatus: typeof $Enums.ReservationStatus
+
+export type DeviceType = $Enums.DeviceType
+
+export const DeviceType: typeof $Enums.DeviceType
+
+export type DeviceStatus = $Enums.DeviceStatus
+
+export const DeviceStatus: typeof $Enums.DeviceStatus
+
+export type ScanKind = $Enums.ScanKind
+
+export const ScanKind: typeof $Enums.ScanKind
+
+export type WmsOrderType = $Enums.WmsOrderType
+
+export const WmsOrderType: typeof $Enums.WmsOrderType
+
+export type WmsOrderStatus = $Enums.WmsOrderStatus
+
+export const WmsOrderStatus: typeof $Enums.WmsOrderStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -877,6 +972,46 @@ export class PrismaClient<
     * ```
     */
   get stockReservation(): Prisma.StockReservationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.device`: Exposes CRUD operations for the **Device** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Devices
+    * const devices = await prisma.device.findMany()
+    * ```
+    */
+  get device(): Prisma.DeviceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.scanEvent`: Exposes CRUD operations for the **ScanEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScanEvents
+    * const scanEvents = await prisma.scanEvent.findMany()
+    * ```
+    */
+  get scanEvent(): Prisma.ScanEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.wmsOrder`: Exposes CRUD operations for the **WmsOrder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WmsOrders
+    * const wmsOrders = await prisma.wmsOrder.findMany()
+    * ```
+    */
+  get wmsOrder(): Prisma.WmsOrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.wmsOrderLine`: Exposes CRUD operations for the **WmsOrderLine** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WmsOrderLines
+    * const wmsOrderLines = await prisma.wmsOrderLine.findMany()
+    * ```
+    */
+  get wmsOrderLine(): Prisma.WmsOrderLineDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1353,7 +1488,11 @@ export namespace Prisma {
     Warehouse: 'Warehouse',
     WarehouseLocation: 'WarehouseLocation',
     StockMovement: 'StockMovement',
-    StockReservation: 'StockReservation'
+    StockReservation: 'StockReservation',
+    Device: 'Device',
+    ScanEvent: 'ScanEvent',
+    WmsOrder: 'WmsOrder',
+    WmsOrderLine: 'WmsOrderLine'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1372,7 +1511,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4040,6 +4179,302 @@ export namespace Prisma {
           }
         }
       }
+      Device: {
+        payload: Prisma.$DevicePayload<ExtArgs>
+        fields: Prisma.DeviceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DeviceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DeviceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>
+          }
+          findFirst: {
+            args: Prisma.DeviceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DeviceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>
+          }
+          findMany: {
+            args: Prisma.DeviceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>[]
+          }
+          create: {
+            args: Prisma.DeviceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>
+          }
+          createMany: {
+            args: Prisma.DeviceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DeviceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>[]
+          }
+          delete: {
+            args: Prisma.DeviceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>
+          }
+          update: {
+            args: Prisma.DeviceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>
+          }
+          deleteMany: {
+            args: Prisma.DeviceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DeviceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DeviceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>[]
+          }
+          upsert: {
+            args: Prisma.DeviceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevicePayload>
+          }
+          aggregate: {
+            args: Prisma.DeviceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDevice>
+          }
+          groupBy: {
+            args: Prisma.DeviceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DeviceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DeviceCountArgs<ExtArgs>
+            result: $Utils.Optional<DeviceCountAggregateOutputType> | number
+          }
+        }
+      }
+      ScanEvent: {
+        payload: Prisma.$ScanEventPayload<ExtArgs>
+        fields: Prisma.ScanEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScanEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScanEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ScanEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScanEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>
+          }
+          findMany: {
+            args: Prisma.ScanEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>[]
+          }
+          create: {
+            args: Prisma.ScanEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>
+          }
+          createMany: {
+            args: Prisma.ScanEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScanEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ScanEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>
+          }
+          update: {
+            args: Prisma.ScanEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScanEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScanEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScanEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScanEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ScanEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScanEvent>
+          }
+          groupBy: {
+            args: Prisma.ScanEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScanEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScanEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ScanEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      WmsOrder: {
+        payload: Prisma.$WmsOrderPayload<ExtArgs>
+        fields: Prisma.WmsOrderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WmsOrderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WmsOrderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>
+          }
+          findFirst: {
+            args: Prisma.WmsOrderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WmsOrderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>
+          }
+          findMany: {
+            args: Prisma.WmsOrderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>[]
+          }
+          create: {
+            args: Prisma.WmsOrderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>
+          }
+          createMany: {
+            args: Prisma.WmsOrderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WmsOrderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>[]
+          }
+          delete: {
+            args: Prisma.WmsOrderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>
+          }
+          update: {
+            args: Prisma.WmsOrderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>
+          }
+          deleteMany: {
+            args: Prisma.WmsOrderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WmsOrderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WmsOrderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>[]
+          }
+          upsert: {
+            args: Prisma.WmsOrderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderPayload>
+          }
+          aggregate: {
+            args: Prisma.WmsOrderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWmsOrder>
+          }
+          groupBy: {
+            args: Prisma.WmsOrderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WmsOrderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WmsOrderCountArgs<ExtArgs>
+            result: $Utils.Optional<WmsOrderCountAggregateOutputType> | number
+          }
+        }
+      }
+      WmsOrderLine: {
+        payload: Prisma.$WmsOrderLinePayload<ExtArgs>
+        fields: Prisma.WmsOrderLineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WmsOrderLineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WmsOrderLineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>
+          }
+          findFirst: {
+            args: Prisma.WmsOrderLineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WmsOrderLineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>
+          }
+          findMany: {
+            args: Prisma.WmsOrderLineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>[]
+          }
+          create: {
+            args: Prisma.WmsOrderLineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>
+          }
+          createMany: {
+            args: Prisma.WmsOrderLineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WmsOrderLineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>[]
+          }
+          delete: {
+            args: Prisma.WmsOrderLineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>
+          }
+          update: {
+            args: Prisma.WmsOrderLineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>
+          }
+          deleteMany: {
+            args: Prisma.WmsOrderLineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WmsOrderLineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WmsOrderLineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>[]
+          }
+          upsert: {
+            args: Prisma.WmsOrderLineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WmsOrderLinePayload>
+          }
+          aggregate: {
+            args: Prisma.WmsOrderLineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWmsOrderLine>
+          }
+          groupBy: {
+            args: Prisma.WmsOrderLineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WmsOrderLineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WmsOrderLineCountArgs<ExtArgs>
+            result: $Utils.Optional<WmsOrderLineCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4172,6 +4607,10 @@ export namespace Prisma {
     warehouseLocation?: WarehouseLocationOmit
     stockMovement?: StockMovementOmit
     stockReservation?: StockReservationOmit
+    device?: DeviceOmit
+    scanEvent?: ScanEventOmit
+    wmsOrder?: WmsOrderOmit
+    wmsOrderLine?: WmsOrderLineOmit
   }
 
   /* Types for Logging */
@@ -4277,6 +4716,10 @@ export namespace Prisma {
     warehouses: number
     stockMovements: number
     stockReservations: number
+    devices: number
+    scanEvents: number
+    wmsOrders: number
+    wmsOrderLines: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4305,6 +4748,10 @@ export namespace Prisma {
     warehouses?: boolean | TenantCountOutputTypeCountWarehousesArgs
     stockMovements?: boolean | TenantCountOutputTypeCountStockMovementsArgs
     stockReservations?: boolean | TenantCountOutputTypeCountStockReservationsArgs
+    devices?: boolean | TenantCountOutputTypeCountDevicesArgs
+    scanEvents?: boolean | TenantCountOutputTypeCountScanEventsArgs
+    wmsOrders?: boolean | TenantCountOutputTypeCountWmsOrdersArgs
+    wmsOrderLines?: boolean | TenantCountOutputTypeCountWmsOrderLinesArgs
   }
 
   // Custom InputTypes
@@ -4491,6 +4938,34 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountStockReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StockReservationWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountDevicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeviceWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountScanEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScanEventWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountWmsOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WmsOrderWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountWmsOrderLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WmsOrderLineWhereInput
   }
 
 
@@ -4921,6 +5396,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type WmsOrderCountOutputType
+   */
+
+  export type WmsOrderCountOutputType = {
+    lines: number
+  }
+
+  export type WmsOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lines?: boolean | WmsOrderCountOutputTypeCountLinesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WmsOrderCountOutputType without action
+   */
+  export type WmsOrderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderCountOutputType
+     */
+    select?: WmsOrderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WmsOrderCountOutputType without action
+   */
+  export type WmsOrderCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WmsOrderLineWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -5163,6 +5669,10 @@ export namespace Prisma {
     warehouses?: boolean | Tenant$warehousesArgs<ExtArgs>
     stockMovements?: boolean | Tenant$stockMovementsArgs<ExtArgs>
     stockReservations?: boolean | Tenant$stockReservationsArgs<ExtArgs>
+    devices?: boolean | Tenant$devicesArgs<ExtArgs>
+    scanEvents?: boolean | Tenant$scanEventsArgs<ExtArgs>
+    wmsOrders?: boolean | Tenant$wmsOrdersArgs<ExtArgs>
+    wmsOrderLines?: boolean | Tenant$wmsOrderLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -5223,6 +5733,10 @@ export namespace Prisma {
     warehouses?: boolean | Tenant$warehousesArgs<ExtArgs>
     stockMovements?: boolean | Tenant$stockMovementsArgs<ExtArgs>
     stockReservations?: boolean | Tenant$stockReservationsArgs<ExtArgs>
+    devices?: boolean | Tenant$devicesArgs<ExtArgs>
+    scanEvents?: boolean | Tenant$scanEventsArgs<ExtArgs>
+    wmsOrders?: boolean | Tenant$wmsOrdersArgs<ExtArgs>
+    wmsOrderLines?: boolean | Tenant$wmsOrderLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5256,6 +5770,10 @@ export namespace Prisma {
       warehouses: Prisma.$WarehousePayload<ExtArgs>[]
       stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
       stockReservations: Prisma.$StockReservationPayload<ExtArgs>[]
+      devices: Prisma.$DevicePayload<ExtArgs>[]
+      scanEvents: Prisma.$ScanEventPayload<ExtArgs>[]
+      wmsOrders: Prisma.$WmsOrderPayload<ExtArgs>[]
+      wmsOrderLines: Prisma.$WmsOrderLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5684,6 +6202,10 @@ export namespace Prisma {
     warehouses<T extends Tenant$warehousesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehousePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockMovements<T extends Tenant$stockMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockReservations<T extends Tenant$stockReservationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$stockReservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    devices<T extends Tenant$devicesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    scanEvents<T extends Tenant$scanEventsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$scanEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    wmsOrders<T extends Tenant$wmsOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$wmsOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    wmsOrderLines<T extends Tenant$wmsOrderLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$wmsOrderLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6705,6 +7227,102 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StockReservationScalarFieldEnum | StockReservationScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.devices
+   */
+  export type Tenant$devicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    where?: DeviceWhereInput
+    orderBy?: DeviceOrderByWithRelationInput | DeviceOrderByWithRelationInput[]
+    cursor?: DeviceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DeviceScalarFieldEnum | DeviceScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.scanEvents
+   */
+  export type Tenant$scanEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    where?: ScanEventWhereInput
+    orderBy?: ScanEventOrderByWithRelationInput | ScanEventOrderByWithRelationInput[]
+    cursor?: ScanEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScanEventScalarFieldEnum | ScanEventScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.wmsOrders
+   */
+  export type Tenant$wmsOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    where?: WmsOrderWhereInput
+    orderBy?: WmsOrderOrderByWithRelationInput | WmsOrderOrderByWithRelationInput[]
+    cursor?: WmsOrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WmsOrderScalarFieldEnum | WmsOrderScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.wmsOrderLines
+   */
+  export type Tenant$wmsOrderLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    where?: WmsOrderLineWhereInput
+    orderBy?: WmsOrderLineOrderByWithRelationInput | WmsOrderLineOrderByWithRelationInput[]
+    cursor?: WmsOrderLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WmsOrderLineScalarFieldEnum | WmsOrderLineScalarFieldEnum[]
   }
 
   /**
@@ -45779,6 +46397,4588 @@ export namespace Prisma {
 
 
   /**
+   * Model Device
+   */
+
+  export type AggregateDevice = {
+    _count: DeviceCountAggregateOutputType | null
+    _min: DeviceMinAggregateOutputType | null
+    _max: DeviceMaxAggregateOutputType | null
+  }
+
+  export type DeviceMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    deviceType: $Enums.DeviceType | null
+    status: $Enums.DeviceStatus | null
+    enrollmentToken: string | null
+    assignedUserId: string | null
+    branchId: string | null
+    lastSeenAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DeviceMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    deviceType: $Enums.DeviceType | null
+    status: $Enums.DeviceStatus | null
+    enrollmentToken: string | null
+    assignedUserId: string | null
+    branchId: string | null
+    lastSeenAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DeviceCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    deviceType: number
+    status: number
+    enrollmentToken: number
+    capabilities: number
+    assignedUserId: number
+    branchId: number
+    lastSeenAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DeviceMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    deviceType?: true
+    status?: true
+    enrollmentToken?: true
+    assignedUserId?: true
+    branchId?: true
+    lastSeenAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DeviceMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    deviceType?: true
+    status?: true
+    enrollmentToken?: true
+    assignedUserId?: true
+    branchId?: true
+    lastSeenAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DeviceCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    deviceType?: true
+    status?: true
+    enrollmentToken?: true
+    capabilities?: true
+    assignedUserId?: true
+    branchId?: true
+    lastSeenAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DeviceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Device to aggregate.
+     */
+    where?: DeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Devices to fetch.
+     */
+    orderBy?: DeviceOrderByWithRelationInput | DeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Devices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Devices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Devices
+    **/
+    _count?: true | DeviceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DeviceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DeviceMaxAggregateInputType
+  }
+
+  export type GetDeviceAggregateType<T extends DeviceAggregateArgs> = {
+        [P in keyof T & keyof AggregateDevice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDevice[P]>
+      : GetScalarType<T[P], AggregateDevice[P]>
+  }
+
+
+
+
+  export type DeviceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeviceWhereInput
+    orderBy?: DeviceOrderByWithAggregationInput | DeviceOrderByWithAggregationInput[]
+    by: DeviceScalarFieldEnum[] | DeviceScalarFieldEnum
+    having?: DeviceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DeviceCountAggregateInputType | true
+    _min?: DeviceMinAggregateInputType
+    _max?: DeviceMaxAggregateInputType
+  }
+
+  export type DeviceGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: string
+    deviceType: $Enums.DeviceType
+    status: $Enums.DeviceStatus
+    enrollmentToken: string
+    capabilities: JsonValue | null
+    assignedUserId: string | null
+    branchId: string | null
+    lastSeenAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DeviceCountAggregateOutputType | null
+    _min: DeviceMinAggregateOutputType | null
+    _max: DeviceMaxAggregateOutputType | null
+  }
+
+  type GetDeviceGroupByPayload<T extends DeviceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DeviceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DeviceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DeviceGroupByOutputType[P]>
+            : GetScalarType<T[P], DeviceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DeviceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    deviceType?: boolean
+    status?: boolean
+    enrollmentToken?: boolean
+    capabilities?: boolean
+    assignedUserId?: boolean
+    branchId?: boolean
+    lastSeenAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["device"]>
+
+  export type DeviceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    deviceType?: boolean
+    status?: boolean
+    enrollmentToken?: boolean
+    capabilities?: boolean
+    assignedUserId?: boolean
+    branchId?: boolean
+    lastSeenAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["device"]>
+
+  export type DeviceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    deviceType?: boolean
+    status?: boolean
+    enrollmentToken?: boolean
+    capabilities?: boolean
+    assignedUserId?: boolean
+    branchId?: boolean
+    lastSeenAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["device"]>
+
+  export type DeviceSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    deviceType?: boolean
+    status?: boolean
+    enrollmentToken?: boolean
+    capabilities?: boolean
+    assignedUserId?: boolean
+    branchId?: boolean
+    lastSeenAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DeviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "deviceType" | "status" | "enrollmentToken" | "capabilities" | "assignedUserId" | "branchId" | "lastSeenAt" | "createdAt" | "updatedAt", ExtArgs["result"]["device"]>
+  export type DeviceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type DeviceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type DeviceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $DevicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Device"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: string
+      deviceType: $Enums.DeviceType
+      status: $Enums.DeviceStatus
+      /**
+       * One-time secret used by the physical device to claim its identity.
+       */
+      enrollmentToken: string
+      /**
+       * Detected capabilities (VER-019), e.g. {"barcode":true,"camera":false}.
+       */
+      capabilities: Prisma.JsonValue | null
+      assignedUserId: string | null
+      branchId: string | null
+      lastSeenAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["device"]>
+    composites: {}
+  }
+
+  type DeviceGetPayload<S extends boolean | null | undefined | DeviceDefaultArgs> = $Result.GetResult<Prisma.$DevicePayload, S>
+
+  type DeviceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DeviceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DeviceCountAggregateInputType | true
+    }
+
+  export interface DeviceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Device'], meta: { name: 'Device' } }
+    /**
+     * Find zero or one Device that matches the filter.
+     * @param {DeviceFindUniqueArgs} args - Arguments to find a Device
+     * @example
+     * // Get one Device
+     * const device = await prisma.device.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DeviceFindUniqueArgs>(args: SelectSubset<T, DeviceFindUniqueArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Device that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DeviceFindUniqueOrThrowArgs} args - Arguments to find a Device
+     * @example
+     * // Get one Device
+     * const device = await prisma.device.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DeviceFindUniqueOrThrowArgs>(args: SelectSubset<T, DeviceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Device that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeviceFindFirstArgs} args - Arguments to find a Device
+     * @example
+     * // Get one Device
+     * const device = await prisma.device.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DeviceFindFirstArgs>(args?: SelectSubset<T, DeviceFindFirstArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Device that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeviceFindFirstOrThrowArgs} args - Arguments to find a Device
+     * @example
+     * // Get one Device
+     * const device = await prisma.device.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DeviceFindFirstOrThrowArgs>(args?: SelectSubset<T, DeviceFindFirstOrThrowArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Devices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeviceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Devices
+     * const devices = await prisma.device.findMany()
+     * 
+     * // Get first 10 Devices
+     * const devices = await prisma.device.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const deviceWithIdOnly = await prisma.device.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DeviceFindManyArgs>(args?: SelectSubset<T, DeviceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Device.
+     * @param {DeviceCreateArgs} args - Arguments to create a Device.
+     * @example
+     * // Create one Device
+     * const Device = await prisma.device.create({
+     *   data: {
+     *     // ... data to create a Device
+     *   }
+     * })
+     * 
+     */
+    create<T extends DeviceCreateArgs>(args: SelectSubset<T, DeviceCreateArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Devices.
+     * @param {DeviceCreateManyArgs} args - Arguments to create many Devices.
+     * @example
+     * // Create many Devices
+     * const device = await prisma.device.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DeviceCreateManyArgs>(args?: SelectSubset<T, DeviceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Devices and returns the data saved in the database.
+     * @param {DeviceCreateManyAndReturnArgs} args - Arguments to create many Devices.
+     * @example
+     * // Create many Devices
+     * const device = await prisma.device.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Devices and only return the `id`
+     * const deviceWithIdOnly = await prisma.device.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DeviceCreateManyAndReturnArgs>(args?: SelectSubset<T, DeviceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Device.
+     * @param {DeviceDeleteArgs} args - Arguments to delete one Device.
+     * @example
+     * // Delete one Device
+     * const Device = await prisma.device.delete({
+     *   where: {
+     *     // ... filter to delete one Device
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DeviceDeleteArgs>(args: SelectSubset<T, DeviceDeleteArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Device.
+     * @param {DeviceUpdateArgs} args - Arguments to update one Device.
+     * @example
+     * // Update one Device
+     * const device = await prisma.device.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DeviceUpdateArgs>(args: SelectSubset<T, DeviceUpdateArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Devices.
+     * @param {DeviceDeleteManyArgs} args - Arguments to filter Devices to delete.
+     * @example
+     * // Delete a few Devices
+     * const { count } = await prisma.device.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DeviceDeleteManyArgs>(args?: SelectSubset<T, DeviceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Devices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeviceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Devices
+     * const device = await prisma.device.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DeviceUpdateManyArgs>(args: SelectSubset<T, DeviceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Devices and returns the data updated in the database.
+     * @param {DeviceUpdateManyAndReturnArgs} args - Arguments to update many Devices.
+     * @example
+     * // Update many Devices
+     * const device = await prisma.device.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Devices and only return the `id`
+     * const deviceWithIdOnly = await prisma.device.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DeviceUpdateManyAndReturnArgs>(args: SelectSubset<T, DeviceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Device.
+     * @param {DeviceUpsertArgs} args - Arguments to update or create a Device.
+     * @example
+     * // Update or create a Device
+     * const device = await prisma.device.upsert({
+     *   create: {
+     *     // ... data to create a Device
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Device we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DeviceUpsertArgs>(args: SelectSubset<T, DeviceUpsertArgs<ExtArgs>>): Prisma__DeviceClient<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Devices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeviceCountArgs} args - Arguments to filter Devices to count.
+     * @example
+     * // Count the number of Devices
+     * const count = await prisma.device.count({
+     *   where: {
+     *     // ... the filter for the Devices we want to count
+     *   }
+     * })
+    **/
+    count<T extends DeviceCountArgs>(
+      args?: Subset<T, DeviceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DeviceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Device.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeviceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DeviceAggregateArgs>(args: Subset<T, DeviceAggregateArgs>): Prisma.PrismaPromise<GetDeviceAggregateType<T>>
+
+    /**
+     * Group by Device.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeviceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DeviceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DeviceGroupByArgs['orderBy'] }
+        : { orderBy?: DeviceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DeviceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDeviceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Device model
+   */
+  readonly fields: DeviceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Device.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Device model
+   */
+  interface DeviceFieldRefs {
+    readonly id: FieldRef<"Device", 'String'>
+    readonly tenantId: FieldRef<"Device", 'String'>
+    readonly code: FieldRef<"Device", 'String'>
+    readonly name: FieldRef<"Device", 'String'>
+    readonly deviceType: FieldRef<"Device", 'DeviceType'>
+    readonly status: FieldRef<"Device", 'DeviceStatus'>
+    readonly enrollmentToken: FieldRef<"Device", 'String'>
+    readonly capabilities: FieldRef<"Device", 'Json'>
+    readonly assignedUserId: FieldRef<"Device", 'String'>
+    readonly branchId: FieldRef<"Device", 'String'>
+    readonly lastSeenAt: FieldRef<"Device", 'DateTime'>
+    readonly createdAt: FieldRef<"Device", 'DateTime'>
+    readonly updatedAt: FieldRef<"Device", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Device findUnique
+   */
+  export type DeviceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Device to fetch.
+     */
+    where: DeviceWhereUniqueInput
+  }
+
+  /**
+   * Device findUniqueOrThrow
+   */
+  export type DeviceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Device to fetch.
+     */
+    where: DeviceWhereUniqueInput
+  }
+
+  /**
+   * Device findFirst
+   */
+  export type DeviceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Device to fetch.
+     */
+    where?: DeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Devices to fetch.
+     */
+    orderBy?: DeviceOrderByWithRelationInput | DeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Devices.
+     */
+    cursor?: DeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Devices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Devices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Devices.
+     */
+    distinct?: DeviceScalarFieldEnum | DeviceScalarFieldEnum[]
+  }
+
+  /**
+   * Device findFirstOrThrow
+   */
+  export type DeviceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Device to fetch.
+     */
+    where?: DeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Devices to fetch.
+     */
+    orderBy?: DeviceOrderByWithRelationInput | DeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Devices.
+     */
+    cursor?: DeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Devices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Devices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Devices.
+     */
+    distinct?: DeviceScalarFieldEnum | DeviceScalarFieldEnum[]
+  }
+
+  /**
+   * Device findMany
+   */
+  export type DeviceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Devices to fetch.
+     */
+    where?: DeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Devices to fetch.
+     */
+    orderBy?: DeviceOrderByWithRelationInput | DeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Devices.
+     */
+    cursor?: DeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Devices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Devices.
+     */
+    skip?: number
+    distinct?: DeviceScalarFieldEnum | DeviceScalarFieldEnum[]
+  }
+
+  /**
+   * Device create
+   */
+  export type DeviceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Device.
+     */
+    data: XOR<DeviceCreateInput, DeviceUncheckedCreateInput>
+  }
+
+  /**
+   * Device createMany
+   */
+  export type DeviceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Devices.
+     */
+    data: DeviceCreateManyInput | DeviceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Device createManyAndReturn
+   */
+  export type DeviceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Devices.
+     */
+    data: DeviceCreateManyInput | DeviceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Device update
+   */
+  export type DeviceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Device.
+     */
+    data: XOR<DeviceUpdateInput, DeviceUncheckedUpdateInput>
+    /**
+     * Choose, which Device to update.
+     */
+    where: DeviceWhereUniqueInput
+  }
+
+  /**
+   * Device updateMany
+   */
+  export type DeviceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Devices.
+     */
+    data: XOR<DeviceUpdateManyMutationInput, DeviceUncheckedUpdateManyInput>
+    /**
+     * Filter which Devices to update
+     */
+    where?: DeviceWhereInput
+    /**
+     * Limit how many Devices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Device updateManyAndReturn
+   */
+  export type DeviceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * The data used to update Devices.
+     */
+    data: XOR<DeviceUpdateManyMutationInput, DeviceUncheckedUpdateManyInput>
+    /**
+     * Filter which Devices to update
+     */
+    where?: DeviceWhereInput
+    /**
+     * Limit how many Devices to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Device upsert
+   */
+  export type DeviceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Device to update in case it exists.
+     */
+    where: DeviceWhereUniqueInput
+    /**
+     * In case the Device found by the `where` argument doesn't exist, create a new Device with this data.
+     */
+    create: XOR<DeviceCreateInput, DeviceUncheckedCreateInput>
+    /**
+     * In case the Device was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DeviceUpdateInput, DeviceUncheckedUpdateInput>
+  }
+
+  /**
+   * Device delete
+   */
+  export type DeviceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
+     * Filter which Device to delete.
+     */
+    where: DeviceWhereUniqueInput
+  }
+
+  /**
+   * Device deleteMany
+   */
+  export type DeviceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Devices to delete
+     */
+    where?: DeviceWhereInput
+    /**
+     * Limit how many Devices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Device without action
+   */
+  export type DeviceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ScanEvent
+   */
+
+  export type AggregateScanEvent = {
+    _count: ScanEventCountAggregateOutputType | null
+    _min: ScanEventMinAggregateOutputType | null
+    _max: ScanEventMaxAggregateOutputType | null
+  }
+
+  export type ScanEventMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    deviceId: string | null
+    kind: $Enums.ScanKind | null
+    value: string | null
+    clientEventId: string | null
+    capturedAt: Date | null
+    receivedAt: Date | null
+    correlationId: string | null
+    resolvedSkuId: string | null
+  }
+
+  export type ScanEventMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    deviceId: string | null
+    kind: $Enums.ScanKind | null
+    value: string | null
+    clientEventId: string | null
+    capturedAt: Date | null
+    receivedAt: Date | null
+    correlationId: string | null
+    resolvedSkuId: string | null
+  }
+
+  export type ScanEventCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    deviceId: number
+    kind: number
+    value: number
+    context: number
+    clientEventId: number
+    capturedAt: number
+    receivedAt: number
+    correlationId: number
+    resolvedSkuId: number
+    _all: number
+  }
+
+
+  export type ScanEventMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    deviceId?: true
+    kind?: true
+    value?: true
+    clientEventId?: true
+    capturedAt?: true
+    receivedAt?: true
+    correlationId?: true
+    resolvedSkuId?: true
+  }
+
+  export type ScanEventMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    deviceId?: true
+    kind?: true
+    value?: true
+    clientEventId?: true
+    capturedAt?: true
+    receivedAt?: true
+    correlationId?: true
+    resolvedSkuId?: true
+  }
+
+  export type ScanEventCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    deviceId?: true
+    kind?: true
+    value?: true
+    context?: true
+    clientEventId?: true
+    capturedAt?: true
+    receivedAt?: true
+    correlationId?: true
+    resolvedSkuId?: true
+    _all?: true
+  }
+
+  export type ScanEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScanEvent to aggregate.
+     */
+    where?: ScanEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanEvents to fetch.
+     */
+    orderBy?: ScanEventOrderByWithRelationInput | ScanEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScanEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScanEvents
+    **/
+    _count?: true | ScanEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScanEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScanEventMaxAggregateInputType
+  }
+
+  export type GetScanEventAggregateType<T extends ScanEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateScanEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScanEvent[P]>
+      : GetScalarType<T[P], AggregateScanEvent[P]>
+  }
+
+
+
+
+  export type ScanEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScanEventWhereInput
+    orderBy?: ScanEventOrderByWithAggregationInput | ScanEventOrderByWithAggregationInput[]
+    by: ScanEventScalarFieldEnum[] | ScanEventScalarFieldEnum
+    having?: ScanEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScanEventCountAggregateInputType | true
+    _min?: ScanEventMinAggregateInputType
+    _max?: ScanEventMaxAggregateInputType
+  }
+
+  export type ScanEventGroupByOutputType = {
+    id: string
+    tenantId: string
+    deviceId: string
+    kind: $Enums.ScanKind
+    value: string
+    context: JsonValue | null
+    clientEventId: string
+    capturedAt: Date
+    receivedAt: Date
+    correlationId: string | null
+    resolvedSkuId: string | null
+    _count: ScanEventCountAggregateOutputType | null
+    _min: ScanEventMinAggregateOutputType | null
+    _max: ScanEventMaxAggregateOutputType | null
+  }
+
+  type GetScanEventGroupByPayload<T extends ScanEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScanEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScanEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScanEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ScanEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScanEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    deviceId?: boolean
+    kind?: boolean
+    value?: boolean
+    context?: boolean
+    clientEventId?: boolean
+    capturedAt?: boolean
+    receivedAt?: boolean
+    correlationId?: boolean
+    resolvedSkuId?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scanEvent"]>
+
+  export type ScanEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    deviceId?: boolean
+    kind?: boolean
+    value?: boolean
+    context?: boolean
+    clientEventId?: boolean
+    capturedAt?: boolean
+    receivedAt?: boolean
+    correlationId?: boolean
+    resolvedSkuId?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scanEvent"]>
+
+  export type ScanEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    deviceId?: boolean
+    kind?: boolean
+    value?: boolean
+    context?: boolean
+    clientEventId?: boolean
+    capturedAt?: boolean
+    receivedAt?: boolean
+    correlationId?: boolean
+    resolvedSkuId?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scanEvent"]>
+
+  export type ScanEventSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    deviceId?: boolean
+    kind?: boolean
+    value?: boolean
+    context?: boolean
+    clientEventId?: boolean
+    capturedAt?: boolean
+    receivedAt?: boolean
+    correlationId?: boolean
+    resolvedSkuId?: boolean
+  }
+
+  export type ScanEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "deviceId" | "kind" | "value" | "context" | "clientEventId" | "capturedAt" | "receivedAt" | "correlationId" | "resolvedSkuId", ExtArgs["result"]["scanEvent"]>
+  export type ScanEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type ScanEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type ScanEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $ScanEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScanEvent"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      deviceId: string
+      kind: $Enums.ScanKind
+      value: string
+      context: Prisma.JsonValue | null
+      clientEventId: string
+      capturedAt: Date
+      receivedAt: Date
+      correlationId: string | null
+      resolvedSkuId: string | null
+    }, ExtArgs["result"]["scanEvent"]>
+    composites: {}
+  }
+
+  type ScanEventGetPayload<S extends boolean | null | undefined | ScanEventDefaultArgs> = $Result.GetResult<Prisma.$ScanEventPayload, S>
+
+  type ScanEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScanEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScanEventCountAggregateInputType | true
+    }
+
+  export interface ScanEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScanEvent'], meta: { name: 'ScanEvent' } }
+    /**
+     * Find zero or one ScanEvent that matches the filter.
+     * @param {ScanEventFindUniqueArgs} args - Arguments to find a ScanEvent
+     * @example
+     * // Get one ScanEvent
+     * const scanEvent = await prisma.scanEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScanEventFindUniqueArgs>(args: SelectSubset<T, ScanEventFindUniqueArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ScanEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScanEventFindUniqueOrThrowArgs} args - Arguments to find a ScanEvent
+     * @example
+     * // Get one ScanEvent
+     * const scanEvent = await prisma.scanEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScanEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ScanEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScanEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanEventFindFirstArgs} args - Arguments to find a ScanEvent
+     * @example
+     * // Get one ScanEvent
+     * const scanEvent = await prisma.scanEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScanEventFindFirstArgs>(args?: SelectSubset<T, ScanEventFindFirstArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScanEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanEventFindFirstOrThrowArgs} args - Arguments to find a ScanEvent
+     * @example
+     * // Get one ScanEvent
+     * const scanEvent = await prisma.scanEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScanEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ScanEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ScanEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScanEvents
+     * const scanEvents = await prisma.scanEvent.findMany()
+     * 
+     * // Get first 10 ScanEvents
+     * const scanEvents = await prisma.scanEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scanEventWithIdOnly = await prisma.scanEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScanEventFindManyArgs>(args?: SelectSubset<T, ScanEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ScanEvent.
+     * @param {ScanEventCreateArgs} args - Arguments to create a ScanEvent.
+     * @example
+     * // Create one ScanEvent
+     * const ScanEvent = await prisma.scanEvent.create({
+     *   data: {
+     *     // ... data to create a ScanEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScanEventCreateArgs>(args: SelectSubset<T, ScanEventCreateArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ScanEvents.
+     * @param {ScanEventCreateManyArgs} args - Arguments to create many ScanEvents.
+     * @example
+     * // Create many ScanEvents
+     * const scanEvent = await prisma.scanEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScanEventCreateManyArgs>(args?: SelectSubset<T, ScanEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScanEvents and returns the data saved in the database.
+     * @param {ScanEventCreateManyAndReturnArgs} args - Arguments to create many ScanEvents.
+     * @example
+     * // Create many ScanEvents
+     * const scanEvent = await prisma.scanEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScanEvents and only return the `id`
+     * const scanEventWithIdOnly = await prisma.scanEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScanEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ScanEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ScanEvent.
+     * @param {ScanEventDeleteArgs} args - Arguments to delete one ScanEvent.
+     * @example
+     * // Delete one ScanEvent
+     * const ScanEvent = await prisma.scanEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ScanEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScanEventDeleteArgs>(args: SelectSubset<T, ScanEventDeleteArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ScanEvent.
+     * @param {ScanEventUpdateArgs} args - Arguments to update one ScanEvent.
+     * @example
+     * // Update one ScanEvent
+     * const scanEvent = await prisma.scanEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScanEventUpdateArgs>(args: SelectSubset<T, ScanEventUpdateArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ScanEvents.
+     * @param {ScanEventDeleteManyArgs} args - Arguments to filter ScanEvents to delete.
+     * @example
+     * // Delete a few ScanEvents
+     * const { count } = await prisma.scanEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScanEventDeleteManyArgs>(args?: SelectSubset<T, ScanEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScanEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScanEvents
+     * const scanEvent = await prisma.scanEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScanEventUpdateManyArgs>(args: SelectSubset<T, ScanEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScanEvents and returns the data updated in the database.
+     * @param {ScanEventUpdateManyAndReturnArgs} args - Arguments to update many ScanEvents.
+     * @example
+     * // Update many ScanEvents
+     * const scanEvent = await prisma.scanEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScanEvents and only return the `id`
+     * const scanEventWithIdOnly = await prisma.scanEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScanEventUpdateManyAndReturnArgs>(args: SelectSubset<T, ScanEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ScanEvent.
+     * @param {ScanEventUpsertArgs} args - Arguments to update or create a ScanEvent.
+     * @example
+     * // Update or create a ScanEvent
+     * const scanEvent = await prisma.scanEvent.upsert({
+     *   create: {
+     *     // ... data to create a ScanEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScanEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScanEventUpsertArgs>(args: SelectSubset<T, ScanEventUpsertArgs<ExtArgs>>): Prisma__ScanEventClient<$Result.GetResult<Prisma.$ScanEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ScanEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanEventCountArgs} args - Arguments to filter ScanEvents to count.
+     * @example
+     * // Count the number of ScanEvents
+     * const count = await prisma.scanEvent.count({
+     *   where: {
+     *     // ... the filter for the ScanEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScanEventCountArgs>(
+      args?: Subset<T, ScanEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScanEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScanEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScanEventAggregateArgs>(args: Subset<T, ScanEventAggregateArgs>): Prisma.PrismaPromise<GetScanEventAggregateType<T>>
+
+    /**
+     * Group by ScanEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScanEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScanEventGroupByArgs['orderBy'] }
+        : { orderBy?: ScanEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScanEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScanEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScanEvent model
+   */
+  readonly fields: ScanEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScanEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScanEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScanEvent model
+   */
+  interface ScanEventFieldRefs {
+    readonly id: FieldRef<"ScanEvent", 'String'>
+    readonly tenantId: FieldRef<"ScanEvent", 'String'>
+    readonly deviceId: FieldRef<"ScanEvent", 'String'>
+    readonly kind: FieldRef<"ScanEvent", 'ScanKind'>
+    readonly value: FieldRef<"ScanEvent", 'String'>
+    readonly context: FieldRef<"ScanEvent", 'Json'>
+    readonly clientEventId: FieldRef<"ScanEvent", 'String'>
+    readonly capturedAt: FieldRef<"ScanEvent", 'DateTime'>
+    readonly receivedAt: FieldRef<"ScanEvent", 'DateTime'>
+    readonly correlationId: FieldRef<"ScanEvent", 'String'>
+    readonly resolvedSkuId: FieldRef<"ScanEvent", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScanEvent findUnique
+   */
+  export type ScanEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanEvent to fetch.
+     */
+    where: ScanEventWhereUniqueInput
+  }
+
+  /**
+   * ScanEvent findUniqueOrThrow
+   */
+  export type ScanEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanEvent to fetch.
+     */
+    where: ScanEventWhereUniqueInput
+  }
+
+  /**
+   * ScanEvent findFirst
+   */
+  export type ScanEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanEvent to fetch.
+     */
+    where?: ScanEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanEvents to fetch.
+     */
+    orderBy?: ScanEventOrderByWithRelationInput | ScanEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScanEvents.
+     */
+    cursor?: ScanEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScanEvents.
+     */
+    distinct?: ScanEventScalarFieldEnum | ScanEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScanEvent findFirstOrThrow
+   */
+  export type ScanEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanEvent to fetch.
+     */
+    where?: ScanEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanEvents to fetch.
+     */
+    orderBy?: ScanEventOrderByWithRelationInput | ScanEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScanEvents.
+     */
+    cursor?: ScanEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScanEvents.
+     */
+    distinct?: ScanEventScalarFieldEnum | ScanEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScanEvent findMany
+   */
+  export type ScanEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanEvents to fetch.
+     */
+    where?: ScanEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanEvents to fetch.
+     */
+    orderBy?: ScanEventOrderByWithRelationInput | ScanEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScanEvents.
+     */
+    cursor?: ScanEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanEvents.
+     */
+    skip?: number
+    distinct?: ScanEventScalarFieldEnum | ScanEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScanEvent create
+   */
+  export type ScanEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScanEvent.
+     */
+    data: XOR<ScanEventCreateInput, ScanEventUncheckedCreateInput>
+  }
+
+  /**
+   * ScanEvent createMany
+   */
+  export type ScanEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScanEvents.
+     */
+    data: ScanEventCreateManyInput | ScanEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScanEvent createManyAndReturn
+   */
+  export type ScanEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScanEvents.
+     */
+    data: ScanEventCreateManyInput | ScanEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScanEvent update
+   */
+  export type ScanEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScanEvent.
+     */
+    data: XOR<ScanEventUpdateInput, ScanEventUncheckedUpdateInput>
+    /**
+     * Choose, which ScanEvent to update.
+     */
+    where: ScanEventWhereUniqueInput
+  }
+
+  /**
+   * ScanEvent updateMany
+   */
+  export type ScanEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScanEvents.
+     */
+    data: XOR<ScanEventUpdateManyMutationInput, ScanEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ScanEvents to update
+     */
+    where?: ScanEventWhereInput
+    /**
+     * Limit how many ScanEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScanEvent updateManyAndReturn
+   */
+  export type ScanEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * The data used to update ScanEvents.
+     */
+    data: XOR<ScanEventUpdateManyMutationInput, ScanEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ScanEvents to update
+     */
+    where?: ScanEventWhereInput
+    /**
+     * Limit how many ScanEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScanEvent upsert
+   */
+  export type ScanEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScanEvent to update in case it exists.
+     */
+    where: ScanEventWhereUniqueInput
+    /**
+     * In case the ScanEvent found by the `where` argument doesn't exist, create a new ScanEvent with this data.
+     */
+    create: XOR<ScanEventCreateInput, ScanEventUncheckedCreateInput>
+    /**
+     * In case the ScanEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScanEventUpdateInput, ScanEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ScanEvent delete
+   */
+  export type ScanEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+    /**
+     * Filter which ScanEvent to delete.
+     */
+    where: ScanEventWhereUniqueInput
+  }
+
+  /**
+   * ScanEvent deleteMany
+   */
+  export type ScanEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScanEvents to delete
+     */
+    where?: ScanEventWhereInput
+    /**
+     * Limit how many ScanEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScanEvent without action
+   */
+  export type ScanEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanEvent
+     */
+    select?: ScanEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanEvent
+     */
+    omit?: ScanEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanEventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WmsOrder
+   */
+
+  export type AggregateWmsOrder = {
+    _count: WmsOrderCountAggregateOutputType | null
+    _min: WmsOrderMinAggregateOutputType | null
+    _max: WmsOrderMaxAggregateOutputType | null
+  }
+
+  export type WmsOrderMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    orderType: $Enums.WmsOrderType | null
+    status: $Enums.WmsOrderStatus | null
+    warehouseId: string | null
+    toWarehouseId: string | null
+    reference: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type WmsOrderMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    orderType: $Enums.WmsOrderType | null
+    status: $Enums.WmsOrderStatus | null
+    warehouseId: string | null
+    toWarehouseId: string | null
+    reference: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type WmsOrderCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    orderType: number
+    status: number
+    warehouseId: number
+    toWarehouseId: number
+    reference: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    completedAt: number
+    _all: number
+  }
+
+
+  export type WmsOrderMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderType?: true
+    status?: true
+    warehouseId?: true
+    toWarehouseId?: true
+    reference?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    completedAt?: true
+  }
+
+  export type WmsOrderMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderType?: true
+    status?: true
+    warehouseId?: true
+    toWarehouseId?: true
+    reference?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    completedAt?: true
+  }
+
+  export type WmsOrderCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderType?: true
+    status?: true
+    warehouseId?: true
+    toWarehouseId?: true
+    reference?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    completedAt?: true
+    _all?: true
+  }
+
+  export type WmsOrderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WmsOrder to aggregate.
+     */
+    where?: WmsOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrders to fetch.
+     */
+    orderBy?: WmsOrderOrderByWithRelationInput | WmsOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WmsOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WmsOrders
+    **/
+    _count?: true | WmsOrderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WmsOrderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WmsOrderMaxAggregateInputType
+  }
+
+  export type GetWmsOrderAggregateType<T extends WmsOrderAggregateArgs> = {
+        [P in keyof T & keyof AggregateWmsOrder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWmsOrder[P]>
+      : GetScalarType<T[P], AggregateWmsOrder[P]>
+  }
+
+
+
+
+  export type WmsOrderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WmsOrderWhereInput
+    orderBy?: WmsOrderOrderByWithAggregationInput | WmsOrderOrderByWithAggregationInput[]
+    by: WmsOrderScalarFieldEnum[] | WmsOrderScalarFieldEnum
+    having?: WmsOrderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WmsOrderCountAggregateInputType | true
+    _min?: WmsOrderMinAggregateInputType
+    _max?: WmsOrderMaxAggregateInputType
+  }
+
+  export type WmsOrderGroupByOutputType = {
+    id: string
+    tenantId: string
+    orderType: $Enums.WmsOrderType
+    status: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId: string | null
+    reference: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    completedAt: Date | null
+    _count: WmsOrderCountAggregateOutputType | null
+    _min: WmsOrderMinAggregateOutputType | null
+    _max: WmsOrderMaxAggregateOutputType | null
+  }
+
+  type GetWmsOrderGroupByPayload<T extends WmsOrderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WmsOrderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WmsOrderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WmsOrderGroupByOutputType[P]>
+            : GetScalarType<T[P], WmsOrderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WmsOrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderType?: boolean
+    status?: boolean
+    warehouseId?: boolean
+    toWarehouseId?: boolean
+    reference?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    completedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | WmsOrder$linesArgs<ExtArgs>
+    _count?: boolean | WmsOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wmsOrder"]>
+
+  export type WmsOrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderType?: boolean
+    status?: boolean
+    warehouseId?: boolean
+    toWarehouseId?: boolean
+    reference?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    completedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wmsOrder"]>
+
+  export type WmsOrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderType?: boolean
+    status?: boolean
+    warehouseId?: boolean
+    toWarehouseId?: boolean
+    reference?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    completedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wmsOrder"]>
+
+  export type WmsOrderSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    orderType?: boolean
+    status?: boolean
+    warehouseId?: boolean
+    toWarehouseId?: boolean
+    reference?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    completedAt?: boolean
+  }
+
+  export type WmsOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderType" | "status" | "warehouseId" | "toWarehouseId" | "reference" | "createdBy" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["wmsOrder"]>
+  export type WmsOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | WmsOrder$linesArgs<ExtArgs>
+    _count?: boolean | WmsOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WmsOrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type WmsOrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $WmsOrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WmsOrder"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      lines: Prisma.$WmsOrderLinePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      orderType: $Enums.WmsOrderType
+      status: $Enums.WmsOrderStatus
+      warehouseId: string
+      /**
+       * Destination warehouse for transfers.
+       */
+      toWarehouseId: string | null
+      reference: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+      completedAt: Date | null
+    }, ExtArgs["result"]["wmsOrder"]>
+    composites: {}
+  }
+
+  type WmsOrderGetPayload<S extends boolean | null | undefined | WmsOrderDefaultArgs> = $Result.GetResult<Prisma.$WmsOrderPayload, S>
+
+  type WmsOrderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WmsOrderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WmsOrderCountAggregateInputType | true
+    }
+
+  export interface WmsOrderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WmsOrder'], meta: { name: 'WmsOrder' } }
+    /**
+     * Find zero or one WmsOrder that matches the filter.
+     * @param {WmsOrderFindUniqueArgs} args - Arguments to find a WmsOrder
+     * @example
+     * // Get one WmsOrder
+     * const wmsOrder = await prisma.wmsOrder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WmsOrderFindUniqueArgs>(args: SelectSubset<T, WmsOrderFindUniqueArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WmsOrder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WmsOrderFindUniqueOrThrowArgs} args - Arguments to find a WmsOrder
+     * @example
+     * // Get one WmsOrder
+     * const wmsOrder = await prisma.wmsOrder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WmsOrderFindUniqueOrThrowArgs>(args: SelectSubset<T, WmsOrderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WmsOrder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderFindFirstArgs} args - Arguments to find a WmsOrder
+     * @example
+     * // Get one WmsOrder
+     * const wmsOrder = await prisma.wmsOrder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WmsOrderFindFirstArgs>(args?: SelectSubset<T, WmsOrderFindFirstArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WmsOrder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderFindFirstOrThrowArgs} args - Arguments to find a WmsOrder
+     * @example
+     * // Get one WmsOrder
+     * const wmsOrder = await prisma.wmsOrder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WmsOrderFindFirstOrThrowArgs>(args?: SelectSubset<T, WmsOrderFindFirstOrThrowArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WmsOrders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WmsOrders
+     * const wmsOrders = await prisma.wmsOrder.findMany()
+     * 
+     * // Get first 10 WmsOrders
+     * const wmsOrders = await prisma.wmsOrder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const wmsOrderWithIdOnly = await prisma.wmsOrder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WmsOrderFindManyArgs>(args?: SelectSubset<T, WmsOrderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WmsOrder.
+     * @param {WmsOrderCreateArgs} args - Arguments to create a WmsOrder.
+     * @example
+     * // Create one WmsOrder
+     * const WmsOrder = await prisma.wmsOrder.create({
+     *   data: {
+     *     // ... data to create a WmsOrder
+     *   }
+     * })
+     * 
+     */
+    create<T extends WmsOrderCreateArgs>(args: SelectSubset<T, WmsOrderCreateArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WmsOrders.
+     * @param {WmsOrderCreateManyArgs} args - Arguments to create many WmsOrders.
+     * @example
+     * // Create many WmsOrders
+     * const wmsOrder = await prisma.wmsOrder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WmsOrderCreateManyArgs>(args?: SelectSubset<T, WmsOrderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WmsOrders and returns the data saved in the database.
+     * @param {WmsOrderCreateManyAndReturnArgs} args - Arguments to create many WmsOrders.
+     * @example
+     * // Create many WmsOrders
+     * const wmsOrder = await prisma.wmsOrder.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WmsOrders and only return the `id`
+     * const wmsOrderWithIdOnly = await prisma.wmsOrder.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WmsOrderCreateManyAndReturnArgs>(args?: SelectSubset<T, WmsOrderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WmsOrder.
+     * @param {WmsOrderDeleteArgs} args - Arguments to delete one WmsOrder.
+     * @example
+     * // Delete one WmsOrder
+     * const WmsOrder = await prisma.wmsOrder.delete({
+     *   where: {
+     *     // ... filter to delete one WmsOrder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WmsOrderDeleteArgs>(args: SelectSubset<T, WmsOrderDeleteArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WmsOrder.
+     * @param {WmsOrderUpdateArgs} args - Arguments to update one WmsOrder.
+     * @example
+     * // Update one WmsOrder
+     * const wmsOrder = await prisma.wmsOrder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WmsOrderUpdateArgs>(args: SelectSubset<T, WmsOrderUpdateArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WmsOrders.
+     * @param {WmsOrderDeleteManyArgs} args - Arguments to filter WmsOrders to delete.
+     * @example
+     * // Delete a few WmsOrders
+     * const { count } = await prisma.wmsOrder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WmsOrderDeleteManyArgs>(args?: SelectSubset<T, WmsOrderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WmsOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WmsOrders
+     * const wmsOrder = await prisma.wmsOrder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WmsOrderUpdateManyArgs>(args: SelectSubset<T, WmsOrderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WmsOrders and returns the data updated in the database.
+     * @param {WmsOrderUpdateManyAndReturnArgs} args - Arguments to update many WmsOrders.
+     * @example
+     * // Update many WmsOrders
+     * const wmsOrder = await prisma.wmsOrder.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WmsOrders and only return the `id`
+     * const wmsOrderWithIdOnly = await prisma.wmsOrder.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WmsOrderUpdateManyAndReturnArgs>(args: SelectSubset<T, WmsOrderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WmsOrder.
+     * @param {WmsOrderUpsertArgs} args - Arguments to update or create a WmsOrder.
+     * @example
+     * // Update or create a WmsOrder
+     * const wmsOrder = await prisma.wmsOrder.upsert({
+     *   create: {
+     *     // ... data to create a WmsOrder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WmsOrder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WmsOrderUpsertArgs>(args: SelectSubset<T, WmsOrderUpsertArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WmsOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderCountArgs} args - Arguments to filter WmsOrders to count.
+     * @example
+     * // Count the number of WmsOrders
+     * const count = await prisma.wmsOrder.count({
+     *   where: {
+     *     // ... the filter for the WmsOrders we want to count
+     *   }
+     * })
+    **/
+    count<T extends WmsOrderCountArgs>(
+      args?: Subset<T, WmsOrderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WmsOrderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WmsOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WmsOrderAggregateArgs>(args: Subset<T, WmsOrderAggregateArgs>): Prisma.PrismaPromise<GetWmsOrderAggregateType<T>>
+
+    /**
+     * Group by WmsOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WmsOrderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WmsOrderGroupByArgs['orderBy'] }
+        : { orderBy?: WmsOrderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WmsOrderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWmsOrderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WmsOrder model
+   */
+  readonly fields: WmsOrderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WmsOrder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WmsOrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lines<T extends WmsOrder$linesArgs<ExtArgs> = {}>(args?: Subset<T, WmsOrder$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WmsOrder model
+   */
+  interface WmsOrderFieldRefs {
+    readonly id: FieldRef<"WmsOrder", 'String'>
+    readonly tenantId: FieldRef<"WmsOrder", 'String'>
+    readonly orderType: FieldRef<"WmsOrder", 'WmsOrderType'>
+    readonly status: FieldRef<"WmsOrder", 'WmsOrderStatus'>
+    readonly warehouseId: FieldRef<"WmsOrder", 'String'>
+    readonly toWarehouseId: FieldRef<"WmsOrder", 'String'>
+    readonly reference: FieldRef<"WmsOrder", 'String'>
+    readonly createdBy: FieldRef<"WmsOrder", 'String'>
+    readonly createdAt: FieldRef<"WmsOrder", 'DateTime'>
+    readonly updatedAt: FieldRef<"WmsOrder", 'DateTime'>
+    readonly completedAt: FieldRef<"WmsOrder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WmsOrder findUnique
+   */
+  export type WmsOrderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrder to fetch.
+     */
+    where: WmsOrderWhereUniqueInput
+  }
+
+  /**
+   * WmsOrder findUniqueOrThrow
+   */
+  export type WmsOrderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrder to fetch.
+     */
+    where: WmsOrderWhereUniqueInput
+  }
+
+  /**
+   * WmsOrder findFirst
+   */
+  export type WmsOrderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrder to fetch.
+     */
+    where?: WmsOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrders to fetch.
+     */
+    orderBy?: WmsOrderOrderByWithRelationInput | WmsOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WmsOrders.
+     */
+    cursor?: WmsOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WmsOrders.
+     */
+    distinct?: WmsOrderScalarFieldEnum | WmsOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WmsOrder findFirstOrThrow
+   */
+  export type WmsOrderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrder to fetch.
+     */
+    where?: WmsOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrders to fetch.
+     */
+    orderBy?: WmsOrderOrderByWithRelationInput | WmsOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WmsOrders.
+     */
+    cursor?: WmsOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WmsOrders.
+     */
+    distinct?: WmsOrderScalarFieldEnum | WmsOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WmsOrder findMany
+   */
+  export type WmsOrderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrders to fetch.
+     */
+    where?: WmsOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrders to fetch.
+     */
+    orderBy?: WmsOrderOrderByWithRelationInput | WmsOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WmsOrders.
+     */
+    cursor?: WmsOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrders.
+     */
+    skip?: number
+    distinct?: WmsOrderScalarFieldEnum | WmsOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WmsOrder create
+   */
+  export type WmsOrderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WmsOrder.
+     */
+    data: XOR<WmsOrderCreateInput, WmsOrderUncheckedCreateInput>
+  }
+
+  /**
+   * WmsOrder createMany
+   */
+  export type WmsOrderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WmsOrders.
+     */
+    data: WmsOrderCreateManyInput | WmsOrderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WmsOrder createManyAndReturn
+   */
+  export type WmsOrderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * The data used to create many WmsOrders.
+     */
+    data: WmsOrderCreateManyInput | WmsOrderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WmsOrder update
+   */
+  export type WmsOrderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WmsOrder.
+     */
+    data: XOR<WmsOrderUpdateInput, WmsOrderUncheckedUpdateInput>
+    /**
+     * Choose, which WmsOrder to update.
+     */
+    where: WmsOrderWhereUniqueInput
+  }
+
+  /**
+   * WmsOrder updateMany
+   */
+  export type WmsOrderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WmsOrders.
+     */
+    data: XOR<WmsOrderUpdateManyMutationInput, WmsOrderUncheckedUpdateManyInput>
+    /**
+     * Filter which WmsOrders to update
+     */
+    where?: WmsOrderWhereInput
+    /**
+     * Limit how many WmsOrders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WmsOrder updateManyAndReturn
+   */
+  export type WmsOrderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * The data used to update WmsOrders.
+     */
+    data: XOR<WmsOrderUpdateManyMutationInput, WmsOrderUncheckedUpdateManyInput>
+    /**
+     * Filter which WmsOrders to update
+     */
+    where?: WmsOrderWhereInput
+    /**
+     * Limit how many WmsOrders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WmsOrder upsert
+   */
+  export type WmsOrderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WmsOrder to update in case it exists.
+     */
+    where: WmsOrderWhereUniqueInput
+    /**
+     * In case the WmsOrder found by the `where` argument doesn't exist, create a new WmsOrder with this data.
+     */
+    create: XOR<WmsOrderCreateInput, WmsOrderUncheckedCreateInput>
+    /**
+     * In case the WmsOrder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WmsOrderUpdateInput, WmsOrderUncheckedUpdateInput>
+  }
+
+  /**
+   * WmsOrder delete
+   */
+  export type WmsOrderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+    /**
+     * Filter which WmsOrder to delete.
+     */
+    where: WmsOrderWhereUniqueInput
+  }
+
+  /**
+   * WmsOrder deleteMany
+   */
+  export type WmsOrderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WmsOrders to delete
+     */
+    where?: WmsOrderWhereInput
+    /**
+     * Limit how many WmsOrders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WmsOrder.lines
+   */
+  export type WmsOrder$linesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    where?: WmsOrderLineWhereInput
+    orderBy?: WmsOrderLineOrderByWithRelationInput | WmsOrderLineOrderByWithRelationInput[]
+    cursor?: WmsOrderLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WmsOrderLineScalarFieldEnum | WmsOrderLineScalarFieldEnum[]
+  }
+
+  /**
+   * WmsOrder without action
+   */
+  export type WmsOrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrder
+     */
+    select?: WmsOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrder
+     */
+    omit?: WmsOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WmsOrderLine
+   */
+
+  export type AggregateWmsOrderLine = {
+    _count: WmsOrderLineCountAggregateOutputType | null
+    _avg: WmsOrderLineAvgAggregateOutputType | null
+    _sum: WmsOrderLineSumAggregateOutputType | null
+    _min: WmsOrderLineMinAggregateOutputType | null
+    _max: WmsOrderLineMaxAggregateOutputType | null
+  }
+
+  export type WmsOrderLineAvgAggregateOutputType = {
+    expectedQty: Decimal | null
+    processedQty: Decimal | null
+  }
+
+  export type WmsOrderLineSumAggregateOutputType = {
+    expectedQty: Decimal | null
+    processedQty: Decimal | null
+  }
+
+  export type WmsOrderLineMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    orderId: string | null
+    skuId: string | null
+    expectedQty: Decimal | null
+    processedQty: Decimal | null
+  }
+
+  export type WmsOrderLineMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    orderId: string | null
+    skuId: string | null
+    expectedQty: Decimal | null
+    processedQty: Decimal | null
+  }
+
+  export type WmsOrderLineCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    orderId: number
+    skuId: number
+    expectedQty: number
+    processedQty: number
+    _all: number
+  }
+
+
+  export type WmsOrderLineAvgAggregateInputType = {
+    expectedQty?: true
+    processedQty?: true
+  }
+
+  export type WmsOrderLineSumAggregateInputType = {
+    expectedQty?: true
+    processedQty?: true
+  }
+
+  export type WmsOrderLineMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderId?: true
+    skuId?: true
+    expectedQty?: true
+    processedQty?: true
+  }
+
+  export type WmsOrderLineMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderId?: true
+    skuId?: true
+    expectedQty?: true
+    processedQty?: true
+  }
+
+  export type WmsOrderLineCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderId?: true
+    skuId?: true
+    expectedQty?: true
+    processedQty?: true
+    _all?: true
+  }
+
+  export type WmsOrderLineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WmsOrderLine to aggregate.
+     */
+    where?: WmsOrderLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrderLines to fetch.
+     */
+    orderBy?: WmsOrderLineOrderByWithRelationInput | WmsOrderLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WmsOrderLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrderLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrderLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WmsOrderLines
+    **/
+    _count?: true | WmsOrderLineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WmsOrderLineAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WmsOrderLineSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WmsOrderLineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WmsOrderLineMaxAggregateInputType
+  }
+
+  export type GetWmsOrderLineAggregateType<T extends WmsOrderLineAggregateArgs> = {
+        [P in keyof T & keyof AggregateWmsOrderLine]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWmsOrderLine[P]>
+      : GetScalarType<T[P], AggregateWmsOrderLine[P]>
+  }
+
+
+
+
+  export type WmsOrderLineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WmsOrderLineWhereInput
+    orderBy?: WmsOrderLineOrderByWithAggregationInput | WmsOrderLineOrderByWithAggregationInput[]
+    by: WmsOrderLineScalarFieldEnum[] | WmsOrderLineScalarFieldEnum
+    having?: WmsOrderLineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WmsOrderLineCountAggregateInputType | true
+    _avg?: WmsOrderLineAvgAggregateInputType
+    _sum?: WmsOrderLineSumAggregateInputType
+    _min?: WmsOrderLineMinAggregateInputType
+    _max?: WmsOrderLineMaxAggregateInputType
+  }
+
+  export type WmsOrderLineGroupByOutputType = {
+    id: string
+    tenantId: string
+    orderId: string
+    skuId: string
+    expectedQty: Decimal
+    processedQty: Decimal
+    _count: WmsOrderLineCountAggregateOutputType | null
+    _avg: WmsOrderLineAvgAggregateOutputType | null
+    _sum: WmsOrderLineSumAggregateOutputType | null
+    _min: WmsOrderLineMinAggregateOutputType | null
+    _max: WmsOrderLineMaxAggregateOutputType | null
+  }
+
+  type GetWmsOrderLineGroupByPayload<T extends WmsOrderLineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WmsOrderLineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WmsOrderLineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WmsOrderLineGroupByOutputType[P]>
+            : GetScalarType<T[P], WmsOrderLineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WmsOrderLineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    skuId?: boolean
+    expectedQty?: boolean
+    processedQty?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | WmsOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wmsOrderLine"]>
+
+  export type WmsOrderLineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    skuId?: boolean
+    expectedQty?: boolean
+    processedQty?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | WmsOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wmsOrderLine"]>
+
+  export type WmsOrderLineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    skuId?: boolean
+    expectedQty?: boolean
+    processedQty?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | WmsOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wmsOrderLine"]>
+
+  export type WmsOrderLineSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    skuId?: boolean
+    expectedQty?: boolean
+    processedQty?: boolean
+  }
+
+  export type WmsOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "expectedQty" | "processedQty", ExtArgs["result"]["wmsOrderLine"]>
+  export type WmsOrderLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | WmsOrderDefaultArgs<ExtArgs>
+  }
+  export type WmsOrderLineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | WmsOrderDefaultArgs<ExtArgs>
+  }
+  export type WmsOrderLineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | WmsOrderDefaultArgs<ExtArgs>
+  }
+
+  export type $WmsOrderLinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WmsOrderLine"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      order: Prisma.$WmsOrderPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      orderId: string
+      skuId: string
+      expectedQty: Prisma.Decimal
+      processedQty: Prisma.Decimal
+    }, ExtArgs["result"]["wmsOrderLine"]>
+    composites: {}
+  }
+
+  type WmsOrderLineGetPayload<S extends boolean | null | undefined | WmsOrderLineDefaultArgs> = $Result.GetResult<Prisma.$WmsOrderLinePayload, S>
+
+  type WmsOrderLineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WmsOrderLineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WmsOrderLineCountAggregateInputType | true
+    }
+
+  export interface WmsOrderLineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WmsOrderLine'], meta: { name: 'WmsOrderLine' } }
+    /**
+     * Find zero or one WmsOrderLine that matches the filter.
+     * @param {WmsOrderLineFindUniqueArgs} args - Arguments to find a WmsOrderLine
+     * @example
+     * // Get one WmsOrderLine
+     * const wmsOrderLine = await prisma.wmsOrderLine.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WmsOrderLineFindUniqueArgs>(args: SelectSubset<T, WmsOrderLineFindUniqueArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WmsOrderLine that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WmsOrderLineFindUniqueOrThrowArgs} args - Arguments to find a WmsOrderLine
+     * @example
+     * // Get one WmsOrderLine
+     * const wmsOrderLine = await prisma.wmsOrderLine.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WmsOrderLineFindUniqueOrThrowArgs>(args: SelectSubset<T, WmsOrderLineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WmsOrderLine that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderLineFindFirstArgs} args - Arguments to find a WmsOrderLine
+     * @example
+     * // Get one WmsOrderLine
+     * const wmsOrderLine = await prisma.wmsOrderLine.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WmsOrderLineFindFirstArgs>(args?: SelectSubset<T, WmsOrderLineFindFirstArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WmsOrderLine that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderLineFindFirstOrThrowArgs} args - Arguments to find a WmsOrderLine
+     * @example
+     * // Get one WmsOrderLine
+     * const wmsOrderLine = await prisma.wmsOrderLine.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WmsOrderLineFindFirstOrThrowArgs>(args?: SelectSubset<T, WmsOrderLineFindFirstOrThrowArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WmsOrderLines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderLineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WmsOrderLines
+     * const wmsOrderLines = await prisma.wmsOrderLine.findMany()
+     * 
+     * // Get first 10 WmsOrderLines
+     * const wmsOrderLines = await prisma.wmsOrderLine.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const wmsOrderLineWithIdOnly = await prisma.wmsOrderLine.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WmsOrderLineFindManyArgs>(args?: SelectSubset<T, WmsOrderLineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WmsOrderLine.
+     * @param {WmsOrderLineCreateArgs} args - Arguments to create a WmsOrderLine.
+     * @example
+     * // Create one WmsOrderLine
+     * const WmsOrderLine = await prisma.wmsOrderLine.create({
+     *   data: {
+     *     // ... data to create a WmsOrderLine
+     *   }
+     * })
+     * 
+     */
+    create<T extends WmsOrderLineCreateArgs>(args: SelectSubset<T, WmsOrderLineCreateArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WmsOrderLines.
+     * @param {WmsOrderLineCreateManyArgs} args - Arguments to create many WmsOrderLines.
+     * @example
+     * // Create many WmsOrderLines
+     * const wmsOrderLine = await prisma.wmsOrderLine.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WmsOrderLineCreateManyArgs>(args?: SelectSubset<T, WmsOrderLineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WmsOrderLines and returns the data saved in the database.
+     * @param {WmsOrderLineCreateManyAndReturnArgs} args - Arguments to create many WmsOrderLines.
+     * @example
+     * // Create many WmsOrderLines
+     * const wmsOrderLine = await prisma.wmsOrderLine.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WmsOrderLines and only return the `id`
+     * const wmsOrderLineWithIdOnly = await prisma.wmsOrderLine.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WmsOrderLineCreateManyAndReturnArgs>(args?: SelectSubset<T, WmsOrderLineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WmsOrderLine.
+     * @param {WmsOrderLineDeleteArgs} args - Arguments to delete one WmsOrderLine.
+     * @example
+     * // Delete one WmsOrderLine
+     * const WmsOrderLine = await prisma.wmsOrderLine.delete({
+     *   where: {
+     *     // ... filter to delete one WmsOrderLine
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WmsOrderLineDeleteArgs>(args: SelectSubset<T, WmsOrderLineDeleteArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WmsOrderLine.
+     * @param {WmsOrderLineUpdateArgs} args - Arguments to update one WmsOrderLine.
+     * @example
+     * // Update one WmsOrderLine
+     * const wmsOrderLine = await prisma.wmsOrderLine.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WmsOrderLineUpdateArgs>(args: SelectSubset<T, WmsOrderLineUpdateArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WmsOrderLines.
+     * @param {WmsOrderLineDeleteManyArgs} args - Arguments to filter WmsOrderLines to delete.
+     * @example
+     * // Delete a few WmsOrderLines
+     * const { count } = await prisma.wmsOrderLine.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WmsOrderLineDeleteManyArgs>(args?: SelectSubset<T, WmsOrderLineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WmsOrderLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderLineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WmsOrderLines
+     * const wmsOrderLine = await prisma.wmsOrderLine.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WmsOrderLineUpdateManyArgs>(args: SelectSubset<T, WmsOrderLineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WmsOrderLines and returns the data updated in the database.
+     * @param {WmsOrderLineUpdateManyAndReturnArgs} args - Arguments to update many WmsOrderLines.
+     * @example
+     * // Update many WmsOrderLines
+     * const wmsOrderLine = await prisma.wmsOrderLine.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WmsOrderLines and only return the `id`
+     * const wmsOrderLineWithIdOnly = await prisma.wmsOrderLine.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WmsOrderLineUpdateManyAndReturnArgs>(args: SelectSubset<T, WmsOrderLineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WmsOrderLine.
+     * @param {WmsOrderLineUpsertArgs} args - Arguments to update or create a WmsOrderLine.
+     * @example
+     * // Update or create a WmsOrderLine
+     * const wmsOrderLine = await prisma.wmsOrderLine.upsert({
+     *   create: {
+     *     // ... data to create a WmsOrderLine
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WmsOrderLine we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WmsOrderLineUpsertArgs>(args: SelectSubset<T, WmsOrderLineUpsertArgs<ExtArgs>>): Prisma__WmsOrderLineClient<$Result.GetResult<Prisma.$WmsOrderLinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WmsOrderLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderLineCountArgs} args - Arguments to filter WmsOrderLines to count.
+     * @example
+     * // Count the number of WmsOrderLines
+     * const count = await prisma.wmsOrderLine.count({
+     *   where: {
+     *     // ... the filter for the WmsOrderLines we want to count
+     *   }
+     * })
+    **/
+    count<T extends WmsOrderLineCountArgs>(
+      args?: Subset<T, WmsOrderLineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WmsOrderLineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WmsOrderLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderLineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WmsOrderLineAggregateArgs>(args: Subset<T, WmsOrderLineAggregateArgs>): Prisma.PrismaPromise<GetWmsOrderLineAggregateType<T>>
+
+    /**
+     * Group by WmsOrderLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WmsOrderLineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WmsOrderLineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WmsOrderLineGroupByArgs['orderBy'] }
+        : { orderBy?: WmsOrderLineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WmsOrderLineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWmsOrderLineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WmsOrderLine model
+   */
+  readonly fields: WmsOrderLineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WmsOrderLine.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WmsOrderLineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    order<T extends WmsOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WmsOrderDefaultArgs<ExtArgs>>): Prisma__WmsOrderClient<$Result.GetResult<Prisma.$WmsOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WmsOrderLine model
+   */
+  interface WmsOrderLineFieldRefs {
+    readonly id: FieldRef<"WmsOrderLine", 'String'>
+    readonly tenantId: FieldRef<"WmsOrderLine", 'String'>
+    readonly orderId: FieldRef<"WmsOrderLine", 'String'>
+    readonly skuId: FieldRef<"WmsOrderLine", 'String'>
+    readonly expectedQty: FieldRef<"WmsOrderLine", 'Decimal'>
+    readonly processedQty: FieldRef<"WmsOrderLine", 'Decimal'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WmsOrderLine findUnique
+   */
+  export type WmsOrderLineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrderLine to fetch.
+     */
+    where: WmsOrderLineWhereUniqueInput
+  }
+
+  /**
+   * WmsOrderLine findUniqueOrThrow
+   */
+  export type WmsOrderLineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrderLine to fetch.
+     */
+    where: WmsOrderLineWhereUniqueInput
+  }
+
+  /**
+   * WmsOrderLine findFirst
+   */
+  export type WmsOrderLineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrderLine to fetch.
+     */
+    where?: WmsOrderLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrderLines to fetch.
+     */
+    orderBy?: WmsOrderLineOrderByWithRelationInput | WmsOrderLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WmsOrderLines.
+     */
+    cursor?: WmsOrderLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrderLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrderLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WmsOrderLines.
+     */
+    distinct?: WmsOrderLineScalarFieldEnum | WmsOrderLineScalarFieldEnum[]
+  }
+
+  /**
+   * WmsOrderLine findFirstOrThrow
+   */
+  export type WmsOrderLineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrderLine to fetch.
+     */
+    where?: WmsOrderLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrderLines to fetch.
+     */
+    orderBy?: WmsOrderLineOrderByWithRelationInput | WmsOrderLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WmsOrderLines.
+     */
+    cursor?: WmsOrderLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrderLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrderLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WmsOrderLines.
+     */
+    distinct?: WmsOrderLineScalarFieldEnum | WmsOrderLineScalarFieldEnum[]
+  }
+
+  /**
+   * WmsOrderLine findMany
+   */
+  export type WmsOrderLineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * Filter, which WmsOrderLines to fetch.
+     */
+    where?: WmsOrderLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WmsOrderLines to fetch.
+     */
+    orderBy?: WmsOrderLineOrderByWithRelationInput | WmsOrderLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WmsOrderLines.
+     */
+    cursor?: WmsOrderLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WmsOrderLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WmsOrderLines.
+     */
+    skip?: number
+    distinct?: WmsOrderLineScalarFieldEnum | WmsOrderLineScalarFieldEnum[]
+  }
+
+  /**
+   * WmsOrderLine create
+   */
+  export type WmsOrderLineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WmsOrderLine.
+     */
+    data: XOR<WmsOrderLineCreateInput, WmsOrderLineUncheckedCreateInput>
+  }
+
+  /**
+   * WmsOrderLine createMany
+   */
+  export type WmsOrderLineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WmsOrderLines.
+     */
+    data: WmsOrderLineCreateManyInput | WmsOrderLineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WmsOrderLine createManyAndReturn
+   */
+  export type WmsOrderLineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * The data used to create many WmsOrderLines.
+     */
+    data: WmsOrderLineCreateManyInput | WmsOrderLineCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WmsOrderLine update
+   */
+  export type WmsOrderLineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WmsOrderLine.
+     */
+    data: XOR<WmsOrderLineUpdateInput, WmsOrderLineUncheckedUpdateInput>
+    /**
+     * Choose, which WmsOrderLine to update.
+     */
+    where: WmsOrderLineWhereUniqueInput
+  }
+
+  /**
+   * WmsOrderLine updateMany
+   */
+  export type WmsOrderLineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WmsOrderLines.
+     */
+    data: XOR<WmsOrderLineUpdateManyMutationInput, WmsOrderLineUncheckedUpdateManyInput>
+    /**
+     * Filter which WmsOrderLines to update
+     */
+    where?: WmsOrderLineWhereInput
+    /**
+     * Limit how many WmsOrderLines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WmsOrderLine updateManyAndReturn
+   */
+  export type WmsOrderLineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * The data used to update WmsOrderLines.
+     */
+    data: XOR<WmsOrderLineUpdateManyMutationInput, WmsOrderLineUncheckedUpdateManyInput>
+    /**
+     * Filter which WmsOrderLines to update
+     */
+    where?: WmsOrderLineWhereInput
+    /**
+     * Limit how many WmsOrderLines to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WmsOrderLine upsert
+   */
+  export type WmsOrderLineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WmsOrderLine to update in case it exists.
+     */
+    where: WmsOrderLineWhereUniqueInput
+    /**
+     * In case the WmsOrderLine found by the `where` argument doesn't exist, create a new WmsOrderLine with this data.
+     */
+    create: XOR<WmsOrderLineCreateInput, WmsOrderLineUncheckedCreateInput>
+    /**
+     * In case the WmsOrderLine was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WmsOrderLineUpdateInput, WmsOrderLineUncheckedUpdateInput>
+  }
+
+  /**
+   * WmsOrderLine delete
+   */
+  export type WmsOrderLineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+    /**
+     * Filter which WmsOrderLine to delete.
+     */
+    where: WmsOrderLineWhereUniqueInput
+  }
+
+  /**
+   * WmsOrderLine deleteMany
+   */
+  export type WmsOrderLineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WmsOrderLines to delete
+     */
+    where?: WmsOrderLineWhereInput
+    /**
+     * Limit how many WmsOrderLines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WmsOrderLine without action
+   */
+  export type WmsOrderLineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WmsOrderLine
+     */
+    select?: WmsOrderLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WmsOrderLine
+     */
+    omit?: WmsOrderLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WmsOrderLineInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -46275,6 +51475,71 @@ export namespace Prisma {
   export type StockReservationScalarFieldEnum = (typeof StockReservationScalarFieldEnum)[keyof typeof StockReservationScalarFieldEnum]
 
 
+  export const DeviceScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    deviceType: 'deviceType',
+    status: 'status',
+    enrollmentToken: 'enrollmentToken',
+    capabilities: 'capabilities',
+    assignedUserId: 'assignedUserId',
+    branchId: 'branchId',
+    lastSeenAt: 'lastSeenAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
+
+
+  export const ScanEventScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    deviceId: 'deviceId',
+    kind: 'kind',
+    value: 'value',
+    context: 'context',
+    clientEventId: 'clientEventId',
+    capturedAt: 'capturedAt',
+    receivedAt: 'receivedAt',
+    correlationId: 'correlationId',
+    resolvedSkuId: 'resolvedSkuId'
+  };
+
+  export type ScanEventScalarFieldEnum = (typeof ScanEventScalarFieldEnum)[keyof typeof ScanEventScalarFieldEnum]
+
+
+  export const WmsOrderScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    orderType: 'orderType',
+    status: 'status',
+    warehouseId: 'warehouseId',
+    toWarehouseId: 'toWarehouseId',
+    reference: 'reference',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    completedAt: 'completedAt'
+  };
+
+  export type WmsOrderScalarFieldEnum = (typeof WmsOrderScalarFieldEnum)[keyof typeof WmsOrderScalarFieldEnum]
+
+
+  export const WmsOrderLineScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    orderId: 'orderId',
+    skuId: 'skuId',
+    expectedQty: 'expectedQty',
+    processedQty: 'processedQty'
+  };
+
+  export type WmsOrderLineScalarFieldEnum = (typeof WmsOrderLineScalarFieldEnum)[keyof typeof WmsOrderLineScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -46616,6 +51881,76 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DeviceType'
+   */
+  export type EnumDeviceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceType'>
+    
+
+
+  /**
+   * Reference to a field of type 'DeviceType[]'
+   */
+  export type ListEnumDeviceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DeviceStatus'
+   */
+  export type EnumDeviceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DeviceStatus[]'
+   */
+  export type ListEnumDeviceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScanKind'
+   */
+  export type EnumScanKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScanKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScanKind[]'
+   */
+  export type ListEnumScanKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScanKind[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WmsOrderType'
+   */
+  export type EnumWmsOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WmsOrderType'>
+    
+
+
+  /**
+   * Reference to a field of type 'WmsOrderType[]'
+   */
+  export type ListEnumWmsOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WmsOrderType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WmsOrderStatus'
+   */
+  export type EnumWmsOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WmsOrderStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WmsOrderStatus[]'
+   */
+  export type ListEnumWmsOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WmsOrderStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -46668,6 +52003,10 @@ export namespace Prisma {
     warehouses?: WarehouseListRelationFilter
     stockMovements?: StockMovementListRelationFilter
     stockReservations?: StockReservationListRelationFilter
+    devices?: DeviceListRelationFilter
+    scanEvents?: ScanEventListRelationFilter
+    wmsOrders?: WmsOrderListRelationFilter
+    wmsOrderLines?: WmsOrderLineListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -46703,6 +52042,10 @@ export namespace Prisma {
     warehouses?: WarehouseOrderByRelationAggregateInput
     stockMovements?: StockMovementOrderByRelationAggregateInput
     stockReservations?: StockReservationOrderByRelationAggregateInput
+    devices?: DeviceOrderByRelationAggregateInput
+    scanEvents?: ScanEventOrderByRelationAggregateInput
+    wmsOrders?: WmsOrderOrderByRelationAggregateInput
+    wmsOrderLines?: WmsOrderLineOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -46741,6 +52084,10 @@ export namespace Prisma {
     warehouses?: WarehouseListRelationFilter
     stockMovements?: StockMovementListRelationFilter
     stockReservations?: StockReservationListRelationFilter
+    devices?: DeviceListRelationFilter
+    scanEvents?: ScanEventListRelationFilter
+    wmsOrders?: WmsOrderListRelationFilter
+    wmsOrderLines?: WmsOrderLineListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -49242,6 +54589,341 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableWithAggregatesFilter<"StockReservation"> | Date | string | null
   }
 
+  export type DeviceWhereInput = {
+    AND?: DeviceWhereInput | DeviceWhereInput[]
+    OR?: DeviceWhereInput[]
+    NOT?: DeviceWhereInput | DeviceWhereInput[]
+    id?: UuidFilter<"Device"> | string
+    tenantId?: UuidFilter<"Device"> | string
+    code?: StringFilter<"Device"> | string
+    name?: StringFilter<"Device"> | string
+    deviceType?: EnumDeviceTypeFilter<"Device"> | $Enums.DeviceType
+    status?: EnumDeviceStatusFilter<"Device"> | $Enums.DeviceStatus
+    enrollmentToken?: StringFilter<"Device"> | string
+    capabilities?: JsonNullableFilter<"Device">
+    assignedUserId?: UuidNullableFilter<"Device"> | string | null
+    branchId?: UuidNullableFilter<"Device"> | string | null
+    lastSeenAt?: DateTimeNullableFilter<"Device"> | Date | string | null
+    createdAt?: DateTimeFilter<"Device"> | Date | string
+    updatedAt?: DateTimeFilter<"Device"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type DeviceOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    deviceType?: SortOrder
+    status?: SortOrder
+    enrollmentToken?: SortOrder
+    capabilities?: SortOrderInput | SortOrder
+    assignedUserId?: SortOrderInput | SortOrder
+    branchId?: SortOrderInput | SortOrder
+    lastSeenAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type DeviceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    enrollmentToken?: string
+    tenantId_code?: DeviceTenantIdCodeCompoundUniqueInput
+    AND?: DeviceWhereInput | DeviceWhereInput[]
+    OR?: DeviceWhereInput[]
+    NOT?: DeviceWhereInput | DeviceWhereInput[]
+    tenantId?: UuidFilter<"Device"> | string
+    code?: StringFilter<"Device"> | string
+    name?: StringFilter<"Device"> | string
+    deviceType?: EnumDeviceTypeFilter<"Device"> | $Enums.DeviceType
+    status?: EnumDeviceStatusFilter<"Device"> | $Enums.DeviceStatus
+    capabilities?: JsonNullableFilter<"Device">
+    assignedUserId?: UuidNullableFilter<"Device"> | string | null
+    branchId?: UuidNullableFilter<"Device"> | string | null
+    lastSeenAt?: DateTimeNullableFilter<"Device"> | Date | string | null
+    createdAt?: DateTimeFilter<"Device"> | Date | string
+    updatedAt?: DateTimeFilter<"Device"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "enrollmentToken" | "tenantId_code">
+
+  export type DeviceOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    deviceType?: SortOrder
+    status?: SortOrder
+    enrollmentToken?: SortOrder
+    capabilities?: SortOrderInput | SortOrder
+    assignedUserId?: SortOrderInput | SortOrder
+    branchId?: SortOrderInput | SortOrder
+    lastSeenAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DeviceCountOrderByAggregateInput
+    _max?: DeviceMaxOrderByAggregateInput
+    _min?: DeviceMinOrderByAggregateInput
+  }
+
+  export type DeviceScalarWhereWithAggregatesInput = {
+    AND?: DeviceScalarWhereWithAggregatesInput | DeviceScalarWhereWithAggregatesInput[]
+    OR?: DeviceScalarWhereWithAggregatesInput[]
+    NOT?: DeviceScalarWhereWithAggregatesInput | DeviceScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Device"> | string
+    tenantId?: UuidWithAggregatesFilter<"Device"> | string
+    code?: StringWithAggregatesFilter<"Device"> | string
+    name?: StringWithAggregatesFilter<"Device"> | string
+    deviceType?: EnumDeviceTypeWithAggregatesFilter<"Device"> | $Enums.DeviceType
+    status?: EnumDeviceStatusWithAggregatesFilter<"Device"> | $Enums.DeviceStatus
+    enrollmentToken?: StringWithAggregatesFilter<"Device"> | string
+    capabilities?: JsonNullableWithAggregatesFilter<"Device">
+    assignedUserId?: UuidNullableWithAggregatesFilter<"Device"> | string | null
+    branchId?: UuidNullableWithAggregatesFilter<"Device"> | string | null
+    lastSeenAt?: DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Device"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Device"> | Date | string
+  }
+
+  export type ScanEventWhereInput = {
+    AND?: ScanEventWhereInput | ScanEventWhereInput[]
+    OR?: ScanEventWhereInput[]
+    NOT?: ScanEventWhereInput | ScanEventWhereInput[]
+    id?: UuidFilter<"ScanEvent"> | string
+    tenantId?: UuidFilter<"ScanEvent"> | string
+    deviceId?: UuidFilter<"ScanEvent"> | string
+    kind?: EnumScanKindFilter<"ScanEvent"> | $Enums.ScanKind
+    value?: StringFilter<"ScanEvent"> | string
+    context?: JsonNullableFilter<"ScanEvent">
+    clientEventId?: StringFilter<"ScanEvent"> | string
+    capturedAt?: DateTimeFilter<"ScanEvent"> | Date | string
+    receivedAt?: DateTimeFilter<"ScanEvent"> | Date | string
+    correlationId?: StringNullableFilter<"ScanEvent"> | string | null
+    resolvedSkuId?: UuidNullableFilter<"ScanEvent"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type ScanEventOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    deviceId?: SortOrder
+    kind?: SortOrder
+    value?: SortOrder
+    context?: SortOrderInput | SortOrder
+    clientEventId?: SortOrder
+    capturedAt?: SortOrder
+    receivedAt?: SortOrder
+    correlationId?: SortOrderInput | SortOrder
+    resolvedSkuId?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type ScanEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_deviceId_clientEventId?: ScanEventTenantIdDeviceIdClientEventIdCompoundUniqueInput
+    AND?: ScanEventWhereInput | ScanEventWhereInput[]
+    OR?: ScanEventWhereInput[]
+    NOT?: ScanEventWhereInput | ScanEventWhereInput[]
+    tenantId?: UuidFilter<"ScanEvent"> | string
+    deviceId?: UuidFilter<"ScanEvent"> | string
+    kind?: EnumScanKindFilter<"ScanEvent"> | $Enums.ScanKind
+    value?: StringFilter<"ScanEvent"> | string
+    context?: JsonNullableFilter<"ScanEvent">
+    clientEventId?: StringFilter<"ScanEvent"> | string
+    capturedAt?: DateTimeFilter<"ScanEvent"> | Date | string
+    receivedAt?: DateTimeFilter<"ScanEvent"> | Date | string
+    correlationId?: StringNullableFilter<"ScanEvent"> | string | null
+    resolvedSkuId?: UuidNullableFilter<"ScanEvent"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_deviceId_clientEventId">
+
+  export type ScanEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    deviceId?: SortOrder
+    kind?: SortOrder
+    value?: SortOrder
+    context?: SortOrderInput | SortOrder
+    clientEventId?: SortOrder
+    capturedAt?: SortOrder
+    receivedAt?: SortOrder
+    correlationId?: SortOrderInput | SortOrder
+    resolvedSkuId?: SortOrderInput | SortOrder
+    _count?: ScanEventCountOrderByAggregateInput
+    _max?: ScanEventMaxOrderByAggregateInput
+    _min?: ScanEventMinOrderByAggregateInput
+  }
+
+  export type ScanEventScalarWhereWithAggregatesInput = {
+    AND?: ScanEventScalarWhereWithAggregatesInput | ScanEventScalarWhereWithAggregatesInput[]
+    OR?: ScanEventScalarWhereWithAggregatesInput[]
+    NOT?: ScanEventScalarWhereWithAggregatesInput | ScanEventScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"ScanEvent"> | string
+    tenantId?: UuidWithAggregatesFilter<"ScanEvent"> | string
+    deviceId?: UuidWithAggregatesFilter<"ScanEvent"> | string
+    kind?: EnumScanKindWithAggregatesFilter<"ScanEvent"> | $Enums.ScanKind
+    value?: StringWithAggregatesFilter<"ScanEvent"> | string
+    context?: JsonNullableWithAggregatesFilter<"ScanEvent">
+    clientEventId?: StringWithAggregatesFilter<"ScanEvent"> | string
+    capturedAt?: DateTimeWithAggregatesFilter<"ScanEvent"> | Date | string
+    receivedAt?: DateTimeWithAggregatesFilter<"ScanEvent"> | Date | string
+    correlationId?: StringNullableWithAggregatesFilter<"ScanEvent"> | string | null
+    resolvedSkuId?: UuidNullableWithAggregatesFilter<"ScanEvent"> | string | null
+  }
+
+  export type WmsOrderWhereInput = {
+    AND?: WmsOrderWhereInput | WmsOrderWhereInput[]
+    OR?: WmsOrderWhereInput[]
+    NOT?: WmsOrderWhereInput | WmsOrderWhereInput[]
+    id?: UuidFilter<"WmsOrder"> | string
+    tenantId?: UuidFilter<"WmsOrder"> | string
+    orderType?: EnumWmsOrderTypeFilter<"WmsOrder"> | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFilter<"WmsOrder"> | $Enums.WmsOrderStatus
+    warehouseId?: UuidFilter<"WmsOrder"> | string
+    toWarehouseId?: UuidNullableFilter<"WmsOrder"> | string | null
+    reference?: StringNullableFilter<"WmsOrder"> | string | null
+    createdBy?: StringNullableFilter<"WmsOrder"> | string | null
+    createdAt?: DateTimeFilter<"WmsOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WmsOrder"> | Date | string
+    completedAt?: DateTimeNullableFilter<"WmsOrder"> | Date | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: WmsOrderLineListRelationFilter
+  }
+
+  export type WmsOrderOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderType?: SortOrder
+    status?: SortOrder
+    warehouseId?: SortOrder
+    toWarehouseId?: SortOrderInput | SortOrder
+    reference?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    lines?: WmsOrderLineOrderByRelationAggregateInput
+  }
+
+  export type WmsOrderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WmsOrderWhereInput | WmsOrderWhereInput[]
+    OR?: WmsOrderWhereInput[]
+    NOT?: WmsOrderWhereInput | WmsOrderWhereInput[]
+    tenantId?: UuidFilter<"WmsOrder"> | string
+    orderType?: EnumWmsOrderTypeFilter<"WmsOrder"> | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFilter<"WmsOrder"> | $Enums.WmsOrderStatus
+    warehouseId?: UuidFilter<"WmsOrder"> | string
+    toWarehouseId?: UuidNullableFilter<"WmsOrder"> | string | null
+    reference?: StringNullableFilter<"WmsOrder"> | string | null
+    createdBy?: StringNullableFilter<"WmsOrder"> | string | null
+    createdAt?: DateTimeFilter<"WmsOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WmsOrder"> | Date | string
+    completedAt?: DateTimeNullableFilter<"WmsOrder"> | Date | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: WmsOrderLineListRelationFilter
+  }, "id">
+
+  export type WmsOrderOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderType?: SortOrder
+    status?: SortOrder
+    warehouseId?: SortOrder
+    toWarehouseId?: SortOrderInput | SortOrder
+    reference?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    _count?: WmsOrderCountOrderByAggregateInput
+    _max?: WmsOrderMaxOrderByAggregateInput
+    _min?: WmsOrderMinOrderByAggregateInput
+  }
+
+  export type WmsOrderScalarWhereWithAggregatesInput = {
+    AND?: WmsOrderScalarWhereWithAggregatesInput | WmsOrderScalarWhereWithAggregatesInput[]
+    OR?: WmsOrderScalarWhereWithAggregatesInput[]
+    NOT?: WmsOrderScalarWhereWithAggregatesInput | WmsOrderScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"WmsOrder"> | string
+    tenantId?: UuidWithAggregatesFilter<"WmsOrder"> | string
+    orderType?: EnumWmsOrderTypeWithAggregatesFilter<"WmsOrder"> | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusWithAggregatesFilter<"WmsOrder"> | $Enums.WmsOrderStatus
+    warehouseId?: UuidWithAggregatesFilter<"WmsOrder"> | string
+    toWarehouseId?: UuidNullableWithAggregatesFilter<"WmsOrder"> | string | null
+    reference?: StringNullableWithAggregatesFilter<"WmsOrder"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"WmsOrder"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WmsOrder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WmsOrder"> | Date | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"WmsOrder"> | Date | string | null
+  }
+
+  export type WmsOrderLineWhereInput = {
+    AND?: WmsOrderLineWhereInput | WmsOrderLineWhereInput[]
+    OR?: WmsOrderLineWhereInput[]
+    NOT?: WmsOrderLineWhereInput | WmsOrderLineWhereInput[]
+    id?: UuidFilter<"WmsOrderLine"> | string
+    tenantId?: UuidFilter<"WmsOrderLine"> | string
+    orderId?: UuidFilter<"WmsOrderLine"> | string
+    skuId?: UuidFilter<"WmsOrderLine"> | string
+    expectedQty?: DecimalFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    order?: XOR<WmsOrderScalarRelationFilter, WmsOrderWhereInput>
+  }
+
+  export type WmsOrderLineOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    skuId?: SortOrder
+    expectedQty?: SortOrder
+    processedQty?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    order?: WmsOrderOrderByWithRelationInput
+  }
+
+  export type WmsOrderLineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WmsOrderLineWhereInput | WmsOrderLineWhereInput[]
+    OR?: WmsOrderLineWhereInput[]
+    NOT?: WmsOrderLineWhereInput | WmsOrderLineWhereInput[]
+    tenantId?: UuidFilter<"WmsOrderLine"> | string
+    orderId?: UuidFilter<"WmsOrderLine"> | string
+    skuId?: UuidFilter<"WmsOrderLine"> | string
+    expectedQty?: DecimalFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    order?: XOR<WmsOrderScalarRelationFilter, WmsOrderWhereInput>
+  }, "id">
+
+  export type WmsOrderLineOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    skuId?: SortOrder
+    expectedQty?: SortOrder
+    processedQty?: SortOrder
+    _count?: WmsOrderLineCountOrderByAggregateInput
+    _avg?: WmsOrderLineAvgOrderByAggregateInput
+    _max?: WmsOrderLineMaxOrderByAggregateInput
+    _min?: WmsOrderLineMinOrderByAggregateInput
+    _sum?: WmsOrderLineSumOrderByAggregateInput
+  }
+
+  export type WmsOrderLineScalarWhereWithAggregatesInput = {
+    AND?: WmsOrderLineScalarWhereWithAggregatesInput | WmsOrderLineScalarWhereWithAggregatesInput[]
+    OR?: WmsOrderLineScalarWhereWithAggregatesInput[]
+    NOT?: WmsOrderLineScalarWhereWithAggregatesInput | WmsOrderLineScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"WmsOrderLine"> | string
+    tenantId?: UuidWithAggregatesFilter<"WmsOrderLine"> | string
+    orderId?: UuidWithAggregatesFilter<"WmsOrderLine"> | string
+    skuId?: UuidWithAggregatesFilter<"WmsOrderLine"> | string
+    expectedQty?: DecimalWithAggregatesFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalWithAggregatesFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -49275,6 +54957,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -49310,6 +54996,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -49345,6 +55035,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -49380,6 +55074,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -51996,6 +57694,376 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DeviceCreateInput = {
+    id?: string
+    code: string
+    name: string
+    deviceType: $Enums.DeviceType
+    status?: $Enums.DeviceStatus
+    enrollmentToken: string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: string | null
+    branchId?: string | null
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutDevicesInput
+  }
+
+  export type DeviceUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    deviceType: $Enums.DeviceType
+    status?: $Enums.DeviceStatus
+    enrollmentToken: string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: string | null
+    branchId?: string | null
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeviceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    deviceType?: EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+    status?: EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+    enrollmentToken?: StringFieldUpdateOperationsInput | string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutDevicesNestedInput
+  }
+
+  export type DeviceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    deviceType?: EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+    status?: EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+    enrollmentToken?: StringFieldUpdateOperationsInput | string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeviceCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    deviceType: $Enums.DeviceType
+    status?: $Enums.DeviceStatus
+    enrollmentToken: string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: string | null
+    branchId?: string | null
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeviceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    deviceType?: EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+    status?: EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+    enrollmentToken?: StringFieldUpdateOperationsInput | string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeviceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    deviceType?: EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+    status?: EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+    enrollmentToken?: StringFieldUpdateOperationsInput | string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanEventCreateInput = {
+    id?: string
+    deviceId: string
+    kind: $Enums.ScanKind
+    value: string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId: string
+    capturedAt: Date | string
+    receivedAt?: Date | string
+    correlationId?: string | null
+    resolvedSkuId?: string | null
+    tenant: TenantCreateNestedOneWithoutScanEventsInput
+  }
+
+  export type ScanEventUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    deviceId: string
+    kind: $Enums.ScanKind
+    value: string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId: string
+    capturedAt: Date | string
+    receivedAt?: Date | string
+    correlationId?: string | null
+    resolvedSkuId?: string | null
+  }
+
+  export type ScanEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumScanKindFieldUpdateOperationsInput | $Enums.ScanKind
+    value?: StringFieldUpdateOperationsInput | string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId?: StringFieldUpdateOperationsInput | string
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutScanEventsNestedInput
+  }
+
+  export type ScanEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    deviceId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumScanKindFieldUpdateOperationsInput | $Enums.ScanKind
+    value?: StringFieldUpdateOperationsInput | string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId?: StringFieldUpdateOperationsInput | string
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ScanEventCreateManyInput = {
+    id?: string
+    tenantId: string
+    deviceId: string
+    kind: $Enums.ScanKind
+    value: string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId: string
+    capturedAt: Date | string
+    receivedAt?: Date | string
+    correlationId?: string | null
+    resolvedSkuId?: string | null
+  }
+
+  export type ScanEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumScanKindFieldUpdateOperationsInput | $Enums.ScanKind
+    value?: StringFieldUpdateOperationsInput | string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId?: StringFieldUpdateOperationsInput | string
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ScanEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    deviceId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumScanKindFieldUpdateOperationsInput | $Enums.ScanKind
+    value?: StringFieldUpdateOperationsInput | string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId?: StringFieldUpdateOperationsInput | string
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WmsOrderCreateInput = {
+    id?: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+    tenant: TenantCreateNestedOneWithoutWmsOrdersInput
+    lines?: WmsOrderLineCreateNestedManyWithoutOrderInput
+  }
+
+  export type WmsOrderUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+    lines?: WmsOrderLineUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type WmsOrderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tenant?: TenantUpdateOneRequiredWithoutWmsOrdersNestedInput
+    lines?: WmsOrderLineUpdateManyWithoutOrderNestedInput
+  }
+
+  export type WmsOrderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lines?: WmsOrderLineUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type WmsOrderCreateManyInput = {
+    id?: string
+    tenantId: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type WmsOrderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WmsOrderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WmsOrderLineCreateInput = {
+    id?: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+    tenant: TenantCreateNestedOneWithoutWmsOrderLinesInput
+    order: WmsOrderCreateNestedOneWithoutLinesInput
+  }
+
+  export type WmsOrderLineUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tenant?: TenantUpdateOneRequiredWithoutWmsOrderLinesNestedInput
+    order?: WmsOrderUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type WmsOrderLineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineCreateManyInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -52202,6 +58270,30 @@ export namespace Prisma {
     none?: StockReservationWhereInput
   }
 
+  export type DeviceListRelationFilter = {
+    every?: DeviceWhereInput
+    some?: DeviceWhereInput
+    none?: DeviceWhereInput
+  }
+
+  export type ScanEventListRelationFilter = {
+    every?: ScanEventWhereInput
+    some?: ScanEventWhereInput
+    none?: ScanEventWhereInput
+  }
+
+  export type WmsOrderListRelationFilter = {
+    every?: WmsOrderWhereInput
+    some?: WmsOrderWhereInput
+    none?: WmsOrderWhereInput
+  }
+
+  export type WmsOrderLineListRelationFilter = {
+    every?: WmsOrderLineWhereInput
+    some?: WmsOrderLineWhereInput
+    none?: WmsOrderLineWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -52299,6 +58391,22 @@ export namespace Prisma {
   }
 
   export type StockReservationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DeviceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScanEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WmsOrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WmsOrderLineOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -54346,6 +60454,272 @@ export namespace Prisma {
     _max?: NestedEnumReservationStatusFilter<$PrismaModel>
   }
 
+  export type EnumDeviceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceTypeFilter<$PrismaModel> | $Enums.DeviceType
+  }
+
+  export type EnumDeviceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceStatus | EnumDeviceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceStatusFilter<$PrismaModel> | $Enums.DeviceStatus
+  }
+
+  export type DeviceTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type DeviceCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    deviceType?: SortOrder
+    status?: SortOrder
+    enrollmentToken?: SortOrder
+    capabilities?: SortOrder
+    assignedUserId?: SortOrder
+    branchId?: SortOrder
+    lastSeenAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeviceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    deviceType?: SortOrder
+    status?: SortOrder
+    enrollmentToken?: SortOrder
+    assignedUserId?: SortOrder
+    branchId?: SortOrder
+    lastSeenAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeviceMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    deviceType?: SortOrder
+    status?: SortOrder
+    enrollmentToken?: SortOrder
+    assignedUserId?: SortOrder
+    branchId?: SortOrder
+    lastSeenAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumDeviceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceTypeWithAggregatesFilter<$PrismaModel> | $Enums.DeviceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeviceTypeFilter<$PrismaModel>
+    _max?: NestedEnumDeviceTypeFilter<$PrismaModel>
+  }
+
+  export type EnumDeviceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceStatus | EnumDeviceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceStatusWithAggregatesFilter<$PrismaModel> | $Enums.DeviceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeviceStatusFilter<$PrismaModel>
+    _max?: NestedEnumDeviceStatusFilter<$PrismaModel>
+  }
+
+  export type EnumScanKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScanKind | EnumScanKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumScanKindFilter<$PrismaModel> | $Enums.ScanKind
+  }
+
+  export type ScanEventTenantIdDeviceIdClientEventIdCompoundUniqueInput = {
+    tenantId: string
+    deviceId: string
+    clientEventId: string
+  }
+
+  export type ScanEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    deviceId?: SortOrder
+    kind?: SortOrder
+    value?: SortOrder
+    context?: SortOrder
+    clientEventId?: SortOrder
+    capturedAt?: SortOrder
+    receivedAt?: SortOrder
+    correlationId?: SortOrder
+    resolvedSkuId?: SortOrder
+  }
+
+  export type ScanEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    deviceId?: SortOrder
+    kind?: SortOrder
+    value?: SortOrder
+    clientEventId?: SortOrder
+    capturedAt?: SortOrder
+    receivedAt?: SortOrder
+    correlationId?: SortOrder
+    resolvedSkuId?: SortOrder
+  }
+
+  export type ScanEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    deviceId?: SortOrder
+    kind?: SortOrder
+    value?: SortOrder
+    clientEventId?: SortOrder
+    capturedAt?: SortOrder
+    receivedAt?: SortOrder
+    correlationId?: SortOrder
+    resolvedSkuId?: SortOrder
+  }
+
+  export type EnumScanKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScanKind | EnumScanKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumScanKindWithAggregatesFilter<$PrismaModel> | $Enums.ScanKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScanKindFilter<$PrismaModel>
+    _max?: NestedEnumScanKindFilter<$PrismaModel>
+  }
+
+  export type EnumWmsOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderType | EnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderTypeFilter<$PrismaModel> | $Enums.WmsOrderType
+  }
+
+  export type EnumWmsOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderStatus | EnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderStatusFilter<$PrismaModel> | $Enums.WmsOrderStatus
+  }
+
+  export type WmsOrderCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderType?: SortOrder
+    status?: SortOrder
+    warehouseId?: SortOrder
+    toWarehouseId?: SortOrder
+    reference?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type WmsOrderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderType?: SortOrder
+    status?: SortOrder
+    warehouseId?: SortOrder
+    toWarehouseId?: SortOrder
+    reference?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type WmsOrderMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderType?: SortOrder
+    status?: SortOrder
+    warehouseId?: SortOrder
+    toWarehouseId?: SortOrder
+    reference?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type EnumWmsOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderType | EnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.WmsOrderType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWmsOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumWmsOrderTypeFilter<$PrismaModel>
+  }
+
+  export type EnumWmsOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderStatus | EnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.WmsOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWmsOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumWmsOrderStatusFilter<$PrismaModel>
+  }
+
+  export type WmsOrderScalarRelationFilter = {
+    is?: WmsOrderWhereInput
+    isNot?: WmsOrderWhereInput
+  }
+
+  export type WmsOrderLineCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    skuId?: SortOrder
+    expectedQty?: SortOrder
+    processedQty?: SortOrder
+  }
+
+  export type WmsOrderLineAvgOrderByAggregateInput = {
+    expectedQty?: SortOrder
+    processedQty?: SortOrder
+  }
+
+  export type WmsOrderLineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    skuId?: SortOrder
+    expectedQty?: SortOrder
+    processedQty?: SortOrder
+  }
+
+  export type WmsOrderLineMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    skuId?: SortOrder
+    expectedQty?: SortOrder
+    processedQty?: SortOrder
+  }
+
+  export type WmsOrderLineSumOrderByAggregateInput = {
+    expectedQty?: SortOrder
+    processedQty?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -54521,6 +60895,34 @@ export namespace Prisma {
     connect?: StockReservationWhereUniqueInput | StockReservationWhereUniqueInput[]
   }
 
+  export type DeviceCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DeviceCreateWithoutTenantInput, DeviceUncheckedCreateWithoutTenantInput> | DeviceCreateWithoutTenantInput[] | DeviceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutTenantInput | DeviceCreateOrConnectWithoutTenantInput[]
+    createMany?: DeviceCreateManyTenantInputEnvelope
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+  }
+
+  export type ScanEventCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ScanEventCreateWithoutTenantInput, ScanEventUncheckedCreateWithoutTenantInput> | ScanEventCreateWithoutTenantInput[] | ScanEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ScanEventCreateOrConnectWithoutTenantInput | ScanEventCreateOrConnectWithoutTenantInput[]
+    createMany?: ScanEventCreateManyTenantInputEnvelope
+    connect?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+  }
+
+  export type WmsOrderCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WmsOrderCreateWithoutTenantInput, WmsOrderUncheckedCreateWithoutTenantInput> | WmsOrderCreateWithoutTenantInput[] | WmsOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderCreateOrConnectWithoutTenantInput | WmsOrderCreateOrConnectWithoutTenantInput[]
+    createMany?: WmsOrderCreateManyTenantInputEnvelope
+    connect?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+  }
+
+  export type WmsOrderLineCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WmsOrderLineCreateWithoutTenantInput, WmsOrderLineUncheckedCreateWithoutTenantInput> | WmsOrderLineCreateWithoutTenantInput[] | WmsOrderLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutTenantInput | WmsOrderLineCreateOrConnectWithoutTenantInput[]
+    createMany?: WmsOrderLineCreateManyTenantInputEnvelope
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -54694,6 +61096,34 @@ export namespace Prisma {
     connectOrCreate?: StockReservationCreateOrConnectWithoutTenantInput | StockReservationCreateOrConnectWithoutTenantInput[]
     createMany?: StockReservationCreateManyTenantInputEnvelope
     connect?: StockReservationWhereUniqueInput | StockReservationWhereUniqueInput[]
+  }
+
+  export type DeviceUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DeviceCreateWithoutTenantInput, DeviceUncheckedCreateWithoutTenantInput> | DeviceCreateWithoutTenantInput[] | DeviceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutTenantInput | DeviceCreateOrConnectWithoutTenantInput[]
+    createMany?: DeviceCreateManyTenantInputEnvelope
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+  }
+
+  export type ScanEventUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ScanEventCreateWithoutTenantInput, ScanEventUncheckedCreateWithoutTenantInput> | ScanEventCreateWithoutTenantInput[] | ScanEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ScanEventCreateOrConnectWithoutTenantInput | ScanEventCreateOrConnectWithoutTenantInput[]
+    createMany?: ScanEventCreateManyTenantInputEnvelope
+    connect?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+  }
+
+  export type WmsOrderUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WmsOrderCreateWithoutTenantInput, WmsOrderUncheckedCreateWithoutTenantInput> | WmsOrderCreateWithoutTenantInput[] | WmsOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderCreateOrConnectWithoutTenantInput | WmsOrderCreateOrConnectWithoutTenantInput[]
+    createMany?: WmsOrderCreateManyTenantInputEnvelope
+    connect?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+  }
+
+  export type WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WmsOrderLineCreateWithoutTenantInput, WmsOrderLineUncheckedCreateWithoutTenantInput> | WmsOrderLineCreateWithoutTenantInput[] | WmsOrderLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutTenantInput | WmsOrderLineCreateOrConnectWithoutTenantInput[]
+    createMany?: WmsOrderLineCreateManyTenantInputEnvelope
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -55066,6 +61496,62 @@ export namespace Prisma {
     deleteMany?: StockReservationScalarWhereInput | StockReservationScalarWhereInput[]
   }
 
+  export type DeviceUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DeviceCreateWithoutTenantInput, DeviceUncheckedCreateWithoutTenantInput> | DeviceCreateWithoutTenantInput[] | DeviceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutTenantInput | DeviceCreateOrConnectWithoutTenantInput[]
+    upsert?: DeviceUpsertWithWhereUniqueWithoutTenantInput | DeviceUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DeviceCreateManyTenantInputEnvelope
+    set?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    disconnect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    delete?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    update?: DeviceUpdateWithWhereUniqueWithoutTenantInput | DeviceUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DeviceUpdateManyWithWhereWithoutTenantInput | DeviceUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
+  }
+
+  export type ScanEventUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ScanEventCreateWithoutTenantInput, ScanEventUncheckedCreateWithoutTenantInput> | ScanEventCreateWithoutTenantInput[] | ScanEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ScanEventCreateOrConnectWithoutTenantInput | ScanEventCreateOrConnectWithoutTenantInput[]
+    upsert?: ScanEventUpsertWithWhereUniqueWithoutTenantInput | ScanEventUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ScanEventCreateManyTenantInputEnvelope
+    set?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    disconnect?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    delete?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    connect?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    update?: ScanEventUpdateWithWhereUniqueWithoutTenantInput | ScanEventUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ScanEventUpdateManyWithWhereWithoutTenantInput | ScanEventUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ScanEventScalarWhereInput | ScanEventScalarWhereInput[]
+  }
+
+  export type WmsOrderUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WmsOrderCreateWithoutTenantInput, WmsOrderUncheckedCreateWithoutTenantInput> | WmsOrderCreateWithoutTenantInput[] | WmsOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderCreateOrConnectWithoutTenantInput | WmsOrderCreateOrConnectWithoutTenantInput[]
+    upsert?: WmsOrderUpsertWithWhereUniqueWithoutTenantInput | WmsOrderUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WmsOrderCreateManyTenantInputEnvelope
+    set?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    disconnect?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    delete?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    connect?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    update?: WmsOrderUpdateWithWhereUniqueWithoutTenantInput | WmsOrderUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WmsOrderUpdateManyWithWhereWithoutTenantInput | WmsOrderUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WmsOrderScalarWhereInput | WmsOrderScalarWhereInput[]
+  }
+
+  export type WmsOrderLineUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WmsOrderLineCreateWithoutTenantInput, WmsOrderLineUncheckedCreateWithoutTenantInput> | WmsOrderLineCreateWithoutTenantInput[] | WmsOrderLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutTenantInput | WmsOrderLineCreateOrConnectWithoutTenantInput[]
+    upsert?: WmsOrderLineUpsertWithWhereUniqueWithoutTenantInput | WmsOrderLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WmsOrderLineCreateManyTenantInputEnvelope
+    set?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    disconnect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    delete?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    update?: WmsOrderLineUpdateWithWhereUniqueWithoutTenantInput | WmsOrderLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WmsOrderLineUpdateManyWithWhereWithoutTenantInput | WmsOrderLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WmsOrderLineScalarWhereInput | WmsOrderLineScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -55414,6 +61900,62 @@ export namespace Prisma {
     update?: StockReservationUpdateWithWhereUniqueWithoutTenantInput | StockReservationUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: StockReservationUpdateManyWithWhereWithoutTenantInput | StockReservationUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: StockReservationScalarWhereInput | StockReservationScalarWhereInput[]
+  }
+
+  export type DeviceUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DeviceCreateWithoutTenantInput, DeviceUncheckedCreateWithoutTenantInput> | DeviceCreateWithoutTenantInput[] | DeviceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutTenantInput | DeviceCreateOrConnectWithoutTenantInput[]
+    upsert?: DeviceUpsertWithWhereUniqueWithoutTenantInput | DeviceUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DeviceCreateManyTenantInputEnvelope
+    set?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    disconnect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    delete?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    update?: DeviceUpdateWithWhereUniqueWithoutTenantInput | DeviceUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DeviceUpdateManyWithWhereWithoutTenantInput | DeviceUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
+  }
+
+  export type ScanEventUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ScanEventCreateWithoutTenantInput, ScanEventUncheckedCreateWithoutTenantInput> | ScanEventCreateWithoutTenantInput[] | ScanEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ScanEventCreateOrConnectWithoutTenantInput | ScanEventCreateOrConnectWithoutTenantInput[]
+    upsert?: ScanEventUpsertWithWhereUniqueWithoutTenantInput | ScanEventUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ScanEventCreateManyTenantInputEnvelope
+    set?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    disconnect?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    delete?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    connect?: ScanEventWhereUniqueInput | ScanEventWhereUniqueInput[]
+    update?: ScanEventUpdateWithWhereUniqueWithoutTenantInput | ScanEventUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ScanEventUpdateManyWithWhereWithoutTenantInput | ScanEventUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ScanEventScalarWhereInput | ScanEventScalarWhereInput[]
+  }
+
+  export type WmsOrderUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WmsOrderCreateWithoutTenantInput, WmsOrderUncheckedCreateWithoutTenantInput> | WmsOrderCreateWithoutTenantInput[] | WmsOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderCreateOrConnectWithoutTenantInput | WmsOrderCreateOrConnectWithoutTenantInput[]
+    upsert?: WmsOrderUpsertWithWhereUniqueWithoutTenantInput | WmsOrderUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WmsOrderCreateManyTenantInputEnvelope
+    set?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    disconnect?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    delete?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    connect?: WmsOrderWhereUniqueInput | WmsOrderWhereUniqueInput[]
+    update?: WmsOrderUpdateWithWhereUniqueWithoutTenantInput | WmsOrderUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WmsOrderUpdateManyWithWhereWithoutTenantInput | WmsOrderUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WmsOrderScalarWhereInput | WmsOrderScalarWhereInput[]
+  }
+
+  export type WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WmsOrderLineCreateWithoutTenantInput, WmsOrderLineUncheckedCreateWithoutTenantInput> | WmsOrderLineCreateWithoutTenantInput[] | WmsOrderLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutTenantInput | WmsOrderLineCreateOrConnectWithoutTenantInput[]
+    upsert?: WmsOrderLineUpsertWithWhereUniqueWithoutTenantInput | WmsOrderLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WmsOrderLineCreateManyTenantInputEnvelope
+    set?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    disconnect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    delete?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    update?: WmsOrderLineUpdateWithWhereUniqueWithoutTenantInput | WmsOrderLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WmsOrderLineUpdateManyWithWhereWithoutTenantInput | WmsOrderLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WmsOrderLineScalarWhereInput | WmsOrderLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -56854,6 +63396,138 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutStockReservationsInput, TenantUpdateWithoutStockReservationsInput>, TenantUncheckedUpdateWithoutStockReservationsInput>
   }
 
+  export type TenantCreateNestedOneWithoutDevicesInput = {
+    create?: XOR<TenantCreateWithoutDevicesInput, TenantUncheckedCreateWithoutDevicesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDevicesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumDeviceTypeFieldUpdateOperationsInput = {
+    set?: $Enums.DeviceType
+  }
+
+  export type EnumDeviceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DeviceStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutDevicesNestedInput = {
+    create?: XOR<TenantCreateWithoutDevicesInput, TenantUncheckedCreateWithoutDevicesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDevicesInput
+    upsert?: TenantUpsertWithoutDevicesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutDevicesInput, TenantUpdateWithoutDevicesInput>, TenantUncheckedUpdateWithoutDevicesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutScanEventsInput = {
+    create?: XOR<TenantCreateWithoutScanEventsInput, TenantUncheckedCreateWithoutScanEventsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutScanEventsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumScanKindFieldUpdateOperationsInput = {
+    set?: $Enums.ScanKind
+  }
+
+  export type TenantUpdateOneRequiredWithoutScanEventsNestedInput = {
+    create?: XOR<TenantCreateWithoutScanEventsInput, TenantUncheckedCreateWithoutScanEventsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutScanEventsInput
+    upsert?: TenantUpsertWithoutScanEventsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutScanEventsInput, TenantUpdateWithoutScanEventsInput>, TenantUncheckedUpdateWithoutScanEventsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutWmsOrdersInput = {
+    create?: XOR<TenantCreateWithoutWmsOrdersInput, TenantUncheckedCreateWithoutWmsOrdersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWmsOrdersInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WmsOrderLineCreateNestedManyWithoutOrderInput = {
+    create?: XOR<WmsOrderLineCreateWithoutOrderInput, WmsOrderLineUncheckedCreateWithoutOrderInput> | WmsOrderLineCreateWithoutOrderInput[] | WmsOrderLineUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutOrderInput | WmsOrderLineCreateOrConnectWithoutOrderInput[]
+    createMany?: WmsOrderLineCreateManyOrderInputEnvelope
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+  }
+
+  export type WmsOrderLineUncheckedCreateNestedManyWithoutOrderInput = {
+    create?: XOR<WmsOrderLineCreateWithoutOrderInput, WmsOrderLineUncheckedCreateWithoutOrderInput> | WmsOrderLineCreateWithoutOrderInput[] | WmsOrderLineUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutOrderInput | WmsOrderLineCreateOrConnectWithoutOrderInput[]
+    createMany?: WmsOrderLineCreateManyOrderInputEnvelope
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+  }
+
+  export type EnumWmsOrderTypeFieldUpdateOperationsInput = {
+    set?: $Enums.WmsOrderType
+  }
+
+  export type EnumWmsOrderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WmsOrderStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutWmsOrdersNestedInput = {
+    create?: XOR<TenantCreateWithoutWmsOrdersInput, TenantUncheckedCreateWithoutWmsOrdersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWmsOrdersInput
+    upsert?: TenantUpsertWithoutWmsOrdersInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWmsOrdersInput, TenantUpdateWithoutWmsOrdersInput>, TenantUncheckedUpdateWithoutWmsOrdersInput>
+  }
+
+  export type WmsOrderLineUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<WmsOrderLineCreateWithoutOrderInput, WmsOrderLineUncheckedCreateWithoutOrderInput> | WmsOrderLineCreateWithoutOrderInput[] | WmsOrderLineUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutOrderInput | WmsOrderLineCreateOrConnectWithoutOrderInput[]
+    upsert?: WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput | WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: WmsOrderLineCreateManyOrderInputEnvelope
+    set?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    disconnect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    delete?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    update?: WmsOrderLineUpdateWithWhereUniqueWithoutOrderInput | WmsOrderLineUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: WmsOrderLineUpdateManyWithWhereWithoutOrderInput | WmsOrderLineUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: WmsOrderLineScalarWhereInput | WmsOrderLineScalarWhereInput[]
+  }
+
+  export type WmsOrderLineUncheckedUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<WmsOrderLineCreateWithoutOrderInput, WmsOrderLineUncheckedCreateWithoutOrderInput> | WmsOrderLineCreateWithoutOrderInput[] | WmsOrderLineUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: WmsOrderLineCreateOrConnectWithoutOrderInput | WmsOrderLineCreateOrConnectWithoutOrderInput[]
+    upsert?: WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput | WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: WmsOrderLineCreateManyOrderInputEnvelope
+    set?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    disconnect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    delete?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    connect?: WmsOrderLineWhereUniqueInput | WmsOrderLineWhereUniqueInput[]
+    update?: WmsOrderLineUpdateWithWhereUniqueWithoutOrderInput | WmsOrderLineUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: WmsOrderLineUpdateManyWithWhereWithoutOrderInput | WmsOrderLineUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: WmsOrderLineScalarWhereInput | WmsOrderLineScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutWmsOrderLinesInput = {
+    create?: XOR<TenantCreateWithoutWmsOrderLinesInput, TenantUncheckedCreateWithoutWmsOrderLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWmsOrderLinesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WmsOrderCreateNestedOneWithoutLinesInput = {
+    create?: XOR<WmsOrderCreateWithoutLinesInput, WmsOrderUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: WmsOrderCreateOrConnectWithoutLinesInput
+    connect?: WmsOrderWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutWmsOrderLinesNestedInput = {
+    create?: XOR<TenantCreateWithoutWmsOrderLinesInput, TenantUncheckedCreateWithoutWmsOrderLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWmsOrderLinesInput
+    upsert?: TenantUpsertWithoutWmsOrderLinesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWmsOrderLinesInput, TenantUpdateWithoutWmsOrderLinesInput>, TenantUncheckedUpdateWithoutWmsOrderLinesInput>
+  }
+
+  export type WmsOrderUpdateOneRequiredWithoutLinesNestedInput = {
+    create?: XOR<WmsOrderCreateWithoutLinesInput, WmsOrderUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: WmsOrderCreateOrConnectWithoutLinesInput
+    upsert?: WmsOrderUpsertWithoutLinesInput
+    connect?: WmsOrderWhereUniqueInput
+    update?: XOR<XOR<WmsOrderUpdateToOneWithWhereWithoutLinesInput, WmsOrderUpdateWithoutLinesInput>, WmsOrderUncheckedUpdateWithoutLinesInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -57404,6 +64078,91 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumReservationStatusFilter<$PrismaModel>
     _max?: NestedEnumReservationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDeviceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceTypeFilter<$PrismaModel> | $Enums.DeviceType
+  }
+
+  export type NestedEnumDeviceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceStatus | EnumDeviceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceStatusFilter<$PrismaModel> | $Enums.DeviceStatus
+  }
+
+  export type NestedEnumDeviceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceTypeWithAggregatesFilter<$PrismaModel> | $Enums.DeviceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeviceTypeFilter<$PrismaModel>
+    _max?: NestedEnumDeviceTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDeviceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceStatus | EnumDeviceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceStatus[] | ListEnumDeviceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceStatusWithAggregatesFilter<$PrismaModel> | $Enums.DeviceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeviceStatusFilter<$PrismaModel>
+    _max?: NestedEnumDeviceStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumScanKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScanKind | EnumScanKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumScanKindFilter<$PrismaModel> | $Enums.ScanKind
+  }
+
+  export type NestedEnumScanKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScanKind | EnumScanKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScanKind[] | ListEnumScanKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumScanKindWithAggregatesFilter<$PrismaModel> | $Enums.ScanKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScanKindFilter<$PrismaModel>
+    _max?: NestedEnumScanKindFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWmsOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderType | EnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderTypeFilter<$PrismaModel> | $Enums.WmsOrderType
+  }
+
+  export type NestedEnumWmsOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderStatus | EnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderStatusFilter<$PrismaModel> | $Enums.WmsOrderStatus
+  }
+
+  export type NestedEnumWmsOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderType | EnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderType[] | ListEnumWmsOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.WmsOrderType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWmsOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumWmsOrderTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWmsOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WmsOrderStatus | EnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WmsOrderStatus[] | ListEnumWmsOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWmsOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.WmsOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWmsOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumWmsOrderStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -58178,6 +64937,146 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DeviceCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    deviceType: $Enums.DeviceType
+    status?: $Enums.DeviceStatus
+    enrollmentToken: string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: string | null
+    branchId?: string | null
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeviceUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    deviceType: $Enums.DeviceType
+    status?: $Enums.DeviceStatus
+    enrollmentToken: string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: string | null
+    branchId?: string | null
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeviceCreateOrConnectWithoutTenantInput = {
+    where: DeviceWhereUniqueInput
+    create: XOR<DeviceCreateWithoutTenantInput, DeviceUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DeviceCreateManyTenantInputEnvelope = {
+    data: DeviceCreateManyTenantInput | DeviceCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScanEventCreateWithoutTenantInput = {
+    id?: string
+    deviceId: string
+    kind: $Enums.ScanKind
+    value: string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId: string
+    capturedAt: Date | string
+    receivedAt?: Date | string
+    correlationId?: string | null
+    resolvedSkuId?: string | null
+  }
+
+  export type ScanEventUncheckedCreateWithoutTenantInput = {
+    id?: string
+    deviceId: string
+    kind: $Enums.ScanKind
+    value: string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId: string
+    capturedAt: Date | string
+    receivedAt?: Date | string
+    correlationId?: string | null
+    resolvedSkuId?: string | null
+  }
+
+  export type ScanEventCreateOrConnectWithoutTenantInput = {
+    where: ScanEventWhereUniqueInput
+    create: XOR<ScanEventCreateWithoutTenantInput, ScanEventUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ScanEventCreateManyTenantInputEnvelope = {
+    data: ScanEventCreateManyTenantInput | ScanEventCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WmsOrderCreateWithoutTenantInput = {
+    id?: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+    lines?: WmsOrderLineCreateNestedManyWithoutOrderInput
+  }
+
+  export type WmsOrderUncheckedCreateWithoutTenantInput = {
+    id?: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+    lines?: WmsOrderLineUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type WmsOrderCreateOrConnectWithoutTenantInput = {
+    where: WmsOrderWhereUniqueInput
+    create: XOR<WmsOrderCreateWithoutTenantInput, WmsOrderUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WmsOrderCreateManyTenantInputEnvelope = {
+    data: WmsOrderCreateManyTenantInput | WmsOrderCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WmsOrderLineCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+    order: WmsOrderCreateNestedOneWithoutLinesInput
+  }
+
+  export type WmsOrderLineUncheckedCreateWithoutTenantInput = {
+    id?: string
+    orderId: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineCreateOrConnectWithoutTenantInput = {
+    where: WmsOrderLineWhereUniqueInput
+    create: XOR<WmsOrderLineCreateWithoutTenantInput, WmsOrderLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WmsOrderLineCreateManyTenantInputEnvelope = {
+    data: WmsOrderLineCreateManyTenantInput | WmsOrderLineCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -58924,6 +65823,135 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableFilter<"StockReservation"> | Date | string | null
   }
 
+  export type DeviceUpsertWithWhereUniqueWithoutTenantInput = {
+    where: DeviceWhereUniqueInput
+    update: XOR<DeviceUpdateWithoutTenantInput, DeviceUncheckedUpdateWithoutTenantInput>
+    create: XOR<DeviceCreateWithoutTenantInput, DeviceUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DeviceUpdateWithWhereUniqueWithoutTenantInput = {
+    where: DeviceWhereUniqueInput
+    data: XOR<DeviceUpdateWithoutTenantInput, DeviceUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type DeviceUpdateManyWithWhereWithoutTenantInput = {
+    where: DeviceScalarWhereInput
+    data: XOR<DeviceUpdateManyMutationInput, DeviceUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type DeviceScalarWhereInput = {
+    AND?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
+    OR?: DeviceScalarWhereInput[]
+    NOT?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
+    id?: UuidFilter<"Device"> | string
+    tenantId?: UuidFilter<"Device"> | string
+    code?: StringFilter<"Device"> | string
+    name?: StringFilter<"Device"> | string
+    deviceType?: EnumDeviceTypeFilter<"Device"> | $Enums.DeviceType
+    status?: EnumDeviceStatusFilter<"Device"> | $Enums.DeviceStatus
+    enrollmentToken?: StringFilter<"Device"> | string
+    capabilities?: JsonNullableFilter<"Device">
+    assignedUserId?: UuidNullableFilter<"Device"> | string | null
+    branchId?: UuidNullableFilter<"Device"> | string | null
+    lastSeenAt?: DateTimeNullableFilter<"Device"> | Date | string | null
+    createdAt?: DateTimeFilter<"Device"> | Date | string
+    updatedAt?: DateTimeFilter<"Device"> | Date | string
+  }
+
+  export type ScanEventUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ScanEventWhereUniqueInput
+    update: XOR<ScanEventUpdateWithoutTenantInput, ScanEventUncheckedUpdateWithoutTenantInput>
+    create: XOR<ScanEventCreateWithoutTenantInput, ScanEventUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ScanEventUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ScanEventWhereUniqueInput
+    data: XOR<ScanEventUpdateWithoutTenantInput, ScanEventUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ScanEventUpdateManyWithWhereWithoutTenantInput = {
+    where: ScanEventScalarWhereInput
+    data: XOR<ScanEventUpdateManyMutationInput, ScanEventUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ScanEventScalarWhereInput = {
+    AND?: ScanEventScalarWhereInput | ScanEventScalarWhereInput[]
+    OR?: ScanEventScalarWhereInput[]
+    NOT?: ScanEventScalarWhereInput | ScanEventScalarWhereInput[]
+    id?: UuidFilter<"ScanEvent"> | string
+    tenantId?: UuidFilter<"ScanEvent"> | string
+    deviceId?: UuidFilter<"ScanEvent"> | string
+    kind?: EnumScanKindFilter<"ScanEvent"> | $Enums.ScanKind
+    value?: StringFilter<"ScanEvent"> | string
+    context?: JsonNullableFilter<"ScanEvent">
+    clientEventId?: StringFilter<"ScanEvent"> | string
+    capturedAt?: DateTimeFilter<"ScanEvent"> | Date | string
+    receivedAt?: DateTimeFilter<"ScanEvent"> | Date | string
+    correlationId?: StringNullableFilter<"ScanEvent"> | string | null
+    resolvedSkuId?: UuidNullableFilter<"ScanEvent"> | string | null
+  }
+
+  export type WmsOrderUpsertWithWhereUniqueWithoutTenantInput = {
+    where: WmsOrderWhereUniqueInput
+    update: XOR<WmsOrderUpdateWithoutTenantInput, WmsOrderUncheckedUpdateWithoutTenantInput>
+    create: XOR<WmsOrderCreateWithoutTenantInput, WmsOrderUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WmsOrderUpdateWithWhereUniqueWithoutTenantInput = {
+    where: WmsOrderWhereUniqueInput
+    data: XOR<WmsOrderUpdateWithoutTenantInput, WmsOrderUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type WmsOrderUpdateManyWithWhereWithoutTenantInput = {
+    where: WmsOrderScalarWhereInput
+    data: XOR<WmsOrderUpdateManyMutationInput, WmsOrderUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type WmsOrderScalarWhereInput = {
+    AND?: WmsOrderScalarWhereInput | WmsOrderScalarWhereInput[]
+    OR?: WmsOrderScalarWhereInput[]
+    NOT?: WmsOrderScalarWhereInput | WmsOrderScalarWhereInput[]
+    id?: UuidFilter<"WmsOrder"> | string
+    tenantId?: UuidFilter<"WmsOrder"> | string
+    orderType?: EnumWmsOrderTypeFilter<"WmsOrder"> | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFilter<"WmsOrder"> | $Enums.WmsOrderStatus
+    warehouseId?: UuidFilter<"WmsOrder"> | string
+    toWarehouseId?: UuidNullableFilter<"WmsOrder"> | string | null
+    reference?: StringNullableFilter<"WmsOrder"> | string | null
+    createdBy?: StringNullableFilter<"WmsOrder"> | string | null
+    createdAt?: DateTimeFilter<"WmsOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WmsOrder"> | Date | string
+    completedAt?: DateTimeNullableFilter<"WmsOrder"> | Date | string | null
+  }
+
+  export type WmsOrderLineUpsertWithWhereUniqueWithoutTenantInput = {
+    where: WmsOrderLineWhereUniqueInput
+    update: XOR<WmsOrderLineUpdateWithoutTenantInput, WmsOrderLineUncheckedUpdateWithoutTenantInput>
+    create: XOR<WmsOrderLineCreateWithoutTenantInput, WmsOrderLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WmsOrderLineUpdateWithWhereUniqueWithoutTenantInput = {
+    where: WmsOrderLineWhereUniqueInput
+    data: XOR<WmsOrderLineUpdateWithoutTenantInput, WmsOrderLineUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type WmsOrderLineUpdateManyWithWhereWithoutTenantInput = {
+    where: WmsOrderLineScalarWhereInput
+    data: XOR<WmsOrderLineUpdateManyMutationInput, WmsOrderLineUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type WmsOrderLineScalarWhereInput = {
+    AND?: WmsOrderLineScalarWhereInput | WmsOrderLineScalarWhereInput[]
+    OR?: WmsOrderLineScalarWhereInput[]
+    NOT?: WmsOrderLineScalarWhereInput | WmsOrderLineScalarWhereInput[]
+    id?: UuidFilter<"WmsOrderLine"> | string
+    tenantId?: UuidFilter<"WmsOrderLine"> | string
+    orderId?: UuidFilter<"WmsOrderLine"> | string
+    skuId?: UuidFilter<"WmsOrderLine"> | string
+    expectedQty?: DecimalFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -58956,6 +65984,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -58990,6 +66022,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -59040,6 +66076,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -59074,6 +66114,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -59108,6 +66152,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -59142,6 +66190,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -59226,6 +66278,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -59260,6 +66316,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -59310,6 +66370,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -59344,6 +66408,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -59532,6 +66600,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -59566,6 +66638,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -59712,6 +66788,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -59746,6 +66826,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -59825,6 +66909,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -59859,6 +66947,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -59928,6 +67020,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -59962,6 +67058,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -60041,6 +67141,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -60075,6 +67179,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -60144,6 +67252,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -60178,6 +67290,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -60256,6 +67372,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -60290,6 +67410,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -60340,6 +67464,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -60374,6 +67502,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -60474,6 +67606,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -60508,6 +67644,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -60640,6 +67780,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -60674,6 +67818,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -60776,6 +67924,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -60810,6 +67962,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -60908,6 +68064,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -60942,6 +68102,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -60992,6 +68156,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -61026,6 +68194,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -61060,6 +68232,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -61094,6 +68270,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -61144,6 +68324,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -61178,6 +68362,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -61212,6 +68400,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -61246,6 +68438,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -61296,6 +68492,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -61330,6 +68530,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -61364,6 +68568,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -61398,6 +68606,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -61448,6 +68660,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -61482,6 +68698,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -61516,6 +68736,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -61550,6 +68774,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -61600,6 +68828,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -61634,6 +68866,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -61668,6 +68904,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -61702,6 +68942,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -61752,6 +68996,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -61786,6 +69034,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -61820,6 +69072,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -61854,6 +69110,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -61904,6 +69164,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -61938,6 +69202,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -61972,6 +69240,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -62006,6 +69278,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -62118,6 +69394,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -62152,6 +69432,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -62444,6 +69728,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -62478,6 +69766,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -62556,6 +69848,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -62590,6 +69886,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -62697,6 +69997,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -62731,6 +70035,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -62781,6 +70089,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -62815,6 +70127,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -62849,6 +70165,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -62883,6 +70203,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -62933,6 +70257,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -62967,6 +70295,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -63001,6 +70333,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -63035,6 +70371,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -63111,6 +70451,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -63145,6 +70489,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -63251,6 +70599,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -63285,6 +70637,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -63436,6 +70792,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -63470,6 +70830,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -63665,6 +71029,10 @@ export namespace Prisma {
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -63699,6 +71067,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -63785,6 +71157,10 @@ export namespace Prisma {
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -63819,6 +71195,10 @@ export namespace Prisma {
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -64188,6 +71568,10 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -64222,6 +71606,10 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -64294,6 +71682,10 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -64328,6 +71720,10 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -64432,6 +71828,10 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -64466,6 +71866,10 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -64516,6 +71920,10 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -64550,6 +71958,10 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -64584,6 +71996,10 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -64618,6 +72034,10 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutTenantInput
     warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -64668,6 +72088,10 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -64702,6 +72126,796 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
     warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutDevicesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutDevicesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutDevicesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutDevicesInput, TenantUncheckedCreateWithoutDevicesInput>
+  }
+
+  export type TenantUpsertWithoutDevicesInput = {
+    update: XOR<TenantUpdateWithoutDevicesInput, TenantUncheckedUpdateWithoutDevicesInput>
+    create: XOR<TenantCreateWithoutDevicesInput, TenantUncheckedCreateWithoutDevicesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutDevicesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutDevicesInput, TenantUncheckedUpdateWithoutDevicesInput>
+  }
+
+  export type TenantUpdateWithoutDevicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutDevicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutScanEventsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutScanEventsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutScanEventsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutScanEventsInput, TenantUncheckedCreateWithoutScanEventsInput>
+  }
+
+  export type TenantUpsertWithoutScanEventsInput = {
+    update: XOR<TenantUpdateWithoutScanEventsInput, TenantUncheckedUpdateWithoutScanEventsInput>
+    create: XOR<TenantCreateWithoutScanEventsInput, TenantUncheckedCreateWithoutScanEventsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutScanEventsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutScanEventsInput, TenantUncheckedUpdateWithoutScanEventsInput>
+  }
+
+  export type TenantUpdateWithoutScanEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutScanEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutWmsOrdersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutWmsOrdersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutWmsOrdersInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutWmsOrdersInput, TenantUncheckedCreateWithoutWmsOrdersInput>
+  }
+
+  export type WmsOrderLineCreateWithoutOrderInput = {
+    id?: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+    tenant: TenantCreateNestedOneWithoutWmsOrderLinesInput
+  }
+
+  export type WmsOrderLineUncheckedCreateWithoutOrderInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineCreateOrConnectWithoutOrderInput = {
+    where: WmsOrderLineWhereUniqueInput
+    create: XOR<WmsOrderLineCreateWithoutOrderInput, WmsOrderLineUncheckedCreateWithoutOrderInput>
+  }
+
+  export type WmsOrderLineCreateManyOrderInputEnvelope = {
+    data: WmsOrderLineCreateManyOrderInput | WmsOrderLineCreateManyOrderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutWmsOrdersInput = {
+    update: XOR<TenantUpdateWithoutWmsOrdersInput, TenantUncheckedUpdateWithoutWmsOrdersInput>
+    create: XOR<TenantCreateWithoutWmsOrdersInput, TenantUncheckedCreateWithoutWmsOrdersInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutWmsOrdersInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutWmsOrdersInput, TenantUncheckedUpdateWithoutWmsOrdersInput>
+  }
+
+  export type TenantUpdateWithoutWmsOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
+    where: WmsOrderLineWhereUniqueInput
+    update: XOR<WmsOrderLineUpdateWithoutOrderInput, WmsOrderLineUncheckedUpdateWithoutOrderInput>
+    create: XOR<WmsOrderLineCreateWithoutOrderInput, WmsOrderLineUncheckedCreateWithoutOrderInput>
+  }
+
+  export type WmsOrderLineUpdateWithWhereUniqueWithoutOrderInput = {
+    where: WmsOrderLineWhereUniqueInput
+    data: XOR<WmsOrderLineUpdateWithoutOrderInput, WmsOrderLineUncheckedUpdateWithoutOrderInput>
+  }
+
+  export type WmsOrderLineUpdateManyWithWhereWithoutOrderInput = {
+    where: WmsOrderLineScalarWhereInput
+    data: XOR<WmsOrderLineUpdateManyMutationInput, WmsOrderLineUncheckedUpdateManyWithoutOrderInput>
+  }
+
+  export type TenantCreateWithoutWmsOrderLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutWmsOrderLinesInput, TenantUncheckedCreateWithoutWmsOrderLinesInput>
+  }
+
+  export type WmsOrderCreateWithoutLinesInput = {
+    id?: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+    tenant: TenantCreateNestedOneWithoutWmsOrdersInput
+  }
+
+  export type WmsOrderUncheckedCreateWithoutLinesInput = {
+    id?: string
+    tenantId: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type WmsOrderCreateOrConnectWithoutLinesInput = {
+    where: WmsOrderWhereUniqueInput
+    create: XOR<WmsOrderCreateWithoutLinesInput, WmsOrderUncheckedCreateWithoutLinesInput>
+  }
+
+  export type TenantUpsertWithoutWmsOrderLinesInput = {
+    update: XOR<TenantUpdateWithoutWmsOrderLinesInput, TenantUncheckedUpdateWithoutWmsOrderLinesInput>
+    create: XOR<TenantCreateWithoutWmsOrderLinesInput, TenantUncheckedCreateWithoutWmsOrderLinesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutWmsOrderLinesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutWmsOrderLinesInput, TenantUncheckedUpdateWithoutWmsOrderLinesInput>
+  }
+
+  export type TenantUpdateWithoutWmsOrderLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WmsOrderUpsertWithoutLinesInput = {
+    update: XOR<WmsOrderUpdateWithoutLinesInput, WmsOrderUncheckedUpdateWithoutLinesInput>
+    create: XOR<WmsOrderCreateWithoutLinesInput, WmsOrderUncheckedCreateWithoutLinesInput>
+    where?: WmsOrderWhereInput
+  }
+
+  export type WmsOrderUpdateToOneWithWhereWithoutLinesInput = {
+    where?: WmsOrderWhereInput
+    data: XOR<WmsOrderUpdateWithoutLinesInput, WmsOrderUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type WmsOrderUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tenant?: TenantUpdateOneRequiredWithoutWmsOrdersNestedInput
+  }
+
+  export type WmsOrderUncheckedUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -64948,6 +73162,55 @@ export namespace Prisma {
     reference?: string | null
     createdAt?: Date | string
     releasedAt?: Date | string | null
+  }
+
+  export type DeviceCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: string
+    deviceType: $Enums.DeviceType
+    status?: $Enums.DeviceStatus
+    enrollmentToken: string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: string | null
+    branchId?: string | null
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScanEventCreateManyTenantInput = {
+    id?: string
+    deviceId: string
+    kind: $Enums.ScanKind
+    value: string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId: string
+    capturedAt: Date | string
+    receivedAt?: Date | string
+    correlationId?: string | null
+    resolvedSkuId?: string | null
+  }
+
+  export type WmsOrderCreateManyTenantInput = {
+    id?: string
+    orderType: $Enums.WmsOrderType
+    status?: $Enums.WmsOrderStatus
+    warehouseId: string
+    toWarehouseId?: string | null
+    reference?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type WmsOrderLineCreateManyTenantInput = {
+    id?: string
+    orderId: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -65718,6 +73981,155 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DeviceUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    deviceType?: EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+    status?: EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+    enrollmentToken?: StringFieldUpdateOperationsInput | string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeviceUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    deviceType?: EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+    status?: EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+    enrollmentToken?: StringFieldUpdateOperationsInput | string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeviceUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    deviceType?: EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+    status?: EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+    enrollmentToken?: StringFieldUpdateOperationsInput | string
+    capabilities?: NullableJsonNullValueInput | InputJsonValue
+    assignedUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanEventUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumScanKindFieldUpdateOperationsInput | $Enums.ScanKind
+    value?: StringFieldUpdateOperationsInput | string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId?: StringFieldUpdateOperationsInput | string
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ScanEventUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumScanKindFieldUpdateOperationsInput | $Enums.ScanKind
+    value?: StringFieldUpdateOperationsInput | string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId?: StringFieldUpdateOperationsInput | string
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ScanEventUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumScanKindFieldUpdateOperationsInput | $Enums.ScanKind
+    value?: StringFieldUpdateOperationsInput | string
+    context?: NullableJsonNullValueInput | InputJsonValue
+    clientEventId?: StringFieldUpdateOperationsInput | string
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    correlationId?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WmsOrderUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lines?: WmsOrderLineUpdateManyWithoutOrderNestedInput
+  }
+
+  export type WmsOrderUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lines?: WmsOrderLineUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type WmsOrderUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderType?: EnumWmsOrderTypeFieldUpdateOperationsInput | $Enums.WmsOrderType
+    status?: EnumWmsOrderStatusFieldUpdateOperationsInput | $Enums.WmsOrderStatus
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    toWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WmsOrderLineUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    order?: WmsOrderUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type WmsOrderLineUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -66382,6 +74794,38 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WmsOrderLineCreateManyOrderInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    expectedQty: Decimal | DecimalJsLike | number | string
+    processedQty?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tenant?: TenantUpdateOneRequiredWithoutWmsOrderLinesNestedInput
+  }
+
+  export type WmsOrderLineUncheckedUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type WmsOrderLineUncheckedUpdateManyWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
 

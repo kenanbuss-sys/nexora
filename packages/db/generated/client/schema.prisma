@@ -65,6 +65,10 @@ model Tenant {
   warehouses            Warehouse[]
   stockMovements        StockMovement[]
   stockReservations     StockReservation[]
+  devices               Device[]
+  scanEvents            ScanEvent[]
+  wmsOrders             WmsOrder[]
+  wmsOrderLines         WmsOrderLine[]
 
   @@map("tenant")
 }
@@ -788,4 +792,127 @@ model StockReservation {
   @@map("stock_reservation")
 }
 
-// touch: trigger client regeneration (sprint 004 models)
+// --- Sprint 005: DEV device registry + VER verification events + WMS execution ---
+
+enum DeviceType {
+  SCANNER
+  TABLET
+  PRINTER
+  SCALE
+  OTHER
+}
+
+enum DeviceStatus {
+  ENROLLED
+  ACTIVE
+  SUSPENDED
+}
+
+/// Device registry (DEV-001..004). Hardware specifics live behind adapters;
+/// business logic never binds to a hardware model (Sprint 005 rule).
+model Device {
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String       @map("tenant_id") @db.Uuid
+  code            String
+  name            String
+  deviceType      DeviceType   @map("device_type")
+  status          DeviceStatus @default(ENROLLED)
+  /// One-time secret used by the physical device to claim its identity.
+  enrollmentToken String       @unique @map("enrollment_token")
+  /// Detected capabilities (VER-019), e.g. {"barcode":true,"camera":false}.
+  capabilities    Json?
+  assignedUserId  String?      @map("assigned_user_id") @db.Uuid
+  branchId        String?      @map("branch_id") @db.Uuid
+  lastSeenAt      DateTime?    @map("last_seen_at")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status])
+  @@map("device")
+}
+
+enum ScanKind {
+  BARCODE
+  QR
+  RFID
+  NFC
+}
+
+/// Verification event stream (VER-001/002, offline queue VER-017, idempotent
+/// replay VER-018, correlation VER-020). Client-generated ids make replays
+/// after offline periods exactly-once.
+model ScanEvent {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  deviceId      String   @map("device_id") @db.Uuid
+  kind          ScanKind
+  value         String
+  context       Json?
+  clientEventId String   @map("client_event_id")
+  capturedAt    DateTime @map("captured_at")
+  receivedAt    DateTime @default(now()) @map("received_at")
+  correlationId String?  @map("correlation_id")
+  resolvedSkuId String?  @map("resolved_sku_id") @db.Uuid
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, deviceId, clientEventId])
+  @@index([tenantId, receivedAt])
+  @@map("scan_event")
+}
+
+enum WmsOrderType {
+  RECEIVING
+  TRANSFER
+  COUNT
+  PICK
+}
+
+enum WmsOrderStatus {
+  DRAFT
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+/// Warehouse execution document (WMS-004 receiving, WMS-013 transfers,
+/// WMS-014 counts, WMS-010/011 pick/pack). Executing lines posts movements
+/// through the inventory ledger — the document never stores stock truth.
+model WmsOrder {
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String         @map("tenant_id") @db.Uuid
+  orderType     WmsOrderType   @map("order_type")
+  status        WmsOrderStatus @default(DRAFT)
+  warehouseId   String         @map("warehouse_id") @db.Uuid
+  /// Destination warehouse for transfers.
+  toWarehouseId String?        @map("to_warehouse_id") @db.Uuid
+  reference     String?
+  createdBy     String?        @map("created_by")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  completedAt   DateTime?      @map("completed_at")
+
+  tenant Tenant         @relation(fields: [tenantId], references: [id])
+  lines  WmsOrderLine[]
+
+  @@index([tenantId, warehouseId, status])
+  @@map("wms_order")
+}
+
+model WmsOrderLine {
+  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String  @map("tenant_id") @db.Uuid
+  orderId      String  @map("order_id") @db.Uuid
+  skuId        String  @map("sku_id") @db.Uuid
+  expectedQty  Decimal @map("expected_qty") @db.Decimal(18, 6)
+  processedQty Decimal @default(0) @map("processed_qty") @db.Decimal(18, 6)
+
+  tenant Tenant   @relation(fields: [tenantId], references: [id])
+  order  WmsOrder @relation(fields: [orderId], references: [id])
+
+  @@index([tenantId, orderId])
+  @@map("wms_order_line")
+}
