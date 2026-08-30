@@ -100,6 +100,10 @@ start_stack() {
   pkill -f 'next start' 2>/dev/null || true
   sleep 1
   (cd "$REPO/apps/web" && nohup npx next start --port 3000 >> "$LOG" 2>&1 &)
+  sleep 3
+  # Keep the demo tenant topped up (idempotent; also refreshes permissions
+  # when new modules arrive).
+  node "$REPO/scripts/seed-demo.mjs" >> "$LOG" 2>&1 || true
   log "stack (re)started — http://localhost:3000"
 }
 

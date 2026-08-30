@@ -58,6 +58,16 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'verification.use',
   'verification.override',
   'verification.audit',
+  'crm.read',
+  'crm.manage',
+  'crm.credit.read',
+  'crm.customer.approve',
+  'pricing.read',
+  'pricing.manage',
+  'pricing.override',
+  'quote.read',
+  'quote.create',
+  'quote.approve',
 ];
 
 const createTenantSchema = z.object({

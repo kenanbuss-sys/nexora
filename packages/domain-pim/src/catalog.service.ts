@@ -370,6 +370,16 @@ export class CatalogService {
     });
   }
 
+  /** Public cross-domain gate: SKU identity + naming (used by CPQ). */
+  async getSkuInfo(
+    tenantId: string,
+    skuId: string,
+  ): Promise<{ exists: boolean; active: boolean; code: string; name: string } | null> {
+    const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId } });
+    if (!sku) return null;
+    return { exists: true, active: sku.status === 'ACTIVE', code: sku.code, name: sku.name };
+  }
+
   /** Public cross-domain gate: barcode -> SKU identity (used by VER). */
   async resolveBarcode(tenantId: string, value: string): Promise<string | null> {
     const barcode = await this.prisma.barcode.findUnique({

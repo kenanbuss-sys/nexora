@@ -172,6 +172,17 @@ export class ApprovalService {
   }
 
   /** Approvals awaiting a decision, excluding the caller's own requests (SoD). */
+  /** Public cross-domain gate: approval outcome by id (used by CPQ). */
+  async getApprovalStatus(
+    tenantId: string,
+    approvalId: string,
+  ): Promise<'REQUESTED' | 'GRANTED' | 'REJECTED' | null> {
+    const approval = await this.prisma.approval.findFirst({
+      where: { id: approvalId, tenantId },
+    });
+    return approval ? approval.status : null;
+  }
+
   async pendingForUser(ctx: RequestContext): Promise<ApprovalView[]> {
     if (!ctx.userId) return [];
     const approvals = await this.prisma.approval.findMany({

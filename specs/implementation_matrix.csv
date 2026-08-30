@@ -43,16 +43,16 @@ MDM-007,MDM,Data quality rules,P0,PLANNED,R1,,,
 MDM-008,MDM,Golden record policy,P0,PLANNED,R1,,,
 MDM-009,MDM,External ID mapping,P0,Implemented (Sprint 003),R1,,,External ID mapping + canonical resolution
 MDM-010,MDM,Effective dating,P0,PLANNED,R1,,,
-CRM-001,CRM,Leads,P1,PLANNED,R1,,,
-CRM-002,CRM,Accounts & contacts,P1,PLANNED,R1,,,
-CRM-003,CRM,Opportunities,P1,PLANNED,R1,,,
-CRM-004,CRM,Activities,P1,PLANNED,R1,,,
+CRM-001,CRM,Leads,Implemented (Sprint 006),PLANNED,R1,,,"Leads with qualify/disqualify/convert (guarded, exactly-once)"
+CRM-002,CRM,Accounts & contacts,Implemented (Sprint 006),PLANNED,R1,,,Accounts as commercial profile over MDM party
+CRM-003,CRM,Opportunities,Implemented (Sprint 006),PLANNED,R1,,,Opportunity stage machine NEW->QUALIFIED->PROPOSAL->WON/LOST
+CRM-004,CRM,Activities,Implemented (Sprint 006),PLANNED,R1,,,Activity log on accounts/opportunities
 CRM-005,CRM,Customer 360,P1,PLANNED,R1,,,
 CRM-006,CRM,Territories,P1,PLANNED,R1,,,
 CRM-007,CRM,Sales teams,P1,PLANNED,R1,,,
 CRM-008,CRM,Credit profile,P1,PLANNED,R1,,,
 CRM-009,CRM,Segmentation,P1,PLANNED,R1,,,
-CRM-010,CRM,Interaction timeline,P1,PLANNED,R1,,,
+CRM-010,CRM,Interaction timeline,Implemented (Sprint 006),PLANNED,R1,,,"Interaction timeline (activities, newest first)"
 CRM-011,CRM,Consent/preferences,P1,PLANNED,R1,,,
 CRM-012,CRM,Customer onboarding,P1,PLANNED,R1,,,
 PIM-001,PIM,Products/SKUs,P1,Implemented (Sprint 003),R1,,,Products/SKUs with lifecycle + events
@@ -71,18 +71,18 @@ PIM-013,PIM,Dimensions/weight,P1,PLANNED,R1,,,
 PIM-014,PIM,Substitutions,P1,PLANNED,R1,,,
 PIM-015,PIM,Bundles/kits,P1,PLANNED,R1,,,
 PIM-016,PIM,Lifecycle status,P1,Implemented (Sprint 003),R1,,,Product/SKU lifecycle statuses with guards
-CPQ-001,CPQ,Price lists,P1,PLANNED,R1,,,
-CPQ-002,CPQ,Quantity breaks,P1,PLANNED,R1,,,
+CPQ-001,CPQ,Price lists,Implemented (Sprint 006),PLANNED,R1,,,"Versionable price lists, DRAFT->ACTIVE publish"
+CPQ-002,CPQ,Quantity breaks,Implemented (Sprint 006),PLANNED,R1,,,Quantity breaks via minQty entries
 CPQ-003,CPQ,Discount rules,P1,PLANNED,R1,,,
-CPQ-004,CPQ,Margin floors,P1,PLANNED,R1,,,
-CPQ-005,CPQ,Discount approvals,P1,PLANNED,R1,,,
+CPQ-004,CPQ,Margin floors,Implemented (Sprint 006),PLANNED,R1,,,Margin floor: discounts >20% require approval
+CPQ-005,CPQ,Discount approvals,Implemented (Sprint 006),PLANNED,R1,,,Approvals through WF service (SoD enforced)
 CPQ-006,CPQ,Promotions,P1,PLANNED,R1,,,
 CPQ-007,CPQ,Product configurator,P1,PLANNED,R1,,,
 CPQ-008,CPQ,Compatibility rules,P1,PLANNED,R1,,,
 CPQ-009,CPQ,Formula pricing,P1,PLANNED,R1,,,
 CPQ-010,CPQ,Cost-aware pricing,P1,PLANNED,R1,,,
-CPQ-011,CPQ,Quote generation,P1,PLANNED,R1,,,
-CPQ-012,CPQ,Quote versioning,P1,PLANNED,R1,,,
+CPQ-011,CPQ,Quote generation,Implemented (Sprint 006),PLANNED,R1,,,Quote lifecycle DRAFT->...->ACCEPTED with totals
+CPQ-012,CPQ,Quote versioning,Implemented (Sprint 006),PLANNED,R1,,,New version supersedes SENT/REJECTED/EXPIRED
 CPQ-013,CPQ,Promise-date calculation,P1,PLANNED,R1,,,
 CPQ-014,CPQ,Contract pricing,P1,PLANNED,R1,,,
 COM-001,COM,B2C channel integration,P1,PLANNED,R1,,,

@@ -40,6 +40,9 @@ const ICONS: Record<string, string> = {
   devices: 'M5 2h9a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2zM12 18h.01M7 2v3h5V2',
   users: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M10 11a4 4 0 100-8 4 4 0 000 8M19 8v6M22 11h-6',
   platform: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
+  sales: 'M23 6l-9.5 9.5-5-5L1 18M17 6h6v6',
+  quotes:
+    'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM14 2v6h6M16 13H8M16 17H8M10 9H8',
 };
 
 function NavIcon({ name }: { name: string }) {
@@ -62,6 +65,8 @@ function NavIcon({ name }: { name: string }) {
 const NAV: Array<{ href: string; label: string; icon: string; permission: string | null }> = [
   { href: '/', label: 'Dashboard', icon: 'dashboard', permission: null },
   { href: '/tasks', label: 'Tasks', icon: 'tasks', permission: null },
+  { href: '/crm', label: 'Sales', icon: 'sales', permission: 'crm.read' },
+  { href: '/quotes', label: 'Quotes', icon: 'quotes', permission: 'quote.read' },
   { href: '/parties', label: 'Parties', icon: 'parties', permission: 'mdm.read' },
   { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },
   { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },

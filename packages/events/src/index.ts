@@ -34,6 +34,11 @@ export const EVENT_TYPES = {
   INVENTORY_COUNT_STARTED: 'inventory.count.started',
   PICK_TASK_CREATED: 'pick.task.created',
   PICK_COMPLETED: 'pick.completed',
+  CUSTOMER_APPROVED: 'customer.approved',
+  PRICE_LIST_PUBLISHED: 'price_list.published',
+  QUOTE_CREATED: 'quote.created',
+  QUOTE_APPROVED: 'quote.approved',
+  QUOTE_ACCEPTED: 'quote.accepted',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

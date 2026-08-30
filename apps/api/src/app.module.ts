@@ -12,6 +12,8 @@ import {
   TenantService,
 } from '@nexora/domain-core';
 import { DocumentTemplateService } from '@nexora/domain-doc';
+import { PricingService, QuoteService } from '@nexora/domain-cpq';
+import { CrmService } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
 import { CatalogService } from '@nexora/domain-pim';
@@ -35,6 +37,19 @@ import {
   ScanEventsController,
   VERIFICATION_SERVICE,
 } from './dev/dev.controller';
+import {
+  CRM_SERVICE,
+  CrmAccountsController,
+  CrmActivitiesController,
+  CrmLeadsController,
+  CrmOpportunitiesController,
+} from './crm/crm.controller';
+import {
+  PRICING_SERVICE,
+  PriceListsController,
+  QUOTE_SERVICE,
+  QuotesController,
+} from './cpq/cpq.controller';
 import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
 import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
 import {
@@ -98,6 +113,12 @@ export const REDIS = 'REDIS';
     WmsOrdersController,
     DevicesController,
     ScanEventsController,
+    CrmAccountsController,
+    CrmLeadsController,
+    CrmOpportunitiesController,
+    CrmActivitiesController,
+    PriceListsController,
+    QuotesController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -211,6 +232,64 @@ export const REDIS = 'REDIS';
           resolveBarcode: (tenantId, value) => catalog.resolveBarcode(tenantId, value),
         }),
       inject: [PRISMA, DEVICE_SERVICE, CATALOG_SERVICE],
+    },
+    {
+      provide: CRM_SERVICE,
+      useFactory: (prisma: PrismaClient, party: PartyService) => {
+        const serviceCtx = (tenantId: string) => ({
+          tenantId,
+          tenantSlug: '',
+          tenantStatus: 'ACTIVE' as const,
+          actorType: 'SERVICE' as const,
+          userId: undefined,
+          userStatus: undefined,
+          platformAdmin: false,
+        });
+        return new CrmService(prisma, {
+          getPartyState: async (tenantId, partyId) => {
+            try {
+              const view = await party.getParty(partyId, serviceCtx(tenantId));
+              return { exists: true, active: view.status === 'ACTIVE', name: view.name };
+            } catch {
+              return null;
+            }
+          },
+          createOrganization: async (tenantId, name, email) => {
+            const view = await party.createParty(
+              { partyType: 'ORGANIZATION', name, ...(email ? { email } : {}) },
+              serviceCtx(tenantId),
+            );
+            return { partyId: view.id };
+          },
+        });
+      },
+      inject: [PRISMA, PARTY_SERVICE],
+    },
+    {
+      provide: PRICING_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PricingService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: QUOTE_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        pricing: PricingService,
+        crm: CrmService,
+        approvals: ApprovalService,
+        catalog: CatalogService,
+      ) =>
+        new QuoteService(
+          prisma,
+          pricing,
+          { getAccountState: (t, a) => crm.getAccountState(t, a) },
+          {
+            requestApproval: (input, ctx) => approvals.requestApproval(input, ctx),
+            getApprovalStatus: (t, id) => approvals.getApprovalStatus(t, id),
+          },
+          { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) },
+        ),
+      inject: [PRISMA, PRICING_SERVICE, CRM_SERVICE, APPROVAL_SERVICE, CATALOG_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,

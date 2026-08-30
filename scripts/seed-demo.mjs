@@ -56,6 +56,75 @@ console.log(tenant.conflict ? '- tenant already exists' : '- tenant provisioned'
 
 const admin = sign({ tenantSlug: SLUG, subject: 'idp|admin' });
 
+// 1b) Refresh the tenant-admin role to the current permission baseline, so a
+// tenant seeded before a new module still sees it (idempotent).
+const BASELINE = [
+  'organization.read',
+  'organization.manage',
+  'configuration.read',
+  'configuration.publish',
+  'iam.user.manage',
+  'iam.role.manage',
+  'iam.permission.manage',
+  'iam.session.revoke',
+  'iam.security.read',
+  'audit.read',
+  'task.manage',
+  'workflow.read',
+  'workflow.design',
+  'workflow.publish',
+  'approval.act',
+  'automation.manage',
+  'document.read',
+  'document.issue',
+  'mdm.read',
+  'mdm.create',
+  'mdm.merge',
+  'mdm.steward',
+  'product.read',
+  'product.manage',
+  'product.barcode.manage',
+  'product.publish',
+  'inventory.read',
+  'inventory.receive',
+  'inventory.transfer',
+  'inventory.pick',
+  'inventory.pack',
+  'inventory.count',
+  'inventory.adjust',
+  'inventory.adjust.approve',
+  'device.read',
+  'device.enroll',
+  'device.assign',
+  'device.revoke',
+  'device.support',
+  'verification.use',
+  'verification.override',
+  'verification.audit',
+  'crm.read',
+  'crm.manage',
+  'crm.credit.read',
+  'crm.customer.approve',
+  'pricing.read',
+  'pricing.manage',
+  'pricing.override',
+  'quote.read',
+  'quote.create',
+  'quote.approve',
+];
+try {
+  const roles = await call('GET', '/api/v1/roles', admin);
+  const adminRole = (roles.body.roles ?? []).find((r) => r.name === 'tenant-admin');
+  if (adminRole && adminRole.permissions.length < BASELINE.length) {
+    await call('PUT', `/api/v1/roles/${adminRole.id}/permissions`, admin, {
+      permissions: BASELINE,
+    });
+    console.log('- tenant-admin permissions refreshed to current baseline');
+  }
+} catch {
+  console.log('- (could not refresh role baseline, continuing)');
+}
+
 // 2) Parties
 const partyNames = [
   ['ORGANIZATION', 'Adriatic Retail Group', 'orders@adriatic-retail.example', 'HR11111111111'],
@@ -156,6 +225,77 @@ if (!device.conflict) {
     body: JSON.stringify({ enrollmentToken: token, capabilities: { barcode: true } }),
   });
   console.log('- 1 scanner registered and enrolled');
+}
+
+// 6) CRM + CPQ: accounts for existing parties, a lead, a price list, a quote
+try {
+  const partiesRes = await call('GET', '/api/v1/parties?q=', admin);
+  const orgs = (partiesRes.body.parties ?? []).filter((p) => p.partyType === 'ORGANIZATION');
+  let accountsCreated = 0;
+  for (const org of orgs.slice(0, 3)) {
+    const res = await call('POST', '/api/v1/crm/accounts', admin, { partyId: org.id });
+    if (!res.conflict) accountsCreated += 1;
+  }
+  await call('POST', '/api/v1/crm/leads', admin, {
+    name: 'Sanja Prospekt',
+    company: 'Prospekt Trade',
+    email: 'sanja@prospekt.example',
+    source: 'web',
+  });
+  console.log(`- ${accountsCreated} CRM accounts + 1 lead`);
+
+  const accountsRes = await call('GET', '/api/v1/crm/accounts', admin);
+  const firstAccount = (accountsRes.body.accounts ?? [])[0];
+
+  let listRes = await call('POST', '/api/v1/price-lists', admin, {
+    code: 'STANDARD',
+    name: 'Standard prices',
+    currency: 'EUR',
+  });
+  const listsRes = await call('GET', '/api/v1/price-lists', admin);
+  const standard = (listsRes.body.priceLists ?? []).find((l) => l.code === 'STANDARD');
+  void listRes;
+  if (standard) {
+    const productsRes = await call('GET', '/api/v1/products/search', admin);
+    let priced = 0;
+    for (const product of (productsRes.body.products ?? []).slice(0, 6)) {
+      const detail = await call('GET', `/api/v1/products/${product.id}`, admin);
+      for (const sku of detail.body.skus ?? []) {
+        await call('PUT', `/api/v1/price-lists/${standard.id}/entries`, admin, {
+          skuId: sku.id,
+          unitPrice: Math.round((30 + Math.random() * 470) * 100) / 100,
+        });
+        priced += 1;
+      }
+    }
+    if (standard.status === 'DRAFT') {
+      await call('POST', `/api/v1/price-lists/${standard.id}/publish`, admin);
+    }
+    console.log(`- price list STANDARD published with ${priced} prices`);
+
+    if (firstAccount) {
+      const existingQuotes = await call('GET', '/api/v1/quotes', admin);
+      if ((existingQuotes.body.quotes ?? []).length === 0) {
+        const quote = await call('POST', '/api/v1/quotes', admin, {
+          accountId: firstAccount.id,
+          priceListId: standard.id,
+        });
+        const entriesRes = await call('GET', `/api/v1/price-lists/${standard.id}/entries`, admin);
+        const entry = (entriesRes.body.entries ?? [])[0];
+        if (entry && quote.body.id) {
+          await call('POST', `/api/v1/quotes/${quote.body.id}/lines`, admin, {
+            skuId: entry.skuId,
+            quantity: 10,
+            discountPct: 5,
+          });
+          await call('POST', `/api/v1/quotes/${quote.body.id}/submit`, admin);
+          console.log('- 1 demo quote (submitted)');
+        }
+      }
+    }
+  }
+} catch (e) {
+  console.log(`- (CRM/CPQ seed skipped: ${e.message})`);
 }
 
 console.log('\nDone. Sign in with tenant "' + SLUG + '", subject "idp|admin".');
