@@ -370,6 +370,14 @@ export class CatalogService {
     });
   }
 
+  /** Public cross-domain gate: barcode -> SKU identity (used by VER). */
+  async resolveBarcode(tenantId: string, value: string): Promise<string | null> {
+    const barcode = await this.prisma.barcode.findUnique({
+      where: { tenantId_value: { tenantId, value: value.trim() } },
+    });
+    return barcode ? barcode.skuId : null;
+  }
+
   /** Public cross-domain gate: SKU existence/activity (used by WMS et al.). */
   async getSkuState(
     tenantId: string,

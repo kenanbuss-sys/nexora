@@ -12,9 +12,11 @@ import {
   TenantService,
 } from '@nexora/domain-core';
 import { DocumentTemplateService } from '@nexora/domain-doc';
+import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
 import { CatalogService } from '@nexora/domain-pim';
-import { InventoryService } from '@nexora/domain-wms';
+import { VerificationService } from '@nexora/domain-ver';
+import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import { RoleService, UserService } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
@@ -27,6 +29,13 @@ import { HEALTH_SERVICE, HealthController } from './health/health.controller';
 import { HealthService } from './health/health.service';
 import { CONFIGURATION_SERVICE, ConfigController } from './config/config.controller';
 import { PartiesController, PARTY_SERVICE } from './mdm/mdm.controller';
+import {
+  DEVICE_SERVICE,
+  DevicesController,
+  ScanEventsController,
+  VERIFICATION_SERVICE,
+} from './dev/dev.controller';
+import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
 import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
 import {
   BarcodesController,
@@ -86,6 +95,9 @@ export const REDIS = 'REDIS';
     BarcodesController,
     WarehousesController,
     StockController,
+    WmsOrdersController,
+    DevicesController,
+    ScanEventsController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -180,6 +192,25 @@ export const REDIS = 'REDIS';
           getSkuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId),
         }),
       inject: [PRISMA, CATALOG_SERVICE],
+    },
+    {
+      provide: WMS_ORDER_SERVICE,
+      useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
+        new WmsOrderService(prisma, inventory),
+      inject: [PRISMA, INVENTORY_SERVICE],
+    },
+    {
+      provide: DEVICE_SERVICE,
+      useFactory: (prisma: PrismaClient) => new DeviceService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: VERIFICATION_SERVICE,
+      useFactory: (prisma: PrismaClient, devices: DeviceService, catalog: CatalogService) =>
+        new VerificationService(prisma, devices, {
+          resolveBarcode: (tenantId, value) => catalog.resolveBarcode(tenantId, value),
+        }),
+      inject: [PRISMA, DEVICE_SERVICE, CATALOG_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,

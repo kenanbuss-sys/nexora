@@ -50,6 +50,14 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'inventory.count',
   'inventory.adjust',
   'inventory.adjust.approve',
+  'device.read',
+  'device.enroll',
+  'device.assign',
+  'device.revoke',
+  'device.support',
+  'verification.use',
+  'verification.override',
+  'verification.audit',
 ];
 
 const createTenantSchema = z.object({

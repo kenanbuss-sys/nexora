@@ -145,17 +145,17 @@ PROC-015,PROC,Purchase suggestions,P1,PLANNED,R1,,,
 WMS-001,WMS,Warehouse topology,P1,Implemented (Sprint 004),R1,,,Warehouse + location topology
 WMS-002,WMS,Stock ledger,P1,Implemented (Sprint 004),R1,,,"Immutable movement ledger, idempotent posting"
 WMS-003,WMS,Stock projections,P1,Implemented (Sprint 004),R1,,,On-hand/reserved/available derived from ledger
-WMS-004,WMS,Receiving,P1,PLANNED,R1,,,
+WMS-004,WMS,Receiving,Implemented (Sprint 005),PLANNED,R1,,,Receiving orders post RECEIPT movements
 WMS-005,WMS,Receiving discrepancies,P1,PLANNED,R1,,,
 WMS-006,WMS,Inbound QC hold,P1,PLANNED,R1,,,
 WMS-007,WMS,Putaway,P1,PLANNED,R1,,,
 WMS-008,WMS,Replenishment,P1,PLANNED,R1,,,
 WMS-009,WMS,Reservations,P1,Implemented (Sprint 004),R1,,,Atomic reservations under stock lock; no-oversell proven by concurrency test
-WMS-010,WMS,Picking,P1,PLANNED,R1,,,
+WMS-010,WMS,Picking,Implemented (Sprint 005),PLANNED,R1,,,"Pick orders post ISSUE, oversell-guarded"
 WMS-011,WMS,Packing,P1,PLANNED,R1,,,
 WMS-012,WMS,Shipping staging,P1,PLANNED,R1,,,
-WMS-013,WMS,Transfers,P1,PLANNED,R1,,,
-WMS-014,WMS,Cycle counting,P1,PLANNED,R1,,,
+WMS-013,WMS,Transfers,Implemented (Sprint 005),PLANNED,R1,,,"Transfer orders post OUT+IN, retriable"
+WMS-014,WMS,Cycle counting,Implemented (Sprint 005),PLANNED,R1,,,Cycle count adjusts ledger to counted qty
 WMS-015,WMS,Full inventory,P1,PLANNED,R1,,,
 WMS-016,WMS,Adjustment governance,P1,PLANNED,R1,,,
 WMS-017,WMS,Lot control,P1,PLANNED,R1,,,
@@ -222,8 +222,8 @@ MES-022,MES,Andon/alerts,P1,PLANNED,R2,,,
 MES-023,MES,Shift production,P1,PLANNED,R2,,,
 MES-024,MES,Production confirmations,P1,PLANNED,R2,,,
 MES-025,MES,Machine hooks,P1,PLANNED,R2,,,
-VER-001,VER,Barcode events,P1,PLANNED,R1/R2,,,
-VER-002,VER,QR workflow IDs,P1,PLANNED,R1/R2,,,
+VER-001,VER,Barcode events,Implemented (Sprint 005),PLANNED,R1/R2,,,Barcode events resolved to SKUs via PIM contract
+VER-002,VER,QR workflow IDs,Implemented (Sprint 005),PLANNED,R1/R2,,,QR events with correlation ids
 VER-003,VER,RFID support,P1,PLANNED,R1/R2,,,
 VER-004,VER,NFC verification,P1,PLANNED,R1/R2,,,
 VER-005,VER,Worker check,P1,PLANNED,R1/R2,,,
@@ -238,10 +238,10 @@ VER-013,VER,QC checkpoint,P1,PLANNED,R1/R2,,,
 VER-014,VER,Supervisor approval,P1,PLANNED,R1/R2,,,
 VER-015,VER,Photo evidence,P1,PLANNED,R1/R2,,,
 VER-016,VER,Digital signature,P1,PLANNED,R1/R2,,,
-VER-017,VER,Offline queue,P1,PLANNED,R1/R2,,,
-VER-018,VER,Idempotent replay,P1,PLANNED,R1/R2,,,
-VER-019,VER,Device capability detection,P1,PLANNED,R1/R2,,,
-VER-020,VER,Event correlation,P1,PLANNED,R1/R2,,,
+VER-017,VER,Offline queue,Implemented (Sprint 005),PLANNED,R1/R2,,,Offline envelope upload
+VER-018,VER,Idempotent replay,Implemented (Sprint 005),PLANNED,R1/R2,,,"Exactly-once replay per (device, clientEventId)"
+VER-019,VER,Device capability detection,Implemented (Sprint 005),PLANNED,R1/R2,,,Capabilities reported at enrollment
+VER-020,VER,Event correlation,Implemented (Sprint 005),PLANNED,R1/R2,,,correlationId on events
 QMS-001,QMS,Inspection plans,P2,PLANNED,R2,,,
 QMS-002,QMS,Incoming inspection,P2,PLANNED,R2,,,
 QMS-003,QMS,In-process inspection,P2,PLANNED,R2,,,
@@ -407,10 +407,10 @@ INT-016,INT,Run history,P0,PLANNED,R0,,,
 INT-017,INT,Secrets management,P0,PLANNED,R0,,,
 INT-018,INT,Rate-limit handling,P0,PLANNED,R0,,,
 INT-019,INT,Versioned mappings,P0,PLANNED,R0,,,
-DEV-001,DEV,Device registry,P1,PLANNED,R1,,,
-DEV-002,DEV,Enrollment,P1,PLANNED,R1,,,
-DEV-003,DEV,Assignment,P1,PLANNED,R1,,,
-DEV-004,DEV,Health/last seen,P1,PLANNED,R1,,,
+DEV-001,DEV,Device registry,Implemented (Sprint 005),PLANNED,R1,,,Device registry with tenant-scoped codes
+DEV-002,DEV,Enrollment,Implemented (Sprint 005),PLANNED,R1,,,One-time token enrollment; device-side claim
+DEV-003,DEV,Assignment,Implemented (Sprint 005),PLANNED,R1,,,User/branch assignment
+DEV-004,DEV,Health/last seen,Implemented (Sprint 005),PLANNED,R1,,,Heartbeat + last-seen
 DEV-005,DEV,Scanner adapter,P1,PLANNED,R1,,,
 DEV-006,DEV,Printer adapter,P1,PLANNED,R1,,,
 DEV-007,DEV,RFID adapter,P1,PLANNED,R1,,,

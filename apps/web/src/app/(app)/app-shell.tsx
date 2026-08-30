@@ -32,6 +32,8 @@ const NAV: Array<{ href: string; label: string; permission: string | null }> = [
   { href: '/parties', label: 'Parties', permission: 'mdm.read' },
   { href: '/catalog', label: 'Catalog', permission: 'product.read' },
   { href: '/inventory', label: 'Inventory', permission: 'inventory.read' },
+  { href: '/operations', label: 'Operations', permission: 'inventory.read' },
+  { href: '/devices', label: 'Devices', permission: 'device.read' },
   { href: '/users', label: 'Users & roles', permission: 'iam.user.manage' },
 ];
 

@@ -8,3 +8,4 @@ export {
   type StockPosition,
   type WarehouseView,
 } from './inventory.service';
+export { WmsOrderService, type WmsOrderLineView, type WmsOrderView } from './order.service';
