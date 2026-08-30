@@ -302,13 +302,15 @@ export class InventoryService {
 
   /** Per-(tenant, warehouse, sku) transaction-scoped advisory lock. */
   private async lockStock(
-    tx: { $queryRaw: PrismaClient['$queryRaw'] },
+    tx: { $executeRaw: PrismaClient['$executeRaw'] },
     tenantId: string,
     warehouseId: string,
     skuId: string,
   ): Promise<void> {
     const key = `${tenantId}:${warehouseId}:${skuId}`;
-    await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtextextended(${key}, 0))`;
+    // $executeRaw (not $queryRaw): pg_advisory_xact_lock returns VOID, which
+    // the engine-free client cannot deserialize as a result column.
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${key}, 0))`;
   }
 
   private async sums(

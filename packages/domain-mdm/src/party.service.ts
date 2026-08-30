@@ -95,10 +95,11 @@ export class PartyService {
 
   /** Resolves merge redirects: always returns the surviving canonical party. */
   async getParty(partyId: string, ctx: RequestContext): Promise<PartyView> {
-    let current = await this.prisma.party.findFirst({
+    const initial = await this.prisma.party.findFirst({
       where: { id: partyId, tenantId: ctx.tenantId },
     });
-    if (!current) throw notFound('Party', partyId);
+    if (!initial) throw notFound('Party', partyId);
+    let current = initial;
     let hops = 0;
     while (current.status === 'MERGED' && current.mergedIntoId && hops < 10) {
       const next = await this.prisma.party.findFirst({

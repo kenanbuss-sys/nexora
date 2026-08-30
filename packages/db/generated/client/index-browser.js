@@ -392,6 +392,110 @@ exports.Prisma.DocumentTemplateVersionScalarFieldEnum = {
   publishedAt: 'publishedAt'
 };
 
+exports.Prisma.PartyScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  partyType: 'partyType',
+  name: 'name',
+  normalizedName: 'normalizedName',
+  email: 'email',
+  taxId: 'taxId',
+  status: 'status',
+  mergedIntoId: 'mergedIntoId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PartyExternalIdentityScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  partyId: 'partyId',
+  sourceSystem: 'sourceSystem',
+  externalId: 'externalId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SkuScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  productId: 'productId',
+  code: 'code',
+  name: 'name',
+  baseUom: 'baseUom',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BarcodeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  value: 'value',
+  barcodeType: 'barcodeType',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UomConversionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  fromUom: 'fromUom',
+  toUom: 'toUom',
+  factor: 'factor'
+};
+
+exports.Prisma.WarehouseScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name'
+};
+
+exports.Prisma.WarehouseLocationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  warehouseId: 'warehouseId',
+  code: 'code'
+};
+
+exports.Prisma.StockMovementScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  warehouseId: 'warehouseId',
+  locationId: 'locationId',
+  skuId: 'skuId',
+  movementType: 'movementType',
+  quantity: 'quantity',
+  reason: 'reason',
+  idempotencyKey: 'idempotencyKey',
+  occurredAt: 'occurredAt',
+  createdBy: 'createdBy'
+};
+
+exports.Prisma.StockReservationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  warehouseId: 'warehouseId',
+  skuId: 'skuId',
+  quantity: 'quantity',
+  status: 'status',
+  reference: 'reference',
+  createdAt: 'createdAt',
+  releasedAt: 'releasedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -479,6 +583,43 @@ exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.PartyType = exports.$Enums.PartyType = {
+  PERSON: 'PERSON',
+  ORGANIZATION: 'ORGANIZATION'
+};
+
+exports.PartyStatus = exports.$Enums.PartyStatus = {
+  ACTIVE: 'ACTIVE',
+  MERGED: 'MERGED'
+};
+
+exports.ProductStatus = exports.$Enums.ProductStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.SkuStatus = exports.$Enums.SkuStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  DISCONTINUED: 'DISCONTINUED'
+};
+
+exports.StockMovementType = exports.$Enums.StockMovementType = {
+  RECEIPT: 'RECEIPT',
+  ISSUE: 'ISSUE',
+  ADJUSTMENT_IN: 'ADJUSTMENT_IN',
+  ADJUSTMENT_OUT: 'ADJUSTMENT_OUT',
+  TRANSFER_IN: 'TRANSFER_IN',
+  TRANSFER_OUT: 'TRANSFER_OUT'
+};
+
+exports.ReservationStatus = exports.$Enums.ReservationStatus = {
+  ACTIVE: 'ACTIVE',
+  RELEASED: 'RELEASED',
+  CONSUMED: 'CONSUMED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -505,7 +646,17 @@ exports.Prisma.ModelName = {
   Approval: 'Approval',
   ProcessedEvent: 'ProcessedEvent',
   DocumentTemplate: 'DocumentTemplate',
-  DocumentTemplateVersion: 'DocumentTemplateVersion'
+  DocumentTemplateVersion: 'DocumentTemplateVersion',
+  Party: 'Party',
+  PartyExternalIdentity: 'PartyExternalIdentity',
+  Product: 'Product',
+  Sku: 'Sku',
+  Barcode: 'Barcode',
+  UomConversion: 'UomConversion',
+  Warehouse: 'Warehouse',
+  WarehouseLocation: 'WarehouseLocation',
+  StockMovement: 'StockMovement',
+  StockReservation: 'StockReservation'
 };
 
 /**
