@@ -99,7 +99,7 @@ CREATE TABLE "uom_conversion" (
 CREATE INDEX "party_tenant_id_normalized_name_idx" ON "party"("tenant_id", "normalized_name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "party_external_identity_tenant_id_source_system_external_i_key" ON "party_external_identity"("tenant_id", "source_system", "external_id");
+CREATE UNIQUE INDEX "party_external_identity_tenant_id_source_system_external_id_key" ON "party_external_identity"("tenant_id", "source_system", "external_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "product_tenant_id_code_key" ON "product"("tenant_id", "code");
