@@ -54,6 +54,12 @@ const MOVEMENT_PERMISSION: Record<string, string> = {
 export class WarehousesController {
   constructor(@Inject(INVENTORY_SERVICE) private readonly inventory: InventoryService) {}
 
+  @Get()
+  @RequirePermission('inventory.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { warehouses: await this.inventory.listWarehouses(ctx) };
+  }
+
   @Post()
   @RequirePermission('inventory.adjust')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
@@ -101,6 +107,34 @@ export class StockController {
     const input = parseBody(z.object({ reservationId: z.string().uuid() }), body);
     await this.inventory.releaseReservation(input.reservationId, ctx);
     return { ok: true };
+  }
+
+  @Get('movements')
+  @RequirePermission('inventory.read')
+  async listMovements(
+    @Ctx() ctx: RequestContext,
+    @Query('warehouseId') warehouseId?: string,
+    @Query('skuId') skuId?: string,
+  ) {
+    const params = parseBody(
+      z.object({ warehouseId: z.string().uuid().optional(), skuId: z.string().uuid().optional() }),
+      { ...(warehouseId ? { warehouseId } : {}), ...(skuId ? { skuId } : {}) },
+    );
+    return { movements: await this.inventory.listMovements(params, ctx) };
+  }
+
+  @Get('reservations')
+  @RequirePermission('inventory.read')
+  async listReservations(
+    @Ctx() ctx: RequestContext,
+    @Query('warehouseId') warehouseId?: string,
+    @Query('skuId') skuId?: string,
+  ) {
+    const params = parseBody(
+      z.object({ warehouseId: z.string().uuid().optional(), skuId: z.string().uuid().optional() }),
+      { ...(warehouseId ? { warehouseId } : {}), ...(skuId ? { skuId } : {}) },
+    );
+    return { reservations: await this.inventory.listReservations(params, ctx) };
   }
 
   @Get('position')

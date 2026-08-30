@@ -34,6 +34,12 @@ const assignRoleSchema = z.object({
 export class UsersController {
   constructor(@Inject(USER_SERVICE) private readonly users: UserService) {}
 
+  @Get()
+  @RequirePermission('iam.user.manage')
+  async list(@Ctx() ctx: RequestContext) {
+    return { users: await this.users.listUsers(ctx) };
+  }
+
   @Post('invite')
   @RequirePermission('iam.user.manage')
   async invite(@Body() body: unknown, @Ctx() ctx: RequestContext) {
@@ -56,6 +62,12 @@ export class UsersController {
 @Controller('api/v1/roles')
 export class RolesController {
   constructor(@Inject(ROLE_SERVICE) private readonly roles: RoleService) {}
+
+  @Get()
+  @RequirePermission('iam.role.manage')
+  async list(@Ctx() ctx: RequestContext) {
+    return { roles: await this.roles.listRoles(ctx) };
+  }
 
   @Post()
   @RequirePermission('iam.role.manage')

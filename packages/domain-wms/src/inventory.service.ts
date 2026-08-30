@@ -55,6 +55,88 @@ export class InventoryService {
     private readonly skuGate: SkuGate,
   ) {}
 
+  /** Permission: inventory.read. */
+  async listWarehouses(ctx: RequestContext): Promise<WarehouseView[]> {
+    const warehouses = await this.prisma.warehouse.findMany({
+      where: { tenantId: ctx.tenantId },
+      orderBy: { code: 'asc' },
+      take: 200,
+    });
+    return warehouses.map((w) => ({ id: w.id, code: w.code, name: w.name }));
+  }
+
+  /** Permission: inventory.read. Recent ledger entries, newest first. */
+  async listMovements(
+    filter: { warehouseId?: string | undefined; skuId?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<
+    Array<{
+      id: string;
+      warehouseId: string;
+      skuId: string;
+      movementType: string;
+      quantity: string;
+      reason: string | null;
+      idempotencyKey: string;
+      occurredAt: string;
+    }>
+  > {
+    const movements = await this.prisma.stockMovement.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        ...(filter.warehouseId ? { warehouseId: filter.warehouseId } : {}),
+        ...(filter.skuId ? { skuId: filter.skuId } : {}),
+      },
+      orderBy: { occurredAt: 'desc' },
+      take: 100,
+    });
+    return movements.map((m) => ({
+      id: m.id,
+      warehouseId: m.warehouseId,
+      skuId: m.skuId,
+      movementType: m.movementType,
+      quantity: m.quantity.toString(),
+      reason: m.reason,
+      idempotencyKey: m.idempotencyKey,
+      occurredAt: m.occurredAt.toISOString(),
+    }));
+  }
+
+  /** Permission: inventory.read. */
+  async listReservations(
+    filter: { warehouseId?: string | undefined; skuId?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<
+    Array<{
+      id: string;
+      warehouseId: string;
+      skuId: string;
+      quantity: string;
+      status: string;
+      reference: string | null;
+      createdAt: string;
+    }>
+  > {
+    const reservations = await this.prisma.stockReservation.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        ...(filter.warehouseId ? { warehouseId: filter.warehouseId } : {}),
+        ...(filter.skuId ? { skuId: filter.skuId } : {}),
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+    });
+    return reservations.map((r) => ({
+      id: r.id,
+      warehouseId: r.warehouseId,
+      skuId: r.skuId,
+      quantity: r.quantity.toString(),
+      status: r.status,
+      reference: r.reference,
+      createdAt: r.createdAt.toISOString(),
+    }));
+  }
+
   async createWarehouse(
     input: { code: string; name: string },
     ctx: RequestContext,

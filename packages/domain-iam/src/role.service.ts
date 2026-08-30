@@ -25,6 +25,22 @@ export class RoleService {
   constructor(private readonly prisma: PrismaClient) {}
 
   /** Permission: iam.role.manage. */
+  async listRoles(ctx: RequestContext): Promise<RoleView[]> {
+    const roles = await this.prisma.role.findMany({
+      where: { tenantId: ctx.tenantId },
+      include: { permissions: { orderBy: { permissionKey: 'asc' } } },
+      orderBy: { name: 'asc' },
+      take: 200,
+    });
+    return roles.map((r) => ({
+      id: r.id,
+      name: r.name,
+      description: r.description,
+      permissions: r.permissions.map((p) => p.permissionKey),
+    }));
+  }
+
+  /** Permission: iam.role.manage. */
   async createRole(
     input: { name: string; description?: string | undefined; permissions?: string[] | undefined },
     ctx: RequestContext,

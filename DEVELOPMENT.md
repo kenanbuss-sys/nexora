@@ -47,3 +47,10 @@ provisioning. Provision a tenant with an initial admin via
 
 Key endpoints: `/api/v1/tenant/configuration`, `/api/v1/organization/*`,
 `/api/v1/users/*`, `/api/v1/roles/*`, `/api/v1/me/permissions`.
+
+## Web application (MVP)
+
+- `pnpm --filter @nexora/web dev` starts the UI on http://localhost:3000 (API must run on :3001; override with `API_URL`).
+- Sign-in is the dev identity mode: tenant slug + identity subject. Check "Platform operator" to provision tenants at `/platform`.
+- Bootstrap flow: sign in as platform operator (any subject, e.g. `ops|root`) -> provision a tenant with an initial admin -> sign out -> sign in with that tenant slug and the admin's identity subject.
+- The UI holds no business logic and hides unauthorized modules; every action is authorized server-side.

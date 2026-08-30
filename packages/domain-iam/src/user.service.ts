@@ -26,6 +26,16 @@ function toView(u: User): UserView {
 export class UserService {
   constructor(private readonly prisma: PrismaClient) {}
 
+  /** Permission: iam.user.manage. */
+  async listUsers(ctx: RequestContext): Promise<UserView[]> {
+    const users = await this.prisma.user.findMany({
+      where: { tenantId: ctx.tenantId },
+      orderBy: { displayName: 'asc' },
+      take: 200,
+    });
+    return users.map(toView);
+  }
+
   /** Permission: iam.user.manage. Emits user.invited. */
   async inviteUser(
     input: { email: string; displayName: string; idpSubject?: string | undefined },
