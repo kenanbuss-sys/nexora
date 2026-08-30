@@ -69,6 +69,14 @@ model Tenant {
   scanEvents            ScanEvent[]
   wmsOrders             WmsOrder[]
   wmsOrderLines         WmsOrderLine[]
+  crmAccounts           CrmAccount[]
+  leads                 Lead[]
+  opportunities         Opportunity[]
+  crmActivities         CrmActivity[]
+  priceLists            PriceList[]
+  priceListEntries      PriceListEntry[]
+  quotes                Quote[]
+  quoteLines            QuoteLine[]
 
   @@map("tenant")
 }
@@ -915,4 +923,217 @@ model WmsOrderLine {
 
   @@index([tenantId, orderId])
   @@map("wms_order_line")
+}
+
+// --- Sprint 006: CRM (accounts, leads, opportunities, activities) + CPQ (price lists, quotes) ---
+
+enum CrmAccountStatus {
+  ACTIVE
+  BLOCKED
+}
+
+/// Commercial customer profile (CRM-002). Identity stays in MDM (partyId);
+/// CRM owns only the commercial relationship.
+model CrmAccount {
+  id            String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String           @map("tenant_id") @db.Uuid
+  partyId       String           @map("party_id") @db.Uuid
+  accountNumber String           @map("account_number")
+  ownerUserId   String?          @map("owner_user_id") @db.Uuid
+  creditLimit   Decimal?         @map("credit_limit") @db.Decimal(18, 2)
+  status        CrmAccountStatus @default(ACTIVE)
+  createdAt     DateTime         @default(now()) @map("created_at")
+  updatedAt     DateTime         @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, partyId])
+  @@unique([tenantId, accountNumber])
+  @@map("crm_account")
+}
+
+enum LeadStatus {
+  NEW
+  QUALIFIED
+  DISQUALIFIED
+  CONVERTED
+}
+
+model Lead {
+  id                     String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId               String     @map("tenant_id") @db.Uuid
+  name                   String
+  company                String?
+  email                  String?
+  phone                  String?
+  source                 String?
+  status                 LeadStatus @default(NEW)
+  ownerUserId            String?    @map("owner_user_id") @db.Uuid
+  convertedAccountId     String?    @map("converted_account_id") @db.Uuid
+  convertedOpportunityId String?    @map("converted_opportunity_id") @db.Uuid
+  createdAt              DateTime   @default(now()) @map("created_at")
+  updatedAt              DateTime   @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, status])
+  @@map("lead")
+}
+
+enum OpportunityStage {
+  NEW
+  QUALIFIED
+  PROPOSAL
+  WON
+  LOST
+}
+
+model Opportunity {
+  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String           @map("tenant_id") @db.Uuid
+  accountId         String           @map("account_id") @db.Uuid
+  title             String
+  stage             OpportunityStage @default(NEW)
+  amount            Decimal?         @db.Decimal(18, 2)
+  currency          String?          @db.Char(3)
+  expectedCloseDate DateTime?        @map("expected_close_date")
+  ownerUserId       String?          @map("owner_user_id") @db.Uuid
+  closedAt          DateTime?        @map("closed_at")
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, accountId])
+  @@index([tenantId, stage])
+  @@map("opportunity")
+}
+
+enum CrmActivityType {
+  NOTE
+  CALL
+  MEETING
+  EMAIL
+  TASK
+}
+
+/// Interaction timeline entries (CRM-004/010).
+model CrmActivity {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String          @map("tenant_id") @db.Uuid
+  accountId     String?         @map("account_id") @db.Uuid
+  opportunityId String?         @map("opportunity_id") @db.Uuid
+  activityType  CrmActivityType @map("activity_type")
+  subject       String
+  body          String?
+  occurredAt    DateTime        @default(now()) @map("occurred_at")
+  createdBy     String?         @map("created_by")
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, accountId, occurredAt])
+  @@map("crm_activity")
+}
+
+enum PriceListStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+/// CPQ-001 price lists; entries carry quantity breaks (CPQ-002).
+model PriceList {
+  id        String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String          @map("tenant_id") @db.Uuid
+  code      String
+  name      String
+  currency  String          @db.Char(3)
+  status    PriceListStatus @default(DRAFT)
+  validFrom DateTime?       @map("valid_from")
+  validTo   DateTime?       @map("valid_to")
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+
+  tenant  Tenant           @relation(fields: [tenantId], references: [id])
+  entries PriceListEntry[]
+
+  @@unique([tenantId, code])
+  @@map("price_list")
+}
+
+model PriceListEntry {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String  @map("tenant_id") @db.Uuid
+  priceListId String  @map("price_list_id") @db.Uuid
+  skuId       String  @map("sku_id") @db.Uuid
+  /// Quantity break threshold: the entry applies from this quantity up.
+  minQty      Decimal @default(1) @map("min_qty") @db.Decimal(18, 6)
+  unitPrice   Decimal @map("unit_price") @db.Decimal(18, 4)
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id])
+  priceList PriceList @relation(fields: [priceListId], references: [id])
+
+  @@unique([tenantId, priceListId, skuId, minQty])
+  @@map("price_list_entry")
+}
+
+enum QuoteStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  SENT
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+/// CPQ-011/012 quote lifecycle with versioning; discounts above the margin
+/// floor require approval (CPQ-004/005) through the WF approval service.
+model Quote {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String      @map("tenant_id") @db.Uuid
+  quoteNumber   String      @map("quote_number")
+  version       Int         @default(1)
+  supersedesId  String?     @map("supersedes_id") @db.Uuid
+  accountId     String      @map("account_id") @db.Uuid
+  opportunityId String?     @map("opportunity_id") @db.Uuid
+  priceListId   String      @map("price_list_id") @db.Uuid
+  status        QuoteStatus @default(DRAFT)
+  currency      String      @db.Char(3)
+  subtotal      Decimal     @default(0) @db.Decimal(18, 2)
+  discountTotal Decimal     @default(0) @map("discount_total") @db.Decimal(18, 2)
+  total         Decimal     @default(0) @db.Decimal(18, 2)
+  validUntil    DateTime?   @map("valid_until")
+  approvalId    String?     @map("approval_id") @db.Uuid
+  createdBy     String?     @map("created_by")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  tenant Tenant      @relation(fields: [tenantId], references: [id])
+  lines  QuoteLine[]
+
+  @@unique([tenantId, quoteNumber, version])
+  @@index([tenantId, accountId])
+  @@index([tenantId, status])
+  @@map("quote")
+}
+
+model QuoteLine {
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String  @map("tenant_id") @db.Uuid
+  quoteId       String  @map("quote_id") @db.Uuid
+  skuId         String  @map("sku_id") @db.Uuid
+  description   String
+  quantity      Decimal @db.Decimal(18, 6)
+  listUnitPrice Decimal @map("list_unit_price") @db.Decimal(18, 4)
+  discountPct   Decimal @default(0) @map("discount_pct") @db.Decimal(5, 2)
+  netUnitPrice  Decimal @map("net_unit_price") @db.Decimal(18, 4)
+  lineTotal     Decimal @map("line_total") @db.Decimal(18, 2)
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  quote  Quote  @relation(fields: [quoteId], references: [id])
+
+  @@index([tenantId, quoteId])
+  @@map("quote_line")
 }

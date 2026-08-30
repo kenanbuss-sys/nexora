@@ -549,6 +549,118 @@ exports.Prisma.WmsOrderLineScalarFieldEnum = {
   processedQty: 'processedQty'
 };
 
+exports.Prisma.CrmAccountScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  partyId: 'partyId',
+  accountNumber: 'accountNumber',
+  ownerUserId: 'ownerUserId',
+  creditLimit: 'creditLimit',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeadScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  company: 'company',
+  email: 'email',
+  phone: 'phone',
+  source: 'source',
+  status: 'status',
+  ownerUserId: 'ownerUserId',
+  convertedAccountId: 'convertedAccountId',
+  convertedOpportunityId: 'convertedOpportunityId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OpportunityScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  accountId: 'accountId',
+  title: 'title',
+  stage: 'stage',
+  amount: 'amount',
+  currency: 'currency',
+  expectedCloseDate: 'expectedCloseDate',
+  ownerUserId: 'ownerUserId',
+  closedAt: 'closedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CrmActivityScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  accountId: 'accountId',
+  opportunityId: 'opportunityId',
+  activityType: 'activityType',
+  subject: 'subject',
+  body: 'body',
+  occurredAt: 'occurredAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PriceListScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  currency: 'currency',
+  status: 'status',
+  validFrom: 'validFrom',
+  validTo: 'validTo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PriceListEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  priceListId: 'priceListId',
+  skuId: 'skuId',
+  minQty: 'minQty',
+  unitPrice: 'unitPrice'
+};
+
+exports.Prisma.QuoteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  quoteNumber: 'quoteNumber',
+  version: 'version',
+  supersedesId: 'supersedesId',
+  accountId: 'accountId',
+  opportunityId: 'opportunityId',
+  priceListId: 'priceListId',
+  status: 'status',
+  currency: 'currency',
+  subtotal: 'subtotal',
+  discountTotal: 'discountTotal',
+  total: 'total',
+  validUntil: 'validUntil',
+  approvalId: 'approvalId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QuoteLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  quoteId: 'quoteId',
+  skuId: 'skuId',
+  description: 'description',
+  quantity: 'quantity',
+  listUnitPrice: 'listUnitPrice',
+  discountPct: 'discountPct',
+  netUnitPrice: 'netUnitPrice',
+  lineTotal: 'lineTotal'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -708,6 +820,50 @@ exports.WmsOrderStatus = exports.$Enums.WmsOrderStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.CrmAccountStatus = exports.$Enums.CrmAccountStatus = {
+  ACTIVE: 'ACTIVE',
+  BLOCKED: 'BLOCKED'
+};
+
+exports.LeadStatus = exports.$Enums.LeadStatus = {
+  NEW: 'NEW',
+  QUALIFIED: 'QUALIFIED',
+  DISQUALIFIED: 'DISQUALIFIED',
+  CONVERTED: 'CONVERTED'
+};
+
+exports.OpportunityStage = exports.$Enums.OpportunityStage = {
+  NEW: 'NEW',
+  QUALIFIED: 'QUALIFIED',
+  PROPOSAL: 'PROPOSAL',
+  WON: 'WON',
+  LOST: 'LOST'
+};
+
+exports.CrmActivityType = exports.$Enums.CrmActivityType = {
+  NOTE: 'NOTE',
+  CALL: 'CALL',
+  MEETING: 'MEETING',
+  EMAIL: 'EMAIL',
+  TASK: 'TASK'
+};
+
+exports.PriceListStatus = exports.$Enums.PriceListStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.QuoteStatus = exports.$Enums.QuoteStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  SENT: 'SENT',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -748,7 +904,15 @@ exports.Prisma.ModelName = {
   Device: 'Device',
   ScanEvent: 'ScanEvent',
   WmsOrder: 'WmsOrder',
-  WmsOrderLine: 'WmsOrderLine'
+  WmsOrderLine: 'WmsOrderLine',
+  CrmAccount: 'CrmAccount',
+  Lead: 'Lead',
+  Opportunity: 'Opportunity',
+  CrmActivity: 'CrmActivity',
+  PriceList: 'PriceList',
+  PriceListEntry: 'PriceListEntry',
+  Quote: 'Quote',
+  QuoteLine: 'QuoteLine'
 };
 
 /**
