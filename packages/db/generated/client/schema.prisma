@@ -85,6 +85,11 @@ model Tenant {
   purchaseReqLines      PurchaseRequisitionLine[]
   purchaseOrders        PurchaseOrder[]
   purchaseOrderLines    PurchaseOrderLine[]
+  boms                  Bom[]
+  bomLines              BomLine[]
+  routings              Routing[]
+  routingOperations     RoutingOperation[]
+  engineeringChanges    EngineeringChange[]
 
   @@map("tenant")
 }
@@ -1346,4 +1351,122 @@ model PurchaseOrderLine {
   @@index([tenantId, poId])
   @@index([tenantId, skuId])
   @@map("purchase_order_line")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 009 — Engineering: versioned BOMs, routings, change requests
+// (ENG-001/002/003/006/007/011/013).
+// ---------------------------------------------------------------------------
+
+enum RevisionStatus {
+  DRAFT
+  RELEASED
+  OBSOLETE
+}
+
+/// Versioned bill of materials for an output SKU (ENG-002/003). Only one
+/// RELEASED version per SKU is effective at a time (ENG-006); releasing a
+/// new version obsoletes the previous one.
+model Bom {
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String         @map("tenant_id") @db.Uuid
+  skuId         String         @map("sku_id") @db.Uuid
+  version       Int            @default(1)
+  status        RevisionStatus @default(DRAFT)
+  effectiveFrom DateTime?      @map("effective_from")
+  notes         String?
+  createdBy     String?        @map("created_by")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  tenant Tenant    @relation(fields: [tenantId], references: [id])
+  lines  BomLine[]
+
+  @@unique([tenantId, skuId, version])
+  @@index([tenantId, skuId, status])
+  @@map("bom")
+}
+
+model BomLine {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String  @map("tenant_id") @db.Uuid
+  bomId          String  @map("bom_id") @db.Uuid
+  componentSkuId String  @map("component_sku_id") @db.Uuid
+  description    String
+  quantity       Decimal @db.Decimal(18, 6)
+  scrapPct       Decimal @default(0) @map("scrap_pct") @db.Decimal(5, 2)
+  position       Int     @default(0)
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  bom    Bom    @relation(fields: [bomId], references: [id])
+
+  @@index([tenantId, bomId])
+  @@index([tenantId, componentSkuId])
+  @@map("bom_line")
+}
+
+/// Versioned routing: ordered operations with standard times (ENG-011/013).
+model Routing {
+  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String         @map("tenant_id") @db.Uuid
+  skuId     String         @map("sku_id") @db.Uuid
+  version   Int            @default(1)
+  status    RevisionStatus @default(DRAFT)
+  createdBy String?        @map("created_by")
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+
+  tenant     Tenant             @relation(fields: [tenantId], references: [id])
+  operations RoutingOperation[]
+
+  @@unique([tenantId, skuId, version])
+  @@index([tenantId, skuId, status])
+  @@map("routing")
+}
+
+model RoutingOperation {
+  id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String  @map("tenant_id") @db.Uuid
+  routingId         String  @map("routing_id") @db.Uuid
+  seq               Int
+  name              String
+  workCenter        String  @map("work_center")
+  setupMinutes      Decimal @default(0) @map("setup_minutes") @db.Decimal(10, 2)
+  runMinutesPerUnit Decimal @default(0) @map("run_minutes_per_unit") @db.Decimal(10, 4)
+  instructions      String?
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  routing Routing @relation(fields: [routingId], references: [id])
+
+  @@unique([tenantId, routingId, seq])
+  @@map("routing_operation")
+}
+
+enum EcStatus {
+  OPEN
+  APPROVED
+  REJECTED
+  IMPLEMENTED
+}
+
+/// Engineering change request (ENG-007): tracked reason for revising a
+/// SKU's BOM/routing; approval is a separate permission (SoD).
+model EngineeringChange {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  ecNumber    String   @map("ec_number")
+  targetSkuId String   @map("target_sku_id") @db.Uuid
+  title       String
+  status      EcStatus @default(OPEN)
+  note        String?
+  decidedBy   String?  @map("decided_by")
+  createdBy   String?  @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, ecNumber])
+  @@index([tenantId, status])
+  @@map("engineering_change")
 }

@@ -763,6 +763,67 @@ exports.Prisma.PurchaseOrderLineScalarFieldEnum = {
   receivedQty: 'receivedQty'
 };
 
+exports.Prisma.BomScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  version: 'version',
+  status: 'status',
+  effectiveFrom: 'effectiveFrom',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BomLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  bomId: 'bomId',
+  componentSkuId: 'componentSkuId',
+  description: 'description',
+  quantity: 'quantity',
+  scrapPct: 'scrapPct',
+  position: 'position'
+};
+
+exports.Prisma.RoutingScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  version: 'version',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RoutingOperationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  routingId: 'routingId',
+  seq: 'seq',
+  name: 'name',
+  workCenter: 'workCenter',
+  setupMinutes: 'setupMinutes',
+  runMinutesPerUnit: 'runMinutesPerUnit',
+  instructions: 'instructions'
+};
+
+exports.Prisma.EngineeringChangeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  ecNumber: 'ecNumber',
+  targetSkuId: 'targetSkuId',
+  title: 'title',
+  status: 'status',
+  note: 'note',
+  decidedBy: 'decidedBy',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -995,6 +1056,19 @@ exports.PurchaseOrderStatus = exports.$Enums.PurchaseOrderStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.RevisionStatus = exports.$Enums.RevisionStatus = {
+  DRAFT: 'DRAFT',
+  RELEASED: 'RELEASED',
+  OBSOLETE: 'OBSOLETE'
+};
+
+exports.EcStatus = exports.$Enums.EcStatus = {
+  OPEN: 'OPEN',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  IMPLEMENTED: 'IMPLEMENTED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1051,7 +1125,12 @@ exports.Prisma.ModelName = {
   PurchaseRequisition: 'PurchaseRequisition',
   PurchaseRequisitionLine: 'PurchaseRequisitionLine',
   PurchaseOrder: 'PurchaseOrder',
-  PurchaseOrderLine: 'PurchaseOrderLine'
+  PurchaseOrderLine: 'PurchaseOrderLine',
+  Bom: 'Bom',
+  BomLine: 'BomLine',
+  Routing: 'Routing',
+  RoutingOperation: 'RoutingOperation',
+  EngineeringChange: 'EngineeringChange'
 };
 
 /**

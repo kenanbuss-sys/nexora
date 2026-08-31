@@ -308,6 +308,34 @@ export type PurchaseOrder = $Result.DefaultSelection<Prisma.$PurchaseOrderPayloa
  * 
  */
 export type PurchaseOrderLine = $Result.DefaultSelection<Prisma.$PurchaseOrderLinePayload>
+/**
+ * Model Bom
+ * Versioned bill of materials for an output SKU (ENG-002/003). Only one
+ * RELEASED version per SKU is effective at a time (ENG-006); releasing a
+ * new version obsoletes the previous one.
+ */
+export type Bom = $Result.DefaultSelection<Prisma.$BomPayload>
+/**
+ * Model BomLine
+ * 
+ */
+export type BomLine = $Result.DefaultSelection<Prisma.$BomLinePayload>
+/**
+ * Model Routing
+ * Versioned routing: ordered operations with standard times (ENG-011/013).
+ */
+export type Routing = $Result.DefaultSelection<Prisma.$RoutingPayload>
+/**
+ * Model RoutingOperation
+ * 
+ */
+export type RoutingOperation = $Result.DefaultSelection<Prisma.$RoutingOperationPayload>
+/**
+ * Model EngineeringChange
+ * Engineering change request (ENG-007): tracked reason for revising a
+ * SKU's BOM/routing; approval is a separate permission (SoD).
+ */
+export type EngineeringChange = $Result.DefaultSelection<Prisma.$EngineeringChangePayload>
 
 /**
  * Enums
@@ -605,6 +633,25 @@ export const PurchaseOrderStatus: {
 
 export type PurchaseOrderStatus = (typeof PurchaseOrderStatus)[keyof typeof PurchaseOrderStatus]
 
+
+export const RevisionStatus: {
+  DRAFT: 'DRAFT',
+  RELEASED: 'RELEASED',
+  OBSOLETE: 'OBSOLETE'
+};
+
+export type RevisionStatus = (typeof RevisionStatus)[keyof typeof RevisionStatus]
+
+
+export const EcStatus: {
+  OPEN: 'OPEN',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  IMPLEMENTED: 'IMPLEMENTED'
+};
+
+export type EcStatus = (typeof EcStatus)[keyof typeof EcStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -726,6 +773,14 @@ export const RequisitionStatus: typeof $Enums.RequisitionStatus
 export type PurchaseOrderStatus = $Enums.PurchaseOrderStatus
 
 export const PurchaseOrderStatus: typeof $Enums.PurchaseOrderStatus
+
+export type RevisionStatus = $Enums.RevisionStatus
+
+export const RevisionStatus: typeof $Enums.RevisionStatus
+
+export type EcStatus = $Enums.EcStatus
+
+export const EcStatus: typeof $Enums.EcStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1404,6 +1459,56 @@ export class PrismaClient<
     * ```
     */
   get purchaseOrderLine(): Prisma.PurchaseOrderLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bom`: Exposes CRUD operations for the **Bom** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Boms
+    * const boms = await prisma.bom.findMany()
+    * ```
+    */
+  get bom(): Prisma.BomDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bomLine`: Exposes CRUD operations for the **BomLine** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BomLines
+    * const bomLines = await prisma.bomLine.findMany()
+    * ```
+    */
+  get bomLine(): Prisma.BomLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.routing`: Exposes CRUD operations for the **Routing** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Routings
+    * const routings = await prisma.routing.findMany()
+    * ```
+    */
+  get routing(): Prisma.RoutingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.routingOperation`: Exposes CRUD operations for the **RoutingOperation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoutingOperations
+    * const routingOperations = await prisma.routingOperation.findMany()
+    * ```
+    */
+  get routingOperation(): Prisma.RoutingOperationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.engineeringChange`: Exposes CRUD operations for the **EngineeringChange** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EngineeringChanges
+    * const engineeringChanges = await prisma.engineeringChange.findMany()
+    * ```
+    */
+  get engineeringChange(): Prisma.EngineeringChangeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1900,7 +2005,12 @@ export namespace Prisma {
     PurchaseRequisition: 'PurchaseRequisition',
     PurchaseRequisitionLine: 'PurchaseRequisitionLine',
     PurchaseOrder: 'PurchaseOrder',
-    PurchaseOrderLine: 'PurchaseOrderLine'
+    PurchaseOrderLine: 'PurchaseOrderLine',
+    Bom: 'Bom',
+    BomLine: 'BomLine',
+    Routing: 'Routing',
+    RoutingOperation: 'RoutingOperation',
+    EngineeringChange: 'EngineeringChange'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1919,7 +2029,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6067,6 +6177,376 @@ export namespace Prisma {
           }
         }
       }
+      Bom: {
+        payload: Prisma.$BomPayload<ExtArgs>
+        fields: Prisma.BomFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BomFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BomFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>
+          }
+          findFirst: {
+            args: Prisma.BomFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BomFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>
+          }
+          findMany: {
+            args: Prisma.BomFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>[]
+          }
+          create: {
+            args: Prisma.BomCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>
+          }
+          createMany: {
+            args: Prisma.BomCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BomCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>[]
+          }
+          delete: {
+            args: Prisma.BomDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>
+          }
+          update: {
+            args: Prisma.BomUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>
+          }
+          deleteMany: {
+            args: Prisma.BomDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BomUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BomUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>[]
+          }
+          upsert: {
+            args: Prisma.BomUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomPayload>
+          }
+          aggregate: {
+            args: Prisma.BomAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBom>
+          }
+          groupBy: {
+            args: Prisma.BomGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BomGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BomCountArgs<ExtArgs>
+            result: $Utils.Optional<BomCountAggregateOutputType> | number
+          }
+        }
+      }
+      BomLine: {
+        payload: Prisma.$BomLinePayload<ExtArgs>
+        fields: Prisma.BomLineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BomLineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BomLineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>
+          }
+          findFirst: {
+            args: Prisma.BomLineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BomLineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>
+          }
+          findMany: {
+            args: Prisma.BomLineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>[]
+          }
+          create: {
+            args: Prisma.BomLineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>
+          }
+          createMany: {
+            args: Prisma.BomLineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BomLineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>[]
+          }
+          delete: {
+            args: Prisma.BomLineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>
+          }
+          update: {
+            args: Prisma.BomLineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>
+          }
+          deleteMany: {
+            args: Prisma.BomLineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BomLineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BomLineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>[]
+          }
+          upsert: {
+            args: Prisma.BomLineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BomLinePayload>
+          }
+          aggregate: {
+            args: Prisma.BomLineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBomLine>
+          }
+          groupBy: {
+            args: Prisma.BomLineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BomLineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BomLineCountArgs<ExtArgs>
+            result: $Utils.Optional<BomLineCountAggregateOutputType> | number
+          }
+        }
+      }
+      Routing: {
+        payload: Prisma.$RoutingPayload<ExtArgs>
+        fields: Prisma.RoutingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoutingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoutingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>
+          }
+          findFirst: {
+            args: Prisma.RoutingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoutingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>
+          }
+          findMany: {
+            args: Prisma.RoutingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>[]
+          }
+          create: {
+            args: Prisma.RoutingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>
+          }
+          createMany: {
+            args: Prisma.RoutingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoutingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>[]
+          }
+          delete: {
+            args: Prisma.RoutingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>
+          }
+          update: {
+            args: Prisma.RoutingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoutingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoutingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RoutingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>[]
+          }
+          upsert: {
+            args: Prisma.RoutingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingPayload>
+          }
+          aggregate: {
+            args: Prisma.RoutingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRouting>
+          }
+          groupBy: {
+            args: Prisma.RoutingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoutingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoutingCountArgs<ExtArgs>
+            result: $Utils.Optional<RoutingCountAggregateOutputType> | number
+          }
+        }
+      }
+      RoutingOperation: {
+        payload: Prisma.$RoutingOperationPayload<ExtArgs>
+        fields: Prisma.RoutingOperationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoutingOperationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoutingOperationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>
+          }
+          findFirst: {
+            args: Prisma.RoutingOperationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoutingOperationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>
+          }
+          findMany: {
+            args: Prisma.RoutingOperationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>[]
+          }
+          create: {
+            args: Prisma.RoutingOperationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>
+          }
+          createMany: {
+            args: Prisma.RoutingOperationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoutingOperationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>[]
+          }
+          delete: {
+            args: Prisma.RoutingOperationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>
+          }
+          update: {
+            args: Prisma.RoutingOperationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoutingOperationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoutingOperationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RoutingOperationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>[]
+          }
+          upsert: {
+            args: Prisma.RoutingOperationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutingOperationPayload>
+          }
+          aggregate: {
+            args: Prisma.RoutingOperationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoutingOperation>
+          }
+          groupBy: {
+            args: Prisma.RoutingOperationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoutingOperationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoutingOperationCountArgs<ExtArgs>
+            result: $Utils.Optional<RoutingOperationCountAggregateOutputType> | number
+          }
+        }
+      }
+      EngineeringChange: {
+        payload: Prisma.$EngineeringChangePayload<ExtArgs>
+        fields: Prisma.EngineeringChangeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EngineeringChangeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EngineeringChangeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>
+          }
+          findFirst: {
+            args: Prisma.EngineeringChangeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EngineeringChangeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>
+          }
+          findMany: {
+            args: Prisma.EngineeringChangeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>[]
+          }
+          create: {
+            args: Prisma.EngineeringChangeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>
+          }
+          createMany: {
+            args: Prisma.EngineeringChangeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EngineeringChangeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>[]
+          }
+          delete: {
+            args: Prisma.EngineeringChangeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>
+          }
+          update: {
+            args: Prisma.EngineeringChangeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>
+          }
+          deleteMany: {
+            args: Prisma.EngineeringChangeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EngineeringChangeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EngineeringChangeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>[]
+          }
+          upsert: {
+            args: Prisma.EngineeringChangeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngineeringChangePayload>
+          }
+          aggregate: {
+            args: Prisma.EngineeringChangeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEngineeringChange>
+          }
+          groupBy: {
+            args: Prisma.EngineeringChangeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EngineeringChangeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EngineeringChangeCountArgs<ExtArgs>
+            result: $Utils.Optional<EngineeringChangeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -6219,6 +6699,11 @@ export namespace Prisma {
     purchaseRequisitionLine?: PurchaseRequisitionLineOmit
     purchaseOrder?: PurchaseOrderOmit
     purchaseOrderLine?: PurchaseOrderLineOmit
+    bom?: BomOmit
+    bomLine?: BomLineOmit
+    routing?: RoutingOmit
+    routingOperation?: RoutingOperationOmit
+    engineeringChange?: EngineeringChangeOmit
   }
 
   /* Types for Logging */
@@ -6344,6 +6829,11 @@ export namespace Prisma {
     purchaseReqLines: number
     purchaseOrders: number
     purchaseOrderLines: number
+    boms: number
+    bomLines: number
+    routings: number
+    routingOperations: number
+    engineeringChanges: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6392,6 +6882,11 @@ export namespace Prisma {
     purchaseReqLines?: boolean | TenantCountOutputTypeCountPurchaseReqLinesArgs
     purchaseOrders?: boolean | TenantCountOutputTypeCountPurchaseOrdersArgs
     purchaseOrderLines?: boolean | TenantCountOutputTypeCountPurchaseOrderLinesArgs
+    boms?: boolean | TenantCountOutputTypeCountBomsArgs
+    bomLines?: boolean | TenantCountOutputTypeCountBomLinesArgs
+    routings?: boolean | TenantCountOutputTypeCountRoutingsArgs
+    routingOperations?: boolean | TenantCountOutputTypeCountRoutingOperationsArgs
+    engineeringChanges?: boolean | TenantCountOutputTypeCountEngineeringChangesArgs
   }
 
   // Custom InputTypes
@@ -6718,6 +7213,41 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountPurchaseOrderLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PurchaseOrderLineWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountBomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BomWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountBomLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BomLineWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountRoutingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoutingWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountRoutingOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoutingOperationWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountEngineeringChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EngineeringChangeWhereInput
   }
 
 
@@ -7334,6 +7864,68 @@ export namespace Prisma {
 
 
   /**
+   * Count Type BomCountOutputType
+   */
+
+  export type BomCountOutputType = {
+    lines: number
+  }
+
+  export type BomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lines?: boolean | BomCountOutputTypeCountLinesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BomCountOutputType without action
+   */
+  export type BomCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomCountOutputType
+     */
+    select?: BomCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BomCountOutputType without action
+   */
+  export type BomCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BomLineWhereInput
+  }
+
+
+  /**
+   * Count Type RoutingCountOutputType
+   */
+
+  export type RoutingCountOutputType = {
+    operations: number
+  }
+
+  export type RoutingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    operations?: boolean | RoutingCountOutputTypeCountOperationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RoutingCountOutputType without action
+   */
+  export type RoutingCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingCountOutputType
+     */
+    select?: RoutingCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RoutingCountOutputType without action
+   */
+  export type RoutingCountOutputTypeCountOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoutingOperationWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -7596,6 +8188,11 @@ export namespace Prisma {
     purchaseReqLines?: boolean | Tenant$purchaseReqLinesArgs<ExtArgs>
     purchaseOrders?: boolean | Tenant$purchaseOrdersArgs<ExtArgs>
     purchaseOrderLines?: boolean | Tenant$purchaseOrderLinesArgs<ExtArgs>
+    boms?: boolean | Tenant$bomsArgs<ExtArgs>
+    bomLines?: boolean | Tenant$bomLinesArgs<ExtArgs>
+    routings?: boolean | Tenant$routingsArgs<ExtArgs>
+    routingOperations?: boolean | Tenant$routingOperationsArgs<ExtArgs>
+    engineeringChanges?: boolean | Tenant$engineeringChangesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -7676,6 +8273,11 @@ export namespace Prisma {
     purchaseReqLines?: boolean | Tenant$purchaseReqLinesArgs<ExtArgs>
     purchaseOrders?: boolean | Tenant$purchaseOrdersArgs<ExtArgs>
     purchaseOrderLines?: boolean | Tenant$purchaseOrderLinesArgs<ExtArgs>
+    boms?: boolean | Tenant$bomsArgs<ExtArgs>
+    bomLines?: boolean | Tenant$bomLinesArgs<ExtArgs>
+    routings?: boolean | Tenant$routingsArgs<ExtArgs>
+    routingOperations?: boolean | Tenant$routingOperationsArgs<ExtArgs>
+    engineeringChanges?: boolean | Tenant$engineeringChangesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7729,6 +8331,11 @@ export namespace Prisma {
       purchaseReqLines: Prisma.$PurchaseRequisitionLinePayload<ExtArgs>[]
       purchaseOrders: Prisma.$PurchaseOrderPayload<ExtArgs>[]
       purchaseOrderLines: Prisma.$PurchaseOrderLinePayload<ExtArgs>[]
+      boms: Prisma.$BomPayload<ExtArgs>[]
+      bomLines: Prisma.$BomLinePayload<ExtArgs>[]
+      routings: Prisma.$RoutingPayload<ExtArgs>[]
+      routingOperations: Prisma.$RoutingOperationPayload<ExtArgs>[]
+      engineeringChanges: Prisma.$EngineeringChangePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8177,6 +8784,11 @@ export namespace Prisma {
     purchaseReqLines<T extends Tenant$purchaseReqLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$purchaseReqLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseRequisitionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     purchaseOrders<T extends Tenant$purchaseOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$purchaseOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     purchaseOrderLines<T extends Tenant$purchaseOrderLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$purchaseOrderLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseOrderLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    boms<T extends Tenant$bomsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bomLines<T extends Tenant$bomLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bomLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    routings<T extends Tenant$routingsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$routingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    routingOperations<T extends Tenant$routingOperationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$routingOperationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    engineeringChanges<T extends Tenant$engineeringChangesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$engineeringChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9678,6 +10290,126 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PurchaseOrderLineScalarFieldEnum | PurchaseOrderLineScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.boms
+   */
+  export type Tenant$bomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    where?: BomWhereInput
+    orderBy?: BomOrderByWithRelationInput | BomOrderByWithRelationInput[]
+    cursor?: BomWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BomScalarFieldEnum | BomScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.bomLines
+   */
+  export type Tenant$bomLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    where?: BomLineWhereInput
+    orderBy?: BomLineOrderByWithRelationInput | BomLineOrderByWithRelationInput[]
+    cursor?: BomLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BomLineScalarFieldEnum | BomLineScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.routings
+   */
+  export type Tenant$routingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    where?: RoutingWhereInput
+    orderBy?: RoutingOrderByWithRelationInput | RoutingOrderByWithRelationInput[]
+    cursor?: RoutingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoutingScalarFieldEnum | RoutingScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.routingOperations
+   */
+  export type Tenant$routingOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    where?: RoutingOperationWhereInput
+    orderBy?: RoutingOperationOrderByWithRelationInput | RoutingOperationOrderByWithRelationInput[]
+    cursor?: RoutingOperationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoutingOperationScalarFieldEnum | RoutingOperationScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.engineeringChanges
+   */
+  export type Tenant$engineeringChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    where?: EngineeringChangeWhereInput
+    orderBy?: EngineeringChangeOrderByWithRelationInput | EngineeringChangeOrderByWithRelationInput[]
+    cursor?: EngineeringChangeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EngineeringChangeScalarFieldEnum | EngineeringChangeScalarFieldEnum[]
   }
 
   /**
@@ -72041,6 +72773,5797 @@ export namespace Prisma {
 
 
   /**
+   * Model Bom
+   */
+
+  export type AggregateBom = {
+    _count: BomCountAggregateOutputType | null
+    _avg: BomAvgAggregateOutputType | null
+    _sum: BomSumAggregateOutputType | null
+    _min: BomMinAggregateOutputType | null
+    _max: BomMaxAggregateOutputType | null
+  }
+
+  export type BomAvgAggregateOutputType = {
+    version: number | null
+  }
+
+  export type BomSumAggregateOutputType = {
+    version: number | null
+  }
+
+  export type BomMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    version: number | null
+    status: $Enums.RevisionStatus | null
+    effectiveFrom: Date | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BomMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    version: number | null
+    status: $Enums.RevisionStatus | null
+    effectiveFrom: Date | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BomCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    version: number
+    status: number
+    effectiveFrom: number
+    notes: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BomAvgAggregateInputType = {
+    version?: true
+  }
+
+  export type BomSumAggregateInputType = {
+    version?: true
+  }
+
+  export type BomMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    version?: true
+    status?: true
+    effectiveFrom?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BomMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    version?: true
+    status?: true
+    effectiveFrom?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BomCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    version?: true
+    status?: true
+    effectiveFrom?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BomAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bom to aggregate.
+     */
+    where?: BomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boms to fetch.
+     */
+    orderBy?: BomOrderByWithRelationInput | BomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Boms
+    **/
+    _count?: true | BomCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BomAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BomSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BomMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BomMaxAggregateInputType
+  }
+
+  export type GetBomAggregateType<T extends BomAggregateArgs> = {
+        [P in keyof T & keyof AggregateBom]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBom[P]>
+      : GetScalarType<T[P], AggregateBom[P]>
+  }
+
+
+
+
+  export type BomGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BomWhereInput
+    orderBy?: BomOrderByWithAggregationInput | BomOrderByWithAggregationInput[]
+    by: BomScalarFieldEnum[] | BomScalarFieldEnum
+    having?: BomScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BomCountAggregateInputType | true
+    _avg?: BomAvgAggregateInputType
+    _sum?: BomSumAggregateInputType
+    _min?: BomMinAggregateInputType
+    _max?: BomMaxAggregateInputType
+  }
+
+  export type BomGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    version: number
+    status: $Enums.RevisionStatus
+    effectiveFrom: Date | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BomCountAggregateOutputType | null
+    _avg: BomAvgAggregateOutputType | null
+    _sum: BomSumAggregateOutputType | null
+    _min: BomMinAggregateOutputType | null
+    _max: BomMaxAggregateOutputType | null
+  }
+
+  type GetBomGroupByPayload<T extends BomGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BomGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BomGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BomGroupByOutputType[P]>
+            : GetScalarType<T[P], BomGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    effectiveFrom?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | Bom$linesArgs<ExtArgs>
+    _count?: boolean | BomCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bom"]>
+
+  export type BomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    effectiveFrom?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bom"]>
+
+  export type BomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    effectiveFrom?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bom"]>
+
+  export type BomSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    effectiveFrom?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "version" | "status" | "effectiveFrom" | "notes" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["bom"]>
+  export type BomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | Bom$linesArgs<ExtArgs>
+    _count?: boolean | BomCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type BomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $BomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Bom"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      lines: Prisma.$BomLinePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      version: number
+      status: $Enums.RevisionStatus
+      effectiveFrom: Date | null
+      notes: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bom"]>
+    composites: {}
+  }
+
+  type BomGetPayload<S extends boolean | null | undefined | BomDefaultArgs> = $Result.GetResult<Prisma.$BomPayload, S>
+
+  type BomCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BomFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BomCountAggregateInputType | true
+    }
+
+  export interface BomDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Bom'], meta: { name: 'Bom' } }
+    /**
+     * Find zero or one Bom that matches the filter.
+     * @param {BomFindUniqueArgs} args - Arguments to find a Bom
+     * @example
+     * // Get one Bom
+     * const bom = await prisma.bom.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BomFindUniqueArgs>(args: SelectSubset<T, BomFindUniqueArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Bom that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BomFindUniqueOrThrowArgs} args - Arguments to find a Bom
+     * @example
+     * // Get one Bom
+     * const bom = await prisma.bom.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BomFindUniqueOrThrowArgs>(args: SelectSubset<T, BomFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bom that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomFindFirstArgs} args - Arguments to find a Bom
+     * @example
+     * // Get one Bom
+     * const bom = await prisma.bom.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BomFindFirstArgs>(args?: SelectSubset<T, BomFindFirstArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bom that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomFindFirstOrThrowArgs} args - Arguments to find a Bom
+     * @example
+     * // Get one Bom
+     * const bom = await prisma.bom.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BomFindFirstOrThrowArgs>(args?: SelectSubset<T, BomFindFirstOrThrowArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Boms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Boms
+     * const boms = await prisma.bom.findMany()
+     * 
+     * // Get first 10 Boms
+     * const boms = await prisma.bom.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bomWithIdOnly = await prisma.bom.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BomFindManyArgs>(args?: SelectSubset<T, BomFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Bom.
+     * @param {BomCreateArgs} args - Arguments to create a Bom.
+     * @example
+     * // Create one Bom
+     * const Bom = await prisma.bom.create({
+     *   data: {
+     *     // ... data to create a Bom
+     *   }
+     * })
+     * 
+     */
+    create<T extends BomCreateArgs>(args: SelectSubset<T, BomCreateArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Boms.
+     * @param {BomCreateManyArgs} args - Arguments to create many Boms.
+     * @example
+     * // Create many Boms
+     * const bom = await prisma.bom.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BomCreateManyArgs>(args?: SelectSubset<T, BomCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Boms and returns the data saved in the database.
+     * @param {BomCreateManyAndReturnArgs} args - Arguments to create many Boms.
+     * @example
+     * // Create many Boms
+     * const bom = await prisma.bom.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Boms and only return the `id`
+     * const bomWithIdOnly = await prisma.bom.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BomCreateManyAndReturnArgs>(args?: SelectSubset<T, BomCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Bom.
+     * @param {BomDeleteArgs} args - Arguments to delete one Bom.
+     * @example
+     * // Delete one Bom
+     * const Bom = await prisma.bom.delete({
+     *   where: {
+     *     // ... filter to delete one Bom
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BomDeleteArgs>(args: SelectSubset<T, BomDeleteArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Bom.
+     * @param {BomUpdateArgs} args - Arguments to update one Bom.
+     * @example
+     * // Update one Bom
+     * const bom = await prisma.bom.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BomUpdateArgs>(args: SelectSubset<T, BomUpdateArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Boms.
+     * @param {BomDeleteManyArgs} args - Arguments to filter Boms to delete.
+     * @example
+     * // Delete a few Boms
+     * const { count } = await prisma.bom.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BomDeleteManyArgs>(args?: SelectSubset<T, BomDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Boms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Boms
+     * const bom = await prisma.bom.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BomUpdateManyArgs>(args: SelectSubset<T, BomUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Boms and returns the data updated in the database.
+     * @param {BomUpdateManyAndReturnArgs} args - Arguments to update many Boms.
+     * @example
+     * // Update many Boms
+     * const bom = await prisma.bom.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Boms and only return the `id`
+     * const bomWithIdOnly = await prisma.bom.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BomUpdateManyAndReturnArgs>(args: SelectSubset<T, BomUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Bom.
+     * @param {BomUpsertArgs} args - Arguments to update or create a Bom.
+     * @example
+     * // Update or create a Bom
+     * const bom = await prisma.bom.upsert({
+     *   create: {
+     *     // ... data to create a Bom
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Bom we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BomUpsertArgs>(args: SelectSubset<T, BomUpsertArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Boms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomCountArgs} args - Arguments to filter Boms to count.
+     * @example
+     * // Count the number of Boms
+     * const count = await prisma.bom.count({
+     *   where: {
+     *     // ... the filter for the Boms we want to count
+     *   }
+     * })
+    **/
+    count<T extends BomCountArgs>(
+      args?: Subset<T, BomCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BomCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Bom.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BomAggregateArgs>(args: Subset<T, BomAggregateArgs>): Prisma.PrismaPromise<GetBomAggregateType<T>>
+
+    /**
+     * Group by Bom.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BomGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BomGroupByArgs['orderBy'] }
+        : { orderBy?: BomGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BomGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBomGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Bom model
+   */
+  readonly fields: BomFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Bom.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lines<T extends Bom$linesArgs<ExtArgs> = {}>(args?: Subset<T, Bom$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Bom model
+   */
+  interface BomFieldRefs {
+    readonly id: FieldRef<"Bom", 'String'>
+    readonly tenantId: FieldRef<"Bom", 'String'>
+    readonly skuId: FieldRef<"Bom", 'String'>
+    readonly version: FieldRef<"Bom", 'Int'>
+    readonly status: FieldRef<"Bom", 'RevisionStatus'>
+    readonly effectiveFrom: FieldRef<"Bom", 'DateTime'>
+    readonly notes: FieldRef<"Bom", 'String'>
+    readonly createdBy: FieldRef<"Bom", 'String'>
+    readonly createdAt: FieldRef<"Bom", 'DateTime'>
+    readonly updatedAt: FieldRef<"Bom", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Bom findUnique
+   */
+  export type BomFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * Filter, which Bom to fetch.
+     */
+    where: BomWhereUniqueInput
+  }
+
+  /**
+   * Bom findUniqueOrThrow
+   */
+  export type BomFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * Filter, which Bom to fetch.
+     */
+    where: BomWhereUniqueInput
+  }
+
+  /**
+   * Bom findFirst
+   */
+  export type BomFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * Filter, which Bom to fetch.
+     */
+    where?: BomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boms to fetch.
+     */
+    orderBy?: BomOrderByWithRelationInput | BomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Boms.
+     */
+    cursor?: BomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Boms.
+     */
+    distinct?: BomScalarFieldEnum | BomScalarFieldEnum[]
+  }
+
+  /**
+   * Bom findFirstOrThrow
+   */
+  export type BomFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * Filter, which Bom to fetch.
+     */
+    where?: BomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boms to fetch.
+     */
+    orderBy?: BomOrderByWithRelationInput | BomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Boms.
+     */
+    cursor?: BomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Boms.
+     */
+    distinct?: BomScalarFieldEnum | BomScalarFieldEnum[]
+  }
+
+  /**
+   * Bom findMany
+   */
+  export type BomFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * Filter, which Boms to fetch.
+     */
+    where?: BomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boms to fetch.
+     */
+    orderBy?: BomOrderByWithRelationInput | BomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Boms.
+     */
+    cursor?: BomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boms.
+     */
+    skip?: number
+    distinct?: BomScalarFieldEnum | BomScalarFieldEnum[]
+  }
+
+  /**
+   * Bom create
+   */
+  export type BomCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Bom.
+     */
+    data: XOR<BomCreateInput, BomUncheckedCreateInput>
+  }
+
+  /**
+   * Bom createMany
+   */
+  export type BomCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Boms.
+     */
+    data: BomCreateManyInput | BomCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Bom createManyAndReturn
+   */
+  export type BomCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * The data used to create many Boms.
+     */
+    data: BomCreateManyInput | BomCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Bom update
+   */
+  export type BomUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Bom.
+     */
+    data: XOR<BomUpdateInput, BomUncheckedUpdateInput>
+    /**
+     * Choose, which Bom to update.
+     */
+    where: BomWhereUniqueInput
+  }
+
+  /**
+   * Bom updateMany
+   */
+  export type BomUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Boms.
+     */
+    data: XOR<BomUpdateManyMutationInput, BomUncheckedUpdateManyInput>
+    /**
+     * Filter which Boms to update
+     */
+    where?: BomWhereInput
+    /**
+     * Limit how many Boms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bom updateManyAndReturn
+   */
+  export type BomUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * The data used to update Boms.
+     */
+    data: XOR<BomUpdateManyMutationInput, BomUncheckedUpdateManyInput>
+    /**
+     * Filter which Boms to update
+     */
+    where?: BomWhereInput
+    /**
+     * Limit how many Boms to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Bom upsert
+   */
+  export type BomUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Bom to update in case it exists.
+     */
+    where: BomWhereUniqueInput
+    /**
+     * In case the Bom found by the `where` argument doesn't exist, create a new Bom with this data.
+     */
+    create: XOR<BomCreateInput, BomUncheckedCreateInput>
+    /**
+     * In case the Bom was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BomUpdateInput, BomUncheckedUpdateInput>
+  }
+
+  /**
+   * Bom delete
+   */
+  export type BomDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+    /**
+     * Filter which Bom to delete.
+     */
+    where: BomWhereUniqueInput
+  }
+
+  /**
+   * Bom deleteMany
+   */
+  export type BomDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Boms to delete
+     */
+    where?: BomWhereInput
+    /**
+     * Limit how many Boms to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bom.lines
+   */
+  export type Bom$linesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    where?: BomLineWhereInput
+    orderBy?: BomLineOrderByWithRelationInput | BomLineOrderByWithRelationInput[]
+    cursor?: BomLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BomLineScalarFieldEnum | BomLineScalarFieldEnum[]
+  }
+
+  /**
+   * Bom without action
+   */
+  export type BomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bom
+     */
+    select?: BomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bom
+     */
+    omit?: BomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BomLine
+   */
+
+  export type AggregateBomLine = {
+    _count: BomLineCountAggregateOutputType | null
+    _avg: BomLineAvgAggregateOutputType | null
+    _sum: BomLineSumAggregateOutputType | null
+    _min: BomLineMinAggregateOutputType | null
+    _max: BomLineMaxAggregateOutputType | null
+  }
+
+  export type BomLineAvgAggregateOutputType = {
+    quantity: Decimal | null
+    scrapPct: Decimal | null
+    position: number | null
+  }
+
+  export type BomLineSumAggregateOutputType = {
+    quantity: Decimal | null
+    scrapPct: Decimal | null
+    position: number | null
+  }
+
+  export type BomLineMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    bomId: string | null
+    componentSkuId: string | null
+    description: string | null
+    quantity: Decimal | null
+    scrapPct: Decimal | null
+    position: number | null
+  }
+
+  export type BomLineMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    bomId: string | null
+    componentSkuId: string | null
+    description: string | null
+    quantity: Decimal | null
+    scrapPct: Decimal | null
+    position: number | null
+  }
+
+  export type BomLineCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    bomId: number
+    componentSkuId: number
+    description: number
+    quantity: number
+    scrapPct: number
+    position: number
+    _all: number
+  }
+
+
+  export type BomLineAvgAggregateInputType = {
+    quantity?: true
+    scrapPct?: true
+    position?: true
+  }
+
+  export type BomLineSumAggregateInputType = {
+    quantity?: true
+    scrapPct?: true
+    position?: true
+  }
+
+  export type BomLineMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    bomId?: true
+    componentSkuId?: true
+    description?: true
+    quantity?: true
+    scrapPct?: true
+    position?: true
+  }
+
+  export type BomLineMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    bomId?: true
+    componentSkuId?: true
+    description?: true
+    quantity?: true
+    scrapPct?: true
+    position?: true
+  }
+
+  export type BomLineCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    bomId?: true
+    componentSkuId?: true
+    description?: true
+    quantity?: true
+    scrapPct?: true
+    position?: true
+    _all?: true
+  }
+
+  export type BomLineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BomLine to aggregate.
+     */
+    where?: BomLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BomLines to fetch.
+     */
+    orderBy?: BomLineOrderByWithRelationInput | BomLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BomLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BomLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BomLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BomLines
+    **/
+    _count?: true | BomLineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BomLineAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BomLineSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BomLineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BomLineMaxAggregateInputType
+  }
+
+  export type GetBomLineAggregateType<T extends BomLineAggregateArgs> = {
+        [P in keyof T & keyof AggregateBomLine]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBomLine[P]>
+      : GetScalarType<T[P], AggregateBomLine[P]>
+  }
+
+
+
+
+  export type BomLineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BomLineWhereInput
+    orderBy?: BomLineOrderByWithAggregationInput | BomLineOrderByWithAggregationInput[]
+    by: BomLineScalarFieldEnum[] | BomLineScalarFieldEnum
+    having?: BomLineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BomLineCountAggregateInputType | true
+    _avg?: BomLineAvgAggregateInputType
+    _sum?: BomLineSumAggregateInputType
+    _min?: BomLineMinAggregateInputType
+    _max?: BomLineMaxAggregateInputType
+  }
+
+  export type BomLineGroupByOutputType = {
+    id: string
+    tenantId: string
+    bomId: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal
+    scrapPct: Decimal
+    position: number
+    _count: BomLineCountAggregateOutputType | null
+    _avg: BomLineAvgAggregateOutputType | null
+    _sum: BomLineSumAggregateOutputType | null
+    _min: BomLineMinAggregateOutputType | null
+    _max: BomLineMaxAggregateOutputType | null
+  }
+
+  type GetBomLineGroupByPayload<T extends BomLineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BomLineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BomLineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BomLineGroupByOutputType[P]>
+            : GetScalarType<T[P], BomLineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BomLineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    bomId?: boolean
+    componentSkuId?: boolean
+    description?: boolean
+    quantity?: boolean
+    scrapPct?: boolean
+    position?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    bom?: boolean | BomDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bomLine"]>
+
+  export type BomLineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    bomId?: boolean
+    componentSkuId?: boolean
+    description?: boolean
+    quantity?: boolean
+    scrapPct?: boolean
+    position?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    bom?: boolean | BomDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bomLine"]>
+
+  export type BomLineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    bomId?: boolean
+    componentSkuId?: boolean
+    description?: boolean
+    quantity?: boolean
+    scrapPct?: boolean
+    position?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    bom?: boolean | BomDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bomLine"]>
+
+  export type BomLineSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    bomId?: boolean
+    componentSkuId?: boolean
+    description?: boolean
+    quantity?: boolean
+    scrapPct?: boolean
+    position?: boolean
+  }
+
+  export type BomLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "bomId" | "componentSkuId" | "description" | "quantity" | "scrapPct" | "position", ExtArgs["result"]["bomLine"]>
+  export type BomLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    bom?: boolean | BomDefaultArgs<ExtArgs>
+  }
+  export type BomLineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    bom?: boolean | BomDefaultArgs<ExtArgs>
+  }
+  export type BomLineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    bom?: boolean | BomDefaultArgs<ExtArgs>
+  }
+
+  export type $BomLinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BomLine"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      bom: Prisma.$BomPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      bomId: string
+      componentSkuId: string
+      description: string
+      quantity: Prisma.Decimal
+      scrapPct: Prisma.Decimal
+      position: number
+    }, ExtArgs["result"]["bomLine"]>
+    composites: {}
+  }
+
+  type BomLineGetPayload<S extends boolean | null | undefined | BomLineDefaultArgs> = $Result.GetResult<Prisma.$BomLinePayload, S>
+
+  type BomLineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BomLineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BomLineCountAggregateInputType | true
+    }
+
+  export interface BomLineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BomLine'], meta: { name: 'BomLine' } }
+    /**
+     * Find zero or one BomLine that matches the filter.
+     * @param {BomLineFindUniqueArgs} args - Arguments to find a BomLine
+     * @example
+     * // Get one BomLine
+     * const bomLine = await prisma.bomLine.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BomLineFindUniqueArgs>(args: SelectSubset<T, BomLineFindUniqueArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BomLine that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BomLineFindUniqueOrThrowArgs} args - Arguments to find a BomLine
+     * @example
+     * // Get one BomLine
+     * const bomLine = await prisma.bomLine.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BomLineFindUniqueOrThrowArgs>(args: SelectSubset<T, BomLineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BomLine that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomLineFindFirstArgs} args - Arguments to find a BomLine
+     * @example
+     * // Get one BomLine
+     * const bomLine = await prisma.bomLine.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BomLineFindFirstArgs>(args?: SelectSubset<T, BomLineFindFirstArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BomLine that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomLineFindFirstOrThrowArgs} args - Arguments to find a BomLine
+     * @example
+     * // Get one BomLine
+     * const bomLine = await prisma.bomLine.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BomLineFindFirstOrThrowArgs>(args?: SelectSubset<T, BomLineFindFirstOrThrowArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BomLines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomLineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BomLines
+     * const bomLines = await prisma.bomLine.findMany()
+     * 
+     * // Get first 10 BomLines
+     * const bomLines = await prisma.bomLine.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bomLineWithIdOnly = await prisma.bomLine.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BomLineFindManyArgs>(args?: SelectSubset<T, BomLineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BomLine.
+     * @param {BomLineCreateArgs} args - Arguments to create a BomLine.
+     * @example
+     * // Create one BomLine
+     * const BomLine = await prisma.bomLine.create({
+     *   data: {
+     *     // ... data to create a BomLine
+     *   }
+     * })
+     * 
+     */
+    create<T extends BomLineCreateArgs>(args: SelectSubset<T, BomLineCreateArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BomLines.
+     * @param {BomLineCreateManyArgs} args - Arguments to create many BomLines.
+     * @example
+     * // Create many BomLines
+     * const bomLine = await prisma.bomLine.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BomLineCreateManyArgs>(args?: SelectSubset<T, BomLineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BomLines and returns the data saved in the database.
+     * @param {BomLineCreateManyAndReturnArgs} args - Arguments to create many BomLines.
+     * @example
+     * // Create many BomLines
+     * const bomLine = await prisma.bomLine.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BomLines and only return the `id`
+     * const bomLineWithIdOnly = await prisma.bomLine.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BomLineCreateManyAndReturnArgs>(args?: SelectSubset<T, BomLineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BomLine.
+     * @param {BomLineDeleteArgs} args - Arguments to delete one BomLine.
+     * @example
+     * // Delete one BomLine
+     * const BomLine = await prisma.bomLine.delete({
+     *   where: {
+     *     // ... filter to delete one BomLine
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BomLineDeleteArgs>(args: SelectSubset<T, BomLineDeleteArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BomLine.
+     * @param {BomLineUpdateArgs} args - Arguments to update one BomLine.
+     * @example
+     * // Update one BomLine
+     * const bomLine = await prisma.bomLine.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BomLineUpdateArgs>(args: SelectSubset<T, BomLineUpdateArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BomLines.
+     * @param {BomLineDeleteManyArgs} args - Arguments to filter BomLines to delete.
+     * @example
+     * // Delete a few BomLines
+     * const { count } = await prisma.bomLine.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BomLineDeleteManyArgs>(args?: SelectSubset<T, BomLineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BomLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomLineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BomLines
+     * const bomLine = await prisma.bomLine.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BomLineUpdateManyArgs>(args: SelectSubset<T, BomLineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BomLines and returns the data updated in the database.
+     * @param {BomLineUpdateManyAndReturnArgs} args - Arguments to update many BomLines.
+     * @example
+     * // Update many BomLines
+     * const bomLine = await prisma.bomLine.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BomLines and only return the `id`
+     * const bomLineWithIdOnly = await prisma.bomLine.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BomLineUpdateManyAndReturnArgs>(args: SelectSubset<T, BomLineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BomLine.
+     * @param {BomLineUpsertArgs} args - Arguments to update or create a BomLine.
+     * @example
+     * // Update or create a BomLine
+     * const bomLine = await prisma.bomLine.upsert({
+     *   create: {
+     *     // ... data to create a BomLine
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BomLine we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BomLineUpsertArgs>(args: SelectSubset<T, BomLineUpsertArgs<ExtArgs>>): Prisma__BomLineClient<$Result.GetResult<Prisma.$BomLinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BomLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomLineCountArgs} args - Arguments to filter BomLines to count.
+     * @example
+     * // Count the number of BomLines
+     * const count = await prisma.bomLine.count({
+     *   where: {
+     *     // ... the filter for the BomLines we want to count
+     *   }
+     * })
+    **/
+    count<T extends BomLineCountArgs>(
+      args?: Subset<T, BomLineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BomLineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BomLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomLineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BomLineAggregateArgs>(args: Subset<T, BomLineAggregateArgs>): Prisma.PrismaPromise<GetBomLineAggregateType<T>>
+
+    /**
+     * Group by BomLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BomLineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BomLineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BomLineGroupByArgs['orderBy'] }
+        : { orderBy?: BomLineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BomLineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBomLineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BomLine model
+   */
+  readonly fields: BomLineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BomLine.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BomLineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    bom<T extends BomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BomDefaultArgs<ExtArgs>>): Prisma__BomClient<$Result.GetResult<Prisma.$BomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BomLine model
+   */
+  interface BomLineFieldRefs {
+    readonly id: FieldRef<"BomLine", 'String'>
+    readonly tenantId: FieldRef<"BomLine", 'String'>
+    readonly bomId: FieldRef<"BomLine", 'String'>
+    readonly componentSkuId: FieldRef<"BomLine", 'String'>
+    readonly description: FieldRef<"BomLine", 'String'>
+    readonly quantity: FieldRef<"BomLine", 'Decimal'>
+    readonly scrapPct: FieldRef<"BomLine", 'Decimal'>
+    readonly position: FieldRef<"BomLine", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BomLine findUnique
+   */
+  export type BomLineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BomLine to fetch.
+     */
+    where: BomLineWhereUniqueInput
+  }
+
+  /**
+   * BomLine findUniqueOrThrow
+   */
+  export type BomLineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BomLine to fetch.
+     */
+    where: BomLineWhereUniqueInput
+  }
+
+  /**
+   * BomLine findFirst
+   */
+  export type BomLineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BomLine to fetch.
+     */
+    where?: BomLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BomLines to fetch.
+     */
+    orderBy?: BomLineOrderByWithRelationInput | BomLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BomLines.
+     */
+    cursor?: BomLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BomLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BomLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BomLines.
+     */
+    distinct?: BomLineScalarFieldEnum | BomLineScalarFieldEnum[]
+  }
+
+  /**
+   * BomLine findFirstOrThrow
+   */
+  export type BomLineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BomLine to fetch.
+     */
+    where?: BomLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BomLines to fetch.
+     */
+    orderBy?: BomLineOrderByWithRelationInput | BomLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BomLines.
+     */
+    cursor?: BomLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BomLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BomLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BomLines.
+     */
+    distinct?: BomLineScalarFieldEnum | BomLineScalarFieldEnum[]
+  }
+
+  /**
+   * BomLine findMany
+   */
+  export type BomLineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BomLines to fetch.
+     */
+    where?: BomLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BomLines to fetch.
+     */
+    orderBy?: BomLineOrderByWithRelationInput | BomLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BomLines.
+     */
+    cursor?: BomLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BomLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BomLines.
+     */
+    skip?: number
+    distinct?: BomLineScalarFieldEnum | BomLineScalarFieldEnum[]
+  }
+
+  /**
+   * BomLine create
+   */
+  export type BomLineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BomLine.
+     */
+    data: XOR<BomLineCreateInput, BomLineUncheckedCreateInput>
+  }
+
+  /**
+   * BomLine createMany
+   */
+  export type BomLineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BomLines.
+     */
+    data: BomLineCreateManyInput | BomLineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BomLine createManyAndReturn
+   */
+  export type BomLineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * The data used to create many BomLines.
+     */
+    data: BomLineCreateManyInput | BomLineCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BomLine update
+   */
+  export type BomLineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BomLine.
+     */
+    data: XOR<BomLineUpdateInput, BomLineUncheckedUpdateInput>
+    /**
+     * Choose, which BomLine to update.
+     */
+    where: BomLineWhereUniqueInput
+  }
+
+  /**
+   * BomLine updateMany
+   */
+  export type BomLineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BomLines.
+     */
+    data: XOR<BomLineUpdateManyMutationInput, BomLineUncheckedUpdateManyInput>
+    /**
+     * Filter which BomLines to update
+     */
+    where?: BomLineWhereInput
+    /**
+     * Limit how many BomLines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BomLine updateManyAndReturn
+   */
+  export type BomLineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * The data used to update BomLines.
+     */
+    data: XOR<BomLineUpdateManyMutationInput, BomLineUncheckedUpdateManyInput>
+    /**
+     * Filter which BomLines to update
+     */
+    where?: BomLineWhereInput
+    /**
+     * Limit how many BomLines to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BomLine upsert
+   */
+  export type BomLineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BomLine to update in case it exists.
+     */
+    where: BomLineWhereUniqueInput
+    /**
+     * In case the BomLine found by the `where` argument doesn't exist, create a new BomLine with this data.
+     */
+    create: XOR<BomLineCreateInput, BomLineUncheckedCreateInput>
+    /**
+     * In case the BomLine was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BomLineUpdateInput, BomLineUncheckedUpdateInput>
+  }
+
+  /**
+   * BomLine delete
+   */
+  export type BomLineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+    /**
+     * Filter which BomLine to delete.
+     */
+    where: BomLineWhereUniqueInput
+  }
+
+  /**
+   * BomLine deleteMany
+   */
+  export type BomLineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BomLines to delete
+     */
+    where?: BomLineWhereInput
+    /**
+     * Limit how many BomLines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BomLine without action
+   */
+  export type BomLineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BomLine
+     */
+    select?: BomLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BomLine
+     */
+    omit?: BomLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BomLineInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Routing
+   */
+
+  export type AggregateRouting = {
+    _count: RoutingCountAggregateOutputType | null
+    _avg: RoutingAvgAggregateOutputType | null
+    _sum: RoutingSumAggregateOutputType | null
+    _min: RoutingMinAggregateOutputType | null
+    _max: RoutingMaxAggregateOutputType | null
+  }
+
+  export type RoutingAvgAggregateOutputType = {
+    version: number | null
+  }
+
+  export type RoutingSumAggregateOutputType = {
+    version: number | null
+  }
+
+  export type RoutingMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    version: number | null
+    status: $Enums.RevisionStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RoutingMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    version: number | null
+    status: $Enums.RevisionStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RoutingCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    version: number
+    status: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RoutingAvgAggregateInputType = {
+    version?: true
+  }
+
+  export type RoutingSumAggregateInputType = {
+    version?: true
+  }
+
+  export type RoutingMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    version?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RoutingMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    version?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RoutingCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    version?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RoutingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Routing to aggregate.
+     */
+    where?: RoutingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routings to fetch.
+     */
+    orderBy?: RoutingOrderByWithRelationInput | RoutingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoutingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Routings
+    **/
+    _count?: true | RoutingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RoutingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoutingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoutingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoutingMaxAggregateInputType
+  }
+
+  export type GetRoutingAggregateType<T extends RoutingAggregateArgs> = {
+        [P in keyof T & keyof AggregateRouting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRouting[P]>
+      : GetScalarType<T[P], AggregateRouting[P]>
+  }
+
+
+
+
+  export type RoutingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoutingWhereInput
+    orderBy?: RoutingOrderByWithAggregationInput | RoutingOrderByWithAggregationInput[]
+    by: RoutingScalarFieldEnum[] | RoutingScalarFieldEnum
+    having?: RoutingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoutingCountAggregateInputType | true
+    _avg?: RoutingAvgAggregateInputType
+    _sum?: RoutingSumAggregateInputType
+    _min?: RoutingMinAggregateInputType
+    _max?: RoutingMaxAggregateInputType
+  }
+
+  export type RoutingGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    version: number
+    status: $Enums.RevisionStatus
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RoutingCountAggregateOutputType | null
+    _avg: RoutingAvgAggregateOutputType | null
+    _sum: RoutingSumAggregateOutputType | null
+    _min: RoutingMinAggregateOutputType | null
+    _max: RoutingMaxAggregateOutputType | null
+  }
+
+  type GetRoutingGroupByPayload<T extends RoutingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoutingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoutingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoutingGroupByOutputType[P]>
+            : GetScalarType<T[P], RoutingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoutingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    operations?: boolean | Routing$operationsArgs<ExtArgs>
+    _count?: boolean | RoutingCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["routing"]>
+
+  export type RoutingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["routing"]>
+
+  export type RoutingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["routing"]>
+
+  export type RoutingSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    version?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RoutingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "version" | "status" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["routing"]>
+  export type RoutingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    operations?: boolean | Routing$operationsArgs<ExtArgs>
+    _count?: boolean | RoutingCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RoutingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type RoutingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $RoutingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Routing"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      operations: Prisma.$RoutingOperationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      version: number
+      status: $Enums.RevisionStatus
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["routing"]>
+    composites: {}
+  }
+
+  type RoutingGetPayload<S extends boolean | null | undefined | RoutingDefaultArgs> = $Result.GetResult<Prisma.$RoutingPayload, S>
+
+  type RoutingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoutingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoutingCountAggregateInputType | true
+    }
+
+  export interface RoutingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Routing'], meta: { name: 'Routing' } }
+    /**
+     * Find zero or one Routing that matches the filter.
+     * @param {RoutingFindUniqueArgs} args - Arguments to find a Routing
+     * @example
+     * // Get one Routing
+     * const routing = await prisma.routing.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoutingFindUniqueArgs>(args: SelectSubset<T, RoutingFindUniqueArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Routing that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RoutingFindUniqueOrThrowArgs} args - Arguments to find a Routing
+     * @example
+     * // Get one Routing
+     * const routing = await prisma.routing.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoutingFindUniqueOrThrowArgs>(args: SelectSubset<T, RoutingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Routing that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingFindFirstArgs} args - Arguments to find a Routing
+     * @example
+     * // Get one Routing
+     * const routing = await prisma.routing.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoutingFindFirstArgs>(args?: SelectSubset<T, RoutingFindFirstArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Routing that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingFindFirstOrThrowArgs} args - Arguments to find a Routing
+     * @example
+     * // Get one Routing
+     * const routing = await prisma.routing.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoutingFindFirstOrThrowArgs>(args?: SelectSubset<T, RoutingFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Routings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Routings
+     * const routings = await prisma.routing.findMany()
+     * 
+     * // Get first 10 Routings
+     * const routings = await prisma.routing.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const routingWithIdOnly = await prisma.routing.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoutingFindManyArgs>(args?: SelectSubset<T, RoutingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Routing.
+     * @param {RoutingCreateArgs} args - Arguments to create a Routing.
+     * @example
+     * // Create one Routing
+     * const Routing = await prisma.routing.create({
+     *   data: {
+     *     // ... data to create a Routing
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoutingCreateArgs>(args: SelectSubset<T, RoutingCreateArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Routings.
+     * @param {RoutingCreateManyArgs} args - Arguments to create many Routings.
+     * @example
+     * // Create many Routings
+     * const routing = await prisma.routing.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoutingCreateManyArgs>(args?: SelectSubset<T, RoutingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Routings and returns the data saved in the database.
+     * @param {RoutingCreateManyAndReturnArgs} args - Arguments to create many Routings.
+     * @example
+     * // Create many Routings
+     * const routing = await prisma.routing.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Routings and only return the `id`
+     * const routingWithIdOnly = await prisma.routing.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoutingCreateManyAndReturnArgs>(args?: SelectSubset<T, RoutingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Routing.
+     * @param {RoutingDeleteArgs} args - Arguments to delete one Routing.
+     * @example
+     * // Delete one Routing
+     * const Routing = await prisma.routing.delete({
+     *   where: {
+     *     // ... filter to delete one Routing
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoutingDeleteArgs>(args: SelectSubset<T, RoutingDeleteArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Routing.
+     * @param {RoutingUpdateArgs} args - Arguments to update one Routing.
+     * @example
+     * // Update one Routing
+     * const routing = await prisma.routing.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoutingUpdateArgs>(args: SelectSubset<T, RoutingUpdateArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Routings.
+     * @param {RoutingDeleteManyArgs} args - Arguments to filter Routings to delete.
+     * @example
+     * // Delete a few Routings
+     * const { count } = await prisma.routing.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoutingDeleteManyArgs>(args?: SelectSubset<T, RoutingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Routings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Routings
+     * const routing = await prisma.routing.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoutingUpdateManyArgs>(args: SelectSubset<T, RoutingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Routings and returns the data updated in the database.
+     * @param {RoutingUpdateManyAndReturnArgs} args - Arguments to update many Routings.
+     * @example
+     * // Update many Routings
+     * const routing = await prisma.routing.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Routings and only return the `id`
+     * const routingWithIdOnly = await prisma.routing.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RoutingUpdateManyAndReturnArgs>(args: SelectSubset<T, RoutingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Routing.
+     * @param {RoutingUpsertArgs} args - Arguments to update or create a Routing.
+     * @example
+     * // Update or create a Routing
+     * const routing = await prisma.routing.upsert({
+     *   create: {
+     *     // ... data to create a Routing
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Routing we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoutingUpsertArgs>(args: SelectSubset<T, RoutingUpsertArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Routings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingCountArgs} args - Arguments to filter Routings to count.
+     * @example
+     * // Count the number of Routings
+     * const count = await prisma.routing.count({
+     *   where: {
+     *     // ... the filter for the Routings we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoutingCountArgs>(
+      args?: Subset<T, RoutingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoutingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Routing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoutingAggregateArgs>(args: Subset<T, RoutingAggregateArgs>): Prisma.PrismaPromise<GetRoutingAggregateType<T>>
+
+    /**
+     * Group by Routing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoutingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoutingGroupByArgs['orderBy'] }
+        : { orderBy?: RoutingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoutingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoutingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Routing model
+   */
+  readonly fields: RoutingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Routing.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoutingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    operations<T extends Routing$operationsArgs<ExtArgs> = {}>(args?: Subset<T, Routing$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Routing model
+   */
+  interface RoutingFieldRefs {
+    readonly id: FieldRef<"Routing", 'String'>
+    readonly tenantId: FieldRef<"Routing", 'String'>
+    readonly skuId: FieldRef<"Routing", 'String'>
+    readonly version: FieldRef<"Routing", 'Int'>
+    readonly status: FieldRef<"Routing", 'RevisionStatus'>
+    readonly createdBy: FieldRef<"Routing", 'String'>
+    readonly createdAt: FieldRef<"Routing", 'DateTime'>
+    readonly updatedAt: FieldRef<"Routing", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Routing findUnique
+   */
+  export type RoutingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * Filter, which Routing to fetch.
+     */
+    where: RoutingWhereUniqueInput
+  }
+
+  /**
+   * Routing findUniqueOrThrow
+   */
+  export type RoutingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * Filter, which Routing to fetch.
+     */
+    where: RoutingWhereUniqueInput
+  }
+
+  /**
+   * Routing findFirst
+   */
+  export type RoutingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * Filter, which Routing to fetch.
+     */
+    where?: RoutingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routings to fetch.
+     */
+    orderBy?: RoutingOrderByWithRelationInput | RoutingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Routings.
+     */
+    cursor?: RoutingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Routings.
+     */
+    distinct?: RoutingScalarFieldEnum | RoutingScalarFieldEnum[]
+  }
+
+  /**
+   * Routing findFirstOrThrow
+   */
+  export type RoutingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * Filter, which Routing to fetch.
+     */
+    where?: RoutingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routings to fetch.
+     */
+    orderBy?: RoutingOrderByWithRelationInput | RoutingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Routings.
+     */
+    cursor?: RoutingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Routings.
+     */
+    distinct?: RoutingScalarFieldEnum | RoutingScalarFieldEnum[]
+  }
+
+  /**
+   * Routing findMany
+   */
+  export type RoutingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * Filter, which Routings to fetch.
+     */
+    where?: RoutingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routings to fetch.
+     */
+    orderBy?: RoutingOrderByWithRelationInput | RoutingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Routings.
+     */
+    cursor?: RoutingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routings.
+     */
+    skip?: number
+    distinct?: RoutingScalarFieldEnum | RoutingScalarFieldEnum[]
+  }
+
+  /**
+   * Routing create
+   */
+  export type RoutingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Routing.
+     */
+    data: XOR<RoutingCreateInput, RoutingUncheckedCreateInput>
+  }
+
+  /**
+   * Routing createMany
+   */
+  export type RoutingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Routings.
+     */
+    data: RoutingCreateManyInput | RoutingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Routing createManyAndReturn
+   */
+  export type RoutingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * The data used to create many Routings.
+     */
+    data: RoutingCreateManyInput | RoutingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Routing update
+   */
+  export type RoutingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Routing.
+     */
+    data: XOR<RoutingUpdateInput, RoutingUncheckedUpdateInput>
+    /**
+     * Choose, which Routing to update.
+     */
+    where: RoutingWhereUniqueInput
+  }
+
+  /**
+   * Routing updateMany
+   */
+  export type RoutingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Routings.
+     */
+    data: XOR<RoutingUpdateManyMutationInput, RoutingUncheckedUpdateManyInput>
+    /**
+     * Filter which Routings to update
+     */
+    where?: RoutingWhereInput
+    /**
+     * Limit how many Routings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Routing updateManyAndReturn
+   */
+  export type RoutingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * The data used to update Routings.
+     */
+    data: XOR<RoutingUpdateManyMutationInput, RoutingUncheckedUpdateManyInput>
+    /**
+     * Filter which Routings to update
+     */
+    where?: RoutingWhereInput
+    /**
+     * Limit how many Routings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Routing upsert
+   */
+  export type RoutingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Routing to update in case it exists.
+     */
+    where: RoutingWhereUniqueInput
+    /**
+     * In case the Routing found by the `where` argument doesn't exist, create a new Routing with this data.
+     */
+    create: XOR<RoutingCreateInput, RoutingUncheckedCreateInput>
+    /**
+     * In case the Routing was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoutingUpdateInput, RoutingUncheckedUpdateInput>
+  }
+
+  /**
+   * Routing delete
+   */
+  export type RoutingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+    /**
+     * Filter which Routing to delete.
+     */
+    where: RoutingWhereUniqueInput
+  }
+
+  /**
+   * Routing deleteMany
+   */
+  export type RoutingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Routings to delete
+     */
+    where?: RoutingWhereInput
+    /**
+     * Limit how many Routings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Routing.operations
+   */
+  export type Routing$operationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    where?: RoutingOperationWhereInput
+    orderBy?: RoutingOperationOrderByWithRelationInput | RoutingOperationOrderByWithRelationInput[]
+    cursor?: RoutingOperationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoutingOperationScalarFieldEnum | RoutingOperationScalarFieldEnum[]
+  }
+
+  /**
+   * Routing without action
+   */
+  export type RoutingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Routing
+     */
+    select?: RoutingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Routing
+     */
+    omit?: RoutingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RoutingOperation
+   */
+
+  export type AggregateRoutingOperation = {
+    _count: RoutingOperationCountAggregateOutputType | null
+    _avg: RoutingOperationAvgAggregateOutputType | null
+    _sum: RoutingOperationSumAggregateOutputType | null
+    _min: RoutingOperationMinAggregateOutputType | null
+    _max: RoutingOperationMaxAggregateOutputType | null
+  }
+
+  export type RoutingOperationAvgAggregateOutputType = {
+    seq: number | null
+    setupMinutes: Decimal | null
+    runMinutesPerUnit: Decimal | null
+  }
+
+  export type RoutingOperationSumAggregateOutputType = {
+    seq: number | null
+    setupMinutes: Decimal | null
+    runMinutesPerUnit: Decimal | null
+  }
+
+  export type RoutingOperationMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    routingId: string | null
+    seq: number | null
+    name: string | null
+    workCenter: string | null
+    setupMinutes: Decimal | null
+    runMinutesPerUnit: Decimal | null
+    instructions: string | null
+  }
+
+  export type RoutingOperationMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    routingId: string | null
+    seq: number | null
+    name: string | null
+    workCenter: string | null
+    setupMinutes: Decimal | null
+    runMinutesPerUnit: Decimal | null
+    instructions: string | null
+  }
+
+  export type RoutingOperationCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    routingId: number
+    seq: number
+    name: number
+    workCenter: number
+    setupMinutes: number
+    runMinutesPerUnit: number
+    instructions: number
+    _all: number
+  }
+
+
+  export type RoutingOperationAvgAggregateInputType = {
+    seq?: true
+    setupMinutes?: true
+    runMinutesPerUnit?: true
+  }
+
+  export type RoutingOperationSumAggregateInputType = {
+    seq?: true
+    setupMinutes?: true
+    runMinutesPerUnit?: true
+  }
+
+  export type RoutingOperationMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    routingId?: true
+    seq?: true
+    name?: true
+    workCenter?: true
+    setupMinutes?: true
+    runMinutesPerUnit?: true
+    instructions?: true
+  }
+
+  export type RoutingOperationMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    routingId?: true
+    seq?: true
+    name?: true
+    workCenter?: true
+    setupMinutes?: true
+    runMinutesPerUnit?: true
+    instructions?: true
+  }
+
+  export type RoutingOperationCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    routingId?: true
+    seq?: true
+    name?: true
+    workCenter?: true
+    setupMinutes?: true
+    runMinutesPerUnit?: true
+    instructions?: true
+    _all?: true
+  }
+
+  export type RoutingOperationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoutingOperation to aggregate.
+     */
+    where?: RoutingOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoutingOperations to fetch.
+     */
+    orderBy?: RoutingOperationOrderByWithRelationInput | RoutingOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoutingOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoutingOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoutingOperations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoutingOperations
+    **/
+    _count?: true | RoutingOperationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RoutingOperationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoutingOperationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoutingOperationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoutingOperationMaxAggregateInputType
+  }
+
+  export type GetRoutingOperationAggregateType<T extends RoutingOperationAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoutingOperation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoutingOperation[P]>
+      : GetScalarType<T[P], AggregateRoutingOperation[P]>
+  }
+
+
+
+
+  export type RoutingOperationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoutingOperationWhereInput
+    orderBy?: RoutingOperationOrderByWithAggregationInput | RoutingOperationOrderByWithAggregationInput[]
+    by: RoutingOperationScalarFieldEnum[] | RoutingOperationScalarFieldEnum
+    having?: RoutingOperationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoutingOperationCountAggregateInputType | true
+    _avg?: RoutingOperationAvgAggregateInputType
+    _sum?: RoutingOperationSumAggregateInputType
+    _min?: RoutingOperationMinAggregateInputType
+    _max?: RoutingOperationMaxAggregateInputType
+  }
+
+  export type RoutingOperationGroupByOutputType = {
+    id: string
+    tenantId: string
+    routingId: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes: Decimal
+    runMinutesPerUnit: Decimal
+    instructions: string | null
+    _count: RoutingOperationCountAggregateOutputType | null
+    _avg: RoutingOperationAvgAggregateOutputType | null
+    _sum: RoutingOperationSumAggregateOutputType | null
+    _min: RoutingOperationMinAggregateOutputType | null
+    _max: RoutingOperationMaxAggregateOutputType | null
+  }
+
+  type GetRoutingOperationGroupByPayload<T extends RoutingOperationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoutingOperationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoutingOperationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoutingOperationGroupByOutputType[P]>
+            : GetScalarType<T[P], RoutingOperationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoutingOperationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    routingId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    setupMinutes?: boolean
+    runMinutesPerUnit?: boolean
+    instructions?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    routing?: boolean | RoutingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["routingOperation"]>
+
+  export type RoutingOperationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    routingId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    setupMinutes?: boolean
+    runMinutesPerUnit?: boolean
+    instructions?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    routing?: boolean | RoutingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["routingOperation"]>
+
+  export type RoutingOperationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    routingId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    setupMinutes?: boolean
+    runMinutesPerUnit?: boolean
+    instructions?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    routing?: boolean | RoutingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["routingOperation"]>
+
+  export type RoutingOperationSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    routingId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    setupMinutes?: boolean
+    runMinutesPerUnit?: boolean
+    instructions?: boolean
+  }
+
+  export type RoutingOperationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "routingId" | "seq" | "name" | "workCenter" | "setupMinutes" | "runMinutesPerUnit" | "instructions", ExtArgs["result"]["routingOperation"]>
+  export type RoutingOperationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    routing?: boolean | RoutingDefaultArgs<ExtArgs>
+  }
+  export type RoutingOperationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    routing?: boolean | RoutingDefaultArgs<ExtArgs>
+  }
+  export type RoutingOperationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    routing?: boolean | RoutingDefaultArgs<ExtArgs>
+  }
+
+  export type $RoutingOperationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RoutingOperation"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      routing: Prisma.$RoutingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      routingId: string
+      seq: number
+      name: string
+      workCenter: string
+      setupMinutes: Prisma.Decimal
+      runMinutesPerUnit: Prisma.Decimal
+      instructions: string | null
+    }, ExtArgs["result"]["routingOperation"]>
+    composites: {}
+  }
+
+  type RoutingOperationGetPayload<S extends boolean | null | undefined | RoutingOperationDefaultArgs> = $Result.GetResult<Prisma.$RoutingOperationPayload, S>
+
+  type RoutingOperationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoutingOperationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoutingOperationCountAggregateInputType | true
+    }
+
+  export interface RoutingOperationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoutingOperation'], meta: { name: 'RoutingOperation' } }
+    /**
+     * Find zero or one RoutingOperation that matches the filter.
+     * @param {RoutingOperationFindUniqueArgs} args - Arguments to find a RoutingOperation
+     * @example
+     * // Get one RoutingOperation
+     * const routingOperation = await prisma.routingOperation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoutingOperationFindUniqueArgs>(args: SelectSubset<T, RoutingOperationFindUniqueArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RoutingOperation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RoutingOperationFindUniqueOrThrowArgs} args - Arguments to find a RoutingOperation
+     * @example
+     * // Get one RoutingOperation
+     * const routingOperation = await prisma.routingOperation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoutingOperationFindUniqueOrThrowArgs>(args: SelectSubset<T, RoutingOperationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoutingOperation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingOperationFindFirstArgs} args - Arguments to find a RoutingOperation
+     * @example
+     * // Get one RoutingOperation
+     * const routingOperation = await prisma.routingOperation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoutingOperationFindFirstArgs>(args?: SelectSubset<T, RoutingOperationFindFirstArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoutingOperation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingOperationFindFirstOrThrowArgs} args - Arguments to find a RoutingOperation
+     * @example
+     * // Get one RoutingOperation
+     * const routingOperation = await prisma.routingOperation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoutingOperationFindFirstOrThrowArgs>(args?: SelectSubset<T, RoutingOperationFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RoutingOperations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingOperationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoutingOperations
+     * const routingOperations = await prisma.routingOperation.findMany()
+     * 
+     * // Get first 10 RoutingOperations
+     * const routingOperations = await prisma.routingOperation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const routingOperationWithIdOnly = await prisma.routingOperation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoutingOperationFindManyArgs>(args?: SelectSubset<T, RoutingOperationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RoutingOperation.
+     * @param {RoutingOperationCreateArgs} args - Arguments to create a RoutingOperation.
+     * @example
+     * // Create one RoutingOperation
+     * const RoutingOperation = await prisma.routingOperation.create({
+     *   data: {
+     *     // ... data to create a RoutingOperation
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoutingOperationCreateArgs>(args: SelectSubset<T, RoutingOperationCreateArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RoutingOperations.
+     * @param {RoutingOperationCreateManyArgs} args - Arguments to create many RoutingOperations.
+     * @example
+     * // Create many RoutingOperations
+     * const routingOperation = await prisma.routingOperation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoutingOperationCreateManyArgs>(args?: SelectSubset<T, RoutingOperationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RoutingOperations and returns the data saved in the database.
+     * @param {RoutingOperationCreateManyAndReturnArgs} args - Arguments to create many RoutingOperations.
+     * @example
+     * // Create many RoutingOperations
+     * const routingOperation = await prisma.routingOperation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RoutingOperations and only return the `id`
+     * const routingOperationWithIdOnly = await prisma.routingOperation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoutingOperationCreateManyAndReturnArgs>(args?: SelectSubset<T, RoutingOperationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RoutingOperation.
+     * @param {RoutingOperationDeleteArgs} args - Arguments to delete one RoutingOperation.
+     * @example
+     * // Delete one RoutingOperation
+     * const RoutingOperation = await prisma.routingOperation.delete({
+     *   where: {
+     *     // ... filter to delete one RoutingOperation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoutingOperationDeleteArgs>(args: SelectSubset<T, RoutingOperationDeleteArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RoutingOperation.
+     * @param {RoutingOperationUpdateArgs} args - Arguments to update one RoutingOperation.
+     * @example
+     * // Update one RoutingOperation
+     * const routingOperation = await prisma.routingOperation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoutingOperationUpdateArgs>(args: SelectSubset<T, RoutingOperationUpdateArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RoutingOperations.
+     * @param {RoutingOperationDeleteManyArgs} args - Arguments to filter RoutingOperations to delete.
+     * @example
+     * // Delete a few RoutingOperations
+     * const { count } = await prisma.routingOperation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoutingOperationDeleteManyArgs>(args?: SelectSubset<T, RoutingOperationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoutingOperations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingOperationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoutingOperations
+     * const routingOperation = await prisma.routingOperation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoutingOperationUpdateManyArgs>(args: SelectSubset<T, RoutingOperationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoutingOperations and returns the data updated in the database.
+     * @param {RoutingOperationUpdateManyAndReturnArgs} args - Arguments to update many RoutingOperations.
+     * @example
+     * // Update many RoutingOperations
+     * const routingOperation = await prisma.routingOperation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RoutingOperations and only return the `id`
+     * const routingOperationWithIdOnly = await prisma.routingOperation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RoutingOperationUpdateManyAndReturnArgs>(args: SelectSubset<T, RoutingOperationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RoutingOperation.
+     * @param {RoutingOperationUpsertArgs} args - Arguments to update or create a RoutingOperation.
+     * @example
+     * // Update or create a RoutingOperation
+     * const routingOperation = await prisma.routingOperation.upsert({
+     *   create: {
+     *     // ... data to create a RoutingOperation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoutingOperation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoutingOperationUpsertArgs>(args: SelectSubset<T, RoutingOperationUpsertArgs<ExtArgs>>): Prisma__RoutingOperationClient<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RoutingOperations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingOperationCountArgs} args - Arguments to filter RoutingOperations to count.
+     * @example
+     * // Count the number of RoutingOperations
+     * const count = await prisma.routingOperation.count({
+     *   where: {
+     *     // ... the filter for the RoutingOperations we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoutingOperationCountArgs>(
+      args?: Subset<T, RoutingOperationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoutingOperationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoutingOperation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingOperationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoutingOperationAggregateArgs>(args: Subset<T, RoutingOperationAggregateArgs>): Prisma.PrismaPromise<GetRoutingOperationAggregateType<T>>
+
+    /**
+     * Group by RoutingOperation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoutingOperationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoutingOperationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoutingOperationGroupByArgs['orderBy'] }
+        : { orderBy?: RoutingOperationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoutingOperationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoutingOperationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoutingOperation model
+   */
+  readonly fields: RoutingOperationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoutingOperation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoutingOperationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    routing<T extends RoutingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoutingDefaultArgs<ExtArgs>>): Prisma__RoutingClient<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RoutingOperation model
+   */
+  interface RoutingOperationFieldRefs {
+    readonly id: FieldRef<"RoutingOperation", 'String'>
+    readonly tenantId: FieldRef<"RoutingOperation", 'String'>
+    readonly routingId: FieldRef<"RoutingOperation", 'String'>
+    readonly seq: FieldRef<"RoutingOperation", 'Int'>
+    readonly name: FieldRef<"RoutingOperation", 'String'>
+    readonly workCenter: FieldRef<"RoutingOperation", 'String'>
+    readonly setupMinutes: FieldRef<"RoutingOperation", 'Decimal'>
+    readonly runMinutesPerUnit: FieldRef<"RoutingOperation", 'Decimal'>
+    readonly instructions: FieldRef<"RoutingOperation", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RoutingOperation findUnique
+   */
+  export type RoutingOperationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which RoutingOperation to fetch.
+     */
+    where: RoutingOperationWhereUniqueInput
+  }
+
+  /**
+   * RoutingOperation findUniqueOrThrow
+   */
+  export type RoutingOperationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which RoutingOperation to fetch.
+     */
+    where: RoutingOperationWhereUniqueInput
+  }
+
+  /**
+   * RoutingOperation findFirst
+   */
+  export type RoutingOperationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which RoutingOperation to fetch.
+     */
+    where?: RoutingOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoutingOperations to fetch.
+     */
+    orderBy?: RoutingOperationOrderByWithRelationInput | RoutingOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoutingOperations.
+     */
+    cursor?: RoutingOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoutingOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoutingOperations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoutingOperations.
+     */
+    distinct?: RoutingOperationScalarFieldEnum | RoutingOperationScalarFieldEnum[]
+  }
+
+  /**
+   * RoutingOperation findFirstOrThrow
+   */
+  export type RoutingOperationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which RoutingOperation to fetch.
+     */
+    where?: RoutingOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoutingOperations to fetch.
+     */
+    orderBy?: RoutingOperationOrderByWithRelationInput | RoutingOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoutingOperations.
+     */
+    cursor?: RoutingOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoutingOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoutingOperations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoutingOperations.
+     */
+    distinct?: RoutingOperationScalarFieldEnum | RoutingOperationScalarFieldEnum[]
+  }
+
+  /**
+   * RoutingOperation findMany
+   */
+  export type RoutingOperationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which RoutingOperations to fetch.
+     */
+    where?: RoutingOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoutingOperations to fetch.
+     */
+    orderBy?: RoutingOperationOrderByWithRelationInput | RoutingOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoutingOperations.
+     */
+    cursor?: RoutingOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoutingOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoutingOperations.
+     */
+    skip?: number
+    distinct?: RoutingOperationScalarFieldEnum | RoutingOperationScalarFieldEnum[]
+  }
+
+  /**
+   * RoutingOperation create
+   */
+  export type RoutingOperationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RoutingOperation.
+     */
+    data: XOR<RoutingOperationCreateInput, RoutingOperationUncheckedCreateInput>
+  }
+
+  /**
+   * RoutingOperation createMany
+   */
+  export type RoutingOperationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoutingOperations.
+     */
+    data: RoutingOperationCreateManyInput | RoutingOperationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RoutingOperation createManyAndReturn
+   */
+  export type RoutingOperationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * The data used to create many RoutingOperations.
+     */
+    data: RoutingOperationCreateManyInput | RoutingOperationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoutingOperation update
+   */
+  export type RoutingOperationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RoutingOperation.
+     */
+    data: XOR<RoutingOperationUpdateInput, RoutingOperationUncheckedUpdateInput>
+    /**
+     * Choose, which RoutingOperation to update.
+     */
+    where: RoutingOperationWhereUniqueInput
+  }
+
+  /**
+   * RoutingOperation updateMany
+   */
+  export type RoutingOperationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoutingOperations.
+     */
+    data: XOR<RoutingOperationUpdateManyMutationInput, RoutingOperationUncheckedUpdateManyInput>
+    /**
+     * Filter which RoutingOperations to update
+     */
+    where?: RoutingOperationWhereInput
+    /**
+     * Limit how many RoutingOperations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoutingOperation updateManyAndReturn
+   */
+  export type RoutingOperationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * The data used to update RoutingOperations.
+     */
+    data: XOR<RoutingOperationUpdateManyMutationInput, RoutingOperationUncheckedUpdateManyInput>
+    /**
+     * Filter which RoutingOperations to update
+     */
+    where?: RoutingOperationWhereInput
+    /**
+     * Limit how many RoutingOperations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoutingOperation upsert
+   */
+  export type RoutingOperationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RoutingOperation to update in case it exists.
+     */
+    where: RoutingOperationWhereUniqueInput
+    /**
+     * In case the RoutingOperation found by the `where` argument doesn't exist, create a new RoutingOperation with this data.
+     */
+    create: XOR<RoutingOperationCreateInput, RoutingOperationUncheckedCreateInput>
+    /**
+     * In case the RoutingOperation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoutingOperationUpdateInput, RoutingOperationUncheckedUpdateInput>
+  }
+
+  /**
+   * RoutingOperation delete
+   */
+  export type RoutingOperationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+    /**
+     * Filter which RoutingOperation to delete.
+     */
+    where: RoutingOperationWhereUniqueInput
+  }
+
+  /**
+   * RoutingOperation deleteMany
+   */
+  export type RoutingOperationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoutingOperations to delete
+     */
+    where?: RoutingOperationWhereInput
+    /**
+     * Limit how many RoutingOperations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoutingOperation without action
+   */
+  export type RoutingOperationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoutingOperation
+     */
+    select?: RoutingOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoutingOperation
+     */
+    omit?: RoutingOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoutingOperationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EngineeringChange
+   */
+
+  export type AggregateEngineeringChange = {
+    _count: EngineeringChangeCountAggregateOutputType | null
+    _min: EngineeringChangeMinAggregateOutputType | null
+    _max: EngineeringChangeMaxAggregateOutputType | null
+  }
+
+  export type EngineeringChangeMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    ecNumber: string | null
+    targetSkuId: string | null
+    title: string | null
+    status: $Enums.EcStatus | null
+    note: string | null
+    decidedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EngineeringChangeMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    ecNumber: string | null
+    targetSkuId: string | null
+    title: string | null
+    status: $Enums.EcStatus | null
+    note: string | null
+    decidedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EngineeringChangeCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    ecNumber: number
+    targetSkuId: number
+    title: number
+    status: number
+    note: number
+    decidedBy: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EngineeringChangeMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    ecNumber?: true
+    targetSkuId?: true
+    title?: true
+    status?: true
+    note?: true
+    decidedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EngineeringChangeMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    ecNumber?: true
+    targetSkuId?: true
+    title?: true
+    status?: true
+    note?: true
+    decidedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EngineeringChangeCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    ecNumber?: true
+    targetSkuId?: true
+    title?: true
+    status?: true
+    note?: true
+    decidedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EngineeringChangeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EngineeringChange to aggregate.
+     */
+    where?: EngineeringChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngineeringChanges to fetch.
+     */
+    orderBy?: EngineeringChangeOrderByWithRelationInput | EngineeringChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EngineeringChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngineeringChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngineeringChanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EngineeringChanges
+    **/
+    _count?: true | EngineeringChangeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EngineeringChangeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EngineeringChangeMaxAggregateInputType
+  }
+
+  export type GetEngineeringChangeAggregateType<T extends EngineeringChangeAggregateArgs> = {
+        [P in keyof T & keyof AggregateEngineeringChange]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEngineeringChange[P]>
+      : GetScalarType<T[P], AggregateEngineeringChange[P]>
+  }
+
+
+
+
+  export type EngineeringChangeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EngineeringChangeWhereInput
+    orderBy?: EngineeringChangeOrderByWithAggregationInput | EngineeringChangeOrderByWithAggregationInput[]
+    by: EngineeringChangeScalarFieldEnum[] | EngineeringChangeScalarFieldEnum
+    having?: EngineeringChangeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EngineeringChangeCountAggregateInputType | true
+    _min?: EngineeringChangeMinAggregateInputType
+    _max?: EngineeringChangeMaxAggregateInputType
+  }
+
+  export type EngineeringChangeGroupByOutputType = {
+    id: string
+    tenantId: string
+    ecNumber: string
+    targetSkuId: string
+    title: string
+    status: $Enums.EcStatus
+    note: string | null
+    decidedBy: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: EngineeringChangeCountAggregateOutputType | null
+    _min: EngineeringChangeMinAggregateOutputType | null
+    _max: EngineeringChangeMaxAggregateOutputType | null
+  }
+
+  type GetEngineeringChangeGroupByPayload<T extends EngineeringChangeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EngineeringChangeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EngineeringChangeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EngineeringChangeGroupByOutputType[P]>
+            : GetScalarType<T[P], EngineeringChangeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EngineeringChangeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    ecNumber?: boolean
+    targetSkuId?: boolean
+    title?: boolean
+    status?: boolean
+    note?: boolean
+    decidedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["engineeringChange"]>
+
+  export type EngineeringChangeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    ecNumber?: boolean
+    targetSkuId?: boolean
+    title?: boolean
+    status?: boolean
+    note?: boolean
+    decidedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["engineeringChange"]>
+
+  export type EngineeringChangeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    ecNumber?: boolean
+    targetSkuId?: boolean
+    title?: boolean
+    status?: boolean
+    note?: boolean
+    decidedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["engineeringChange"]>
+
+  export type EngineeringChangeSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    ecNumber?: boolean
+    targetSkuId?: boolean
+    title?: boolean
+    status?: boolean
+    note?: boolean
+    decidedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EngineeringChangeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "ecNumber" | "targetSkuId" | "title" | "status" | "note" | "decidedBy" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["engineeringChange"]>
+  export type EngineeringChangeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type EngineeringChangeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type EngineeringChangeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $EngineeringChangePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EngineeringChange"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      ecNumber: string
+      targetSkuId: string
+      title: string
+      status: $Enums.EcStatus
+      note: string | null
+      decidedBy: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["engineeringChange"]>
+    composites: {}
+  }
+
+  type EngineeringChangeGetPayload<S extends boolean | null | undefined | EngineeringChangeDefaultArgs> = $Result.GetResult<Prisma.$EngineeringChangePayload, S>
+
+  type EngineeringChangeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EngineeringChangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EngineeringChangeCountAggregateInputType | true
+    }
+
+  export interface EngineeringChangeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EngineeringChange'], meta: { name: 'EngineeringChange' } }
+    /**
+     * Find zero or one EngineeringChange that matches the filter.
+     * @param {EngineeringChangeFindUniqueArgs} args - Arguments to find a EngineeringChange
+     * @example
+     * // Get one EngineeringChange
+     * const engineeringChange = await prisma.engineeringChange.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EngineeringChangeFindUniqueArgs>(args: SelectSubset<T, EngineeringChangeFindUniqueArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EngineeringChange that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EngineeringChangeFindUniqueOrThrowArgs} args - Arguments to find a EngineeringChange
+     * @example
+     * // Get one EngineeringChange
+     * const engineeringChange = await prisma.engineeringChange.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EngineeringChangeFindUniqueOrThrowArgs>(args: SelectSubset<T, EngineeringChangeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EngineeringChange that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngineeringChangeFindFirstArgs} args - Arguments to find a EngineeringChange
+     * @example
+     * // Get one EngineeringChange
+     * const engineeringChange = await prisma.engineeringChange.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EngineeringChangeFindFirstArgs>(args?: SelectSubset<T, EngineeringChangeFindFirstArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EngineeringChange that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngineeringChangeFindFirstOrThrowArgs} args - Arguments to find a EngineeringChange
+     * @example
+     * // Get one EngineeringChange
+     * const engineeringChange = await prisma.engineeringChange.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EngineeringChangeFindFirstOrThrowArgs>(args?: SelectSubset<T, EngineeringChangeFindFirstOrThrowArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EngineeringChanges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngineeringChangeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EngineeringChanges
+     * const engineeringChanges = await prisma.engineeringChange.findMany()
+     * 
+     * // Get first 10 EngineeringChanges
+     * const engineeringChanges = await prisma.engineeringChange.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const engineeringChangeWithIdOnly = await prisma.engineeringChange.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EngineeringChangeFindManyArgs>(args?: SelectSubset<T, EngineeringChangeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EngineeringChange.
+     * @param {EngineeringChangeCreateArgs} args - Arguments to create a EngineeringChange.
+     * @example
+     * // Create one EngineeringChange
+     * const EngineeringChange = await prisma.engineeringChange.create({
+     *   data: {
+     *     // ... data to create a EngineeringChange
+     *   }
+     * })
+     * 
+     */
+    create<T extends EngineeringChangeCreateArgs>(args: SelectSubset<T, EngineeringChangeCreateArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EngineeringChanges.
+     * @param {EngineeringChangeCreateManyArgs} args - Arguments to create many EngineeringChanges.
+     * @example
+     * // Create many EngineeringChanges
+     * const engineeringChange = await prisma.engineeringChange.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EngineeringChangeCreateManyArgs>(args?: SelectSubset<T, EngineeringChangeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EngineeringChanges and returns the data saved in the database.
+     * @param {EngineeringChangeCreateManyAndReturnArgs} args - Arguments to create many EngineeringChanges.
+     * @example
+     * // Create many EngineeringChanges
+     * const engineeringChange = await prisma.engineeringChange.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EngineeringChanges and only return the `id`
+     * const engineeringChangeWithIdOnly = await prisma.engineeringChange.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EngineeringChangeCreateManyAndReturnArgs>(args?: SelectSubset<T, EngineeringChangeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EngineeringChange.
+     * @param {EngineeringChangeDeleteArgs} args - Arguments to delete one EngineeringChange.
+     * @example
+     * // Delete one EngineeringChange
+     * const EngineeringChange = await prisma.engineeringChange.delete({
+     *   where: {
+     *     // ... filter to delete one EngineeringChange
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EngineeringChangeDeleteArgs>(args: SelectSubset<T, EngineeringChangeDeleteArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EngineeringChange.
+     * @param {EngineeringChangeUpdateArgs} args - Arguments to update one EngineeringChange.
+     * @example
+     * // Update one EngineeringChange
+     * const engineeringChange = await prisma.engineeringChange.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EngineeringChangeUpdateArgs>(args: SelectSubset<T, EngineeringChangeUpdateArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EngineeringChanges.
+     * @param {EngineeringChangeDeleteManyArgs} args - Arguments to filter EngineeringChanges to delete.
+     * @example
+     * // Delete a few EngineeringChanges
+     * const { count } = await prisma.engineeringChange.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EngineeringChangeDeleteManyArgs>(args?: SelectSubset<T, EngineeringChangeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EngineeringChanges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngineeringChangeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EngineeringChanges
+     * const engineeringChange = await prisma.engineeringChange.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EngineeringChangeUpdateManyArgs>(args: SelectSubset<T, EngineeringChangeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EngineeringChanges and returns the data updated in the database.
+     * @param {EngineeringChangeUpdateManyAndReturnArgs} args - Arguments to update many EngineeringChanges.
+     * @example
+     * // Update many EngineeringChanges
+     * const engineeringChange = await prisma.engineeringChange.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EngineeringChanges and only return the `id`
+     * const engineeringChangeWithIdOnly = await prisma.engineeringChange.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EngineeringChangeUpdateManyAndReturnArgs>(args: SelectSubset<T, EngineeringChangeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EngineeringChange.
+     * @param {EngineeringChangeUpsertArgs} args - Arguments to update or create a EngineeringChange.
+     * @example
+     * // Update or create a EngineeringChange
+     * const engineeringChange = await prisma.engineeringChange.upsert({
+     *   create: {
+     *     // ... data to create a EngineeringChange
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EngineeringChange we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EngineeringChangeUpsertArgs>(args: SelectSubset<T, EngineeringChangeUpsertArgs<ExtArgs>>): Prisma__EngineeringChangeClient<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EngineeringChanges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngineeringChangeCountArgs} args - Arguments to filter EngineeringChanges to count.
+     * @example
+     * // Count the number of EngineeringChanges
+     * const count = await prisma.engineeringChange.count({
+     *   where: {
+     *     // ... the filter for the EngineeringChanges we want to count
+     *   }
+     * })
+    **/
+    count<T extends EngineeringChangeCountArgs>(
+      args?: Subset<T, EngineeringChangeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EngineeringChangeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EngineeringChange.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngineeringChangeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EngineeringChangeAggregateArgs>(args: Subset<T, EngineeringChangeAggregateArgs>): Prisma.PrismaPromise<GetEngineeringChangeAggregateType<T>>
+
+    /**
+     * Group by EngineeringChange.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngineeringChangeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EngineeringChangeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EngineeringChangeGroupByArgs['orderBy'] }
+        : { orderBy?: EngineeringChangeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EngineeringChangeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEngineeringChangeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EngineeringChange model
+   */
+  readonly fields: EngineeringChangeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EngineeringChange.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EngineeringChangeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EngineeringChange model
+   */
+  interface EngineeringChangeFieldRefs {
+    readonly id: FieldRef<"EngineeringChange", 'String'>
+    readonly tenantId: FieldRef<"EngineeringChange", 'String'>
+    readonly ecNumber: FieldRef<"EngineeringChange", 'String'>
+    readonly targetSkuId: FieldRef<"EngineeringChange", 'String'>
+    readonly title: FieldRef<"EngineeringChange", 'String'>
+    readonly status: FieldRef<"EngineeringChange", 'EcStatus'>
+    readonly note: FieldRef<"EngineeringChange", 'String'>
+    readonly decidedBy: FieldRef<"EngineeringChange", 'String'>
+    readonly createdBy: FieldRef<"EngineeringChange", 'String'>
+    readonly createdAt: FieldRef<"EngineeringChange", 'DateTime'>
+    readonly updatedAt: FieldRef<"EngineeringChange", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EngineeringChange findUnique
+   */
+  export type EngineeringChangeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which EngineeringChange to fetch.
+     */
+    where: EngineeringChangeWhereUniqueInput
+  }
+
+  /**
+   * EngineeringChange findUniqueOrThrow
+   */
+  export type EngineeringChangeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which EngineeringChange to fetch.
+     */
+    where: EngineeringChangeWhereUniqueInput
+  }
+
+  /**
+   * EngineeringChange findFirst
+   */
+  export type EngineeringChangeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which EngineeringChange to fetch.
+     */
+    where?: EngineeringChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngineeringChanges to fetch.
+     */
+    orderBy?: EngineeringChangeOrderByWithRelationInput | EngineeringChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EngineeringChanges.
+     */
+    cursor?: EngineeringChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngineeringChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngineeringChanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EngineeringChanges.
+     */
+    distinct?: EngineeringChangeScalarFieldEnum | EngineeringChangeScalarFieldEnum[]
+  }
+
+  /**
+   * EngineeringChange findFirstOrThrow
+   */
+  export type EngineeringChangeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which EngineeringChange to fetch.
+     */
+    where?: EngineeringChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngineeringChanges to fetch.
+     */
+    orderBy?: EngineeringChangeOrderByWithRelationInput | EngineeringChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EngineeringChanges.
+     */
+    cursor?: EngineeringChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngineeringChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngineeringChanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EngineeringChanges.
+     */
+    distinct?: EngineeringChangeScalarFieldEnum | EngineeringChangeScalarFieldEnum[]
+  }
+
+  /**
+   * EngineeringChange findMany
+   */
+  export type EngineeringChangeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which EngineeringChanges to fetch.
+     */
+    where?: EngineeringChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngineeringChanges to fetch.
+     */
+    orderBy?: EngineeringChangeOrderByWithRelationInput | EngineeringChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EngineeringChanges.
+     */
+    cursor?: EngineeringChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngineeringChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngineeringChanges.
+     */
+    skip?: number
+    distinct?: EngineeringChangeScalarFieldEnum | EngineeringChangeScalarFieldEnum[]
+  }
+
+  /**
+   * EngineeringChange create
+   */
+  export type EngineeringChangeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EngineeringChange.
+     */
+    data: XOR<EngineeringChangeCreateInput, EngineeringChangeUncheckedCreateInput>
+  }
+
+  /**
+   * EngineeringChange createMany
+   */
+  export type EngineeringChangeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EngineeringChanges.
+     */
+    data: EngineeringChangeCreateManyInput | EngineeringChangeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EngineeringChange createManyAndReturn
+   */
+  export type EngineeringChangeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * The data used to create many EngineeringChanges.
+     */
+    data: EngineeringChangeCreateManyInput | EngineeringChangeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EngineeringChange update
+   */
+  export type EngineeringChangeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EngineeringChange.
+     */
+    data: XOR<EngineeringChangeUpdateInput, EngineeringChangeUncheckedUpdateInput>
+    /**
+     * Choose, which EngineeringChange to update.
+     */
+    where: EngineeringChangeWhereUniqueInput
+  }
+
+  /**
+   * EngineeringChange updateMany
+   */
+  export type EngineeringChangeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EngineeringChanges.
+     */
+    data: XOR<EngineeringChangeUpdateManyMutationInput, EngineeringChangeUncheckedUpdateManyInput>
+    /**
+     * Filter which EngineeringChanges to update
+     */
+    where?: EngineeringChangeWhereInput
+    /**
+     * Limit how many EngineeringChanges to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EngineeringChange updateManyAndReturn
+   */
+  export type EngineeringChangeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * The data used to update EngineeringChanges.
+     */
+    data: XOR<EngineeringChangeUpdateManyMutationInput, EngineeringChangeUncheckedUpdateManyInput>
+    /**
+     * Filter which EngineeringChanges to update
+     */
+    where?: EngineeringChangeWhereInput
+    /**
+     * Limit how many EngineeringChanges to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EngineeringChange upsert
+   */
+  export type EngineeringChangeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EngineeringChange to update in case it exists.
+     */
+    where: EngineeringChangeWhereUniqueInput
+    /**
+     * In case the EngineeringChange found by the `where` argument doesn't exist, create a new EngineeringChange with this data.
+     */
+    create: XOR<EngineeringChangeCreateInput, EngineeringChangeUncheckedCreateInput>
+    /**
+     * In case the EngineeringChange was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EngineeringChangeUpdateInput, EngineeringChangeUncheckedUpdateInput>
+  }
+
+  /**
+   * EngineeringChange delete
+   */
+  export type EngineeringChangeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+    /**
+     * Filter which EngineeringChange to delete.
+     */
+    where: EngineeringChangeWhereUniqueInput
+  }
+
+  /**
+   * EngineeringChange deleteMany
+   */
+  export type EngineeringChangeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EngineeringChanges to delete
+     */
+    where?: EngineeringChangeWhereInput
+    /**
+     * Limit how many EngineeringChanges to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EngineeringChange without action
+   */
+  export type EngineeringChangeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngineeringChange
+     */
+    select?: EngineeringChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngineeringChange
+     */
+    omit?: EngineeringChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngineeringChangeInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -72864,6 +79387,82 @@ export namespace Prisma {
   export type PurchaseOrderLineScalarFieldEnum = (typeof PurchaseOrderLineScalarFieldEnum)[keyof typeof PurchaseOrderLineScalarFieldEnum]
 
 
+  export const BomScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    version: 'version',
+    status: 'status',
+    effectiveFrom: 'effectiveFrom',
+    notes: 'notes',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BomScalarFieldEnum = (typeof BomScalarFieldEnum)[keyof typeof BomScalarFieldEnum]
+
+
+  export const BomLineScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    bomId: 'bomId',
+    componentSkuId: 'componentSkuId',
+    description: 'description',
+    quantity: 'quantity',
+    scrapPct: 'scrapPct',
+    position: 'position'
+  };
+
+  export type BomLineScalarFieldEnum = (typeof BomLineScalarFieldEnum)[keyof typeof BomLineScalarFieldEnum]
+
+
+  export const RoutingScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    version: 'version',
+    status: 'status',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RoutingScalarFieldEnum = (typeof RoutingScalarFieldEnum)[keyof typeof RoutingScalarFieldEnum]
+
+
+  export const RoutingOperationScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    routingId: 'routingId',
+    seq: 'seq',
+    name: 'name',
+    workCenter: 'workCenter',
+    setupMinutes: 'setupMinutes',
+    runMinutesPerUnit: 'runMinutesPerUnit',
+    instructions: 'instructions'
+  };
+
+  export type RoutingOperationScalarFieldEnum = (typeof RoutingOperationScalarFieldEnum)[keyof typeof RoutingOperationScalarFieldEnum]
+
+
+  export const EngineeringChangeScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    ecNumber: 'ecNumber',
+    targetSkuId: 'targetSkuId',
+    title: 'title',
+    status: 'status',
+    note: 'note',
+    decidedBy: 'decidedBy',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EngineeringChangeScalarFieldEnum = (typeof EngineeringChangeScalarFieldEnum)[keyof typeof EngineeringChangeScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -73415,6 +80014,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RevisionStatus'
+   */
+  export type EnumRevisionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RevisionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'RevisionStatus[]'
+   */
+  export type ListEnumRevisionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RevisionStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'EcStatus'
+   */
+  export type EnumEcStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EcStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'EcStatus[]'
+   */
+  export type ListEnumEcStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EcStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -73487,6 +80114,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineListRelationFilter
     purchaseOrders?: PurchaseOrderListRelationFilter
     purchaseOrderLines?: PurchaseOrderLineListRelationFilter
+    boms?: BomListRelationFilter
+    bomLines?: BomLineListRelationFilter
+    routings?: RoutingListRelationFilter
+    routingOperations?: RoutingOperationListRelationFilter
+    engineeringChanges?: EngineeringChangeListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -73542,6 +80174,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineOrderByRelationAggregateInput
     purchaseOrders?: PurchaseOrderOrderByRelationAggregateInput
     purchaseOrderLines?: PurchaseOrderLineOrderByRelationAggregateInput
+    boms?: BomOrderByRelationAggregateInput
+    bomLines?: BomLineOrderByRelationAggregateInput
+    routings?: RoutingOrderByRelationAggregateInput
+    routingOperations?: RoutingOperationOrderByRelationAggregateInput
+    engineeringChanges?: EngineeringChangeOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -73600,6 +80237,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineListRelationFilter
     purchaseOrders?: PurchaseOrderListRelationFilter
     purchaseOrderLines?: PurchaseOrderLineListRelationFilter
+    boms?: BomListRelationFilter
+    bomLines?: BomLineListRelationFilter
+    routings?: RoutingListRelationFilter
+    routingOperations?: RoutingOperationListRelationFilter
+    engineeringChanges?: EngineeringChangeListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -77810,6 +84452,410 @@ export namespace Prisma {
     receivedQty?: DecimalWithAggregatesFilter<"PurchaseOrderLine"> | Decimal | DecimalJsLike | number | string
   }
 
+  export type BomWhereInput = {
+    AND?: BomWhereInput | BomWhereInput[]
+    OR?: BomWhereInput[]
+    NOT?: BomWhereInput | BomWhereInput[]
+    id?: UuidFilter<"Bom"> | string
+    tenantId?: UuidFilter<"Bom"> | string
+    skuId?: UuidFilter<"Bom"> | string
+    version?: IntFilter<"Bom"> | number
+    status?: EnumRevisionStatusFilter<"Bom"> | $Enums.RevisionStatus
+    effectiveFrom?: DateTimeNullableFilter<"Bom"> | Date | string | null
+    notes?: StringNullableFilter<"Bom"> | string | null
+    createdBy?: StringNullableFilter<"Bom"> | string | null
+    createdAt?: DateTimeFilter<"Bom"> | Date | string
+    updatedAt?: DateTimeFilter<"Bom"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: BomLineListRelationFilter
+  }
+
+  export type BomOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    effectiveFrom?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    lines?: BomLineOrderByRelationAggregateInput
+  }
+
+  export type BomWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId_version?: BomTenantIdSkuIdVersionCompoundUniqueInput
+    AND?: BomWhereInput | BomWhereInput[]
+    OR?: BomWhereInput[]
+    NOT?: BomWhereInput | BomWhereInput[]
+    tenantId?: UuidFilter<"Bom"> | string
+    skuId?: UuidFilter<"Bom"> | string
+    version?: IntFilter<"Bom"> | number
+    status?: EnumRevisionStatusFilter<"Bom"> | $Enums.RevisionStatus
+    effectiveFrom?: DateTimeNullableFilter<"Bom"> | Date | string | null
+    notes?: StringNullableFilter<"Bom"> | string | null
+    createdBy?: StringNullableFilter<"Bom"> | string | null
+    createdAt?: DateTimeFilter<"Bom"> | Date | string
+    updatedAt?: DateTimeFilter<"Bom"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: BomLineListRelationFilter
+  }, "id" | "tenantId_skuId_version">
+
+  export type BomOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    effectiveFrom?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BomCountOrderByAggregateInput
+    _avg?: BomAvgOrderByAggregateInput
+    _max?: BomMaxOrderByAggregateInput
+    _min?: BomMinOrderByAggregateInput
+    _sum?: BomSumOrderByAggregateInput
+  }
+
+  export type BomScalarWhereWithAggregatesInput = {
+    AND?: BomScalarWhereWithAggregatesInput | BomScalarWhereWithAggregatesInput[]
+    OR?: BomScalarWhereWithAggregatesInput[]
+    NOT?: BomScalarWhereWithAggregatesInput | BomScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Bom"> | string
+    tenantId?: UuidWithAggregatesFilter<"Bom"> | string
+    skuId?: UuidWithAggregatesFilter<"Bom"> | string
+    version?: IntWithAggregatesFilter<"Bom"> | number
+    status?: EnumRevisionStatusWithAggregatesFilter<"Bom"> | $Enums.RevisionStatus
+    effectiveFrom?: DateTimeNullableWithAggregatesFilter<"Bom"> | Date | string | null
+    notes?: StringNullableWithAggregatesFilter<"Bom"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"Bom"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Bom"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Bom"> | Date | string
+  }
+
+  export type BomLineWhereInput = {
+    AND?: BomLineWhereInput | BomLineWhereInput[]
+    OR?: BomLineWhereInput[]
+    NOT?: BomLineWhereInput | BomLineWhereInput[]
+    id?: UuidFilter<"BomLine"> | string
+    tenantId?: UuidFilter<"BomLine"> | string
+    bomId?: UuidFilter<"BomLine"> | string
+    componentSkuId?: UuidFilter<"BomLine"> | string
+    description?: StringFilter<"BomLine"> | string
+    quantity?: DecimalFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    position?: IntFilter<"BomLine"> | number
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    bom?: XOR<BomScalarRelationFilter, BomWhereInput>
+  }
+
+  export type BomLineOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bomId?: SortOrder
+    componentSkuId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    scrapPct?: SortOrder
+    position?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    bom?: BomOrderByWithRelationInput
+  }
+
+  export type BomLineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BomLineWhereInput | BomLineWhereInput[]
+    OR?: BomLineWhereInput[]
+    NOT?: BomLineWhereInput | BomLineWhereInput[]
+    tenantId?: UuidFilter<"BomLine"> | string
+    bomId?: UuidFilter<"BomLine"> | string
+    componentSkuId?: UuidFilter<"BomLine"> | string
+    description?: StringFilter<"BomLine"> | string
+    quantity?: DecimalFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    position?: IntFilter<"BomLine"> | number
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    bom?: XOR<BomScalarRelationFilter, BomWhereInput>
+  }, "id">
+
+  export type BomLineOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bomId?: SortOrder
+    componentSkuId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    scrapPct?: SortOrder
+    position?: SortOrder
+    _count?: BomLineCountOrderByAggregateInput
+    _avg?: BomLineAvgOrderByAggregateInput
+    _max?: BomLineMaxOrderByAggregateInput
+    _min?: BomLineMinOrderByAggregateInput
+    _sum?: BomLineSumOrderByAggregateInput
+  }
+
+  export type BomLineScalarWhereWithAggregatesInput = {
+    AND?: BomLineScalarWhereWithAggregatesInput | BomLineScalarWhereWithAggregatesInput[]
+    OR?: BomLineScalarWhereWithAggregatesInput[]
+    NOT?: BomLineScalarWhereWithAggregatesInput | BomLineScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"BomLine"> | string
+    tenantId?: UuidWithAggregatesFilter<"BomLine"> | string
+    bomId?: UuidWithAggregatesFilter<"BomLine"> | string
+    componentSkuId?: UuidWithAggregatesFilter<"BomLine"> | string
+    description?: StringWithAggregatesFilter<"BomLine"> | string
+    quantity?: DecimalWithAggregatesFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalWithAggregatesFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    position?: IntWithAggregatesFilter<"BomLine"> | number
+  }
+
+  export type RoutingWhereInput = {
+    AND?: RoutingWhereInput | RoutingWhereInput[]
+    OR?: RoutingWhereInput[]
+    NOT?: RoutingWhereInput | RoutingWhereInput[]
+    id?: UuidFilter<"Routing"> | string
+    tenantId?: UuidFilter<"Routing"> | string
+    skuId?: UuidFilter<"Routing"> | string
+    version?: IntFilter<"Routing"> | number
+    status?: EnumRevisionStatusFilter<"Routing"> | $Enums.RevisionStatus
+    createdBy?: StringNullableFilter<"Routing"> | string | null
+    createdAt?: DateTimeFilter<"Routing"> | Date | string
+    updatedAt?: DateTimeFilter<"Routing"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    operations?: RoutingOperationListRelationFilter
+  }
+
+  export type RoutingOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    operations?: RoutingOperationOrderByRelationAggregateInput
+  }
+
+  export type RoutingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId_version?: RoutingTenantIdSkuIdVersionCompoundUniqueInput
+    AND?: RoutingWhereInput | RoutingWhereInput[]
+    OR?: RoutingWhereInput[]
+    NOT?: RoutingWhereInput | RoutingWhereInput[]
+    tenantId?: UuidFilter<"Routing"> | string
+    skuId?: UuidFilter<"Routing"> | string
+    version?: IntFilter<"Routing"> | number
+    status?: EnumRevisionStatusFilter<"Routing"> | $Enums.RevisionStatus
+    createdBy?: StringNullableFilter<"Routing"> | string | null
+    createdAt?: DateTimeFilter<"Routing"> | Date | string
+    updatedAt?: DateTimeFilter<"Routing"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    operations?: RoutingOperationListRelationFilter
+  }, "id" | "tenantId_skuId_version">
+
+  export type RoutingOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RoutingCountOrderByAggregateInput
+    _avg?: RoutingAvgOrderByAggregateInput
+    _max?: RoutingMaxOrderByAggregateInput
+    _min?: RoutingMinOrderByAggregateInput
+    _sum?: RoutingSumOrderByAggregateInput
+  }
+
+  export type RoutingScalarWhereWithAggregatesInput = {
+    AND?: RoutingScalarWhereWithAggregatesInput | RoutingScalarWhereWithAggregatesInput[]
+    OR?: RoutingScalarWhereWithAggregatesInput[]
+    NOT?: RoutingScalarWhereWithAggregatesInput | RoutingScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Routing"> | string
+    tenantId?: UuidWithAggregatesFilter<"Routing"> | string
+    skuId?: UuidWithAggregatesFilter<"Routing"> | string
+    version?: IntWithAggregatesFilter<"Routing"> | number
+    status?: EnumRevisionStatusWithAggregatesFilter<"Routing"> | $Enums.RevisionStatus
+    createdBy?: StringNullableWithAggregatesFilter<"Routing"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Routing"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Routing"> | Date | string
+  }
+
+  export type RoutingOperationWhereInput = {
+    AND?: RoutingOperationWhereInput | RoutingOperationWhereInput[]
+    OR?: RoutingOperationWhereInput[]
+    NOT?: RoutingOperationWhereInput | RoutingOperationWhereInput[]
+    id?: UuidFilter<"RoutingOperation"> | string
+    tenantId?: UuidFilter<"RoutingOperation"> | string
+    routingId?: UuidFilter<"RoutingOperation"> | string
+    seq?: IntFilter<"RoutingOperation"> | number
+    name?: StringFilter<"RoutingOperation"> | string
+    workCenter?: StringFilter<"RoutingOperation"> | string
+    setupMinutes?: DecimalFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    instructions?: StringNullableFilter<"RoutingOperation"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    routing?: XOR<RoutingScalarRelationFilter, RoutingWhereInput>
+  }
+
+  export type RoutingOperationOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    routingId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    setupMinutes?: SortOrder
+    runMinutesPerUnit?: SortOrder
+    instructions?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    routing?: RoutingOrderByWithRelationInput
+  }
+
+  export type RoutingOperationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_routingId_seq?: RoutingOperationTenantIdRoutingIdSeqCompoundUniqueInput
+    AND?: RoutingOperationWhereInput | RoutingOperationWhereInput[]
+    OR?: RoutingOperationWhereInput[]
+    NOT?: RoutingOperationWhereInput | RoutingOperationWhereInput[]
+    tenantId?: UuidFilter<"RoutingOperation"> | string
+    routingId?: UuidFilter<"RoutingOperation"> | string
+    seq?: IntFilter<"RoutingOperation"> | number
+    name?: StringFilter<"RoutingOperation"> | string
+    workCenter?: StringFilter<"RoutingOperation"> | string
+    setupMinutes?: DecimalFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    instructions?: StringNullableFilter<"RoutingOperation"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    routing?: XOR<RoutingScalarRelationFilter, RoutingWhereInput>
+  }, "id" | "tenantId_routingId_seq">
+
+  export type RoutingOperationOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    routingId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    setupMinutes?: SortOrder
+    runMinutesPerUnit?: SortOrder
+    instructions?: SortOrderInput | SortOrder
+    _count?: RoutingOperationCountOrderByAggregateInput
+    _avg?: RoutingOperationAvgOrderByAggregateInput
+    _max?: RoutingOperationMaxOrderByAggregateInput
+    _min?: RoutingOperationMinOrderByAggregateInput
+    _sum?: RoutingOperationSumOrderByAggregateInput
+  }
+
+  export type RoutingOperationScalarWhereWithAggregatesInput = {
+    AND?: RoutingOperationScalarWhereWithAggregatesInput | RoutingOperationScalarWhereWithAggregatesInput[]
+    OR?: RoutingOperationScalarWhereWithAggregatesInput[]
+    NOT?: RoutingOperationScalarWhereWithAggregatesInput | RoutingOperationScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"RoutingOperation"> | string
+    tenantId?: UuidWithAggregatesFilter<"RoutingOperation"> | string
+    routingId?: UuidWithAggregatesFilter<"RoutingOperation"> | string
+    seq?: IntWithAggregatesFilter<"RoutingOperation"> | number
+    name?: StringWithAggregatesFilter<"RoutingOperation"> | string
+    workCenter?: StringWithAggregatesFilter<"RoutingOperation"> | string
+    setupMinutes?: DecimalWithAggregatesFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalWithAggregatesFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    instructions?: StringNullableWithAggregatesFilter<"RoutingOperation"> | string | null
+  }
+
+  export type EngineeringChangeWhereInput = {
+    AND?: EngineeringChangeWhereInput | EngineeringChangeWhereInput[]
+    OR?: EngineeringChangeWhereInput[]
+    NOT?: EngineeringChangeWhereInput | EngineeringChangeWhereInput[]
+    id?: UuidFilter<"EngineeringChange"> | string
+    tenantId?: UuidFilter<"EngineeringChange"> | string
+    ecNumber?: StringFilter<"EngineeringChange"> | string
+    targetSkuId?: UuidFilter<"EngineeringChange"> | string
+    title?: StringFilter<"EngineeringChange"> | string
+    status?: EnumEcStatusFilter<"EngineeringChange"> | $Enums.EcStatus
+    note?: StringNullableFilter<"EngineeringChange"> | string | null
+    decidedBy?: StringNullableFilter<"EngineeringChange"> | string | null
+    createdBy?: StringNullableFilter<"EngineeringChange"> | string | null
+    createdAt?: DateTimeFilter<"EngineeringChange"> | Date | string
+    updatedAt?: DateTimeFilter<"EngineeringChange"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type EngineeringChangeOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ecNumber?: SortOrder
+    targetSkuId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    decidedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type EngineeringChangeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_ecNumber?: EngineeringChangeTenantIdEcNumberCompoundUniqueInput
+    AND?: EngineeringChangeWhereInput | EngineeringChangeWhereInput[]
+    OR?: EngineeringChangeWhereInput[]
+    NOT?: EngineeringChangeWhereInput | EngineeringChangeWhereInput[]
+    tenantId?: UuidFilter<"EngineeringChange"> | string
+    ecNumber?: StringFilter<"EngineeringChange"> | string
+    targetSkuId?: UuidFilter<"EngineeringChange"> | string
+    title?: StringFilter<"EngineeringChange"> | string
+    status?: EnumEcStatusFilter<"EngineeringChange"> | $Enums.EcStatus
+    note?: StringNullableFilter<"EngineeringChange"> | string | null
+    decidedBy?: StringNullableFilter<"EngineeringChange"> | string | null
+    createdBy?: StringNullableFilter<"EngineeringChange"> | string | null
+    createdAt?: DateTimeFilter<"EngineeringChange"> | Date | string
+    updatedAt?: DateTimeFilter<"EngineeringChange"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_ecNumber">
+
+  export type EngineeringChangeOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ecNumber?: SortOrder
+    targetSkuId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    decidedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EngineeringChangeCountOrderByAggregateInput
+    _max?: EngineeringChangeMaxOrderByAggregateInput
+    _min?: EngineeringChangeMinOrderByAggregateInput
+  }
+
+  export type EngineeringChangeScalarWhereWithAggregatesInput = {
+    AND?: EngineeringChangeScalarWhereWithAggregatesInput | EngineeringChangeScalarWhereWithAggregatesInput[]
+    OR?: EngineeringChangeScalarWhereWithAggregatesInput[]
+    NOT?: EngineeringChangeScalarWhereWithAggregatesInput | EngineeringChangeScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"EngineeringChange"> | string
+    tenantId?: UuidWithAggregatesFilter<"EngineeringChange"> | string
+    ecNumber?: StringWithAggregatesFilter<"EngineeringChange"> | string
+    targetSkuId?: UuidWithAggregatesFilter<"EngineeringChange"> | string
+    title?: StringWithAggregatesFilter<"EngineeringChange"> | string
+    status?: EnumEcStatusWithAggregatesFilter<"EngineeringChange"> | $Enums.EcStatus
+    note?: StringNullableWithAggregatesFilter<"EngineeringChange"> | string | null
+    decidedBy?: StringNullableWithAggregatesFilter<"EngineeringChange"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"EngineeringChange"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"EngineeringChange"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EngineeringChange"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -77863,6 +84909,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -77918,6 +84969,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -77973,6 +85029,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -78028,6 +85089,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -82511,6 +89577,434 @@ export namespace Prisma {
     receivedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
+  export type BomCreateInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBomsInput
+    lines?: BomLineCreateNestedManyWithoutBomInput
+  }
+
+  export type BomUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: BomLineUncheckedCreateNestedManyWithoutBomInput
+  }
+
+  export type BomUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBomsNestedInput
+    lines?: BomLineUpdateManyWithoutBomNestedInput
+  }
+
+  export type BomUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: BomLineUncheckedUpdateManyWithoutBomNestedInput
+  }
+
+  export type BomCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BomUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BomUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BomLineCreateInput = {
+    id?: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+    tenant: TenantCreateNestedOneWithoutBomLinesInput
+    bom: BomCreateNestedOneWithoutLinesInput
+  }
+
+  export type BomLineUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    bomId: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+  }
+
+  export type BomLineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+    tenant?: TenantUpdateOneRequiredWithoutBomLinesNestedInput
+    bom?: BomUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type BomLineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BomLineCreateManyInput = {
+    id?: string
+    tenantId: string
+    bomId: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+  }
+
+  export type BomLineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BomLineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RoutingCreateInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutRoutingsInput
+    operations?: RoutingOperationCreateNestedManyWithoutRoutingInput
+  }
+
+  export type RoutingUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: RoutingOperationUncheckedCreateNestedManyWithoutRoutingInput
+  }
+
+  export type RoutingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutRoutingsNestedInput
+    operations?: RoutingOperationUpdateManyWithoutRoutingNestedInput
+  }
+
+  export type RoutingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: RoutingOperationUncheckedUpdateManyWithoutRoutingNestedInput
+  }
+
+  export type RoutingCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoutingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoutingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoutingOperationCreateInput = {
+    id?: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+    tenant: TenantCreateNestedOneWithoutRoutingOperationsInput
+    routing: RoutingCreateNestedOneWithoutOperationsInput
+  }
+
+  export type RoutingOperationUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    routingId: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+  }
+
+  export type RoutingOperationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutRoutingOperationsNestedInput
+    routing?: RoutingUpdateOneRequiredWithoutOperationsNestedInput
+  }
+
+  export type RoutingOperationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    routingId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RoutingOperationCreateManyInput = {
+    id?: string
+    tenantId: string
+    routingId: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+  }
+
+  export type RoutingOperationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RoutingOperationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    routingId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EngineeringChangeCreateInput = {
+    id?: string
+    ecNumber: string
+    targetSkuId: string
+    title: string
+    status?: $Enums.EcStatus
+    note?: string | null
+    decidedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutEngineeringChangesInput
+  }
+
+  export type EngineeringChangeUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    ecNumber: string
+    targetSkuId: string
+    title: string
+    status?: $Enums.EcStatus
+    note?: string | null
+    decidedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EngineeringChangeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ecNumber?: StringFieldUpdateOperationsInput | string
+    targetSkuId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumEcStatusFieldUpdateOperationsInput | $Enums.EcStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutEngineeringChangesNestedInput
+  }
+
+  export type EngineeringChangeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    ecNumber?: StringFieldUpdateOperationsInput | string
+    targetSkuId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumEcStatusFieldUpdateOperationsInput | $Enums.EcStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EngineeringChangeCreateManyInput = {
+    id?: string
+    tenantId: string
+    ecNumber: string
+    targetSkuId: string
+    title: string
+    status?: $Enums.EcStatus
+    note?: string | null
+    decidedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EngineeringChangeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ecNumber?: StringFieldUpdateOperationsInput | string
+    targetSkuId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumEcStatusFieldUpdateOperationsInput | $Enums.EcStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EngineeringChangeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    ecNumber?: StringFieldUpdateOperationsInput | string
+    targetSkuId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumEcStatusFieldUpdateOperationsInput | $Enums.EcStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -82837,6 +90331,36 @@ export namespace Prisma {
     none?: PurchaseOrderLineWhereInput
   }
 
+  export type BomListRelationFilter = {
+    every?: BomWhereInput
+    some?: BomWhereInput
+    none?: BomWhereInput
+  }
+
+  export type BomLineListRelationFilter = {
+    every?: BomLineWhereInput
+    some?: BomLineWhereInput
+    none?: BomLineWhereInput
+  }
+
+  export type RoutingListRelationFilter = {
+    every?: RoutingWhereInput
+    some?: RoutingWhereInput
+    none?: RoutingWhereInput
+  }
+
+  export type RoutingOperationListRelationFilter = {
+    every?: RoutingOperationWhereInput
+    some?: RoutingOperationWhereInput
+    none?: RoutingOperationWhereInput
+  }
+
+  export type EngineeringChangeListRelationFilter = {
+    every?: EngineeringChangeWhereInput
+    some?: EngineeringChangeWhereInput
+    none?: EngineeringChangeWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -83014,6 +90538,26 @@ export namespace Prisma {
   }
 
   export type PurchaseOrderLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BomOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BomLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoutingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoutingOperationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EngineeringChangeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -86397,6 +93941,296 @@ export namespace Prisma {
     receivedQty?: SortOrder
   }
 
+  export type EnumRevisionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevisionStatus | EnumRevisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevisionStatusFilter<$PrismaModel> | $Enums.RevisionStatus
+  }
+
+  export type BomTenantIdSkuIdVersionCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+    version: number
+  }
+
+  export type BomCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    effectiveFrom?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BomAvgOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type BomMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    effectiveFrom?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BomMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    effectiveFrom?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BomSumOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type EnumRevisionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevisionStatus | EnumRevisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevisionStatusWithAggregatesFilter<$PrismaModel> | $Enums.RevisionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRevisionStatusFilter<$PrismaModel>
+    _max?: NestedEnumRevisionStatusFilter<$PrismaModel>
+  }
+
+  export type BomScalarRelationFilter = {
+    is?: BomWhereInput
+    isNot?: BomWhereInput
+  }
+
+  export type BomLineCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bomId?: SortOrder
+    componentSkuId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    scrapPct?: SortOrder
+    position?: SortOrder
+  }
+
+  export type BomLineAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    scrapPct?: SortOrder
+    position?: SortOrder
+  }
+
+  export type BomLineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bomId?: SortOrder
+    componentSkuId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    scrapPct?: SortOrder
+    position?: SortOrder
+  }
+
+  export type BomLineMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bomId?: SortOrder
+    componentSkuId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    scrapPct?: SortOrder
+    position?: SortOrder
+  }
+
+  export type BomLineSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    scrapPct?: SortOrder
+    position?: SortOrder
+  }
+
+  export type RoutingTenantIdSkuIdVersionCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+    version: number
+  }
+
+  export type RoutingCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoutingAvgOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type RoutingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoutingMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    version?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoutingSumOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type RoutingScalarRelationFilter = {
+    is?: RoutingWhereInput
+    isNot?: RoutingWhereInput
+  }
+
+  export type RoutingOperationTenantIdRoutingIdSeqCompoundUniqueInput = {
+    tenantId: string
+    routingId: string
+    seq: number
+  }
+
+  export type RoutingOperationCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    routingId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    setupMinutes?: SortOrder
+    runMinutesPerUnit?: SortOrder
+    instructions?: SortOrder
+  }
+
+  export type RoutingOperationAvgOrderByAggregateInput = {
+    seq?: SortOrder
+    setupMinutes?: SortOrder
+    runMinutesPerUnit?: SortOrder
+  }
+
+  export type RoutingOperationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    routingId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    setupMinutes?: SortOrder
+    runMinutesPerUnit?: SortOrder
+    instructions?: SortOrder
+  }
+
+  export type RoutingOperationMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    routingId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    setupMinutes?: SortOrder
+    runMinutesPerUnit?: SortOrder
+    instructions?: SortOrder
+  }
+
+  export type RoutingOperationSumOrderByAggregateInput = {
+    seq?: SortOrder
+    setupMinutes?: SortOrder
+    runMinutesPerUnit?: SortOrder
+  }
+
+  export type EnumEcStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EcStatus | EnumEcStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEcStatusFilter<$PrismaModel> | $Enums.EcStatus
+  }
+
+  export type EngineeringChangeTenantIdEcNumberCompoundUniqueInput = {
+    tenantId: string
+    ecNumber: string
+  }
+
+  export type EngineeringChangeCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ecNumber?: SortOrder
+    targetSkuId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    decidedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EngineeringChangeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ecNumber?: SortOrder
+    targetSkuId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    decidedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EngineeringChangeMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ecNumber?: SortOrder
+    targetSkuId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    decidedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumEcStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EcStatus | EnumEcStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEcStatusWithAggregatesFilter<$PrismaModel> | $Enums.EcStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEcStatusFilter<$PrismaModel>
+    _max?: NestedEnumEcStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -86712,6 +94546,41 @@ export namespace Prisma {
     connect?: PurchaseOrderLineWhereUniqueInput | PurchaseOrderLineWhereUniqueInput[]
   }
 
+  export type BomCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BomCreateWithoutTenantInput, BomUncheckedCreateWithoutTenantInput> | BomCreateWithoutTenantInput[] | BomUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomCreateOrConnectWithoutTenantInput | BomCreateOrConnectWithoutTenantInput[]
+    createMany?: BomCreateManyTenantInputEnvelope
+    connect?: BomWhereUniqueInput | BomWhereUniqueInput[]
+  }
+
+  export type BomLineCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BomLineCreateWithoutTenantInput, BomLineUncheckedCreateWithoutTenantInput> | BomLineCreateWithoutTenantInput[] | BomLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutTenantInput | BomLineCreateOrConnectWithoutTenantInput[]
+    createMany?: BomLineCreateManyTenantInputEnvelope
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+  }
+
+  export type RoutingCreateNestedManyWithoutTenantInput = {
+    create?: XOR<RoutingCreateWithoutTenantInput, RoutingUncheckedCreateWithoutTenantInput> | RoutingCreateWithoutTenantInput[] | RoutingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingCreateOrConnectWithoutTenantInput | RoutingCreateOrConnectWithoutTenantInput[]
+    createMany?: RoutingCreateManyTenantInputEnvelope
+    connect?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+  }
+
+  export type RoutingOperationCreateNestedManyWithoutTenantInput = {
+    create?: XOR<RoutingOperationCreateWithoutTenantInput, RoutingOperationUncheckedCreateWithoutTenantInput> | RoutingOperationCreateWithoutTenantInput[] | RoutingOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutTenantInput | RoutingOperationCreateOrConnectWithoutTenantInput[]
+    createMany?: RoutingOperationCreateManyTenantInputEnvelope
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+  }
+
+  export type EngineeringChangeCreateNestedManyWithoutTenantInput = {
+    create?: XOR<EngineeringChangeCreateWithoutTenantInput, EngineeringChangeUncheckedCreateWithoutTenantInput> | EngineeringChangeCreateWithoutTenantInput[] | EngineeringChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: EngineeringChangeCreateOrConnectWithoutTenantInput | EngineeringChangeCreateOrConnectWithoutTenantInput[]
+    createMany?: EngineeringChangeCreateManyTenantInputEnvelope
+    connect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -87025,6 +94894,41 @@ export namespace Prisma {
     connectOrCreate?: PurchaseOrderLineCreateOrConnectWithoutTenantInput | PurchaseOrderLineCreateOrConnectWithoutTenantInput[]
     createMany?: PurchaseOrderLineCreateManyTenantInputEnvelope
     connect?: PurchaseOrderLineWhereUniqueInput | PurchaseOrderLineWhereUniqueInput[]
+  }
+
+  export type BomUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BomCreateWithoutTenantInput, BomUncheckedCreateWithoutTenantInput> | BomCreateWithoutTenantInput[] | BomUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomCreateOrConnectWithoutTenantInput | BomCreateOrConnectWithoutTenantInput[]
+    createMany?: BomCreateManyTenantInputEnvelope
+    connect?: BomWhereUniqueInput | BomWhereUniqueInput[]
+  }
+
+  export type BomLineUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BomLineCreateWithoutTenantInput, BomLineUncheckedCreateWithoutTenantInput> | BomLineCreateWithoutTenantInput[] | BomLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutTenantInput | BomLineCreateOrConnectWithoutTenantInput[]
+    createMany?: BomLineCreateManyTenantInputEnvelope
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+  }
+
+  export type RoutingUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<RoutingCreateWithoutTenantInput, RoutingUncheckedCreateWithoutTenantInput> | RoutingCreateWithoutTenantInput[] | RoutingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingCreateOrConnectWithoutTenantInput | RoutingCreateOrConnectWithoutTenantInput[]
+    createMany?: RoutingCreateManyTenantInputEnvelope
+    connect?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+  }
+
+  export type RoutingOperationUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<RoutingOperationCreateWithoutTenantInput, RoutingOperationUncheckedCreateWithoutTenantInput> | RoutingOperationCreateWithoutTenantInput[] | RoutingOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutTenantInput | RoutingOperationCreateOrConnectWithoutTenantInput[]
+    createMany?: RoutingOperationCreateManyTenantInputEnvelope
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+  }
+
+  export type EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<EngineeringChangeCreateWithoutTenantInput, EngineeringChangeUncheckedCreateWithoutTenantInput> | EngineeringChangeCreateWithoutTenantInput[] | EngineeringChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: EngineeringChangeCreateOrConnectWithoutTenantInput | EngineeringChangeCreateOrConnectWithoutTenantInput[]
+    createMany?: EngineeringChangeCreateManyTenantInputEnvelope
+    connect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -87677,6 +95581,76 @@ export namespace Prisma {
     deleteMany?: PurchaseOrderLineScalarWhereInput | PurchaseOrderLineScalarWhereInput[]
   }
 
+  export type BomUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BomCreateWithoutTenantInput, BomUncheckedCreateWithoutTenantInput> | BomCreateWithoutTenantInput[] | BomUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomCreateOrConnectWithoutTenantInput | BomCreateOrConnectWithoutTenantInput[]
+    upsert?: BomUpsertWithWhereUniqueWithoutTenantInput | BomUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BomCreateManyTenantInputEnvelope
+    set?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    disconnect?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    delete?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    connect?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    update?: BomUpdateWithWhereUniqueWithoutTenantInput | BomUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BomUpdateManyWithWhereWithoutTenantInput | BomUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BomScalarWhereInput | BomScalarWhereInput[]
+  }
+
+  export type BomLineUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BomLineCreateWithoutTenantInput, BomLineUncheckedCreateWithoutTenantInput> | BomLineCreateWithoutTenantInput[] | BomLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutTenantInput | BomLineCreateOrConnectWithoutTenantInput[]
+    upsert?: BomLineUpsertWithWhereUniqueWithoutTenantInput | BomLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BomLineCreateManyTenantInputEnvelope
+    set?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    disconnect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    delete?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    update?: BomLineUpdateWithWhereUniqueWithoutTenantInput | BomLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BomLineUpdateManyWithWhereWithoutTenantInput | BomLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BomLineScalarWhereInput | BomLineScalarWhereInput[]
+  }
+
+  export type RoutingUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<RoutingCreateWithoutTenantInput, RoutingUncheckedCreateWithoutTenantInput> | RoutingCreateWithoutTenantInput[] | RoutingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingCreateOrConnectWithoutTenantInput | RoutingCreateOrConnectWithoutTenantInput[]
+    upsert?: RoutingUpsertWithWhereUniqueWithoutTenantInput | RoutingUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: RoutingCreateManyTenantInputEnvelope
+    set?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    disconnect?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    delete?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    connect?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    update?: RoutingUpdateWithWhereUniqueWithoutTenantInput | RoutingUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: RoutingUpdateManyWithWhereWithoutTenantInput | RoutingUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: RoutingScalarWhereInput | RoutingScalarWhereInput[]
+  }
+
+  export type RoutingOperationUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<RoutingOperationCreateWithoutTenantInput, RoutingOperationUncheckedCreateWithoutTenantInput> | RoutingOperationCreateWithoutTenantInput[] | RoutingOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutTenantInput | RoutingOperationCreateOrConnectWithoutTenantInput[]
+    upsert?: RoutingOperationUpsertWithWhereUniqueWithoutTenantInput | RoutingOperationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: RoutingOperationCreateManyTenantInputEnvelope
+    set?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    disconnect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    delete?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    update?: RoutingOperationUpdateWithWhereUniqueWithoutTenantInput | RoutingOperationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: RoutingOperationUpdateManyWithWhereWithoutTenantInput | RoutingOperationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: RoutingOperationScalarWhereInput | RoutingOperationScalarWhereInput[]
+  }
+
+  export type EngineeringChangeUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<EngineeringChangeCreateWithoutTenantInput, EngineeringChangeUncheckedCreateWithoutTenantInput> | EngineeringChangeCreateWithoutTenantInput[] | EngineeringChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: EngineeringChangeCreateOrConnectWithoutTenantInput | EngineeringChangeCreateOrConnectWithoutTenantInput[]
+    upsert?: EngineeringChangeUpsertWithWhereUniqueWithoutTenantInput | EngineeringChangeUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: EngineeringChangeCreateManyTenantInputEnvelope
+    set?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    disconnect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    delete?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    connect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    update?: EngineeringChangeUpdateWithWhereUniqueWithoutTenantInput | EngineeringChangeUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: EngineeringChangeUpdateManyWithWhereWithoutTenantInput | EngineeringChangeUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: EngineeringChangeScalarWhereInput | EngineeringChangeScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -88305,6 +96279,76 @@ export namespace Prisma {
     update?: PurchaseOrderLineUpdateWithWhereUniqueWithoutTenantInput | PurchaseOrderLineUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: PurchaseOrderLineUpdateManyWithWhereWithoutTenantInput | PurchaseOrderLineUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: PurchaseOrderLineScalarWhereInput | PurchaseOrderLineScalarWhereInput[]
+  }
+
+  export type BomUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BomCreateWithoutTenantInput, BomUncheckedCreateWithoutTenantInput> | BomCreateWithoutTenantInput[] | BomUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomCreateOrConnectWithoutTenantInput | BomCreateOrConnectWithoutTenantInput[]
+    upsert?: BomUpsertWithWhereUniqueWithoutTenantInput | BomUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BomCreateManyTenantInputEnvelope
+    set?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    disconnect?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    delete?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    connect?: BomWhereUniqueInput | BomWhereUniqueInput[]
+    update?: BomUpdateWithWhereUniqueWithoutTenantInput | BomUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BomUpdateManyWithWhereWithoutTenantInput | BomUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BomScalarWhereInput | BomScalarWhereInput[]
+  }
+
+  export type BomLineUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BomLineCreateWithoutTenantInput, BomLineUncheckedCreateWithoutTenantInput> | BomLineCreateWithoutTenantInput[] | BomLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutTenantInput | BomLineCreateOrConnectWithoutTenantInput[]
+    upsert?: BomLineUpsertWithWhereUniqueWithoutTenantInput | BomLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BomLineCreateManyTenantInputEnvelope
+    set?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    disconnect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    delete?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    update?: BomLineUpdateWithWhereUniqueWithoutTenantInput | BomLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BomLineUpdateManyWithWhereWithoutTenantInput | BomLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BomLineScalarWhereInput | BomLineScalarWhereInput[]
+  }
+
+  export type RoutingUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<RoutingCreateWithoutTenantInput, RoutingUncheckedCreateWithoutTenantInput> | RoutingCreateWithoutTenantInput[] | RoutingUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingCreateOrConnectWithoutTenantInput | RoutingCreateOrConnectWithoutTenantInput[]
+    upsert?: RoutingUpsertWithWhereUniqueWithoutTenantInput | RoutingUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: RoutingCreateManyTenantInputEnvelope
+    set?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    disconnect?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    delete?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    connect?: RoutingWhereUniqueInput | RoutingWhereUniqueInput[]
+    update?: RoutingUpdateWithWhereUniqueWithoutTenantInput | RoutingUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: RoutingUpdateManyWithWhereWithoutTenantInput | RoutingUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: RoutingScalarWhereInput | RoutingScalarWhereInput[]
+  }
+
+  export type RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<RoutingOperationCreateWithoutTenantInput, RoutingOperationUncheckedCreateWithoutTenantInput> | RoutingOperationCreateWithoutTenantInput[] | RoutingOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutTenantInput | RoutingOperationCreateOrConnectWithoutTenantInput[]
+    upsert?: RoutingOperationUpsertWithWhereUniqueWithoutTenantInput | RoutingOperationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: RoutingOperationCreateManyTenantInputEnvelope
+    set?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    disconnect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    delete?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    update?: RoutingOperationUpdateWithWhereUniqueWithoutTenantInput | RoutingOperationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: RoutingOperationUpdateManyWithWhereWithoutTenantInput | RoutingOperationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: RoutingOperationScalarWhereInput | RoutingOperationScalarWhereInput[]
+  }
+
+  export type EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<EngineeringChangeCreateWithoutTenantInput, EngineeringChangeUncheckedCreateWithoutTenantInput> | EngineeringChangeCreateWithoutTenantInput[] | EngineeringChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: EngineeringChangeCreateOrConnectWithoutTenantInput | EngineeringChangeCreateOrConnectWithoutTenantInput[]
+    upsert?: EngineeringChangeUpsertWithWhereUniqueWithoutTenantInput | EngineeringChangeUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: EngineeringChangeCreateManyTenantInputEnvelope
+    set?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    disconnect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    delete?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    connect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+    update?: EngineeringChangeUpdateWithWhereUniqueWithoutTenantInput | EngineeringChangeUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: EngineeringChangeUpdateManyWithWhereWithoutTenantInput | EngineeringChangeUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: EngineeringChangeScalarWhereInput | EngineeringChangeScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -90437,6 +98481,196 @@ export namespace Prisma {
     update?: XOR<XOR<PurchaseOrderUpdateToOneWithWhereWithoutLinesInput, PurchaseOrderUpdateWithoutLinesInput>, PurchaseOrderUncheckedUpdateWithoutLinesInput>
   }
 
+  export type TenantCreateNestedOneWithoutBomsInput = {
+    create?: XOR<TenantCreateWithoutBomsInput, TenantUncheckedCreateWithoutBomsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBomsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BomLineCreateNestedManyWithoutBomInput = {
+    create?: XOR<BomLineCreateWithoutBomInput, BomLineUncheckedCreateWithoutBomInput> | BomLineCreateWithoutBomInput[] | BomLineUncheckedCreateWithoutBomInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutBomInput | BomLineCreateOrConnectWithoutBomInput[]
+    createMany?: BomLineCreateManyBomInputEnvelope
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+  }
+
+  export type BomLineUncheckedCreateNestedManyWithoutBomInput = {
+    create?: XOR<BomLineCreateWithoutBomInput, BomLineUncheckedCreateWithoutBomInput> | BomLineCreateWithoutBomInput[] | BomLineUncheckedCreateWithoutBomInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutBomInput | BomLineCreateOrConnectWithoutBomInput[]
+    createMany?: BomLineCreateManyBomInputEnvelope
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+  }
+
+  export type EnumRevisionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.RevisionStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutBomsNestedInput = {
+    create?: XOR<TenantCreateWithoutBomsInput, TenantUncheckedCreateWithoutBomsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBomsInput
+    upsert?: TenantUpsertWithoutBomsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutBomsInput, TenantUpdateWithoutBomsInput>, TenantUncheckedUpdateWithoutBomsInput>
+  }
+
+  export type BomLineUpdateManyWithoutBomNestedInput = {
+    create?: XOR<BomLineCreateWithoutBomInput, BomLineUncheckedCreateWithoutBomInput> | BomLineCreateWithoutBomInput[] | BomLineUncheckedCreateWithoutBomInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutBomInput | BomLineCreateOrConnectWithoutBomInput[]
+    upsert?: BomLineUpsertWithWhereUniqueWithoutBomInput | BomLineUpsertWithWhereUniqueWithoutBomInput[]
+    createMany?: BomLineCreateManyBomInputEnvelope
+    set?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    disconnect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    delete?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    update?: BomLineUpdateWithWhereUniqueWithoutBomInput | BomLineUpdateWithWhereUniqueWithoutBomInput[]
+    updateMany?: BomLineUpdateManyWithWhereWithoutBomInput | BomLineUpdateManyWithWhereWithoutBomInput[]
+    deleteMany?: BomLineScalarWhereInput | BomLineScalarWhereInput[]
+  }
+
+  export type BomLineUncheckedUpdateManyWithoutBomNestedInput = {
+    create?: XOR<BomLineCreateWithoutBomInput, BomLineUncheckedCreateWithoutBomInput> | BomLineCreateWithoutBomInput[] | BomLineUncheckedCreateWithoutBomInput[]
+    connectOrCreate?: BomLineCreateOrConnectWithoutBomInput | BomLineCreateOrConnectWithoutBomInput[]
+    upsert?: BomLineUpsertWithWhereUniqueWithoutBomInput | BomLineUpsertWithWhereUniqueWithoutBomInput[]
+    createMany?: BomLineCreateManyBomInputEnvelope
+    set?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    disconnect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    delete?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    connect?: BomLineWhereUniqueInput | BomLineWhereUniqueInput[]
+    update?: BomLineUpdateWithWhereUniqueWithoutBomInput | BomLineUpdateWithWhereUniqueWithoutBomInput[]
+    updateMany?: BomLineUpdateManyWithWhereWithoutBomInput | BomLineUpdateManyWithWhereWithoutBomInput[]
+    deleteMany?: BomLineScalarWhereInput | BomLineScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutBomLinesInput = {
+    create?: XOR<TenantCreateWithoutBomLinesInput, TenantUncheckedCreateWithoutBomLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBomLinesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BomCreateNestedOneWithoutLinesInput = {
+    create?: XOR<BomCreateWithoutLinesInput, BomUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: BomCreateOrConnectWithoutLinesInput
+    connect?: BomWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutBomLinesNestedInput = {
+    create?: XOR<TenantCreateWithoutBomLinesInput, TenantUncheckedCreateWithoutBomLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBomLinesInput
+    upsert?: TenantUpsertWithoutBomLinesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutBomLinesInput, TenantUpdateWithoutBomLinesInput>, TenantUncheckedUpdateWithoutBomLinesInput>
+  }
+
+  export type BomUpdateOneRequiredWithoutLinesNestedInput = {
+    create?: XOR<BomCreateWithoutLinesInput, BomUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: BomCreateOrConnectWithoutLinesInput
+    upsert?: BomUpsertWithoutLinesInput
+    connect?: BomWhereUniqueInput
+    update?: XOR<XOR<BomUpdateToOneWithWhereWithoutLinesInput, BomUpdateWithoutLinesInput>, BomUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutRoutingsInput = {
+    create?: XOR<TenantCreateWithoutRoutingsInput, TenantUncheckedCreateWithoutRoutingsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutRoutingsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type RoutingOperationCreateNestedManyWithoutRoutingInput = {
+    create?: XOR<RoutingOperationCreateWithoutRoutingInput, RoutingOperationUncheckedCreateWithoutRoutingInput> | RoutingOperationCreateWithoutRoutingInput[] | RoutingOperationUncheckedCreateWithoutRoutingInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutRoutingInput | RoutingOperationCreateOrConnectWithoutRoutingInput[]
+    createMany?: RoutingOperationCreateManyRoutingInputEnvelope
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+  }
+
+  export type RoutingOperationUncheckedCreateNestedManyWithoutRoutingInput = {
+    create?: XOR<RoutingOperationCreateWithoutRoutingInput, RoutingOperationUncheckedCreateWithoutRoutingInput> | RoutingOperationCreateWithoutRoutingInput[] | RoutingOperationUncheckedCreateWithoutRoutingInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutRoutingInput | RoutingOperationCreateOrConnectWithoutRoutingInput[]
+    createMany?: RoutingOperationCreateManyRoutingInputEnvelope
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutRoutingsNestedInput = {
+    create?: XOR<TenantCreateWithoutRoutingsInput, TenantUncheckedCreateWithoutRoutingsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutRoutingsInput
+    upsert?: TenantUpsertWithoutRoutingsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutRoutingsInput, TenantUpdateWithoutRoutingsInput>, TenantUncheckedUpdateWithoutRoutingsInput>
+  }
+
+  export type RoutingOperationUpdateManyWithoutRoutingNestedInput = {
+    create?: XOR<RoutingOperationCreateWithoutRoutingInput, RoutingOperationUncheckedCreateWithoutRoutingInput> | RoutingOperationCreateWithoutRoutingInput[] | RoutingOperationUncheckedCreateWithoutRoutingInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutRoutingInput | RoutingOperationCreateOrConnectWithoutRoutingInput[]
+    upsert?: RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput | RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput[]
+    createMany?: RoutingOperationCreateManyRoutingInputEnvelope
+    set?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    disconnect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    delete?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    update?: RoutingOperationUpdateWithWhereUniqueWithoutRoutingInput | RoutingOperationUpdateWithWhereUniqueWithoutRoutingInput[]
+    updateMany?: RoutingOperationUpdateManyWithWhereWithoutRoutingInput | RoutingOperationUpdateManyWithWhereWithoutRoutingInput[]
+    deleteMany?: RoutingOperationScalarWhereInput | RoutingOperationScalarWhereInput[]
+  }
+
+  export type RoutingOperationUncheckedUpdateManyWithoutRoutingNestedInput = {
+    create?: XOR<RoutingOperationCreateWithoutRoutingInput, RoutingOperationUncheckedCreateWithoutRoutingInput> | RoutingOperationCreateWithoutRoutingInput[] | RoutingOperationUncheckedCreateWithoutRoutingInput[]
+    connectOrCreate?: RoutingOperationCreateOrConnectWithoutRoutingInput | RoutingOperationCreateOrConnectWithoutRoutingInput[]
+    upsert?: RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput | RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput[]
+    createMany?: RoutingOperationCreateManyRoutingInputEnvelope
+    set?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    disconnect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    delete?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    connect?: RoutingOperationWhereUniqueInput | RoutingOperationWhereUniqueInput[]
+    update?: RoutingOperationUpdateWithWhereUniqueWithoutRoutingInput | RoutingOperationUpdateWithWhereUniqueWithoutRoutingInput[]
+    updateMany?: RoutingOperationUpdateManyWithWhereWithoutRoutingInput | RoutingOperationUpdateManyWithWhereWithoutRoutingInput[]
+    deleteMany?: RoutingOperationScalarWhereInput | RoutingOperationScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutRoutingOperationsInput = {
+    create?: XOR<TenantCreateWithoutRoutingOperationsInput, TenantUncheckedCreateWithoutRoutingOperationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutRoutingOperationsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type RoutingCreateNestedOneWithoutOperationsInput = {
+    create?: XOR<RoutingCreateWithoutOperationsInput, RoutingUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: RoutingCreateOrConnectWithoutOperationsInput
+    connect?: RoutingWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutRoutingOperationsNestedInput = {
+    create?: XOR<TenantCreateWithoutRoutingOperationsInput, TenantUncheckedCreateWithoutRoutingOperationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutRoutingOperationsInput
+    upsert?: TenantUpsertWithoutRoutingOperationsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutRoutingOperationsInput, TenantUpdateWithoutRoutingOperationsInput>, TenantUncheckedUpdateWithoutRoutingOperationsInput>
+  }
+
+  export type RoutingUpdateOneRequiredWithoutOperationsNestedInput = {
+    create?: XOR<RoutingCreateWithoutOperationsInput, RoutingUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: RoutingCreateOrConnectWithoutOperationsInput
+    upsert?: RoutingUpsertWithoutOperationsInput
+    connect?: RoutingWhereUniqueInput
+    update?: XOR<XOR<RoutingUpdateToOneWithWhereWithoutOperationsInput, RoutingUpdateWithoutOperationsInput>, RoutingUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutEngineeringChangesInput = {
+    create?: XOR<TenantCreateWithoutEngineeringChangesInput, TenantUncheckedCreateWithoutEngineeringChangesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutEngineeringChangesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumEcStatusFieldUpdateOperationsInput = {
+    set?: $Enums.EcStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutEngineeringChangesNestedInput = {
+    create?: XOR<TenantCreateWithoutEngineeringChangesInput, TenantUncheckedCreateWithoutEngineeringChangesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutEngineeringChangesInput
+    upsert?: TenantUpsertWithoutEngineeringChangesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutEngineeringChangesInput, TenantUpdateWithoutEngineeringChangesInput>, TenantUncheckedUpdateWithoutEngineeringChangesInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -91296,6 +99530,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPurchaseOrderStatusFilter<$PrismaModel>
     _max?: NestedEnumPurchaseOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRevisionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevisionStatus | EnumRevisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevisionStatusFilter<$PrismaModel> | $Enums.RevisionStatus
+  }
+
+  export type NestedEnumRevisionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevisionStatus | EnumRevisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevisionStatus[] | ListEnumRevisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevisionStatusWithAggregatesFilter<$PrismaModel> | $Enums.RevisionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRevisionStatusFilter<$PrismaModel>
+    _max?: NestedEnumRevisionStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEcStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EcStatus | EnumEcStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEcStatusFilter<$PrismaModel> | $Enums.EcStatus
+  }
+
+  export type NestedEnumEcStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EcStatus | EnumEcStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EcStatus[] | ListEnumEcStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEcStatusWithAggregatesFilter<$PrismaModel> | $Enums.EcStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEcStatusFilter<$PrismaModel>
+    _max?: NestedEnumEcStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -92776,6 +101044,172 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BomCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: BomLineCreateNestedManyWithoutBomInput
+  }
+
+  export type BomUncheckedCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: BomLineUncheckedCreateNestedManyWithoutBomInput
+  }
+
+  export type BomCreateOrConnectWithoutTenantInput = {
+    where: BomWhereUniqueInput
+    create: XOR<BomCreateWithoutTenantInput, BomUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BomCreateManyTenantInputEnvelope = {
+    data: BomCreateManyTenantInput | BomCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BomLineCreateWithoutTenantInput = {
+    id?: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+    bom: BomCreateNestedOneWithoutLinesInput
+  }
+
+  export type BomLineUncheckedCreateWithoutTenantInput = {
+    id?: string
+    bomId: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+  }
+
+  export type BomLineCreateOrConnectWithoutTenantInput = {
+    where: BomLineWhereUniqueInput
+    create: XOR<BomLineCreateWithoutTenantInput, BomLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BomLineCreateManyTenantInputEnvelope = {
+    data: BomLineCreateManyTenantInput | BomLineCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoutingCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: RoutingOperationCreateNestedManyWithoutRoutingInput
+  }
+
+  export type RoutingUncheckedCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: RoutingOperationUncheckedCreateNestedManyWithoutRoutingInput
+  }
+
+  export type RoutingCreateOrConnectWithoutTenantInput = {
+    where: RoutingWhereUniqueInput
+    create: XOR<RoutingCreateWithoutTenantInput, RoutingUncheckedCreateWithoutTenantInput>
+  }
+
+  export type RoutingCreateManyTenantInputEnvelope = {
+    data: RoutingCreateManyTenantInput | RoutingCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoutingOperationCreateWithoutTenantInput = {
+    id?: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+    routing: RoutingCreateNestedOneWithoutOperationsInput
+  }
+
+  export type RoutingOperationUncheckedCreateWithoutTenantInput = {
+    id?: string
+    routingId: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+  }
+
+  export type RoutingOperationCreateOrConnectWithoutTenantInput = {
+    where: RoutingOperationWhereUniqueInput
+    create: XOR<RoutingOperationCreateWithoutTenantInput, RoutingOperationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type RoutingOperationCreateManyTenantInputEnvelope = {
+    data: RoutingOperationCreateManyTenantInput | RoutingOperationCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EngineeringChangeCreateWithoutTenantInput = {
+    id?: string
+    ecNumber: string
+    targetSkuId: string
+    title: string
+    status?: $Enums.EcStatus
+    note?: string | null
+    decidedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EngineeringChangeUncheckedCreateWithoutTenantInput = {
+    id?: string
+    ecNumber: string
+    targetSkuId: string
+    title: string
+    status?: $Enums.EcStatus
+    note?: string | null
+    decidedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EngineeringChangeCreateOrConnectWithoutTenantInput = {
+    where: EngineeringChangeWhereUniqueInput
+    create: XOR<EngineeringChangeCreateWithoutTenantInput, EngineeringChangeUncheckedCreateWithoutTenantInput>
+  }
+
+  export type EngineeringChangeCreateManyTenantInputEnvelope = {
+    data: EngineeringChangeCreateManyTenantInput | EngineeringChangeCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -94169,6 +102603,162 @@ export namespace Prisma {
     receivedQty?: DecimalFilter<"PurchaseOrderLine"> | Decimal | DecimalJsLike | number | string
   }
 
+  export type BomUpsertWithWhereUniqueWithoutTenantInput = {
+    where: BomWhereUniqueInput
+    update: XOR<BomUpdateWithoutTenantInput, BomUncheckedUpdateWithoutTenantInput>
+    create: XOR<BomCreateWithoutTenantInput, BomUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BomUpdateWithWhereUniqueWithoutTenantInput = {
+    where: BomWhereUniqueInput
+    data: XOR<BomUpdateWithoutTenantInput, BomUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type BomUpdateManyWithWhereWithoutTenantInput = {
+    where: BomScalarWhereInput
+    data: XOR<BomUpdateManyMutationInput, BomUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type BomScalarWhereInput = {
+    AND?: BomScalarWhereInput | BomScalarWhereInput[]
+    OR?: BomScalarWhereInput[]
+    NOT?: BomScalarWhereInput | BomScalarWhereInput[]
+    id?: UuidFilter<"Bom"> | string
+    tenantId?: UuidFilter<"Bom"> | string
+    skuId?: UuidFilter<"Bom"> | string
+    version?: IntFilter<"Bom"> | number
+    status?: EnumRevisionStatusFilter<"Bom"> | $Enums.RevisionStatus
+    effectiveFrom?: DateTimeNullableFilter<"Bom"> | Date | string | null
+    notes?: StringNullableFilter<"Bom"> | string | null
+    createdBy?: StringNullableFilter<"Bom"> | string | null
+    createdAt?: DateTimeFilter<"Bom"> | Date | string
+    updatedAt?: DateTimeFilter<"Bom"> | Date | string
+  }
+
+  export type BomLineUpsertWithWhereUniqueWithoutTenantInput = {
+    where: BomLineWhereUniqueInput
+    update: XOR<BomLineUpdateWithoutTenantInput, BomLineUncheckedUpdateWithoutTenantInput>
+    create: XOR<BomLineCreateWithoutTenantInput, BomLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BomLineUpdateWithWhereUniqueWithoutTenantInput = {
+    where: BomLineWhereUniqueInput
+    data: XOR<BomLineUpdateWithoutTenantInput, BomLineUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type BomLineUpdateManyWithWhereWithoutTenantInput = {
+    where: BomLineScalarWhereInput
+    data: XOR<BomLineUpdateManyMutationInput, BomLineUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type BomLineScalarWhereInput = {
+    AND?: BomLineScalarWhereInput | BomLineScalarWhereInput[]
+    OR?: BomLineScalarWhereInput[]
+    NOT?: BomLineScalarWhereInput | BomLineScalarWhereInput[]
+    id?: UuidFilter<"BomLine"> | string
+    tenantId?: UuidFilter<"BomLine"> | string
+    bomId?: UuidFilter<"BomLine"> | string
+    componentSkuId?: UuidFilter<"BomLine"> | string
+    description?: StringFilter<"BomLine"> | string
+    quantity?: DecimalFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFilter<"BomLine"> | Decimal | DecimalJsLike | number | string
+    position?: IntFilter<"BomLine"> | number
+  }
+
+  export type RoutingUpsertWithWhereUniqueWithoutTenantInput = {
+    where: RoutingWhereUniqueInput
+    update: XOR<RoutingUpdateWithoutTenantInput, RoutingUncheckedUpdateWithoutTenantInput>
+    create: XOR<RoutingCreateWithoutTenantInput, RoutingUncheckedCreateWithoutTenantInput>
+  }
+
+  export type RoutingUpdateWithWhereUniqueWithoutTenantInput = {
+    where: RoutingWhereUniqueInput
+    data: XOR<RoutingUpdateWithoutTenantInput, RoutingUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type RoutingUpdateManyWithWhereWithoutTenantInput = {
+    where: RoutingScalarWhereInput
+    data: XOR<RoutingUpdateManyMutationInput, RoutingUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type RoutingScalarWhereInput = {
+    AND?: RoutingScalarWhereInput | RoutingScalarWhereInput[]
+    OR?: RoutingScalarWhereInput[]
+    NOT?: RoutingScalarWhereInput | RoutingScalarWhereInput[]
+    id?: UuidFilter<"Routing"> | string
+    tenantId?: UuidFilter<"Routing"> | string
+    skuId?: UuidFilter<"Routing"> | string
+    version?: IntFilter<"Routing"> | number
+    status?: EnumRevisionStatusFilter<"Routing"> | $Enums.RevisionStatus
+    createdBy?: StringNullableFilter<"Routing"> | string | null
+    createdAt?: DateTimeFilter<"Routing"> | Date | string
+    updatedAt?: DateTimeFilter<"Routing"> | Date | string
+  }
+
+  export type RoutingOperationUpsertWithWhereUniqueWithoutTenantInput = {
+    where: RoutingOperationWhereUniqueInput
+    update: XOR<RoutingOperationUpdateWithoutTenantInput, RoutingOperationUncheckedUpdateWithoutTenantInput>
+    create: XOR<RoutingOperationCreateWithoutTenantInput, RoutingOperationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type RoutingOperationUpdateWithWhereUniqueWithoutTenantInput = {
+    where: RoutingOperationWhereUniqueInput
+    data: XOR<RoutingOperationUpdateWithoutTenantInput, RoutingOperationUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type RoutingOperationUpdateManyWithWhereWithoutTenantInput = {
+    where: RoutingOperationScalarWhereInput
+    data: XOR<RoutingOperationUpdateManyMutationInput, RoutingOperationUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type RoutingOperationScalarWhereInput = {
+    AND?: RoutingOperationScalarWhereInput | RoutingOperationScalarWhereInput[]
+    OR?: RoutingOperationScalarWhereInput[]
+    NOT?: RoutingOperationScalarWhereInput | RoutingOperationScalarWhereInput[]
+    id?: UuidFilter<"RoutingOperation"> | string
+    tenantId?: UuidFilter<"RoutingOperation"> | string
+    routingId?: UuidFilter<"RoutingOperation"> | string
+    seq?: IntFilter<"RoutingOperation"> | number
+    name?: StringFilter<"RoutingOperation"> | string
+    workCenter?: StringFilter<"RoutingOperation"> | string
+    setupMinutes?: DecimalFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFilter<"RoutingOperation"> | Decimal | DecimalJsLike | number | string
+    instructions?: StringNullableFilter<"RoutingOperation"> | string | null
+  }
+
+  export type EngineeringChangeUpsertWithWhereUniqueWithoutTenantInput = {
+    where: EngineeringChangeWhereUniqueInput
+    update: XOR<EngineeringChangeUpdateWithoutTenantInput, EngineeringChangeUncheckedUpdateWithoutTenantInput>
+    create: XOR<EngineeringChangeCreateWithoutTenantInput, EngineeringChangeUncheckedCreateWithoutTenantInput>
+  }
+
+  export type EngineeringChangeUpdateWithWhereUniqueWithoutTenantInput = {
+    where: EngineeringChangeWhereUniqueInput
+    data: XOR<EngineeringChangeUpdateWithoutTenantInput, EngineeringChangeUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type EngineeringChangeUpdateManyWithWhereWithoutTenantInput = {
+    where: EngineeringChangeScalarWhereInput
+    data: XOR<EngineeringChangeUpdateManyMutationInput, EngineeringChangeUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type EngineeringChangeScalarWhereInput = {
+    AND?: EngineeringChangeScalarWhereInput | EngineeringChangeScalarWhereInput[]
+    OR?: EngineeringChangeScalarWhereInput[]
+    NOT?: EngineeringChangeScalarWhereInput | EngineeringChangeScalarWhereInput[]
+    id?: UuidFilter<"EngineeringChange"> | string
+    tenantId?: UuidFilter<"EngineeringChange"> | string
+    ecNumber?: StringFilter<"EngineeringChange"> | string
+    targetSkuId?: UuidFilter<"EngineeringChange"> | string
+    title?: StringFilter<"EngineeringChange"> | string
+    status?: EnumEcStatusFilter<"EngineeringChange"> | $Enums.EcStatus
+    note?: StringNullableFilter<"EngineeringChange"> | string | null
+    decidedBy?: StringNullableFilter<"EngineeringChange"> | string | null
+    createdBy?: StringNullableFilter<"EngineeringChange"> | string | null
+    createdAt?: DateTimeFilter<"EngineeringChange"> | Date | string
+    updatedAt?: DateTimeFilter<"EngineeringChange"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -94221,6 +102811,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -94275,6 +102870,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -94345,6 +102945,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -94399,6 +103004,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -94453,6 +103063,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -94507,6 +103122,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -94611,6 +103231,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -94665,6 +103290,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -94735,6 +103365,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -94789,6 +103424,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -94997,6 +103637,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -95051,6 +103696,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -95217,6 +103867,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -95271,6 +103926,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -95370,6 +104030,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -95424,6 +104089,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -95513,6 +104183,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -95567,6 +104242,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -95666,6 +104346,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -95720,6 +104405,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -95809,6 +104499,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -95863,6 +104558,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -95961,6 +104661,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -96015,6 +104720,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -96085,6 +104795,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -96139,6 +104854,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -96259,6 +104979,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -96313,6 +105038,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -96465,6 +105195,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -96519,6 +105254,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -96641,6 +105381,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -96695,6 +105440,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -96813,6 +105563,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -96867,6 +105622,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -96937,6 +105697,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -96991,6 +105756,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -97045,6 +105815,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -97099,6 +105874,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -97169,6 +105949,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -97223,6 +106008,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -97277,6 +106067,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -97331,6 +106126,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -97401,6 +106201,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -97455,6 +106260,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -97509,6 +106319,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -97563,6 +106378,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -97633,6 +106453,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -97687,6 +106512,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -97741,6 +106571,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -97795,6 +106630,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -97865,6 +106705,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -97919,6 +106764,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -97973,6 +106823,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -98027,6 +106882,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -98097,6 +106957,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -98151,6 +107016,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -98205,6 +107075,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -98259,6 +107134,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -98329,6 +107209,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -98383,6 +107268,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -98437,6 +107327,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -98491,6 +107386,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -98623,6 +107523,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -98677,6 +107582,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -98989,6 +107899,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -99043,6 +107958,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -99141,6 +108061,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -99195,6 +108120,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -99322,6 +108252,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -99376,6 +108311,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -99446,6 +108386,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -99500,6 +108445,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -99554,6 +108504,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -99608,6 +108563,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -99678,6 +108638,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -99732,6 +108697,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -99786,6 +108756,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -99840,6 +108815,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -99936,6 +108916,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -99990,6 +108975,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -100116,6 +109106,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -100170,6 +109165,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -100341,6 +109341,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -100395,6 +109400,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -100610,6 +109620,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -100664,6 +109679,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -100770,6 +109790,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -100824,6 +109849,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -101213,6 +110243,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -101267,6 +110302,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -101359,6 +110399,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -101413,6 +110458,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -101537,6 +110587,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -101591,6 +110646,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -101661,6 +110721,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -101715,6 +110780,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -101769,6 +110839,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -101823,6 +110898,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -101893,6 +110973,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -101947,6 +111032,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -102001,6 +111091,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -102055,6 +111150,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -102125,6 +111225,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -102179,6 +111284,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -102233,6 +111343,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -102287,6 +111402,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -102357,6 +111477,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -102411,6 +111536,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -102465,6 +111595,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -102519,6 +111654,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -102615,6 +111755,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -102669,6 +111814,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -102739,6 +111889,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -102793,6 +111948,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -102896,6 +112056,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -102950,6 +112115,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -103043,6 +112213,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -103097,6 +112272,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -103167,6 +112347,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -103221,6 +112406,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -103275,6 +112465,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -103329,6 +112524,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -103399,6 +112599,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -103453,6 +112658,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -103507,6 +112717,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -103561,6 +112776,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -103631,6 +112851,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -103685,6 +112910,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -103739,6 +112969,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -103793,6 +113028,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -103863,6 +113103,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -103917,6 +113162,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -103971,6 +113221,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -104025,6 +113280,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -104121,6 +113381,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -104175,6 +113440,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -104245,6 +113515,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -104299,6 +113574,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -104400,6 +113680,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -104454,6 +113739,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -104545,6 +113835,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -104599,6 +113894,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -104703,6 +114003,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -104757,6 +114062,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -104827,6 +114137,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -104881,6 +114196,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -104998,6 +114318,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -105052,6 +114377,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -105159,6 +114489,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -105213,6 +114548,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -105315,6 +114655,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -105369,6 +114714,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -105439,6 +114789,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -105493,6 +114848,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -105600,6 +114960,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -105654,6 +115019,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -105751,6 +115121,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -105805,6 +115180,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -105875,6 +115255,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -105929,6 +115314,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -105983,6 +115373,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -106037,6 +115432,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -106107,6 +115507,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -106161,6 +115566,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -106215,6 +115625,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -106269,6 +115684,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -106369,6 +115789,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -106423,6 +115848,11 @@ export namespace Prisma {
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -106493,6 +115923,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -106547,6 +115982,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -106650,6 +116090,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -106704,6 +116149,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -106797,6 +116247,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -106851,6 +116306,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -106953,6 +116413,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -107007,6 +116472,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -107077,6 +116547,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
     purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -107131,6 +116606,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
     purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
     purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -107238,6 +116718,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
     purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -107292,6 +116777,11 @@ export namespace Prisma {
     purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
     purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -107335,6 +116825,1488 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutBomsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBomsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBomsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBomsInput, TenantUncheckedCreateWithoutBomsInput>
+  }
+
+  export type BomLineCreateWithoutBomInput = {
+    id?: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+    tenant: TenantCreateNestedOneWithoutBomLinesInput
+  }
+
+  export type BomLineUncheckedCreateWithoutBomInput = {
+    id?: string
+    tenantId: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+  }
+
+  export type BomLineCreateOrConnectWithoutBomInput = {
+    where: BomLineWhereUniqueInput
+    create: XOR<BomLineCreateWithoutBomInput, BomLineUncheckedCreateWithoutBomInput>
+  }
+
+  export type BomLineCreateManyBomInputEnvelope = {
+    data: BomLineCreateManyBomInput | BomLineCreateManyBomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutBomsInput = {
+    update: XOR<TenantUpdateWithoutBomsInput, TenantUncheckedUpdateWithoutBomsInput>
+    create: XOR<TenantCreateWithoutBomsInput, TenantUncheckedCreateWithoutBomsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutBomsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutBomsInput, TenantUncheckedUpdateWithoutBomsInput>
+  }
+
+  export type TenantUpdateWithoutBomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
+    where: BomLineWhereUniqueInput
+    update: XOR<BomLineUpdateWithoutBomInput, BomLineUncheckedUpdateWithoutBomInput>
+    create: XOR<BomLineCreateWithoutBomInput, BomLineUncheckedCreateWithoutBomInput>
+  }
+
+  export type BomLineUpdateWithWhereUniqueWithoutBomInput = {
+    where: BomLineWhereUniqueInput
+    data: XOR<BomLineUpdateWithoutBomInput, BomLineUncheckedUpdateWithoutBomInput>
+  }
+
+  export type BomLineUpdateManyWithWhereWithoutBomInput = {
+    where: BomLineScalarWhereInput
+    data: XOR<BomLineUpdateManyMutationInput, BomLineUncheckedUpdateManyWithoutBomInput>
+  }
+
+  export type TenantCreateWithoutBomLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBomLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBomLinesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBomLinesInput, TenantUncheckedCreateWithoutBomLinesInput>
+  }
+
+  export type BomCreateWithoutLinesInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBomsInput
+  }
+
+  export type BomUncheckedCreateWithoutLinesInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BomCreateOrConnectWithoutLinesInput = {
+    where: BomWhereUniqueInput
+    create: XOR<BomCreateWithoutLinesInput, BomUncheckedCreateWithoutLinesInput>
+  }
+
+  export type TenantUpsertWithoutBomLinesInput = {
+    update: XOR<TenantUpdateWithoutBomLinesInput, TenantUncheckedUpdateWithoutBomLinesInput>
+    create: XOR<TenantCreateWithoutBomLinesInput, TenantUncheckedCreateWithoutBomLinesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutBomLinesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutBomLinesInput, TenantUncheckedUpdateWithoutBomLinesInput>
+  }
+
+  export type TenantUpdateWithoutBomLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBomLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type BomUpsertWithoutLinesInput = {
+    update: XOR<BomUpdateWithoutLinesInput, BomUncheckedUpdateWithoutLinesInput>
+    create: XOR<BomCreateWithoutLinesInput, BomUncheckedCreateWithoutLinesInput>
+    where?: BomWhereInput
+  }
+
+  export type BomUpdateToOneWithWhereWithoutLinesInput = {
+    where?: BomWhereInput
+    data: XOR<BomUpdateWithoutLinesInput, BomUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type BomUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBomsNestedInput
+  }
+
+  export type BomUncheckedUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutRoutingsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutRoutingsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutRoutingsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutRoutingsInput, TenantUncheckedCreateWithoutRoutingsInput>
+  }
+
+  export type RoutingOperationCreateWithoutRoutingInput = {
+    id?: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+    tenant: TenantCreateNestedOneWithoutRoutingOperationsInput
+  }
+
+  export type RoutingOperationUncheckedCreateWithoutRoutingInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+  }
+
+  export type RoutingOperationCreateOrConnectWithoutRoutingInput = {
+    where: RoutingOperationWhereUniqueInput
+    create: XOR<RoutingOperationCreateWithoutRoutingInput, RoutingOperationUncheckedCreateWithoutRoutingInput>
+  }
+
+  export type RoutingOperationCreateManyRoutingInputEnvelope = {
+    data: RoutingOperationCreateManyRoutingInput | RoutingOperationCreateManyRoutingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutRoutingsInput = {
+    update: XOR<TenantUpdateWithoutRoutingsInput, TenantUncheckedUpdateWithoutRoutingsInput>
+    create: XOR<TenantCreateWithoutRoutingsInput, TenantUncheckedCreateWithoutRoutingsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutRoutingsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutRoutingsInput, TenantUncheckedUpdateWithoutRoutingsInput>
+  }
+
+  export type TenantUpdateWithoutRoutingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutRoutingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
+    where: RoutingOperationWhereUniqueInput
+    update: XOR<RoutingOperationUpdateWithoutRoutingInput, RoutingOperationUncheckedUpdateWithoutRoutingInput>
+    create: XOR<RoutingOperationCreateWithoutRoutingInput, RoutingOperationUncheckedCreateWithoutRoutingInput>
+  }
+
+  export type RoutingOperationUpdateWithWhereUniqueWithoutRoutingInput = {
+    where: RoutingOperationWhereUniqueInput
+    data: XOR<RoutingOperationUpdateWithoutRoutingInput, RoutingOperationUncheckedUpdateWithoutRoutingInput>
+  }
+
+  export type RoutingOperationUpdateManyWithWhereWithoutRoutingInput = {
+    where: RoutingOperationScalarWhereInput
+    data: XOR<RoutingOperationUpdateManyMutationInput, RoutingOperationUncheckedUpdateManyWithoutRoutingInput>
+  }
+
+  export type TenantCreateWithoutRoutingOperationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutRoutingOperationsInput, TenantUncheckedCreateWithoutRoutingOperationsInput>
+  }
+
+  export type RoutingCreateWithoutOperationsInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutRoutingsInput
+  }
+
+  export type RoutingUncheckedCreateWithoutOperationsInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoutingCreateOrConnectWithoutOperationsInput = {
+    where: RoutingWhereUniqueInput
+    create: XOR<RoutingCreateWithoutOperationsInput, RoutingUncheckedCreateWithoutOperationsInput>
+  }
+
+  export type TenantUpsertWithoutRoutingOperationsInput = {
+    update: XOR<TenantUpdateWithoutRoutingOperationsInput, TenantUncheckedUpdateWithoutRoutingOperationsInput>
+    create: XOR<TenantCreateWithoutRoutingOperationsInput, TenantUncheckedCreateWithoutRoutingOperationsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutRoutingOperationsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutRoutingOperationsInput, TenantUncheckedUpdateWithoutRoutingOperationsInput>
+  }
+
+  export type TenantUpdateWithoutRoutingOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type RoutingUpsertWithoutOperationsInput = {
+    update: XOR<RoutingUpdateWithoutOperationsInput, RoutingUncheckedUpdateWithoutOperationsInput>
+    create: XOR<RoutingCreateWithoutOperationsInput, RoutingUncheckedCreateWithoutOperationsInput>
+    where?: RoutingWhereInput
+  }
+
+  export type RoutingUpdateToOneWithWhereWithoutOperationsInput = {
+    where?: RoutingWhereInput
+    data: XOR<RoutingUpdateWithoutOperationsInput, RoutingUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type RoutingUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutRoutingsNestedInput
+  }
+
+  export type RoutingUncheckedUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutEngineeringChangesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutEngineeringChangesInput, TenantUncheckedCreateWithoutEngineeringChangesInput>
+  }
+
+  export type TenantUpsertWithoutEngineeringChangesInput = {
+    update: XOR<TenantUpdateWithoutEngineeringChangesInput, TenantUncheckedUpdateWithoutEngineeringChangesInput>
+    create: XOR<TenantCreateWithoutEngineeringChangesInput, TenantUncheckedCreateWithoutEngineeringChangesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutEngineeringChangesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutEngineeringChangesInput, TenantUncheckedUpdateWithoutEngineeringChangesInput>
+  }
+
+  export type TenantUpdateWithoutEngineeringChangesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -107828,6 +118800,62 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     receivedQty?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type BomCreateManyTenantInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    effectiveFrom?: Date | string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BomLineCreateManyTenantInput = {
+    id?: string
+    bomId: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+  }
+
+  export type RoutingCreateManyTenantInput = {
+    id?: string
+    skuId: string
+    version?: number
+    status?: $Enums.RevisionStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoutingOperationCreateManyTenantInput = {
+    id?: string
+    routingId: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+  }
+
+  export type EngineeringChangeCreateManyTenantInput = {
+    id?: string
+    ecNumber: string
+    targetSkuId: string
+    title: string
+    status?: $Enums.EcStatus
+    note?: string | null
+    decidedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -109351,6 +120379,178 @@ export namespace Prisma {
     receivedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
+  export type BomUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: BomLineUpdateManyWithoutBomNestedInput
+  }
+
+  export type BomUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: BomLineUncheckedUpdateManyWithoutBomNestedInput
+  }
+
+  export type BomUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BomLineUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+    bom?: BomUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type BomLineUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BomLineUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RoutingUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: RoutingOperationUpdateManyWithoutRoutingNestedInput
+  }
+
+  export type RoutingUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: RoutingOperationUncheckedUpdateManyWithoutRoutingNestedInput
+  }
+
+  export type RoutingUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    status?: EnumRevisionStatusFieldUpdateOperationsInput | $Enums.RevisionStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoutingOperationUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    routing?: RoutingUpdateOneRequiredWithoutOperationsNestedInput
+  }
+
+  export type RoutingOperationUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    routingId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RoutingOperationUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    routingId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EngineeringChangeUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ecNumber?: StringFieldUpdateOperationsInput | string
+    targetSkuId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumEcStatusFieldUpdateOperationsInput | $Enums.EcStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EngineeringChangeUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ecNumber?: StringFieldUpdateOperationsInput | string
+    targetSkuId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumEcStatusFieldUpdateOperationsInput | $Enums.EcStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EngineeringChangeUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ecNumber?: StringFieldUpdateOperationsInput | string
+    targetSkuId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumEcStatusFieldUpdateOperationsInput | $Enums.EcStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -110255,6 +121455,90 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     receivedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type BomLineCreateManyBomInput = {
+    id?: string
+    tenantId: string
+    componentSkuId: string
+    description: string
+    quantity: Decimal | DecimalJsLike | number | string
+    scrapPct?: Decimal | DecimalJsLike | number | string
+    position?: number
+  }
+
+  export type BomLineUpdateWithoutBomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+    tenant?: TenantUpdateOneRequiredWithoutBomLinesNestedInput
+  }
+
+  export type BomLineUncheckedUpdateWithoutBomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BomLineUncheckedUpdateManyWithoutBomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RoutingOperationCreateManyRoutingInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    workCenter: string
+    setupMinutes?: Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: Decimal | DecimalJsLike | number | string
+    instructions?: string | null
+  }
+
+  export type RoutingOperationUpdateWithoutRoutingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutRoutingOperationsNestedInput
+  }
+
+  export type RoutingOperationUncheckedUpdateWithoutRoutingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RoutingOperationUncheckedUpdateManyWithoutRoutingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
