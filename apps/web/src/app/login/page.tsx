@@ -50,7 +50,7 @@ export default function LoginPage() {
   return (
     <main className="login-wrap">
       <section className="login-hero">
-        <div style={{ fontWeight: 750, fontSize: 16, color: '#fff' }}>Business OS</div>
+        <div style={{ fontWeight: 750, fontSize: 16, color: '#fff' }}>NexoraOS</div>
         <div>
           <h2>
             One platform for

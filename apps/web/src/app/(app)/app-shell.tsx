@@ -113,7 +113,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <AppContext.Provider value={{ session, grants, can }}>
       <div className="shell">
         <aside className="sidebar">
-          <div className="sidebar-brand">Business OS</div>
+          <div className="sidebar-brand">NexoraOS</div>
           {nav.map((item) => (
             <Link
               key={item.href}

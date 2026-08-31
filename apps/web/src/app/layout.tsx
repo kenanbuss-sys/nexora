@@ -5,7 +5,7 @@ import './globals.css';
 // The visible product name is tenant-configurable at runtime (white-label);
 // this default title is platform-neutral scaffolding, not branding.
 export const metadata: Metadata = {
-  title: 'Enterprise Business OS',
+  title: 'NexoraOS',
   description: 'Modular, multi-tenant, white-label enterprise business operating system',
 };
 
