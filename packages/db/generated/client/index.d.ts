@@ -367,6 +367,33 @@ export type WorkOrder = $Result.DefaultSelection<Prisma.$WorkOrderPayload>
  * Operation snapshot copied from the released routing (MES-002/009).
  */
 export type WorkOrderOperation = $Result.DefaultSelection<Prisma.$WorkOrderOperationPayload>
+/**
+ * Model QcPlan
+ * QC plan per SKU (VER-013): the checklist an inspection must cover.
+ */
+export type QcPlan = $Result.DefaultSelection<Prisma.$QcPlanPayload>
+/**
+ * Model QcPlanItem
+ * 
+ */
+export type QcPlanItem = $Result.DefaultSelection<Prisma.$QcPlanItemPayload>
+/**
+ * Model QcInspection
+ * Inspection against a work order (VER-013/014): item results are
+ * recorded by an inspector; finalization is a supervisor decision.
+ */
+export type QcInspection = $Result.DefaultSelection<Prisma.$QcInspectionPayload>
+/**
+ * Model QcInspectionItem
+ * 
+ */
+export type QcInspectionItem = $Result.DefaultSelection<Prisma.$QcInspectionItemPayload>
+/**
+ * Model Ncr
+ * Nonconformance report: opened automatically on failed inspections,
+ * or manually; resolution is audited.
+ */
+export type Ncr = $Result.DefaultSelection<Prisma.$NcrPayload>
 
 /**
  * Enums
@@ -712,6 +739,32 @@ export const WoOperationStatus: {
 
 export type WoOperationStatus = (typeof WoOperationStatus)[keyof typeof WoOperationStatus]
 
+
+export const QcInspectionStatus: {
+  PENDING: 'PENDING',
+  PASSED: 'PASSED',
+  FAILED: 'FAILED'
+};
+
+export type QcInspectionStatus = (typeof QcInspectionStatus)[keyof typeof QcInspectionStatus]
+
+
+export const NcrSeverity: {
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+  CRITICAL: 'CRITICAL'
+};
+
+export type NcrSeverity = (typeof NcrSeverity)[keyof typeof NcrSeverity]
+
+
+export const NcrStatus: {
+  OPEN: 'OPEN',
+  RESOLVED: 'RESOLVED'
+};
+
+export type NcrStatus = (typeof NcrStatus)[keyof typeof NcrStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -853,6 +906,18 @@ export const WorkOrderStatus: typeof $Enums.WorkOrderStatus
 export type WoOperationStatus = $Enums.WoOperationStatus
 
 export const WoOperationStatus: typeof $Enums.WoOperationStatus
+
+export type QcInspectionStatus = $Enums.QcInspectionStatus
+
+export const QcInspectionStatus: typeof $Enums.QcInspectionStatus
+
+export type NcrSeverity = $Enums.NcrSeverity
+
+export const NcrSeverity: typeof $Enums.NcrSeverity
+
+export type NcrStatus = $Enums.NcrStatus
+
+export const NcrStatus: typeof $Enums.NcrStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1631,6 +1696,56 @@ export class PrismaClient<
     * ```
     */
   get workOrderOperation(): Prisma.WorkOrderOperationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.qcPlan`: Exposes CRUD operations for the **QcPlan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QcPlans
+    * const qcPlans = await prisma.qcPlan.findMany()
+    * ```
+    */
+  get qcPlan(): Prisma.QcPlanDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.qcPlanItem`: Exposes CRUD operations for the **QcPlanItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QcPlanItems
+    * const qcPlanItems = await prisma.qcPlanItem.findMany()
+    * ```
+    */
+  get qcPlanItem(): Prisma.QcPlanItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.qcInspection`: Exposes CRUD operations for the **QcInspection** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QcInspections
+    * const qcInspections = await prisma.qcInspection.findMany()
+    * ```
+    */
+  get qcInspection(): Prisma.QcInspectionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.qcInspectionItem`: Exposes CRUD operations for the **QcInspectionItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QcInspectionItems
+    * const qcInspectionItems = await prisma.qcInspectionItem.findMany()
+    * ```
+    */
+  get qcInspectionItem(): Prisma.QcInspectionItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ncr`: Exposes CRUD operations for the **Ncr** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Ncrs
+    * const ncrs = await prisma.ncr.findMany()
+    * ```
+    */
+  get ncr(): Prisma.NcrDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2137,7 +2252,12 @@ export namespace Prisma {
     MrpRun: 'MrpRun',
     MrpSuggestion: 'MrpSuggestion',
     WorkOrder: 'WorkOrder',
-    WorkOrderOperation: 'WorkOrderOperation'
+    WorkOrderOperation: 'WorkOrderOperation',
+    QcPlan: 'QcPlan',
+    QcPlanItem: 'QcPlanItem',
+    QcInspection: 'QcInspection',
+    QcInspectionItem: 'QcInspectionItem',
+    Ncr: 'Ncr'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2156,7 +2276,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7044,6 +7164,376 @@ export namespace Prisma {
           }
         }
       }
+      QcPlan: {
+        payload: Prisma.$QcPlanPayload<ExtArgs>
+        fields: Prisma.QcPlanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QcPlanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QcPlanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>
+          }
+          findFirst: {
+            args: Prisma.QcPlanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QcPlanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>
+          }
+          findMany: {
+            args: Prisma.QcPlanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>[]
+          }
+          create: {
+            args: Prisma.QcPlanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>
+          }
+          createMany: {
+            args: Prisma.QcPlanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QcPlanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>[]
+          }
+          delete: {
+            args: Prisma.QcPlanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>
+          }
+          update: {
+            args: Prisma.QcPlanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>
+          }
+          deleteMany: {
+            args: Prisma.QcPlanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QcPlanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QcPlanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>[]
+          }
+          upsert: {
+            args: Prisma.QcPlanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanPayload>
+          }
+          aggregate: {
+            args: Prisma.QcPlanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQcPlan>
+          }
+          groupBy: {
+            args: Prisma.QcPlanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QcPlanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QcPlanCountArgs<ExtArgs>
+            result: $Utils.Optional<QcPlanCountAggregateOutputType> | number
+          }
+        }
+      }
+      QcPlanItem: {
+        payload: Prisma.$QcPlanItemPayload<ExtArgs>
+        fields: Prisma.QcPlanItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QcPlanItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QcPlanItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>
+          }
+          findFirst: {
+            args: Prisma.QcPlanItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QcPlanItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>
+          }
+          findMany: {
+            args: Prisma.QcPlanItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>[]
+          }
+          create: {
+            args: Prisma.QcPlanItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>
+          }
+          createMany: {
+            args: Prisma.QcPlanItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QcPlanItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>[]
+          }
+          delete: {
+            args: Prisma.QcPlanItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>
+          }
+          update: {
+            args: Prisma.QcPlanItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.QcPlanItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QcPlanItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QcPlanItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.QcPlanItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcPlanItemPayload>
+          }
+          aggregate: {
+            args: Prisma.QcPlanItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQcPlanItem>
+          }
+          groupBy: {
+            args: Prisma.QcPlanItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QcPlanItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QcPlanItemCountArgs<ExtArgs>
+            result: $Utils.Optional<QcPlanItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      QcInspection: {
+        payload: Prisma.$QcInspectionPayload<ExtArgs>
+        fields: Prisma.QcInspectionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QcInspectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QcInspectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>
+          }
+          findFirst: {
+            args: Prisma.QcInspectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QcInspectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>
+          }
+          findMany: {
+            args: Prisma.QcInspectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>[]
+          }
+          create: {
+            args: Prisma.QcInspectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>
+          }
+          createMany: {
+            args: Prisma.QcInspectionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QcInspectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>[]
+          }
+          delete: {
+            args: Prisma.QcInspectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>
+          }
+          update: {
+            args: Prisma.QcInspectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>
+          }
+          deleteMany: {
+            args: Prisma.QcInspectionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QcInspectionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QcInspectionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>[]
+          }
+          upsert: {
+            args: Prisma.QcInspectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionPayload>
+          }
+          aggregate: {
+            args: Prisma.QcInspectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQcInspection>
+          }
+          groupBy: {
+            args: Prisma.QcInspectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QcInspectionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QcInspectionCountArgs<ExtArgs>
+            result: $Utils.Optional<QcInspectionCountAggregateOutputType> | number
+          }
+        }
+      }
+      QcInspectionItem: {
+        payload: Prisma.$QcInspectionItemPayload<ExtArgs>
+        fields: Prisma.QcInspectionItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QcInspectionItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QcInspectionItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>
+          }
+          findFirst: {
+            args: Prisma.QcInspectionItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QcInspectionItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>
+          }
+          findMany: {
+            args: Prisma.QcInspectionItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>[]
+          }
+          create: {
+            args: Prisma.QcInspectionItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>
+          }
+          createMany: {
+            args: Prisma.QcInspectionItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QcInspectionItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>[]
+          }
+          delete: {
+            args: Prisma.QcInspectionItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>
+          }
+          update: {
+            args: Prisma.QcInspectionItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.QcInspectionItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QcInspectionItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QcInspectionItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.QcInspectionItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QcInspectionItemPayload>
+          }
+          aggregate: {
+            args: Prisma.QcInspectionItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQcInspectionItem>
+          }
+          groupBy: {
+            args: Prisma.QcInspectionItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QcInspectionItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QcInspectionItemCountArgs<ExtArgs>
+            result: $Utils.Optional<QcInspectionItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      Ncr: {
+        payload: Prisma.$NcrPayload<ExtArgs>
+        fields: Prisma.NcrFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NcrFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NcrFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>
+          }
+          findFirst: {
+            args: Prisma.NcrFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NcrFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>
+          }
+          findMany: {
+            args: Prisma.NcrFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>[]
+          }
+          create: {
+            args: Prisma.NcrCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>
+          }
+          createMany: {
+            args: Prisma.NcrCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NcrCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>[]
+          }
+          delete: {
+            args: Prisma.NcrDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>
+          }
+          update: {
+            args: Prisma.NcrUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>
+          }
+          deleteMany: {
+            args: Prisma.NcrDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NcrUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NcrUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>[]
+          }
+          upsert: {
+            args: Prisma.NcrUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NcrPayload>
+          }
+          aggregate: {
+            args: Prisma.NcrAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNcr>
+          }
+          groupBy: {
+            args: Prisma.NcrGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NcrGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NcrCountArgs<ExtArgs>
+            result: $Utils.Optional<NcrCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -7206,6 +7696,11 @@ export namespace Prisma {
     mrpSuggestion?: MrpSuggestionOmit
     workOrder?: WorkOrderOmit
     workOrderOperation?: WorkOrderOperationOmit
+    qcPlan?: QcPlanOmit
+    qcPlanItem?: QcPlanItemOmit
+    qcInspection?: QcInspectionOmit
+    qcInspectionItem?: QcInspectionItemOmit
+    ncr?: NcrOmit
   }
 
   /* Types for Logging */
@@ -7341,6 +7836,11 @@ export namespace Prisma {
     mrpSuggestions: number
     workOrders: number
     workOrderOperations: number
+    qcPlans: number
+    qcPlanItems: number
+    qcInspections: number
+    qcInspectionItems: number
+    ncrs: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7399,6 +7899,11 @@ export namespace Prisma {
     mrpSuggestions?: boolean | TenantCountOutputTypeCountMrpSuggestionsArgs
     workOrders?: boolean | TenantCountOutputTypeCountWorkOrdersArgs
     workOrderOperations?: boolean | TenantCountOutputTypeCountWorkOrderOperationsArgs
+    qcPlans?: boolean | TenantCountOutputTypeCountQcPlansArgs
+    qcPlanItems?: boolean | TenantCountOutputTypeCountQcPlanItemsArgs
+    qcInspections?: boolean | TenantCountOutputTypeCountQcInspectionsArgs
+    qcInspectionItems?: boolean | TenantCountOutputTypeCountQcInspectionItemsArgs
+    ncrs?: boolean | TenantCountOutputTypeCountNcrsArgs
   }
 
   // Custom InputTypes
@@ -7795,6 +8300,41 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountWorkOrderOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WorkOrderOperationWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountQcPlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcPlanWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountQcPlanItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcPlanItemWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountQcInspectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcInspectionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountQcInspectionItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcInspectionItemWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountNcrsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NcrWhereInput
   }
 
 
@@ -8535,6 +9075,68 @@ export namespace Prisma {
 
 
   /**
+   * Count Type QcPlanCountOutputType
+   */
+
+  export type QcPlanCountOutputType = {
+    items: number
+  }
+
+  export type QcPlanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | QcPlanCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QcPlanCountOutputType without action
+   */
+  export type QcPlanCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanCountOutputType
+     */
+    select?: QcPlanCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QcPlanCountOutputType without action
+   */
+  export type QcPlanCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcPlanItemWhereInput
+  }
+
+
+  /**
+   * Count Type QcInspectionCountOutputType
+   */
+
+  export type QcInspectionCountOutputType = {
+    items: number
+  }
+
+  export type QcInspectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | QcInspectionCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QcInspectionCountOutputType without action
+   */
+  export type QcInspectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionCountOutputType
+     */
+    select?: QcInspectionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QcInspectionCountOutputType without action
+   */
+  export type QcInspectionCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcInspectionItemWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -8807,6 +9409,11 @@ export namespace Prisma {
     mrpSuggestions?: boolean | Tenant$mrpSuggestionsArgs<ExtArgs>
     workOrders?: boolean | Tenant$workOrdersArgs<ExtArgs>
     workOrderOperations?: boolean | Tenant$workOrderOperationsArgs<ExtArgs>
+    qcPlans?: boolean | Tenant$qcPlansArgs<ExtArgs>
+    qcPlanItems?: boolean | Tenant$qcPlanItemsArgs<ExtArgs>
+    qcInspections?: boolean | Tenant$qcInspectionsArgs<ExtArgs>
+    qcInspectionItems?: boolean | Tenant$qcInspectionItemsArgs<ExtArgs>
+    ncrs?: boolean | Tenant$ncrsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -8897,6 +9504,11 @@ export namespace Prisma {
     mrpSuggestions?: boolean | Tenant$mrpSuggestionsArgs<ExtArgs>
     workOrders?: boolean | Tenant$workOrdersArgs<ExtArgs>
     workOrderOperations?: boolean | Tenant$workOrderOperationsArgs<ExtArgs>
+    qcPlans?: boolean | Tenant$qcPlansArgs<ExtArgs>
+    qcPlanItems?: boolean | Tenant$qcPlanItemsArgs<ExtArgs>
+    qcInspections?: boolean | Tenant$qcInspectionsArgs<ExtArgs>
+    qcInspectionItems?: boolean | Tenant$qcInspectionItemsArgs<ExtArgs>
+    ncrs?: boolean | Tenant$ncrsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8960,6 +9572,11 @@ export namespace Prisma {
       mrpSuggestions: Prisma.$MrpSuggestionPayload<ExtArgs>[]
       workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
       workOrderOperations: Prisma.$WorkOrderOperationPayload<ExtArgs>[]
+      qcPlans: Prisma.$QcPlanPayload<ExtArgs>[]
+      qcPlanItems: Prisma.$QcPlanItemPayload<ExtArgs>[]
+      qcInspections: Prisma.$QcInspectionPayload<ExtArgs>[]
+      qcInspectionItems: Prisma.$QcInspectionItemPayload<ExtArgs>[]
+      ncrs: Prisma.$NcrPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9418,6 +10035,11 @@ export namespace Prisma {
     mrpSuggestions<T extends Tenant$mrpSuggestionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mrpSuggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workOrders<T extends Tenant$workOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workOrderOperations<T extends Tenant$workOrderOperationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workOrderOperationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    qcPlans<T extends Tenant$qcPlansArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$qcPlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    qcPlanItems<T extends Tenant$qcPlanItemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$qcPlanItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    qcInspections<T extends Tenant$qcInspectionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$qcInspectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    qcInspectionItems<T extends Tenant$qcInspectionItemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$qcInspectionItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ncrs<T extends Tenant$ncrsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$ncrsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11159,6 +11781,126 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WorkOrderOperationScalarFieldEnum | WorkOrderOperationScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.qcPlans
+   */
+  export type Tenant$qcPlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    where?: QcPlanWhereInput
+    orderBy?: QcPlanOrderByWithRelationInput | QcPlanOrderByWithRelationInput[]
+    cursor?: QcPlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QcPlanScalarFieldEnum | QcPlanScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.qcPlanItems
+   */
+  export type Tenant$qcPlanItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    where?: QcPlanItemWhereInput
+    orderBy?: QcPlanItemOrderByWithRelationInput | QcPlanItemOrderByWithRelationInput[]
+    cursor?: QcPlanItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QcPlanItemScalarFieldEnum | QcPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.qcInspections
+   */
+  export type Tenant$qcInspectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    where?: QcInspectionWhereInput
+    orderBy?: QcInspectionOrderByWithRelationInput | QcInspectionOrderByWithRelationInput[]
+    cursor?: QcInspectionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QcInspectionScalarFieldEnum | QcInspectionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.qcInspectionItems
+   */
+  export type Tenant$qcInspectionItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    where?: QcInspectionItemWhereInput
+    orderBy?: QcInspectionItemOrderByWithRelationInput | QcInspectionItemOrderByWithRelationInput[]
+    cursor?: QcInspectionItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QcInspectionItemScalarFieldEnum | QcInspectionItemScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.ncrs
+   */
+  export type Tenant$ncrsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    where?: NcrWhereInput
+    orderBy?: NcrOrderByWithRelationInput | NcrOrderByWithRelationInput[]
+    cursor?: NcrWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NcrScalarFieldEnum | NcrScalarFieldEnum[]
   }
 
   /**
@@ -85172,6 +85914,5726 @@ export namespace Prisma {
 
 
   /**
+   * Model QcPlan
+   */
+
+  export type AggregateQcPlan = {
+    _count: QcPlanCountAggregateOutputType | null
+    _min: QcPlanMinAggregateOutputType | null
+    _max: QcPlanMaxAggregateOutputType | null
+  }
+
+  export type QcPlanMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    name: string | null
+    active: boolean | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QcPlanMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    name: string | null
+    active: boolean | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QcPlanCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    name: number
+    active: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QcPlanMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    name?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QcPlanMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    name?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QcPlanCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    name?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QcPlanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcPlan to aggregate.
+     */
+    where?: QcPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlans to fetch.
+     */
+    orderBy?: QcPlanOrderByWithRelationInput | QcPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QcPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QcPlans
+    **/
+    _count?: true | QcPlanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QcPlanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QcPlanMaxAggregateInputType
+  }
+
+  export type GetQcPlanAggregateType<T extends QcPlanAggregateArgs> = {
+        [P in keyof T & keyof AggregateQcPlan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQcPlan[P]>
+      : GetScalarType<T[P], AggregateQcPlan[P]>
+  }
+
+
+
+
+  export type QcPlanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcPlanWhereInput
+    orderBy?: QcPlanOrderByWithAggregationInput | QcPlanOrderByWithAggregationInput[]
+    by: QcPlanScalarFieldEnum[] | QcPlanScalarFieldEnum
+    having?: QcPlanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QcPlanCountAggregateInputType | true
+    _min?: QcPlanMinAggregateInputType
+    _max?: QcPlanMaxAggregateInputType
+  }
+
+  export type QcPlanGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    name: string
+    active: boolean
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: QcPlanCountAggregateOutputType | null
+    _min: QcPlanMinAggregateOutputType | null
+    _max: QcPlanMaxAggregateOutputType | null
+  }
+
+  type GetQcPlanGroupByPayload<T extends QcPlanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QcPlanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QcPlanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QcPlanGroupByOutputType[P]>
+            : GetScalarType<T[P], QcPlanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QcPlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    name?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    items?: boolean | QcPlan$itemsArgs<ExtArgs>
+    _count?: boolean | QcPlanCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcPlan"]>
+
+  export type QcPlanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    name?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcPlan"]>
+
+  export type QcPlanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    name?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcPlan"]>
+
+  export type QcPlanSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    name?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QcPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "name" | "active" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["qcPlan"]>
+  export type QcPlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    items?: boolean | QcPlan$itemsArgs<ExtArgs>
+    _count?: boolean | QcPlanCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type QcPlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type QcPlanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $QcPlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QcPlan"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      items: Prisma.$QcPlanItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      name: string
+      active: boolean
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["qcPlan"]>
+    composites: {}
+  }
+
+  type QcPlanGetPayload<S extends boolean | null | undefined | QcPlanDefaultArgs> = $Result.GetResult<Prisma.$QcPlanPayload, S>
+
+  type QcPlanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QcPlanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QcPlanCountAggregateInputType | true
+    }
+
+  export interface QcPlanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QcPlan'], meta: { name: 'QcPlan' } }
+    /**
+     * Find zero or one QcPlan that matches the filter.
+     * @param {QcPlanFindUniqueArgs} args - Arguments to find a QcPlan
+     * @example
+     * // Get one QcPlan
+     * const qcPlan = await prisma.qcPlan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QcPlanFindUniqueArgs>(args: SelectSubset<T, QcPlanFindUniqueArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QcPlan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QcPlanFindUniqueOrThrowArgs} args - Arguments to find a QcPlan
+     * @example
+     * // Get one QcPlan
+     * const qcPlan = await prisma.qcPlan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QcPlanFindUniqueOrThrowArgs>(args: SelectSubset<T, QcPlanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcPlan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanFindFirstArgs} args - Arguments to find a QcPlan
+     * @example
+     * // Get one QcPlan
+     * const qcPlan = await prisma.qcPlan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QcPlanFindFirstArgs>(args?: SelectSubset<T, QcPlanFindFirstArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcPlan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanFindFirstOrThrowArgs} args - Arguments to find a QcPlan
+     * @example
+     * // Get one QcPlan
+     * const qcPlan = await prisma.qcPlan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QcPlanFindFirstOrThrowArgs>(args?: SelectSubset<T, QcPlanFindFirstOrThrowArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QcPlans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QcPlans
+     * const qcPlans = await prisma.qcPlan.findMany()
+     * 
+     * // Get first 10 QcPlans
+     * const qcPlans = await prisma.qcPlan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const qcPlanWithIdOnly = await prisma.qcPlan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QcPlanFindManyArgs>(args?: SelectSubset<T, QcPlanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QcPlan.
+     * @param {QcPlanCreateArgs} args - Arguments to create a QcPlan.
+     * @example
+     * // Create one QcPlan
+     * const QcPlan = await prisma.qcPlan.create({
+     *   data: {
+     *     // ... data to create a QcPlan
+     *   }
+     * })
+     * 
+     */
+    create<T extends QcPlanCreateArgs>(args: SelectSubset<T, QcPlanCreateArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QcPlans.
+     * @param {QcPlanCreateManyArgs} args - Arguments to create many QcPlans.
+     * @example
+     * // Create many QcPlans
+     * const qcPlan = await prisma.qcPlan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QcPlanCreateManyArgs>(args?: SelectSubset<T, QcPlanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QcPlans and returns the data saved in the database.
+     * @param {QcPlanCreateManyAndReturnArgs} args - Arguments to create many QcPlans.
+     * @example
+     * // Create many QcPlans
+     * const qcPlan = await prisma.qcPlan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QcPlans and only return the `id`
+     * const qcPlanWithIdOnly = await prisma.qcPlan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QcPlanCreateManyAndReturnArgs>(args?: SelectSubset<T, QcPlanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QcPlan.
+     * @param {QcPlanDeleteArgs} args - Arguments to delete one QcPlan.
+     * @example
+     * // Delete one QcPlan
+     * const QcPlan = await prisma.qcPlan.delete({
+     *   where: {
+     *     // ... filter to delete one QcPlan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QcPlanDeleteArgs>(args: SelectSubset<T, QcPlanDeleteArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QcPlan.
+     * @param {QcPlanUpdateArgs} args - Arguments to update one QcPlan.
+     * @example
+     * // Update one QcPlan
+     * const qcPlan = await prisma.qcPlan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QcPlanUpdateArgs>(args: SelectSubset<T, QcPlanUpdateArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QcPlans.
+     * @param {QcPlanDeleteManyArgs} args - Arguments to filter QcPlans to delete.
+     * @example
+     * // Delete a few QcPlans
+     * const { count } = await prisma.qcPlan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QcPlanDeleteManyArgs>(args?: SelectSubset<T, QcPlanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QcPlans
+     * const qcPlan = await prisma.qcPlan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QcPlanUpdateManyArgs>(args: SelectSubset<T, QcPlanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcPlans and returns the data updated in the database.
+     * @param {QcPlanUpdateManyAndReturnArgs} args - Arguments to update many QcPlans.
+     * @example
+     * // Update many QcPlans
+     * const qcPlan = await prisma.qcPlan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QcPlans and only return the `id`
+     * const qcPlanWithIdOnly = await prisma.qcPlan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QcPlanUpdateManyAndReturnArgs>(args: SelectSubset<T, QcPlanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QcPlan.
+     * @param {QcPlanUpsertArgs} args - Arguments to update or create a QcPlan.
+     * @example
+     * // Update or create a QcPlan
+     * const qcPlan = await prisma.qcPlan.upsert({
+     *   create: {
+     *     // ... data to create a QcPlan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QcPlan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QcPlanUpsertArgs>(args: SelectSubset<T, QcPlanUpsertArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QcPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanCountArgs} args - Arguments to filter QcPlans to count.
+     * @example
+     * // Count the number of QcPlans
+     * const count = await prisma.qcPlan.count({
+     *   where: {
+     *     // ... the filter for the QcPlans we want to count
+     *   }
+     * })
+    **/
+    count<T extends QcPlanCountArgs>(
+      args?: Subset<T, QcPlanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QcPlanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QcPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QcPlanAggregateArgs>(args: Subset<T, QcPlanAggregateArgs>): Prisma.PrismaPromise<GetQcPlanAggregateType<T>>
+
+    /**
+     * Group by QcPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QcPlanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QcPlanGroupByArgs['orderBy'] }
+        : { orderBy?: QcPlanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QcPlanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQcPlanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QcPlan model
+   */
+  readonly fields: QcPlanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QcPlan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QcPlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    items<T extends QcPlan$itemsArgs<ExtArgs> = {}>(args?: Subset<T, QcPlan$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QcPlan model
+   */
+  interface QcPlanFieldRefs {
+    readonly id: FieldRef<"QcPlan", 'String'>
+    readonly tenantId: FieldRef<"QcPlan", 'String'>
+    readonly skuId: FieldRef<"QcPlan", 'String'>
+    readonly name: FieldRef<"QcPlan", 'String'>
+    readonly active: FieldRef<"QcPlan", 'Boolean'>
+    readonly createdBy: FieldRef<"QcPlan", 'String'>
+    readonly createdAt: FieldRef<"QcPlan", 'DateTime'>
+    readonly updatedAt: FieldRef<"QcPlan", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QcPlan findUnique
+   */
+  export type QcPlanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlan to fetch.
+     */
+    where: QcPlanWhereUniqueInput
+  }
+
+  /**
+   * QcPlan findUniqueOrThrow
+   */
+  export type QcPlanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlan to fetch.
+     */
+    where: QcPlanWhereUniqueInput
+  }
+
+  /**
+   * QcPlan findFirst
+   */
+  export type QcPlanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlan to fetch.
+     */
+    where?: QcPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlans to fetch.
+     */
+    orderBy?: QcPlanOrderByWithRelationInput | QcPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcPlans.
+     */
+    cursor?: QcPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcPlans.
+     */
+    distinct?: QcPlanScalarFieldEnum | QcPlanScalarFieldEnum[]
+  }
+
+  /**
+   * QcPlan findFirstOrThrow
+   */
+  export type QcPlanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlan to fetch.
+     */
+    where?: QcPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlans to fetch.
+     */
+    orderBy?: QcPlanOrderByWithRelationInput | QcPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcPlans.
+     */
+    cursor?: QcPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcPlans.
+     */
+    distinct?: QcPlanScalarFieldEnum | QcPlanScalarFieldEnum[]
+  }
+
+  /**
+   * QcPlan findMany
+   */
+  export type QcPlanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlans to fetch.
+     */
+    where?: QcPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlans to fetch.
+     */
+    orderBy?: QcPlanOrderByWithRelationInput | QcPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QcPlans.
+     */
+    cursor?: QcPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlans.
+     */
+    skip?: number
+    distinct?: QcPlanScalarFieldEnum | QcPlanScalarFieldEnum[]
+  }
+
+  /**
+   * QcPlan create
+   */
+  export type QcPlanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QcPlan.
+     */
+    data: XOR<QcPlanCreateInput, QcPlanUncheckedCreateInput>
+  }
+
+  /**
+   * QcPlan createMany
+   */
+  export type QcPlanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QcPlans.
+     */
+    data: QcPlanCreateManyInput | QcPlanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QcPlan createManyAndReturn
+   */
+  export type QcPlanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * The data used to create many QcPlans.
+     */
+    data: QcPlanCreateManyInput | QcPlanCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcPlan update
+   */
+  export type QcPlanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QcPlan.
+     */
+    data: XOR<QcPlanUpdateInput, QcPlanUncheckedUpdateInput>
+    /**
+     * Choose, which QcPlan to update.
+     */
+    where: QcPlanWhereUniqueInput
+  }
+
+  /**
+   * QcPlan updateMany
+   */
+  export type QcPlanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QcPlans.
+     */
+    data: XOR<QcPlanUpdateManyMutationInput, QcPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which QcPlans to update
+     */
+    where?: QcPlanWhereInput
+    /**
+     * Limit how many QcPlans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcPlan updateManyAndReturn
+   */
+  export type QcPlanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * The data used to update QcPlans.
+     */
+    data: XOR<QcPlanUpdateManyMutationInput, QcPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which QcPlans to update
+     */
+    where?: QcPlanWhereInput
+    /**
+     * Limit how many QcPlans to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcPlan upsert
+   */
+  export type QcPlanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QcPlan to update in case it exists.
+     */
+    where: QcPlanWhereUniqueInput
+    /**
+     * In case the QcPlan found by the `where` argument doesn't exist, create a new QcPlan with this data.
+     */
+    create: XOR<QcPlanCreateInput, QcPlanUncheckedCreateInput>
+    /**
+     * In case the QcPlan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QcPlanUpdateInput, QcPlanUncheckedUpdateInput>
+  }
+
+  /**
+   * QcPlan delete
+   */
+  export type QcPlanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+    /**
+     * Filter which QcPlan to delete.
+     */
+    where: QcPlanWhereUniqueInput
+  }
+
+  /**
+   * QcPlan deleteMany
+   */
+  export type QcPlanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcPlans to delete
+     */
+    where?: QcPlanWhereInput
+    /**
+     * Limit how many QcPlans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcPlan.items
+   */
+  export type QcPlan$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    where?: QcPlanItemWhereInput
+    orderBy?: QcPlanItemOrderByWithRelationInput | QcPlanItemOrderByWithRelationInput[]
+    cursor?: QcPlanItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QcPlanItemScalarFieldEnum | QcPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcPlan without action
+   */
+  export type QcPlanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlan
+     */
+    select?: QcPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlan
+     */
+    omit?: QcPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QcPlanItem
+   */
+
+  export type AggregateQcPlanItem = {
+    _count: QcPlanItemCountAggregateOutputType | null
+    _avg: QcPlanItemAvgAggregateOutputType | null
+    _sum: QcPlanItemSumAggregateOutputType | null
+    _min: QcPlanItemMinAggregateOutputType | null
+    _max: QcPlanItemMaxAggregateOutputType | null
+  }
+
+  export type QcPlanItemAvgAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type QcPlanItemSumAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type QcPlanItemMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    planId: string | null
+    seq: number | null
+    name: string | null
+    requirement: string | null
+  }
+
+  export type QcPlanItemMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    planId: string | null
+    seq: number | null
+    name: string | null
+    requirement: string | null
+  }
+
+  export type QcPlanItemCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    planId: number
+    seq: number
+    name: number
+    requirement: number
+    _all: number
+  }
+
+
+  export type QcPlanItemAvgAggregateInputType = {
+    seq?: true
+  }
+
+  export type QcPlanItemSumAggregateInputType = {
+    seq?: true
+  }
+
+  export type QcPlanItemMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    planId?: true
+    seq?: true
+    name?: true
+    requirement?: true
+  }
+
+  export type QcPlanItemMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    planId?: true
+    seq?: true
+    name?: true
+    requirement?: true
+  }
+
+  export type QcPlanItemCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    planId?: true
+    seq?: true
+    name?: true
+    requirement?: true
+    _all?: true
+  }
+
+  export type QcPlanItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcPlanItem to aggregate.
+     */
+    where?: QcPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlanItems to fetch.
+     */
+    orderBy?: QcPlanItemOrderByWithRelationInput | QcPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QcPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlanItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QcPlanItems
+    **/
+    _count?: true | QcPlanItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QcPlanItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QcPlanItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QcPlanItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QcPlanItemMaxAggregateInputType
+  }
+
+  export type GetQcPlanItemAggregateType<T extends QcPlanItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateQcPlanItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQcPlanItem[P]>
+      : GetScalarType<T[P], AggregateQcPlanItem[P]>
+  }
+
+
+
+
+  export type QcPlanItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcPlanItemWhereInput
+    orderBy?: QcPlanItemOrderByWithAggregationInput | QcPlanItemOrderByWithAggregationInput[]
+    by: QcPlanItemScalarFieldEnum[] | QcPlanItemScalarFieldEnum
+    having?: QcPlanItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QcPlanItemCountAggregateInputType | true
+    _avg?: QcPlanItemAvgAggregateInputType
+    _sum?: QcPlanItemSumAggregateInputType
+    _min?: QcPlanItemMinAggregateInputType
+    _max?: QcPlanItemMaxAggregateInputType
+  }
+
+  export type QcPlanItemGroupByOutputType = {
+    id: string
+    tenantId: string
+    planId: string
+    seq: number
+    name: string
+    requirement: string
+    _count: QcPlanItemCountAggregateOutputType | null
+    _avg: QcPlanItemAvgAggregateOutputType | null
+    _sum: QcPlanItemSumAggregateOutputType | null
+    _min: QcPlanItemMinAggregateOutputType | null
+    _max: QcPlanItemMaxAggregateOutputType | null
+  }
+
+  type GetQcPlanItemGroupByPayload<T extends QcPlanItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QcPlanItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QcPlanItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QcPlanItemGroupByOutputType[P]>
+            : GetScalarType<T[P], QcPlanItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QcPlanItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | QcPlanDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcPlanItem"]>
+
+  export type QcPlanItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | QcPlanDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcPlanItem"]>
+
+  export type QcPlanItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | QcPlanDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcPlanItem"]>
+
+  export type QcPlanItemSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+  }
+
+  export type QcPlanItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "planId" | "seq" | "name" | "requirement", ExtArgs["result"]["qcPlanItem"]>
+  export type QcPlanItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | QcPlanDefaultArgs<ExtArgs>
+  }
+  export type QcPlanItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | QcPlanDefaultArgs<ExtArgs>
+  }
+  export type QcPlanItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | QcPlanDefaultArgs<ExtArgs>
+  }
+
+  export type $QcPlanItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QcPlanItem"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      plan: Prisma.$QcPlanPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      planId: string
+      seq: number
+      name: string
+      requirement: string
+    }, ExtArgs["result"]["qcPlanItem"]>
+    composites: {}
+  }
+
+  type QcPlanItemGetPayload<S extends boolean | null | undefined | QcPlanItemDefaultArgs> = $Result.GetResult<Prisma.$QcPlanItemPayload, S>
+
+  type QcPlanItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QcPlanItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QcPlanItemCountAggregateInputType | true
+    }
+
+  export interface QcPlanItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QcPlanItem'], meta: { name: 'QcPlanItem' } }
+    /**
+     * Find zero or one QcPlanItem that matches the filter.
+     * @param {QcPlanItemFindUniqueArgs} args - Arguments to find a QcPlanItem
+     * @example
+     * // Get one QcPlanItem
+     * const qcPlanItem = await prisma.qcPlanItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QcPlanItemFindUniqueArgs>(args: SelectSubset<T, QcPlanItemFindUniqueArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QcPlanItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QcPlanItemFindUniqueOrThrowArgs} args - Arguments to find a QcPlanItem
+     * @example
+     * // Get one QcPlanItem
+     * const qcPlanItem = await prisma.qcPlanItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QcPlanItemFindUniqueOrThrowArgs>(args: SelectSubset<T, QcPlanItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcPlanItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanItemFindFirstArgs} args - Arguments to find a QcPlanItem
+     * @example
+     * // Get one QcPlanItem
+     * const qcPlanItem = await prisma.qcPlanItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QcPlanItemFindFirstArgs>(args?: SelectSubset<T, QcPlanItemFindFirstArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcPlanItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanItemFindFirstOrThrowArgs} args - Arguments to find a QcPlanItem
+     * @example
+     * // Get one QcPlanItem
+     * const qcPlanItem = await prisma.qcPlanItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QcPlanItemFindFirstOrThrowArgs>(args?: SelectSubset<T, QcPlanItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QcPlanItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QcPlanItems
+     * const qcPlanItems = await prisma.qcPlanItem.findMany()
+     * 
+     * // Get first 10 QcPlanItems
+     * const qcPlanItems = await prisma.qcPlanItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const qcPlanItemWithIdOnly = await prisma.qcPlanItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QcPlanItemFindManyArgs>(args?: SelectSubset<T, QcPlanItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QcPlanItem.
+     * @param {QcPlanItemCreateArgs} args - Arguments to create a QcPlanItem.
+     * @example
+     * // Create one QcPlanItem
+     * const QcPlanItem = await prisma.qcPlanItem.create({
+     *   data: {
+     *     // ... data to create a QcPlanItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends QcPlanItemCreateArgs>(args: SelectSubset<T, QcPlanItemCreateArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QcPlanItems.
+     * @param {QcPlanItemCreateManyArgs} args - Arguments to create many QcPlanItems.
+     * @example
+     * // Create many QcPlanItems
+     * const qcPlanItem = await prisma.qcPlanItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QcPlanItemCreateManyArgs>(args?: SelectSubset<T, QcPlanItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QcPlanItems and returns the data saved in the database.
+     * @param {QcPlanItemCreateManyAndReturnArgs} args - Arguments to create many QcPlanItems.
+     * @example
+     * // Create many QcPlanItems
+     * const qcPlanItem = await prisma.qcPlanItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QcPlanItems and only return the `id`
+     * const qcPlanItemWithIdOnly = await prisma.qcPlanItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QcPlanItemCreateManyAndReturnArgs>(args?: SelectSubset<T, QcPlanItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QcPlanItem.
+     * @param {QcPlanItemDeleteArgs} args - Arguments to delete one QcPlanItem.
+     * @example
+     * // Delete one QcPlanItem
+     * const QcPlanItem = await prisma.qcPlanItem.delete({
+     *   where: {
+     *     // ... filter to delete one QcPlanItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QcPlanItemDeleteArgs>(args: SelectSubset<T, QcPlanItemDeleteArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QcPlanItem.
+     * @param {QcPlanItemUpdateArgs} args - Arguments to update one QcPlanItem.
+     * @example
+     * // Update one QcPlanItem
+     * const qcPlanItem = await prisma.qcPlanItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QcPlanItemUpdateArgs>(args: SelectSubset<T, QcPlanItemUpdateArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QcPlanItems.
+     * @param {QcPlanItemDeleteManyArgs} args - Arguments to filter QcPlanItems to delete.
+     * @example
+     * // Delete a few QcPlanItems
+     * const { count } = await prisma.qcPlanItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QcPlanItemDeleteManyArgs>(args?: SelectSubset<T, QcPlanItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcPlanItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QcPlanItems
+     * const qcPlanItem = await prisma.qcPlanItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QcPlanItemUpdateManyArgs>(args: SelectSubset<T, QcPlanItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcPlanItems and returns the data updated in the database.
+     * @param {QcPlanItemUpdateManyAndReturnArgs} args - Arguments to update many QcPlanItems.
+     * @example
+     * // Update many QcPlanItems
+     * const qcPlanItem = await prisma.qcPlanItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QcPlanItems and only return the `id`
+     * const qcPlanItemWithIdOnly = await prisma.qcPlanItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QcPlanItemUpdateManyAndReturnArgs>(args: SelectSubset<T, QcPlanItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QcPlanItem.
+     * @param {QcPlanItemUpsertArgs} args - Arguments to update or create a QcPlanItem.
+     * @example
+     * // Update or create a QcPlanItem
+     * const qcPlanItem = await prisma.qcPlanItem.upsert({
+     *   create: {
+     *     // ... data to create a QcPlanItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QcPlanItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QcPlanItemUpsertArgs>(args: SelectSubset<T, QcPlanItemUpsertArgs<ExtArgs>>): Prisma__QcPlanItemClient<$Result.GetResult<Prisma.$QcPlanItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QcPlanItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanItemCountArgs} args - Arguments to filter QcPlanItems to count.
+     * @example
+     * // Count the number of QcPlanItems
+     * const count = await prisma.qcPlanItem.count({
+     *   where: {
+     *     // ... the filter for the QcPlanItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends QcPlanItemCountArgs>(
+      args?: Subset<T, QcPlanItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QcPlanItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QcPlanItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QcPlanItemAggregateArgs>(args: Subset<T, QcPlanItemAggregateArgs>): Prisma.PrismaPromise<GetQcPlanItemAggregateType<T>>
+
+    /**
+     * Group by QcPlanItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcPlanItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QcPlanItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QcPlanItemGroupByArgs['orderBy'] }
+        : { orderBy?: QcPlanItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QcPlanItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQcPlanItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QcPlanItem model
+   */
+  readonly fields: QcPlanItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QcPlanItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QcPlanItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    plan<T extends QcPlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QcPlanDefaultArgs<ExtArgs>>): Prisma__QcPlanClient<$Result.GetResult<Prisma.$QcPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QcPlanItem model
+   */
+  interface QcPlanItemFieldRefs {
+    readonly id: FieldRef<"QcPlanItem", 'String'>
+    readonly tenantId: FieldRef<"QcPlanItem", 'String'>
+    readonly planId: FieldRef<"QcPlanItem", 'String'>
+    readonly seq: FieldRef<"QcPlanItem", 'Int'>
+    readonly name: FieldRef<"QcPlanItem", 'String'>
+    readonly requirement: FieldRef<"QcPlanItem", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QcPlanItem findUnique
+   */
+  export type QcPlanItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlanItem to fetch.
+     */
+    where: QcPlanItemWhereUniqueInput
+  }
+
+  /**
+   * QcPlanItem findUniqueOrThrow
+   */
+  export type QcPlanItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlanItem to fetch.
+     */
+    where: QcPlanItemWhereUniqueInput
+  }
+
+  /**
+   * QcPlanItem findFirst
+   */
+  export type QcPlanItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlanItem to fetch.
+     */
+    where?: QcPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlanItems to fetch.
+     */
+    orderBy?: QcPlanItemOrderByWithRelationInput | QcPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcPlanItems.
+     */
+    cursor?: QcPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlanItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcPlanItems.
+     */
+    distinct?: QcPlanItemScalarFieldEnum | QcPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcPlanItem findFirstOrThrow
+   */
+  export type QcPlanItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlanItem to fetch.
+     */
+    where?: QcPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlanItems to fetch.
+     */
+    orderBy?: QcPlanItemOrderByWithRelationInput | QcPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcPlanItems.
+     */
+    cursor?: QcPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlanItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcPlanItems.
+     */
+    distinct?: QcPlanItemScalarFieldEnum | QcPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcPlanItem findMany
+   */
+  export type QcPlanItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcPlanItems to fetch.
+     */
+    where?: QcPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcPlanItems to fetch.
+     */
+    orderBy?: QcPlanItemOrderByWithRelationInput | QcPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QcPlanItems.
+     */
+    cursor?: QcPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcPlanItems.
+     */
+    skip?: number
+    distinct?: QcPlanItemScalarFieldEnum | QcPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcPlanItem create
+   */
+  export type QcPlanItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QcPlanItem.
+     */
+    data: XOR<QcPlanItemCreateInput, QcPlanItemUncheckedCreateInput>
+  }
+
+  /**
+   * QcPlanItem createMany
+   */
+  export type QcPlanItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QcPlanItems.
+     */
+    data: QcPlanItemCreateManyInput | QcPlanItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QcPlanItem createManyAndReturn
+   */
+  export type QcPlanItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many QcPlanItems.
+     */
+    data: QcPlanItemCreateManyInput | QcPlanItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcPlanItem update
+   */
+  export type QcPlanItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QcPlanItem.
+     */
+    data: XOR<QcPlanItemUpdateInput, QcPlanItemUncheckedUpdateInput>
+    /**
+     * Choose, which QcPlanItem to update.
+     */
+    where: QcPlanItemWhereUniqueInput
+  }
+
+  /**
+   * QcPlanItem updateMany
+   */
+  export type QcPlanItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QcPlanItems.
+     */
+    data: XOR<QcPlanItemUpdateManyMutationInput, QcPlanItemUncheckedUpdateManyInput>
+    /**
+     * Filter which QcPlanItems to update
+     */
+    where?: QcPlanItemWhereInput
+    /**
+     * Limit how many QcPlanItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcPlanItem updateManyAndReturn
+   */
+  export type QcPlanItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * The data used to update QcPlanItems.
+     */
+    data: XOR<QcPlanItemUpdateManyMutationInput, QcPlanItemUncheckedUpdateManyInput>
+    /**
+     * Filter which QcPlanItems to update
+     */
+    where?: QcPlanItemWhereInput
+    /**
+     * Limit how many QcPlanItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcPlanItem upsert
+   */
+  export type QcPlanItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QcPlanItem to update in case it exists.
+     */
+    where: QcPlanItemWhereUniqueInput
+    /**
+     * In case the QcPlanItem found by the `where` argument doesn't exist, create a new QcPlanItem with this data.
+     */
+    create: XOR<QcPlanItemCreateInput, QcPlanItemUncheckedCreateInput>
+    /**
+     * In case the QcPlanItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QcPlanItemUpdateInput, QcPlanItemUncheckedUpdateInput>
+  }
+
+  /**
+   * QcPlanItem delete
+   */
+  export type QcPlanItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter which QcPlanItem to delete.
+     */
+    where: QcPlanItemWhereUniqueInput
+  }
+
+  /**
+   * QcPlanItem deleteMany
+   */
+  export type QcPlanItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcPlanItems to delete
+     */
+    where?: QcPlanItemWhereInput
+    /**
+     * Limit how many QcPlanItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcPlanItem without action
+   */
+  export type QcPlanItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcPlanItem
+     */
+    select?: QcPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcPlanItem
+     */
+    omit?: QcPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcPlanItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QcInspection
+   */
+
+  export type AggregateQcInspection = {
+    _count: QcInspectionCountAggregateOutputType | null
+    _min: QcInspectionMinAggregateOutputType | null
+    _max: QcInspectionMaxAggregateOutputType | null
+  }
+
+  export type QcInspectionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    inspectionNumber: string | null
+    workOrderId: string | null
+    skuId: string | null
+    planId: string | null
+    status: $Enums.QcInspectionStatus | null
+    decidedBy: string | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QcInspectionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    inspectionNumber: string | null
+    workOrderId: string | null
+    skuId: string | null
+    planId: string | null
+    status: $Enums.QcInspectionStatus | null
+    decidedBy: string | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QcInspectionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    inspectionNumber: number
+    workOrderId: number
+    skuId: number
+    planId: number
+    status: number
+    decidedBy: number
+    notes: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QcInspectionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    inspectionNumber?: true
+    workOrderId?: true
+    skuId?: true
+    planId?: true
+    status?: true
+    decidedBy?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QcInspectionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    inspectionNumber?: true
+    workOrderId?: true
+    skuId?: true
+    planId?: true
+    status?: true
+    decidedBy?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QcInspectionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    inspectionNumber?: true
+    workOrderId?: true
+    skuId?: true
+    planId?: true
+    status?: true
+    decidedBy?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QcInspectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcInspection to aggregate.
+     */
+    where?: QcInspectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspections to fetch.
+     */
+    orderBy?: QcInspectionOrderByWithRelationInput | QcInspectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QcInspectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QcInspections
+    **/
+    _count?: true | QcInspectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QcInspectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QcInspectionMaxAggregateInputType
+  }
+
+  export type GetQcInspectionAggregateType<T extends QcInspectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateQcInspection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQcInspection[P]>
+      : GetScalarType<T[P], AggregateQcInspection[P]>
+  }
+
+
+
+
+  export type QcInspectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcInspectionWhereInput
+    orderBy?: QcInspectionOrderByWithAggregationInput | QcInspectionOrderByWithAggregationInput[]
+    by: QcInspectionScalarFieldEnum[] | QcInspectionScalarFieldEnum
+    having?: QcInspectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QcInspectionCountAggregateInputType | true
+    _min?: QcInspectionMinAggregateInputType
+    _max?: QcInspectionMaxAggregateInputType
+  }
+
+  export type QcInspectionGroupByOutputType = {
+    id: string
+    tenantId: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status: $Enums.QcInspectionStatus
+    decidedBy: string | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: QcInspectionCountAggregateOutputType | null
+    _min: QcInspectionMinAggregateOutputType | null
+    _max: QcInspectionMaxAggregateOutputType | null
+  }
+
+  type GetQcInspectionGroupByPayload<T extends QcInspectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QcInspectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QcInspectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QcInspectionGroupByOutputType[P]>
+            : GetScalarType<T[P], QcInspectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QcInspectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    inspectionNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    planId?: boolean
+    status?: boolean
+    decidedBy?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    items?: boolean | QcInspection$itemsArgs<ExtArgs>
+    _count?: boolean | QcInspectionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcInspection"]>
+
+  export type QcInspectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    inspectionNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    planId?: boolean
+    status?: boolean
+    decidedBy?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcInspection"]>
+
+  export type QcInspectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    inspectionNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    planId?: boolean
+    status?: boolean
+    decidedBy?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcInspection"]>
+
+  export type QcInspectionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    inspectionNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    planId?: boolean
+    status?: boolean
+    decidedBy?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QcInspectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "inspectionNumber" | "workOrderId" | "skuId" | "planId" | "status" | "decidedBy" | "notes" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["qcInspection"]>
+  export type QcInspectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    items?: boolean | QcInspection$itemsArgs<ExtArgs>
+    _count?: boolean | QcInspectionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type QcInspectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type QcInspectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $QcInspectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QcInspection"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      items: Prisma.$QcInspectionItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      inspectionNumber: string
+      workOrderId: string
+      skuId: string
+      planId: string
+      status: $Enums.QcInspectionStatus
+      decidedBy: string | null
+      notes: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["qcInspection"]>
+    composites: {}
+  }
+
+  type QcInspectionGetPayload<S extends boolean | null | undefined | QcInspectionDefaultArgs> = $Result.GetResult<Prisma.$QcInspectionPayload, S>
+
+  type QcInspectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QcInspectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QcInspectionCountAggregateInputType | true
+    }
+
+  export interface QcInspectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QcInspection'], meta: { name: 'QcInspection' } }
+    /**
+     * Find zero or one QcInspection that matches the filter.
+     * @param {QcInspectionFindUniqueArgs} args - Arguments to find a QcInspection
+     * @example
+     * // Get one QcInspection
+     * const qcInspection = await prisma.qcInspection.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QcInspectionFindUniqueArgs>(args: SelectSubset<T, QcInspectionFindUniqueArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QcInspection that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QcInspectionFindUniqueOrThrowArgs} args - Arguments to find a QcInspection
+     * @example
+     * // Get one QcInspection
+     * const qcInspection = await prisma.qcInspection.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QcInspectionFindUniqueOrThrowArgs>(args: SelectSubset<T, QcInspectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcInspection that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionFindFirstArgs} args - Arguments to find a QcInspection
+     * @example
+     * // Get one QcInspection
+     * const qcInspection = await prisma.qcInspection.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QcInspectionFindFirstArgs>(args?: SelectSubset<T, QcInspectionFindFirstArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcInspection that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionFindFirstOrThrowArgs} args - Arguments to find a QcInspection
+     * @example
+     * // Get one QcInspection
+     * const qcInspection = await prisma.qcInspection.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QcInspectionFindFirstOrThrowArgs>(args?: SelectSubset<T, QcInspectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QcInspections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QcInspections
+     * const qcInspections = await prisma.qcInspection.findMany()
+     * 
+     * // Get first 10 QcInspections
+     * const qcInspections = await prisma.qcInspection.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const qcInspectionWithIdOnly = await prisma.qcInspection.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QcInspectionFindManyArgs>(args?: SelectSubset<T, QcInspectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QcInspection.
+     * @param {QcInspectionCreateArgs} args - Arguments to create a QcInspection.
+     * @example
+     * // Create one QcInspection
+     * const QcInspection = await prisma.qcInspection.create({
+     *   data: {
+     *     // ... data to create a QcInspection
+     *   }
+     * })
+     * 
+     */
+    create<T extends QcInspectionCreateArgs>(args: SelectSubset<T, QcInspectionCreateArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QcInspections.
+     * @param {QcInspectionCreateManyArgs} args - Arguments to create many QcInspections.
+     * @example
+     * // Create many QcInspections
+     * const qcInspection = await prisma.qcInspection.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QcInspectionCreateManyArgs>(args?: SelectSubset<T, QcInspectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QcInspections and returns the data saved in the database.
+     * @param {QcInspectionCreateManyAndReturnArgs} args - Arguments to create many QcInspections.
+     * @example
+     * // Create many QcInspections
+     * const qcInspection = await prisma.qcInspection.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QcInspections and only return the `id`
+     * const qcInspectionWithIdOnly = await prisma.qcInspection.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QcInspectionCreateManyAndReturnArgs>(args?: SelectSubset<T, QcInspectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QcInspection.
+     * @param {QcInspectionDeleteArgs} args - Arguments to delete one QcInspection.
+     * @example
+     * // Delete one QcInspection
+     * const QcInspection = await prisma.qcInspection.delete({
+     *   where: {
+     *     // ... filter to delete one QcInspection
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QcInspectionDeleteArgs>(args: SelectSubset<T, QcInspectionDeleteArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QcInspection.
+     * @param {QcInspectionUpdateArgs} args - Arguments to update one QcInspection.
+     * @example
+     * // Update one QcInspection
+     * const qcInspection = await prisma.qcInspection.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QcInspectionUpdateArgs>(args: SelectSubset<T, QcInspectionUpdateArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QcInspections.
+     * @param {QcInspectionDeleteManyArgs} args - Arguments to filter QcInspections to delete.
+     * @example
+     * // Delete a few QcInspections
+     * const { count } = await prisma.qcInspection.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QcInspectionDeleteManyArgs>(args?: SelectSubset<T, QcInspectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcInspections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QcInspections
+     * const qcInspection = await prisma.qcInspection.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QcInspectionUpdateManyArgs>(args: SelectSubset<T, QcInspectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcInspections and returns the data updated in the database.
+     * @param {QcInspectionUpdateManyAndReturnArgs} args - Arguments to update many QcInspections.
+     * @example
+     * // Update many QcInspections
+     * const qcInspection = await prisma.qcInspection.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QcInspections and only return the `id`
+     * const qcInspectionWithIdOnly = await prisma.qcInspection.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QcInspectionUpdateManyAndReturnArgs>(args: SelectSubset<T, QcInspectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QcInspection.
+     * @param {QcInspectionUpsertArgs} args - Arguments to update or create a QcInspection.
+     * @example
+     * // Update or create a QcInspection
+     * const qcInspection = await prisma.qcInspection.upsert({
+     *   create: {
+     *     // ... data to create a QcInspection
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QcInspection we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QcInspectionUpsertArgs>(args: SelectSubset<T, QcInspectionUpsertArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QcInspections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionCountArgs} args - Arguments to filter QcInspections to count.
+     * @example
+     * // Count the number of QcInspections
+     * const count = await prisma.qcInspection.count({
+     *   where: {
+     *     // ... the filter for the QcInspections we want to count
+     *   }
+     * })
+    **/
+    count<T extends QcInspectionCountArgs>(
+      args?: Subset<T, QcInspectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QcInspectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QcInspection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QcInspectionAggregateArgs>(args: Subset<T, QcInspectionAggregateArgs>): Prisma.PrismaPromise<GetQcInspectionAggregateType<T>>
+
+    /**
+     * Group by QcInspection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QcInspectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QcInspectionGroupByArgs['orderBy'] }
+        : { orderBy?: QcInspectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QcInspectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQcInspectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QcInspection model
+   */
+  readonly fields: QcInspectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QcInspection.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QcInspectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    items<T extends QcInspection$itemsArgs<ExtArgs> = {}>(args?: Subset<T, QcInspection$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QcInspection model
+   */
+  interface QcInspectionFieldRefs {
+    readonly id: FieldRef<"QcInspection", 'String'>
+    readonly tenantId: FieldRef<"QcInspection", 'String'>
+    readonly inspectionNumber: FieldRef<"QcInspection", 'String'>
+    readonly workOrderId: FieldRef<"QcInspection", 'String'>
+    readonly skuId: FieldRef<"QcInspection", 'String'>
+    readonly planId: FieldRef<"QcInspection", 'String'>
+    readonly status: FieldRef<"QcInspection", 'QcInspectionStatus'>
+    readonly decidedBy: FieldRef<"QcInspection", 'String'>
+    readonly notes: FieldRef<"QcInspection", 'String'>
+    readonly createdBy: FieldRef<"QcInspection", 'String'>
+    readonly createdAt: FieldRef<"QcInspection", 'DateTime'>
+    readonly updatedAt: FieldRef<"QcInspection", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QcInspection findUnique
+   */
+  export type QcInspectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspection to fetch.
+     */
+    where: QcInspectionWhereUniqueInput
+  }
+
+  /**
+   * QcInspection findUniqueOrThrow
+   */
+  export type QcInspectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspection to fetch.
+     */
+    where: QcInspectionWhereUniqueInput
+  }
+
+  /**
+   * QcInspection findFirst
+   */
+  export type QcInspectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspection to fetch.
+     */
+    where?: QcInspectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspections to fetch.
+     */
+    orderBy?: QcInspectionOrderByWithRelationInput | QcInspectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcInspections.
+     */
+    cursor?: QcInspectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcInspections.
+     */
+    distinct?: QcInspectionScalarFieldEnum | QcInspectionScalarFieldEnum[]
+  }
+
+  /**
+   * QcInspection findFirstOrThrow
+   */
+  export type QcInspectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspection to fetch.
+     */
+    where?: QcInspectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspections to fetch.
+     */
+    orderBy?: QcInspectionOrderByWithRelationInput | QcInspectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcInspections.
+     */
+    cursor?: QcInspectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcInspections.
+     */
+    distinct?: QcInspectionScalarFieldEnum | QcInspectionScalarFieldEnum[]
+  }
+
+  /**
+   * QcInspection findMany
+   */
+  export type QcInspectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspections to fetch.
+     */
+    where?: QcInspectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspections to fetch.
+     */
+    orderBy?: QcInspectionOrderByWithRelationInput | QcInspectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QcInspections.
+     */
+    cursor?: QcInspectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspections.
+     */
+    skip?: number
+    distinct?: QcInspectionScalarFieldEnum | QcInspectionScalarFieldEnum[]
+  }
+
+  /**
+   * QcInspection create
+   */
+  export type QcInspectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QcInspection.
+     */
+    data: XOR<QcInspectionCreateInput, QcInspectionUncheckedCreateInput>
+  }
+
+  /**
+   * QcInspection createMany
+   */
+  export type QcInspectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QcInspections.
+     */
+    data: QcInspectionCreateManyInput | QcInspectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QcInspection createManyAndReturn
+   */
+  export type QcInspectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * The data used to create many QcInspections.
+     */
+    data: QcInspectionCreateManyInput | QcInspectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcInspection update
+   */
+  export type QcInspectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QcInspection.
+     */
+    data: XOR<QcInspectionUpdateInput, QcInspectionUncheckedUpdateInput>
+    /**
+     * Choose, which QcInspection to update.
+     */
+    where: QcInspectionWhereUniqueInput
+  }
+
+  /**
+   * QcInspection updateMany
+   */
+  export type QcInspectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QcInspections.
+     */
+    data: XOR<QcInspectionUpdateManyMutationInput, QcInspectionUncheckedUpdateManyInput>
+    /**
+     * Filter which QcInspections to update
+     */
+    where?: QcInspectionWhereInput
+    /**
+     * Limit how many QcInspections to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcInspection updateManyAndReturn
+   */
+  export type QcInspectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * The data used to update QcInspections.
+     */
+    data: XOR<QcInspectionUpdateManyMutationInput, QcInspectionUncheckedUpdateManyInput>
+    /**
+     * Filter which QcInspections to update
+     */
+    where?: QcInspectionWhereInput
+    /**
+     * Limit how many QcInspections to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcInspection upsert
+   */
+  export type QcInspectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QcInspection to update in case it exists.
+     */
+    where: QcInspectionWhereUniqueInput
+    /**
+     * In case the QcInspection found by the `where` argument doesn't exist, create a new QcInspection with this data.
+     */
+    create: XOR<QcInspectionCreateInput, QcInspectionUncheckedCreateInput>
+    /**
+     * In case the QcInspection was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QcInspectionUpdateInput, QcInspectionUncheckedUpdateInput>
+  }
+
+  /**
+   * QcInspection delete
+   */
+  export type QcInspectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+    /**
+     * Filter which QcInspection to delete.
+     */
+    where: QcInspectionWhereUniqueInput
+  }
+
+  /**
+   * QcInspection deleteMany
+   */
+  export type QcInspectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcInspections to delete
+     */
+    where?: QcInspectionWhereInput
+    /**
+     * Limit how many QcInspections to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcInspection.items
+   */
+  export type QcInspection$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    where?: QcInspectionItemWhereInput
+    orderBy?: QcInspectionItemOrderByWithRelationInput | QcInspectionItemOrderByWithRelationInput[]
+    cursor?: QcInspectionItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QcInspectionItemScalarFieldEnum | QcInspectionItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcInspection without action
+   */
+  export type QcInspectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspection
+     */
+    select?: QcInspectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspection
+     */
+    omit?: QcInspectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QcInspectionItem
+   */
+
+  export type AggregateQcInspectionItem = {
+    _count: QcInspectionItemCountAggregateOutputType | null
+    _avg: QcInspectionItemAvgAggregateOutputType | null
+    _sum: QcInspectionItemSumAggregateOutputType | null
+    _min: QcInspectionItemMinAggregateOutputType | null
+    _max: QcInspectionItemMaxAggregateOutputType | null
+  }
+
+  export type QcInspectionItemAvgAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type QcInspectionItemSumAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type QcInspectionItemMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    inspectionId: string | null
+    seq: number | null
+    name: string | null
+    requirement: string | null
+    passed: boolean | null
+    note: string | null
+  }
+
+  export type QcInspectionItemMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    inspectionId: string | null
+    seq: number | null
+    name: string | null
+    requirement: string | null
+    passed: boolean | null
+    note: string | null
+  }
+
+  export type QcInspectionItemCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    inspectionId: number
+    seq: number
+    name: number
+    requirement: number
+    passed: number
+    note: number
+    _all: number
+  }
+
+
+  export type QcInspectionItemAvgAggregateInputType = {
+    seq?: true
+  }
+
+  export type QcInspectionItemSumAggregateInputType = {
+    seq?: true
+  }
+
+  export type QcInspectionItemMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    inspectionId?: true
+    seq?: true
+    name?: true
+    requirement?: true
+    passed?: true
+    note?: true
+  }
+
+  export type QcInspectionItemMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    inspectionId?: true
+    seq?: true
+    name?: true
+    requirement?: true
+    passed?: true
+    note?: true
+  }
+
+  export type QcInspectionItemCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    inspectionId?: true
+    seq?: true
+    name?: true
+    requirement?: true
+    passed?: true
+    note?: true
+    _all?: true
+  }
+
+  export type QcInspectionItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcInspectionItem to aggregate.
+     */
+    where?: QcInspectionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspectionItems to fetch.
+     */
+    orderBy?: QcInspectionItemOrderByWithRelationInput | QcInspectionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QcInspectionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspectionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspectionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QcInspectionItems
+    **/
+    _count?: true | QcInspectionItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QcInspectionItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QcInspectionItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QcInspectionItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QcInspectionItemMaxAggregateInputType
+  }
+
+  export type GetQcInspectionItemAggregateType<T extends QcInspectionItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateQcInspectionItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQcInspectionItem[P]>
+      : GetScalarType<T[P], AggregateQcInspectionItem[P]>
+  }
+
+
+
+
+  export type QcInspectionItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QcInspectionItemWhereInput
+    orderBy?: QcInspectionItemOrderByWithAggregationInput | QcInspectionItemOrderByWithAggregationInput[]
+    by: QcInspectionItemScalarFieldEnum[] | QcInspectionItemScalarFieldEnum
+    having?: QcInspectionItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QcInspectionItemCountAggregateInputType | true
+    _avg?: QcInspectionItemAvgAggregateInputType
+    _sum?: QcInspectionItemSumAggregateInputType
+    _min?: QcInspectionItemMinAggregateInputType
+    _max?: QcInspectionItemMaxAggregateInputType
+  }
+
+  export type QcInspectionItemGroupByOutputType = {
+    id: string
+    tenantId: string
+    inspectionId: string
+    seq: number
+    name: string
+    requirement: string
+    passed: boolean | null
+    note: string | null
+    _count: QcInspectionItemCountAggregateOutputType | null
+    _avg: QcInspectionItemAvgAggregateOutputType | null
+    _sum: QcInspectionItemSumAggregateOutputType | null
+    _min: QcInspectionItemMinAggregateOutputType | null
+    _max: QcInspectionItemMaxAggregateOutputType | null
+  }
+
+  type GetQcInspectionItemGroupByPayload<T extends QcInspectionItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QcInspectionItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QcInspectionItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QcInspectionItemGroupByOutputType[P]>
+            : GetScalarType<T[P], QcInspectionItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QcInspectionItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    inspectionId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+    passed?: boolean
+    note?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    inspection?: boolean | QcInspectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcInspectionItem"]>
+
+  export type QcInspectionItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    inspectionId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+    passed?: boolean
+    note?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    inspection?: boolean | QcInspectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcInspectionItem"]>
+
+  export type QcInspectionItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    inspectionId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+    passed?: boolean
+    note?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    inspection?: boolean | QcInspectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["qcInspectionItem"]>
+
+  export type QcInspectionItemSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    inspectionId?: boolean
+    seq?: boolean
+    name?: boolean
+    requirement?: boolean
+    passed?: boolean
+    note?: boolean
+  }
+
+  export type QcInspectionItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "inspectionId" | "seq" | "name" | "requirement" | "passed" | "note", ExtArgs["result"]["qcInspectionItem"]>
+  export type QcInspectionItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    inspection?: boolean | QcInspectionDefaultArgs<ExtArgs>
+  }
+  export type QcInspectionItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    inspection?: boolean | QcInspectionDefaultArgs<ExtArgs>
+  }
+  export type QcInspectionItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    inspection?: boolean | QcInspectionDefaultArgs<ExtArgs>
+  }
+
+  export type $QcInspectionItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QcInspectionItem"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      inspection: Prisma.$QcInspectionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      inspectionId: string
+      seq: number
+      name: string
+      requirement: string
+      passed: boolean | null
+      note: string | null
+    }, ExtArgs["result"]["qcInspectionItem"]>
+    composites: {}
+  }
+
+  type QcInspectionItemGetPayload<S extends boolean | null | undefined | QcInspectionItemDefaultArgs> = $Result.GetResult<Prisma.$QcInspectionItemPayload, S>
+
+  type QcInspectionItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QcInspectionItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QcInspectionItemCountAggregateInputType | true
+    }
+
+  export interface QcInspectionItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QcInspectionItem'], meta: { name: 'QcInspectionItem' } }
+    /**
+     * Find zero or one QcInspectionItem that matches the filter.
+     * @param {QcInspectionItemFindUniqueArgs} args - Arguments to find a QcInspectionItem
+     * @example
+     * // Get one QcInspectionItem
+     * const qcInspectionItem = await prisma.qcInspectionItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QcInspectionItemFindUniqueArgs>(args: SelectSubset<T, QcInspectionItemFindUniqueArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QcInspectionItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QcInspectionItemFindUniqueOrThrowArgs} args - Arguments to find a QcInspectionItem
+     * @example
+     * // Get one QcInspectionItem
+     * const qcInspectionItem = await prisma.qcInspectionItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QcInspectionItemFindUniqueOrThrowArgs>(args: SelectSubset<T, QcInspectionItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcInspectionItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionItemFindFirstArgs} args - Arguments to find a QcInspectionItem
+     * @example
+     * // Get one QcInspectionItem
+     * const qcInspectionItem = await prisma.qcInspectionItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QcInspectionItemFindFirstArgs>(args?: SelectSubset<T, QcInspectionItemFindFirstArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QcInspectionItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionItemFindFirstOrThrowArgs} args - Arguments to find a QcInspectionItem
+     * @example
+     * // Get one QcInspectionItem
+     * const qcInspectionItem = await prisma.qcInspectionItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QcInspectionItemFindFirstOrThrowArgs>(args?: SelectSubset<T, QcInspectionItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QcInspectionItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QcInspectionItems
+     * const qcInspectionItems = await prisma.qcInspectionItem.findMany()
+     * 
+     * // Get first 10 QcInspectionItems
+     * const qcInspectionItems = await prisma.qcInspectionItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const qcInspectionItemWithIdOnly = await prisma.qcInspectionItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QcInspectionItemFindManyArgs>(args?: SelectSubset<T, QcInspectionItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QcInspectionItem.
+     * @param {QcInspectionItemCreateArgs} args - Arguments to create a QcInspectionItem.
+     * @example
+     * // Create one QcInspectionItem
+     * const QcInspectionItem = await prisma.qcInspectionItem.create({
+     *   data: {
+     *     // ... data to create a QcInspectionItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends QcInspectionItemCreateArgs>(args: SelectSubset<T, QcInspectionItemCreateArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QcInspectionItems.
+     * @param {QcInspectionItemCreateManyArgs} args - Arguments to create many QcInspectionItems.
+     * @example
+     * // Create many QcInspectionItems
+     * const qcInspectionItem = await prisma.qcInspectionItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QcInspectionItemCreateManyArgs>(args?: SelectSubset<T, QcInspectionItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QcInspectionItems and returns the data saved in the database.
+     * @param {QcInspectionItemCreateManyAndReturnArgs} args - Arguments to create many QcInspectionItems.
+     * @example
+     * // Create many QcInspectionItems
+     * const qcInspectionItem = await prisma.qcInspectionItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QcInspectionItems and only return the `id`
+     * const qcInspectionItemWithIdOnly = await prisma.qcInspectionItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QcInspectionItemCreateManyAndReturnArgs>(args?: SelectSubset<T, QcInspectionItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QcInspectionItem.
+     * @param {QcInspectionItemDeleteArgs} args - Arguments to delete one QcInspectionItem.
+     * @example
+     * // Delete one QcInspectionItem
+     * const QcInspectionItem = await prisma.qcInspectionItem.delete({
+     *   where: {
+     *     // ... filter to delete one QcInspectionItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QcInspectionItemDeleteArgs>(args: SelectSubset<T, QcInspectionItemDeleteArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QcInspectionItem.
+     * @param {QcInspectionItemUpdateArgs} args - Arguments to update one QcInspectionItem.
+     * @example
+     * // Update one QcInspectionItem
+     * const qcInspectionItem = await prisma.qcInspectionItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QcInspectionItemUpdateArgs>(args: SelectSubset<T, QcInspectionItemUpdateArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QcInspectionItems.
+     * @param {QcInspectionItemDeleteManyArgs} args - Arguments to filter QcInspectionItems to delete.
+     * @example
+     * // Delete a few QcInspectionItems
+     * const { count } = await prisma.qcInspectionItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QcInspectionItemDeleteManyArgs>(args?: SelectSubset<T, QcInspectionItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcInspectionItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QcInspectionItems
+     * const qcInspectionItem = await prisma.qcInspectionItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QcInspectionItemUpdateManyArgs>(args: SelectSubset<T, QcInspectionItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QcInspectionItems and returns the data updated in the database.
+     * @param {QcInspectionItemUpdateManyAndReturnArgs} args - Arguments to update many QcInspectionItems.
+     * @example
+     * // Update many QcInspectionItems
+     * const qcInspectionItem = await prisma.qcInspectionItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QcInspectionItems and only return the `id`
+     * const qcInspectionItemWithIdOnly = await prisma.qcInspectionItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QcInspectionItemUpdateManyAndReturnArgs>(args: SelectSubset<T, QcInspectionItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QcInspectionItem.
+     * @param {QcInspectionItemUpsertArgs} args - Arguments to update or create a QcInspectionItem.
+     * @example
+     * // Update or create a QcInspectionItem
+     * const qcInspectionItem = await prisma.qcInspectionItem.upsert({
+     *   create: {
+     *     // ... data to create a QcInspectionItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QcInspectionItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QcInspectionItemUpsertArgs>(args: SelectSubset<T, QcInspectionItemUpsertArgs<ExtArgs>>): Prisma__QcInspectionItemClient<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QcInspectionItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionItemCountArgs} args - Arguments to filter QcInspectionItems to count.
+     * @example
+     * // Count the number of QcInspectionItems
+     * const count = await prisma.qcInspectionItem.count({
+     *   where: {
+     *     // ... the filter for the QcInspectionItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends QcInspectionItemCountArgs>(
+      args?: Subset<T, QcInspectionItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QcInspectionItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QcInspectionItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QcInspectionItemAggregateArgs>(args: Subset<T, QcInspectionItemAggregateArgs>): Prisma.PrismaPromise<GetQcInspectionItemAggregateType<T>>
+
+    /**
+     * Group by QcInspectionItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QcInspectionItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QcInspectionItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QcInspectionItemGroupByArgs['orderBy'] }
+        : { orderBy?: QcInspectionItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QcInspectionItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQcInspectionItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QcInspectionItem model
+   */
+  readonly fields: QcInspectionItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QcInspectionItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QcInspectionItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    inspection<T extends QcInspectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QcInspectionDefaultArgs<ExtArgs>>): Prisma__QcInspectionClient<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QcInspectionItem model
+   */
+  interface QcInspectionItemFieldRefs {
+    readonly id: FieldRef<"QcInspectionItem", 'String'>
+    readonly tenantId: FieldRef<"QcInspectionItem", 'String'>
+    readonly inspectionId: FieldRef<"QcInspectionItem", 'String'>
+    readonly seq: FieldRef<"QcInspectionItem", 'Int'>
+    readonly name: FieldRef<"QcInspectionItem", 'String'>
+    readonly requirement: FieldRef<"QcInspectionItem", 'String'>
+    readonly passed: FieldRef<"QcInspectionItem", 'Boolean'>
+    readonly note: FieldRef<"QcInspectionItem", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QcInspectionItem findUnique
+   */
+  export type QcInspectionItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspectionItem to fetch.
+     */
+    where: QcInspectionItemWhereUniqueInput
+  }
+
+  /**
+   * QcInspectionItem findUniqueOrThrow
+   */
+  export type QcInspectionItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspectionItem to fetch.
+     */
+    where: QcInspectionItemWhereUniqueInput
+  }
+
+  /**
+   * QcInspectionItem findFirst
+   */
+  export type QcInspectionItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspectionItem to fetch.
+     */
+    where?: QcInspectionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspectionItems to fetch.
+     */
+    orderBy?: QcInspectionItemOrderByWithRelationInput | QcInspectionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcInspectionItems.
+     */
+    cursor?: QcInspectionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspectionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspectionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcInspectionItems.
+     */
+    distinct?: QcInspectionItemScalarFieldEnum | QcInspectionItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcInspectionItem findFirstOrThrow
+   */
+  export type QcInspectionItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspectionItem to fetch.
+     */
+    where?: QcInspectionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspectionItems to fetch.
+     */
+    orderBy?: QcInspectionItemOrderByWithRelationInput | QcInspectionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QcInspectionItems.
+     */
+    cursor?: QcInspectionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspectionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspectionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QcInspectionItems.
+     */
+    distinct?: QcInspectionItemScalarFieldEnum | QcInspectionItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcInspectionItem findMany
+   */
+  export type QcInspectionItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QcInspectionItems to fetch.
+     */
+    where?: QcInspectionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QcInspectionItems to fetch.
+     */
+    orderBy?: QcInspectionItemOrderByWithRelationInput | QcInspectionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QcInspectionItems.
+     */
+    cursor?: QcInspectionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QcInspectionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QcInspectionItems.
+     */
+    skip?: number
+    distinct?: QcInspectionItemScalarFieldEnum | QcInspectionItemScalarFieldEnum[]
+  }
+
+  /**
+   * QcInspectionItem create
+   */
+  export type QcInspectionItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QcInspectionItem.
+     */
+    data: XOR<QcInspectionItemCreateInput, QcInspectionItemUncheckedCreateInput>
+  }
+
+  /**
+   * QcInspectionItem createMany
+   */
+  export type QcInspectionItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QcInspectionItems.
+     */
+    data: QcInspectionItemCreateManyInput | QcInspectionItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QcInspectionItem createManyAndReturn
+   */
+  export type QcInspectionItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many QcInspectionItems.
+     */
+    data: QcInspectionItemCreateManyInput | QcInspectionItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcInspectionItem update
+   */
+  export type QcInspectionItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QcInspectionItem.
+     */
+    data: XOR<QcInspectionItemUpdateInput, QcInspectionItemUncheckedUpdateInput>
+    /**
+     * Choose, which QcInspectionItem to update.
+     */
+    where: QcInspectionItemWhereUniqueInput
+  }
+
+  /**
+   * QcInspectionItem updateMany
+   */
+  export type QcInspectionItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QcInspectionItems.
+     */
+    data: XOR<QcInspectionItemUpdateManyMutationInput, QcInspectionItemUncheckedUpdateManyInput>
+    /**
+     * Filter which QcInspectionItems to update
+     */
+    where?: QcInspectionItemWhereInput
+    /**
+     * Limit how many QcInspectionItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcInspectionItem updateManyAndReturn
+   */
+  export type QcInspectionItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * The data used to update QcInspectionItems.
+     */
+    data: XOR<QcInspectionItemUpdateManyMutationInput, QcInspectionItemUncheckedUpdateManyInput>
+    /**
+     * Filter which QcInspectionItems to update
+     */
+    where?: QcInspectionItemWhereInput
+    /**
+     * Limit how many QcInspectionItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QcInspectionItem upsert
+   */
+  export type QcInspectionItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QcInspectionItem to update in case it exists.
+     */
+    where: QcInspectionItemWhereUniqueInput
+    /**
+     * In case the QcInspectionItem found by the `where` argument doesn't exist, create a new QcInspectionItem with this data.
+     */
+    create: XOR<QcInspectionItemCreateInput, QcInspectionItemUncheckedCreateInput>
+    /**
+     * In case the QcInspectionItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QcInspectionItemUpdateInput, QcInspectionItemUncheckedUpdateInput>
+  }
+
+  /**
+   * QcInspectionItem delete
+   */
+  export type QcInspectionItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+    /**
+     * Filter which QcInspectionItem to delete.
+     */
+    where: QcInspectionItemWhereUniqueInput
+  }
+
+  /**
+   * QcInspectionItem deleteMany
+   */
+  export type QcInspectionItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QcInspectionItems to delete
+     */
+    where?: QcInspectionItemWhereInput
+    /**
+     * Limit how many QcInspectionItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QcInspectionItem without action
+   */
+  export type QcInspectionItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QcInspectionItem
+     */
+    select?: QcInspectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QcInspectionItem
+     */
+    omit?: QcInspectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QcInspectionItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Ncr
+   */
+
+  export type AggregateNcr = {
+    _count: NcrCountAggregateOutputType | null
+    _min: NcrMinAggregateOutputType | null
+    _max: NcrMaxAggregateOutputType | null
+  }
+
+  export type NcrMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    ncrNumber: string | null
+    workOrderId: string | null
+    skuId: string | null
+    description: string | null
+    severity: $Enums.NcrSeverity | null
+    status: $Enums.NcrStatus | null
+    resolution: string | null
+    resolvedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NcrMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    ncrNumber: string | null
+    workOrderId: string | null
+    skuId: string | null
+    description: string | null
+    severity: $Enums.NcrSeverity | null
+    status: $Enums.NcrStatus | null
+    resolution: string | null
+    resolvedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NcrCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    ncrNumber: number
+    workOrderId: number
+    skuId: number
+    description: number
+    severity: number
+    status: number
+    resolution: number
+    resolvedBy: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type NcrMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    ncrNumber?: true
+    workOrderId?: true
+    skuId?: true
+    description?: true
+    severity?: true
+    status?: true
+    resolution?: true
+    resolvedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NcrMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    ncrNumber?: true
+    workOrderId?: true
+    skuId?: true
+    description?: true
+    severity?: true
+    status?: true
+    resolution?: true
+    resolvedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NcrCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    ncrNumber?: true
+    workOrderId?: true
+    skuId?: true
+    description?: true
+    severity?: true
+    status?: true
+    resolution?: true
+    resolvedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type NcrAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Ncr to aggregate.
+     */
+    where?: NcrWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ncrs to fetch.
+     */
+    orderBy?: NcrOrderByWithRelationInput | NcrOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NcrWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ncrs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ncrs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Ncrs
+    **/
+    _count?: true | NcrCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NcrMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NcrMaxAggregateInputType
+  }
+
+  export type GetNcrAggregateType<T extends NcrAggregateArgs> = {
+        [P in keyof T & keyof AggregateNcr]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNcr[P]>
+      : GetScalarType<T[P], AggregateNcr[P]>
+  }
+
+
+
+
+  export type NcrGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NcrWhereInput
+    orderBy?: NcrOrderByWithAggregationInput | NcrOrderByWithAggregationInput[]
+    by: NcrScalarFieldEnum[] | NcrScalarFieldEnum
+    having?: NcrScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NcrCountAggregateInputType | true
+    _min?: NcrMinAggregateInputType
+    _max?: NcrMaxAggregateInputType
+  }
+
+  export type NcrGroupByOutputType = {
+    id: string
+    tenantId: string
+    ncrNumber: string
+    workOrderId: string | null
+    skuId: string
+    description: string
+    severity: $Enums.NcrSeverity
+    status: $Enums.NcrStatus
+    resolution: string | null
+    resolvedBy: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: NcrCountAggregateOutputType | null
+    _min: NcrMinAggregateOutputType | null
+    _max: NcrMaxAggregateOutputType | null
+  }
+
+  type GetNcrGroupByPayload<T extends NcrGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NcrGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NcrGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NcrGroupByOutputType[P]>
+            : GetScalarType<T[P], NcrGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NcrSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    ncrNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    description?: boolean
+    severity?: boolean
+    status?: boolean
+    resolution?: boolean
+    resolvedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ncr"]>
+
+  export type NcrSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    ncrNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    description?: boolean
+    severity?: boolean
+    status?: boolean
+    resolution?: boolean
+    resolvedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ncr"]>
+
+  export type NcrSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    ncrNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    description?: boolean
+    severity?: boolean
+    status?: boolean
+    resolution?: boolean
+    resolvedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ncr"]>
+
+  export type NcrSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    ncrNumber?: boolean
+    workOrderId?: boolean
+    skuId?: boolean
+    description?: boolean
+    severity?: boolean
+    status?: boolean
+    resolution?: boolean
+    resolvedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type NcrOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "ncrNumber" | "workOrderId" | "skuId" | "description" | "severity" | "status" | "resolution" | "resolvedBy" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["ncr"]>
+  export type NcrInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type NcrIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type NcrIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $NcrPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Ncr"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      ncrNumber: string
+      workOrderId: string | null
+      skuId: string
+      description: string
+      severity: $Enums.NcrSeverity
+      status: $Enums.NcrStatus
+      resolution: string | null
+      resolvedBy: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ncr"]>
+    composites: {}
+  }
+
+  type NcrGetPayload<S extends boolean | null | undefined | NcrDefaultArgs> = $Result.GetResult<Prisma.$NcrPayload, S>
+
+  type NcrCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NcrFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NcrCountAggregateInputType | true
+    }
+
+  export interface NcrDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Ncr'], meta: { name: 'Ncr' } }
+    /**
+     * Find zero or one Ncr that matches the filter.
+     * @param {NcrFindUniqueArgs} args - Arguments to find a Ncr
+     * @example
+     * // Get one Ncr
+     * const ncr = await prisma.ncr.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NcrFindUniqueArgs>(args: SelectSubset<T, NcrFindUniqueArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Ncr that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NcrFindUniqueOrThrowArgs} args - Arguments to find a Ncr
+     * @example
+     * // Get one Ncr
+     * const ncr = await prisma.ncr.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NcrFindUniqueOrThrowArgs>(args: SelectSubset<T, NcrFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Ncr that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NcrFindFirstArgs} args - Arguments to find a Ncr
+     * @example
+     * // Get one Ncr
+     * const ncr = await prisma.ncr.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NcrFindFirstArgs>(args?: SelectSubset<T, NcrFindFirstArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Ncr that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NcrFindFirstOrThrowArgs} args - Arguments to find a Ncr
+     * @example
+     * // Get one Ncr
+     * const ncr = await prisma.ncr.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NcrFindFirstOrThrowArgs>(args?: SelectSubset<T, NcrFindFirstOrThrowArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Ncrs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NcrFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Ncrs
+     * const ncrs = await prisma.ncr.findMany()
+     * 
+     * // Get first 10 Ncrs
+     * const ncrs = await prisma.ncr.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ncrWithIdOnly = await prisma.ncr.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NcrFindManyArgs>(args?: SelectSubset<T, NcrFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Ncr.
+     * @param {NcrCreateArgs} args - Arguments to create a Ncr.
+     * @example
+     * // Create one Ncr
+     * const Ncr = await prisma.ncr.create({
+     *   data: {
+     *     // ... data to create a Ncr
+     *   }
+     * })
+     * 
+     */
+    create<T extends NcrCreateArgs>(args: SelectSubset<T, NcrCreateArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Ncrs.
+     * @param {NcrCreateManyArgs} args - Arguments to create many Ncrs.
+     * @example
+     * // Create many Ncrs
+     * const ncr = await prisma.ncr.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NcrCreateManyArgs>(args?: SelectSubset<T, NcrCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Ncrs and returns the data saved in the database.
+     * @param {NcrCreateManyAndReturnArgs} args - Arguments to create many Ncrs.
+     * @example
+     * // Create many Ncrs
+     * const ncr = await prisma.ncr.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Ncrs and only return the `id`
+     * const ncrWithIdOnly = await prisma.ncr.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NcrCreateManyAndReturnArgs>(args?: SelectSubset<T, NcrCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Ncr.
+     * @param {NcrDeleteArgs} args - Arguments to delete one Ncr.
+     * @example
+     * // Delete one Ncr
+     * const Ncr = await prisma.ncr.delete({
+     *   where: {
+     *     // ... filter to delete one Ncr
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NcrDeleteArgs>(args: SelectSubset<T, NcrDeleteArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Ncr.
+     * @param {NcrUpdateArgs} args - Arguments to update one Ncr.
+     * @example
+     * // Update one Ncr
+     * const ncr = await prisma.ncr.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NcrUpdateArgs>(args: SelectSubset<T, NcrUpdateArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Ncrs.
+     * @param {NcrDeleteManyArgs} args - Arguments to filter Ncrs to delete.
+     * @example
+     * // Delete a few Ncrs
+     * const { count } = await prisma.ncr.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NcrDeleteManyArgs>(args?: SelectSubset<T, NcrDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ncrs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NcrUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Ncrs
+     * const ncr = await prisma.ncr.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NcrUpdateManyArgs>(args: SelectSubset<T, NcrUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ncrs and returns the data updated in the database.
+     * @param {NcrUpdateManyAndReturnArgs} args - Arguments to update many Ncrs.
+     * @example
+     * // Update many Ncrs
+     * const ncr = await prisma.ncr.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Ncrs and only return the `id`
+     * const ncrWithIdOnly = await prisma.ncr.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NcrUpdateManyAndReturnArgs>(args: SelectSubset<T, NcrUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Ncr.
+     * @param {NcrUpsertArgs} args - Arguments to update or create a Ncr.
+     * @example
+     * // Update or create a Ncr
+     * const ncr = await prisma.ncr.upsert({
+     *   create: {
+     *     // ... data to create a Ncr
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Ncr we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NcrUpsertArgs>(args: SelectSubset<T, NcrUpsertArgs<ExtArgs>>): Prisma__NcrClient<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Ncrs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NcrCountArgs} args - Arguments to filter Ncrs to count.
+     * @example
+     * // Count the number of Ncrs
+     * const count = await prisma.ncr.count({
+     *   where: {
+     *     // ... the filter for the Ncrs we want to count
+     *   }
+     * })
+    **/
+    count<T extends NcrCountArgs>(
+      args?: Subset<T, NcrCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NcrCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Ncr.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NcrAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NcrAggregateArgs>(args: Subset<T, NcrAggregateArgs>): Prisma.PrismaPromise<GetNcrAggregateType<T>>
+
+    /**
+     * Group by Ncr.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NcrGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NcrGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NcrGroupByArgs['orderBy'] }
+        : { orderBy?: NcrGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NcrGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNcrGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Ncr model
+   */
+  readonly fields: NcrFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Ncr.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NcrClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Ncr model
+   */
+  interface NcrFieldRefs {
+    readonly id: FieldRef<"Ncr", 'String'>
+    readonly tenantId: FieldRef<"Ncr", 'String'>
+    readonly ncrNumber: FieldRef<"Ncr", 'String'>
+    readonly workOrderId: FieldRef<"Ncr", 'String'>
+    readonly skuId: FieldRef<"Ncr", 'String'>
+    readonly description: FieldRef<"Ncr", 'String'>
+    readonly severity: FieldRef<"Ncr", 'NcrSeverity'>
+    readonly status: FieldRef<"Ncr", 'NcrStatus'>
+    readonly resolution: FieldRef<"Ncr", 'String'>
+    readonly resolvedBy: FieldRef<"Ncr", 'String'>
+    readonly createdBy: FieldRef<"Ncr", 'String'>
+    readonly createdAt: FieldRef<"Ncr", 'DateTime'>
+    readonly updatedAt: FieldRef<"Ncr", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Ncr findUnique
+   */
+  export type NcrFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * Filter, which Ncr to fetch.
+     */
+    where: NcrWhereUniqueInput
+  }
+
+  /**
+   * Ncr findUniqueOrThrow
+   */
+  export type NcrFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * Filter, which Ncr to fetch.
+     */
+    where: NcrWhereUniqueInput
+  }
+
+  /**
+   * Ncr findFirst
+   */
+  export type NcrFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * Filter, which Ncr to fetch.
+     */
+    where?: NcrWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ncrs to fetch.
+     */
+    orderBy?: NcrOrderByWithRelationInput | NcrOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ncrs.
+     */
+    cursor?: NcrWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ncrs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ncrs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ncrs.
+     */
+    distinct?: NcrScalarFieldEnum | NcrScalarFieldEnum[]
+  }
+
+  /**
+   * Ncr findFirstOrThrow
+   */
+  export type NcrFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * Filter, which Ncr to fetch.
+     */
+    where?: NcrWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ncrs to fetch.
+     */
+    orderBy?: NcrOrderByWithRelationInput | NcrOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ncrs.
+     */
+    cursor?: NcrWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ncrs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ncrs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ncrs.
+     */
+    distinct?: NcrScalarFieldEnum | NcrScalarFieldEnum[]
+  }
+
+  /**
+   * Ncr findMany
+   */
+  export type NcrFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * Filter, which Ncrs to fetch.
+     */
+    where?: NcrWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ncrs to fetch.
+     */
+    orderBy?: NcrOrderByWithRelationInput | NcrOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Ncrs.
+     */
+    cursor?: NcrWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ncrs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ncrs.
+     */
+    skip?: number
+    distinct?: NcrScalarFieldEnum | NcrScalarFieldEnum[]
+  }
+
+  /**
+   * Ncr create
+   */
+  export type NcrCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Ncr.
+     */
+    data: XOR<NcrCreateInput, NcrUncheckedCreateInput>
+  }
+
+  /**
+   * Ncr createMany
+   */
+  export type NcrCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Ncrs.
+     */
+    data: NcrCreateManyInput | NcrCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Ncr createManyAndReturn
+   */
+  export type NcrCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * The data used to create many Ncrs.
+     */
+    data: NcrCreateManyInput | NcrCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Ncr update
+   */
+  export type NcrUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Ncr.
+     */
+    data: XOR<NcrUpdateInput, NcrUncheckedUpdateInput>
+    /**
+     * Choose, which Ncr to update.
+     */
+    where: NcrWhereUniqueInput
+  }
+
+  /**
+   * Ncr updateMany
+   */
+  export type NcrUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Ncrs.
+     */
+    data: XOR<NcrUpdateManyMutationInput, NcrUncheckedUpdateManyInput>
+    /**
+     * Filter which Ncrs to update
+     */
+    where?: NcrWhereInput
+    /**
+     * Limit how many Ncrs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Ncr updateManyAndReturn
+   */
+  export type NcrUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * The data used to update Ncrs.
+     */
+    data: XOR<NcrUpdateManyMutationInput, NcrUncheckedUpdateManyInput>
+    /**
+     * Filter which Ncrs to update
+     */
+    where?: NcrWhereInput
+    /**
+     * Limit how many Ncrs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Ncr upsert
+   */
+  export type NcrUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Ncr to update in case it exists.
+     */
+    where: NcrWhereUniqueInput
+    /**
+     * In case the Ncr found by the `where` argument doesn't exist, create a new Ncr with this data.
+     */
+    create: XOR<NcrCreateInput, NcrUncheckedCreateInput>
+    /**
+     * In case the Ncr was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NcrUpdateInput, NcrUncheckedUpdateInput>
+  }
+
+  /**
+   * Ncr delete
+   */
+  export type NcrDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+    /**
+     * Filter which Ncr to delete.
+     */
+    where: NcrWhereUniqueInput
+  }
+
+  /**
+   * Ncr deleteMany
+   */
+  export type NcrDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Ncrs to delete
+     */
+    where?: NcrWhereInput
+    /**
+     * Limit how many Ncrs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Ncr without action
+   */
+  export type NcrDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ncr
+     */
+    select?: NcrSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ncr
+     */
+    omit?: NcrOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NcrInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -86149,6 +92611,83 @@ export namespace Prisma {
   export type WorkOrderOperationScalarFieldEnum = (typeof WorkOrderOperationScalarFieldEnum)[keyof typeof WorkOrderOperationScalarFieldEnum]
 
 
+  export const QcPlanScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    name: 'name',
+    active: 'active',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QcPlanScalarFieldEnum = (typeof QcPlanScalarFieldEnum)[keyof typeof QcPlanScalarFieldEnum]
+
+
+  export const QcPlanItemScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    planId: 'planId',
+    seq: 'seq',
+    name: 'name',
+    requirement: 'requirement'
+  };
+
+  export type QcPlanItemScalarFieldEnum = (typeof QcPlanItemScalarFieldEnum)[keyof typeof QcPlanItemScalarFieldEnum]
+
+
+  export const QcInspectionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    inspectionNumber: 'inspectionNumber',
+    workOrderId: 'workOrderId',
+    skuId: 'skuId',
+    planId: 'planId',
+    status: 'status',
+    decidedBy: 'decidedBy',
+    notes: 'notes',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QcInspectionScalarFieldEnum = (typeof QcInspectionScalarFieldEnum)[keyof typeof QcInspectionScalarFieldEnum]
+
+
+  export const QcInspectionItemScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    inspectionId: 'inspectionId',
+    seq: 'seq',
+    name: 'name',
+    requirement: 'requirement',
+    passed: 'passed',
+    note: 'note'
+  };
+
+  export type QcInspectionItemScalarFieldEnum = (typeof QcInspectionItemScalarFieldEnum)[keyof typeof QcInspectionItemScalarFieldEnum]
+
+
+  export const NcrScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    ncrNumber: 'ncrNumber',
+    workOrderId: 'workOrderId',
+    skuId: 'skuId',
+    description: 'description',
+    severity: 'severity',
+    status: 'status',
+    resolution: 'resolution',
+    resolvedBy: 'resolvedBy',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type NcrScalarFieldEnum = (typeof NcrScalarFieldEnum)[keyof typeof NcrScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -86770,6 +93309,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'QcInspectionStatus'
+   */
+  export type EnumQcInspectionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QcInspectionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'QcInspectionStatus[]'
+   */
+  export type ListEnumQcInspectionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QcInspectionStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NcrSeverity'
+   */
+  export type EnumNcrSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NcrSeverity'>
+    
+
+
+  /**
+   * Reference to a field of type 'NcrSeverity[]'
+   */
+  export type ListEnumNcrSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NcrSeverity[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NcrStatus'
+   */
+  export type EnumNcrStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NcrStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'NcrStatus[]'
+   */
+  export type ListEnumNcrStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NcrStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -86852,6 +93433,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionListRelationFilter
     workOrders?: WorkOrderListRelationFilter
     workOrderOperations?: WorkOrderOperationListRelationFilter
+    qcPlans?: QcPlanListRelationFilter
+    qcPlanItems?: QcPlanItemListRelationFilter
+    qcInspections?: QcInspectionListRelationFilter
+    qcInspectionItems?: QcInspectionItemListRelationFilter
+    ncrs?: NcrListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -86917,6 +93503,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionOrderByRelationAggregateInput
     workOrders?: WorkOrderOrderByRelationAggregateInput
     workOrderOperations?: WorkOrderOperationOrderByRelationAggregateInput
+    qcPlans?: QcPlanOrderByRelationAggregateInput
+    qcPlanItems?: QcPlanItemOrderByRelationAggregateInput
+    qcInspections?: QcInspectionOrderByRelationAggregateInput
+    qcInspectionItems?: QcInspectionItemOrderByRelationAggregateInput
+    ncrs?: NcrOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -86985,6 +93576,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionListRelationFilter
     workOrders?: WorkOrderListRelationFilter
     workOrderOperations?: WorkOrderOperationListRelationFilter
+    qcPlans?: QcPlanListRelationFilter
+    qcPlanItems?: QcPlanItemListRelationFilter
+    qcInspections?: QcInspectionListRelationFilter
+    qcInspectionItems?: QcInspectionItemListRelationFilter
+    ncrs?: NcrListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -92015,6 +98611,412 @@ export namespace Prisma {
     completedAt?: DateTimeNullableWithAggregatesFilter<"WorkOrderOperation"> | Date | string | null
   }
 
+  export type QcPlanWhereInput = {
+    AND?: QcPlanWhereInput | QcPlanWhereInput[]
+    OR?: QcPlanWhereInput[]
+    NOT?: QcPlanWhereInput | QcPlanWhereInput[]
+    id?: UuidFilter<"QcPlan"> | string
+    tenantId?: UuidFilter<"QcPlan"> | string
+    skuId?: UuidFilter<"QcPlan"> | string
+    name?: StringFilter<"QcPlan"> | string
+    active?: BoolFilter<"QcPlan"> | boolean
+    createdBy?: StringNullableFilter<"QcPlan"> | string | null
+    createdAt?: DateTimeFilter<"QcPlan"> | Date | string
+    updatedAt?: DateTimeFilter<"QcPlan"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    items?: QcPlanItemListRelationFilter
+  }
+
+  export type QcPlanOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    items?: QcPlanItemOrderByRelationAggregateInput
+  }
+
+  export type QcPlanWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId?: QcPlanTenantIdSkuIdCompoundUniqueInput
+    AND?: QcPlanWhereInput | QcPlanWhereInput[]
+    OR?: QcPlanWhereInput[]
+    NOT?: QcPlanWhereInput | QcPlanWhereInput[]
+    tenantId?: UuidFilter<"QcPlan"> | string
+    skuId?: UuidFilter<"QcPlan"> | string
+    name?: StringFilter<"QcPlan"> | string
+    active?: BoolFilter<"QcPlan"> | boolean
+    createdBy?: StringNullableFilter<"QcPlan"> | string | null
+    createdAt?: DateTimeFilter<"QcPlan"> | Date | string
+    updatedAt?: DateTimeFilter<"QcPlan"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    items?: QcPlanItemListRelationFilter
+  }, "id" | "tenantId_skuId">
+
+  export type QcPlanOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QcPlanCountOrderByAggregateInput
+    _max?: QcPlanMaxOrderByAggregateInput
+    _min?: QcPlanMinOrderByAggregateInput
+  }
+
+  export type QcPlanScalarWhereWithAggregatesInput = {
+    AND?: QcPlanScalarWhereWithAggregatesInput | QcPlanScalarWhereWithAggregatesInput[]
+    OR?: QcPlanScalarWhereWithAggregatesInput[]
+    NOT?: QcPlanScalarWhereWithAggregatesInput | QcPlanScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"QcPlan"> | string
+    tenantId?: UuidWithAggregatesFilter<"QcPlan"> | string
+    skuId?: UuidWithAggregatesFilter<"QcPlan"> | string
+    name?: StringWithAggregatesFilter<"QcPlan"> | string
+    active?: BoolWithAggregatesFilter<"QcPlan"> | boolean
+    createdBy?: StringNullableWithAggregatesFilter<"QcPlan"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"QcPlan"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QcPlan"> | Date | string
+  }
+
+  export type QcPlanItemWhereInput = {
+    AND?: QcPlanItemWhereInput | QcPlanItemWhereInput[]
+    OR?: QcPlanItemWhereInput[]
+    NOT?: QcPlanItemWhereInput | QcPlanItemWhereInput[]
+    id?: UuidFilter<"QcPlanItem"> | string
+    tenantId?: UuidFilter<"QcPlanItem"> | string
+    planId?: UuidFilter<"QcPlanItem"> | string
+    seq?: IntFilter<"QcPlanItem"> | number
+    name?: StringFilter<"QcPlanItem"> | string
+    requirement?: StringFilter<"QcPlanItem"> | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    plan?: XOR<QcPlanScalarRelationFilter, QcPlanWhereInput>
+  }
+
+  export type QcPlanItemOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    plan?: QcPlanOrderByWithRelationInput
+  }
+
+  export type QcPlanItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_planId_seq?: QcPlanItemTenantIdPlanIdSeqCompoundUniqueInput
+    AND?: QcPlanItemWhereInput | QcPlanItemWhereInput[]
+    OR?: QcPlanItemWhereInput[]
+    NOT?: QcPlanItemWhereInput | QcPlanItemWhereInput[]
+    tenantId?: UuidFilter<"QcPlanItem"> | string
+    planId?: UuidFilter<"QcPlanItem"> | string
+    seq?: IntFilter<"QcPlanItem"> | number
+    name?: StringFilter<"QcPlanItem"> | string
+    requirement?: StringFilter<"QcPlanItem"> | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    plan?: XOR<QcPlanScalarRelationFilter, QcPlanWhereInput>
+  }, "id" | "tenantId_planId_seq">
+
+  export type QcPlanItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+    _count?: QcPlanItemCountOrderByAggregateInput
+    _avg?: QcPlanItemAvgOrderByAggregateInput
+    _max?: QcPlanItemMaxOrderByAggregateInput
+    _min?: QcPlanItemMinOrderByAggregateInput
+    _sum?: QcPlanItemSumOrderByAggregateInput
+  }
+
+  export type QcPlanItemScalarWhereWithAggregatesInput = {
+    AND?: QcPlanItemScalarWhereWithAggregatesInput | QcPlanItemScalarWhereWithAggregatesInput[]
+    OR?: QcPlanItemScalarWhereWithAggregatesInput[]
+    NOT?: QcPlanItemScalarWhereWithAggregatesInput | QcPlanItemScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"QcPlanItem"> | string
+    tenantId?: UuidWithAggregatesFilter<"QcPlanItem"> | string
+    planId?: UuidWithAggregatesFilter<"QcPlanItem"> | string
+    seq?: IntWithAggregatesFilter<"QcPlanItem"> | number
+    name?: StringWithAggregatesFilter<"QcPlanItem"> | string
+    requirement?: StringWithAggregatesFilter<"QcPlanItem"> | string
+  }
+
+  export type QcInspectionWhereInput = {
+    AND?: QcInspectionWhereInput | QcInspectionWhereInput[]
+    OR?: QcInspectionWhereInput[]
+    NOT?: QcInspectionWhereInput | QcInspectionWhereInput[]
+    id?: UuidFilter<"QcInspection"> | string
+    tenantId?: UuidFilter<"QcInspection"> | string
+    inspectionNumber?: StringFilter<"QcInspection"> | string
+    workOrderId?: UuidFilter<"QcInspection"> | string
+    skuId?: UuidFilter<"QcInspection"> | string
+    planId?: UuidFilter<"QcInspection"> | string
+    status?: EnumQcInspectionStatusFilter<"QcInspection"> | $Enums.QcInspectionStatus
+    decidedBy?: StringNullableFilter<"QcInspection"> | string | null
+    notes?: StringNullableFilter<"QcInspection"> | string | null
+    createdBy?: StringNullableFilter<"QcInspection"> | string | null
+    createdAt?: DateTimeFilter<"QcInspection"> | Date | string
+    updatedAt?: DateTimeFilter<"QcInspection"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    items?: QcInspectionItemListRelationFilter
+  }
+
+  export type QcInspectionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    planId?: SortOrder
+    status?: SortOrder
+    decidedBy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    items?: QcInspectionItemOrderByRelationAggregateInput
+  }
+
+  export type QcInspectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_inspectionNumber?: QcInspectionTenantIdInspectionNumberCompoundUniqueInput
+    AND?: QcInspectionWhereInput | QcInspectionWhereInput[]
+    OR?: QcInspectionWhereInput[]
+    NOT?: QcInspectionWhereInput | QcInspectionWhereInput[]
+    tenantId?: UuidFilter<"QcInspection"> | string
+    inspectionNumber?: StringFilter<"QcInspection"> | string
+    workOrderId?: UuidFilter<"QcInspection"> | string
+    skuId?: UuidFilter<"QcInspection"> | string
+    planId?: UuidFilter<"QcInspection"> | string
+    status?: EnumQcInspectionStatusFilter<"QcInspection"> | $Enums.QcInspectionStatus
+    decidedBy?: StringNullableFilter<"QcInspection"> | string | null
+    notes?: StringNullableFilter<"QcInspection"> | string | null
+    createdBy?: StringNullableFilter<"QcInspection"> | string | null
+    createdAt?: DateTimeFilter<"QcInspection"> | Date | string
+    updatedAt?: DateTimeFilter<"QcInspection"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    items?: QcInspectionItemListRelationFilter
+  }, "id" | "tenantId_inspectionNumber">
+
+  export type QcInspectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    planId?: SortOrder
+    status?: SortOrder
+    decidedBy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QcInspectionCountOrderByAggregateInput
+    _max?: QcInspectionMaxOrderByAggregateInput
+    _min?: QcInspectionMinOrderByAggregateInput
+  }
+
+  export type QcInspectionScalarWhereWithAggregatesInput = {
+    AND?: QcInspectionScalarWhereWithAggregatesInput | QcInspectionScalarWhereWithAggregatesInput[]
+    OR?: QcInspectionScalarWhereWithAggregatesInput[]
+    NOT?: QcInspectionScalarWhereWithAggregatesInput | QcInspectionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"QcInspection"> | string
+    tenantId?: UuidWithAggregatesFilter<"QcInspection"> | string
+    inspectionNumber?: StringWithAggregatesFilter<"QcInspection"> | string
+    workOrderId?: UuidWithAggregatesFilter<"QcInspection"> | string
+    skuId?: UuidWithAggregatesFilter<"QcInspection"> | string
+    planId?: UuidWithAggregatesFilter<"QcInspection"> | string
+    status?: EnumQcInspectionStatusWithAggregatesFilter<"QcInspection"> | $Enums.QcInspectionStatus
+    decidedBy?: StringNullableWithAggregatesFilter<"QcInspection"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"QcInspection"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"QcInspection"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"QcInspection"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QcInspection"> | Date | string
+  }
+
+  export type QcInspectionItemWhereInput = {
+    AND?: QcInspectionItemWhereInput | QcInspectionItemWhereInput[]
+    OR?: QcInspectionItemWhereInput[]
+    NOT?: QcInspectionItemWhereInput | QcInspectionItemWhereInput[]
+    id?: UuidFilter<"QcInspectionItem"> | string
+    tenantId?: UuidFilter<"QcInspectionItem"> | string
+    inspectionId?: UuidFilter<"QcInspectionItem"> | string
+    seq?: IntFilter<"QcInspectionItem"> | number
+    name?: StringFilter<"QcInspectionItem"> | string
+    requirement?: StringFilter<"QcInspectionItem"> | string
+    passed?: BoolNullableFilter<"QcInspectionItem"> | boolean | null
+    note?: StringNullableFilter<"QcInspectionItem"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    inspection?: XOR<QcInspectionScalarRelationFilter, QcInspectionWhereInput>
+  }
+
+  export type QcInspectionItemOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+    passed?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    inspection?: QcInspectionOrderByWithRelationInput
+  }
+
+  export type QcInspectionItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_inspectionId_seq?: QcInspectionItemTenantIdInspectionIdSeqCompoundUniqueInput
+    AND?: QcInspectionItemWhereInput | QcInspectionItemWhereInput[]
+    OR?: QcInspectionItemWhereInput[]
+    NOT?: QcInspectionItemWhereInput | QcInspectionItemWhereInput[]
+    tenantId?: UuidFilter<"QcInspectionItem"> | string
+    inspectionId?: UuidFilter<"QcInspectionItem"> | string
+    seq?: IntFilter<"QcInspectionItem"> | number
+    name?: StringFilter<"QcInspectionItem"> | string
+    requirement?: StringFilter<"QcInspectionItem"> | string
+    passed?: BoolNullableFilter<"QcInspectionItem"> | boolean | null
+    note?: StringNullableFilter<"QcInspectionItem"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    inspection?: XOR<QcInspectionScalarRelationFilter, QcInspectionWhereInput>
+  }, "id" | "tenantId_inspectionId_seq">
+
+  export type QcInspectionItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+    passed?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    _count?: QcInspectionItemCountOrderByAggregateInput
+    _avg?: QcInspectionItemAvgOrderByAggregateInput
+    _max?: QcInspectionItemMaxOrderByAggregateInput
+    _min?: QcInspectionItemMinOrderByAggregateInput
+    _sum?: QcInspectionItemSumOrderByAggregateInput
+  }
+
+  export type QcInspectionItemScalarWhereWithAggregatesInput = {
+    AND?: QcInspectionItemScalarWhereWithAggregatesInput | QcInspectionItemScalarWhereWithAggregatesInput[]
+    OR?: QcInspectionItemScalarWhereWithAggregatesInput[]
+    NOT?: QcInspectionItemScalarWhereWithAggregatesInput | QcInspectionItemScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"QcInspectionItem"> | string
+    tenantId?: UuidWithAggregatesFilter<"QcInspectionItem"> | string
+    inspectionId?: UuidWithAggregatesFilter<"QcInspectionItem"> | string
+    seq?: IntWithAggregatesFilter<"QcInspectionItem"> | number
+    name?: StringWithAggregatesFilter<"QcInspectionItem"> | string
+    requirement?: StringWithAggregatesFilter<"QcInspectionItem"> | string
+    passed?: BoolNullableWithAggregatesFilter<"QcInspectionItem"> | boolean | null
+    note?: StringNullableWithAggregatesFilter<"QcInspectionItem"> | string | null
+  }
+
+  export type NcrWhereInput = {
+    AND?: NcrWhereInput | NcrWhereInput[]
+    OR?: NcrWhereInput[]
+    NOT?: NcrWhereInput | NcrWhereInput[]
+    id?: UuidFilter<"Ncr"> | string
+    tenantId?: UuidFilter<"Ncr"> | string
+    ncrNumber?: StringFilter<"Ncr"> | string
+    workOrderId?: UuidNullableFilter<"Ncr"> | string | null
+    skuId?: UuidFilter<"Ncr"> | string
+    description?: StringFilter<"Ncr"> | string
+    severity?: EnumNcrSeverityFilter<"Ncr"> | $Enums.NcrSeverity
+    status?: EnumNcrStatusFilter<"Ncr"> | $Enums.NcrStatus
+    resolution?: StringNullableFilter<"Ncr"> | string | null
+    resolvedBy?: StringNullableFilter<"Ncr"> | string | null
+    createdBy?: StringNullableFilter<"Ncr"> | string | null
+    createdAt?: DateTimeFilter<"Ncr"> | Date | string
+    updatedAt?: DateTimeFilter<"Ncr"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type NcrOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ncrNumber?: SortOrder
+    workOrderId?: SortOrderInput | SortOrder
+    skuId?: SortOrder
+    description?: SortOrder
+    severity?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrderInput | SortOrder
+    resolvedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type NcrWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_ncrNumber?: NcrTenantIdNcrNumberCompoundUniqueInput
+    AND?: NcrWhereInput | NcrWhereInput[]
+    OR?: NcrWhereInput[]
+    NOT?: NcrWhereInput | NcrWhereInput[]
+    tenantId?: UuidFilter<"Ncr"> | string
+    ncrNumber?: StringFilter<"Ncr"> | string
+    workOrderId?: UuidNullableFilter<"Ncr"> | string | null
+    skuId?: UuidFilter<"Ncr"> | string
+    description?: StringFilter<"Ncr"> | string
+    severity?: EnumNcrSeverityFilter<"Ncr"> | $Enums.NcrSeverity
+    status?: EnumNcrStatusFilter<"Ncr"> | $Enums.NcrStatus
+    resolution?: StringNullableFilter<"Ncr"> | string | null
+    resolvedBy?: StringNullableFilter<"Ncr"> | string | null
+    createdBy?: StringNullableFilter<"Ncr"> | string | null
+    createdAt?: DateTimeFilter<"Ncr"> | Date | string
+    updatedAt?: DateTimeFilter<"Ncr"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_ncrNumber">
+
+  export type NcrOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ncrNumber?: SortOrder
+    workOrderId?: SortOrderInput | SortOrder
+    skuId?: SortOrder
+    description?: SortOrder
+    severity?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrderInput | SortOrder
+    resolvedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: NcrCountOrderByAggregateInput
+    _max?: NcrMaxOrderByAggregateInput
+    _min?: NcrMinOrderByAggregateInput
+  }
+
+  export type NcrScalarWhereWithAggregatesInput = {
+    AND?: NcrScalarWhereWithAggregatesInput | NcrScalarWhereWithAggregatesInput[]
+    OR?: NcrScalarWhereWithAggregatesInput[]
+    NOT?: NcrScalarWhereWithAggregatesInput | NcrScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Ncr"> | string
+    tenantId?: UuidWithAggregatesFilter<"Ncr"> | string
+    ncrNumber?: StringWithAggregatesFilter<"Ncr"> | string
+    workOrderId?: UuidNullableWithAggregatesFilter<"Ncr"> | string | null
+    skuId?: UuidWithAggregatesFilter<"Ncr"> | string
+    description?: StringWithAggregatesFilter<"Ncr"> | string
+    severity?: EnumNcrSeverityWithAggregatesFilter<"Ncr"> | $Enums.NcrSeverity
+    status?: EnumNcrStatusWithAggregatesFilter<"Ncr"> | $Enums.NcrStatus
+    resolution?: StringNullableWithAggregatesFilter<"Ncr"> | string | null
+    resolvedBy?: StringNullableWithAggregatesFilter<"Ncr"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"Ncr"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Ncr"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Ncr"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -92078,6 +99080,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -92143,6 +99150,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -92208,6 +99220,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -92273,6 +99290,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -97626,6 +104648,441 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type QcPlanCreateInput = {
+    id?: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutQcPlansInput
+    items?: QcPlanItemCreateNestedManyWithoutPlanInput
+  }
+
+  export type QcPlanUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QcPlanItemUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type QcPlanUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutQcPlansNestedInput
+    items?: QcPlanItemUpdateManyWithoutPlanNestedInput
+  }
+
+  export type QcPlanUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QcPlanItemUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type QcPlanCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QcPlanUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QcPlanUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QcPlanItemCreateInput = {
+    id?: string
+    seq: number
+    name: string
+    requirement: string
+    tenant: TenantCreateNestedOneWithoutQcPlanItemsInput
+    plan: QcPlanCreateNestedOneWithoutItemsInput
+  }
+
+  export type QcPlanItemUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    planId: string
+    seq: number
+    name: string
+    requirement: string
+  }
+
+  export type QcPlanItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    tenant?: TenantUpdateOneRequiredWithoutQcPlanItemsNestedInput
+    plan?: QcPlanUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type QcPlanItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QcPlanItemCreateManyInput = {
+    id?: string
+    tenantId: string
+    planId: string
+    seq: number
+    name: string
+    requirement: string
+  }
+
+  export type QcPlanItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QcPlanItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QcInspectionCreateInput = {
+    id?: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutQcInspectionsInput
+    items?: QcInspectionItemCreateNestedManyWithoutInspectionInput
+  }
+
+  export type QcInspectionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QcInspectionItemUncheckedCreateNestedManyWithoutInspectionInput
+  }
+
+  export type QcInspectionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutQcInspectionsNestedInput
+    items?: QcInspectionItemUpdateManyWithoutInspectionNestedInput
+  }
+
+  export type QcInspectionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QcInspectionItemUncheckedUpdateManyWithoutInspectionNestedInput
+  }
+
+  export type QcInspectionCreateManyInput = {
+    id?: string
+    tenantId: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QcInspectionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QcInspectionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QcInspectionItemCreateInput = {
+    id?: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+    tenant: TenantCreateNestedOneWithoutQcInspectionItemsInput
+    inspection: QcInspectionCreateNestedOneWithoutItemsInput
+  }
+
+  export type QcInspectionItemUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    inspectionId: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+  }
+
+  export type QcInspectionItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutQcInspectionItemsNestedInput
+    inspection?: QcInspectionUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type QcInspectionItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    inspectionId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QcInspectionItemCreateManyInput = {
+    id?: string
+    tenantId: string
+    inspectionId: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+  }
+
+  export type QcInspectionItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QcInspectionItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    inspectionId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NcrCreateInput = {
+    id?: string
+    ncrNumber: string
+    workOrderId?: string | null
+    skuId: string
+    description: string
+    severity?: $Enums.NcrSeverity
+    status?: $Enums.NcrStatus
+    resolution?: string | null
+    resolvedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutNcrsInput
+  }
+
+  export type NcrUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    ncrNumber: string
+    workOrderId?: string | null
+    skuId: string
+    description: string
+    severity?: $Enums.NcrSeverity
+    status?: $Enums.NcrStatus
+    resolution?: string | null
+    resolvedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NcrUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ncrNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    skuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumNcrSeverityFieldUpdateOperationsInput | $Enums.NcrSeverity
+    status?: EnumNcrStatusFieldUpdateOperationsInput | $Enums.NcrStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutNcrsNestedInput
+  }
+
+  export type NcrUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    ncrNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    skuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumNcrSeverityFieldUpdateOperationsInput | $Enums.NcrSeverity
+    status?: EnumNcrStatusFieldUpdateOperationsInput | $Enums.NcrStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NcrCreateManyInput = {
+    id?: string
+    tenantId: string
+    ncrNumber: string
+    workOrderId?: string | null
+    skuId: string
+    description: string
+    severity?: $Enums.NcrSeverity
+    status?: $Enums.NcrStatus
+    resolution?: string | null
+    resolvedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NcrUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ncrNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    skuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumNcrSeverityFieldUpdateOperationsInput | $Enums.NcrSeverity
+    status?: EnumNcrStatusFieldUpdateOperationsInput | $Enums.NcrStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NcrUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    ncrNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    skuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumNcrSeverityFieldUpdateOperationsInput | $Enums.NcrSeverity
+    status?: EnumNcrStatusFieldUpdateOperationsInput | $Enums.NcrStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -98012,6 +105469,36 @@ export namespace Prisma {
     none?: WorkOrderOperationWhereInput
   }
 
+  export type QcPlanListRelationFilter = {
+    every?: QcPlanWhereInput
+    some?: QcPlanWhereInput
+    none?: QcPlanWhereInput
+  }
+
+  export type QcPlanItemListRelationFilter = {
+    every?: QcPlanItemWhereInput
+    some?: QcPlanItemWhereInput
+    none?: QcPlanItemWhereInput
+  }
+
+  export type QcInspectionListRelationFilter = {
+    every?: QcInspectionWhereInput
+    some?: QcInspectionWhereInput
+    none?: QcInspectionWhereInput
+  }
+
+  export type QcInspectionItemListRelationFilter = {
+    every?: QcInspectionItemWhereInput
+    some?: QcInspectionItemWhereInput
+    none?: QcInspectionItemWhereInput
+  }
+
+  export type NcrListRelationFilter = {
+    every?: NcrWhereInput
+    some?: NcrWhereInput
+    none?: NcrWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -98229,6 +105716,26 @@ export namespace Prisma {
   }
 
   export type WorkOrderOperationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QcPlanOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QcPlanItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QcInspectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QcInspectionItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NcrOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -102225,6 +109732,309 @@ export namespace Prisma {
     _max?: NestedEnumWoOperationStatusFilter<$PrismaModel>
   }
 
+  export type QcPlanTenantIdSkuIdCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+  }
+
+  export type QcPlanCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QcPlanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QcPlanMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QcPlanScalarRelationFilter = {
+    is?: QcPlanWhereInput
+    isNot?: QcPlanWhereInput
+  }
+
+  export type QcPlanItemTenantIdPlanIdSeqCompoundUniqueInput = {
+    tenantId: string
+    planId: string
+    seq: number
+  }
+
+  export type QcPlanItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+  }
+
+  export type QcPlanItemAvgOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type QcPlanItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+  }
+
+  export type QcPlanItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+  }
+
+  export type QcPlanItemSumOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type EnumQcInspectionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QcInspectionStatus | EnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQcInspectionStatusFilter<$PrismaModel> | $Enums.QcInspectionStatus
+  }
+
+  export type QcInspectionTenantIdInspectionNumberCompoundUniqueInput = {
+    tenantId: string
+    inspectionNumber: string
+  }
+
+  export type QcInspectionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    planId?: SortOrder
+    status?: SortOrder
+    decidedBy?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QcInspectionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    planId?: SortOrder
+    status?: SortOrder
+    decidedBy?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QcInspectionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    planId?: SortOrder
+    status?: SortOrder
+    decidedBy?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumQcInspectionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QcInspectionStatus | EnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQcInspectionStatusWithAggregatesFilter<$PrismaModel> | $Enums.QcInspectionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQcInspectionStatusFilter<$PrismaModel>
+    _max?: NestedEnumQcInspectionStatusFilter<$PrismaModel>
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type QcInspectionScalarRelationFilter = {
+    is?: QcInspectionWhereInput
+    isNot?: QcInspectionWhereInput
+  }
+
+  export type QcInspectionItemTenantIdInspectionIdSeqCompoundUniqueInput = {
+    tenantId: string
+    inspectionId: string
+    seq: number
+  }
+
+  export type QcInspectionItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+    passed?: SortOrder
+    note?: SortOrder
+  }
+
+  export type QcInspectionItemAvgOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type QcInspectionItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+    passed?: SortOrder
+    note?: SortOrder
+  }
+
+  export type QcInspectionItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    inspectionId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    requirement?: SortOrder
+    passed?: SortOrder
+    note?: SortOrder
+  }
+
+  export type QcInspectionItemSumOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type EnumNcrSeverityFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrSeverity | EnumNcrSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrSeverityFilter<$PrismaModel> | $Enums.NcrSeverity
+  }
+
+  export type EnumNcrStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrStatus | EnumNcrStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrStatusFilter<$PrismaModel> | $Enums.NcrStatus
+  }
+
+  export type NcrTenantIdNcrNumberCompoundUniqueInput = {
+    tenantId: string
+    ncrNumber: string
+  }
+
+  export type NcrCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ncrNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    description?: SortOrder
+    severity?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrder
+    resolvedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NcrMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ncrNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    description?: SortOrder
+    severity?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrder
+    resolvedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NcrMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    ncrNumber?: SortOrder
+    workOrderId?: SortOrder
+    skuId?: SortOrder
+    description?: SortOrder
+    severity?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrder
+    resolvedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumNcrSeverityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrSeverity | EnumNcrSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrSeverityWithAggregatesFilter<$PrismaModel> | $Enums.NcrSeverity
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNcrSeverityFilter<$PrismaModel>
+    _max?: NestedEnumNcrSeverityFilter<$PrismaModel>
+  }
+
+  export type EnumNcrStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrStatus | EnumNcrStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrStatusWithAggregatesFilter<$PrismaModel> | $Enums.NcrStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNcrStatusFilter<$PrismaModel>
+    _max?: NestedEnumNcrStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -102610,6 +110420,41 @@ export namespace Prisma {
     connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
   }
 
+  export type QcPlanCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcPlanCreateWithoutTenantInput, QcPlanUncheckedCreateWithoutTenantInput> | QcPlanCreateWithoutTenantInput[] | QcPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanCreateOrConnectWithoutTenantInput | QcPlanCreateOrConnectWithoutTenantInput[]
+    createMany?: QcPlanCreateManyTenantInputEnvelope
+    connect?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+  }
+
+  export type QcPlanItemCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcPlanItemCreateWithoutTenantInput, QcPlanItemUncheckedCreateWithoutTenantInput> | QcPlanItemCreateWithoutTenantInput[] | QcPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutTenantInput | QcPlanItemCreateOrConnectWithoutTenantInput[]
+    createMany?: QcPlanItemCreateManyTenantInputEnvelope
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+  }
+
+  export type QcInspectionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcInspectionCreateWithoutTenantInput, QcInspectionUncheckedCreateWithoutTenantInput> | QcInspectionCreateWithoutTenantInput[] | QcInspectionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionCreateOrConnectWithoutTenantInput | QcInspectionCreateOrConnectWithoutTenantInput[]
+    createMany?: QcInspectionCreateManyTenantInputEnvelope
+    connect?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+  }
+
+  export type QcInspectionItemCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcInspectionItemCreateWithoutTenantInput, QcInspectionItemUncheckedCreateWithoutTenantInput> | QcInspectionItemCreateWithoutTenantInput[] | QcInspectionItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutTenantInput | QcInspectionItemCreateOrConnectWithoutTenantInput[]
+    createMany?: QcInspectionItemCreateManyTenantInputEnvelope
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+  }
+
+  export type NcrCreateNestedManyWithoutTenantInput = {
+    create?: XOR<NcrCreateWithoutTenantInput, NcrUncheckedCreateWithoutTenantInput> | NcrCreateWithoutTenantInput[] | NcrUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: NcrCreateOrConnectWithoutTenantInput | NcrCreateOrConnectWithoutTenantInput[]
+    createMany?: NcrCreateManyTenantInputEnvelope
+    connect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -102993,6 +110838,41 @@ export namespace Prisma {
     connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutTenantInput | WorkOrderOperationCreateOrConnectWithoutTenantInput[]
     createMany?: WorkOrderOperationCreateManyTenantInputEnvelope
     connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+  }
+
+  export type QcPlanUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcPlanCreateWithoutTenantInput, QcPlanUncheckedCreateWithoutTenantInput> | QcPlanCreateWithoutTenantInput[] | QcPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanCreateOrConnectWithoutTenantInput | QcPlanCreateOrConnectWithoutTenantInput[]
+    createMany?: QcPlanCreateManyTenantInputEnvelope
+    connect?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+  }
+
+  export type QcPlanItemUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcPlanItemCreateWithoutTenantInput, QcPlanItemUncheckedCreateWithoutTenantInput> | QcPlanItemCreateWithoutTenantInput[] | QcPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutTenantInput | QcPlanItemCreateOrConnectWithoutTenantInput[]
+    createMany?: QcPlanItemCreateManyTenantInputEnvelope
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+  }
+
+  export type QcInspectionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcInspectionCreateWithoutTenantInput, QcInspectionUncheckedCreateWithoutTenantInput> | QcInspectionCreateWithoutTenantInput[] | QcInspectionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionCreateOrConnectWithoutTenantInput | QcInspectionCreateOrConnectWithoutTenantInput[]
+    createMany?: QcInspectionCreateManyTenantInputEnvelope
+    connect?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+  }
+
+  export type QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QcInspectionItemCreateWithoutTenantInput, QcInspectionItemUncheckedCreateWithoutTenantInput> | QcInspectionItemCreateWithoutTenantInput[] | QcInspectionItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutTenantInput | QcInspectionItemCreateOrConnectWithoutTenantInput[]
+    createMany?: QcInspectionItemCreateManyTenantInputEnvelope
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+  }
+
+  export type NcrUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<NcrCreateWithoutTenantInput, NcrUncheckedCreateWithoutTenantInput> | NcrCreateWithoutTenantInput[] | NcrUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: NcrCreateOrConnectWithoutTenantInput | NcrCreateOrConnectWithoutTenantInput[]
+    createMany?: NcrCreateManyTenantInputEnvelope
+    connect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -103785,6 +111665,76 @@ export namespace Prisma {
     deleteMany?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
   }
 
+  export type QcPlanUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcPlanCreateWithoutTenantInput, QcPlanUncheckedCreateWithoutTenantInput> | QcPlanCreateWithoutTenantInput[] | QcPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanCreateOrConnectWithoutTenantInput | QcPlanCreateOrConnectWithoutTenantInput[]
+    upsert?: QcPlanUpsertWithWhereUniqueWithoutTenantInput | QcPlanUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcPlanCreateManyTenantInputEnvelope
+    set?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    disconnect?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    delete?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    connect?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    update?: QcPlanUpdateWithWhereUniqueWithoutTenantInput | QcPlanUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcPlanUpdateManyWithWhereWithoutTenantInput | QcPlanUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcPlanScalarWhereInput | QcPlanScalarWhereInput[]
+  }
+
+  export type QcPlanItemUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcPlanItemCreateWithoutTenantInput, QcPlanItemUncheckedCreateWithoutTenantInput> | QcPlanItemCreateWithoutTenantInput[] | QcPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutTenantInput | QcPlanItemCreateOrConnectWithoutTenantInput[]
+    upsert?: QcPlanItemUpsertWithWhereUniqueWithoutTenantInput | QcPlanItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcPlanItemCreateManyTenantInputEnvelope
+    set?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    disconnect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    delete?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    update?: QcPlanItemUpdateWithWhereUniqueWithoutTenantInput | QcPlanItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcPlanItemUpdateManyWithWhereWithoutTenantInput | QcPlanItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcPlanItemScalarWhereInput | QcPlanItemScalarWhereInput[]
+  }
+
+  export type QcInspectionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcInspectionCreateWithoutTenantInput, QcInspectionUncheckedCreateWithoutTenantInput> | QcInspectionCreateWithoutTenantInput[] | QcInspectionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionCreateOrConnectWithoutTenantInput | QcInspectionCreateOrConnectWithoutTenantInput[]
+    upsert?: QcInspectionUpsertWithWhereUniqueWithoutTenantInput | QcInspectionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcInspectionCreateManyTenantInputEnvelope
+    set?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    disconnect?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    delete?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    connect?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    update?: QcInspectionUpdateWithWhereUniqueWithoutTenantInput | QcInspectionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcInspectionUpdateManyWithWhereWithoutTenantInput | QcInspectionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcInspectionScalarWhereInput | QcInspectionScalarWhereInput[]
+  }
+
+  export type QcInspectionItemUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcInspectionItemCreateWithoutTenantInput, QcInspectionItemUncheckedCreateWithoutTenantInput> | QcInspectionItemCreateWithoutTenantInput[] | QcInspectionItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutTenantInput | QcInspectionItemCreateOrConnectWithoutTenantInput[]
+    upsert?: QcInspectionItemUpsertWithWhereUniqueWithoutTenantInput | QcInspectionItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcInspectionItemCreateManyTenantInputEnvelope
+    set?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    disconnect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    delete?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    update?: QcInspectionItemUpdateWithWhereUniqueWithoutTenantInput | QcInspectionItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcInspectionItemUpdateManyWithWhereWithoutTenantInput | QcInspectionItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcInspectionItemScalarWhereInput | QcInspectionItemScalarWhereInput[]
+  }
+
+  export type NcrUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<NcrCreateWithoutTenantInput, NcrUncheckedCreateWithoutTenantInput> | NcrCreateWithoutTenantInput[] | NcrUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: NcrCreateOrConnectWithoutTenantInput | NcrCreateOrConnectWithoutTenantInput[]
+    upsert?: NcrUpsertWithWhereUniqueWithoutTenantInput | NcrUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: NcrCreateManyTenantInputEnvelope
+    set?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    disconnect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    delete?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    connect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    update?: NcrUpdateWithWhereUniqueWithoutTenantInput | NcrUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: NcrUpdateManyWithWhereWithoutTenantInput | NcrUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: NcrScalarWhereInput | NcrScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -104553,6 +112503,76 @@ export namespace Prisma {
     update?: WorkOrderOperationUpdateWithWhereUniqueWithoutTenantInput | WorkOrderOperationUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: WorkOrderOperationUpdateManyWithWhereWithoutTenantInput | WorkOrderOperationUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
+  }
+
+  export type QcPlanUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcPlanCreateWithoutTenantInput, QcPlanUncheckedCreateWithoutTenantInput> | QcPlanCreateWithoutTenantInput[] | QcPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanCreateOrConnectWithoutTenantInput | QcPlanCreateOrConnectWithoutTenantInput[]
+    upsert?: QcPlanUpsertWithWhereUniqueWithoutTenantInput | QcPlanUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcPlanCreateManyTenantInputEnvelope
+    set?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    disconnect?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    delete?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    connect?: QcPlanWhereUniqueInput | QcPlanWhereUniqueInput[]
+    update?: QcPlanUpdateWithWhereUniqueWithoutTenantInput | QcPlanUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcPlanUpdateManyWithWhereWithoutTenantInput | QcPlanUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcPlanScalarWhereInput | QcPlanScalarWhereInput[]
+  }
+
+  export type QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcPlanItemCreateWithoutTenantInput, QcPlanItemUncheckedCreateWithoutTenantInput> | QcPlanItemCreateWithoutTenantInput[] | QcPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutTenantInput | QcPlanItemCreateOrConnectWithoutTenantInput[]
+    upsert?: QcPlanItemUpsertWithWhereUniqueWithoutTenantInput | QcPlanItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcPlanItemCreateManyTenantInputEnvelope
+    set?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    disconnect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    delete?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    update?: QcPlanItemUpdateWithWhereUniqueWithoutTenantInput | QcPlanItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcPlanItemUpdateManyWithWhereWithoutTenantInput | QcPlanItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcPlanItemScalarWhereInput | QcPlanItemScalarWhereInput[]
+  }
+
+  export type QcInspectionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcInspectionCreateWithoutTenantInput, QcInspectionUncheckedCreateWithoutTenantInput> | QcInspectionCreateWithoutTenantInput[] | QcInspectionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionCreateOrConnectWithoutTenantInput | QcInspectionCreateOrConnectWithoutTenantInput[]
+    upsert?: QcInspectionUpsertWithWhereUniqueWithoutTenantInput | QcInspectionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcInspectionCreateManyTenantInputEnvelope
+    set?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    disconnect?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    delete?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    connect?: QcInspectionWhereUniqueInput | QcInspectionWhereUniqueInput[]
+    update?: QcInspectionUpdateWithWhereUniqueWithoutTenantInput | QcInspectionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcInspectionUpdateManyWithWhereWithoutTenantInput | QcInspectionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcInspectionScalarWhereInput | QcInspectionScalarWhereInput[]
+  }
+
+  export type QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QcInspectionItemCreateWithoutTenantInput, QcInspectionItemUncheckedCreateWithoutTenantInput> | QcInspectionItemCreateWithoutTenantInput[] | QcInspectionItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutTenantInput | QcInspectionItemCreateOrConnectWithoutTenantInput[]
+    upsert?: QcInspectionItemUpsertWithWhereUniqueWithoutTenantInput | QcInspectionItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QcInspectionItemCreateManyTenantInputEnvelope
+    set?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    disconnect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    delete?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    update?: QcInspectionItemUpdateWithWhereUniqueWithoutTenantInput | QcInspectionItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QcInspectionItemUpdateManyWithWhereWithoutTenantInput | QcInspectionItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QcInspectionItemScalarWhereInput | QcInspectionItemScalarWhereInput[]
+  }
+
+  export type NcrUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<NcrCreateWithoutTenantInput, NcrUncheckedCreateWithoutTenantInput> | NcrCreateWithoutTenantInput[] | NcrUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: NcrCreateOrConnectWithoutTenantInput | NcrCreateOrConnectWithoutTenantInput[]
+    upsert?: NcrUpsertWithWhereUniqueWithoutTenantInput | NcrUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: NcrCreateManyTenantInputEnvelope
+    set?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    disconnect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    delete?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    connect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+    update?: NcrUpdateWithWhereUniqueWithoutTenantInput | NcrUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: NcrUpdateManyWithWhereWithoutTenantInput | NcrUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: NcrScalarWhereInput | NcrScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -107069,6 +115089,204 @@ export namespace Prisma {
     update?: XOR<XOR<WorkOrderUpdateToOneWithWhereWithoutOperationsInput, WorkOrderUpdateWithoutOperationsInput>, WorkOrderUncheckedUpdateWithoutOperationsInput>
   }
 
+  export type TenantCreateNestedOneWithoutQcPlansInput = {
+    create?: XOR<TenantCreateWithoutQcPlansInput, TenantUncheckedCreateWithoutQcPlansInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcPlansInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type QcPlanItemCreateNestedManyWithoutPlanInput = {
+    create?: XOR<QcPlanItemCreateWithoutPlanInput, QcPlanItemUncheckedCreateWithoutPlanInput> | QcPlanItemCreateWithoutPlanInput[] | QcPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutPlanInput | QcPlanItemCreateOrConnectWithoutPlanInput[]
+    createMany?: QcPlanItemCreateManyPlanInputEnvelope
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+  }
+
+  export type QcPlanItemUncheckedCreateNestedManyWithoutPlanInput = {
+    create?: XOR<QcPlanItemCreateWithoutPlanInput, QcPlanItemUncheckedCreateWithoutPlanInput> | QcPlanItemCreateWithoutPlanInput[] | QcPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutPlanInput | QcPlanItemCreateOrConnectWithoutPlanInput[]
+    createMany?: QcPlanItemCreateManyPlanInputEnvelope
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutQcPlansNestedInput = {
+    create?: XOR<TenantCreateWithoutQcPlansInput, TenantUncheckedCreateWithoutQcPlansInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcPlansInput
+    upsert?: TenantUpsertWithoutQcPlansInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutQcPlansInput, TenantUpdateWithoutQcPlansInput>, TenantUncheckedUpdateWithoutQcPlansInput>
+  }
+
+  export type QcPlanItemUpdateManyWithoutPlanNestedInput = {
+    create?: XOR<QcPlanItemCreateWithoutPlanInput, QcPlanItemUncheckedCreateWithoutPlanInput> | QcPlanItemCreateWithoutPlanInput[] | QcPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutPlanInput | QcPlanItemCreateOrConnectWithoutPlanInput[]
+    upsert?: QcPlanItemUpsertWithWhereUniqueWithoutPlanInput | QcPlanItemUpsertWithWhereUniqueWithoutPlanInput[]
+    createMany?: QcPlanItemCreateManyPlanInputEnvelope
+    set?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    disconnect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    delete?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    update?: QcPlanItemUpdateWithWhereUniqueWithoutPlanInput | QcPlanItemUpdateWithWhereUniqueWithoutPlanInput[]
+    updateMany?: QcPlanItemUpdateManyWithWhereWithoutPlanInput | QcPlanItemUpdateManyWithWhereWithoutPlanInput[]
+    deleteMany?: QcPlanItemScalarWhereInput | QcPlanItemScalarWhereInput[]
+  }
+
+  export type QcPlanItemUncheckedUpdateManyWithoutPlanNestedInput = {
+    create?: XOR<QcPlanItemCreateWithoutPlanInput, QcPlanItemUncheckedCreateWithoutPlanInput> | QcPlanItemCreateWithoutPlanInput[] | QcPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: QcPlanItemCreateOrConnectWithoutPlanInput | QcPlanItemCreateOrConnectWithoutPlanInput[]
+    upsert?: QcPlanItemUpsertWithWhereUniqueWithoutPlanInput | QcPlanItemUpsertWithWhereUniqueWithoutPlanInput[]
+    createMany?: QcPlanItemCreateManyPlanInputEnvelope
+    set?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    disconnect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    delete?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    connect?: QcPlanItemWhereUniqueInput | QcPlanItemWhereUniqueInput[]
+    update?: QcPlanItemUpdateWithWhereUniqueWithoutPlanInput | QcPlanItemUpdateWithWhereUniqueWithoutPlanInput[]
+    updateMany?: QcPlanItemUpdateManyWithWhereWithoutPlanInput | QcPlanItemUpdateManyWithWhereWithoutPlanInput[]
+    deleteMany?: QcPlanItemScalarWhereInput | QcPlanItemScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutQcPlanItemsInput = {
+    create?: XOR<TenantCreateWithoutQcPlanItemsInput, TenantUncheckedCreateWithoutQcPlanItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcPlanItemsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type QcPlanCreateNestedOneWithoutItemsInput = {
+    create?: XOR<QcPlanCreateWithoutItemsInput, QcPlanUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: QcPlanCreateOrConnectWithoutItemsInput
+    connect?: QcPlanWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutQcPlanItemsNestedInput = {
+    create?: XOR<TenantCreateWithoutQcPlanItemsInput, TenantUncheckedCreateWithoutQcPlanItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcPlanItemsInput
+    upsert?: TenantUpsertWithoutQcPlanItemsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutQcPlanItemsInput, TenantUpdateWithoutQcPlanItemsInput>, TenantUncheckedUpdateWithoutQcPlanItemsInput>
+  }
+
+  export type QcPlanUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<QcPlanCreateWithoutItemsInput, QcPlanUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: QcPlanCreateOrConnectWithoutItemsInput
+    upsert?: QcPlanUpsertWithoutItemsInput
+    connect?: QcPlanWhereUniqueInput
+    update?: XOR<XOR<QcPlanUpdateToOneWithWhereWithoutItemsInput, QcPlanUpdateWithoutItemsInput>, QcPlanUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutQcInspectionsInput = {
+    create?: XOR<TenantCreateWithoutQcInspectionsInput, TenantUncheckedCreateWithoutQcInspectionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcInspectionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type QcInspectionItemCreateNestedManyWithoutInspectionInput = {
+    create?: XOR<QcInspectionItemCreateWithoutInspectionInput, QcInspectionItemUncheckedCreateWithoutInspectionInput> | QcInspectionItemCreateWithoutInspectionInput[] | QcInspectionItemUncheckedCreateWithoutInspectionInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutInspectionInput | QcInspectionItemCreateOrConnectWithoutInspectionInput[]
+    createMany?: QcInspectionItemCreateManyInspectionInputEnvelope
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+  }
+
+  export type QcInspectionItemUncheckedCreateNestedManyWithoutInspectionInput = {
+    create?: XOR<QcInspectionItemCreateWithoutInspectionInput, QcInspectionItemUncheckedCreateWithoutInspectionInput> | QcInspectionItemCreateWithoutInspectionInput[] | QcInspectionItemUncheckedCreateWithoutInspectionInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutInspectionInput | QcInspectionItemCreateOrConnectWithoutInspectionInput[]
+    createMany?: QcInspectionItemCreateManyInspectionInputEnvelope
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+  }
+
+  export type EnumQcInspectionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.QcInspectionStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutQcInspectionsNestedInput = {
+    create?: XOR<TenantCreateWithoutQcInspectionsInput, TenantUncheckedCreateWithoutQcInspectionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcInspectionsInput
+    upsert?: TenantUpsertWithoutQcInspectionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutQcInspectionsInput, TenantUpdateWithoutQcInspectionsInput>, TenantUncheckedUpdateWithoutQcInspectionsInput>
+  }
+
+  export type QcInspectionItemUpdateManyWithoutInspectionNestedInput = {
+    create?: XOR<QcInspectionItemCreateWithoutInspectionInput, QcInspectionItemUncheckedCreateWithoutInspectionInput> | QcInspectionItemCreateWithoutInspectionInput[] | QcInspectionItemUncheckedCreateWithoutInspectionInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutInspectionInput | QcInspectionItemCreateOrConnectWithoutInspectionInput[]
+    upsert?: QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput | QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput[]
+    createMany?: QcInspectionItemCreateManyInspectionInputEnvelope
+    set?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    disconnect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    delete?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    update?: QcInspectionItemUpdateWithWhereUniqueWithoutInspectionInput | QcInspectionItemUpdateWithWhereUniqueWithoutInspectionInput[]
+    updateMany?: QcInspectionItemUpdateManyWithWhereWithoutInspectionInput | QcInspectionItemUpdateManyWithWhereWithoutInspectionInput[]
+    deleteMany?: QcInspectionItemScalarWhereInput | QcInspectionItemScalarWhereInput[]
+  }
+
+  export type QcInspectionItemUncheckedUpdateManyWithoutInspectionNestedInput = {
+    create?: XOR<QcInspectionItemCreateWithoutInspectionInput, QcInspectionItemUncheckedCreateWithoutInspectionInput> | QcInspectionItemCreateWithoutInspectionInput[] | QcInspectionItemUncheckedCreateWithoutInspectionInput[]
+    connectOrCreate?: QcInspectionItemCreateOrConnectWithoutInspectionInput | QcInspectionItemCreateOrConnectWithoutInspectionInput[]
+    upsert?: QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput | QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput[]
+    createMany?: QcInspectionItemCreateManyInspectionInputEnvelope
+    set?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    disconnect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    delete?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    connect?: QcInspectionItemWhereUniqueInput | QcInspectionItemWhereUniqueInput[]
+    update?: QcInspectionItemUpdateWithWhereUniqueWithoutInspectionInput | QcInspectionItemUpdateWithWhereUniqueWithoutInspectionInput[]
+    updateMany?: QcInspectionItemUpdateManyWithWhereWithoutInspectionInput | QcInspectionItemUpdateManyWithWhereWithoutInspectionInput[]
+    deleteMany?: QcInspectionItemScalarWhereInput | QcInspectionItemScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutQcInspectionItemsInput = {
+    create?: XOR<TenantCreateWithoutQcInspectionItemsInput, TenantUncheckedCreateWithoutQcInspectionItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcInspectionItemsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type QcInspectionCreateNestedOneWithoutItemsInput = {
+    create?: XOR<QcInspectionCreateWithoutItemsInput, QcInspectionUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: QcInspectionCreateOrConnectWithoutItemsInput
+    connect?: QcInspectionWhereUniqueInput
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
+  export type TenantUpdateOneRequiredWithoutQcInspectionItemsNestedInput = {
+    create?: XOR<TenantCreateWithoutQcInspectionItemsInput, TenantUncheckedCreateWithoutQcInspectionItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQcInspectionItemsInput
+    upsert?: TenantUpsertWithoutQcInspectionItemsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutQcInspectionItemsInput, TenantUpdateWithoutQcInspectionItemsInput>, TenantUncheckedUpdateWithoutQcInspectionItemsInput>
+  }
+
+  export type QcInspectionUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<QcInspectionCreateWithoutItemsInput, QcInspectionUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: QcInspectionCreateOrConnectWithoutItemsInput
+    upsert?: QcInspectionUpsertWithoutItemsInput
+    connect?: QcInspectionWhereUniqueInput
+    update?: XOR<XOR<QcInspectionUpdateToOneWithWhereWithoutItemsInput, QcInspectionUpdateWithoutItemsInput>, QcInspectionUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutNcrsInput = {
+    create?: XOR<TenantCreateWithoutNcrsInput, TenantUncheckedCreateWithoutNcrsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutNcrsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumNcrSeverityFieldUpdateOperationsInput = {
+    set?: $Enums.NcrSeverity
+  }
+
+  export type EnumNcrStatusFieldUpdateOperationsInput = {
+    set?: $Enums.NcrStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutNcrsNestedInput = {
+    create?: XOR<TenantCreateWithoutNcrsInput, TenantUncheckedCreateWithoutNcrsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutNcrsInput
+    upsert?: TenantUpsertWithoutNcrsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutNcrsInput, TenantUpdateWithoutNcrsInput>, TenantUncheckedUpdateWithoutNcrsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -108013,6 +116231,70 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumWoOperationStatusFilter<$PrismaModel>
     _max?: NestedEnumWoOperationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQcInspectionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QcInspectionStatus | EnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQcInspectionStatusFilter<$PrismaModel> | $Enums.QcInspectionStatus
+  }
+
+  export type NestedEnumQcInspectionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QcInspectionStatus | EnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QcInspectionStatus[] | ListEnumQcInspectionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQcInspectionStatusWithAggregatesFilter<$PrismaModel> | $Enums.QcInspectionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQcInspectionStatusFilter<$PrismaModel>
+    _max?: NestedEnumQcInspectionStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNcrSeverityFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrSeverity | EnumNcrSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrSeverityFilter<$PrismaModel> | $Enums.NcrSeverity
+  }
+
+  export type NestedEnumNcrStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrStatus | EnumNcrStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrStatusFilter<$PrismaModel> | $Enums.NcrStatus
+  }
+
+  export type NestedEnumNcrSeverityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrSeverity | EnumNcrSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrSeverity[] | ListEnumNcrSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrSeverityWithAggregatesFilter<$PrismaModel> | $Enums.NcrSeverity
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNcrSeverityFilter<$PrismaModel>
+    _max?: NestedEnumNcrSeverityFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNcrStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NcrStatus | EnumNcrStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NcrStatus[] | ListEnumNcrStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNcrStatusWithAggregatesFilter<$PrismaModel> | $Enums.NcrStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNcrStatusFilter<$PrismaModel>
+    _max?: NestedEnumNcrStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -109829,6 +118111,174 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type QcPlanCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QcPlanItemCreateNestedManyWithoutPlanInput
+  }
+
+  export type QcPlanUncheckedCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QcPlanItemUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type QcPlanCreateOrConnectWithoutTenantInput = {
+    where: QcPlanWhereUniqueInput
+    create: XOR<QcPlanCreateWithoutTenantInput, QcPlanUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcPlanCreateManyTenantInputEnvelope = {
+    data: QcPlanCreateManyTenantInput | QcPlanCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QcPlanItemCreateWithoutTenantInput = {
+    id?: string
+    seq: number
+    name: string
+    requirement: string
+    plan: QcPlanCreateNestedOneWithoutItemsInput
+  }
+
+  export type QcPlanItemUncheckedCreateWithoutTenantInput = {
+    id?: string
+    planId: string
+    seq: number
+    name: string
+    requirement: string
+  }
+
+  export type QcPlanItemCreateOrConnectWithoutTenantInput = {
+    where: QcPlanItemWhereUniqueInput
+    create: XOR<QcPlanItemCreateWithoutTenantInput, QcPlanItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcPlanItemCreateManyTenantInputEnvelope = {
+    data: QcPlanItemCreateManyTenantInput | QcPlanItemCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QcInspectionCreateWithoutTenantInput = {
+    id?: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QcInspectionItemCreateNestedManyWithoutInspectionInput
+  }
+
+  export type QcInspectionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QcInspectionItemUncheckedCreateNestedManyWithoutInspectionInput
+  }
+
+  export type QcInspectionCreateOrConnectWithoutTenantInput = {
+    where: QcInspectionWhereUniqueInput
+    create: XOR<QcInspectionCreateWithoutTenantInput, QcInspectionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcInspectionCreateManyTenantInputEnvelope = {
+    data: QcInspectionCreateManyTenantInput | QcInspectionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QcInspectionItemCreateWithoutTenantInput = {
+    id?: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+    inspection: QcInspectionCreateNestedOneWithoutItemsInput
+  }
+
+  export type QcInspectionItemUncheckedCreateWithoutTenantInput = {
+    id?: string
+    inspectionId: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+  }
+
+  export type QcInspectionItemCreateOrConnectWithoutTenantInput = {
+    where: QcInspectionItemWhereUniqueInput
+    create: XOR<QcInspectionItemCreateWithoutTenantInput, QcInspectionItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcInspectionItemCreateManyTenantInputEnvelope = {
+    data: QcInspectionItemCreateManyTenantInput | QcInspectionItemCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NcrCreateWithoutTenantInput = {
+    id?: string
+    ncrNumber: string
+    workOrderId?: string | null
+    skuId: string
+    description: string
+    severity?: $Enums.NcrSeverity
+    status?: $Enums.NcrStatus
+    resolution?: string | null
+    resolvedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NcrUncheckedCreateWithoutTenantInput = {
+    id?: string
+    ncrNumber: string
+    workOrderId?: string | null
+    skuId: string
+    description: string
+    severity?: $Enums.NcrSeverity
+    status?: $Enums.NcrStatus
+    resolution?: string | null
+    resolvedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NcrCreateOrConnectWithoutTenantInput = {
+    where: NcrWhereUniqueInput
+    create: XOR<NcrCreateWithoutTenantInput, NcrUncheckedCreateWithoutTenantInput>
+  }
+
+  export type NcrCreateManyTenantInputEnvelope = {
+    data: NcrCreateManyTenantInput | NcrCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -111536,6 +119986,163 @@ export namespace Prisma {
     completedAt?: DateTimeNullableFilter<"WorkOrderOperation"> | Date | string | null
   }
 
+  export type QcPlanUpsertWithWhereUniqueWithoutTenantInput = {
+    where: QcPlanWhereUniqueInput
+    update: XOR<QcPlanUpdateWithoutTenantInput, QcPlanUncheckedUpdateWithoutTenantInput>
+    create: XOR<QcPlanCreateWithoutTenantInput, QcPlanUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcPlanUpdateWithWhereUniqueWithoutTenantInput = {
+    where: QcPlanWhereUniqueInput
+    data: XOR<QcPlanUpdateWithoutTenantInput, QcPlanUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type QcPlanUpdateManyWithWhereWithoutTenantInput = {
+    where: QcPlanScalarWhereInput
+    data: XOR<QcPlanUpdateManyMutationInput, QcPlanUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type QcPlanScalarWhereInput = {
+    AND?: QcPlanScalarWhereInput | QcPlanScalarWhereInput[]
+    OR?: QcPlanScalarWhereInput[]
+    NOT?: QcPlanScalarWhereInput | QcPlanScalarWhereInput[]
+    id?: UuidFilter<"QcPlan"> | string
+    tenantId?: UuidFilter<"QcPlan"> | string
+    skuId?: UuidFilter<"QcPlan"> | string
+    name?: StringFilter<"QcPlan"> | string
+    active?: BoolFilter<"QcPlan"> | boolean
+    createdBy?: StringNullableFilter<"QcPlan"> | string | null
+    createdAt?: DateTimeFilter<"QcPlan"> | Date | string
+    updatedAt?: DateTimeFilter<"QcPlan"> | Date | string
+  }
+
+  export type QcPlanItemUpsertWithWhereUniqueWithoutTenantInput = {
+    where: QcPlanItemWhereUniqueInput
+    update: XOR<QcPlanItemUpdateWithoutTenantInput, QcPlanItemUncheckedUpdateWithoutTenantInput>
+    create: XOR<QcPlanItemCreateWithoutTenantInput, QcPlanItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcPlanItemUpdateWithWhereUniqueWithoutTenantInput = {
+    where: QcPlanItemWhereUniqueInput
+    data: XOR<QcPlanItemUpdateWithoutTenantInput, QcPlanItemUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type QcPlanItemUpdateManyWithWhereWithoutTenantInput = {
+    where: QcPlanItemScalarWhereInput
+    data: XOR<QcPlanItemUpdateManyMutationInput, QcPlanItemUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type QcPlanItemScalarWhereInput = {
+    AND?: QcPlanItemScalarWhereInput | QcPlanItemScalarWhereInput[]
+    OR?: QcPlanItemScalarWhereInput[]
+    NOT?: QcPlanItemScalarWhereInput | QcPlanItemScalarWhereInput[]
+    id?: UuidFilter<"QcPlanItem"> | string
+    tenantId?: UuidFilter<"QcPlanItem"> | string
+    planId?: UuidFilter<"QcPlanItem"> | string
+    seq?: IntFilter<"QcPlanItem"> | number
+    name?: StringFilter<"QcPlanItem"> | string
+    requirement?: StringFilter<"QcPlanItem"> | string
+  }
+
+  export type QcInspectionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: QcInspectionWhereUniqueInput
+    update: XOR<QcInspectionUpdateWithoutTenantInput, QcInspectionUncheckedUpdateWithoutTenantInput>
+    create: XOR<QcInspectionCreateWithoutTenantInput, QcInspectionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcInspectionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: QcInspectionWhereUniqueInput
+    data: XOR<QcInspectionUpdateWithoutTenantInput, QcInspectionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type QcInspectionUpdateManyWithWhereWithoutTenantInput = {
+    where: QcInspectionScalarWhereInput
+    data: XOR<QcInspectionUpdateManyMutationInput, QcInspectionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type QcInspectionScalarWhereInput = {
+    AND?: QcInspectionScalarWhereInput | QcInspectionScalarWhereInput[]
+    OR?: QcInspectionScalarWhereInput[]
+    NOT?: QcInspectionScalarWhereInput | QcInspectionScalarWhereInput[]
+    id?: UuidFilter<"QcInspection"> | string
+    tenantId?: UuidFilter<"QcInspection"> | string
+    inspectionNumber?: StringFilter<"QcInspection"> | string
+    workOrderId?: UuidFilter<"QcInspection"> | string
+    skuId?: UuidFilter<"QcInspection"> | string
+    planId?: UuidFilter<"QcInspection"> | string
+    status?: EnumQcInspectionStatusFilter<"QcInspection"> | $Enums.QcInspectionStatus
+    decidedBy?: StringNullableFilter<"QcInspection"> | string | null
+    notes?: StringNullableFilter<"QcInspection"> | string | null
+    createdBy?: StringNullableFilter<"QcInspection"> | string | null
+    createdAt?: DateTimeFilter<"QcInspection"> | Date | string
+    updatedAt?: DateTimeFilter<"QcInspection"> | Date | string
+  }
+
+  export type QcInspectionItemUpsertWithWhereUniqueWithoutTenantInput = {
+    where: QcInspectionItemWhereUniqueInput
+    update: XOR<QcInspectionItemUpdateWithoutTenantInput, QcInspectionItemUncheckedUpdateWithoutTenantInput>
+    create: XOR<QcInspectionItemCreateWithoutTenantInput, QcInspectionItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QcInspectionItemUpdateWithWhereUniqueWithoutTenantInput = {
+    where: QcInspectionItemWhereUniqueInput
+    data: XOR<QcInspectionItemUpdateWithoutTenantInput, QcInspectionItemUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type QcInspectionItemUpdateManyWithWhereWithoutTenantInput = {
+    where: QcInspectionItemScalarWhereInput
+    data: XOR<QcInspectionItemUpdateManyMutationInput, QcInspectionItemUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type QcInspectionItemScalarWhereInput = {
+    AND?: QcInspectionItemScalarWhereInput | QcInspectionItemScalarWhereInput[]
+    OR?: QcInspectionItemScalarWhereInput[]
+    NOT?: QcInspectionItemScalarWhereInput | QcInspectionItemScalarWhereInput[]
+    id?: UuidFilter<"QcInspectionItem"> | string
+    tenantId?: UuidFilter<"QcInspectionItem"> | string
+    inspectionId?: UuidFilter<"QcInspectionItem"> | string
+    seq?: IntFilter<"QcInspectionItem"> | number
+    name?: StringFilter<"QcInspectionItem"> | string
+    requirement?: StringFilter<"QcInspectionItem"> | string
+    passed?: BoolNullableFilter<"QcInspectionItem"> | boolean | null
+    note?: StringNullableFilter<"QcInspectionItem"> | string | null
+  }
+
+  export type NcrUpsertWithWhereUniqueWithoutTenantInput = {
+    where: NcrWhereUniqueInput
+    update: XOR<NcrUpdateWithoutTenantInput, NcrUncheckedUpdateWithoutTenantInput>
+    create: XOR<NcrCreateWithoutTenantInput, NcrUncheckedCreateWithoutTenantInput>
+  }
+
+  export type NcrUpdateWithWhereUniqueWithoutTenantInput = {
+    where: NcrWhereUniqueInput
+    data: XOR<NcrUpdateWithoutTenantInput, NcrUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type NcrUpdateManyWithWhereWithoutTenantInput = {
+    where: NcrScalarWhereInput
+    data: XOR<NcrUpdateManyMutationInput, NcrUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type NcrScalarWhereInput = {
+    AND?: NcrScalarWhereInput | NcrScalarWhereInput[]
+    OR?: NcrScalarWhereInput[]
+    NOT?: NcrScalarWhereInput | NcrScalarWhereInput[]
+    id?: UuidFilter<"Ncr"> | string
+    tenantId?: UuidFilter<"Ncr"> | string
+    ncrNumber?: StringFilter<"Ncr"> | string
+    workOrderId?: UuidNullableFilter<"Ncr"> | string | null
+    skuId?: UuidFilter<"Ncr"> | string
+    description?: StringFilter<"Ncr"> | string
+    severity?: EnumNcrSeverityFilter<"Ncr"> | $Enums.NcrSeverity
+    status?: EnumNcrStatusFilter<"Ncr"> | $Enums.NcrStatus
+    resolution?: StringNullableFilter<"Ncr"> | string | null
+    resolvedBy?: StringNullableFilter<"Ncr"> | string | null
+    createdBy?: StringNullableFilter<"Ncr"> | string | null
+    createdAt?: DateTimeFilter<"Ncr"> | Date | string
+    updatedAt?: DateTimeFilter<"Ncr"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -111598,6 +120205,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -111662,6 +120274,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -111742,6 +120359,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -111806,6 +120428,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -111870,6 +120497,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -111934,6 +120566,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -112048,6 +120685,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -112112,6 +120754,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -112192,6 +120839,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -112256,6 +120908,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -112474,6 +121131,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -112538,6 +121200,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -112714,6 +121381,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -112778,6 +121450,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -112887,6 +121564,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -112951,6 +121633,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -113050,6 +121737,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -113114,6 +121806,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -113223,6 +121920,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -113287,6 +121989,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -113386,6 +122093,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -113450,6 +122162,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -113558,6 +122275,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -113622,6 +122344,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -113702,6 +122429,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -113766,6 +122498,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -113896,6 +122633,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -113960,6 +122702,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -114122,6 +122869,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -114186,6 +122938,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -114318,6 +123075,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -114382,6 +123144,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -114510,6 +123277,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -114574,6 +123346,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -114654,6 +123431,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -114718,6 +123500,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -114782,6 +123569,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -114846,6 +123638,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -114926,6 +123723,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -114990,6 +123792,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -115054,6 +123861,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -115118,6 +123930,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -115198,6 +124015,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -115262,6 +124084,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -115326,6 +124153,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -115390,6 +124222,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -115470,6 +124307,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -115534,6 +124376,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -115598,6 +124445,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -115662,6 +124514,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -115742,6 +124599,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -115806,6 +124668,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -115870,6 +124737,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -115934,6 +124806,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -116014,6 +124891,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -116078,6 +124960,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -116142,6 +125029,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -116206,6 +125098,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -116286,6 +125183,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -116350,6 +125252,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -116414,6 +125321,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -116478,6 +125390,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -116620,6 +125537,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -116684,6 +125606,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -117006,6 +125933,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -117070,6 +126002,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -117178,6 +126115,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -117242,6 +126184,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -117379,6 +126326,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -117443,6 +126395,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -117523,6 +126480,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -117587,6 +126549,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -117651,6 +126618,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -117715,6 +126687,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -117795,6 +126772,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -117859,6 +126841,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -117923,6 +126910,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -117987,6 +126979,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -118093,6 +127090,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -118157,6 +127159,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -118293,6 +127300,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -118357,6 +127369,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -118538,6 +127555,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -118602,6 +127624,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -118827,6 +127854,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -118891,6 +127923,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -119007,6 +128044,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -119071,6 +128113,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -119470,6 +128517,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -119534,6 +128586,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -119636,6 +128693,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -119700,6 +128762,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -119834,6 +128901,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -119898,6 +128970,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -119978,6 +129055,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -120042,6 +129124,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -120106,6 +129193,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -120170,6 +129262,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -120250,6 +129347,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -120314,6 +129416,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -120378,6 +129485,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -120442,6 +129554,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -120522,6 +129639,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -120586,6 +129708,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -120650,6 +129777,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -120714,6 +129846,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -120794,6 +129931,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -120858,6 +130000,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -120922,6 +130069,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -120986,6 +130138,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -121092,6 +130249,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -121156,6 +130318,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -121236,6 +130403,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -121300,6 +130472,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -121413,6 +130590,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -121477,6 +130659,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -121580,6 +130767,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -121644,6 +130836,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -121724,6 +130921,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -121788,6 +130990,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -121852,6 +131059,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -121916,6 +131128,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -121996,6 +131213,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -122060,6 +131282,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -122124,6 +131351,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -122188,6 +131420,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -122268,6 +131505,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -122332,6 +131574,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -122396,6 +131643,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -122460,6 +131712,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -122540,6 +131797,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -122604,6 +131866,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -122668,6 +131935,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -122732,6 +132004,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -122838,6 +132115,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -122902,6 +132184,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -122982,6 +132269,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -123046,6 +132338,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -123157,6 +132454,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -123221,6 +132523,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -123322,6 +132629,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -123386,6 +132698,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -123500,6 +132817,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -123564,6 +132886,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -123644,6 +132971,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -123708,6 +133040,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -123835,6 +133172,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -123899,6 +133241,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -124016,6 +133363,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -124080,6 +133432,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -124192,6 +133549,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -124256,6 +133618,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -124336,6 +133703,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -124400,6 +133772,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -124517,6 +133894,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -124581,6 +133963,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -124688,6 +134075,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -124752,6 +134144,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -124832,6 +134229,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -124896,6 +134298,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -124960,6 +134367,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -125024,6 +134436,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -125104,6 +134521,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -125168,6 +134590,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -125232,6 +134659,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -125296,6 +134728,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -125406,6 +134843,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -125470,6 +134912,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -125550,6 +134997,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -125614,6 +135066,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -125727,6 +135184,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -125791,6 +135253,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -125894,6 +135361,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -125958,6 +135430,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -126070,6 +135547,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -126134,6 +135616,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -126214,6 +135701,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -126278,6 +135770,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -126395,6 +135892,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -126459,6 +135961,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -126566,6 +136073,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -126630,6 +136142,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -126740,6 +136257,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -126804,6 +136326,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -126884,6 +136411,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -126948,6 +136480,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -127059,6 +136596,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -127123,6 +136665,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -127224,6 +136771,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -127288,6 +136840,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -127400,6 +136957,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -127464,6 +137026,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -127544,6 +137111,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -127608,6 +137180,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -127715,6 +137292,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -127779,6 +137361,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -127876,6 +137463,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -127940,6 +137532,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -128020,6 +137617,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -128084,6 +137686,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -128148,6 +137755,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -128212,6 +137824,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -128292,6 +137909,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -128356,6 +137978,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -128420,6 +138047,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -128484,6 +138116,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -128594,6 +138231,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -128658,6 +138300,11 @@ export namespace Prisma {
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -128738,6 +138385,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -128802,6 +138454,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -128907,6 +138564,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -128971,6 +138633,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -129066,6 +138733,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -129130,6 +138802,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -129242,6 +138919,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -129306,6 +138988,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -129386,6 +139073,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -129450,6 +139142,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -129573,6 +139270,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -129637,6 +139339,11 @@ export namespace Prisma {
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -129686,6 +139393,1690 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutQcPlansInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutQcPlansInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutQcPlansInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutQcPlansInput, TenantUncheckedCreateWithoutQcPlansInput>
+  }
+
+  export type QcPlanItemCreateWithoutPlanInput = {
+    id?: string
+    seq: number
+    name: string
+    requirement: string
+    tenant: TenantCreateNestedOneWithoutQcPlanItemsInput
+  }
+
+  export type QcPlanItemUncheckedCreateWithoutPlanInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    requirement: string
+  }
+
+  export type QcPlanItemCreateOrConnectWithoutPlanInput = {
+    where: QcPlanItemWhereUniqueInput
+    create: XOR<QcPlanItemCreateWithoutPlanInput, QcPlanItemUncheckedCreateWithoutPlanInput>
+  }
+
+  export type QcPlanItemCreateManyPlanInputEnvelope = {
+    data: QcPlanItemCreateManyPlanInput | QcPlanItemCreateManyPlanInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutQcPlansInput = {
+    update: XOR<TenantUpdateWithoutQcPlansInput, TenantUncheckedUpdateWithoutQcPlansInput>
+    create: XOR<TenantCreateWithoutQcPlansInput, TenantUncheckedCreateWithoutQcPlansInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutQcPlansInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutQcPlansInput, TenantUncheckedUpdateWithoutQcPlansInput>
+  }
+
+  export type TenantUpdateWithoutQcPlansInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutQcPlansInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
+    where: QcPlanItemWhereUniqueInput
+    update: XOR<QcPlanItemUpdateWithoutPlanInput, QcPlanItemUncheckedUpdateWithoutPlanInput>
+    create: XOR<QcPlanItemCreateWithoutPlanInput, QcPlanItemUncheckedCreateWithoutPlanInput>
+  }
+
+  export type QcPlanItemUpdateWithWhereUniqueWithoutPlanInput = {
+    where: QcPlanItemWhereUniqueInput
+    data: XOR<QcPlanItemUpdateWithoutPlanInput, QcPlanItemUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type QcPlanItemUpdateManyWithWhereWithoutPlanInput = {
+    where: QcPlanItemScalarWhereInput
+    data: XOR<QcPlanItemUpdateManyMutationInput, QcPlanItemUncheckedUpdateManyWithoutPlanInput>
+  }
+
+  export type TenantCreateWithoutQcPlanItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutQcPlanItemsInput, TenantUncheckedCreateWithoutQcPlanItemsInput>
+  }
+
+  export type QcPlanCreateWithoutItemsInput = {
+    id?: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutQcPlansInput
+  }
+
+  export type QcPlanUncheckedCreateWithoutItemsInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QcPlanCreateOrConnectWithoutItemsInput = {
+    where: QcPlanWhereUniqueInput
+    create: XOR<QcPlanCreateWithoutItemsInput, QcPlanUncheckedCreateWithoutItemsInput>
+  }
+
+  export type TenantUpsertWithoutQcPlanItemsInput = {
+    update: XOR<TenantUpdateWithoutQcPlanItemsInput, TenantUncheckedUpdateWithoutQcPlanItemsInput>
+    create: XOR<TenantCreateWithoutQcPlanItemsInput, TenantUncheckedCreateWithoutQcPlanItemsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutQcPlanItemsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutQcPlanItemsInput, TenantUncheckedUpdateWithoutQcPlanItemsInput>
+  }
+
+  export type TenantUpdateWithoutQcPlanItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type QcPlanUpsertWithoutItemsInput = {
+    update: XOR<QcPlanUpdateWithoutItemsInput, QcPlanUncheckedUpdateWithoutItemsInput>
+    create: XOR<QcPlanCreateWithoutItemsInput, QcPlanUncheckedCreateWithoutItemsInput>
+    where?: QcPlanWhereInput
+  }
+
+  export type QcPlanUpdateToOneWithWhereWithoutItemsInput = {
+    where?: QcPlanWhereInput
+    data: XOR<QcPlanUpdateWithoutItemsInput, QcPlanUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type QcPlanUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutQcPlansNestedInput
+  }
+
+  export type QcPlanUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutQcInspectionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutQcInspectionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutQcInspectionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutQcInspectionsInput, TenantUncheckedCreateWithoutQcInspectionsInput>
+  }
+
+  export type QcInspectionItemCreateWithoutInspectionInput = {
+    id?: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+    tenant: TenantCreateNestedOneWithoutQcInspectionItemsInput
+  }
+
+  export type QcInspectionItemUncheckedCreateWithoutInspectionInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+  }
+
+  export type QcInspectionItemCreateOrConnectWithoutInspectionInput = {
+    where: QcInspectionItemWhereUniqueInput
+    create: XOR<QcInspectionItemCreateWithoutInspectionInput, QcInspectionItemUncheckedCreateWithoutInspectionInput>
+  }
+
+  export type QcInspectionItemCreateManyInspectionInputEnvelope = {
+    data: QcInspectionItemCreateManyInspectionInput | QcInspectionItemCreateManyInspectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutQcInspectionsInput = {
+    update: XOR<TenantUpdateWithoutQcInspectionsInput, TenantUncheckedUpdateWithoutQcInspectionsInput>
+    create: XOR<TenantCreateWithoutQcInspectionsInput, TenantUncheckedCreateWithoutQcInspectionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutQcInspectionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutQcInspectionsInput, TenantUncheckedUpdateWithoutQcInspectionsInput>
+  }
+
+  export type TenantUpdateWithoutQcInspectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
+    where: QcInspectionItemWhereUniqueInput
+    update: XOR<QcInspectionItemUpdateWithoutInspectionInput, QcInspectionItemUncheckedUpdateWithoutInspectionInput>
+    create: XOR<QcInspectionItemCreateWithoutInspectionInput, QcInspectionItemUncheckedCreateWithoutInspectionInput>
+  }
+
+  export type QcInspectionItemUpdateWithWhereUniqueWithoutInspectionInput = {
+    where: QcInspectionItemWhereUniqueInput
+    data: XOR<QcInspectionItemUpdateWithoutInspectionInput, QcInspectionItemUncheckedUpdateWithoutInspectionInput>
+  }
+
+  export type QcInspectionItemUpdateManyWithWhereWithoutInspectionInput = {
+    where: QcInspectionItemScalarWhereInput
+    data: XOR<QcInspectionItemUpdateManyMutationInput, QcInspectionItemUncheckedUpdateManyWithoutInspectionInput>
+  }
+
+  export type TenantCreateWithoutQcInspectionItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutQcInspectionItemsInput, TenantUncheckedCreateWithoutQcInspectionItemsInput>
+  }
+
+  export type QcInspectionCreateWithoutItemsInput = {
+    id?: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutQcInspectionsInput
+  }
+
+  export type QcInspectionUncheckedCreateWithoutItemsInput = {
+    id?: string
+    tenantId: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QcInspectionCreateOrConnectWithoutItemsInput = {
+    where: QcInspectionWhereUniqueInput
+    create: XOR<QcInspectionCreateWithoutItemsInput, QcInspectionUncheckedCreateWithoutItemsInput>
+  }
+
+  export type TenantUpsertWithoutQcInspectionItemsInput = {
+    update: XOR<TenantUpdateWithoutQcInspectionItemsInput, TenantUncheckedUpdateWithoutQcInspectionItemsInput>
+    create: XOR<TenantCreateWithoutQcInspectionItemsInput, TenantUncheckedCreateWithoutQcInspectionItemsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutQcInspectionItemsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutQcInspectionItemsInput, TenantUncheckedUpdateWithoutQcInspectionItemsInput>
+  }
+
+  export type TenantUpdateWithoutQcInspectionItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type QcInspectionUpsertWithoutItemsInput = {
+    update: XOR<QcInspectionUpdateWithoutItemsInput, QcInspectionUncheckedUpdateWithoutItemsInput>
+    create: XOR<QcInspectionCreateWithoutItemsInput, QcInspectionUncheckedCreateWithoutItemsInput>
+    where?: QcInspectionWhereInput
+  }
+
+  export type QcInspectionUpdateToOneWithWhereWithoutItemsInput = {
+    where?: QcInspectionWhereInput
+    data: XOR<QcInspectionUpdateWithoutItemsInput, QcInspectionUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type QcInspectionUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutQcInspectionsNestedInput
+  }
+
+  export type QcInspectionUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutNcrsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutNcrsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutNcrsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutNcrsInput, TenantUncheckedCreateWithoutNcrsInput>
+  }
+
+  export type TenantUpsertWithoutNcrsInput = {
+    update: XOR<TenantUpdateWithoutNcrsInput, TenantUncheckedUpdateWithoutNcrsInput>
+    create: XOR<TenantCreateWithoutNcrsInput, TenantUncheckedCreateWithoutNcrsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutNcrsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutNcrsInput, TenantUncheckedUpdateWithoutNcrsInput>
+  }
+
+  export type TenantUpdateWithoutNcrsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutNcrsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -130293,6 +141684,63 @@ export namespace Prisma {
     status?: $Enums.WoOperationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+  }
+
+  export type QcPlanCreateManyTenantInput = {
+    id?: string
+    skuId: string
+    name: string
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QcPlanItemCreateManyTenantInput = {
+    id?: string
+    planId: string
+    seq: number
+    name: string
+    requirement: string
+  }
+
+  export type QcInspectionCreateManyTenantInput = {
+    id?: string
+    inspectionNumber: string
+    workOrderId: string
+    skuId: string
+    planId: string
+    status?: $Enums.QcInspectionStatus
+    decidedBy?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QcInspectionItemCreateManyTenantInput = {
+    id?: string
+    inspectionId: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+  }
+
+  export type NcrCreateManyTenantInput = {
+    id?: string
+    ncrNumber: string
+    workOrderId?: string | null
+    skuId: string
+    description: string
+    severity?: $Enums.NcrSeverity
+    status?: $Enums.NcrStatus
+    resolution?: string | null
+    resolvedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -132166,6 +143614,181 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type QcPlanUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QcPlanItemUpdateManyWithoutPlanNestedInput
+  }
+
+  export type QcPlanUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QcPlanItemUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type QcPlanUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QcPlanItemUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    plan?: QcPlanUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type QcPlanItemUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QcPlanItemUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QcInspectionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QcInspectionItemUpdateManyWithoutInspectionNestedInput
+  }
+
+  export type QcInspectionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QcInspectionItemUncheckedUpdateManyWithoutInspectionNestedInput
+  }
+
+  export type QcInspectionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    status?: EnumQcInspectionStatusFieldUpdateOperationsInput | $Enums.QcInspectionStatus
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QcInspectionItemUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    inspection?: QcInspectionUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type QcInspectionItemUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QcInspectionItemUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inspectionId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NcrUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ncrNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    skuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumNcrSeverityFieldUpdateOperationsInput | $Enums.NcrSeverity
+    status?: EnumNcrStatusFieldUpdateOperationsInput | $Enums.NcrStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NcrUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ncrNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    skuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumNcrSeverityFieldUpdateOperationsInput | $Enums.NcrSeverity
+    status?: EnumNcrStatusFieldUpdateOperationsInput | $Enums.NcrStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NcrUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ncrNumber?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    skuId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumNcrSeverityFieldUpdateOperationsInput | $Enums.NcrSeverity
+    status?: EnumNcrStatusFieldUpdateOperationsInput | $Enums.NcrStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -133238,6 +144861,78 @@ export namespace Prisma {
     status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type QcPlanItemCreateManyPlanInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    requirement: string
+  }
+
+  export type QcPlanItemUpdateWithoutPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    tenant?: TenantUpdateOneRequiredWithoutQcPlanItemsNestedInput
+  }
+
+  export type QcPlanItemUncheckedUpdateWithoutPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QcPlanItemUncheckedUpdateManyWithoutPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QcInspectionItemCreateManyInspectionInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    requirement: string
+    passed?: boolean | null
+    note?: string | null
+  }
+
+  export type QcInspectionItemUpdateWithoutInspectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutQcInspectionItemsNestedInput
+  }
+
+  export type QcInspectionItemUncheckedUpdateWithoutInspectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QcInspectionItemUncheckedUpdateManyWithoutInspectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    requirement?: StringFieldUpdateOperationsInput | string
+    passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

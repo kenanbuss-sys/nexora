@@ -887,6 +887,68 @@ exports.Prisma.WorkOrderOperationScalarFieldEnum = {
   completedAt: 'completedAt'
 };
 
+exports.Prisma.QcPlanScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  name: 'name',
+  active: 'active',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QcPlanItemScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  planId: 'planId',
+  seq: 'seq',
+  name: 'name',
+  requirement: 'requirement'
+};
+
+exports.Prisma.QcInspectionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  inspectionNumber: 'inspectionNumber',
+  workOrderId: 'workOrderId',
+  skuId: 'skuId',
+  planId: 'planId',
+  status: 'status',
+  decidedBy: 'decidedBy',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QcInspectionItemScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  inspectionId: 'inspectionId',
+  seq: 'seq',
+  name: 'name',
+  requirement: 'requirement',
+  passed: 'passed',
+  note: 'note'
+};
+
+exports.Prisma.NcrScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  ncrNumber: 'ncrNumber',
+  workOrderId: 'workOrderId',
+  skuId: 'skuId',
+  description: 'description',
+  severity: 'severity',
+  status: 'status',
+  resolution: 'resolution',
+  resolvedBy: 'resolvedBy',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1152,6 +1214,23 @@ exports.WoOperationStatus = exports.$Enums.WoOperationStatus = {
   DONE: 'DONE'
 };
 
+exports.QcInspectionStatus = exports.$Enums.QcInspectionStatus = {
+  PENDING: 'PENDING',
+  PASSED: 'PASSED',
+  FAILED: 'FAILED'
+};
+
+exports.NcrSeverity = exports.$Enums.NcrSeverity = {
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.NcrStatus = exports.$Enums.NcrStatus = {
+  OPEN: 'OPEN',
+  RESOLVED: 'RESOLVED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1218,7 +1297,12 @@ exports.Prisma.ModelName = {
   MrpRun: 'MrpRun',
   MrpSuggestion: 'MrpSuggestion',
   WorkOrder: 'WorkOrder',
-  WorkOrderOperation: 'WorkOrderOperation'
+  WorkOrderOperation: 'WorkOrderOperation',
+  QcPlan: 'QcPlan',
+  QcPlanItem: 'QcPlanItem',
+  QcInspection: 'QcInspection',
+  QcInspectionItem: 'QcInspectionItem',
+  Ncr: 'Ncr'
 };
 
 /**
