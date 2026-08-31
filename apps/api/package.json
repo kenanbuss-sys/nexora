@@ -34,7 +34,8 @@
     "@nexora/domain-dev": "workspace:*",
     "@nexora/domain-ver": "workspace:*",
     "@nexora/domain-crm": "workspace:*",
-    "@nexora/domain-cpq": "workspace:*"
+    "@nexora/domain-cpq": "workspace:*",
+    "@nexora/domain-oms": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

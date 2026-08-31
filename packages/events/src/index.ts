@@ -39,6 +39,13 @@ export const EVENT_TYPES = {
   QUOTE_CREATED: 'quote.created',
   QUOTE_APPROVED: 'quote.approved',
   QUOTE_ACCEPTED: 'quote.accepted',
+  ORDER_CREATED: 'order.created',
+  ORDER_VALIDATED: 'order.validated',
+  ORDER_CONFIRMED: 'order.confirmed',
+  ORDER_HELD: 'order.held',
+  ORDER_RELEASED: 'order.released',
+  ORDER_CANCELLED: 'order.cancelled',
+  ORDER_FULFILLMENT_PLANNED: 'order.fulfillment.planned',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

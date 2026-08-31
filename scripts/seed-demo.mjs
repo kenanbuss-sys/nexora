@@ -111,6 +111,11 @@ const BASELINE = [
   'quote.read',
   'quote.create',
   'quote.approve',
+  'order.read',
+  'order.create',
+  'order.confirm',
+  'order.hold',
+  'order.cancel',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);

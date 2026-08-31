@@ -16,6 +16,7 @@ import { PricingService, QuoteService } from '@nexora/domain-cpq';
 import { CrmService } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
+import { OrderService } from '@nexora/domain-oms';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -51,6 +52,7 @@ import {
   QuotesController,
 } from './cpq/cpq.controller';
 import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
+import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
 import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
 import {
   BarcodesController,
@@ -119,6 +121,7 @@ export const REDIS = 'REDIS';
     CrmActivitiesController,
     PriceListsController,
     QuotesController,
+    OrdersController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -290,6 +293,26 @@ export const REDIS = 'REDIS';
           { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) },
         ),
       inject: [PRISMA, PRICING_SERVICE, CRM_SERVICE, APPROVAL_SERVICE, CATALOG_SERVICE],
+    },
+    {
+      provide: ORDER_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        crm: CrmService,
+        catalog: CatalogService,
+        inventory: InventoryService,
+      ) =>
+        new OrderService(
+          prisma,
+          { getAccountState: (t, a) => crm.getAccountState(t, a) },
+          { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) },
+          {
+            reserveStock: (input, ctx) => inventory.reserveStock(input, ctx),
+            releaseReservation: (id, ctx) => inventory.releaseReservation(id, ctx),
+            postMovement: (input, ctx) => inventory.postMovement(input, ctx),
+          },
+        ),
+      inject: [PRISMA, CRM_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,

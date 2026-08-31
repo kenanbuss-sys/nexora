@@ -68,6 +68,11 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'quote.read',
   'quote.create',
   'quote.approve',
+  'order.read',
+  'order.create',
+  'order.confirm',
+  'order.hold',
+  'order.cancel',
 ];
 
 const createTenantSchema = z.object({
