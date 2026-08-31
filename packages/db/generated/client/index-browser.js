@@ -699,6 +699,70 @@ exports.Prisma.OrderEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SupplierScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  partyId: 'partyId',
+  supplierNumber: 'supplierNumber',
+  status: 'status',
+  leadTimeDays: 'leadTimeDays',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PurchaseRequisitionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  requisitionNumber: 'requisitionNumber',
+  status: 'status',
+  currency: 'currency',
+  total: 'total',
+  note: 'note',
+  approvalId: 'approvalId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PurchaseRequisitionLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  requisitionId: 'requisitionId',
+  skuId: 'skuId',
+  description: 'description',
+  quantity: 'quantity',
+  estUnitPrice: 'estUnitPrice',
+  lineTotal: 'lineTotal'
+};
+
+exports.Prisma.PurchaseOrderScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  poNumber: 'poNumber',
+  supplierId: 'supplierId',
+  warehouseId: 'warehouseId',
+  requisitionId: 'requisitionId',
+  status: 'status',
+  currency: 'currency',
+  total: 'total',
+  expectedAt: 'expectedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PurchaseOrderLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  poId: 'poId',
+  skuId: 'skuId',
+  description: 'description',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  lineTotal: 'lineTotal',
+  receivedQty: 'receivedQty'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -910,6 +974,27 @@ exports.SalesOrderStatus = exports.$Enums.SalesOrderStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.SupplierStatus = exports.$Enums.SupplierStatus = {
+  ACTIVE: 'ACTIVE',
+  BLOCKED: 'BLOCKED'
+};
+
+exports.RequisitionStatus = exports.$Enums.RequisitionStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  CONVERTED: 'CONVERTED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.PurchaseOrderStatus = exports.$Enums.PurchaseOrderStatus = {
+  OPEN: 'OPEN',
+  PARTIALLY_RECEIVED: 'PARTIALLY_RECEIVED',
+  RECEIVED: 'RECEIVED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -961,7 +1046,12 @@ exports.Prisma.ModelName = {
   QuoteLine: 'QuoteLine',
   SalesOrder: 'SalesOrder',
   SalesOrderLine: 'SalesOrderLine',
-  OrderEvent: 'OrderEvent'
+  OrderEvent: 'OrderEvent',
+  Supplier: 'Supplier',
+  PurchaseRequisition: 'PurchaseRequisition',
+  PurchaseRequisitionLine: 'PurchaseRequisitionLine',
+  PurchaseOrder: 'PurchaseOrder',
+  PurchaseOrderLine: 'PurchaseOrderLine'
 };
 
 /**
