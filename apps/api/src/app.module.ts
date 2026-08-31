@@ -19,6 +19,7 @@ import { PartyService } from '@nexora/domain-mdm';
 import { OrderService } from '@nexora/domain-oms';
 import { ProcurementService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
+import { PlanningService } from '@nexora/domain-plan';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -61,6 +62,7 @@ import {
   EngineeringChangesController,
   RoutingsController,
 } from './eng/eng.controller';
+import { PLANNING_SERVICE, PlanningController } from './plan/plan.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -142,6 +144,7 @@ export const REDIS = 'REDIS';
     BomsController,
     RoutingsController,
     EngineeringChangesController,
+    PlanningController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -386,6 +389,11 @@ export const REDIS = 'REDIS';
       useFactory: (prisma: PrismaClient, catalog: CatalogService) =>
         new EngineeringService(prisma, { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) }),
       inject: [PRISMA, CATALOG_SERVICE],
+    },
+    {
+      provide: PLANNING_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PlanningService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: HEALTH_SERVICE,

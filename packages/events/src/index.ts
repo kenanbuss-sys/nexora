@@ -53,6 +53,8 @@ export const EVENT_TYPES = {
   BOM_REVISION_RELEASED: 'bom.revision.released',
   ROUTING_REVISION_RELEASED: 'routing.revision.released',
   ENGINEERING_CHANGE_APPROVED: 'engineering_change.approved',
+  MRP_RUN_COMPLETED: 'mrp.run.completed',
+  PLANNED_ORDER_CREATED: 'planned_order.created',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

@@ -123,6 +123,8 @@ const BASELINE = [
   'bom.read',
   'bom.manage',
   'bom.release',
+  'plan.read',
+  'plan.manage',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);

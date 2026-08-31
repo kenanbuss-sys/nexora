@@ -80,6 +80,8 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'bom.read',
   'bom.manage',
   'bom.release',
+  'plan.read',
+  'plan.manage',
 ];
 
 const createTenantSchema = z.object({
