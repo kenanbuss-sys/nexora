@@ -93,6 +93,8 @@ model Tenant {
   planningPolicies      PlanningPolicy[]
   mrpRuns               MrpRun[]
   mrpSuggestions        MrpSuggestion[]
+  workOrders            WorkOrder[]
+  workOrderOperations   WorkOrderOperation[]
 
   @@map("tenant")
 }
@@ -1537,4 +1539,73 @@ model MrpSuggestion {
 
   @@index([tenantId, runId])
   @@map("mrp_suggestion")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 011 — MES core: work orders, operations, WIP, material issue,
+// good/scrap completion (MES-001/002/006/008/009/010/011).
+// ---------------------------------------------------------------------------
+
+enum WorkOrderStatus {
+  PLANNED
+  RELEASED
+  IN_PROGRESS
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum WoOperationStatus {
+  PENDING
+  RUNNING
+  DONE
+}
+
+/// Work order (MES-001): produces an output SKU against the released
+/// BOM/routing snapshot. Material is issued from the stock ledger at
+/// release (MES-006); completion receipts good quantity back and
+/// records scrap (MES-010/011). Never stores stock truth.
+model WorkOrder {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String          @map("tenant_id") @db.Uuid
+  woNumber      String          @map("wo_number")
+  skuId         String          @map("sku_id") @db.Uuid
+  warehouseId   String          @map("warehouse_id") @db.Uuid
+  bomId         String          @map("bom_id") @db.Uuid
+  routingId     String?         @map("routing_id") @db.Uuid
+  quantity      Decimal         @db.Decimal(18, 6)
+  goodQuantity  Decimal         @default(0) @map("good_quantity") @db.Decimal(18, 6)
+  scrapQuantity Decimal         @default(0) @map("scrap_quantity") @db.Decimal(18, 6)
+  status        WorkOrderStatus @default(PLANNED)
+  startedAt     DateTime?       @map("started_at")
+  completedAt   DateTime?       @map("completed_at")
+  createdBy     String?         @map("created_by")
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+
+  tenant     Tenant               @relation(fields: [tenantId], references: [id])
+  operations WorkOrderOperation[]
+
+  @@unique([tenantId, woNumber])
+  @@index([tenantId, status])
+  @@map("work_order")
+}
+
+/// Operation snapshot copied from the released routing (MES-002/009).
+model WorkOrderOperation {
+  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String            @map("tenant_id") @db.Uuid
+  workOrderId String            @map("work_order_id") @db.Uuid
+  seq         Int
+  name        String
+  workCenter  String            @map("work_center")
+  status      WoOperationStatus @default(PENDING)
+  startedAt   DateTime?         @map("started_at")
+  completedAt DateTime?         @map("completed_at")
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id])
+  workOrder WorkOrder @relation(fields: [workOrderId], references: [id])
+
+  @@unique([tenantId, workOrderId, seq])
+  @@map("work_order_operation")
 }
