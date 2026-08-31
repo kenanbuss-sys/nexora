@@ -80,6 +80,11 @@ model Tenant {
   salesOrders           SalesOrder[]
   salesOrderLines       SalesOrderLine[]
   orderEvents           OrderEvent[]
+  suppliers             Supplier[]
+  purchaseRequisitions  PurchaseRequisition[]
+  purchaseReqLines      PurchaseRequisitionLine[]
+  purchaseOrders        PurchaseOrder[]
+  purchaseOrderLines    PurchaseOrderLine[]
 
   @@map("tenant")
 }
@@ -1211,4 +1216,134 @@ model OrderEvent {
 
   @@index([tenantId, orderId, createdAt])
   @@map("order_event")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 008 — Procurement & inbound (PROC-001/002/003/005/009/013).
+// ---------------------------------------------------------------------------
+
+enum SupplierStatus {
+  ACTIVE
+  BLOCKED
+}
+
+/// Supplier master (PROC-001). The identity lives in MDM (partyId); this
+/// row carries procurement-specific state only.
+model Supplier {
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String         @map("tenant_id") @db.Uuid
+  partyId        String         @map("party_id") @db.Uuid
+  supplierNumber String         @map("supplier_number")
+  status         SupplierStatus @default(ACTIVE)
+  leadTimeDays   Int?           @map("lead_time_days")
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, partyId])
+  @@unique([tenantId, supplierNumber])
+  @@map("supplier")
+}
+
+enum RequisitionStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  CONVERTED
+  CANCELLED
+}
+
+/// Purchase requisition (PROC-002); totals above the approval threshold
+/// route through the WF approval service (PROC-003).
+model PurchaseRequisition {
+  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String            @map("tenant_id") @db.Uuid
+  requisitionNumber String            @map("requisition_number")
+  status            RequisitionStatus @default(DRAFT)
+  currency          String            @db.Char(3)
+  total             Decimal           @default(0) @db.Decimal(18, 2)
+  note              String?
+  approvalId        String?           @map("approval_id") @db.Uuid
+  createdBy         String?           @map("created_by")
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+
+  tenant Tenant                    @relation(fields: [tenantId], references: [id])
+  lines  PurchaseRequisitionLine[]
+
+  @@unique([tenantId, requisitionNumber])
+  @@index([tenantId, status])
+  @@map("purchase_requisition")
+}
+
+model PurchaseRequisitionLine {
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String  @map("tenant_id") @db.Uuid
+  requisitionId String  @map("requisition_id") @db.Uuid
+  skuId         String  @map("sku_id") @db.Uuid
+  description   String
+  quantity      Decimal @db.Decimal(18, 6)
+  estUnitPrice  Decimal @map("est_unit_price") @db.Decimal(18, 4)
+  lineTotal     Decimal @map("line_total") @db.Decimal(18, 2)
+
+  tenant      Tenant              @relation(fields: [tenantId], references: [id])
+  requisition PurchaseRequisition @relation(fields: [requisitionId], references: [id])
+
+  @@index([tenantId, requisitionId])
+  @@map("purchase_requisition_line")
+}
+
+enum PurchaseOrderStatus {
+  OPEN
+  PARTIALLY_RECEIVED
+  RECEIVED
+  CANCELLED
+}
+
+/// Purchase order (PROC-005). Receiving posts RECEIPT ledger movements
+/// through the WMS public interface (PROC-009); received quantities are
+/// tracked per line and price history derives from PO lines (PROC-013).
+model PurchaseOrder {
+  id            String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String              @map("tenant_id") @db.Uuid
+  poNumber      String              @map("po_number")
+  supplierId    String              @map("supplier_id") @db.Uuid
+  warehouseId   String              @map("warehouse_id") @db.Uuid
+  requisitionId String?             @map("requisition_id") @db.Uuid
+  status        PurchaseOrderStatus @default(OPEN)
+  currency      String              @db.Char(3)
+  total         Decimal             @default(0) @db.Decimal(18, 2)
+  expectedAt    DateTime?           @map("expected_at")
+  createdBy     String?             @map("created_by")
+  createdAt     DateTime            @default(now()) @map("created_at")
+  updatedAt     DateTime            @updatedAt @map("updated_at")
+
+  tenant Tenant              @relation(fields: [tenantId], references: [id])
+  lines  PurchaseOrderLine[]
+
+  @@unique([tenantId, poNumber])
+  @@index([tenantId, status])
+  @@index([tenantId, supplierId])
+  @@map("purchase_order")
+}
+
+model PurchaseOrderLine {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String  @map("tenant_id") @db.Uuid
+  poId        String  @map("po_id") @db.Uuid
+  skuId       String  @map("sku_id") @db.Uuid
+  description String
+  quantity    Decimal @db.Decimal(18, 6)
+  unitPrice   Decimal @map("unit_price") @db.Decimal(18, 4)
+  lineTotal   Decimal @map("line_total") @db.Decimal(18, 2)
+  receivedQty Decimal @default(0) @map("received_qty") @db.Decimal(18, 6)
+
+  tenant Tenant        @relation(fields: [tenantId], references: [id])
+  po     PurchaseOrder @relation(fields: [poId], references: [id])
+
+  @@index([tenantId, poId])
+  @@index([tenantId, skuId])
+  @@map("purchase_order_line")
 }
