@@ -66,6 +66,9 @@ export const EVENT_TYPES = {
   QC_PASSED: 'qc.passed',
   QC_FAILED: 'qc.failed',
   NCR_CREATED: 'ncr.created',
+  INVOICE_ISSUED: 'invoice.issued',
+  PAYMENT_RECEIVED: 'payment.received',
+  PAYMENT_MATCHED: 'payment.matched',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

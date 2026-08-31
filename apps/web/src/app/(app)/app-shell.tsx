@@ -83,6 +83,9 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/planning', label: 'Planning', icon: 'planning', permission: 'plan.read' },
   { href: '/production', label: 'Production', icon: 'production', permission: 'production.read' },
   { href: '/quality', label: 'Quality', icon: 'quality', permission: 'qc.read' },
+  { href: '/finance', label: 'Finance', icon: 'finance', permission: 'finance.read' },
+  { href: '/analytics', label: 'Analytics', icon: 'analytics', permission: 'analytics.read' },
+  { href: '/portal', label: 'Portal', icon: 'portal', permission: 'portal.manage' },
   { href: '/parties', label: 'Parties', icon: 'parties', permission: 'mdm.read' },
   { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },
   { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },
@@ -117,8 +120,14 @@ export function AppShell({ children }: { children: ReactNode }) {
     session.platformAdmin ||
     grants.some((g) => g.permissionKey === permissionKey && g.scopeType === 'TENANT');
 
-  // UX rule: never render unauthorized modules.
-  const nav = NAV.filter((item) => item.permission === null || can(item.permission));
+  // UX rule: never render unauthorized modules. The portal entry is
+  // visible to back-office managers and to portal customers alike.
+  const nav = NAV.filter(
+    (item) =>
+      item.permission === null ||
+      can(item.permission) ||
+      (item.href === '/portal' && can('portal.access')),
+  );
 
   function signOut() {
     clearSession();

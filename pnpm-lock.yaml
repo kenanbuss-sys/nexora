@@ -53,6 +53,12 @@ importers:
       '@nexora/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@nexora/domain-b2b':
+        specifier: workspace:*
+        version: link:../../packages/domain-b2b
+      '@nexora/domain-bi':
+        specifier: workspace:*
+        version: link:../../packages/domain-bi
       '@nexora/domain-core':
         specifier: workspace:*
         version: link:../../packages/domain-core
@@ -71,6 +77,9 @@ importers:
       '@nexora/domain-eng':
         specifier: workspace:*
         version: link:../../packages/domain-eng
+      '@nexora/domain-fin':
+        specifier: workspace:*
+        version: link:../../packages/domain-fin
       '@nexora/domain-iam':
         specifier: workspace:*
         version: link:../../packages/domain-iam
@@ -288,6 +297,62 @@ importers:
         specifier: ^5.9.0
         version: 5.9.3
 
+  packages/domain-b2b:
+    dependencies:
+      '@nexora/audit':
+        specifier: workspace:*
+        version: link:../audit
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../db
+      '@nexora/events':
+        specifier: workspace:*
+        version: link:../events
+      '@nexora/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+      '@nexora/tenancy':
+        specifier: workspace:*
+        version: link:../tenancy
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.0
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/domain-bi:
+    dependencies:
+      '@nexora/audit':
+        specifier: workspace:*
+        version: link:../audit
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../db
+      '@nexora/events':
+        specifier: workspace:*
+        version: link:../events
+      '@nexora/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+      '@nexora/tenancy':
+        specifier: workspace:*
+        version: link:../tenancy
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.0
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
+
   packages/domain-core:
     dependencies:
       '@nexora/audit':
@@ -423,6 +488,34 @@ importers:
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
 
   packages/domain-eng:
+    dependencies:
+      '@nexora/audit':
+        specifier: workspace:*
+        version: link:../audit
+      '@nexora/db':
+        specifier: workspace:*
+        version: link:../db
+      '@nexora/events':
+        specifier: workspace:*
+        version: link:../events
+      '@nexora/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+      '@nexora/tenancy':
+        specifier: workspace:*
+        version: link:../tenancy
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.0
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/domain-fin:
     dependencies:
       '@nexora/audit':
         specifier: workspace:*

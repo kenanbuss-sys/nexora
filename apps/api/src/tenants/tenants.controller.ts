@@ -89,6 +89,11 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'qc.record',
   'qc.approve',
   'qc.manage',
+  'finance.read',
+  'finance.invoice',
+  'finance.pay',
+  'analytics.read',
+  'portal.manage',
 ];
 
 const createTenantSchema = z.object({

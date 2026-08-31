@@ -132,6 +132,11 @@ const BASELINE = [
   'qc.record',
   'qc.approve',
   'qc.manage',
+  'finance.read',
+  'finance.invoice',
+  'finance.pay',
+  'analytics.read',
+  'portal.manage',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);
@@ -317,6 +322,153 @@ try {
   }
 } catch (e) {
   console.log(`- (CRM/CPQ seed skipped: ${e.message})`);
+}
+
+// 7) Sprint 007-014 demo data: orders, procurement, engineering,
+//    production, quality, finance — everything idempotent.
+try {
+  const accountsRes = await call('GET', '/api/v1/crm/accounts', admin);
+  const account = (accountsRes.body.accounts ?? [])[0];
+  const whRes = await call('GET', '/api/v1/warehouses', admin);
+  const wh = (whRes.body.warehouses ?? []).find((w) => w.code === 'WH-MAIN');
+  const productsRes = await call('GET', '/api/v1/products/search', admin);
+  const allSkus = [];
+  for (const product of productsRes.body.products ?? []) {
+    const detail = await call('GET', `/api/v1/products/${product.id}`, admin);
+    for (const sku of detail.body.skus ?? []) allSkus.push(sku);
+  }
+  const chair = allSkus.find((s) => s.code === 'CHAIR-ERGO-BLK');
+  const cable = allSkus.find((s) => s.code === 'CABLE-USBC-2M');
+  const lamp = allSkus.find((s) => s.code === 'LAMP-LED-W');
+
+  // Orders: one confirmed, one fulfilled (only on first run).
+  const ordersRes = await call('GET', '/api/v1/orders', admin);
+  if (account && wh && chair && (ordersRes.body.orders ?? []).length === 0) {
+    const o1 = await call('POST', '/api/v1/orders', admin, {
+      accountId: account.id,
+      warehouseId: wh.id,
+      currency: 'EUR',
+    });
+    await call('POST', `/api/v1/orders/${o1.body.id}/lines`, admin, {
+      skuId: chair.id,
+      quantity: 4,
+      unitPrice: 249.9,
+    });
+    await call('POST', `/api/v1/orders/${o1.body.id}/confirm`, admin);
+    const o2 = await call('POST', '/api/v1/orders', admin, {
+      accountId: account.id,
+      warehouseId: wh.id,
+      currency: 'EUR',
+    });
+    await call('POST', `/api/v1/orders/${o2.body.id}/lines`, admin, {
+      skuId: cable?.id ?? chair.id,
+      quantity: 10,
+      unitPrice: 9.9,
+    });
+    await call('POST', `/api/v1/orders/${o2.body.id}/confirm`, admin);
+    await call('POST', `/api/v1/orders/${o2.body.id}/fulfill`, admin);
+    // Finance: invoice the fulfilled order and pay half.
+    const inv = await call('POST', '/api/v1/finance/invoices/customer', admin, {
+      orderId: o2.body.id,
+      dueInDays: 30,
+    });
+    if (inv.body.id) {
+      await call('POST', `/api/v1/finance/invoices/${inv.body.id}/payments`, admin, {
+        amount: Math.round(Number(inv.body.total) * 50) / 100,
+        reference: 'Bank statement 2026-08 (demo)',
+      });
+    }
+    console.log('- 2 sales orders (1 fulfilled + invoiced, half paid)');
+  }
+
+  // Procurement: supplier + received PO (only on first run).
+  const suppliersRes = await call('GET', '/api/v1/suppliers', admin);
+  if (wh && cable && (suppliersRes.body.suppliers ?? []).length === 0) {
+    const supplier = await call('POST', '/api/v1/suppliers', admin, {
+      name: 'Komponenta Uvoz d.o.o.',
+      leadTimeDays: 10,
+    });
+    const requisition = await call('POST', '/api/v1/requisitions', admin, { currency: 'EUR' });
+    await call('POST', `/api/v1/requisitions/${requisition.body.id}/lines`, admin, {
+      skuId: cable.id,
+      quantity: 100,
+      estUnitPrice: 3.5,
+    });
+    await call('POST', `/api/v1/requisitions/${requisition.body.id}/submit`, admin);
+    const po = await call('POST', '/api/v1/purchase-orders', admin, {
+      requisitionId: requisition.body.id,
+      supplierId: supplier.body.id,
+      warehouseId: wh.id,
+    });
+    const poLine = (po.body.lines ?? [])[0];
+    if (poLine) {
+      await call('POST', `/api/v1/purchase-orders/${po.body.id}/receive`, admin, {
+        receiptKey: 'seed-receipt-1',
+        lines: [{ lineId: poLine.id, quantity: 60 }],
+      });
+    }
+    console.log('- 1 supplier + 1 PO (partially received into the ledger)');
+  }
+
+  // Engineering: released BOM + routing for the lamp (only on first run).
+  const bomsRes = await call('GET', '/api/v1/boms', admin);
+  if (lamp && cable && (bomsRes.body.boms ?? []).length === 0) {
+    const bom = await call('POST', '/api/v1/boms', admin, { skuId: lamp.id });
+    await call('POST', `/api/v1/boms/${bom.body.id}/lines`, admin, {
+      componentSkuId: cable.id,
+      quantity: 1,
+      scrapPct: 5,
+    });
+    await call('POST', `/api/v1/boms/${bom.body.id}/release`, admin);
+    const routing = await call('POST', '/api/v1/routings', admin, { skuId: lamp.id });
+    await call('POST', `/api/v1/routings/${routing.body.id}/operations`, admin, {
+      name: 'Assemble base',
+      workCenter: 'BENCH-1',
+      setupMinutes: 10,
+      runMinutesPerUnit: 4,
+    });
+    await call('POST', `/api/v1/routings/${routing.body.id}/operations`, admin, {
+      name: 'Final test',
+      workCenter: 'QC-1',
+      runMinutesPerUnit: 1.5,
+    });
+    await call('POST', `/api/v1/routings/${routing.body.id}/release`, admin);
+    console.log('- released BOM + routing for LAMP-LED-W');
+
+    // Quality plan for the lamp.
+    await call('POST', '/api/v1/qc/plans', admin, {
+      skuId: lamp.id,
+      name: 'Lamp final inspection',
+      items: [
+        { name: 'Power-on test', requirement: 'Lamp lights within 1s' },
+        { name: 'Cable strain relief', requirement: 'Withstands 20N pull' },
+      ],
+    });
+    console.log('- QC plan for LAMP-LED-W (production now gated)');
+
+    // Production: one work order released and in progress.
+    const wo = await call('POST', '/api/v1/work-orders', admin, {
+      skuId: lamp.id,
+      warehouseId: wh.id,
+      quantity: 10,
+    });
+    if (wo.body.id) {
+      await call('POST', `/api/v1/work-orders/${wo.body.id}/release`, admin);
+      await call('POST', `/api/v1/work-orders/${wo.body.id}/start`, admin);
+      console.log('- 1 work order in progress (material issued)');
+    }
+
+    // Planning: policy + an MRP run so the screen has a snapshot.
+    await call('PUT', '/api/v1/planning/policies', admin, {
+      skuId: cable.id,
+      safetyStock: 50,
+      leadTimeDays: 10,
+    });
+    await call('POST', '/api/v1/planning/runs', admin);
+    console.log('- planning policy + 1 MRP run');
+  }
+} catch (e) {
+  console.log(`- (Sprint 007-014 seed skipped: ${e.message})`);
 }
 
 console.log('\nDone. Sign in with tenant "' + SLUG + '", subject "idp|admin".');

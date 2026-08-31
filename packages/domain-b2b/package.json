@@ -1,0 +1,25 @@
+{
+  "name": "@nexora/domain-b2b",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "./dist/public.js",
+  "types": "./dist/public.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@nexora/audit": "workspace:*",
+    "@nexora/db": "workspace:*",
+    "@nexora/events": "workspace:*",
+    "@nexora/kernel": "workspace:*",
+    "@nexora/tenancy": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.0"
+  }
+}

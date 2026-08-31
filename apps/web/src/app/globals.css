@@ -474,3 +474,27 @@ h2 {
   place-items: center;
   padding: 32px;
 }
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+@media (max-width: 1100px) {
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.stat .stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted, #6b7280);
+}
+.stat .stat-value {
+  font-size: 26px;
+  font-weight: 750;
+  margin-top: 4px;
+}

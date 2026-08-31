@@ -22,6 +22,9 @@ import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { MesService } from '@nexora/domain-mes';
 import { QualityService } from '@nexora/domain-qc';
+import { FinanceService } from '@nexora/domain-fin';
+import { AnalyticsService } from '@nexora/domain-bi';
+import { PortalService } from '@nexora/domain-b2b';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -72,6 +75,9 @@ import {
   QcPlansController,
   QUALITY_SERVICE,
 } from './qc/qc.controller';
+import { FINANCE_SERVICE, FinanceController } from './fin/fin.controller';
+import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
+import { PORTAL_SERVICE, PortalController, PortalUsersController } from './b2b/b2b.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -158,6 +164,10 @@ export const REDIS = 'REDIS';
     QcPlansController,
     QcInspectionsController,
     NcrsController,
+    FinanceController,
+    AnalyticsController,
+    PortalUsersController,
+    PortalController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -422,6 +432,21 @@ export const REDIS = 'REDIS';
           { getQcState: (t, w, s) => quality.getQcState(t, w, s) },
         ),
       inject: [PRISMA, INVENTORY_SERVICE, QUALITY_SERVICE],
+    },
+    {
+      provide: FINANCE_SERVICE,
+      useFactory: (prisma: PrismaClient) => new FinanceService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: ANALYTICS_SERVICE,
+      useFactory: (prisma: PrismaClient) => new AnalyticsService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: PORTAL_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PortalService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: HEALTH_SERVICE,
