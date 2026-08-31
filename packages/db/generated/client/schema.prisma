@@ -90,6 +90,9 @@ model Tenant {
   routings              Routing[]
   routingOperations     RoutingOperation[]
   engineeringChanges    EngineeringChange[]
+  planningPolicies      PlanningPolicy[]
+  mrpRuns               MrpRun[]
+  mrpSuggestions        MrpSuggestion[]
 
   @@map("tenant")
 }
@@ -1469,4 +1472,69 @@ model EngineeringChange {
   @@unique([tenantId, ecNumber])
   @@index([tenantId, status])
   @@map("engineering_change")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 010 — MRP & planning: policies, runs, planned-order suggestions
+// (PLAN-004/005/006/007/008/009).
+// ---------------------------------------------------------------------------
+
+enum PlannedOrderType {
+  PURCHASE
+  PRODUCTION
+}
+
+/// Per-SKU planning policy (PLAN-004/005): safety stock and reorder
+/// point feed net-requirements; lead time feeds due dates (PLAN-009).
+model PlanningPolicy {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  skuId        String   @map("sku_id") @db.Uuid
+  safetyStock  Decimal  @default(0) @map("safety_stock") @db.Decimal(18, 6)
+  reorderPoint Decimal  @default(0) @map("reorder_point") @db.Decimal(18, 6)
+  leadTimeDays Int      @default(0) @map("lead_time_days")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, skuId])
+  @@map("planning_policy")
+}
+
+/// One MRP computation (PLAN-006/007): demand minus supply per SKU,
+/// stored with its planned-order suggestions (PLAN-008). Append-only —
+/// each run is a snapshot, never edited.
+model MrpRun {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String   @map("tenant_id") @db.Uuid
+  runNumber       String   @map("run_number")
+  demandSkus      Int      @default(0) @map("demand_skus")
+  suggestionCount Int      @default(0) @map("suggestion_count")
+  createdBy       String?  @map("created_by")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  tenant      Tenant          @relation(fields: [tenantId], references: [id])
+  suggestions MrpSuggestion[]
+
+  @@unique([tenantId, runNumber])
+  @@index([tenantId, createdAt])
+  @@map("mrp_run")
+}
+
+model MrpSuggestion {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String           @map("tenant_id") @db.Uuid
+  runId          String           @map("run_id") @db.Uuid
+  skuId          String           @map("sku_id") @db.Uuid
+  suggestionType PlannedOrderType @map("suggestion_type")
+  quantity       Decimal          @db.Decimal(18, 6)
+  reason         String
+  dueInDays      Int              @default(0) @map("due_in_days")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  run    MrpRun @relation(fields: [runId], references: [id])
+
+  @@index([tenantId, runId])
+  @@map("mrp_suggestion")
 }

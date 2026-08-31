@@ -824,6 +824,38 @@ exports.Prisma.EngineeringChangeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PlanningPolicyScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  safetyStock: 'safetyStock',
+  reorderPoint: 'reorderPoint',
+  leadTimeDays: 'leadTimeDays',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MrpRunScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  runNumber: 'runNumber',
+  demandSkus: 'demandSkus',
+  suggestionCount: 'suggestionCount',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MrpSuggestionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  runId: 'runId',
+  skuId: 'skuId',
+  suggestionType: 'suggestionType',
+  quantity: 'quantity',
+  reason: 'reason',
+  dueInDays: 'dueInDays'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1069,6 +1101,11 @@ exports.EcStatus = exports.$Enums.EcStatus = {
   IMPLEMENTED: 'IMPLEMENTED'
 };
 
+exports.PlannedOrderType = exports.$Enums.PlannedOrderType = {
+  PURCHASE: 'PURCHASE',
+  PRODUCTION: 'PRODUCTION'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1130,7 +1167,10 @@ exports.Prisma.ModelName = {
   BomLine: 'BomLine',
   Routing: 'Routing',
   RoutingOperation: 'RoutingOperation',
-  EngineeringChange: 'EngineeringChange'
+  EngineeringChange: 'EngineeringChange',
+  PlanningPolicy: 'PlanningPolicy',
+  MrpRun: 'MrpRun',
+  MrpSuggestion: 'MrpSuggestion'
 };
 
 /**

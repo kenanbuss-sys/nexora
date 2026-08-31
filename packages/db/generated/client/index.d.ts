@@ -336,6 +336,24 @@ export type RoutingOperation = $Result.DefaultSelection<Prisma.$RoutingOperation
  * SKU's BOM/routing; approval is a separate permission (SoD).
  */
 export type EngineeringChange = $Result.DefaultSelection<Prisma.$EngineeringChangePayload>
+/**
+ * Model PlanningPolicy
+ * Per-SKU planning policy (PLAN-004/005): safety stock and reorder
+ * point feed net-requirements; lead time feeds due dates (PLAN-009).
+ */
+export type PlanningPolicy = $Result.DefaultSelection<Prisma.$PlanningPolicyPayload>
+/**
+ * Model MrpRun
+ * One MRP computation (PLAN-006/007): demand minus supply per SKU,
+ * stored with its planned-order suggestions (PLAN-008). Append-only —
+ * each run is a snapshot, never edited.
+ */
+export type MrpRun = $Result.DefaultSelection<Prisma.$MrpRunPayload>
+/**
+ * Model MrpSuggestion
+ * 
+ */
+export type MrpSuggestion = $Result.DefaultSelection<Prisma.$MrpSuggestionPayload>
 
 /**
  * Enums
@@ -652,6 +670,14 @@ export const EcStatus: {
 
 export type EcStatus = (typeof EcStatus)[keyof typeof EcStatus]
 
+
+export const PlannedOrderType: {
+  PURCHASE: 'PURCHASE',
+  PRODUCTION: 'PRODUCTION'
+};
+
+export type PlannedOrderType = (typeof PlannedOrderType)[keyof typeof PlannedOrderType]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -781,6 +807,10 @@ export const RevisionStatus: typeof $Enums.RevisionStatus
 export type EcStatus = $Enums.EcStatus
 
 export const EcStatus: typeof $Enums.EcStatus
+
+export type PlannedOrderType = $Enums.PlannedOrderType
+
+export const PlannedOrderType: typeof $Enums.PlannedOrderType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1509,6 +1539,36 @@ export class PrismaClient<
     * ```
     */
   get engineeringChange(): Prisma.EngineeringChangeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.planningPolicy`: Exposes CRUD operations for the **PlanningPolicy** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlanningPolicies
+    * const planningPolicies = await prisma.planningPolicy.findMany()
+    * ```
+    */
+  get planningPolicy(): Prisma.PlanningPolicyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.mrpRun`: Exposes CRUD operations for the **MrpRun** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MrpRuns
+    * const mrpRuns = await prisma.mrpRun.findMany()
+    * ```
+    */
+  get mrpRun(): Prisma.MrpRunDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.mrpSuggestion`: Exposes CRUD operations for the **MrpSuggestion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MrpSuggestions
+    * const mrpSuggestions = await prisma.mrpSuggestion.findMany()
+    * ```
+    */
+  get mrpSuggestion(): Prisma.MrpSuggestionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2010,7 +2070,10 @@ export namespace Prisma {
     BomLine: 'BomLine',
     Routing: 'Routing',
     RoutingOperation: 'RoutingOperation',
-    EngineeringChange: 'EngineeringChange'
+    EngineeringChange: 'EngineeringChange',
+    PlanningPolicy: 'PlanningPolicy',
+    MrpRun: 'MrpRun',
+    MrpSuggestion: 'MrpSuggestion'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2029,7 +2092,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6547,6 +6610,228 @@ export namespace Prisma {
           }
         }
       }
+      PlanningPolicy: {
+        payload: Prisma.$PlanningPolicyPayload<ExtArgs>
+        fields: Prisma.PlanningPolicyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlanningPolicyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlanningPolicyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>
+          }
+          findFirst: {
+            args: Prisma.PlanningPolicyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlanningPolicyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>
+          }
+          findMany: {
+            args: Prisma.PlanningPolicyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>[]
+          }
+          create: {
+            args: Prisma.PlanningPolicyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>
+          }
+          createMany: {
+            args: Prisma.PlanningPolicyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlanningPolicyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>[]
+          }
+          delete: {
+            args: Prisma.PlanningPolicyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>
+          }
+          update: {
+            args: Prisma.PlanningPolicyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlanningPolicyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlanningPolicyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlanningPolicyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlanningPolicyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanningPolicyPayload>
+          }
+          aggregate: {
+            args: Prisma.PlanningPolicyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlanningPolicy>
+          }
+          groupBy: {
+            args: Prisma.PlanningPolicyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlanningPolicyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlanningPolicyCountArgs<ExtArgs>
+            result: $Utils.Optional<PlanningPolicyCountAggregateOutputType> | number
+          }
+        }
+      }
+      MrpRun: {
+        payload: Prisma.$MrpRunPayload<ExtArgs>
+        fields: Prisma.MrpRunFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MrpRunFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MrpRunFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>
+          }
+          findFirst: {
+            args: Prisma.MrpRunFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MrpRunFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>
+          }
+          findMany: {
+            args: Prisma.MrpRunFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>[]
+          }
+          create: {
+            args: Prisma.MrpRunCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>
+          }
+          createMany: {
+            args: Prisma.MrpRunCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MrpRunCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>[]
+          }
+          delete: {
+            args: Prisma.MrpRunDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>
+          }
+          update: {
+            args: Prisma.MrpRunUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>
+          }
+          deleteMany: {
+            args: Prisma.MrpRunDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MrpRunUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MrpRunUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>[]
+          }
+          upsert: {
+            args: Prisma.MrpRunUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpRunPayload>
+          }
+          aggregate: {
+            args: Prisma.MrpRunAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMrpRun>
+          }
+          groupBy: {
+            args: Prisma.MrpRunGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MrpRunGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MrpRunCountArgs<ExtArgs>
+            result: $Utils.Optional<MrpRunCountAggregateOutputType> | number
+          }
+        }
+      }
+      MrpSuggestion: {
+        payload: Prisma.$MrpSuggestionPayload<ExtArgs>
+        fields: Prisma.MrpSuggestionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MrpSuggestionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MrpSuggestionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>
+          }
+          findFirst: {
+            args: Prisma.MrpSuggestionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MrpSuggestionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>
+          }
+          findMany: {
+            args: Prisma.MrpSuggestionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>[]
+          }
+          create: {
+            args: Prisma.MrpSuggestionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>
+          }
+          createMany: {
+            args: Prisma.MrpSuggestionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MrpSuggestionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>[]
+          }
+          delete: {
+            args: Prisma.MrpSuggestionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>
+          }
+          update: {
+            args: Prisma.MrpSuggestionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>
+          }
+          deleteMany: {
+            args: Prisma.MrpSuggestionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MrpSuggestionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MrpSuggestionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>[]
+          }
+          upsert: {
+            args: Prisma.MrpSuggestionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MrpSuggestionPayload>
+          }
+          aggregate: {
+            args: Prisma.MrpSuggestionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMrpSuggestion>
+          }
+          groupBy: {
+            args: Prisma.MrpSuggestionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MrpSuggestionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MrpSuggestionCountArgs<ExtArgs>
+            result: $Utils.Optional<MrpSuggestionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -6704,6 +6989,9 @@ export namespace Prisma {
     routing?: RoutingOmit
     routingOperation?: RoutingOperationOmit
     engineeringChange?: EngineeringChangeOmit
+    planningPolicy?: PlanningPolicyOmit
+    mrpRun?: MrpRunOmit
+    mrpSuggestion?: MrpSuggestionOmit
   }
 
   /* Types for Logging */
@@ -6834,6 +7122,9 @@ export namespace Prisma {
     routings: number
     routingOperations: number
     engineeringChanges: number
+    planningPolicies: number
+    mrpRuns: number
+    mrpSuggestions: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6887,6 +7178,9 @@ export namespace Prisma {
     routings?: boolean | TenantCountOutputTypeCountRoutingsArgs
     routingOperations?: boolean | TenantCountOutputTypeCountRoutingOperationsArgs
     engineeringChanges?: boolean | TenantCountOutputTypeCountEngineeringChangesArgs
+    planningPolicies?: boolean | TenantCountOutputTypeCountPlanningPoliciesArgs
+    mrpRuns?: boolean | TenantCountOutputTypeCountMrpRunsArgs
+    mrpSuggestions?: boolean | TenantCountOutputTypeCountMrpSuggestionsArgs
   }
 
   // Custom InputTypes
@@ -7248,6 +7542,27 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountEngineeringChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EngineeringChangeWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPlanningPoliciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanningPolicyWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountMrpRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MrpRunWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountMrpSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MrpSuggestionWhereInput
   }
 
 
@@ -7926,6 +8241,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type MrpRunCountOutputType
+   */
+
+  export type MrpRunCountOutputType = {
+    suggestions: number
+  }
+
+  export type MrpRunCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    suggestions?: boolean | MrpRunCountOutputTypeCountSuggestionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MrpRunCountOutputType without action
+   */
+  export type MrpRunCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRunCountOutputType
+     */
+    select?: MrpRunCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MrpRunCountOutputType without action
+   */
+  export type MrpRunCountOutputTypeCountSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MrpSuggestionWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -8193,6 +8539,9 @@ export namespace Prisma {
     routings?: boolean | Tenant$routingsArgs<ExtArgs>
     routingOperations?: boolean | Tenant$routingOperationsArgs<ExtArgs>
     engineeringChanges?: boolean | Tenant$engineeringChangesArgs<ExtArgs>
+    planningPolicies?: boolean | Tenant$planningPoliciesArgs<ExtArgs>
+    mrpRuns?: boolean | Tenant$mrpRunsArgs<ExtArgs>
+    mrpSuggestions?: boolean | Tenant$mrpSuggestionsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -8278,6 +8627,9 @@ export namespace Prisma {
     routings?: boolean | Tenant$routingsArgs<ExtArgs>
     routingOperations?: boolean | Tenant$routingOperationsArgs<ExtArgs>
     engineeringChanges?: boolean | Tenant$engineeringChangesArgs<ExtArgs>
+    planningPolicies?: boolean | Tenant$planningPoliciesArgs<ExtArgs>
+    mrpRuns?: boolean | Tenant$mrpRunsArgs<ExtArgs>
+    mrpSuggestions?: boolean | Tenant$mrpSuggestionsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8336,6 +8688,9 @@ export namespace Prisma {
       routings: Prisma.$RoutingPayload<ExtArgs>[]
       routingOperations: Prisma.$RoutingOperationPayload<ExtArgs>[]
       engineeringChanges: Prisma.$EngineeringChangePayload<ExtArgs>[]
+      planningPolicies: Prisma.$PlanningPolicyPayload<ExtArgs>[]
+      mrpRuns: Prisma.$MrpRunPayload<ExtArgs>[]
+      mrpSuggestions: Prisma.$MrpSuggestionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8789,6 +9144,9 @@ export namespace Prisma {
     routings<T extends Tenant$routingsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$routingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     routingOperations<T extends Tenant$routingOperationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$routingOperationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutingOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     engineeringChanges<T extends Tenant$engineeringChangesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$engineeringChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngineeringChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    planningPolicies<T extends Tenant$planningPoliciesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$planningPoliciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mrpRuns<T extends Tenant$mrpRunsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mrpRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mrpSuggestions<T extends Tenant$mrpSuggestionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mrpSuggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10410,6 +10768,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EngineeringChangeScalarFieldEnum | EngineeringChangeScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.planningPolicies
+   */
+  export type Tenant$planningPoliciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    where?: PlanningPolicyWhereInput
+    orderBy?: PlanningPolicyOrderByWithRelationInput | PlanningPolicyOrderByWithRelationInput[]
+    cursor?: PlanningPolicyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlanningPolicyScalarFieldEnum | PlanningPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.mrpRuns
+   */
+  export type Tenant$mrpRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    where?: MrpRunWhereInput
+    orderBy?: MrpRunOrderByWithRelationInput | MrpRunOrderByWithRelationInput[]
+    cursor?: MrpRunWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MrpRunScalarFieldEnum | MrpRunScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.mrpSuggestions
+   */
+  export type Tenant$mrpSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    where?: MrpSuggestionWhereInput
+    orderBy?: MrpSuggestionOrderByWithRelationInput | MrpSuggestionOrderByWithRelationInput[]
+    cursor?: MrpSuggestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MrpSuggestionScalarFieldEnum | MrpSuggestionScalarFieldEnum[]
   }
 
   /**
@@ -78564,6 +78994,3440 @@ export namespace Prisma {
 
 
   /**
+   * Model PlanningPolicy
+   */
+
+  export type AggregatePlanningPolicy = {
+    _count: PlanningPolicyCountAggregateOutputType | null
+    _avg: PlanningPolicyAvgAggregateOutputType | null
+    _sum: PlanningPolicySumAggregateOutputType | null
+    _min: PlanningPolicyMinAggregateOutputType | null
+    _max: PlanningPolicyMaxAggregateOutputType | null
+  }
+
+  export type PlanningPolicyAvgAggregateOutputType = {
+    safetyStock: Decimal | null
+    reorderPoint: Decimal | null
+    leadTimeDays: number | null
+  }
+
+  export type PlanningPolicySumAggregateOutputType = {
+    safetyStock: Decimal | null
+    reorderPoint: Decimal | null
+    leadTimeDays: number | null
+  }
+
+  export type PlanningPolicyMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    safetyStock: Decimal | null
+    reorderPoint: Decimal | null
+    leadTimeDays: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlanningPolicyMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    safetyStock: Decimal | null
+    reorderPoint: Decimal | null
+    leadTimeDays: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlanningPolicyCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    safetyStock: number
+    reorderPoint: number
+    leadTimeDays: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PlanningPolicyAvgAggregateInputType = {
+    safetyStock?: true
+    reorderPoint?: true
+    leadTimeDays?: true
+  }
+
+  export type PlanningPolicySumAggregateInputType = {
+    safetyStock?: true
+    reorderPoint?: true
+    leadTimeDays?: true
+  }
+
+  export type PlanningPolicyMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    safetyStock?: true
+    reorderPoint?: true
+    leadTimeDays?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlanningPolicyMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    safetyStock?: true
+    reorderPoint?: true
+    leadTimeDays?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlanningPolicyCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    safetyStock?: true
+    reorderPoint?: true
+    leadTimeDays?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PlanningPolicyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlanningPolicy to aggregate.
+     */
+    where?: PlanningPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlanningPolicies to fetch.
+     */
+    orderBy?: PlanningPolicyOrderByWithRelationInput | PlanningPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlanningPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlanningPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlanningPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlanningPolicies
+    **/
+    _count?: true | PlanningPolicyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlanningPolicyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlanningPolicySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlanningPolicyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlanningPolicyMaxAggregateInputType
+  }
+
+  export type GetPlanningPolicyAggregateType<T extends PlanningPolicyAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlanningPolicy]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlanningPolicy[P]>
+      : GetScalarType<T[P], AggregatePlanningPolicy[P]>
+  }
+
+
+
+
+  export type PlanningPolicyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanningPolicyWhereInput
+    orderBy?: PlanningPolicyOrderByWithAggregationInput | PlanningPolicyOrderByWithAggregationInput[]
+    by: PlanningPolicyScalarFieldEnum[] | PlanningPolicyScalarFieldEnum
+    having?: PlanningPolicyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlanningPolicyCountAggregateInputType | true
+    _avg?: PlanningPolicyAvgAggregateInputType
+    _sum?: PlanningPolicySumAggregateInputType
+    _min?: PlanningPolicyMinAggregateInputType
+    _max?: PlanningPolicyMaxAggregateInputType
+  }
+
+  export type PlanningPolicyGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    safetyStock: Decimal
+    reorderPoint: Decimal
+    leadTimeDays: number
+    createdAt: Date
+    updatedAt: Date
+    _count: PlanningPolicyCountAggregateOutputType | null
+    _avg: PlanningPolicyAvgAggregateOutputType | null
+    _sum: PlanningPolicySumAggregateOutputType | null
+    _min: PlanningPolicyMinAggregateOutputType | null
+    _max: PlanningPolicyMaxAggregateOutputType | null
+  }
+
+  type GetPlanningPolicyGroupByPayload<T extends PlanningPolicyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlanningPolicyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlanningPolicyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlanningPolicyGroupByOutputType[P]>
+            : GetScalarType<T[P], PlanningPolicyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlanningPolicySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    safetyStock?: boolean
+    reorderPoint?: boolean
+    leadTimeDays?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["planningPolicy"]>
+
+  export type PlanningPolicySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    safetyStock?: boolean
+    reorderPoint?: boolean
+    leadTimeDays?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["planningPolicy"]>
+
+  export type PlanningPolicySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    safetyStock?: boolean
+    reorderPoint?: boolean
+    leadTimeDays?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["planningPolicy"]>
+
+  export type PlanningPolicySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    safetyStock?: boolean
+    reorderPoint?: boolean
+    leadTimeDays?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PlanningPolicyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "safetyStock" | "reorderPoint" | "leadTimeDays" | "createdAt" | "updatedAt", ExtArgs["result"]["planningPolicy"]>
+  export type PlanningPolicyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PlanningPolicyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PlanningPolicyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $PlanningPolicyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlanningPolicy"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      safetyStock: Prisma.Decimal
+      reorderPoint: Prisma.Decimal
+      leadTimeDays: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["planningPolicy"]>
+    composites: {}
+  }
+
+  type PlanningPolicyGetPayload<S extends boolean | null | undefined | PlanningPolicyDefaultArgs> = $Result.GetResult<Prisma.$PlanningPolicyPayload, S>
+
+  type PlanningPolicyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlanningPolicyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlanningPolicyCountAggregateInputType | true
+    }
+
+  export interface PlanningPolicyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlanningPolicy'], meta: { name: 'PlanningPolicy' } }
+    /**
+     * Find zero or one PlanningPolicy that matches the filter.
+     * @param {PlanningPolicyFindUniqueArgs} args - Arguments to find a PlanningPolicy
+     * @example
+     * // Get one PlanningPolicy
+     * const planningPolicy = await prisma.planningPolicy.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlanningPolicyFindUniqueArgs>(args: SelectSubset<T, PlanningPolicyFindUniqueArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlanningPolicy that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlanningPolicyFindUniqueOrThrowArgs} args - Arguments to find a PlanningPolicy
+     * @example
+     * // Get one PlanningPolicy
+     * const planningPolicy = await prisma.planningPolicy.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlanningPolicyFindUniqueOrThrowArgs>(args: SelectSubset<T, PlanningPolicyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlanningPolicy that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanningPolicyFindFirstArgs} args - Arguments to find a PlanningPolicy
+     * @example
+     * // Get one PlanningPolicy
+     * const planningPolicy = await prisma.planningPolicy.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlanningPolicyFindFirstArgs>(args?: SelectSubset<T, PlanningPolicyFindFirstArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlanningPolicy that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanningPolicyFindFirstOrThrowArgs} args - Arguments to find a PlanningPolicy
+     * @example
+     * // Get one PlanningPolicy
+     * const planningPolicy = await prisma.planningPolicy.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlanningPolicyFindFirstOrThrowArgs>(args?: SelectSubset<T, PlanningPolicyFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlanningPolicies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanningPolicyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlanningPolicies
+     * const planningPolicies = await prisma.planningPolicy.findMany()
+     * 
+     * // Get first 10 PlanningPolicies
+     * const planningPolicies = await prisma.planningPolicy.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const planningPolicyWithIdOnly = await prisma.planningPolicy.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlanningPolicyFindManyArgs>(args?: SelectSubset<T, PlanningPolicyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlanningPolicy.
+     * @param {PlanningPolicyCreateArgs} args - Arguments to create a PlanningPolicy.
+     * @example
+     * // Create one PlanningPolicy
+     * const PlanningPolicy = await prisma.planningPolicy.create({
+     *   data: {
+     *     // ... data to create a PlanningPolicy
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlanningPolicyCreateArgs>(args: SelectSubset<T, PlanningPolicyCreateArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlanningPolicies.
+     * @param {PlanningPolicyCreateManyArgs} args - Arguments to create many PlanningPolicies.
+     * @example
+     * // Create many PlanningPolicies
+     * const planningPolicy = await prisma.planningPolicy.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlanningPolicyCreateManyArgs>(args?: SelectSubset<T, PlanningPolicyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlanningPolicies and returns the data saved in the database.
+     * @param {PlanningPolicyCreateManyAndReturnArgs} args - Arguments to create many PlanningPolicies.
+     * @example
+     * // Create many PlanningPolicies
+     * const planningPolicy = await prisma.planningPolicy.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlanningPolicies and only return the `id`
+     * const planningPolicyWithIdOnly = await prisma.planningPolicy.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlanningPolicyCreateManyAndReturnArgs>(args?: SelectSubset<T, PlanningPolicyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlanningPolicy.
+     * @param {PlanningPolicyDeleteArgs} args - Arguments to delete one PlanningPolicy.
+     * @example
+     * // Delete one PlanningPolicy
+     * const PlanningPolicy = await prisma.planningPolicy.delete({
+     *   where: {
+     *     // ... filter to delete one PlanningPolicy
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlanningPolicyDeleteArgs>(args: SelectSubset<T, PlanningPolicyDeleteArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlanningPolicy.
+     * @param {PlanningPolicyUpdateArgs} args - Arguments to update one PlanningPolicy.
+     * @example
+     * // Update one PlanningPolicy
+     * const planningPolicy = await prisma.planningPolicy.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlanningPolicyUpdateArgs>(args: SelectSubset<T, PlanningPolicyUpdateArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlanningPolicies.
+     * @param {PlanningPolicyDeleteManyArgs} args - Arguments to filter PlanningPolicies to delete.
+     * @example
+     * // Delete a few PlanningPolicies
+     * const { count } = await prisma.planningPolicy.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlanningPolicyDeleteManyArgs>(args?: SelectSubset<T, PlanningPolicyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlanningPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanningPolicyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlanningPolicies
+     * const planningPolicy = await prisma.planningPolicy.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlanningPolicyUpdateManyArgs>(args: SelectSubset<T, PlanningPolicyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlanningPolicies and returns the data updated in the database.
+     * @param {PlanningPolicyUpdateManyAndReturnArgs} args - Arguments to update many PlanningPolicies.
+     * @example
+     * // Update many PlanningPolicies
+     * const planningPolicy = await prisma.planningPolicy.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlanningPolicies and only return the `id`
+     * const planningPolicyWithIdOnly = await prisma.planningPolicy.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlanningPolicyUpdateManyAndReturnArgs>(args: SelectSubset<T, PlanningPolicyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlanningPolicy.
+     * @param {PlanningPolicyUpsertArgs} args - Arguments to update or create a PlanningPolicy.
+     * @example
+     * // Update or create a PlanningPolicy
+     * const planningPolicy = await prisma.planningPolicy.upsert({
+     *   create: {
+     *     // ... data to create a PlanningPolicy
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlanningPolicy we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlanningPolicyUpsertArgs>(args: SelectSubset<T, PlanningPolicyUpsertArgs<ExtArgs>>): Prisma__PlanningPolicyClient<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlanningPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanningPolicyCountArgs} args - Arguments to filter PlanningPolicies to count.
+     * @example
+     * // Count the number of PlanningPolicies
+     * const count = await prisma.planningPolicy.count({
+     *   where: {
+     *     // ... the filter for the PlanningPolicies we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlanningPolicyCountArgs>(
+      args?: Subset<T, PlanningPolicyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlanningPolicyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlanningPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanningPolicyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlanningPolicyAggregateArgs>(args: Subset<T, PlanningPolicyAggregateArgs>): Prisma.PrismaPromise<GetPlanningPolicyAggregateType<T>>
+
+    /**
+     * Group by PlanningPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanningPolicyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlanningPolicyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlanningPolicyGroupByArgs['orderBy'] }
+        : { orderBy?: PlanningPolicyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlanningPolicyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlanningPolicyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlanningPolicy model
+   */
+  readonly fields: PlanningPolicyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlanningPolicy.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlanningPolicyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlanningPolicy model
+   */
+  interface PlanningPolicyFieldRefs {
+    readonly id: FieldRef<"PlanningPolicy", 'String'>
+    readonly tenantId: FieldRef<"PlanningPolicy", 'String'>
+    readonly skuId: FieldRef<"PlanningPolicy", 'String'>
+    readonly safetyStock: FieldRef<"PlanningPolicy", 'Decimal'>
+    readonly reorderPoint: FieldRef<"PlanningPolicy", 'Decimal'>
+    readonly leadTimeDays: FieldRef<"PlanningPolicy", 'Int'>
+    readonly createdAt: FieldRef<"PlanningPolicy", 'DateTime'>
+    readonly updatedAt: FieldRef<"PlanningPolicy", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlanningPolicy findUnique
+   */
+  export type PlanningPolicyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PlanningPolicy to fetch.
+     */
+    where: PlanningPolicyWhereUniqueInput
+  }
+
+  /**
+   * PlanningPolicy findUniqueOrThrow
+   */
+  export type PlanningPolicyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PlanningPolicy to fetch.
+     */
+    where: PlanningPolicyWhereUniqueInput
+  }
+
+  /**
+   * PlanningPolicy findFirst
+   */
+  export type PlanningPolicyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PlanningPolicy to fetch.
+     */
+    where?: PlanningPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlanningPolicies to fetch.
+     */
+    orderBy?: PlanningPolicyOrderByWithRelationInput | PlanningPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlanningPolicies.
+     */
+    cursor?: PlanningPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlanningPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlanningPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlanningPolicies.
+     */
+    distinct?: PlanningPolicyScalarFieldEnum | PlanningPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PlanningPolicy findFirstOrThrow
+   */
+  export type PlanningPolicyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PlanningPolicy to fetch.
+     */
+    where?: PlanningPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlanningPolicies to fetch.
+     */
+    orderBy?: PlanningPolicyOrderByWithRelationInput | PlanningPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlanningPolicies.
+     */
+    cursor?: PlanningPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlanningPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlanningPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlanningPolicies.
+     */
+    distinct?: PlanningPolicyScalarFieldEnum | PlanningPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PlanningPolicy findMany
+   */
+  export type PlanningPolicyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PlanningPolicies to fetch.
+     */
+    where?: PlanningPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlanningPolicies to fetch.
+     */
+    orderBy?: PlanningPolicyOrderByWithRelationInput | PlanningPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlanningPolicies.
+     */
+    cursor?: PlanningPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlanningPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlanningPolicies.
+     */
+    skip?: number
+    distinct?: PlanningPolicyScalarFieldEnum | PlanningPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PlanningPolicy create
+   */
+  export type PlanningPolicyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlanningPolicy.
+     */
+    data: XOR<PlanningPolicyCreateInput, PlanningPolicyUncheckedCreateInput>
+  }
+
+  /**
+   * PlanningPolicy createMany
+   */
+  export type PlanningPolicyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlanningPolicies.
+     */
+    data: PlanningPolicyCreateManyInput | PlanningPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlanningPolicy createManyAndReturn
+   */
+  export type PlanningPolicyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlanningPolicies.
+     */
+    data: PlanningPolicyCreateManyInput | PlanningPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlanningPolicy update
+   */
+  export type PlanningPolicyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlanningPolicy.
+     */
+    data: XOR<PlanningPolicyUpdateInput, PlanningPolicyUncheckedUpdateInput>
+    /**
+     * Choose, which PlanningPolicy to update.
+     */
+    where: PlanningPolicyWhereUniqueInput
+  }
+
+  /**
+   * PlanningPolicy updateMany
+   */
+  export type PlanningPolicyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlanningPolicies.
+     */
+    data: XOR<PlanningPolicyUpdateManyMutationInput, PlanningPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which PlanningPolicies to update
+     */
+    where?: PlanningPolicyWhereInput
+    /**
+     * Limit how many PlanningPolicies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlanningPolicy updateManyAndReturn
+   */
+  export type PlanningPolicyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to update PlanningPolicies.
+     */
+    data: XOR<PlanningPolicyUpdateManyMutationInput, PlanningPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which PlanningPolicies to update
+     */
+    where?: PlanningPolicyWhereInput
+    /**
+     * Limit how many PlanningPolicies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlanningPolicy upsert
+   */
+  export type PlanningPolicyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlanningPolicy to update in case it exists.
+     */
+    where: PlanningPolicyWhereUniqueInput
+    /**
+     * In case the PlanningPolicy found by the `where` argument doesn't exist, create a new PlanningPolicy with this data.
+     */
+    create: XOR<PlanningPolicyCreateInput, PlanningPolicyUncheckedCreateInput>
+    /**
+     * In case the PlanningPolicy was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlanningPolicyUpdateInput, PlanningPolicyUncheckedUpdateInput>
+  }
+
+  /**
+   * PlanningPolicy delete
+   */
+  export type PlanningPolicyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+    /**
+     * Filter which PlanningPolicy to delete.
+     */
+    where: PlanningPolicyWhereUniqueInput
+  }
+
+  /**
+   * PlanningPolicy deleteMany
+   */
+  export type PlanningPolicyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlanningPolicies to delete
+     */
+    where?: PlanningPolicyWhereInput
+    /**
+     * Limit how many PlanningPolicies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlanningPolicy without action
+   */
+  export type PlanningPolicyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanningPolicy
+     */
+    select?: PlanningPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlanningPolicy
+     */
+    omit?: PlanningPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanningPolicyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MrpRun
+   */
+
+  export type AggregateMrpRun = {
+    _count: MrpRunCountAggregateOutputType | null
+    _avg: MrpRunAvgAggregateOutputType | null
+    _sum: MrpRunSumAggregateOutputType | null
+    _min: MrpRunMinAggregateOutputType | null
+    _max: MrpRunMaxAggregateOutputType | null
+  }
+
+  export type MrpRunAvgAggregateOutputType = {
+    demandSkus: number | null
+    suggestionCount: number | null
+  }
+
+  export type MrpRunSumAggregateOutputType = {
+    demandSkus: number | null
+    suggestionCount: number | null
+  }
+
+  export type MrpRunMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    runNumber: string | null
+    demandSkus: number | null
+    suggestionCount: number | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type MrpRunMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    runNumber: string | null
+    demandSkus: number | null
+    suggestionCount: number | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type MrpRunCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    runNumber: number
+    demandSkus: number
+    suggestionCount: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MrpRunAvgAggregateInputType = {
+    demandSkus?: true
+    suggestionCount?: true
+  }
+
+  export type MrpRunSumAggregateInputType = {
+    demandSkus?: true
+    suggestionCount?: true
+  }
+
+  export type MrpRunMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    runNumber?: true
+    demandSkus?: true
+    suggestionCount?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type MrpRunMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    runNumber?: true
+    demandSkus?: true
+    suggestionCount?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type MrpRunCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    runNumber?: true
+    demandSkus?: true
+    suggestionCount?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MrpRunAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MrpRun to aggregate.
+     */
+    where?: MrpRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpRuns to fetch.
+     */
+    orderBy?: MrpRunOrderByWithRelationInput | MrpRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MrpRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MrpRuns
+    **/
+    _count?: true | MrpRunCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MrpRunAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MrpRunSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MrpRunMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MrpRunMaxAggregateInputType
+  }
+
+  export type GetMrpRunAggregateType<T extends MrpRunAggregateArgs> = {
+        [P in keyof T & keyof AggregateMrpRun]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMrpRun[P]>
+      : GetScalarType<T[P], AggregateMrpRun[P]>
+  }
+
+
+
+
+  export type MrpRunGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MrpRunWhereInput
+    orderBy?: MrpRunOrderByWithAggregationInput | MrpRunOrderByWithAggregationInput[]
+    by: MrpRunScalarFieldEnum[] | MrpRunScalarFieldEnum
+    having?: MrpRunScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MrpRunCountAggregateInputType | true
+    _avg?: MrpRunAvgAggregateInputType
+    _sum?: MrpRunSumAggregateInputType
+    _min?: MrpRunMinAggregateInputType
+    _max?: MrpRunMaxAggregateInputType
+  }
+
+  export type MrpRunGroupByOutputType = {
+    id: string
+    tenantId: string
+    runNumber: string
+    demandSkus: number
+    suggestionCount: number
+    createdBy: string | null
+    createdAt: Date
+    _count: MrpRunCountAggregateOutputType | null
+    _avg: MrpRunAvgAggregateOutputType | null
+    _sum: MrpRunSumAggregateOutputType | null
+    _min: MrpRunMinAggregateOutputType | null
+    _max: MrpRunMaxAggregateOutputType | null
+  }
+
+  type GetMrpRunGroupByPayload<T extends MrpRunGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MrpRunGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MrpRunGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MrpRunGroupByOutputType[P]>
+            : GetScalarType<T[P], MrpRunGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MrpRunSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    runNumber?: boolean
+    demandSkus?: boolean
+    suggestionCount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    suggestions?: boolean | MrpRun$suggestionsArgs<ExtArgs>
+    _count?: boolean | MrpRunCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mrpRun"]>
+
+  export type MrpRunSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    runNumber?: boolean
+    demandSkus?: boolean
+    suggestionCount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mrpRun"]>
+
+  export type MrpRunSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    runNumber?: boolean
+    demandSkus?: boolean
+    suggestionCount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mrpRun"]>
+
+  export type MrpRunSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    runNumber?: boolean
+    demandSkus?: boolean
+    suggestionCount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type MrpRunOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "runNumber" | "demandSkus" | "suggestionCount" | "createdBy" | "createdAt", ExtArgs["result"]["mrpRun"]>
+  export type MrpRunInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    suggestions?: boolean | MrpRun$suggestionsArgs<ExtArgs>
+    _count?: boolean | MrpRunCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type MrpRunIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type MrpRunIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $MrpRunPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MrpRun"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      suggestions: Prisma.$MrpSuggestionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      runNumber: string
+      demandSkus: number
+      suggestionCount: number
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["mrpRun"]>
+    composites: {}
+  }
+
+  type MrpRunGetPayload<S extends boolean | null | undefined | MrpRunDefaultArgs> = $Result.GetResult<Prisma.$MrpRunPayload, S>
+
+  type MrpRunCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MrpRunFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MrpRunCountAggregateInputType | true
+    }
+
+  export interface MrpRunDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MrpRun'], meta: { name: 'MrpRun' } }
+    /**
+     * Find zero or one MrpRun that matches the filter.
+     * @param {MrpRunFindUniqueArgs} args - Arguments to find a MrpRun
+     * @example
+     * // Get one MrpRun
+     * const mrpRun = await prisma.mrpRun.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MrpRunFindUniqueArgs>(args: SelectSubset<T, MrpRunFindUniqueArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MrpRun that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MrpRunFindUniqueOrThrowArgs} args - Arguments to find a MrpRun
+     * @example
+     * // Get one MrpRun
+     * const mrpRun = await prisma.mrpRun.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MrpRunFindUniqueOrThrowArgs>(args: SelectSubset<T, MrpRunFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MrpRun that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpRunFindFirstArgs} args - Arguments to find a MrpRun
+     * @example
+     * // Get one MrpRun
+     * const mrpRun = await prisma.mrpRun.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MrpRunFindFirstArgs>(args?: SelectSubset<T, MrpRunFindFirstArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MrpRun that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpRunFindFirstOrThrowArgs} args - Arguments to find a MrpRun
+     * @example
+     * // Get one MrpRun
+     * const mrpRun = await prisma.mrpRun.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MrpRunFindFirstOrThrowArgs>(args?: SelectSubset<T, MrpRunFindFirstOrThrowArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MrpRuns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpRunFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MrpRuns
+     * const mrpRuns = await prisma.mrpRun.findMany()
+     * 
+     * // Get first 10 MrpRuns
+     * const mrpRuns = await prisma.mrpRun.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mrpRunWithIdOnly = await prisma.mrpRun.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MrpRunFindManyArgs>(args?: SelectSubset<T, MrpRunFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MrpRun.
+     * @param {MrpRunCreateArgs} args - Arguments to create a MrpRun.
+     * @example
+     * // Create one MrpRun
+     * const MrpRun = await prisma.mrpRun.create({
+     *   data: {
+     *     // ... data to create a MrpRun
+     *   }
+     * })
+     * 
+     */
+    create<T extends MrpRunCreateArgs>(args: SelectSubset<T, MrpRunCreateArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MrpRuns.
+     * @param {MrpRunCreateManyArgs} args - Arguments to create many MrpRuns.
+     * @example
+     * // Create many MrpRuns
+     * const mrpRun = await prisma.mrpRun.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MrpRunCreateManyArgs>(args?: SelectSubset<T, MrpRunCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MrpRuns and returns the data saved in the database.
+     * @param {MrpRunCreateManyAndReturnArgs} args - Arguments to create many MrpRuns.
+     * @example
+     * // Create many MrpRuns
+     * const mrpRun = await prisma.mrpRun.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MrpRuns and only return the `id`
+     * const mrpRunWithIdOnly = await prisma.mrpRun.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MrpRunCreateManyAndReturnArgs>(args?: SelectSubset<T, MrpRunCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MrpRun.
+     * @param {MrpRunDeleteArgs} args - Arguments to delete one MrpRun.
+     * @example
+     * // Delete one MrpRun
+     * const MrpRun = await prisma.mrpRun.delete({
+     *   where: {
+     *     // ... filter to delete one MrpRun
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MrpRunDeleteArgs>(args: SelectSubset<T, MrpRunDeleteArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MrpRun.
+     * @param {MrpRunUpdateArgs} args - Arguments to update one MrpRun.
+     * @example
+     * // Update one MrpRun
+     * const mrpRun = await prisma.mrpRun.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MrpRunUpdateArgs>(args: SelectSubset<T, MrpRunUpdateArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MrpRuns.
+     * @param {MrpRunDeleteManyArgs} args - Arguments to filter MrpRuns to delete.
+     * @example
+     * // Delete a few MrpRuns
+     * const { count } = await prisma.mrpRun.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MrpRunDeleteManyArgs>(args?: SelectSubset<T, MrpRunDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MrpRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpRunUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MrpRuns
+     * const mrpRun = await prisma.mrpRun.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MrpRunUpdateManyArgs>(args: SelectSubset<T, MrpRunUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MrpRuns and returns the data updated in the database.
+     * @param {MrpRunUpdateManyAndReturnArgs} args - Arguments to update many MrpRuns.
+     * @example
+     * // Update many MrpRuns
+     * const mrpRun = await prisma.mrpRun.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MrpRuns and only return the `id`
+     * const mrpRunWithIdOnly = await prisma.mrpRun.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MrpRunUpdateManyAndReturnArgs>(args: SelectSubset<T, MrpRunUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MrpRun.
+     * @param {MrpRunUpsertArgs} args - Arguments to update or create a MrpRun.
+     * @example
+     * // Update or create a MrpRun
+     * const mrpRun = await prisma.mrpRun.upsert({
+     *   create: {
+     *     // ... data to create a MrpRun
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MrpRun we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MrpRunUpsertArgs>(args: SelectSubset<T, MrpRunUpsertArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MrpRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpRunCountArgs} args - Arguments to filter MrpRuns to count.
+     * @example
+     * // Count the number of MrpRuns
+     * const count = await prisma.mrpRun.count({
+     *   where: {
+     *     // ... the filter for the MrpRuns we want to count
+     *   }
+     * })
+    **/
+    count<T extends MrpRunCountArgs>(
+      args?: Subset<T, MrpRunCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MrpRunCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MrpRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpRunAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MrpRunAggregateArgs>(args: Subset<T, MrpRunAggregateArgs>): Prisma.PrismaPromise<GetMrpRunAggregateType<T>>
+
+    /**
+     * Group by MrpRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpRunGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MrpRunGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MrpRunGroupByArgs['orderBy'] }
+        : { orderBy?: MrpRunGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MrpRunGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMrpRunGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MrpRun model
+   */
+  readonly fields: MrpRunFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MrpRun.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MrpRunClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    suggestions<T extends MrpRun$suggestionsArgs<ExtArgs> = {}>(args?: Subset<T, MrpRun$suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MrpRun model
+   */
+  interface MrpRunFieldRefs {
+    readonly id: FieldRef<"MrpRun", 'String'>
+    readonly tenantId: FieldRef<"MrpRun", 'String'>
+    readonly runNumber: FieldRef<"MrpRun", 'String'>
+    readonly demandSkus: FieldRef<"MrpRun", 'Int'>
+    readonly suggestionCount: FieldRef<"MrpRun", 'Int'>
+    readonly createdBy: FieldRef<"MrpRun", 'String'>
+    readonly createdAt: FieldRef<"MrpRun", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MrpRun findUnique
+   */
+  export type MrpRunFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpRun to fetch.
+     */
+    where: MrpRunWhereUniqueInput
+  }
+
+  /**
+   * MrpRun findUniqueOrThrow
+   */
+  export type MrpRunFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpRun to fetch.
+     */
+    where: MrpRunWhereUniqueInput
+  }
+
+  /**
+   * MrpRun findFirst
+   */
+  export type MrpRunFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpRun to fetch.
+     */
+    where?: MrpRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpRuns to fetch.
+     */
+    orderBy?: MrpRunOrderByWithRelationInput | MrpRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MrpRuns.
+     */
+    cursor?: MrpRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MrpRuns.
+     */
+    distinct?: MrpRunScalarFieldEnum | MrpRunScalarFieldEnum[]
+  }
+
+  /**
+   * MrpRun findFirstOrThrow
+   */
+  export type MrpRunFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpRun to fetch.
+     */
+    where?: MrpRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpRuns to fetch.
+     */
+    orderBy?: MrpRunOrderByWithRelationInput | MrpRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MrpRuns.
+     */
+    cursor?: MrpRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MrpRuns.
+     */
+    distinct?: MrpRunScalarFieldEnum | MrpRunScalarFieldEnum[]
+  }
+
+  /**
+   * MrpRun findMany
+   */
+  export type MrpRunFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpRuns to fetch.
+     */
+    where?: MrpRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpRuns to fetch.
+     */
+    orderBy?: MrpRunOrderByWithRelationInput | MrpRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MrpRuns.
+     */
+    cursor?: MrpRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpRuns.
+     */
+    skip?: number
+    distinct?: MrpRunScalarFieldEnum | MrpRunScalarFieldEnum[]
+  }
+
+  /**
+   * MrpRun create
+   */
+  export type MrpRunCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MrpRun.
+     */
+    data: XOR<MrpRunCreateInput, MrpRunUncheckedCreateInput>
+  }
+
+  /**
+   * MrpRun createMany
+   */
+  export type MrpRunCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MrpRuns.
+     */
+    data: MrpRunCreateManyInput | MrpRunCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MrpRun createManyAndReturn
+   */
+  export type MrpRunCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * The data used to create many MrpRuns.
+     */
+    data: MrpRunCreateManyInput | MrpRunCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MrpRun update
+   */
+  export type MrpRunUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MrpRun.
+     */
+    data: XOR<MrpRunUpdateInput, MrpRunUncheckedUpdateInput>
+    /**
+     * Choose, which MrpRun to update.
+     */
+    where: MrpRunWhereUniqueInput
+  }
+
+  /**
+   * MrpRun updateMany
+   */
+  export type MrpRunUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MrpRuns.
+     */
+    data: XOR<MrpRunUpdateManyMutationInput, MrpRunUncheckedUpdateManyInput>
+    /**
+     * Filter which MrpRuns to update
+     */
+    where?: MrpRunWhereInput
+    /**
+     * Limit how many MrpRuns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MrpRun updateManyAndReturn
+   */
+  export type MrpRunUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * The data used to update MrpRuns.
+     */
+    data: XOR<MrpRunUpdateManyMutationInput, MrpRunUncheckedUpdateManyInput>
+    /**
+     * Filter which MrpRuns to update
+     */
+    where?: MrpRunWhereInput
+    /**
+     * Limit how many MrpRuns to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MrpRun upsert
+   */
+  export type MrpRunUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MrpRun to update in case it exists.
+     */
+    where: MrpRunWhereUniqueInput
+    /**
+     * In case the MrpRun found by the `where` argument doesn't exist, create a new MrpRun with this data.
+     */
+    create: XOR<MrpRunCreateInput, MrpRunUncheckedCreateInput>
+    /**
+     * In case the MrpRun was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MrpRunUpdateInput, MrpRunUncheckedUpdateInput>
+  }
+
+  /**
+   * MrpRun delete
+   */
+  export type MrpRunDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+    /**
+     * Filter which MrpRun to delete.
+     */
+    where: MrpRunWhereUniqueInput
+  }
+
+  /**
+   * MrpRun deleteMany
+   */
+  export type MrpRunDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MrpRuns to delete
+     */
+    where?: MrpRunWhereInput
+    /**
+     * Limit how many MrpRuns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MrpRun.suggestions
+   */
+  export type MrpRun$suggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    where?: MrpSuggestionWhereInput
+    orderBy?: MrpSuggestionOrderByWithRelationInput | MrpSuggestionOrderByWithRelationInput[]
+    cursor?: MrpSuggestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MrpSuggestionScalarFieldEnum | MrpSuggestionScalarFieldEnum[]
+  }
+
+  /**
+   * MrpRun without action
+   */
+  export type MrpRunDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpRun
+     */
+    select?: MrpRunSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpRun
+     */
+    omit?: MrpRunOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpRunInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MrpSuggestion
+   */
+
+  export type AggregateMrpSuggestion = {
+    _count: MrpSuggestionCountAggregateOutputType | null
+    _avg: MrpSuggestionAvgAggregateOutputType | null
+    _sum: MrpSuggestionSumAggregateOutputType | null
+    _min: MrpSuggestionMinAggregateOutputType | null
+    _max: MrpSuggestionMaxAggregateOutputType | null
+  }
+
+  export type MrpSuggestionAvgAggregateOutputType = {
+    quantity: Decimal | null
+    dueInDays: number | null
+  }
+
+  export type MrpSuggestionSumAggregateOutputType = {
+    quantity: Decimal | null
+    dueInDays: number | null
+  }
+
+  export type MrpSuggestionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    runId: string | null
+    skuId: string | null
+    suggestionType: $Enums.PlannedOrderType | null
+    quantity: Decimal | null
+    reason: string | null
+    dueInDays: number | null
+  }
+
+  export type MrpSuggestionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    runId: string | null
+    skuId: string | null
+    suggestionType: $Enums.PlannedOrderType | null
+    quantity: Decimal | null
+    reason: string | null
+    dueInDays: number | null
+  }
+
+  export type MrpSuggestionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    runId: number
+    skuId: number
+    suggestionType: number
+    quantity: number
+    reason: number
+    dueInDays: number
+    _all: number
+  }
+
+
+  export type MrpSuggestionAvgAggregateInputType = {
+    quantity?: true
+    dueInDays?: true
+  }
+
+  export type MrpSuggestionSumAggregateInputType = {
+    quantity?: true
+    dueInDays?: true
+  }
+
+  export type MrpSuggestionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    runId?: true
+    skuId?: true
+    suggestionType?: true
+    quantity?: true
+    reason?: true
+    dueInDays?: true
+  }
+
+  export type MrpSuggestionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    runId?: true
+    skuId?: true
+    suggestionType?: true
+    quantity?: true
+    reason?: true
+    dueInDays?: true
+  }
+
+  export type MrpSuggestionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    runId?: true
+    skuId?: true
+    suggestionType?: true
+    quantity?: true
+    reason?: true
+    dueInDays?: true
+    _all?: true
+  }
+
+  export type MrpSuggestionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MrpSuggestion to aggregate.
+     */
+    where?: MrpSuggestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpSuggestions to fetch.
+     */
+    orderBy?: MrpSuggestionOrderByWithRelationInput | MrpSuggestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MrpSuggestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpSuggestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpSuggestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MrpSuggestions
+    **/
+    _count?: true | MrpSuggestionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MrpSuggestionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MrpSuggestionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MrpSuggestionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MrpSuggestionMaxAggregateInputType
+  }
+
+  export type GetMrpSuggestionAggregateType<T extends MrpSuggestionAggregateArgs> = {
+        [P in keyof T & keyof AggregateMrpSuggestion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMrpSuggestion[P]>
+      : GetScalarType<T[P], AggregateMrpSuggestion[P]>
+  }
+
+
+
+
+  export type MrpSuggestionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MrpSuggestionWhereInput
+    orderBy?: MrpSuggestionOrderByWithAggregationInput | MrpSuggestionOrderByWithAggregationInput[]
+    by: MrpSuggestionScalarFieldEnum[] | MrpSuggestionScalarFieldEnum
+    having?: MrpSuggestionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MrpSuggestionCountAggregateInputType | true
+    _avg?: MrpSuggestionAvgAggregateInputType
+    _sum?: MrpSuggestionSumAggregateInputType
+    _min?: MrpSuggestionMinAggregateInputType
+    _max?: MrpSuggestionMaxAggregateInputType
+  }
+
+  export type MrpSuggestionGroupByOutputType = {
+    id: string
+    tenantId: string
+    runId: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal
+    reason: string
+    dueInDays: number
+    _count: MrpSuggestionCountAggregateOutputType | null
+    _avg: MrpSuggestionAvgAggregateOutputType | null
+    _sum: MrpSuggestionSumAggregateOutputType | null
+    _min: MrpSuggestionMinAggregateOutputType | null
+    _max: MrpSuggestionMaxAggregateOutputType | null
+  }
+
+  type GetMrpSuggestionGroupByPayload<T extends MrpSuggestionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MrpSuggestionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MrpSuggestionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MrpSuggestionGroupByOutputType[P]>
+            : GetScalarType<T[P], MrpSuggestionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MrpSuggestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    runId?: boolean
+    skuId?: boolean
+    suggestionType?: boolean
+    quantity?: boolean
+    reason?: boolean
+    dueInDays?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    run?: boolean | MrpRunDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mrpSuggestion"]>
+
+  export type MrpSuggestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    runId?: boolean
+    skuId?: boolean
+    suggestionType?: boolean
+    quantity?: boolean
+    reason?: boolean
+    dueInDays?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    run?: boolean | MrpRunDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mrpSuggestion"]>
+
+  export type MrpSuggestionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    runId?: boolean
+    skuId?: boolean
+    suggestionType?: boolean
+    quantity?: boolean
+    reason?: boolean
+    dueInDays?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    run?: boolean | MrpRunDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mrpSuggestion"]>
+
+  export type MrpSuggestionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    runId?: boolean
+    skuId?: boolean
+    suggestionType?: boolean
+    quantity?: boolean
+    reason?: boolean
+    dueInDays?: boolean
+  }
+
+  export type MrpSuggestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "runId" | "skuId" | "suggestionType" | "quantity" | "reason" | "dueInDays", ExtArgs["result"]["mrpSuggestion"]>
+  export type MrpSuggestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    run?: boolean | MrpRunDefaultArgs<ExtArgs>
+  }
+  export type MrpSuggestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    run?: boolean | MrpRunDefaultArgs<ExtArgs>
+  }
+  export type MrpSuggestionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    run?: boolean | MrpRunDefaultArgs<ExtArgs>
+  }
+
+  export type $MrpSuggestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MrpSuggestion"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      run: Prisma.$MrpRunPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      runId: string
+      skuId: string
+      suggestionType: $Enums.PlannedOrderType
+      quantity: Prisma.Decimal
+      reason: string
+      dueInDays: number
+    }, ExtArgs["result"]["mrpSuggestion"]>
+    composites: {}
+  }
+
+  type MrpSuggestionGetPayload<S extends boolean | null | undefined | MrpSuggestionDefaultArgs> = $Result.GetResult<Prisma.$MrpSuggestionPayload, S>
+
+  type MrpSuggestionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MrpSuggestionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MrpSuggestionCountAggregateInputType | true
+    }
+
+  export interface MrpSuggestionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MrpSuggestion'], meta: { name: 'MrpSuggestion' } }
+    /**
+     * Find zero or one MrpSuggestion that matches the filter.
+     * @param {MrpSuggestionFindUniqueArgs} args - Arguments to find a MrpSuggestion
+     * @example
+     * // Get one MrpSuggestion
+     * const mrpSuggestion = await prisma.mrpSuggestion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MrpSuggestionFindUniqueArgs>(args: SelectSubset<T, MrpSuggestionFindUniqueArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MrpSuggestion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MrpSuggestionFindUniqueOrThrowArgs} args - Arguments to find a MrpSuggestion
+     * @example
+     * // Get one MrpSuggestion
+     * const mrpSuggestion = await prisma.mrpSuggestion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MrpSuggestionFindUniqueOrThrowArgs>(args: SelectSubset<T, MrpSuggestionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MrpSuggestion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpSuggestionFindFirstArgs} args - Arguments to find a MrpSuggestion
+     * @example
+     * // Get one MrpSuggestion
+     * const mrpSuggestion = await prisma.mrpSuggestion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MrpSuggestionFindFirstArgs>(args?: SelectSubset<T, MrpSuggestionFindFirstArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MrpSuggestion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpSuggestionFindFirstOrThrowArgs} args - Arguments to find a MrpSuggestion
+     * @example
+     * // Get one MrpSuggestion
+     * const mrpSuggestion = await prisma.mrpSuggestion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MrpSuggestionFindFirstOrThrowArgs>(args?: SelectSubset<T, MrpSuggestionFindFirstOrThrowArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MrpSuggestions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpSuggestionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MrpSuggestions
+     * const mrpSuggestions = await prisma.mrpSuggestion.findMany()
+     * 
+     * // Get first 10 MrpSuggestions
+     * const mrpSuggestions = await prisma.mrpSuggestion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mrpSuggestionWithIdOnly = await prisma.mrpSuggestion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MrpSuggestionFindManyArgs>(args?: SelectSubset<T, MrpSuggestionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MrpSuggestion.
+     * @param {MrpSuggestionCreateArgs} args - Arguments to create a MrpSuggestion.
+     * @example
+     * // Create one MrpSuggestion
+     * const MrpSuggestion = await prisma.mrpSuggestion.create({
+     *   data: {
+     *     // ... data to create a MrpSuggestion
+     *   }
+     * })
+     * 
+     */
+    create<T extends MrpSuggestionCreateArgs>(args: SelectSubset<T, MrpSuggestionCreateArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MrpSuggestions.
+     * @param {MrpSuggestionCreateManyArgs} args - Arguments to create many MrpSuggestions.
+     * @example
+     * // Create many MrpSuggestions
+     * const mrpSuggestion = await prisma.mrpSuggestion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MrpSuggestionCreateManyArgs>(args?: SelectSubset<T, MrpSuggestionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MrpSuggestions and returns the data saved in the database.
+     * @param {MrpSuggestionCreateManyAndReturnArgs} args - Arguments to create many MrpSuggestions.
+     * @example
+     * // Create many MrpSuggestions
+     * const mrpSuggestion = await prisma.mrpSuggestion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MrpSuggestions and only return the `id`
+     * const mrpSuggestionWithIdOnly = await prisma.mrpSuggestion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MrpSuggestionCreateManyAndReturnArgs>(args?: SelectSubset<T, MrpSuggestionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MrpSuggestion.
+     * @param {MrpSuggestionDeleteArgs} args - Arguments to delete one MrpSuggestion.
+     * @example
+     * // Delete one MrpSuggestion
+     * const MrpSuggestion = await prisma.mrpSuggestion.delete({
+     *   where: {
+     *     // ... filter to delete one MrpSuggestion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MrpSuggestionDeleteArgs>(args: SelectSubset<T, MrpSuggestionDeleteArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MrpSuggestion.
+     * @param {MrpSuggestionUpdateArgs} args - Arguments to update one MrpSuggestion.
+     * @example
+     * // Update one MrpSuggestion
+     * const mrpSuggestion = await prisma.mrpSuggestion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MrpSuggestionUpdateArgs>(args: SelectSubset<T, MrpSuggestionUpdateArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MrpSuggestions.
+     * @param {MrpSuggestionDeleteManyArgs} args - Arguments to filter MrpSuggestions to delete.
+     * @example
+     * // Delete a few MrpSuggestions
+     * const { count } = await prisma.mrpSuggestion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MrpSuggestionDeleteManyArgs>(args?: SelectSubset<T, MrpSuggestionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MrpSuggestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpSuggestionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MrpSuggestions
+     * const mrpSuggestion = await prisma.mrpSuggestion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MrpSuggestionUpdateManyArgs>(args: SelectSubset<T, MrpSuggestionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MrpSuggestions and returns the data updated in the database.
+     * @param {MrpSuggestionUpdateManyAndReturnArgs} args - Arguments to update many MrpSuggestions.
+     * @example
+     * // Update many MrpSuggestions
+     * const mrpSuggestion = await prisma.mrpSuggestion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MrpSuggestions and only return the `id`
+     * const mrpSuggestionWithIdOnly = await prisma.mrpSuggestion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MrpSuggestionUpdateManyAndReturnArgs>(args: SelectSubset<T, MrpSuggestionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MrpSuggestion.
+     * @param {MrpSuggestionUpsertArgs} args - Arguments to update or create a MrpSuggestion.
+     * @example
+     * // Update or create a MrpSuggestion
+     * const mrpSuggestion = await prisma.mrpSuggestion.upsert({
+     *   create: {
+     *     // ... data to create a MrpSuggestion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MrpSuggestion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MrpSuggestionUpsertArgs>(args: SelectSubset<T, MrpSuggestionUpsertArgs<ExtArgs>>): Prisma__MrpSuggestionClient<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MrpSuggestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpSuggestionCountArgs} args - Arguments to filter MrpSuggestions to count.
+     * @example
+     * // Count the number of MrpSuggestions
+     * const count = await prisma.mrpSuggestion.count({
+     *   where: {
+     *     // ... the filter for the MrpSuggestions we want to count
+     *   }
+     * })
+    **/
+    count<T extends MrpSuggestionCountArgs>(
+      args?: Subset<T, MrpSuggestionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MrpSuggestionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MrpSuggestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpSuggestionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MrpSuggestionAggregateArgs>(args: Subset<T, MrpSuggestionAggregateArgs>): Prisma.PrismaPromise<GetMrpSuggestionAggregateType<T>>
+
+    /**
+     * Group by MrpSuggestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MrpSuggestionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MrpSuggestionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MrpSuggestionGroupByArgs['orderBy'] }
+        : { orderBy?: MrpSuggestionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MrpSuggestionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMrpSuggestionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MrpSuggestion model
+   */
+  readonly fields: MrpSuggestionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MrpSuggestion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MrpSuggestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    run<T extends MrpRunDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MrpRunDefaultArgs<ExtArgs>>): Prisma__MrpRunClient<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MrpSuggestion model
+   */
+  interface MrpSuggestionFieldRefs {
+    readonly id: FieldRef<"MrpSuggestion", 'String'>
+    readonly tenantId: FieldRef<"MrpSuggestion", 'String'>
+    readonly runId: FieldRef<"MrpSuggestion", 'String'>
+    readonly skuId: FieldRef<"MrpSuggestion", 'String'>
+    readonly suggestionType: FieldRef<"MrpSuggestion", 'PlannedOrderType'>
+    readonly quantity: FieldRef<"MrpSuggestion", 'Decimal'>
+    readonly reason: FieldRef<"MrpSuggestion", 'String'>
+    readonly dueInDays: FieldRef<"MrpSuggestion", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MrpSuggestion findUnique
+   */
+  export type MrpSuggestionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpSuggestion to fetch.
+     */
+    where: MrpSuggestionWhereUniqueInput
+  }
+
+  /**
+   * MrpSuggestion findUniqueOrThrow
+   */
+  export type MrpSuggestionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpSuggestion to fetch.
+     */
+    where: MrpSuggestionWhereUniqueInput
+  }
+
+  /**
+   * MrpSuggestion findFirst
+   */
+  export type MrpSuggestionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpSuggestion to fetch.
+     */
+    where?: MrpSuggestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpSuggestions to fetch.
+     */
+    orderBy?: MrpSuggestionOrderByWithRelationInput | MrpSuggestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MrpSuggestions.
+     */
+    cursor?: MrpSuggestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpSuggestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpSuggestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MrpSuggestions.
+     */
+    distinct?: MrpSuggestionScalarFieldEnum | MrpSuggestionScalarFieldEnum[]
+  }
+
+  /**
+   * MrpSuggestion findFirstOrThrow
+   */
+  export type MrpSuggestionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpSuggestion to fetch.
+     */
+    where?: MrpSuggestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpSuggestions to fetch.
+     */
+    orderBy?: MrpSuggestionOrderByWithRelationInput | MrpSuggestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MrpSuggestions.
+     */
+    cursor?: MrpSuggestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpSuggestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpSuggestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MrpSuggestions.
+     */
+    distinct?: MrpSuggestionScalarFieldEnum | MrpSuggestionScalarFieldEnum[]
+  }
+
+  /**
+   * MrpSuggestion findMany
+   */
+  export type MrpSuggestionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * Filter, which MrpSuggestions to fetch.
+     */
+    where?: MrpSuggestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MrpSuggestions to fetch.
+     */
+    orderBy?: MrpSuggestionOrderByWithRelationInput | MrpSuggestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MrpSuggestions.
+     */
+    cursor?: MrpSuggestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MrpSuggestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MrpSuggestions.
+     */
+    skip?: number
+    distinct?: MrpSuggestionScalarFieldEnum | MrpSuggestionScalarFieldEnum[]
+  }
+
+  /**
+   * MrpSuggestion create
+   */
+  export type MrpSuggestionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MrpSuggestion.
+     */
+    data: XOR<MrpSuggestionCreateInput, MrpSuggestionUncheckedCreateInput>
+  }
+
+  /**
+   * MrpSuggestion createMany
+   */
+  export type MrpSuggestionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MrpSuggestions.
+     */
+    data: MrpSuggestionCreateManyInput | MrpSuggestionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MrpSuggestion createManyAndReturn
+   */
+  export type MrpSuggestionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * The data used to create many MrpSuggestions.
+     */
+    data: MrpSuggestionCreateManyInput | MrpSuggestionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MrpSuggestion update
+   */
+  export type MrpSuggestionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MrpSuggestion.
+     */
+    data: XOR<MrpSuggestionUpdateInput, MrpSuggestionUncheckedUpdateInput>
+    /**
+     * Choose, which MrpSuggestion to update.
+     */
+    where: MrpSuggestionWhereUniqueInput
+  }
+
+  /**
+   * MrpSuggestion updateMany
+   */
+  export type MrpSuggestionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MrpSuggestions.
+     */
+    data: XOR<MrpSuggestionUpdateManyMutationInput, MrpSuggestionUncheckedUpdateManyInput>
+    /**
+     * Filter which MrpSuggestions to update
+     */
+    where?: MrpSuggestionWhereInput
+    /**
+     * Limit how many MrpSuggestions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MrpSuggestion updateManyAndReturn
+   */
+  export type MrpSuggestionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * The data used to update MrpSuggestions.
+     */
+    data: XOR<MrpSuggestionUpdateManyMutationInput, MrpSuggestionUncheckedUpdateManyInput>
+    /**
+     * Filter which MrpSuggestions to update
+     */
+    where?: MrpSuggestionWhereInput
+    /**
+     * Limit how many MrpSuggestions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MrpSuggestion upsert
+   */
+  export type MrpSuggestionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MrpSuggestion to update in case it exists.
+     */
+    where: MrpSuggestionWhereUniqueInput
+    /**
+     * In case the MrpSuggestion found by the `where` argument doesn't exist, create a new MrpSuggestion with this data.
+     */
+    create: XOR<MrpSuggestionCreateInput, MrpSuggestionUncheckedCreateInput>
+    /**
+     * In case the MrpSuggestion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MrpSuggestionUpdateInput, MrpSuggestionUncheckedUpdateInput>
+  }
+
+  /**
+   * MrpSuggestion delete
+   */
+  export type MrpSuggestionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+    /**
+     * Filter which MrpSuggestion to delete.
+     */
+    where: MrpSuggestionWhereUniqueInput
+  }
+
+  /**
+   * MrpSuggestion deleteMany
+   */
+  export type MrpSuggestionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MrpSuggestions to delete
+     */
+    where?: MrpSuggestionWhereInput
+    /**
+     * Limit how many MrpSuggestions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MrpSuggestion without action
+   */
+  export type MrpSuggestionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MrpSuggestion
+     */
+    select?: MrpSuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MrpSuggestion
+     */
+    omit?: MrpSuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MrpSuggestionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -79463,6 +83327,47 @@ export namespace Prisma {
   export type EngineeringChangeScalarFieldEnum = (typeof EngineeringChangeScalarFieldEnum)[keyof typeof EngineeringChangeScalarFieldEnum]
 
 
+  export const PlanningPolicyScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    safetyStock: 'safetyStock',
+    reorderPoint: 'reorderPoint',
+    leadTimeDays: 'leadTimeDays',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PlanningPolicyScalarFieldEnum = (typeof PlanningPolicyScalarFieldEnum)[keyof typeof PlanningPolicyScalarFieldEnum]
+
+
+  export const MrpRunScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    runNumber: 'runNumber',
+    demandSkus: 'demandSkus',
+    suggestionCount: 'suggestionCount',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type MrpRunScalarFieldEnum = (typeof MrpRunScalarFieldEnum)[keyof typeof MrpRunScalarFieldEnum]
+
+
+  export const MrpSuggestionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    runId: 'runId',
+    skuId: 'skuId',
+    suggestionType: 'suggestionType',
+    quantity: 'quantity',
+    reason: 'reason',
+    dueInDays: 'dueInDays'
+  };
+
+  export type MrpSuggestionScalarFieldEnum = (typeof MrpSuggestionScalarFieldEnum)[keyof typeof MrpSuggestionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -80042,6 +83947,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'PlannedOrderType'
+   */
+  export type EnumPlannedOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlannedOrderType'>
+    
+
+
+  /**
+   * Reference to a field of type 'PlannedOrderType[]'
+   */
+  export type ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlannedOrderType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -80119,6 +84038,9 @@ export namespace Prisma {
     routings?: RoutingListRelationFilter
     routingOperations?: RoutingOperationListRelationFilter
     engineeringChanges?: EngineeringChangeListRelationFilter
+    planningPolicies?: PlanningPolicyListRelationFilter
+    mrpRuns?: MrpRunListRelationFilter
+    mrpSuggestions?: MrpSuggestionListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -80179,6 +84101,9 @@ export namespace Prisma {
     routings?: RoutingOrderByRelationAggregateInput
     routingOperations?: RoutingOperationOrderByRelationAggregateInput
     engineeringChanges?: EngineeringChangeOrderByRelationAggregateInput
+    planningPolicies?: PlanningPolicyOrderByRelationAggregateInput
+    mrpRuns?: MrpRunOrderByRelationAggregateInput
+    mrpSuggestions?: MrpSuggestionOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -80242,6 +84167,9 @@ export namespace Prisma {
     routings?: RoutingListRelationFilter
     routingOperations?: RoutingOperationListRelationFilter
     engineeringChanges?: EngineeringChangeListRelationFilter
+    planningPolicies?: PlanningPolicyListRelationFilter
+    mrpRuns?: MrpRunListRelationFilter
+    mrpSuggestions?: MrpSuggestionListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -84856,6 +88784,225 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"EngineeringChange"> | Date | string
   }
 
+  export type PlanningPolicyWhereInput = {
+    AND?: PlanningPolicyWhereInput | PlanningPolicyWhereInput[]
+    OR?: PlanningPolicyWhereInput[]
+    NOT?: PlanningPolicyWhereInput | PlanningPolicyWhereInput[]
+    id?: UuidFilter<"PlanningPolicy"> | string
+    tenantId?: UuidFilter<"PlanningPolicy"> | string
+    skuId?: UuidFilter<"PlanningPolicy"> | string
+    safetyStock?: DecimalFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFilter<"PlanningPolicy"> | number
+    createdAt?: DateTimeFilter<"PlanningPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PlanningPolicy"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type PlanningPolicyOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    safetyStock?: SortOrder
+    reorderPoint?: SortOrder
+    leadTimeDays?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type PlanningPolicyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId?: PlanningPolicyTenantIdSkuIdCompoundUniqueInput
+    AND?: PlanningPolicyWhereInput | PlanningPolicyWhereInput[]
+    OR?: PlanningPolicyWhereInput[]
+    NOT?: PlanningPolicyWhereInput | PlanningPolicyWhereInput[]
+    tenantId?: UuidFilter<"PlanningPolicy"> | string
+    skuId?: UuidFilter<"PlanningPolicy"> | string
+    safetyStock?: DecimalFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFilter<"PlanningPolicy"> | number
+    createdAt?: DateTimeFilter<"PlanningPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PlanningPolicy"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_skuId">
+
+  export type PlanningPolicyOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    safetyStock?: SortOrder
+    reorderPoint?: SortOrder
+    leadTimeDays?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PlanningPolicyCountOrderByAggregateInput
+    _avg?: PlanningPolicyAvgOrderByAggregateInput
+    _max?: PlanningPolicyMaxOrderByAggregateInput
+    _min?: PlanningPolicyMinOrderByAggregateInput
+    _sum?: PlanningPolicySumOrderByAggregateInput
+  }
+
+  export type PlanningPolicyScalarWhereWithAggregatesInput = {
+    AND?: PlanningPolicyScalarWhereWithAggregatesInput | PlanningPolicyScalarWhereWithAggregatesInput[]
+    OR?: PlanningPolicyScalarWhereWithAggregatesInput[]
+    NOT?: PlanningPolicyScalarWhereWithAggregatesInput | PlanningPolicyScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PlanningPolicy"> | string
+    tenantId?: UuidWithAggregatesFilter<"PlanningPolicy"> | string
+    skuId?: UuidWithAggregatesFilter<"PlanningPolicy"> | string
+    safetyStock?: DecimalWithAggregatesFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalWithAggregatesFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntWithAggregatesFilter<"PlanningPolicy"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PlanningPolicy"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PlanningPolicy"> | Date | string
+  }
+
+  export type MrpRunWhereInput = {
+    AND?: MrpRunWhereInput | MrpRunWhereInput[]
+    OR?: MrpRunWhereInput[]
+    NOT?: MrpRunWhereInput | MrpRunWhereInput[]
+    id?: UuidFilter<"MrpRun"> | string
+    tenantId?: UuidFilter<"MrpRun"> | string
+    runNumber?: StringFilter<"MrpRun"> | string
+    demandSkus?: IntFilter<"MrpRun"> | number
+    suggestionCount?: IntFilter<"MrpRun"> | number
+    createdBy?: StringNullableFilter<"MrpRun"> | string | null
+    createdAt?: DateTimeFilter<"MrpRun"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    suggestions?: MrpSuggestionListRelationFilter
+  }
+
+  export type MrpRunOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runNumber?: SortOrder
+    demandSkus?: SortOrder
+    suggestionCount?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    suggestions?: MrpSuggestionOrderByRelationAggregateInput
+  }
+
+  export type MrpRunWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_runNumber?: MrpRunTenantIdRunNumberCompoundUniqueInput
+    AND?: MrpRunWhereInput | MrpRunWhereInput[]
+    OR?: MrpRunWhereInput[]
+    NOT?: MrpRunWhereInput | MrpRunWhereInput[]
+    tenantId?: UuidFilter<"MrpRun"> | string
+    runNumber?: StringFilter<"MrpRun"> | string
+    demandSkus?: IntFilter<"MrpRun"> | number
+    suggestionCount?: IntFilter<"MrpRun"> | number
+    createdBy?: StringNullableFilter<"MrpRun"> | string | null
+    createdAt?: DateTimeFilter<"MrpRun"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    suggestions?: MrpSuggestionListRelationFilter
+  }, "id" | "tenantId_runNumber">
+
+  export type MrpRunOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runNumber?: SortOrder
+    demandSkus?: SortOrder
+    suggestionCount?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: MrpRunCountOrderByAggregateInput
+    _avg?: MrpRunAvgOrderByAggregateInput
+    _max?: MrpRunMaxOrderByAggregateInput
+    _min?: MrpRunMinOrderByAggregateInput
+    _sum?: MrpRunSumOrderByAggregateInput
+  }
+
+  export type MrpRunScalarWhereWithAggregatesInput = {
+    AND?: MrpRunScalarWhereWithAggregatesInput | MrpRunScalarWhereWithAggregatesInput[]
+    OR?: MrpRunScalarWhereWithAggregatesInput[]
+    NOT?: MrpRunScalarWhereWithAggregatesInput | MrpRunScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"MrpRun"> | string
+    tenantId?: UuidWithAggregatesFilter<"MrpRun"> | string
+    runNumber?: StringWithAggregatesFilter<"MrpRun"> | string
+    demandSkus?: IntWithAggregatesFilter<"MrpRun"> | number
+    suggestionCount?: IntWithAggregatesFilter<"MrpRun"> | number
+    createdBy?: StringNullableWithAggregatesFilter<"MrpRun"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MrpRun"> | Date | string
+  }
+
+  export type MrpSuggestionWhereInput = {
+    AND?: MrpSuggestionWhereInput | MrpSuggestionWhereInput[]
+    OR?: MrpSuggestionWhereInput[]
+    NOT?: MrpSuggestionWhereInput | MrpSuggestionWhereInput[]
+    id?: UuidFilter<"MrpSuggestion"> | string
+    tenantId?: UuidFilter<"MrpSuggestion"> | string
+    runId?: UuidFilter<"MrpSuggestion"> | string
+    skuId?: UuidFilter<"MrpSuggestion"> | string
+    suggestionType?: EnumPlannedOrderTypeFilter<"MrpSuggestion"> | $Enums.PlannedOrderType
+    quantity?: DecimalFilter<"MrpSuggestion"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"MrpSuggestion"> | string
+    dueInDays?: IntFilter<"MrpSuggestion"> | number
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    run?: XOR<MrpRunScalarRelationFilter, MrpRunWhereInput>
+  }
+
+  export type MrpSuggestionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runId?: SortOrder
+    skuId?: SortOrder
+    suggestionType?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    dueInDays?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    run?: MrpRunOrderByWithRelationInput
+  }
+
+  export type MrpSuggestionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MrpSuggestionWhereInput | MrpSuggestionWhereInput[]
+    OR?: MrpSuggestionWhereInput[]
+    NOT?: MrpSuggestionWhereInput | MrpSuggestionWhereInput[]
+    tenantId?: UuidFilter<"MrpSuggestion"> | string
+    runId?: UuidFilter<"MrpSuggestion"> | string
+    skuId?: UuidFilter<"MrpSuggestion"> | string
+    suggestionType?: EnumPlannedOrderTypeFilter<"MrpSuggestion"> | $Enums.PlannedOrderType
+    quantity?: DecimalFilter<"MrpSuggestion"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"MrpSuggestion"> | string
+    dueInDays?: IntFilter<"MrpSuggestion"> | number
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    run?: XOR<MrpRunScalarRelationFilter, MrpRunWhereInput>
+  }, "id">
+
+  export type MrpSuggestionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runId?: SortOrder
+    skuId?: SortOrder
+    suggestionType?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    dueInDays?: SortOrder
+    _count?: MrpSuggestionCountOrderByAggregateInput
+    _avg?: MrpSuggestionAvgOrderByAggregateInput
+    _max?: MrpSuggestionMaxOrderByAggregateInput
+    _min?: MrpSuggestionMinOrderByAggregateInput
+    _sum?: MrpSuggestionSumOrderByAggregateInput
+  }
+
+  export type MrpSuggestionScalarWhereWithAggregatesInput = {
+    AND?: MrpSuggestionScalarWhereWithAggregatesInput | MrpSuggestionScalarWhereWithAggregatesInput[]
+    OR?: MrpSuggestionScalarWhereWithAggregatesInput[]
+    NOT?: MrpSuggestionScalarWhereWithAggregatesInput | MrpSuggestionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"MrpSuggestion"> | string
+    tenantId?: UuidWithAggregatesFilter<"MrpSuggestion"> | string
+    runId?: UuidWithAggregatesFilter<"MrpSuggestion"> | string
+    skuId?: UuidWithAggregatesFilter<"MrpSuggestion"> | string
+    suggestionType?: EnumPlannedOrderTypeWithAggregatesFilter<"MrpSuggestion"> | $Enums.PlannedOrderType
+    quantity?: DecimalWithAggregatesFilter<"MrpSuggestion"> | Decimal | DecimalJsLike | number | string
+    reason?: StringWithAggregatesFilter<"MrpSuggestion"> | string
+    dueInDays?: IntWithAggregatesFilter<"MrpSuggestion"> | number
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -84914,6 +89061,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -84974,6 +89124,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -85034,6 +89187,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -85094,6 +89250,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -90005,6 +94164,230 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PlanningPolicyCreateInput = {
+    id?: string
+    skuId: string
+    safetyStock?: Decimal | DecimalJsLike | number | string
+    reorderPoint?: Decimal | DecimalJsLike | number | string
+    leadTimeDays?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPlanningPoliciesInput
+  }
+
+  export type PlanningPolicyUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    safetyStock?: Decimal | DecimalJsLike | number | string
+    reorderPoint?: Decimal | DecimalJsLike | number | string
+    leadTimeDays?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlanningPolicyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    safetyStock?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPlanningPoliciesNestedInput
+  }
+
+  export type PlanningPolicyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    safetyStock?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlanningPolicyCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    safetyStock?: Decimal | DecimalJsLike | number | string
+    reorderPoint?: Decimal | DecimalJsLike | number | string
+    leadTimeDays?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlanningPolicyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    safetyStock?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlanningPolicyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    safetyStock?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MrpRunCreateInput = {
+    id?: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutMrpRunsInput
+    suggestions?: MrpSuggestionCreateNestedManyWithoutRunInput
+  }
+
+  export type MrpRunUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+    suggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutRunInput
+  }
+
+  export type MrpRunUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutMrpRunsNestedInput
+    suggestions?: MrpSuggestionUpdateManyWithoutRunNestedInput
+  }
+
+  export type MrpRunUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    suggestions?: MrpSuggestionUncheckedUpdateManyWithoutRunNestedInput
+  }
+
+  export type MrpRunCreateManyInput = {
+    id?: string
+    tenantId: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MrpRunUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MrpRunUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MrpSuggestionCreateInput = {
+    id?: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+    tenant: TenantCreateNestedOneWithoutMrpSuggestionsInput
+    run: MrpRunCreateNestedOneWithoutSuggestionsInput
+  }
+
+  export type MrpSuggestionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    runId: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+  }
+
+  export type MrpSuggestionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+    tenant?: TenantUpdateOneRequiredWithoutMrpSuggestionsNestedInput
+    run?: MrpRunUpdateOneRequiredWithoutSuggestionsNestedInput
+  }
+
+  export type MrpSuggestionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    runId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MrpSuggestionCreateManyInput = {
+    id?: string
+    tenantId: string
+    runId: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+  }
+
+  export type MrpSuggestionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MrpSuggestionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    runId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -90361,6 +94744,24 @@ export namespace Prisma {
     none?: EngineeringChangeWhereInput
   }
 
+  export type PlanningPolicyListRelationFilter = {
+    every?: PlanningPolicyWhereInput
+    some?: PlanningPolicyWhereInput
+    none?: PlanningPolicyWhereInput
+  }
+
+  export type MrpRunListRelationFilter = {
+    every?: MrpRunWhereInput
+    some?: MrpRunWhereInput
+    none?: MrpRunWhereInput
+  }
+
+  export type MrpSuggestionListRelationFilter = {
+    every?: MrpSuggestionWhereInput
+    some?: MrpSuggestionWhereInput
+    none?: MrpSuggestionWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -90558,6 +94959,18 @@ export namespace Prisma {
   }
 
   export type EngineeringChangeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlanningPolicyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MrpRunOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MrpSuggestionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -94231,6 +98644,166 @@ export namespace Prisma {
     _max?: NestedEnumEcStatusFilter<$PrismaModel>
   }
 
+  export type PlanningPolicyTenantIdSkuIdCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+  }
+
+  export type PlanningPolicyCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    safetyStock?: SortOrder
+    reorderPoint?: SortOrder
+    leadTimeDays?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlanningPolicyAvgOrderByAggregateInput = {
+    safetyStock?: SortOrder
+    reorderPoint?: SortOrder
+    leadTimeDays?: SortOrder
+  }
+
+  export type PlanningPolicyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    safetyStock?: SortOrder
+    reorderPoint?: SortOrder
+    leadTimeDays?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlanningPolicyMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    safetyStock?: SortOrder
+    reorderPoint?: SortOrder
+    leadTimeDays?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlanningPolicySumOrderByAggregateInput = {
+    safetyStock?: SortOrder
+    reorderPoint?: SortOrder
+    leadTimeDays?: SortOrder
+  }
+
+  export type MrpRunTenantIdRunNumberCompoundUniqueInput = {
+    tenantId: string
+    runNumber: string
+  }
+
+  export type MrpRunCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runNumber?: SortOrder
+    demandSkus?: SortOrder
+    suggestionCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MrpRunAvgOrderByAggregateInput = {
+    demandSkus?: SortOrder
+    suggestionCount?: SortOrder
+  }
+
+  export type MrpRunMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runNumber?: SortOrder
+    demandSkus?: SortOrder
+    suggestionCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MrpRunMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runNumber?: SortOrder
+    demandSkus?: SortOrder
+    suggestionCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MrpRunSumOrderByAggregateInput = {
+    demandSkus?: SortOrder
+    suggestionCount?: SortOrder
+  }
+
+  export type EnumPlannedOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlannedOrderType | EnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlannedOrderTypeFilter<$PrismaModel> | $Enums.PlannedOrderType
+  }
+
+  export type MrpRunScalarRelationFilter = {
+    is?: MrpRunWhereInput
+    isNot?: MrpRunWhereInput
+  }
+
+  export type MrpSuggestionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runId?: SortOrder
+    skuId?: SortOrder
+    suggestionType?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    dueInDays?: SortOrder
+  }
+
+  export type MrpSuggestionAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    dueInDays?: SortOrder
+  }
+
+  export type MrpSuggestionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runId?: SortOrder
+    skuId?: SortOrder
+    suggestionType?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    dueInDays?: SortOrder
+  }
+
+  export type MrpSuggestionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    runId?: SortOrder
+    skuId?: SortOrder
+    suggestionType?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    dueInDays?: SortOrder
+  }
+
+  export type MrpSuggestionSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    dueInDays?: SortOrder
+  }
+
+  export type EnumPlannedOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlannedOrderType | EnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlannedOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.PlannedOrderType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPlannedOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumPlannedOrderTypeFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -94581,6 +99154,27 @@ export namespace Prisma {
     connect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
   }
 
+  export type PlanningPolicyCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PlanningPolicyCreateWithoutTenantInput, PlanningPolicyUncheckedCreateWithoutTenantInput> | PlanningPolicyCreateWithoutTenantInput[] | PlanningPolicyUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PlanningPolicyCreateOrConnectWithoutTenantInput | PlanningPolicyCreateOrConnectWithoutTenantInput[]
+    createMany?: PlanningPolicyCreateManyTenantInputEnvelope
+    connect?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+  }
+
+  export type MrpRunCreateNestedManyWithoutTenantInput = {
+    create?: XOR<MrpRunCreateWithoutTenantInput, MrpRunUncheckedCreateWithoutTenantInput> | MrpRunCreateWithoutTenantInput[] | MrpRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpRunCreateOrConnectWithoutTenantInput | MrpRunCreateOrConnectWithoutTenantInput[]
+    createMany?: MrpRunCreateManyTenantInputEnvelope
+    connect?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+  }
+
+  export type MrpSuggestionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<MrpSuggestionCreateWithoutTenantInput, MrpSuggestionUncheckedCreateWithoutTenantInput> | MrpSuggestionCreateWithoutTenantInput[] | MrpSuggestionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutTenantInput | MrpSuggestionCreateOrConnectWithoutTenantInput[]
+    createMany?: MrpSuggestionCreateManyTenantInputEnvelope
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -94929,6 +99523,27 @@ export namespace Prisma {
     connectOrCreate?: EngineeringChangeCreateOrConnectWithoutTenantInput | EngineeringChangeCreateOrConnectWithoutTenantInput[]
     createMany?: EngineeringChangeCreateManyTenantInputEnvelope
     connect?: EngineeringChangeWhereUniqueInput | EngineeringChangeWhereUniqueInput[]
+  }
+
+  export type PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PlanningPolicyCreateWithoutTenantInput, PlanningPolicyUncheckedCreateWithoutTenantInput> | PlanningPolicyCreateWithoutTenantInput[] | PlanningPolicyUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PlanningPolicyCreateOrConnectWithoutTenantInput | PlanningPolicyCreateOrConnectWithoutTenantInput[]
+    createMany?: PlanningPolicyCreateManyTenantInputEnvelope
+    connect?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+  }
+
+  export type MrpRunUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<MrpRunCreateWithoutTenantInput, MrpRunUncheckedCreateWithoutTenantInput> | MrpRunCreateWithoutTenantInput[] | MrpRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpRunCreateOrConnectWithoutTenantInput | MrpRunCreateOrConnectWithoutTenantInput[]
+    createMany?: MrpRunCreateManyTenantInputEnvelope
+    connect?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+  }
+
+  export type MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<MrpSuggestionCreateWithoutTenantInput, MrpSuggestionUncheckedCreateWithoutTenantInput> | MrpSuggestionCreateWithoutTenantInput[] | MrpSuggestionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutTenantInput | MrpSuggestionCreateOrConnectWithoutTenantInput[]
+    createMany?: MrpSuggestionCreateManyTenantInputEnvelope
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -95651,6 +100266,48 @@ export namespace Prisma {
     deleteMany?: EngineeringChangeScalarWhereInput | EngineeringChangeScalarWhereInput[]
   }
 
+  export type PlanningPolicyUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PlanningPolicyCreateWithoutTenantInput, PlanningPolicyUncheckedCreateWithoutTenantInput> | PlanningPolicyCreateWithoutTenantInput[] | PlanningPolicyUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PlanningPolicyCreateOrConnectWithoutTenantInput | PlanningPolicyCreateOrConnectWithoutTenantInput[]
+    upsert?: PlanningPolicyUpsertWithWhereUniqueWithoutTenantInput | PlanningPolicyUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PlanningPolicyCreateManyTenantInputEnvelope
+    set?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    disconnect?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    delete?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    connect?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    update?: PlanningPolicyUpdateWithWhereUniqueWithoutTenantInput | PlanningPolicyUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PlanningPolicyUpdateManyWithWhereWithoutTenantInput | PlanningPolicyUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PlanningPolicyScalarWhereInput | PlanningPolicyScalarWhereInput[]
+  }
+
+  export type MrpRunUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<MrpRunCreateWithoutTenantInput, MrpRunUncheckedCreateWithoutTenantInput> | MrpRunCreateWithoutTenantInput[] | MrpRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpRunCreateOrConnectWithoutTenantInput | MrpRunCreateOrConnectWithoutTenantInput[]
+    upsert?: MrpRunUpsertWithWhereUniqueWithoutTenantInput | MrpRunUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: MrpRunCreateManyTenantInputEnvelope
+    set?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    disconnect?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    delete?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    connect?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    update?: MrpRunUpdateWithWhereUniqueWithoutTenantInput | MrpRunUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: MrpRunUpdateManyWithWhereWithoutTenantInput | MrpRunUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: MrpRunScalarWhereInput | MrpRunScalarWhereInput[]
+  }
+
+  export type MrpSuggestionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<MrpSuggestionCreateWithoutTenantInput, MrpSuggestionUncheckedCreateWithoutTenantInput> | MrpSuggestionCreateWithoutTenantInput[] | MrpSuggestionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutTenantInput | MrpSuggestionCreateOrConnectWithoutTenantInput[]
+    upsert?: MrpSuggestionUpsertWithWhereUniqueWithoutTenantInput | MrpSuggestionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: MrpSuggestionCreateManyTenantInputEnvelope
+    set?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    disconnect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    delete?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    update?: MrpSuggestionUpdateWithWhereUniqueWithoutTenantInput | MrpSuggestionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: MrpSuggestionUpdateManyWithWhereWithoutTenantInput | MrpSuggestionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -96349,6 +101006,48 @@ export namespace Prisma {
     update?: EngineeringChangeUpdateWithWhereUniqueWithoutTenantInput | EngineeringChangeUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: EngineeringChangeUpdateManyWithWhereWithoutTenantInput | EngineeringChangeUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: EngineeringChangeScalarWhereInput | EngineeringChangeScalarWhereInput[]
+  }
+
+  export type PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PlanningPolicyCreateWithoutTenantInput, PlanningPolicyUncheckedCreateWithoutTenantInput> | PlanningPolicyCreateWithoutTenantInput[] | PlanningPolicyUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PlanningPolicyCreateOrConnectWithoutTenantInput | PlanningPolicyCreateOrConnectWithoutTenantInput[]
+    upsert?: PlanningPolicyUpsertWithWhereUniqueWithoutTenantInput | PlanningPolicyUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PlanningPolicyCreateManyTenantInputEnvelope
+    set?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    disconnect?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    delete?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    connect?: PlanningPolicyWhereUniqueInput | PlanningPolicyWhereUniqueInput[]
+    update?: PlanningPolicyUpdateWithWhereUniqueWithoutTenantInput | PlanningPolicyUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PlanningPolicyUpdateManyWithWhereWithoutTenantInput | PlanningPolicyUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PlanningPolicyScalarWhereInput | PlanningPolicyScalarWhereInput[]
+  }
+
+  export type MrpRunUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<MrpRunCreateWithoutTenantInput, MrpRunUncheckedCreateWithoutTenantInput> | MrpRunCreateWithoutTenantInput[] | MrpRunUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpRunCreateOrConnectWithoutTenantInput | MrpRunCreateOrConnectWithoutTenantInput[]
+    upsert?: MrpRunUpsertWithWhereUniqueWithoutTenantInput | MrpRunUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: MrpRunCreateManyTenantInputEnvelope
+    set?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    disconnect?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    delete?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    connect?: MrpRunWhereUniqueInput | MrpRunWhereUniqueInput[]
+    update?: MrpRunUpdateWithWhereUniqueWithoutTenantInput | MrpRunUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: MrpRunUpdateManyWithWhereWithoutTenantInput | MrpRunUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: MrpRunScalarWhereInput | MrpRunScalarWhereInput[]
+  }
+
+  export type MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<MrpSuggestionCreateWithoutTenantInput, MrpSuggestionUncheckedCreateWithoutTenantInput> | MrpSuggestionCreateWithoutTenantInput[] | MrpSuggestionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutTenantInput | MrpSuggestionCreateOrConnectWithoutTenantInput[]
+    upsert?: MrpSuggestionUpsertWithWhereUniqueWithoutTenantInput | MrpSuggestionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: MrpSuggestionCreateManyTenantInputEnvelope
+    set?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    disconnect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    delete?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    update?: MrpSuggestionUpdateWithWhereUniqueWithoutTenantInput | MrpSuggestionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: MrpSuggestionUpdateManyWithWhereWithoutTenantInput | MrpSuggestionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -98671,6 +103370,108 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutEngineeringChangesInput, TenantUpdateWithoutEngineeringChangesInput>, TenantUncheckedUpdateWithoutEngineeringChangesInput>
   }
 
+  export type TenantCreateNestedOneWithoutPlanningPoliciesInput = {
+    create?: XOR<TenantCreateWithoutPlanningPoliciesInput, TenantUncheckedCreateWithoutPlanningPoliciesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPlanningPoliciesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutPlanningPoliciesNestedInput = {
+    create?: XOR<TenantCreateWithoutPlanningPoliciesInput, TenantUncheckedCreateWithoutPlanningPoliciesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPlanningPoliciesInput
+    upsert?: TenantUpsertWithoutPlanningPoliciesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPlanningPoliciesInput, TenantUpdateWithoutPlanningPoliciesInput>, TenantUncheckedUpdateWithoutPlanningPoliciesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutMrpRunsInput = {
+    create?: XOR<TenantCreateWithoutMrpRunsInput, TenantUncheckedCreateWithoutMrpRunsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMrpRunsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type MrpSuggestionCreateNestedManyWithoutRunInput = {
+    create?: XOR<MrpSuggestionCreateWithoutRunInput, MrpSuggestionUncheckedCreateWithoutRunInput> | MrpSuggestionCreateWithoutRunInput[] | MrpSuggestionUncheckedCreateWithoutRunInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutRunInput | MrpSuggestionCreateOrConnectWithoutRunInput[]
+    createMany?: MrpSuggestionCreateManyRunInputEnvelope
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+  }
+
+  export type MrpSuggestionUncheckedCreateNestedManyWithoutRunInput = {
+    create?: XOR<MrpSuggestionCreateWithoutRunInput, MrpSuggestionUncheckedCreateWithoutRunInput> | MrpSuggestionCreateWithoutRunInput[] | MrpSuggestionUncheckedCreateWithoutRunInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutRunInput | MrpSuggestionCreateOrConnectWithoutRunInput[]
+    createMany?: MrpSuggestionCreateManyRunInputEnvelope
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutMrpRunsNestedInput = {
+    create?: XOR<TenantCreateWithoutMrpRunsInput, TenantUncheckedCreateWithoutMrpRunsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMrpRunsInput
+    upsert?: TenantUpsertWithoutMrpRunsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutMrpRunsInput, TenantUpdateWithoutMrpRunsInput>, TenantUncheckedUpdateWithoutMrpRunsInput>
+  }
+
+  export type MrpSuggestionUpdateManyWithoutRunNestedInput = {
+    create?: XOR<MrpSuggestionCreateWithoutRunInput, MrpSuggestionUncheckedCreateWithoutRunInput> | MrpSuggestionCreateWithoutRunInput[] | MrpSuggestionUncheckedCreateWithoutRunInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutRunInput | MrpSuggestionCreateOrConnectWithoutRunInput[]
+    upsert?: MrpSuggestionUpsertWithWhereUniqueWithoutRunInput | MrpSuggestionUpsertWithWhereUniqueWithoutRunInput[]
+    createMany?: MrpSuggestionCreateManyRunInputEnvelope
+    set?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    disconnect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    delete?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    update?: MrpSuggestionUpdateWithWhereUniqueWithoutRunInput | MrpSuggestionUpdateWithWhereUniqueWithoutRunInput[]
+    updateMany?: MrpSuggestionUpdateManyWithWhereWithoutRunInput | MrpSuggestionUpdateManyWithWhereWithoutRunInput[]
+    deleteMany?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
+  }
+
+  export type MrpSuggestionUncheckedUpdateManyWithoutRunNestedInput = {
+    create?: XOR<MrpSuggestionCreateWithoutRunInput, MrpSuggestionUncheckedCreateWithoutRunInput> | MrpSuggestionCreateWithoutRunInput[] | MrpSuggestionUncheckedCreateWithoutRunInput[]
+    connectOrCreate?: MrpSuggestionCreateOrConnectWithoutRunInput | MrpSuggestionCreateOrConnectWithoutRunInput[]
+    upsert?: MrpSuggestionUpsertWithWhereUniqueWithoutRunInput | MrpSuggestionUpsertWithWhereUniqueWithoutRunInput[]
+    createMany?: MrpSuggestionCreateManyRunInputEnvelope
+    set?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    disconnect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    delete?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+    update?: MrpSuggestionUpdateWithWhereUniqueWithoutRunInput | MrpSuggestionUpdateWithWhereUniqueWithoutRunInput[]
+    updateMany?: MrpSuggestionUpdateManyWithWhereWithoutRunInput | MrpSuggestionUpdateManyWithWhereWithoutRunInput[]
+    deleteMany?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutMrpSuggestionsInput = {
+    create?: XOR<TenantCreateWithoutMrpSuggestionsInput, TenantUncheckedCreateWithoutMrpSuggestionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMrpSuggestionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type MrpRunCreateNestedOneWithoutSuggestionsInput = {
+    create?: XOR<MrpRunCreateWithoutSuggestionsInput, MrpRunUncheckedCreateWithoutSuggestionsInput>
+    connectOrCreate?: MrpRunCreateOrConnectWithoutSuggestionsInput
+    connect?: MrpRunWhereUniqueInput
+  }
+
+  export type EnumPlannedOrderTypeFieldUpdateOperationsInput = {
+    set?: $Enums.PlannedOrderType
+  }
+
+  export type TenantUpdateOneRequiredWithoutMrpSuggestionsNestedInput = {
+    create?: XOR<TenantCreateWithoutMrpSuggestionsInput, TenantUncheckedCreateWithoutMrpSuggestionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMrpSuggestionsInput
+    upsert?: TenantUpsertWithoutMrpSuggestionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutMrpSuggestionsInput, TenantUpdateWithoutMrpSuggestionsInput>, TenantUncheckedUpdateWithoutMrpSuggestionsInput>
+  }
+
+  export type MrpRunUpdateOneRequiredWithoutSuggestionsNestedInput = {
+    create?: XOR<MrpRunCreateWithoutSuggestionsInput, MrpRunUncheckedCreateWithoutSuggestionsInput>
+    connectOrCreate?: MrpRunCreateOrConnectWithoutSuggestionsInput
+    upsert?: MrpRunUpsertWithoutSuggestionsInput
+    connect?: MrpRunWhereUniqueInput
+    update?: XOR<XOR<MrpRunUpdateToOneWithWhereWithoutSuggestionsInput, MrpRunUpdateWithoutSuggestionsInput>, MrpRunUncheckedUpdateWithoutSuggestionsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -99564,6 +104365,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEcStatusFilter<$PrismaModel>
     _max?: NestedEnumEcStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPlannedOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlannedOrderType | EnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlannedOrderTypeFilter<$PrismaModel> | $Enums.PlannedOrderType
+  }
+
+  export type NestedEnumPlannedOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlannedOrderType | EnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlannedOrderType[] | ListEnumPlannedOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlannedOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.PlannedOrderType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPlannedOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumPlannedOrderTypeFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -101210,6 +106028,96 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PlanningPolicyCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    safetyStock?: Decimal | DecimalJsLike | number | string
+    reorderPoint?: Decimal | DecimalJsLike | number | string
+    leadTimeDays?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlanningPolicyUncheckedCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    safetyStock?: Decimal | DecimalJsLike | number | string
+    reorderPoint?: Decimal | DecimalJsLike | number | string
+    leadTimeDays?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlanningPolicyCreateOrConnectWithoutTenantInput = {
+    where: PlanningPolicyWhereUniqueInput
+    create: XOR<PlanningPolicyCreateWithoutTenantInput, PlanningPolicyUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PlanningPolicyCreateManyTenantInputEnvelope = {
+    data: PlanningPolicyCreateManyTenantInput | PlanningPolicyCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MrpRunCreateWithoutTenantInput = {
+    id?: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+    suggestions?: MrpSuggestionCreateNestedManyWithoutRunInput
+  }
+
+  export type MrpRunUncheckedCreateWithoutTenantInput = {
+    id?: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+    suggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutRunInput
+  }
+
+  export type MrpRunCreateOrConnectWithoutTenantInput = {
+    where: MrpRunWhereUniqueInput
+    create: XOR<MrpRunCreateWithoutTenantInput, MrpRunUncheckedCreateWithoutTenantInput>
+  }
+
+  export type MrpRunCreateManyTenantInputEnvelope = {
+    data: MrpRunCreateManyTenantInput | MrpRunCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MrpSuggestionCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+    run: MrpRunCreateNestedOneWithoutSuggestionsInput
+  }
+
+  export type MrpSuggestionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    runId: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+  }
+
+  export type MrpSuggestionCreateOrConnectWithoutTenantInput = {
+    where: MrpSuggestionWhereUniqueInput
+    create: XOR<MrpSuggestionCreateWithoutTenantInput, MrpSuggestionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type MrpSuggestionCreateManyTenantInputEnvelope = {
+    data: MrpSuggestionCreateManyTenantInput | MrpSuggestionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -102759,6 +107667,95 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"EngineeringChange"> | Date | string
   }
 
+  export type PlanningPolicyUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PlanningPolicyWhereUniqueInput
+    update: XOR<PlanningPolicyUpdateWithoutTenantInput, PlanningPolicyUncheckedUpdateWithoutTenantInput>
+    create: XOR<PlanningPolicyCreateWithoutTenantInput, PlanningPolicyUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PlanningPolicyUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PlanningPolicyWhereUniqueInput
+    data: XOR<PlanningPolicyUpdateWithoutTenantInput, PlanningPolicyUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PlanningPolicyUpdateManyWithWhereWithoutTenantInput = {
+    where: PlanningPolicyScalarWhereInput
+    data: XOR<PlanningPolicyUpdateManyMutationInput, PlanningPolicyUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PlanningPolicyScalarWhereInput = {
+    AND?: PlanningPolicyScalarWhereInput | PlanningPolicyScalarWhereInput[]
+    OR?: PlanningPolicyScalarWhereInput[]
+    NOT?: PlanningPolicyScalarWhereInput | PlanningPolicyScalarWhereInput[]
+    id?: UuidFilter<"PlanningPolicy"> | string
+    tenantId?: UuidFilter<"PlanningPolicy"> | string
+    skuId?: UuidFilter<"PlanningPolicy"> | string
+    safetyStock?: DecimalFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFilter<"PlanningPolicy"> | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFilter<"PlanningPolicy"> | number
+    createdAt?: DateTimeFilter<"PlanningPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PlanningPolicy"> | Date | string
+  }
+
+  export type MrpRunUpsertWithWhereUniqueWithoutTenantInput = {
+    where: MrpRunWhereUniqueInput
+    update: XOR<MrpRunUpdateWithoutTenantInput, MrpRunUncheckedUpdateWithoutTenantInput>
+    create: XOR<MrpRunCreateWithoutTenantInput, MrpRunUncheckedCreateWithoutTenantInput>
+  }
+
+  export type MrpRunUpdateWithWhereUniqueWithoutTenantInput = {
+    where: MrpRunWhereUniqueInput
+    data: XOR<MrpRunUpdateWithoutTenantInput, MrpRunUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type MrpRunUpdateManyWithWhereWithoutTenantInput = {
+    where: MrpRunScalarWhereInput
+    data: XOR<MrpRunUpdateManyMutationInput, MrpRunUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type MrpRunScalarWhereInput = {
+    AND?: MrpRunScalarWhereInput | MrpRunScalarWhereInput[]
+    OR?: MrpRunScalarWhereInput[]
+    NOT?: MrpRunScalarWhereInput | MrpRunScalarWhereInput[]
+    id?: UuidFilter<"MrpRun"> | string
+    tenantId?: UuidFilter<"MrpRun"> | string
+    runNumber?: StringFilter<"MrpRun"> | string
+    demandSkus?: IntFilter<"MrpRun"> | number
+    suggestionCount?: IntFilter<"MrpRun"> | number
+    createdBy?: StringNullableFilter<"MrpRun"> | string | null
+    createdAt?: DateTimeFilter<"MrpRun"> | Date | string
+  }
+
+  export type MrpSuggestionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: MrpSuggestionWhereUniqueInput
+    update: XOR<MrpSuggestionUpdateWithoutTenantInput, MrpSuggestionUncheckedUpdateWithoutTenantInput>
+    create: XOR<MrpSuggestionCreateWithoutTenantInput, MrpSuggestionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type MrpSuggestionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: MrpSuggestionWhereUniqueInput
+    data: XOR<MrpSuggestionUpdateWithoutTenantInput, MrpSuggestionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type MrpSuggestionUpdateManyWithWhereWithoutTenantInput = {
+    where: MrpSuggestionScalarWhereInput
+    data: XOR<MrpSuggestionUpdateManyMutationInput, MrpSuggestionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type MrpSuggestionScalarWhereInput = {
+    AND?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
+    OR?: MrpSuggestionScalarWhereInput[]
+    NOT?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
+    id?: UuidFilter<"MrpSuggestion"> | string
+    tenantId?: UuidFilter<"MrpSuggestion"> | string
+    runId?: UuidFilter<"MrpSuggestion"> | string
+    skuId?: UuidFilter<"MrpSuggestion"> | string
+    suggestionType?: EnumPlannedOrderTypeFilter<"MrpSuggestion"> | $Enums.PlannedOrderType
+    quantity?: DecimalFilter<"MrpSuggestion"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"MrpSuggestion"> | string
+    dueInDays?: IntFilter<"MrpSuggestion"> | number
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -102816,6 +107813,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -102875,6 +107875,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -102950,6 +107953,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -103009,6 +108015,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -103068,6 +108077,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -103127,6 +108139,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -103236,6 +108251,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -103295,6 +108313,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -103370,6 +108391,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -103429,6 +108453,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -103642,6 +108669,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -103701,6 +108731,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -103872,6 +108905,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -103931,6 +108967,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -104035,6 +109074,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -104094,6 +109136,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -104188,6 +109233,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -104247,6 +109295,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -104351,6 +109402,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -104410,6 +109464,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -104504,6 +109561,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -104563,6 +109623,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -104666,6 +109729,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -104725,6 +109791,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -104800,6 +109869,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -104859,6 +109931,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -104984,6 +110059,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -105043,6 +110121,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -105200,6 +110281,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -105259,6 +110343,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -105386,6 +110473,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -105445,6 +110535,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -105568,6 +110661,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -105627,6 +110723,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -105702,6 +110801,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -105761,6 +110863,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -105820,6 +110925,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -105879,6 +110987,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -105954,6 +111065,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -106013,6 +111127,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -106072,6 +111189,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -106131,6 +111251,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -106206,6 +111329,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -106265,6 +111391,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -106324,6 +111453,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -106383,6 +111515,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -106458,6 +111593,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -106517,6 +111655,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -106576,6 +111717,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -106635,6 +111779,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -106710,6 +111857,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -106769,6 +111919,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -106828,6 +111981,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -106887,6 +112043,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -106962,6 +112121,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -107021,6 +112183,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -107080,6 +112245,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -107139,6 +112307,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -107214,6 +112385,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -107273,6 +112447,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -107332,6 +112509,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -107391,6 +112571,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -107528,6 +112711,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -107587,6 +112773,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -107904,6 +113093,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -107963,6 +113155,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -108066,6 +113261,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -108125,6 +113323,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -108257,6 +113458,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -108316,6 +113520,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -108391,6 +113598,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -108450,6 +113660,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -108509,6 +113722,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -108568,6 +113784,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -108643,6 +113862,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -108702,6 +113924,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -108761,6 +113986,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -108820,6 +114048,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -108921,6 +114152,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -108980,6 +114214,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -109111,6 +114348,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -109170,6 +114410,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -109346,6 +114589,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -109405,6 +114651,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -109625,6 +114874,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -109684,6 +114936,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -109795,6 +115050,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -109854,6 +115112,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -110248,6 +115509,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -110307,6 +115571,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -110404,6 +115671,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -110463,6 +115733,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -110592,6 +115865,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -110651,6 +115927,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -110726,6 +116005,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -110785,6 +116067,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -110844,6 +116129,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -110903,6 +116191,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -110978,6 +116269,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -111037,6 +116331,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -111096,6 +116393,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -111155,6 +116455,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -111230,6 +116533,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -111289,6 +116595,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -111348,6 +116657,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -111407,6 +116719,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -111482,6 +116797,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -111541,6 +116859,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -111600,6 +116921,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -111659,6 +116983,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -111760,6 +117087,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -111819,6 +117149,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -111894,6 +117227,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -111953,6 +117289,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -112061,6 +117400,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -112120,6 +117462,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -112218,6 +117563,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -112277,6 +117625,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -112352,6 +117703,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -112411,6 +117765,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -112470,6 +117827,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -112529,6 +117889,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -112604,6 +117967,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -112663,6 +118029,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -112722,6 +118091,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -112781,6 +118153,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -112856,6 +118231,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -112915,6 +118293,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -112974,6 +118355,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -113033,6 +118417,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -113108,6 +118495,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -113167,6 +118557,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -113226,6 +118619,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -113285,6 +118681,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -113386,6 +118785,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -113445,6 +118847,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -113520,6 +118925,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -113579,6 +118987,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -113685,6 +119096,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -113744,6 +119158,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -113840,6 +119257,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -113899,6 +119319,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -114008,6 +119431,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -114067,6 +119493,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -114142,6 +119571,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -114201,6 +119633,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -114323,6 +119758,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -114382,6 +119820,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -114494,6 +119935,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -114553,6 +119997,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -114660,6 +120107,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -114719,6 +120169,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -114794,6 +120247,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -114853,6 +120309,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -114965,6 +120424,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -115024,6 +120486,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -115126,6 +120591,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -115185,6 +120653,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -115260,6 +120731,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -115319,6 +120793,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -115378,6 +120855,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -115437,6 +120917,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -115512,6 +120995,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -115571,6 +121057,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -115630,6 +121119,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -115689,6 +121181,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -115794,6 +121289,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -115853,6 +121351,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -115928,6 +121429,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -115987,6 +121491,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -116095,6 +121602,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -116154,6 +121664,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -116252,6 +121765,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -116311,6 +121827,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -116418,6 +121937,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -116477,6 +121999,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -116552,6 +122077,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -116611,6 +122139,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -116723,6 +122254,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -116782,6 +122316,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -116884,6 +122421,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -116943,6 +122483,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -117048,6 +122591,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -117107,6 +122653,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -117182,6 +122731,9 @@ export namespace Prisma {
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -117241,6 +122793,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -117347,6 +122902,9 @@ export namespace Prisma {
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -117406,6 +122964,9 @@ export namespace Prisma {
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -117502,6 +123063,9 @@ export namespace Prisma {
     bomLines?: BomLineCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -117561,6 +123125,9 @@ export namespace Prisma {
     bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -117668,6 +123235,9 @@ export namespace Prisma {
     bomLines?: BomLineUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -117727,6 +123297,9 @@ export namespace Prisma {
     bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -117802,6 +123375,9 @@ export namespace Prisma {
     bomLines?: BomLineCreateNestedManyWithoutTenantInput
     routings?: RoutingCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -117861,6 +123437,9 @@ export namespace Prisma {
     bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -117963,6 +123542,9 @@ export namespace Prisma {
     bomLines?: BomLineUpdateManyWithoutTenantNestedInput
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -118022,6 +123604,9 @@ export namespace Prisma {
     bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -118114,6 +123699,9 @@ export namespace Prisma {
     bomLines?: BomLineCreateNestedManyWithoutTenantInput
     routings?: RoutingCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -118173,6 +123761,9 @@ export namespace Prisma {
     bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
     routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
     routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -118248,6 +123839,9 @@ export namespace Prisma {
     bomLines?: BomLineUpdateManyWithoutTenantNestedInput
     routings?: RoutingUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -118307,6 +123901,903 @@ export namespace Prisma {
     bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
     routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
     routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutPlanningPoliciesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPlanningPoliciesInput, TenantUncheckedCreateWithoutPlanningPoliciesInput>
+  }
+
+  export type TenantUpsertWithoutPlanningPoliciesInput = {
+    update: XOR<TenantUpdateWithoutPlanningPoliciesInput, TenantUncheckedUpdateWithoutPlanningPoliciesInput>
+    create: XOR<TenantCreateWithoutPlanningPoliciesInput, TenantUncheckedCreateWithoutPlanningPoliciesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPlanningPoliciesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPlanningPoliciesInput, TenantUncheckedUpdateWithoutPlanningPoliciesInput>
+  }
+
+  export type TenantUpdateWithoutPlanningPoliciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutMrpRunsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutMrpRunsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutMrpRunsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutMrpRunsInput, TenantUncheckedCreateWithoutMrpRunsInput>
+  }
+
+  export type MrpSuggestionCreateWithoutRunInput = {
+    id?: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+    tenant: TenantCreateNestedOneWithoutMrpSuggestionsInput
+  }
+
+  export type MrpSuggestionUncheckedCreateWithoutRunInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+  }
+
+  export type MrpSuggestionCreateOrConnectWithoutRunInput = {
+    where: MrpSuggestionWhereUniqueInput
+    create: XOR<MrpSuggestionCreateWithoutRunInput, MrpSuggestionUncheckedCreateWithoutRunInput>
+  }
+
+  export type MrpSuggestionCreateManyRunInputEnvelope = {
+    data: MrpSuggestionCreateManyRunInput | MrpSuggestionCreateManyRunInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutMrpRunsInput = {
+    update: XOR<TenantUpdateWithoutMrpRunsInput, TenantUncheckedUpdateWithoutMrpRunsInput>
+    create: XOR<TenantCreateWithoutMrpRunsInput, TenantUncheckedCreateWithoutMrpRunsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutMrpRunsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutMrpRunsInput, TenantUncheckedUpdateWithoutMrpRunsInput>
+  }
+
+  export type TenantUpdateWithoutMrpRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutMrpRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
+    where: MrpSuggestionWhereUniqueInput
+    update: XOR<MrpSuggestionUpdateWithoutRunInput, MrpSuggestionUncheckedUpdateWithoutRunInput>
+    create: XOR<MrpSuggestionCreateWithoutRunInput, MrpSuggestionUncheckedCreateWithoutRunInput>
+  }
+
+  export type MrpSuggestionUpdateWithWhereUniqueWithoutRunInput = {
+    where: MrpSuggestionWhereUniqueInput
+    data: XOR<MrpSuggestionUpdateWithoutRunInput, MrpSuggestionUncheckedUpdateWithoutRunInput>
+  }
+
+  export type MrpSuggestionUpdateManyWithWhereWithoutRunInput = {
+    where: MrpSuggestionScalarWhereInput
+    data: XOR<MrpSuggestionUpdateManyMutationInput, MrpSuggestionUncheckedUpdateManyWithoutRunInput>
+  }
+
+  export type TenantCreateWithoutMrpSuggestionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutMrpSuggestionsInput, TenantUncheckedCreateWithoutMrpSuggestionsInput>
+  }
+
+  export type MrpRunCreateWithoutSuggestionsInput = {
+    id?: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutMrpRunsInput
+  }
+
+  export type MrpRunUncheckedCreateWithoutSuggestionsInput = {
+    id?: string
+    tenantId: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MrpRunCreateOrConnectWithoutSuggestionsInput = {
+    where: MrpRunWhereUniqueInput
+    create: XOR<MrpRunCreateWithoutSuggestionsInput, MrpRunUncheckedCreateWithoutSuggestionsInput>
+  }
+
+  export type TenantUpsertWithoutMrpSuggestionsInput = {
+    update: XOR<TenantUpdateWithoutMrpSuggestionsInput, TenantUncheckedUpdateWithoutMrpSuggestionsInput>
+    create: XOR<TenantCreateWithoutMrpSuggestionsInput, TenantUncheckedCreateWithoutMrpSuggestionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutMrpSuggestionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutMrpSuggestionsInput, TenantUncheckedUpdateWithoutMrpSuggestionsInput>
+  }
+
+  export type TenantUpdateWithoutMrpSuggestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type MrpRunUpsertWithoutSuggestionsInput = {
+    update: XOR<MrpRunUpdateWithoutSuggestionsInput, MrpRunUncheckedUpdateWithoutSuggestionsInput>
+    create: XOR<MrpRunCreateWithoutSuggestionsInput, MrpRunUncheckedCreateWithoutSuggestionsInput>
+    where?: MrpRunWhereInput
+  }
+
+  export type MrpRunUpdateToOneWithWhereWithoutSuggestionsInput = {
+    where?: MrpRunWhereInput
+    data: XOR<MrpRunUpdateWithoutSuggestionsInput, MrpRunUncheckedUpdateWithoutSuggestionsInput>
+  }
+
+  export type MrpRunUpdateWithoutSuggestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutMrpRunsNestedInput
+  }
+
+  export type MrpRunUncheckedUpdateWithoutSuggestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -118856,6 +125347,35 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type PlanningPolicyCreateManyTenantInput = {
+    id?: string
+    skuId: string
+    safetyStock?: Decimal | DecimalJsLike | number | string
+    reorderPoint?: Decimal | DecimalJsLike | number | string
+    leadTimeDays?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MrpRunCreateManyTenantInput = {
+    id?: string
+    runNumber: string
+    demandSkus?: number
+    suggestionCount?: number
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MrpSuggestionCreateManyTenantInput = {
+    id?: string
+    runId: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -120551,6 +127071,95 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PlanningPolicyUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    safetyStock?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlanningPolicyUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    safetyStock?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlanningPolicyUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    safetyStock?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reorderPoint?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    leadTimeDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MrpRunUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    suggestions?: MrpSuggestionUpdateManyWithoutRunNestedInput
+  }
+
+  export type MrpRunUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    suggestions?: MrpSuggestionUncheckedUpdateManyWithoutRunNestedInput
+  }
+
+  export type MrpRunUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runNumber?: StringFieldUpdateOperationsInput | string
+    demandSkus?: IntFieldUpdateOperationsInput | number
+    suggestionCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MrpSuggestionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+    run?: MrpRunUpdateOneRequiredWithoutSuggestionsNestedInput
+  }
+
+  export type MrpSuggestionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MrpSuggestionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -121539,6 +128148,46 @@ export namespace Prisma {
     setupMinutes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     runMinutesPerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MrpSuggestionCreateManyRunInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    suggestionType: $Enums.PlannedOrderType
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    dueInDays?: number
+  }
+
+  export type MrpSuggestionUpdateWithoutRunInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+    tenant?: TenantUpdateOneRequiredWithoutMrpSuggestionsNestedInput
+  }
+
+  export type MrpSuggestionUncheckedUpdateWithoutRunInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MrpSuggestionUncheckedUpdateManyWithoutRunInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    suggestionType?: EnumPlannedOrderTypeFieldUpdateOperationsInput | $Enums.PlannedOrderType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    dueInDays?: IntFieldUpdateOperationsInput | number
   }
 
 
