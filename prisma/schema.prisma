@@ -95,6 +95,11 @@ model Tenant {
   mrpSuggestions        MrpSuggestion[]
   workOrders            WorkOrder[]
   workOrderOperations   WorkOrderOperation[]
+  qcPlans               QcPlan[]
+  qcPlanItems           QcPlanItem[]
+  qcInspections         QcInspection[]
+  qcInspectionItems     QcInspectionItem[]
+  ncrs                  Ncr[]
 
   @@map("tenant")
 }
@@ -1608,4 +1613,124 @@ model WorkOrderOperation {
 
   @@unique([tenantId, workOrderId, seq])
   @@map("work_order_operation")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 012 — Quality: QC plans, inspections, NCRs, production blocking
+// (VER-013/014 + quality events).
+// ---------------------------------------------------------------------------
+
+enum QcInspectionStatus {
+  PENDING
+  PASSED
+  FAILED
+}
+
+enum NcrSeverity {
+  MINOR
+  MAJOR
+  CRITICAL
+}
+
+enum NcrStatus {
+  OPEN
+  RESOLVED
+}
+
+/// QC plan per SKU (VER-013): the checklist an inspection must cover.
+model QcPlan {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  skuId     String   @map("sku_id") @db.Uuid
+  name      String
+  active    Boolean  @default(true)
+  createdBy String?  @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant       @relation(fields: [tenantId], references: [id])
+  items  QcPlanItem[]
+
+  @@unique([tenantId, skuId])
+  @@map("qc_plan")
+}
+
+model QcPlanItem {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String @map("tenant_id") @db.Uuid
+  planId      String @map("plan_id") @db.Uuid
+  seq         Int
+  name        String
+  requirement String
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  plan   QcPlan @relation(fields: [planId], references: [id])
+
+  @@unique([tenantId, planId, seq])
+  @@map("qc_plan_item")
+}
+
+/// Inspection against a work order (VER-013/014): item results are
+/// recorded by an inspector; finalization is a supervisor decision.
+model QcInspection {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String             @map("tenant_id") @db.Uuid
+  inspectionNumber String             @map("inspection_number")
+  workOrderId      String             @map("work_order_id") @db.Uuid
+  skuId            String             @map("sku_id") @db.Uuid
+  planId           String             @map("plan_id") @db.Uuid
+  status           QcInspectionStatus @default(PENDING)
+  decidedBy        String?            @map("decided_by")
+  notes            String?
+  createdBy        String?            @map("created_by")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  tenant Tenant             @relation(fields: [tenantId], references: [id])
+  items  QcInspectionItem[]
+
+  @@unique([tenantId, inspectionNumber])
+  @@index([tenantId, workOrderId])
+  @@map("qc_inspection")
+}
+
+model QcInspectionItem {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  inspectionId String   @map("inspection_id") @db.Uuid
+  seq          Int
+  name         String
+  requirement  String
+  passed       Boolean?
+  note         String?
+
+  tenant     Tenant       @relation(fields: [tenantId], references: [id])
+  inspection QcInspection @relation(fields: [inspectionId], references: [id])
+
+  @@unique([tenantId, inspectionId, seq])
+  @@map("qc_inspection_item")
+}
+
+/// Nonconformance report: opened automatically on failed inspections,
+/// or manually; resolution is audited.
+model Ncr {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String      @map("tenant_id") @db.Uuid
+  ncrNumber   String      @map("ncr_number")
+  workOrderId String?     @map("work_order_id") @db.Uuid
+  skuId       String      @map("sku_id") @db.Uuid
+  description String
+  severity    NcrSeverity @default(MAJOR)
+  status      NcrStatus   @default(OPEN)
+  resolution  String?
+  resolvedBy  String?     @map("resolved_by")
+  createdBy   String?     @map("created_by")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, ncrNumber])
+  @@index([tenantId, status])
+  @@map("ncr")
 }
