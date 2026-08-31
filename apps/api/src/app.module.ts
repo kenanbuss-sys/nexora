@@ -21,6 +21,7 @@ import { ProcurementService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { MesService } from '@nexora/domain-mes';
+import { QualityService } from '@nexora/domain-qc';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -65,6 +66,12 @@ import {
 } from './eng/eng.controller';
 import { PLANNING_SERVICE, PlanningController } from './plan/plan.controller';
 import { MES_SERVICE, WorkOrdersController } from './mes/mes.controller';
+import {
+  NcrsController,
+  QcInspectionsController,
+  QcPlansController,
+  QUALITY_SERVICE,
+} from './qc/qc.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -148,6 +155,9 @@ export const REDIS = 'REDIS';
     EngineeringChangesController,
     PlanningController,
     WorkOrdersController,
+    QcPlansController,
+    QcInspectionsController,
+    NcrsController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -399,12 +409,19 @@ export const REDIS = 'REDIS';
       inject: [PRISMA],
     },
     {
+      provide: QUALITY_SERVICE,
+      useFactory: (prisma: PrismaClient) => new QualityService(prisma),
+      inject: [PRISMA],
+    },
+    {
       provide: MES_SERVICE,
-      useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
-        new MesService(prisma, {
-          postMovement: (input, ctx) => inventory.postMovement(input, ctx),
-        }),
-      inject: [PRISMA, INVENTORY_SERVICE],
+      useFactory: (prisma: PrismaClient, inventory: InventoryService, quality: QualityService) =>
+        new MesService(
+          prisma,
+          { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
+          { getQcState: (t, w, s) => quality.getQcState(t, w, s) },
+        ),
+      inject: [PRISMA, INVENTORY_SERVICE, QUALITY_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,

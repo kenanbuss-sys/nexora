@@ -62,6 +62,10 @@ export const EVENT_TYPES = {
   WORK_ORDER_CANCELLED: 'work_order.cancelled',
   MATERIAL_ISSUED_TO_PRODUCTION: 'material.issued_to_production',
   SCRAP_RECORDED: 'scrap.recorded',
+  QC_INSPECTION_CREATED: 'qc.inspection.created',
+  QC_PASSED: 'qc.passed',
+  QC_FAILED: 'qc.failed',
+  NCR_CREATED: 'ncr.created',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

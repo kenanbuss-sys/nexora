@@ -43,6 +43,15 @@ export interface WorkOrderView {
   operations: WoOperationView[];
 }
 
+/** Cross-domain contract: quality gating is owned by QC (VER-013). */
+export interface QcGate {
+  getQcState(
+    tenantId: string,
+    workOrderId: string,
+    skuId: string,
+  ): Promise<'NOT_REQUIRED' | 'PENDING' | 'PASSED' | 'FAILED'>;
+}
+
 /** Cross-domain contract: stock truth is owned by WMS. */
 export interface StockGate {
   postMovement(
@@ -105,6 +114,7 @@ export class MesService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly stock: StockGate,
+    private readonly qc?: QcGate,
   ) {}
 
   async listWorkOrders(
@@ -375,6 +385,17 @@ export class MesService {
     }
     if (wo.operations.some((o) => o.status !== 'DONE')) {
       throw new DomainError('INVALID_STATE', 'All operations must be done before completion');
+    }
+    // QC blocking (VER-013): a SKU with a QC plan needs a PASSED
+    // inspection on this work order before completion.
+    if (this.qc) {
+      const qcState = await this.qc.getQcState(ctx.tenantId, wo.id, wo.skuId);
+      if (qcState === 'PENDING') {
+        throw new DomainError('INVALID_STATE', 'QC inspection must pass before completion');
+      }
+      if (qcState === 'FAILED') {
+        throw new DomainError('INVALID_STATE', 'QC failed — resolve the NCR and re-inspect');
+      }
     }
 
     if (input.goodQuantity > 0) {

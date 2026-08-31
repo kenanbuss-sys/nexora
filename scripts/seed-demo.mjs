@@ -128,6 +128,10 @@ const BASELINE = [
   'production.read',
   'production.manage',
   'production.execute',
+  'qc.read',
+  'qc.record',
+  'qc.approve',
+  'qc.manage',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);

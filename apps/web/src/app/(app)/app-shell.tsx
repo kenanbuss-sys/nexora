@@ -52,6 +52,7 @@ const ICONS: Record<string, string> = {
     'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM9 16l2 2 4-4',
   production:
     'M12 20.5a8.5 8.5 0 100-17 8.5 8.5 0 000 17zM12 6v2M12 16v2M6 12h2M16 12h2M8.5 8.5l1.4 1.4M14.1 14.1l1.4 1.4M8.5 15.5l1.4-1.4M14.1 9.9l1.4-1.4',
+  quality: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
 };
 
 function NavIcon({ name }: { name: string }) {
@@ -81,6 +82,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/engineering', label: 'Engineering', icon: 'engineering', permission: 'bom.read' },
   { href: '/planning', label: 'Planning', icon: 'planning', permission: 'plan.read' },
   { href: '/production', label: 'Production', icon: 'production', permission: 'production.read' },
+  { href: '/quality', label: 'Quality', icon: 'quality', permission: 'qc.read' },
   { href: '/parties', label: 'Parties', icon: 'parties', permission: 'mdm.read' },
   { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },
   { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },

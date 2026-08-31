@@ -39,7 +39,8 @@
     "@nexora/domain-proc": "workspace:*",
     "@nexora/domain-eng": "workspace:*",
     "@nexora/domain-plan": "workspace:*",
-    "@nexora/domain-mes": "workspace:*"
+    "@nexora/domain-mes": "workspace:*",
+    "@nexora/domain-qc": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",
