@@ -354,6 +354,19 @@ export type MrpRun = $Result.DefaultSelection<Prisma.$MrpRunPayload>
  * 
  */
 export type MrpSuggestion = $Result.DefaultSelection<Prisma.$MrpSuggestionPayload>
+/**
+ * Model WorkOrder
+ * Work order (MES-001): produces an output SKU against the released
+ * BOM/routing snapshot. Material is issued from the stock ledger at
+ * release (MES-006); completion receipts good quantity back and
+ * records scrap (MES-010/011). Never stores stock truth.
+ */
+export type WorkOrder = $Result.DefaultSelection<Prisma.$WorkOrderPayload>
+/**
+ * Model WorkOrderOperation
+ * Operation snapshot copied from the released routing (MES-002/009).
+ */
+export type WorkOrderOperation = $Result.DefaultSelection<Prisma.$WorkOrderOperationPayload>
 
 /**
  * Enums
@@ -678,6 +691,27 @@ export const PlannedOrderType: {
 
 export type PlannedOrderType = (typeof PlannedOrderType)[keyof typeof PlannedOrderType]
 
+
+export const WorkOrderStatus: {
+  PLANNED: 'PLANNED',
+  RELEASED: 'RELEASED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type WorkOrderStatus = (typeof WorkOrderStatus)[keyof typeof WorkOrderStatus]
+
+
+export const WoOperationStatus: {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  DONE: 'DONE'
+};
+
+export type WoOperationStatus = (typeof WoOperationStatus)[keyof typeof WoOperationStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -811,6 +845,14 @@ export const EcStatus: typeof $Enums.EcStatus
 export type PlannedOrderType = $Enums.PlannedOrderType
 
 export const PlannedOrderType: typeof $Enums.PlannedOrderType
+
+export type WorkOrderStatus = $Enums.WorkOrderStatus
+
+export const WorkOrderStatus: typeof $Enums.WorkOrderStatus
+
+export type WoOperationStatus = $Enums.WoOperationStatus
+
+export const WoOperationStatus: typeof $Enums.WoOperationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1569,6 +1611,26 @@ export class PrismaClient<
     * ```
     */
   get mrpSuggestion(): Prisma.MrpSuggestionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workOrder`: Exposes CRUD operations for the **WorkOrder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WorkOrders
+    * const workOrders = await prisma.workOrder.findMany()
+    * ```
+    */
+  get workOrder(): Prisma.WorkOrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workOrderOperation`: Exposes CRUD operations for the **WorkOrderOperation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WorkOrderOperations
+    * const workOrderOperations = await prisma.workOrderOperation.findMany()
+    * ```
+    */
+  get workOrderOperation(): Prisma.WorkOrderOperationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2073,7 +2135,9 @@ export namespace Prisma {
     EngineeringChange: 'EngineeringChange',
     PlanningPolicy: 'PlanningPolicy',
     MrpRun: 'MrpRun',
-    MrpSuggestion: 'MrpSuggestion'
+    MrpSuggestion: 'MrpSuggestion',
+    WorkOrder: 'WorkOrder',
+    WorkOrderOperation: 'WorkOrderOperation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2092,7 +2156,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6832,6 +6896,154 @@ export namespace Prisma {
           }
         }
       }
+      WorkOrder: {
+        payload: Prisma.$WorkOrderPayload<ExtArgs>
+        fields: Prisma.WorkOrderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkOrderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkOrderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkOrderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkOrderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          findMany: {
+            args: Prisma.WorkOrderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>[]
+          }
+          create: {
+            args: Prisma.WorkOrderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          createMany: {
+            args: Prisma.WorkOrderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WorkOrderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>[]
+          }
+          delete: {
+            args: Prisma.WorkOrderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          update: {
+            args: Prisma.WorkOrderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkOrderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkOrderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WorkOrderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>[]
+          }
+          upsert: {
+            args: Prisma.WorkOrderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkOrderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkOrder>
+          }
+          groupBy: {
+            args: Prisma.WorkOrderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkOrderCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderCountAggregateOutputType> | number
+          }
+        }
+      }
+      WorkOrderOperation: {
+        payload: Prisma.$WorkOrderOperationPayload<ExtArgs>
+        fields: Prisma.WorkOrderOperationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkOrderOperationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkOrderOperationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkOrderOperationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkOrderOperationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>
+          }
+          findMany: {
+            args: Prisma.WorkOrderOperationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>[]
+          }
+          create: {
+            args: Prisma.WorkOrderOperationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>
+          }
+          createMany: {
+            args: Prisma.WorkOrderOperationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WorkOrderOperationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>[]
+          }
+          delete: {
+            args: Prisma.WorkOrderOperationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>
+          }
+          update: {
+            args: Prisma.WorkOrderOperationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkOrderOperationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkOrderOperationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WorkOrderOperationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>[]
+          }
+          upsert: {
+            args: Prisma.WorkOrderOperationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderOperationPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkOrderOperationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkOrderOperation>
+          }
+          groupBy: {
+            args: Prisma.WorkOrderOperationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderOperationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkOrderOperationCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderOperationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -6992,6 +7204,8 @@ export namespace Prisma {
     planningPolicy?: PlanningPolicyOmit
     mrpRun?: MrpRunOmit
     mrpSuggestion?: MrpSuggestionOmit
+    workOrder?: WorkOrderOmit
+    workOrderOperation?: WorkOrderOperationOmit
   }
 
   /* Types for Logging */
@@ -7125,6 +7339,8 @@ export namespace Prisma {
     planningPolicies: number
     mrpRuns: number
     mrpSuggestions: number
+    workOrders: number
+    workOrderOperations: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7181,6 +7397,8 @@ export namespace Prisma {
     planningPolicies?: boolean | TenantCountOutputTypeCountPlanningPoliciesArgs
     mrpRuns?: boolean | TenantCountOutputTypeCountMrpRunsArgs
     mrpSuggestions?: boolean | TenantCountOutputTypeCountMrpSuggestionsArgs
+    workOrders?: boolean | TenantCountOutputTypeCountWorkOrdersArgs
+    workOrderOperations?: boolean | TenantCountOutputTypeCountWorkOrderOperationsArgs
   }
 
   // Custom InputTypes
@@ -7563,6 +7781,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountMrpSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MrpSuggestionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountWorkOrderOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderOperationWhereInput
   }
 
 
@@ -8272,6 +8504,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type WorkOrderCountOutputType
+   */
+
+  export type WorkOrderCountOutputType = {
+    operations: number
+  }
+
+  export type WorkOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    operations?: boolean | WorkOrderCountOutputTypeCountOperationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WorkOrderCountOutputType without action
+   */
+  export type WorkOrderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderCountOutputType
+     */
+    select?: WorkOrderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WorkOrderCountOutputType without action
+   */
+  export type WorkOrderCountOutputTypeCountOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderOperationWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -8542,6 +8805,8 @@ export namespace Prisma {
     planningPolicies?: boolean | Tenant$planningPoliciesArgs<ExtArgs>
     mrpRuns?: boolean | Tenant$mrpRunsArgs<ExtArgs>
     mrpSuggestions?: boolean | Tenant$mrpSuggestionsArgs<ExtArgs>
+    workOrders?: boolean | Tenant$workOrdersArgs<ExtArgs>
+    workOrderOperations?: boolean | Tenant$workOrderOperationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -8630,6 +8895,8 @@ export namespace Prisma {
     planningPolicies?: boolean | Tenant$planningPoliciesArgs<ExtArgs>
     mrpRuns?: boolean | Tenant$mrpRunsArgs<ExtArgs>
     mrpSuggestions?: boolean | Tenant$mrpSuggestionsArgs<ExtArgs>
+    workOrders?: boolean | Tenant$workOrdersArgs<ExtArgs>
+    workOrderOperations?: boolean | Tenant$workOrderOperationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8691,6 +8958,8 @@ export namespace Prisma {
       planningPolicies: Prisma.$PlanningPolicyPayload<ExtArgs>[]
       mrpRuns: Prisma.$MrpRunPayload<ExtArgs>[]
       mrpSuggestions: Prisma.$MrpSuggestionPayload<ExtArgs>[]
+      workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
+      workOrderOperations: Prisma.$WorkOrderOperationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9147,6 +9416,8 @@ export namespace Prisma {
     planningPolicies<T extends Tenant$planningPoliciesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$planningPoliciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanningPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mrpRuns<T extends Tenant$mrpRunsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mrpRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mrpSuggestions<T extends Tenant$mrpSuggestionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mrpSuggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrpSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workOrders<T extends Tenant$workOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workOrderOperations<T extends Tenant$workOrderOperationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workOrderOperationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10840,6 +11111,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MrpSuggestionScalarFieldEnum | MrpSuggestionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.workOrders
+   */
+  export type Tenant$workOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    where?: WorkOrderWhereInput
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    cursor?: WorkOrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.workOrderOperations
+   */
+  export type Tenant$workOrderOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    where?: WorkOrderOperationWhereInput
+    orderBy?: WorkOrderOperationOrderByWithRelationInput | WorkOrderOperationOrderByWithRelationInput[]
+    cursor?: WorkOrderOperationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderOperationScalarFieldEnum | WorkOrderOperationScalarFieldEnum[]
   }
 
   /**
@@ -82428,6 +82747,2431 @@ export namespace Prisma {
 
 
   /**
+   * Model WorkOrder
+   */
+
+  export type AggregateWorkOrder = {
+    _count: WorkOrderCountAggregateOutputType | null
+    _avg: WorkOrderAvgAggregateOutputType | null
+    _sum: WorkOrderSumAggregateOutputType | null
+    _min: WorkOrderMinAggregateOutputType | null
+    _max: WorkOrderMaxAggregateOutputType | null
+  }
+
+  export type WorkOrderAvgAggregateOutputType = {
+    quantity: Decimal | null
+    goodQuantity: Decimal | null
+    scrapQuantity: Decimal | null
+  }
+
+  export type WorkOrderSumAggregateOutputType = {
+    quantity: Decimal | null
+    goodQuantity: Decimal | null
+    scrapQuantity: Decimal | null
+  }
+
+  export type WorkOrderMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    woNumber: string | null
+    skuId: string | null
+    warehouseId: string | null
+    bomId: string | null
+    routingId: string | null
+    quantity: Decimal | null
+    goodQuantity: Decimal | null
+    scrapQuantity: Decimal | null
+    status: $Enums.WorkOrderStatus | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WorkOrderMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    woNumber: string | null
+    skuId: string | null
+    warehouseId: string | null
+    bomId: string | null
+    routingId: string | null
+    quantity: Decimal | null
+    goodQuantity: Decimal | null
+    scrapQuantity: Decimal | null
+    status: $Enums.WorkOrderStatus | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WorkOrderCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    woNumber: number
+    skuId: number
+    warehouseId: number
+    bomId: number
+    routingId: number
+    quantity: number
+    goodQuantity: number
+    scrapQuantity: number
+    status: number
+    startedAt: number
+    completedAt: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WorkOrderAvgAggregateInputType = {
+    quantity?: true
+    goodQuantity?: true
+    scrapQuantity?: true
+  }
+
+  export type WorkOrderSumAggregateInputType = {
+    quantity?: true
+    goodQuantity?: true
+    scrapQuantity?: true
+  }
+
+  export type WorkOrderMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    woNumber?: true
+    skuId?: true
+    warehouseId?: true
+    bomId?: true
+    routingId?: true
+    quantity?: true
+    goodQuantity?: true
+    scrapQuantity?: true
+    status?: true
+    startedAt?: true
+    completedAt?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WorkOrderMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    woNumber?: true
+    skuId?: true
+    warehouseId?: true
+    bomId?: true
+    routingId?: true
+    quantity?: true
+    goodQuantity?: true
+    scrapQuantity?: true
+    status?: true
+    startedAt?: true
+    completedAt?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WorkOrderCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    woNumber?: true
+    skuId?: true
+    warehouseId?: true
+    bomId?: true
+    routingId?: true
+    quantity?: true
+    goodQuantity?: true
+    scrapQuantity?: true
+    status?: true
+    startedAt?: true
+    completedAt?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WorkOrderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrder to aggregate.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WorkOrders
+    **/
+    _count?: true | WorkOrderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WorkOrderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WorkOrderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkOrderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkOrderMaxAggregateInputType
+  }
+
+  export type GetWorkOrderAggregateType<T extends WorkOrderAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkOrder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkOrder[P]>
+      : GetScalarType<T[P], AggregateWorkOrder[P]>
+  }
+
+
+
+
+  export type WorkOrderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderWhereInput
+    orderBy?: WorkOrderOrderByWithAggregationInput | WorkOrderOrderByWithAggregationInput[]
+    by: WorkOrderScalarFieldEnum[] | WorkOrderScalarFieldEnum
+    having?: WorkOrderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkOrderCountAggregateInputType | true
+    _avg?: WorkOrderAvgAggregateInputType
+    _sum?: WorkOrderSumAggregateInputType
+    _min?: WorkOrderMinAggregateInputType
+    _max?: WorkOrderMaxAggregateInputType
+  }
+
+  export type WorkOrderGroupByOutputType = {
+    id: string
+    tenantId: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId: string | null
+    quantity: Decimal
+    goodQuantity: Decimal
+    scrapQuantity: Decimal
+    status: $Enums.WorkOrderStatus
+    startedAt: Date | null
+    completedAt: Date | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: WorkOrderCountAggregateOutputType | null
+    _avg: WorkOrderAvgAggregateOutputType | null
+    _sum: WorkOrderSumAggregateOutputType | null
+    _min: WorkOrderMinAggregateOutputType | null
+    _max: WorkOrderMaxAggregateOutputType | null
+  }
+
+  type GetWorkOrderGroupByPayload<T extends WorkOrderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkOrderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkOrderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkOrderGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkOrderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkOrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    woNumber?: boolean
+    skuId?: boolean
+    warehouseId?: boolean
+    bomId?: boolean
+    routingId?: boolean
+    quantity?: boolean
+    goodQuantity?: boolean
+    scrapQuantity?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    operations?: boolean | WorkOrder$operationsArgs<ExtArgs>
+    _count?: boolean | WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrder"]>
+
+  export type WorkOrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    woNumber?: boolean
+    skuId?: boolean
+    warehouseId?: boolean
+    bomId?: boolean
+    routingId?: boolean
+    quantity?: boolean
+    goodQuantity?: boolean
+    scrapQuantity?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrder"]>
+
+  export type WorkOrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    woNumber?: boolean
+    skuId?: boolean
+    warehouseId?: boolean
+    bomId?: boolean
+    routingId?: boolean
+    quantity?: boolean
+    goodQuantity?: boolean
+    scrapQuantity?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrder"]>
+
+  export type WorkOrderSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    woNumber?: boolean
+    skuId?: boolean
+    warehouseId?: boolean
+    bomId?: boolean
+    routingId?: boolean
+    quantity?: boolean
+    goodQuantity?: boolean
+    scrapQuantity?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WorkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "woNumber" | "skuId" | "warehouseId" | "bomId" | "routingId" | "quantity" | "goodQuantity" | "scrapQuantity" | "status" | "startedAt" | "completedAt" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+  export type WorkOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    operations?: boolean | WorkOrder$operationsArgs<ExtArgs>
+    _count?: boolean | WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WorkOrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type WorkOrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $WorkOrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WorkOrder"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      operations: Prisma.$WorkOrderOperationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      woNumber: string
+      skuId: string
+      warehouseId: string
+      bomId: string
+      routingId: string | null
+      quantity: Prisma.Decimal
+      goodQuantity: Prisma.Decimal
+      scrapQuantity: Prisma.Decimal
+      status: $Enums.WorkOrderStatus
+      startedAt: Date | null
+      completedAt: Date | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["workOrder"]>
+    composites: {}
+  }
+
+  type WorkOrderGetPayload<S extends boolean | null | undefined | WorkOrderDefaultArgs> = $Result.GetResult<Prisma.$WorkOrderPayload, S>
+
+  type WorkOrderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkOrderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkOrderCountAggregateInputType | true
+    }
+
+  export interface WorkOrderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkOrder'], meta: { name: 'WorkOrder' } }
+    /**
+     * Find zero or one WorkOrder that matches the filter.
+     * @param {WorkOrderFindUniqueArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkOrderFindUniqueArgs>(args: SelectSubset<T, WorkOrderFindUniqueArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WorkOrder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkOrderFindUniqueOrThrowArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkOrderFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkOrderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderFindFirstArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkOrderFindFirstArgs>(args?: SelectSubset<T, WorkOrderFindFirstArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderFindFirstOrThrowArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkOrderFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkOrderFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WorkOrders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WorkOrders
+     * const workOrders = await prisma.workOrder.findMany()
+     * 
+     * // Get first 10 WorkOrders
+     * const workOrders = await prisma.workOrder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workOrderWithIdOnly = await prisma.workOrder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkOrderFindManyArgs>(args?: SelectSubset<T, WorkOrderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WorkOrder.
+     * @param {WorkOrderCreateArgs} args - Arguments to create a WorkOrder.
+     * @example
+     * // Create one WorkOrder
+     * const WorkOrder = await prisma.workOrder.create({
+     *   data: {
+     *     // ... data to create a WorkOrder
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkOrderCreateArgs>(args: SelectSubset<T, WorkOrderCreateArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WorkOrders.
+     * @param {WorkOrderCreateManyArgs} args - Arguments to create many WorkOrders.
+     * @example
+     * // Create many WorkOrders
+     * const workOrder = await prisma.workOrder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkOrderCreateManyArgs>(args?: SelectSubset<T, WorkOrderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WorkOrders and returns the data saved in the database.
+     * @param {WorkOrderCreateManyAndReturnArgs} args - Arguments to create many WorkOrders.
+     * @example
+     * // Create many WorkOrders
+     * const workOrder = await prisma.workOrder.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WorkOrders and only return the `id`
+     * const workOrderWithIdOnly = await prisma.workOrder.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WorkOrderCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkOrderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WorkOrder.
+     * @param {WorkOrderDeleteArgs} args - Arguments to delete one WorkOrder.
+     * @example
+     * // Delete one WorkOrder
+     * const WorkOrder = await prisma.workOrder.delete({
+     *   where: {
+     *     // ... filter to delete one WorkOrder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkOrderDeleteArgs>(args: SelectSubset<T, WorkOrderDeleteArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WorkOrder.
+     * @param {WorkOrderUpdateArgs} args - Arguments to update one WorkOrder.
+     * @example
+     * // Update one WorkOrder
+     * const workOrder = await prisma.workOrder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkOrderUpdateArgs>(args: SelectSubset<T, WorkOrderUpdateArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WorkOrders.
+     * @param {WorkOrderDeleteManyArgs} args - Arguments to filter WorkOrders to delete.
+     * @example
+     * // Delete a few WorkOrders
+     * const { count } = await prisma.workOrder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkOrderDeleteManyArgs>(args?: SelectSubset<T, WorkOrderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WorkOrders
+     * const workOrder = await prisma.workOrder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkOrderUpdateManyArgs>(args: SelectSubset<T, WorkOrderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkOrders and returns the data updated in the database.
+     * @param {WorkOrderUpdateManyAndReturnArgs} args - Arguments to update many WorkOrders.
+     * @example
+     * // Update many WorkOrders
+     * const workOrder = await prisma.workOrder.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WorkOrders and only return the `id`
+     * const workOrderWithIdOnly = await prisma.workOrder.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WorkOrderUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkOrderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WorkOrder.
+     * @param {WorkOrderUpsertArgs} args - Arguments to update or create a WorkOrder.
+     * @example
+     * // Update or create a WorkOrder
+     * const workOrder = await prisma.workOrder.upsert({
+     *   create: {
+     *     // ... data to create a WorkOrder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WorkOrder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkOrderUpsertArgs>(args: SelectSubset<T, WorkOrderUpsertArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WorkOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderCountArgs} args - Arguments to filter WorkOrders to count.
+     * @example
+     * // Count the number of WorkOrders
+     * const count = await prisma.workOrder.count({
+     *   where: {
+     *     // ... the filter for the WorkOrders we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkOrderCountArgs>(
+      args?: Subset<T, WorkOrderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkOrderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WorkOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkOrderAggregateArgs>(args: Subset<T, WorkOrderAggregateArgs>): Prisma.PrismaPromise<GetWorkOrderAggregateType<T>>
+
+    /**
+     * Group by WorkOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkOrderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkOrderGroupByArgs['orderBy'] }
+        : { orderBy?: WorkOrderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkOrderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkOrderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WorkOrder model
+   */
+  readonly fields: WorkOrderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WorkOrder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkOrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    operations<T extends WorkOrder$operationsArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WorkOrder model
+   */
+  interface WorkOrderFieldRefs {
+    readonly id: FieldRef<"WorkOrder", 'String'>
+    readonly tenantId: FieldRef<"WorkOrder", 'String'>
+    readonly woNumber: FieldRef<"WorkOrder", 'String'>
+    readonly skuId: FieldRef<"WorkOrder", 'String'>
+    readonly warehouseId: FieldRef<"WorkOrder", 'String'>
+    readonly bomId: FieldRef<"WorkOrder", 'String'>
+    readonly routingId: FieldRef<"WorkOrder", 'String'>
+    readonly quantity: FieldRef<"WorkOrder", 'Decimal'>
+    readonly goodQuantity: FieldRef<"WorkOrder", 'Decimal'>
+    readonly scrapQuantity: FieldRef<"WorkOrder", 'Decimal'>
+    readonly status: FieldRef<"WorkOrder", 'WorkOrderStatus'>
+    readonly startedAt: FieldRef<"WorkOrder", 'DateTime'>
+    readonly completedAt: FieldRef<"WorkOrder", 'DateTime'>
+    readonly createdBy: FieldRef<"WorkOrder", 'String'>
+    readonly createdAt: FieldRef<"WorkOrder", 'DateTime'>
+    readonly updatedAt: FieldRef<"WorkOrder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WorkOrder findUnique
+   */
+  export type WorkOrderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder findUniqueOrThrow
+   */
+  export type WorkOrderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder findFirst
+   */
+  export type WorkOrderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrders.
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrders.
+     */
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder findFirstOrThrow
+   */
+  export type WorkOrderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrders.
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrders.
+     */
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder findMany
+   */
+  export type WorkOrderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrders to fetch.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WorkOrders.
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder create
+   */
+  export type WorkOrderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WorkOrder.
+     */
+    data: XOR<WorkOrderCreateInput, WorkOrderUncheckedCreateInput>
+  }
+
+  /**
+   * WorkOrder createMany
+   */
+  export type WorkOrderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WorkOrders.
+     */
+    data: WorkOrderCreateManyInput | WorkOrderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WorkOrder createManyAndReturn
+   */
+  export type WorkOrderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * The data used to create many WorkOrders.
+     */
+    data: WorkOrderCreateManyInput | WorkOrderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkOrder update
+   */
+  export type WorkOrderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WorkOrder.
+     */
+    data: XOR<WorkOrderUpdateInput, WorkOrderUncheckedUpdateInput>
+    /**
+     * Choose, which WorkOrder to update.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder updateMany
+   */
+  export type WorkOrderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WorkOrders.
+     */
+    data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkOrders to update
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * Limit how many WorkOrders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrder updateManyAndReturn
+   */
+  export type WorkOrderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * The data used to update WorkOrders.
+     */
+    data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkOrders to update
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * Limit how many WorkOrders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkOrder upsert
+   */
+  export type WorkOrderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WorkOrder to update in case it exists.
+     */
+    where: WorkOrderWhereUniqueInput
+    /**
+     * In case the WorkOrder found by the `where` argument doesn't exist, create a new WorkOrder with this data.
+     */
+    create: XOR<WorkOrderCreateInput, WorkOrderUncheckedCreateInput>
+    /**
+     * In case the WorkOrder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkOrderUpdateInput, WorkOrderUncheckedUpdateInput>
+  }
+
+  /**
+   * WorkOrder delete
+   */
+  export type WorkOrderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter which WorkOrder to delete.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder deleteMany
+   */
+  export type WorkOrderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrders to delete
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * Limit how many WorkOrders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrder.operations
+   */
+  export type WorkOrder$operationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    where?: WorkOrderOperationWhereInput
+    orderBy?: WorkOrderOperationOrderByWithRelationInput | WorkOrderOperationOrderByWithRelationInput[]
+    cursor?: WorkOrderOperationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderOperationScalarFieldEnum | WorkOrderOperationScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder without action
+   */
+  export type WorkOrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WorkOrderOperation
+   */
+
+  export type AggregateWorkOrderOperation = {
+    _count: WorkOrderOperationCountAggregateOutputType | null
+    _avg: WorkOrderOperationAvgAggregateOutputType | null
+    _sum: WorkOrderOperationSumAggregateOutputType | null
+    _min: WorkOrderOperationMinAggregateOutputType | null
+    _max: WorkOrderOperationMaxAggregateOutputType | null
+  }
+
+  export type WorkOrderOperationAvgAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type WorkOrderOperationSumAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type WorkOrderOperationMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    workOrderId: string | null
+    seq: number | null
+    name: string | null
+    workCenter: string | null
+    status: $Enums.WoOperationStatus | null
+    startedAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type WorkOrderOperationMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    workOrderId: string | null
+    seq: number | null
+    name: string | null
+    workCenter: string | null
+    status: $Enums.WoOperationStatus | null
+    startedAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type WorkOrderOperationCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    workOrderId: number
+    seq: number
+    name: number
+    workCenter: number
+    status: number
+    startedAt: number
+    completedAt: number
+    _all: number
+  }
+
+
+  export type WorkOrderOperationAvgAggregateInputType = {
+    seq?: true
+  }
+
+  export type WorkOrderOperationSumAggregateInputType = {
+    seq?: true
+  }
+
+  export type WorkOrderOperationMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    workOrderId?: true
+    seq?: true
+    name?: true
+    workCenter?: true
+    status?: true
+    startedAt?: true
+    completedAt?: true
+  }
+
+  export type WorkOrderOperationMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    workOrderId?: true
+    seq?: true
+    name?: true
+    workCenter?: true
+    status?: true
+    startedAt?: true
+    completedAt?: true
+  }
+
+  export type WorkOrderOperationCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    workOrderId?: true
+    seq?: true
+    name?: true
+    workCenter?: true
+    status?: true
+    startedAt?: true
+    completedAt?: true
+    _all?: true
+  }
+
+  export type WorkOrderOperationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrderOperation to aggregate.
+     */
+    where?: WorkOrderOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderOperations to fetch.
+     */
+    orderBy?: WorkOrderOperationOrderByWithRelationInput | WorkOrderOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkOrderOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderOperations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WorkOrderOperations
+    **/
+    _count?: true | WorkOrderOperationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WorkOrderOperationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WorkOrderOperationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkOrderOperationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkOrderOperationMaxAggregateInputType
+  }
+
+  export type GetWorkOrderOperationAggregateType<T extends WorkOrderOperationAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkOrderOperation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkOrderOperation[P]>
+      : GetScalarType<T[P], AggregateWorkOrderOperation[P]>
+  }
+
+
+
+
+  export type WorkOrderOperationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderOperationWhereInput
+    orderBy?: WorkOrderOperationOrderByWithAggregationInput | WorkOrderOperationOrderByWithAggregationInput[]
+    by: WorkOrderOperationScalarFieldEnum[] | WorkOrderOperationScalarFieldEnum
+    having?: WorkOrderOperationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkOrderOperationCountAggregateInputType | true
+    _avg?: WorkOrderOperationAvgAggregateInputType
+    _sum?: WorkOrderOperationSumAggregateInputType
+    _min?: WorkOrderOperationMinAggregateInputType
+    _max?: WorkOrderOperationMaxAggregateInputType
+  }
+
+  export type WorkOrderOperationGroupByOutputType = {
+    id: string
+    tenantId: string
+    workOrderId: string
+    seq: number
+    name: string
+    workCenter: string
+    status: $Enums.WoOperationStatus
+    startedAt: Date | null
+    completedAt: Date | null
+    _count: WorkOrderOperationCountAggregateOutputType | null
+    _avg: WorkOrderOperationAvgAggregateOutputType | null
+    _sum: WorkOrderOperationSumAggregateOutputType | null
+    _min: WorkOrderOperationMinAggregateOutputType | null
+    _max: WorkOrderOperationMaxAggregateOutputType | null
+  }
+
+  type GetWorkOrderOperationGroupByPayload<T extends WorkOrderOperationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkOrderOperationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkOrderOperationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkOrderOperationGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkOrderOperationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkOrderOperationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    workOrderId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrderOperation"]>
+
+  export type WorkOrderOperationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    workOrderId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrderOperation"]>
+
+  export type WorkOrderOperationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    workOrderId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrderOperation"]>
+
+  export type WorkOrderOperationSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    workOrderId?: boolean
+    seq?: boolean
+    name?: boolean
+    workCenter?: boolean
+    status?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+  }
+
+  export type WorkOrderOperationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "workOrderId" | "seq" | "name" | "workCenter" | "status" | "startedAt" | "completedAt", ExtArgs["result"]["workOrderOperation"]>
+  export type WorkOrderOperationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+  }
+  export type WorkOrderOperationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+  }
+  export type WorkOrderOperationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+  }
+
+  export type $WorkOrderOperationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WorkOrderOperation"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      workOrder: Prisma.$WorkOrderPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      workOrderId: string
+      seq: number
+      name: string
+      workCenter: string
+      status: $Enums.WoOperationStatus
+      startedAt: Date | null
+      completedAt: Date | null
+    }, ExtArgs["result"]["workOrderOperation"]>
+    composites: {}
+  }
+
+  type WorkOrderOperationGetPayload<S extends boolean | null | undefined | WorkOrderOperationDefaultArgs> = $Result.GetResult<Prisma.$WorkOrderOperationPayload, S>
+
+  type WorkOrderOperationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkOrderOperationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkOrderOperationCountAggregateInputType | true
+    }
+
+  export interface WorkOrderOperationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkOrderOperation'], meta: { name: 'WorkOrderOperation' } }
+    /**
+     * Find zero or one WorkOrderOperation that matches the filter.
+     * @param {WorkOrderOperationFindUniqueArgs} args - Arguments to find a WorkOrderOperation
+     * @example
+     * // Get one WorkOrderOperation
+     * const workOrderOperation = await prisma.workOrderOperation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkOrderOperationFindUniqueArgs>(args: SelectSubset<T, WorkOrderOperationFindUniqueArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WorkOrderOperation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkOrderOperationFindUniqueOrThrowArgs} args - Arguments to find a WorkOrderOperation
+     * @example
+     * // Get one WorkOrderOperation
+     * const workOrderOperation = await prisma.workOrderOperation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkOrderOperationFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkOrderOperationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrderOperation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderOperationFindFirstArgs} args - Arguments to find a WorkOrderOperation
+     * @example
+     * // Get one WorkOrderOperation
+     * const workOrderOperation = await prisma.workOrderOperation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkOrderOperationFindFirstArgs>(args?: SelectSubset<T, WorkOrderOperationFindFirstArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrderOperation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderOperationFindFirstOrThrowArgs} args - Arguments to find a WorkOrderOperation
+     * @example
+     * // Get one WorkOrderOperation
+     * const workOrderOperation = await prisma.workOrderOperation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkOrderOperationFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkOrderOperationFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WorkOrderOperations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderOperationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WorkOrderOperations
+     * const workOrderOperations = await prisma.workOrderOperation.findMany()
+     * 
+     * // Get first 10 WorkOrderOperations
+     * const workOrderOperations = await prisma.workOrderOperation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workOrderOperationWithIdOnly = await prisma.workOrderOperation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkOrderOperationFindManyArgs>(args?: SelectSubset<T, WorkOrderOperationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WorkOrderOperation.
+     * @param {WorkOrderOperationCreateArgs} args - Arguments to create a WorkOrderOperation.
+     * @example
+     * // Create one WorkOrderOperation
+     * const WorkOrderOperation = await prisma.workOrderOperation.create({
+     *   data: {
+     *     // ... data to create a WorkOrderOperation
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkOrderOperationCreateArgs>(args: SelectSubset<T, WorkOrderOperationCreateArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WorkOrderOperations.
+     * @param {WorkOrderOperationCreateManyArgs} args - Arguments to create many WorkOrderOperations.
+     * @example
+     * // Create many WorkOrderOperations
+     * const workOrderOperation = await prisma.workOrderOperation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkOrderOperationCreateManyArgs>(args?: SelectSubset<T, WorkOrderOperationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WorkOrderOperations and returns the data saved in the database.
+     * @param {WorkOrderOperationCreateManyAndReturnArgs} args - Arguments to create many WorkOrderOperations.
+     * @example
+     * // Create many WorkOrderOperations
+     * const workOrderOperation = await prisma.workOrderOperation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WorkOrderOperations and only return the `id`
+     * const workOrderOperationWithIdOnly = await prisma.workOrderOperation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WorkOrderOperationCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkOrderOperationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WorkOrderOperation.
+     * @param {WorkOrderOperationDeleteArgs} args - Arguments to delete one WorkOrderOperation.
+     * @example
+     * // Delete one WorkOrderOperation
+     * const WorkOrderOperation = await prisma.workOrderOperation.delete({
+     *   where: {
+     *     // ... filter to delete one WorkOrderOperation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkOrderOperationDeleteArgs>(args: SelectSubset<T, WorkOrderOperationDeleteArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WorkOrderOperation.
+     * @param {WorkOrderOperationUpdateArgs} args - Arguments to update one WorkOrderOperation.
+     * @example
+     * // Update one WorkOrderOperation
+     * const workOrderOperation = await prisma.workOrderOperation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkOrderOperationUpdateArgs>(args: SelectSubset<T, WorkOrderOperationUpdateArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WorkOrderOperations.
+     * @param {WorkOrderOperationDeleteManyArgs} args - Arguments to filter WorkOrderOperations to delete.
+     * @example
+     * // Delete a few WorkOrderOperations
+     * const { count } = await prisma.workOrderOperation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkOrderOperationDeleteManyArgs>(args?: SelectSubset<T, WorkOrderOperationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkOrderOperations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderOperationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WorkOrderOperations
+     * const workOrderOperation = await prisma.workOrderOperation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkOrderOperationUpdateManyArgs>(args: SelectSubset<T, WorkOrderOperationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkOrderOperations and returns the data updated in the database.
+     * @param {WorkOrderOperationUpdateManyAndReturnArgs} args - Arguments to update many WorkOrderOperations.
+     * @example
+     * // Update many WorkOrderOperations
+     * const workOrderOperation = await prisma.workOrderOperation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WorkOrderOperations and only return the `id`
+     * const workOrderOperationWithIdOnly = await prisma.workOrderOperation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WorkOrderOperationUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkOrderOperationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WorkOrderOperation.
+     * @param {WorkOrderOperationUpsertArgs} args - Arguments to update or create a WorkOrderOperation.
+     * @example
+     * // Update or create a WorkOrderOperation
+     * const workOrderOperation = await prisma.workOrderOperation.upsert({
+     *   create: {
+     *     // ... data to create a WorkOrderOperation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WorkOrderOperation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkOrderOperationUpsertArgs>(args: SelectSubset<T, WorkOrderOperationUpsertArgs<ExtArgs>>): Prisma__WorkOrderOperationClient<$Result.GetResult<Prisma.$WorkOrderOperationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WorkOrderOperations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderOperationCountArgs} args - Arguments to filter WorkOrderOperations to count.
+     * @example
+     * // Count the number of WorkOrderOperations
+     * const count = await prisma.workOrderOperation.count({
+     *   where: {
+     *     // ... the filter for the WorkOrderOperations we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkOrderOperationCountArgs>(
+      args?: Subset<T, WorkOrderOperationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkOrderOperationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WorkOrderOperation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderOperationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkOrderOperationAggregateArgs>(args: Subset<T, WorkOrderOperationAggregateArgs>): Prisma.PrismaPromise<GetWorkOrderOperationAggregateType<T>>
+
+    /**
+     * Group by WorkOrderOperation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderOperationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkOrderOperationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkOrderOperationGroupByArgs['orderBy'] }
+        : { orderBy?: WorkOrderOperationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkOrderOperationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkOrderOperationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WorkOrderOperation model
+   */
+  readonly fields: WorkOrderOperationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WorkOrderOperation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkOrderOperationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    workOrder<T extends WorkOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrderDefaultArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WorkOrderOperation model
+   */
+  interface WorkOrderOperationFieldRefs {
+    readonly id: FieldRef<"WorkOrderOperation", 'String'>
+    readonly tenantId: FieldRef<"WorkOrderOperation", 'String'>
+    readonly workOrderId: FieldRef<"WorkOrderOperation", 'String'>
+    readonly seq: FieldRef<"WorkOrderOperation", 'Int'>
+    readonly name: FieldRef<"WorkOrderOperation", 'String'>
+    readonly workCenter: FieldRef<"WorkOrderOperation", 'String'>
+    readonly status: FieldRef<"WorkOrderOperation", 'WoOperationStatus'>
+    readonly startedAt: FieldRef<"WorkOrderOperation", 'DateTime'>
+    readonly completedAt: FieldRef<"WorkOrderOperation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WorkOrderOperation findUnique
+   */
+  export type WorkOrderOperationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderOperation to fetch.
+     */
+    where: WorkOrderOperationWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderOperation findUniqueOrThrow
+   */
+  export type WorkOrderOperationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderOperation to fetch.
+     */
+    where: WorkOrderOperationWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderOperation findFirst
+   */
+  export type WorkOrderOperationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderOperation to fetch.
+     */
+    where?: WorkOrderOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderOperations to fetch.
+     */
+    orderBy?: WorkOrderOperationOrderByWithRelationInput | WorkOrderOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrderOperations.
+     */
+    cursor?: WorkOrderOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderOperations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrderOperations.
+     */
+    distinct?: WorkOrderOperationScalarFieldEnum | WorkOrderOperationScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderOperation findFirstOrThrow
+   */
+  export type WorkOrderOperationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderOperation to fetch.
+     */
+    where?: WorkOrderOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderOperations to fetch.
+     */
+    orderBy?: WorkOrderOperationOrderByWithRelationInput | WorkOrderOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrderOperations.
+     */
+    cursor?: WorkOrderOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderOperations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrderOperations.
+     */
+    distinct?: WorkOrderOperationScalarFieldEnum | WorkOrderOperationScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderOperation findMany
+   */
+  export type WorkOrderOperationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderOperations to fetch.
+     */
+    where?: WorkOrderOperationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderOperations to fetch.
+     */
+    orderBy?: WorkOrderOperationOrderByWithRelationInput | WorkOrderOperationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WorkOrderOperations.
+     */
+    cursor?: WorkOrderOperationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderOperations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderOperations.
+     */
+    skip?: number
+    distinct?: WorkOrderOperationScalarFieldEnum | WorkOrderOperationScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderOperation create
+   */
+  export type WorkOrderOperationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WorkOrderOperation.
+     */
+    data: XOR<WorkOrderOperationCreateInput, WorkOrderOperationUncheckedCreateInput>
+  }
+
+  /**
+   * WorkOrderOperation createMany
+   */
+  export type WorkOrderOperationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WorkOrderOperations.
+     */
+    data: WorkOrderOperationCreateManyInput | WorkOrderOperationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WorkOrderOperation createManyAndReturn
+   */
+  export type WorkOrderOperationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * The data used to create many WorkOrderOperations.
+     */
+    data: WorkOrderOperationCreateManyInput | WorkOrderOperationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkOrderOperation update
+   */
+  export type WorkOrderOperationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WorkOrderOperation.
+     */
+    data: XOR<WorkOrderOperationUpdateInput, WorkOrderOperationUncheckedUpdateInput>
+    /**
+     * Choose, which WorkOrderOperation to update.
+     */
+    where: WorkOrderOperationWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderOperation updateMany
+   */
+  export type WorkOrderOperationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WorkOrderOperations.
+     */
+    data: XOR<WorkOrderOperationUpdateManyMutationInput, WorkOrderOperationUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkOrderOperations to update
+     */
+    where?: WorkOrderOperationWhereInput
+    /**
+     * Limit how many WorkOrderOperations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrderOperation updateManyAndReturn
+   */
+  export type WorkOrderOperationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * The data used to update WorkOrderOperations.
+     */
+    data: XOR<WorkOrderOperationUpdateManyMutationInput, WorkOrderOperationUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkOrderOperations to update
+     */
+    where?: WorkOrderOperationWhereInput
+    /**
+     * Limit how many WorkOrderOperations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkOrderOperation upsert
+   */
+  export type WorkOrderOperationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WorkOrderOperation to update in case it exists.
+     */
+    where: WorkOrderOperationWhereUniqueInput
+    /**
+     * In case the WorkOrderOperation found by the `where` argument doesn't exist, create a new WorkOrderOperation with this data.
+     */
+    create: XOR<WorkOrderOperationCreateInput, WorkOrderOperationUncheckedCreateInput>
+    /**
+     * In case the WorkOrderOperation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkOrderOperationUpdateInput, WorkOrderOperationUncheckedUpdateInput>
+  }
+
+  /**
+   * WorkOrderOperation delete
+   */
+  export type WorkOrderOperationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+    /**
+     * Filter which WorkOrderOperation to delete.
+     */
+    where: WorkOrderOperationWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderOperation deleteMany
+   */
+  export type WorkOrderOperationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrderOperations to delete
+     */
+    where?: WorkOrderOperationWhereInput
+    /**
+     * Limit how many WorkOrderOperations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrderOperation without action
+   */
+  export type WorkOrderOperationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderOperation
+     */
+    select?: WorkOrderOperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderOperation
+     */
+    omit?: WorkOrderOperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderOperationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -83368,6 +86112,43 @@ export namespace Prisma {
   export type MrpSuggestionScalarFieldEnum = (typeof MrpSuggestionScalarFieldEnum)[keyof typeof MrpSuggestionScalarFieldEnum]
 
 
+  export const WorkOrderScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    woNumber: 'woNumber',
+    skuId: 'skuId',
+    warehouseId: 'warehouseId',
+    bomId: 'bomId',
+    routingId: 'routingId',
+    quantity: 'quantity',
+    goodQuantity: 'goodQuantity',
+    scrapQuantity: 'scrapQuantity',
+    status: 'status',
+    startedAt: 'startedAt',
+    completedAt: 'completedAt',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
+
+
+  export const WorkOrderOperationScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    workOrderId: 'workOrderId',
+    seq: 'seq',
+    name: 'name',
+    workCenter: 'workCenter',
+    status: 'status',
+    startedAt: 'startedAt',
+    completedAt: 'completedAt'
+  };
+
+  export type WorkOrderOperationScalarFieldEnum = (typeof WorkOrderOperationScalarFieldEnum)[keyof typeof WorkOrderOperationScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -83961,6 +86742,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'WorkOrderStatus'
+   */
+  export type EnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WorkOrderStatus[]'
+   */
+  export type ListEnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WoOperationStatus'
+   */
+  export type EnumWoOperationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WoOperationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WoOperationStatus[]'
+   */
+  export type ListEnumWoOperationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WoOperationStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -84041,6 +86850,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyListRelationFilter
     mrpRuns?: MrpRunListRelationFilter
     mrpSuggestions?: MrpSuggestionListRelationFilter
+    workOrders?: WorkOrderListRelationFilter
+    workOrderOperations?: WorkOrderOperationListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -84104,6 +86915,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyOrderByRelationAggregateInput
     mrpRuns?: MrpRunOrderByRelationAggregateInput
     mrpSuggestions?: MrpSuggestionOrderByRelationAggregateInput
+    workOrders?: WorkOrderOrderByRelationAggregateInput
+    workOrderOperations?: WorkOrderOperationOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -84170,6 +86983,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyListRelationFilter
     mrpRuns?: MrpRunListRelationFilter
     mrpSuggestions?: MrpSuggestionListRelationFilter
+    workOrders?: WorkOrderListRelationFilter
+    workOrderOperations?: WorkOrderOperationListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -89003,6 +91818,203 @@ export namespace Prisma {
     dueInDays?: IntWithAggregatesFilter<"MrpSuggestion"> | number
   }
 
+  export type WorkOrderWhereInput = {
+    AND?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    OR?: WorkOrderWhereInput[]
+    NOT?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    id?: UuidFilter<"WorkOrder"> | string
+    tenantId?: UuidFilter<"WorkOrder"> | string
+    woNumber?: StringFilter<"WorkOrder"> | string
+    skuId?: UuidFilter<"WorkOrder"> | string
+    warehouseId?: UuidFilter<"WorkOrder"> | string
+    bomId?: UuidFilter<"WorkOrder"> | string
+    routingId?: UuidNullableFilter<"WorkOrder"> | string | null
+    quantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    startedAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    createdBy?: StringNullableFilter<"WorkOrder"> | string | null
+    createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    operations?: WorkOrderOperationListRelationFilter
+  }
+
+  export type WorkOrderOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    woNumber?: SortOrder
+    skuId?: SortOrder
+    warehouseId?: SortOrder
+    bomId?: SortOrder
+    routingId?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    goodQuantity?: SortOrder
+    scrapQuantity?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    operations?: WorkOrderOperationOrderByRelationAggregateInput
+  }
+
+  export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_woNumber?: WorkOrderTenantIdWoNumberCompoundUniqueInput
+    AND?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    OR?: WorkOrderWhereInput[]
+    NOT?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    tenantId?: UuidFilter<"WorkOrder"> | string
+    woNumber?: StringFilter<"WorkOrder"> | string
+    skuId?: UuidFilter<"WorkOrder"> | string
+    warehouseId?: UuidFilter<"WorkOrder"> | string
+    bomId?: UuidFilter<"WorkOrder"> | string
+    routingId?: UuidNullableFilter<"WorkOrder"> | string | null
+    quantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    startedAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    createdBy?: StringNullableFilter<"WorkOrder"> | string | null
+    createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    operations?: WorkOrderOperationListRelationFilter
+  }, "id" | "tenantId_woNumber">
+
+  export type WorkOrderOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    woNumber?: SortOrder
+    skuId?: SortOrder
+    warehouseId?: SortOrder
+    bomId?: SortOrder
+    routingId?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    goodQuantity?: SortOrder
+    scrapQuantity?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WorkOrderCountOrderByAggregateInput
+    _avg?: WorkOrderAvgOrderByAggregateInput
+    _max?: WorkOrderMaxOrderByAggregateInput
+    _min?: WorkOrderMinOrderByAggregateInput
+    _sum?: WorkOrderSumOrderByAggregateInput
+  }
+
+  export type WorkOrderScalarWhereWithAggregatesInput = {
+    AND?: WorkOrderScalarWhereWithAggregatesInput | WorkOrderScalarWhereWithAggregatesInput[]
+    OR?: WorkOrderScalarWhereWithAggregatesInput[]
+    NOT?: WorkOrderScalarWhereWithAggregatesInput | WorkOrderScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"WorkOrder"> | string
+    tenantId?: UuidWithAggregatesFilter<"WorkOrder"> | string
+    woNumber?: StringWithAggregatesFilter<"WorkOrder"> | string
+    skuId?: UuidWithAggregatesFilter<"WorkOrder"> | string
+    warehouseId?: UuidWithAggregatesFilter<"WorkOrder"> | string
+    bomId?: UuidWithAggregatesFilter<"WorkOrder"> | string
+    routingId?: UuidNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    quantity?: DecimalWithAggregatesFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalWithAggregatesFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalWithAggregatesFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusWithAggregatesFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    startedAt?: DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
+  }
+
+  export type WorkOrderOperationWhereInput = {
+    AND?: WorkOrderOperationWhereInput | WorkOrderOperationWhereInput[]
+    OR?: WorkOrderOperationWhereInput[]
+    NOT?: WorkOrderOperationWhereInput | WorkOrderOperationWhereInput[]
+    id?: UuidFilter<"WorkOrderOperation"> | string
+    tenantId?: UuidFilter<"WorkOrderOperation"> | string
+    workOrderId?: UuidFilter<"WorkOrderOperation"> | string
+    seq?: IntFilter<"WorkOrderOperation"> | number
+    name?: StringFilter<"WorkOrderOperation"> | string
+    workCenter?: StringFilter<"WorkOrderOperation"> | string
+    status?: EnumWoOperationStatusFilter<"WorkOrderOperation"> | $Enums.WoOperationStatus
+    startedAt?: DateTimeNullableFilter<"WorkOrderOperation"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"WorkOrderOperation"> | Date | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+  }
+
+  export type WorkOrderOperationOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workOrderId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    workOrder?: WorkOrderOrderByWithRelationInput
+  }
+
+  export type WorkOrderOperationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_workOrderId_seq?: WorkOrderOperationTenantIdWorkOrderIdSeqCompoundUniqueInput
+    AND?: WorkOrderOperationWhereInput | WorkOrderOperationWhereInput[]
+    OR?: WorkOrderOperationWhereInput[]
+    NOT?: WorkOrderOperationWhereInput | WorkOrderOperationWhereInput[]
+    tenantId?: UuidFilter<"WorkOrderOperation"> | string
+    workOrderId?: UuidFilter<"WorkOrderOperation"> | string
+    seq?: IntFilter<"WorkOrderOperation"> | number
+    name?: StringFilter<"WorkOrderOperation"> | string
+    workCenter?: StringFilter<"WorkOrderOperation"> | string
+    status?: EnumWoOperationStatusFilter<"WorkOrderOperation"> | $Enums.WoOperationStatus
+    startedAt?: DateTimeNullableFilter<"WorkOrderOperation"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"WorkOrderOperation"> | Date | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+  }, "id" | "tenantId_workOrderId_seq">
+
+  export type WorkOrderOperationOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workOrderId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    _count?: WorkOrderOperationCountOrderByAggregateInput
+    _avg?: WorkOrderOperationAvgOrderByAggregateInput
+    _max?: WorkOrderOperationMaxOrderByAggregateInput
+    _min?: WorkOrderOperationMinOrderByAggregateInput
+    _sum?: WorkOrderOperationSumOrderByAggregateInput
+  }
+
+  export type WorkOrderOperationScalarWhereWithAggregatesInput = {
+    AND?: WorkOrderOperationScalarWhereWithAggregatesInput | WorkOrderOperationScalarWhereWithAggregatesInput[]
+    OR?: WorkOrderOperationScalarWhereWithAggregatesInput[]
+    NOT?: WorkOrderOperationScalarWhereWithAggregatesInput | WorkOrderOperationScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"WorkOrderOperation"> | string
+    tenantId?: UuidWithAggregatesFilter<"WorkOrderOperation"> | string
+    workOrderId?: UuidWithAggregatesFilter<"WorkOrderOperation"> | string
+    seq?: IntWithAggregatesFilter<"WorkOrderOperation"> | number
+    name?: StringWithAggregatesFilter<"WorkOrderOperation"> | string
+    workCenter?: StringWithAggregatesFilter<"WorkOrderOperation"> | string
+    status?: EnumWoOperationStatusWithAggregatesFilter<"WorkOrderOperation"> | $Enums.WoOperationStatus
+    startedAt?: DateTimeNullableWithAggregatesFilter<"WorkOrderOperation"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"WorkOrderOperation"> | Date | string | null
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -89064,6 +92076,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -89127,6 +92141,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -89190,6 +92206,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -89253,6 +92271,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -94388,6 +97408,224 @@ export namespace Prisma {
     dueInDays?: IntFieldUpdateOperationsInput | number
   }
 
+  export type WorkOrderCreateInput = {
+    id?: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWorkOrdersInput
+    operations?: WorkOrderOperationCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: WorkOrderOperationUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWorkOrdersNestedInput
+    operations?: WorkOrderOperationUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: WorkOrderOperationUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderCreateManyInput = {
+    id?: string
+    tenantId: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderOperationCreateInput = {
+    id?: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    tenant: TenantCreateNestedOneWithoutWorkOrderOperationsInput
+    workOrder: WorkOrderCreateNestedOneWithoutOperationsInput
+  }
+
+  export type WorkOrderOperationUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    workOrderId: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+  }
+
+  export type WorkOrderOperationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tenant?: TenantUpdateOneRequiredWithoutWorkOrderOperationsNestedInput
+    workOrder?: WorkOrderUpdateOneRequiredWithoutOperationsNestedInput
+  }
+
+  export type WorkOrderOperationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WorkOrderOperationCreateManyInput = {
+    id?: string
+    tenantId: string
+    workOrderId: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+  }
+
+  export type WorkOrderOperationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WorkOrderOperationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -94762,6 +98000,18 @@ export namespace Prisma {
     none?: MrpSuggestionWhereInput
   }
 
+  export type WorkOrderListRelationFilter = {
+    every?: WorkOrderWhereInput
+    some?: WorkOrderWhereInput
+    none?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderOperationListRelationFilter = {
+    every?: WorkOrderOperationWhereInput
+    some?: WorkOrderOperationWhereInput
+    none?: WorkOrderOperationWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -94971,6 +98221,14 @@ export namespace Prisma {
   }
 
   export type MrpSuggestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkOrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkOrderOperationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -98804,6 +102062,169 @@ export namespace Prisma {
     _max?: NestedEnumPlannedOrderTypeFilter<$PrismaModel>
   }
 
+  export type EnumWorkOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWorkOrderStatusFilter<$PrismaModel> | $Enums.WorkOrderStatus
+  }
+
+  export type WorkOrderTenantIdWoNumberCompoundUniqueInput = {
+    tenantId: string
+    woNumber: string
+  }
+
+  export type WorkOrderCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    woNumber?: SortOrder
+    skuId?: SortOrder
+    warehouseId?: SortOrder
+    bomId?: SortOrder
+    routingId?: SortOrder
+    quantity?: SortOrder
+    goodQuantity?: SortOrder
+    scrapQuantity?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    goodQuantity?: SortOrder
+    scrapQuantity?: SortOrder
+  }
+
+  export type WorkOrderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    woNumber?: SortOrder
+    skuId?: SortOrder
+    warehouseId?: SortOrder
+    bomId?: SortOrder
+    routingId?: SortOrder
+    quantity?: SortOrder
+    goodQuantity?: SortOrder
+    scrapQuantity?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    woNumber?: SortOrder
+    skuId?: SortOrder
+    warehouseId?: SortOrder
+    bomId?: SortOrder
+    routingId?: SortOrder
+    quantity?: SortOrder
+    goodQuantity?: SortOrder
+    scrapQuantity?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    goodQuantity?: SortOrder
+    scrapQuantity?: SortOrder
+  }
+
+  export type EnumWorkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWorkOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.WorkOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type EnumWoOperationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WoOperationStatus | EnumWoOperationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWoOperationStatusFilter<$PrismaModel> | $Enums.WoOperationStatus
+  }
+
+  export type WorkOrderScalarRelationFilter = {
+    is?: WorkOrderWhereInput
+    isNot?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderOperationTenantIdWorkOrderIdSeqCompoundUniqueInput = {
+    tenantId: string
+    workOrderId: string
+    seq: number
+  }
+
+  export type WorkOrderOperationCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workOrderId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type WorkOrderOperationAvgOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type WorkOrderOperationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workOrderId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type WorkOrderOperationMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workOrderId?: SortOrder
+    seq?: SortOrder
+    name?: SortOrder
+    workCenter?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type WorkOrderOperationSumOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type EnumWoOperationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WoOperationStatus | EnumWoOperationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWoOperationStatusWithAggregatesFilter<$PrismaModel> | $Enums.WoOperationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWoOperationStatusFilter<$PrismaModel>
+    _max?: NestedEnumWoOperationStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -99175,6 +102596,20 @@ export namespace Prisma {
     connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
   }
 
+  export type WorkOrderCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WorkOrderCreateWithoutTenantInput, WorkOrderUncheckedCreateWithoutTenantInput> | WorkOrderCreateWithoutTenantInput[] | WorkOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutTenantInput | WorkOrderCreateOrConnectWithoutTenantInput[]
+    createMany?: WorkOrderCreateManyTenantInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type WorkOrderOperationCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutTenantInput, WorkOrderOperationUncheckedCreateWithoutTenantInput> | WorkOrderOperationCreateWithoutTenantInput[] | WorkOrderOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutTenantInput | WorkOrderOperationCreateOrConnectWithoutTenantInput[]
+    createMany?: WorkOrderOperationCreateManyTenantInputEnvelope
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -99544,6 +102979,20 @@ export namespace Prisma {
     connectOrCreate?: MrpSuggestionCreateOrConnectWithoutTenantInput | MrpSuggestionCreateOrConnectWithoutTenantInput[]
     createMany?: MrpSuggestionCreateManyTenantInputEnvelope
     connect?: MrpSuggestionWhereUniqueInput | MrpSuggestionWhereUniqueInput[]
+  }
+
+  export type WorkOrderUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WorkOrderCreateWithoutTenantInput, WorkOrderUncheckedCreateWithoutTenantInput> | WorkOrderCreateWithoutTenantInput[] | WorkOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutTenantInput | WorkOrderCreateOrConnectWithoutTenantInput[]
+    createMany?: WorkOrderCreateManyTenantInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutTenantInput, WorkOrderOperationUncheckedCreateWithoutTenantInput> | WorkOrderOperationCreateWithoutTenantInput[] | WorkOrderOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutTenantInput | WorkOrderOperationCreateOrConnectWithoutTenantInput[]
+    createMany?: WorkOrderOperationCreateManyTenantInputEnvelope
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -100308,6 +103757,34 @@ export namespace Prisma {
     deleteMany?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
   }
 
+  export type WorkOrderUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutTenantInput, WorkOrderUncheckedCreateWithoutTenantInput> | WorkOrderCreateWithoutTenantInput[] | WorkOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutTenantInput | WorkOrderCreateOrConnectWithoutTenantInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutTenantInput | WorkOrderUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WorkOrderCreateManyTenantInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutTenantInput | WorkOrderUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutTenantInput | WorkOrderUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type WorkOrderOperationUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutTenantInput, WorkOrderOperationUncheckedCreateWithoutTenantInput> | WorkOrderOperationCreateWithoutTenantInput[] | WorkOrderOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutTenantInput | WorkOrderOperationCreateOrConnectWithoutTenantInput[]
+    upsert?: WorkOrderOperationUpsertWithWhereUniqueWithoutTenantInput | WorkOrderOperationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WorkOrderOperationCreateManyTenantInputEnvelope
+    set?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    disconnect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    delete?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    update?: WorkOrderOperationUpdateWithWhereUniqueWithoutTenantInput | WorkOrderOperationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WorkOrderOperationUpdateManyWithWhereWithoutTenantInput | WorkOrderOperationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -101048,6 +104525,34 @@ export namespace Prisma {
     update?: MrpSuggestionUpdateWithWhereUniqueWithoutTenantInput | MrpSuggestionUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: MrpSuggestionUpdateManyWithWhereWithoutTenantInput | MrpSuggestionUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: MrpSuggestionScalarWhereInput | MrpSuggestionScalarWhereInput[]
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutTenantInput, WorkOrderUncheckedCreateWithoutTenantInput> | WorkOrderCreateWithoutTenantInput[] | WorkOrderUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutTenantInput | WorkOrderCreateOrConnectWithoutTenantInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutTenantInput | WorkOrderUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WorkOrderCreateManyTenantInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutTenantInput | WorkOrderUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutTenantInput | WorkOrderUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutTenantInput, WorkOrderOperationUncheckedCreateWithoutTenantInput> | WorkOrderOperationCreateWithoutTenantInput[] | WorkOrderOperationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutTenantInput | WorkOrderOperationCreateOrConnectWithoutTenantInput[]
+    upsert?: WorkOrderOperationUpsertWithWhereUniqueWithoutTenantInput | WorkOrderOperationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WorkOrderOperationCreateManyTenantInputEnvelope
+    set?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    disconnect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    delete?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    update?: WorkOrderOperationUpdateWithWhereUniqueWithoutTenantInput | WorkOrderOperationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WorkOrderOperationUpdateManyWithWhereWithoutTenantInput | WorkOrderOperationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -103472,6 +106977,98 @@ export namespace Prisma {
     update?: XOR<XOR<MrpRunUpdateToOneWithWhereWithoutSuggestionsInput, MrpRunUpdateWithoutSuggestionsInput>, MrpRunUncheckedUpdateWithoutSuggestionsInput>
   }
 
+  export type TenantCreateNestedOneWithoutWorkOrdersInput = {
+    create?: XOR<TenantCreateWithoutWorkOrdersInput, TenantUncheckedCreateWithoutWorkOrdersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWorkOrdersInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WorkOrderOperationCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutWorkOrderInput, WorkOrderOperationUncheckedCreateWithoutWorkOrderInput> | WorkOrderOperationCreateWithoutWorkOrderInput[] | WorkOrderOperationUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutWorkOrderInput | WorkOrderOperationCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: WorkOrderOperationCreateManyWorkOrderInputEnvelope
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+  }
+
+  export type WorkOrderOperationUncheckedCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutWorkOrderInput, WorkOrderOperationUncheckedCreateWithoutWorkOrderInput> | WorkOrderOperationCreateWithoutWorkOrderInput[] | WorkOrderOperationUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutWorkOrderInput | WorkOrderOperationCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: WorkOrderOperationCreateManyWorkOrderInputEnvelope
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+  }
+
+  export type EnumWorkOrderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WorkOrderStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutWorkOrdersNestedInput = {
+    create?: XOR<TenantCreateWithoutWorkOrdersInput, TenantUncheckedCreateWithoutWorkOrdersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWorkOrdersInput
+    upsert?: TenantUpsertWithoutWorkOrdersInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWorkOrdersInput, TenantUpdateWithoutWorkOrdersInput>, TenantUncheckedUpdateWithoutWorkOrdersInput>
+  }
+
+  export type WorkOrderOperationUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutWorkOrderInput, WorkOrderOperationUncheckedCreateWithoutWorkOrderInput> | WorkOrderOperationCreateWithoutWorkOrderInput[] | WorkOrderOperationUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutWorkOrderInput | WorkOrderOperationCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput | WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: WorkOrderOperationCreateManyWorkOrderInputEnvelope
+    set?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    disconnect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    delete?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    update?: WorkOrderOperationUpdateWithWhereUniqueWithoutWorkOrderInput | WorkOrderOperationUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: WorkOrderOperationUpdateManyWithWhereWithoutWorkOrderInput | WorkOrderOperationUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
+  }
+
+  export type WorkOrderOperationUncheckedUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<WorkOrderOperationCreateWithoutWorkOrderInput, WorkOrderOperationUncheckedCreateWithoutWorkOrderInput> | WorkOrderOperationCreateWithoutWorkOrderInput[] | WorkOrderOperationUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderOperationCreateOrConnectWithoutWorkOrderInput | WorkOrderOperationCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput | WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: WorkOrderOperationCreateManyWorkOrderInputEnvelope
+    set?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    disconnect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    delete?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    connect?: WorkOrderOperationWhereUniqueInput | WorkOrderOperationWhereUniqueInput[]
+    update?: WorkOrderOperationUpdateWithWhereUniqueWithoutWorkOrderInput | WorkOrderOperationUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: WorkOrderOperationUpdateManyWithWhereWithoutWorkOrderInput | WorkOrderOperationUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutWorkOrderOperationsInput = {
+    create?: XOR<TenantCreateWithoutWorkOrderOperationsInput, TenantUncheckedCreateWithoutWorkOrderOperationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWorkOrderOperationsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WorkOrderCreateNestedOneWithoutOperationsInput = {
+    create?: XOR<WorkOrderCreateWithoutOperationsInput, WorkOrderUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutOperationsInput
+    connect?: WorkOrderWhereUniqueInput
+  }
+
+  export type EnumWoOperationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WoOperationStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutWorkOrderOperationsNestedInput = {
+    create?: XOR<TenantCreateWithoutWorkOrderOperationsInput, TenantUncheckedCreateWithoutWorkOrderOperationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWorkOrderOperationsInput
+    upsert?: TenantUpsertWithoutWorkOrderOperationsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWorkOrderOperationsInput, TenantUpdateWithoutWorkOrderOperationsInput>, TenantUncheckedUpdateWithoutWorkOrderOperationsInput>
+  }
+
+  export type WorkOrderUpdateOneRequiredWithoutOperationsNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutOperationsInput, WorkOrderUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutOperationsInput
+    upsert?: WorkOrderUpsertWithoutOperationsInput
+    connect?: WorkOrderWhereUniqueInput
+    update?: XOR<XOR<WorkOrderUpdateToOneWithWhereWithoutOperationsInput, WorkOrderUpdateWithoutOperationsInput>, WorkOrderUncheckedUpdateWithoutOperationsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -104382,6 +107979,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPlannedOrderTypeFilter<$PrismaModel>
     _max?: NestedEnumPlannedOrderTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWorkOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWorkOrderStatusFilter<$PrismaModel> | $Enums.WorkOrderStatus
+  }
+
+  export type NestedEnumWorkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WorkOrderStatus[] | ListEnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWorkOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.WorkOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWoOperationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WoOperationStatus | EnumWoOperationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWoOperationStatusFilter<$PrismaModel> | $Enums.WoOperationStatus
+  }
+
+  export type NestedEnumWoOperationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WoOperationStatus | EnumWoOperationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WoOperationStatus[] | ListEnumWoOperationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWoOperationStatusWithAggregatesFilter<$PrismaModel> | $Enums.WoOperationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWoOperationStatusFilter<$PrismaModel>
+    _max?: NestedEnumWoOperationStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -106118,6 +109749,86 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WorkOrderCreateWithoutTenantInput = {
+    id?: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: WorkOrderOperationCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutTenantInput = {
+    id?: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: WorkOrderOperationUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderCreateOrConnectWithoutTenantInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutTenantInput, WorkOrderUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WorkOrderCreateManyTenantInputEnvelope = {
+    data: WorkOrderCreateManyTenantInput | WorkOrderCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkOrderOperationCreateWithoutTenantInput = {
+    id?: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    workOrder: WorkOrderCreateNestedOneWithoutOperationsInput
+  }
+
+  export type WorkOrderOperationUncheckedCreateWithoutTenantInput = {
+    id?: string
+    workOrderId: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+  }
+
+  export type WorkOrderOperationCreateOrConnectWithoutTenantInput = {
+    where: WorkOrderOperationWhereUniqueInput
+    create: XOR<WorkOrderOperationCreateWithoutTenantInput, WorkOrderOperationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WorkOrderOperationCreateManyTenantInputEnvelope = {
+    data: WorkOrderOperationCreateManyTenantInput | WorkOrderOperationCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -107756,6 +111467,75 @@ export namespace Prisma {
     dueInDays?: IntFilter<"MrpSuggestion"> | number
   }
 
+  export type WorkOrderUpsertWithWhereUniqueWithoutTenantInput = {
+    where: WorkOrderWhereUniqueInput
+    update: XOR<WorkOrderUpdateWithoutTenantInput, WorkOrderUncheckedUpdateWithoutTenantInput>
+    create: XOR<WorkOrderCreateWithoutTenantInput, WorkOrderUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WorkOrderUpdateWithWhereUniqueWithoutTenantInput = {
+    where: WorkOrderWhereUniqueInput
+    data: XOR<WorkOrderUpdateWithoutTenantInput, WorkOrderUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type WorkOrderUpdateManyWithWhereWithoutTenantInput = {
+    where: WorkOrderScalarWhereInput
+    data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type WorkOrderScalarWhereInput = {
+    AND?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+    OR?: WorkOrderScalarWhereInput[]
+    NOT?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+    id?: UuidFilter<"WorkOrder"> | string
+    tenantId?: UuidFilter<"WorkOrder"> | string
+    woNumber?: StringFilter<"WorkOrder"> | string
+    skuId?: UuidFilter<"WorkOrder"> | string
+    warehouseId?: UuidFilter<"WorkOrder"> | string
+    bomId?: UuidFilter<"WorkOrder"> | string
+    routingId?: UuidNullableFilter<"WorkOrder"> | string | null
+    quantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFilter<"WorkOrder"> | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    startedAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    createdBy?: StringNullableFilter<"WorkOrder"> | string | null
+    createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+  }
+
+  export type WorkOrderOperationUpsertWithWhereUniqueWithoutTenantInput = {
+    where: WorkOrderOperationWhereUniqueInput
+    update: XOR<WorkOrderOperationUpdateWithoutTenantInput, WorkOrderOperationUncheckedUpdateWithoutTenantInput>
+    create: XOR<WorkOrderOperationCreateWithoutTenantInput, WorkOrderOperationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WorkOrderOperationUpdateWithWhereUniqueWithoutTenantInput = {
+    where: WorkOrderOperationWhereUniqueInput
+    data: XOR<WorkOrderOperationUpdateWithoutTenantInput, WorkOrderOperationUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type WorkOrderOperationUpdateManyWithWhereWithoutTenantInput = {
+    where: WorkOrderOperationScalarWhereInput
+    data: XOR<WorkOrderOperationUpdateManyMutationInput, WorkOrderOperationUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type WorkOrderOperationScalarWhereInput = {
+    AND?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
+    OR?: WorkOrderOperationScalarWhereInput[]
+    NOT?: WorkOrderOperationScalarWhereInput | WorkOrderOperationScalarWhereInput[]
+    id?: UuidFilter<"WorkOrderOperation"> | string
+    tenantId?: UuidFilter<"WorkOrderOperation"> | string
+    workOrderId?: UuidFilter<"WorkOrderOperation"> | string
+    seq?: IntFilter<"WorkOrderOperation"> | number
+    name?: StringFilter<"WorkOrderOperation"> | string
+    workCenter?: StringFilter<"WorkOrderOperation"> | string
+    status?: EnumWoOperationStatusFilter<"WorkOrderOperation"> | $Enums.WoOperationStatus
+    startedAt?: DateTimeNullableFilter<"WorkOrderOperation"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"WorkOrderOperation"> | Date | string | null
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -107816,6 +111596,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -107878,6 +111660,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -107956,6 +111740,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -108018,6 +111804,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -108080,6 +111868,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -108142,6 +111932,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -108254,6 +112046,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -108316,6 +112110,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -108394,6 +112190,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -108456,6 +112254,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -108672,6 +112472,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -108734,6 +112536,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -108908,6 +112712,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -108970,6 +112776,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -109077,6 +112885,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -109139,6 +112949,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -109236,6 +113048,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -109298,6 +113112,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -109405,6 +113221,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -109467,6 +113285,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -109564,6 +113384,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -109626,6 +113448,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -109732,6 +113556,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -109794,6 +113620,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -109872,6 +113700,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -109934,6 +113764,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -110062,6 +113894,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -110124,6 +113958,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -110284,6 +114120,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -110346,6 +114184,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -110476,6 +114316,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -110538,6 +114380,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -110664,6 +114508,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -110726,6 +114572,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -110804,6 +114652,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -110866,6 +114716,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -110928,6 +114780,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -110990,6 +114844,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -111068,6 +114924,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -111130,6 +114988,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -111192,6 +115052,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -111254,6 +115116,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -111332,6 +115196,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -111394,6 +115260,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -111456,6 +115324,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -111518,6 +115388,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -111596,6 +115468,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -111658,6 +115532,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -111720,6 +115596,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -111782,6 +115660,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -111860,6 +115740,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -111922,6 +115804,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -111984,6 +115868,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -112046,6 +115932,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -112124,6 +116012,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -112186,6 +116076,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -112248,6 +116140,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -112310,6 +116204,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -112388,6 +116284,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -112450,6 +116348,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -112512,6 +116412,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -112574,6 +116476,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -112714,6 +116618,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -112776,6 +116682,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -113096,6 +117004,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -113158,6 +117068,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -113264,6 +117176,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -113326,6 +117240,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -113461,6 +117377,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -113523,6 +117441,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -113601,6 +117521,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -113663,6 +117585,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -113725,6 +117649,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -113787,6 +117713,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -113865,6 +117793,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -113927,6 +117857,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -113989,6 +117921,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -114051,6 +117985,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -114155,6 +118091,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -114217,6 +118155,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -114351,6 +118291,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -114413,6 +118355,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -114592,6 +118536,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -114654,6 +118600,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -114877,6 +118825,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -114939,6 +118889,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -115053,6 +119005,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -115115,6 +119069,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -115512,6 +119468,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -115574,6 +119532,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -115674,6 +119634,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -115736,6 +119698,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -115868,6 +119832,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -115930,6 +119896,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -116008,6 +119976,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -116070,6 +120040,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -116132,6 +120104,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -116194,6 +120168,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -116272,6 +120248,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -116334,6 +120312,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -116396,6 +120376,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -116458,6 +120440,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -116536,6 +120520,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -116598,6 +120584,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -116660,6 +120648,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -116722,6 +120712,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -116800,6 +120792,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -116862,6 +120856,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -116924,6 +120920,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -116986,6 +120984,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -117090,6 +121090,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -117152,6 +121154,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -117230,6 +121234,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -117292,6 +121298,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -117403,6 +121411,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -117465,6 +121475,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -117566,6 +121578,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -117628,6 +121642,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -117706,6 +121722,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -117768,6 +121786,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -117830,6 +121850,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -117892,6 +121914,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -117970,6 +121994,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -118032,6 +122058,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -118094,6 +122122,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -118156,6 +122186,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -118234,6 +122266,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -118296,6 +122330,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -118358,6 +122394,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -118420,6 +122458,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -118498,6 +122538,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -118560,6 +122602,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -118622,6 +122666,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -118684,6 +122730,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -118788,6 +122836,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -118850,6 +122900,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -118928,6 +122980,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -118990,6 +123044,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -119099,6 +123155,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -119161,6 +123219,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -119260,6 +123320,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -119322,6 +123384,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -119434,6 +123498,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -119496,6 +123562,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -119574,6 +123642,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -119636,6 +123706,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -119761,6 +123833,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -119823,6 +123897,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -119938,6 +124014,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -120000,6 +124078,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -120110,6 +124190,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -120172,6 +124254,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -120250,6 +124334,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -120312,6 +124398,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -120427,6 +124515,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -120489,6 +124579,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -120594,6 +124686,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -120656,6 +124750,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -120734,6 +124830,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -120796,6 +124894,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -120858,6 +124958,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -120920,6 +125022,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -120998,6 +125102,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -121060,6 +125166,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -121122,6 +125230,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -121184,6 +125294,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -121292,6 +125404,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -121354,6 +125468,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -121432,6 +125548,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -121494,6 +125612,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -121605,6 +125725,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -121667,6 +125789,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -121768,6 +125892,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -121830,6 +125956,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -121940,6 +126068,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -122002,6 +126132,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -122080,6 +126212,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -122142,6 +126276,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -122257,6 +126393,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -122319,6 +126457,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -122424,6 +126564,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -122486,6 +126628,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -122594,6 +126738,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -122656,6 +126802,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -122734,6 +126882,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -122796,6 +126946,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -122905,6 +127057,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -122967,6 +127121,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -123066,6 +127222,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -123128,6 +127286,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -123238,6 +127398,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -123300,6 +127462,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -123378,6 +127542,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -123440,6 +127606,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -123545,6 +127713,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -123607,6 +127777,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -123702,6 +127874,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -123764,6 +127938,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -123842,6 +128018,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -123904,6 +128082,8 @@ export namespace Prisma {
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -123966,6 +128146,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -124028,6 +128210,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -124106,6 +128290,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -124168,6 +128354,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -124230,6 +128418,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -124292,6 +128482,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -124400,6 +128592,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -124462,6 +128656,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -124540,6 +128736,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
     planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -124602,6 +128800,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
     planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
     mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -124705,6 +128905,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
     planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -124767,6 +128969,8 @@ export namespace Prisma {
     engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
     planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
     mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -124798,6 +129002,690 @@ export namespace Prisma {
     suggestionCount?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutWorkOrdersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutWorkOrdersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutWorkOrdersInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutWorkOrdersInput, TenantUncheckedCreateWithoutWorkOrdersInput>
+  }
+
+  export type WorkOrderOperationCreateWithoutWorkOrderInput = {
+    id?: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    tenant: TenantCreateNestedOneWithoutWorkOrderOperationsInput
+  }
+
+  export type WorkOrderOperationUncheckedCreateWithoutWorkOrderInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+  }
+
+  export type WorkOrderOperationCreateOrConnectWithoutWorkOrderInput = {
+    where: WorkOrderOperationWhereUniqueInput
+    create: XOR<WorkOrderOperationCreateWithoutWorkOrderInput, WorkOrderOperationUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderOperationCreateManyWorkOrderInputEnvelope = {
+    data: WorkOrderOperationCreateManyWorkOrderInput | WorkOrderOperationCreateManyWorkOrderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutWorkOrdersInput = {
+    update: XOR<TenantUpdateWithoutWorkOrdersInput, TenantUncheckedUpdateWithoutWorkOrdersInput>
+    create: XOR<TenantCreateWithoutWorkOrdersInput, TenantUncheckedCreateWithoutWorkOrdersInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutWorkOrdersInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutWorkOrdersInput, TenantUncheckedUpdateWithoutWorkOrdersInput>
+  }
+
+  export type TenantUpdateWithoutWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
+    where: WorkOrderOperationWhereUniqueInput
+    update: XOR<WorkOrderOperationUpdateWithoutWorkOrderInput, WorkOrderOperationUncheckedUpdateWithoutWorkOrderInput>
+    create: XOR<WorkOrderOperationCreateWithoutWorkOrderInput, WorkOrderOperationUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderOperationUpdateWithWhereUniqueWithoutWorkOrderInput = {
+    where: WorkOrderOperationWhereUniqueInput
+    data: XOR<WorkOrderOperationUpdateWithoutWorkOrderInput, WorkOrderOperationUncheckedUpdateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderOperationUpdateManyWithWhereWithoutWorkOrderInput = {
+    where: WorkOrderOperationScalarWhereInput
+    data: XOR<WorkOrderOperationUpdateManyMutationInput, WorkOrderOperationUncheckedUpdateManyWithoutWorkOrderInput>
+  }
+
+  export type TenantCreateWithoutWorkOrderOperationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutWorkOrderOperationsInput, TenantUncheckedCreateWithoutWorkOrderOperationsInput>
+  }
+
+  export type WorkOrderCreateWithoutOperationsInput = {
+    id?: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWorkOrdersInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutOperationsInput = {
+    id?: string
+    tenantId: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderCreateOrConnectWithoutOperationsInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutOperationsInput, WorkOrderUncheckedCreateWithoutOperationsInput>
+  }
+
+  export type TenantUpsertWithoutWorkOrderOperationsInput = {
+    update: XOR<TenantUpdateWithoutWorkOrderOperationsInput, TenantUncheckedUpdateWithoutWorkOrderOperationsInput>
+    create: XOR<TenantCreateWithoutWorkOrderOperationsInput, TenantUncheckedCreateWithoutWorkOrderOperationsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutWorkOrderOperationsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutWorkOrderOperationsInput, TenantUncheckedUpdateWithoutWorkOrderOperationsInput>
+  }
+
+  export type TenantUpdateWithoutWorkOrderOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WorkOrderUpsertWithoutOperationsInput = {
+    update: XOR<WorkOrderUpdateWithoutOperationsInput, WorkOrderUncheckedUpdateWithoutOperationsInput>
+    create: XOR<WorkOrderCreateWithoutOperationsInput, WorkOrderUncheckedCreateWithoutOperationsInput>
+    where?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderUpdateToOneWithWhereWithoutOperationsInput = {
+    where?: WorkOrderWhereInput
+    data: XOR<WorkOrderUpdateWithoutOperationsInput, WorkOrderUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type WorkOrderUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWorkOrdersNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -125376,6 +130264,35 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     reason: string
     dueInDays?: number
+  }
+
+  export type WorkOrderCreateManyTenantInput = {
+    id?: string
+    woNumber: string
+    skuId: string
+    warehouseId: string
+    bomId: string
+    routingId?: string | null
+    quantity: Decimal | DecimalJsLike | number | string
+    goodQuantity?: Decimal | DecimalJsLike | number | string
+    scrapQuantity?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.WorkOrderStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderOperationCreateManyTenantInput = {
+    id?: string
+    workOrderId: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -127160,6 +132077,95 @@ export namespace Prisma {
     dueInDays?: IntFieldUpdateOperationsInput | number
   }
 
+  export type WorkOrderUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: WorkOrderOperationUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: WorkOrderOperationUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    bomId?: StringFieldUpdateOperationsInput | string
+    routingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    goodQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    scrapQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderOperationUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workOrder?: WorkOrderUpdateOneRequiredWithoutOperationsNestedInput
+  }
+
+  export type WorkOrderOperationUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WorkOrderOperationUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -128188,6 +133194,50 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     dueInDays?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WorkOrderOperationCreateManyWorkOrderInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    name: string
+    workCenter: string
+    status?: $Enums.WoOperationStatus
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+  }
+
+  export type WorkOrderOperationUpdateWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tenant?: TenantUpdateOneRequiredWithoutWorkOrderOperationsNestedInput
+  }
+
+  export type WorkOrderOperationUncheckedUpdateWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WorkOrderOperationUncheckedUpdateManyWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    workCenter?: StringFieldUpdateOperationsInput | string
+    status?: EnumWoOperationStatusFieldUpdateOperationsInput | $Enums.WoOperationStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

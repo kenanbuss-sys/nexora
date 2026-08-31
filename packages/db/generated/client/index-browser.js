@@ -856,6 +856,37 @@ exports.Prisma.MrpSuggestionScalarFieldEnum = {
   dueInDays: 'dueInDays'
 };
 
+exports.Prisma.WorkOrderScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  woNumber: 'woNumber',
+  skuId: 'skuId',
+  warehouseId: 'warehouseId',
+  bomId: 'bomId',
+  routingId: 'routingId',
+  quantity: 'quantity',
+  goodQuantity: 'goodQuantity',
+  scrapQuantity: 'scrapQuantity',
+  status: 'status',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WorkOrderOperationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  workOrderId: 'workOrderId',
+  seq: 'seq',
+  name: 'name',
+  workCenter: 'workCenter',
+  status: 'status',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1106,6 +1137,21 @@ exports.PlannedOrderType = exports.$Enums.PlannedOrderType = {
   PRODUCTION: 'PRODUCTION'
 };
 
+exports.WorkOrderStatus = exports.$Enums.WorkOrderStatus = {
+  PLANNED: 'PLANNED',
+  RELEASED: 'RELEASED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.WoOperationStatus = exports.$Enums.WoOperationStatus = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  DONE: 'DONE'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1170,7 +1216,9 @@ exports.Prisma.ModelName = {
   EngineeringChange: 'EngineeringChange',
   PlanningPolicy: 'PlanningPolicy',
   MrpRun: 'MrpRun',
-  MrpSuggestion: 'MrpSuggestion'
+  MrpSuggestion: 'MrpSuggestion',
+  WorkOrder: 'WorkOrder',
+  WorkOrderOperation: 'WorkOrderOperation'
 };
 
 /**
