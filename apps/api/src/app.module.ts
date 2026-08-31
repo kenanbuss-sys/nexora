@@ -17,6 +17,7 @@ import { CrmService } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
 import { OrderService } from '@nexora/domain-oms';
+import { ProcurementService } from '@nexora/domain-proc';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -53,6 +54,12 @@ import {
 } from './cpq/cpq.controller';
 import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
 import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
+import {
+  PROCUREMENT_SERVICE,
+  PurchaseOrdersController,
+  RequisitionsController,
+  SuppliersController,
+} from './proc/proc.controller';
 import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
 import {
   BarcodesController,
@@ -122,6 +129,9 @@ export const REDIS = 'REDIS';
     PriceListsController,
     QuotesController,
     OrdersController,
+    SuppliersController,
+    RequisitionsController,
+    PurchaseOrdersController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -313,6 +323,53 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, CRM_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE],
+    },
+    {
+      provide: PROCUREMENT_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        party: PartyService,
+        approvals: ApprovalService,
+        catalog: CatalogService,
+        inventory: InventoryService,
+      ) => {
+        const serviceCtx = (tenantId: string) => ({
+          tenantId,
+          tenantSlug: '',
+          tenantStatus: 'ACTIVE' as const,
+          actorType: 'SERVICE' as const,
+          userId: undefined,
+          userStatus: undefined,
+          platformAdmin: false,
+        });
+        return new ProcurementService(
+          prisma,
+          {
+            getPartyState: async (tenantId, partyId) => {
+              try {
+                const view = await party.getParty(partyId, serviceCtx(tenantId));
+                return { exists: true, active: view.status === 'ACTIVE', name: view.name };
+              } catch {
+                return null;
+              }
+            },
+            createOrganization: async (tenantId, name, email) => {
+              const view = await party.createParty(
+                { partyType: 'ORGANIZATION', name, ...(email ? { email } : {}) },
+                serviceCtx(tenantId),
+              );
+              return { partyId: view.id };
+            },
+          },
+          {
+            requestApproval: (input, ctx) => approvals.requestApproval(input, ctx),
+            getApprovalStatus: (t, id) => approvals.getApprovalStatus(t, id),
+          },
+          { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) },
+          { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
+        );
+      },
+      inject: [PRISMA, PARTY_SERVICE, APPROVAL_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,

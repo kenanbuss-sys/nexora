@@ -73,6 +73,10 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'order.confirm',
   'order.hold',
   'order.cancel',
+  'purchase.read',
+  'purchase.request',
+  'purchase.manage',
+  'purchase.receive',
 ];
 
 const createTenantSchema = z.object({

@@ -44,6 +44,8 @@ const ICONS: Record<string, string> = {
   quotes:
     'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM14 2v6h6M16 13H8M16 17H8M10 9H8',
   orders: 'M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0',
+  procurement:
+    'M6 6h15l-1.5 9h-12zM6 6L5 2H2M8 21a1 1 0 100-2 1 1 0 000 2M18 21a1 1 0 100-2 1 1 0 000 2',
 };
 
 function NavIcon({ name }: { name: string }) {
@@ -69,6 +71,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/crm', label: 'Sales', icon: 'sales', permission: 'crm.read' },
   { href: '/quotes', label: 'Quotes', icon: 'quotes', permission: 'quote.read' },
   { href: '/orders', label: 'Orders', icon: 'orders', permission: 'order.read' },
+  { href: '/procurement', label: 'Procurement', icon: 'procurement', permission: 'purchase.read' },
   { href: '/parties', label: 'Parties', icon: 'parties', permission: 'mdm.read' },
   { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },
   { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },

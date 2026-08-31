@@ -116,6 +116,10 @@ const BASELINE = [
   'order.confirm',
   'order.hold',
   'order.cancel',
+  'purchase.read',
+  'purchase.request',
+  'purchase.manage',
+  'purchase.receive',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);
