@@ -125,6 +125,9 @@ const BASELINE = [
   'bom.release',
   'plan.read',
   'plan.manage',
+  'production.read',
+  'production.manage',
+  'production.execute',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);

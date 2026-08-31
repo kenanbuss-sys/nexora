@@ -55,6 +55,13 @@ export const EVENT_TYPES = {
   ENGINEERING_CHANGE_APPROVED: 'engineering_change.approved',
   MRP_RUN_COMPLETED: 'mrp.run.completed',
   PLANNED_ORDER_CREATED: 'planned_order.created',
+  WORK_ORDER_CREATED: 'work_order.created',
+  WORK_ORDER_RELEASED: 'work_order.released',
+  WORK_ORDER_STARTED: 'work_order.started',
+  WORK_ORDER_COMPLETED: 'work_order.completed',
+  WORK_ORDER_CANCELLED: 'work_order.cancelled',
+  MATERIAL_ISSUED_TO_PRODUCTION: 'material.issued_to_production',
+  SCRAP_RECORDED: 'scrap.recorded',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

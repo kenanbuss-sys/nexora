@@ -20,6 +20,7 @@ import { OrderService } from '@nexora/domain-oms';
 import { ProcurementService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
+import { MesService } from '@nexora/domain-mes';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -63,6 +64,7 @@ import {
   RoutingsController,
 } from './eng/eng.controller';
 import { PLANNING_SERVICE, PlanningController } from './plan/plan.controller';
+import { MES_SERVICE, WorkOrdersController } from './mes/mes.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -145,6 +147,7 @@ export const REDIS = 'REDIS';
     RoutingsController,
     EngineeringChangesController,
     PlanningController,
+    WorkOrdersController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -394,6 +397,14 @@ export const REDIS = 'REDIS';
       provide: PLANNING_SERVICE,
       useFactory: (prisma: PrismaClient) => new PlanningService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: MES_SERVICE,
+      useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
+        new MesService(prisma, {
+          postMovement: (input, ctx) => inventory.postMovement(input, ctx),
+        }),
+      inject: [PRISMA, INVENTORY_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,
