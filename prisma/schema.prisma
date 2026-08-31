@@ -100,6 +100,8 @@ model Tenant {
   qcInspections         QcInspection[]
   qcInspectionItems     QcInspectionItem[]
   ncrs                  Ncr[]
+  invoices              Invoice[]
+  payments              Payment[]
 
   @@map("tenant")
 }
@@ -1733,4 +1735,71 @@ model Ncr {
   @@unique([tenantId, ncrNumber])
   @@index([tenantId, status])
   @@map("ncr")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 013 — Operational finance: AR/AP invoices, payment matching,
+// margin and P&L read models (FIN-003/007/011/012/014/019).
+// ---------------------------------------------------------------------------
+
+enum InvoiceType {
+  CUSTOMER
+  SUPPLIER
+}
+
+enum InvoiceStatus {
+  OPEN
+  PARTIALLY_PAID
+  PAID
+  VOID
+}
+
+/// Operational invoice (FIN-011/012): CUSTOMER invoices bill fulfilled
+/// sales orders (AR); SUPPLIER invoices record received purchase orders
+/// (AP). Money is decimal + explicit currency; paidAmount only moves
+/// through matched payments.
+model Invoice {
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String        @map("tenant_id") @db.Uuid
+  invoiceNumber String        @map("invoice_number")
+  invoiceType   InvoiceType   @map("invoice_type")
+  partyRefId    String        @map("party_ref_id") @db.Uuid
+  orderRefId    String        @map("order_ref_id") @db.Uuid
+  currency      String        @db.Char(3)
+  total         Decimal       @db.Decimal(18, 2)
+  paidAmount    Decimal       @default(0) @map("paid_amount") @db.Decimal(18, 2)
+  status        InvoiceStatus @default(OPEN)
+  issuedAt      DateTime      @default(now()) @map("issued_at")
+  dueAt         DateTime?     @map("due_at")
+  createdBy     String?       @map("created_by")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  payments Payment[]
+
+  @@unique([tenantId, invoiceNumber])
+  @@unique([tenantId, invoiceType, orderRefId])
+  @@index([tenantId, status])
+  @@map("invoice")
+}
+
+/// Payment matched to an invoice (FIN-014). Append-only.
+model Payment {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  paymentNumber String   @map("payment_number")
+  invoiceId     String   @map("invoice_id") @db.Uuid
+  amount        Decimal  @db.Decimal(18, 2)
+  currency      String   @db.Char(3)
+  reference     String?
+  receivedAt    DateTime @default(now()) @map("received_at")
+  createdBy     String?  @map("created_by")
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+
+  @@unique([tenantId, paymentNumber])
+  @@index([tenantId, invoiceId])
+  @@map("payment")
 }
