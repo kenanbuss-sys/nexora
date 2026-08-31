@@ -77,6 +77,9 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'purchase.request',
   'purchase.manage',
   'purchase.receive',
+  'bom.read',
+  'bom.manage',
+  'bom.release',
 ];
 
 const createTenantSchema = z.object({

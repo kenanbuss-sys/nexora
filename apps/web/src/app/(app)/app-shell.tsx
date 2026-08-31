@@ -46,6 +46,8 @@ const ICONS: Record<string, string> = {
   orders: 'M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0',
   procurement:
     'M6 6h15l-1.5 9h-12zM6 6L5 2H2M8 21a1 1 0 100-2 1 1 0 000 2M18 21a1 1 0 100-2 1 1 0 000 2',
+  engineering:
+    'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z',
 };
 
 function NavIcon({ name }: { name: string }) {
@@ -72,6 +74,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/quotes', label: 'Quotes', icon: 'quotes', permission: 'quote.read' },
   { href: '/orders', label: 'Orders', icon: 'orders', permission: 'order.read' },
   { href: '/procurement', label: 'Procurement', icon: 'procurement', permission: 'purchase.read' },
+  { href: '/engineering', label: 'Engineering', icon: 'engineering', permission: 'bom.read' },
   { href: '/parties', label: 'Parties', icon: 'parties', permission: 'mdm.read' },
   { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },
   { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },

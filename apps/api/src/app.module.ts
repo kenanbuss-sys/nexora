@@ -18,6 +18,7 @@ import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
 import { OrderService } from '@nexora/domain-oms';
 import { ProcurementService } from '@nexora/domain-proc';
+import { EngineeringService } from '@nexora/domain-eng';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -54,6 +55,12 @@ import {
 } from './cpq/cpq.controller';
 import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
 import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
+import {
+  BomsController,
+  ENGINEERING_SERVICE,
+  EngineeringChangesController,
+  RoutingsController,
+} from './eng/eng.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -132,6 +139,9 @@ export const REDIS = 'REDIS';
     SuppliersController,
     RequisitionsController,
     PurchaseOrdersController,
+    BomsController,
+    RoutingsController,
+    EngineeringChangesController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -370,6 +380,12 @@ export const REDIS = 'REDIS';
         );
       },
       inject: [PRISMA, PARTY_SERVICE, APPROVAL_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE],
+    },
+    {
+      provide: ENGINEERING_SERVICE,
+      useFactory: (prisma: PrismaClient, catalog: CatalogService) =>
+        new EngineeringService(prisma, { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) }),
+      inject: [PRISMA, CATALOG_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,

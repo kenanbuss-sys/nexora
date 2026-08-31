@@ -120,6 +120,9 @@ const BASELINE = [
   'purchase.request',
   'purchase.manage',
   'purchase.receive',
+  'bom.read',
+  'bom.manage',
+  'bom.release',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);
