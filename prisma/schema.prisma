@@ -102,6 +102,7 @@ model Tenant {
   ncrs                  Ncr[]
   invoices              Invoice[]
   payments              Payment[]
+  portalUsers           PortalUser[]
 
   @@map("tenant")
 }
@@ -1802,4 +1803,33 @@ model Payment {
   @@unique([tenantId, paymentNumber])
   @@index([tenantId, invoiceId])
   @@map("payment")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 015 — B2B workspace: portal users bound to CRM accounts
+// (B2B-001/002); everything they see is scoped to their account.
+// ---------------------------------------------------------------------------
+
+enum PortalUserStatus {
+  ACTIVE
+  DISABLED
+}
+
+model PortalUser {
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String           @map("tenant_id") @db.Uuid
+  accountId   String           @map("account_id") @db.Uuid
+  idpSubject  String           @map("idp_subject")
+  displayName String           @map("display_name")
+  email       String?
+  status      PortalUserStatus @default(ACTIVE)
+  createdBy   String?          @map("created_by")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, idpSubject])
+  @@index([tenantId, accountId])
+  @@map("portal_user")
 }
