@@ -515,11 +515,7 @@ export default function OrdersPage() {
                   </button>
                 ) : null}
 
-                <button
-                  className="btn btn-sm"
-                  onClick={() => toggleTimeline(o.id)}
-                  type="button"
-                >
+                <button className="btn btn-sm" onClick={() => toggleTimeline(o.id)} type="button">
                   {timeline[o.id] ? 'Hide history' : 'History'}
                 </button>
               </div>
