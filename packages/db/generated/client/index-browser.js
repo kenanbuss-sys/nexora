@@ -661,6 +661,44 @@ exports.Prisma.QuoteLineScalarFieldEnum = {
   lineTotal: 'lineTotal'
 };
 
+exports.Prisma.SalesOrderScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  orderNumber: 'orderNumber',
+  accountId: 'accountId',
+  quoteId: 'quoteId',
+  warehouseId: 'warehouseId',
+  status: 'status',
+  currency: 'currency',
+  total: 'total',
+  holdReason: 'holdReason',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SalesOrderLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  orderId: 'orderId',
+  skuId: 'skuId',
+  description: 'description',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  lineTotal: 'lineTotal',
+  reservationId: 'reservationId'
+};
+
+exports.Prisma.OrderEventScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  orderId: 'orderId',
+  eventType: 'eventType',
+  note: 'note',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -864,6 +902,14 @@ exports.QuoteStatus = exports.$Enums.QuoteStatus = {
   EXPIRED: 'EXPIRED'
 };
 
+exports.SalesOrderStatus = exports.$Enums.SalesOrderStatus = {
+  DRAFT: 'DRAFT',
+  CONFIRMED: 'CONFIRMED',
+  ON_HOLD: 'ON_HOLD',
+  FULFILLED: 'FULFILLED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -912,7 +958,10 @@ exports.Prisma.ModelName = {
   PriceList: 'PriceList',
   PriceListEntry: 'PriceListEntry',
   Quote: 'Quote',
-  QuoteLine: 'QuoteLine'
+  QuoteLine: 'QuoteLine',
+  SalesOrder: 'SalesOrder',
+  SalesOrderLine: 'SalesOrderLine',
+  OrderEvent: 'OrderEvent'
 };
 
 /**

@@ -77,6 +77,9 @@ model Tenant {
   priceListEntries      PriceListEntry[]
   quotes                Quote[]
   quoteLines            QuoteLine[]
+  salesOrders           SalesOrder[]
+  salesOrderLines       SalesOrderLine[]
+  orderEvents           OrderEvent[]
 
   @@map("tenant")
 }
@@ -1136,4 +1139,76 @@ model QuoteLine {
 
   @@index([tenantId, quoteId])
   @@map("quote_line")
+}
+
+// --- Sprint 007: OMS — canonical sales orders, holds, reservation orchestration ---
+
+enum SalesOrderStatus {
+  DRAFT
+  CONFIRMED
+  ON_HOLD
+  FULFILLED
+  CANCELLED
+}
+
+/// Canonical customer order (OMS-001). Confirmation reserves stock through
+/// the WMS public interface (OMS-004); cancellation compensates by
+/// releasing reservations (OMS-010); fulfillment consumes them via ledger
+/// ISSUE movements (OMS-011). Never stores stock truth.
+model SalesOrder {
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String           @map("tenant_id") @db.Uuid
+  orderNumber String           @map("order_number")
+  accountId   String           @map("account_id") @db.Uuid
+  quoteId     String?          @map("quote_id") @db.Uuid
+  warehouseId String           @map("warehouse_id") @db.Uuid
+  status      SalesOrderStatus @default(DRAFT)
+  currency    String           @db.Char(3)
+  total       Decimal          @default(0) @db.Decimal(18, 2)
+  holdReason  String?          @map("hold_reason")
+  createdBy   String?          @map("created_by")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  tenant Tenant           @relation(fields: [tenantId], references: [id])
+  lines  SalesOrderLine[]
+
+  @@unique([tenantId, orderNumber])
+  @@index([tenantId, status])
+  @@index([tenantId, accountId])
+  @@map("sales_order")
+}
+
+model SalesOrderLine {
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String  @map("tenant_id") @db.Uuid
+  orderId       String  @map("order_id") @db.Uuid
+  skuId         String  @map("sku_id") @db.Uuid
+  description   String
+  quantity      Decimal @db.Decimal(18, 6)
+  unitPrice     Decimal @map("unit_price") @db.Decimal(18, 4)
+  lineTotal     Decimal @map("line_total") @db.Decimal(18, 2)
+  reservationId String? @map("reservation_id") @db.Uuid
+
+  tenant Tenant     @relation(fields: [tenantId], references: [id])
+  order  SalesOrder @relation(fields: [orderId], references: [id])
+
+  @@index([tenantId, orderId])
+  @@map("sales_order_line")
+}
+
+/// Order status timeline (OMS-013): append-only history of what happened.
+model OrderEvent {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  orderId   String   @map("order_id") @db.Uuid
+  eventType String   @map("event_type")
+  note      String?
+  createdBy String?  @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, orderId, createdAt])
+  @@map("order_event")
 }
