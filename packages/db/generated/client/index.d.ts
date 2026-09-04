@@ -394,6 +394,24 @@ export type QcInspectionItem = $Result.DefaultSelection<Prisma.$QcInspectionItem
  * or manually; resolution is audited.
  */
 export type Ncr = $Result.DefaultSelection<Prisma.$NcrPayload>
+/**
+ * Model Invoice
+ * Operational invoice (FIN-011/012): CUSTOMER invoices bill fulfilled
+ * sales orders (AR); SUPPLIER invoices record received purchase orders
+ * (AP). Money is decimal + explicit currency; paidAmount only moves
+ * through matched payments.
+ */
+export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
+/**
+ * Model Payment
+ * Payment matched to an invoice (FIN-014). Append-only.
+ */
+export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
+/**
+ * Model PortalUser
+ * 
+ */
+export type PortalUser = $Result.DefaultSelection<Prisma.$PortalUserPayload>
 
 /**
  * Enums
@@ -765,6 +783,32 @@ export const NcrStatus: {
 
 export type NcrStatus = (typeof NcrStatus)[keyof typeof NcrStatus]
 
+
+export const InvoiceType: {
+  CUSTOMER: 'CUSTOMER',
+  SUPPLIER: 'SUPPLIER'
+};
+
+export type InvoiceType = (typeof InvoiceType)[keyof typeof InvoiceType]
+
+
+export const InvoiceStatus: {
+  OPEN: 'OPEN',
+  PARTIALLY_PAID: 'PARTIALLY_PAID',
+  PAID: 'PAID',
+  VOID: 'VOID'
+};
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+
+
+export const PortalUserStatus: {
+  ACTIVE: 'ACTIVE',
+  DISABLED: 'DISABLED'
+};
+
+export type PortalUserStatus = (typeof PortalUserStatus)[keyof typeof PortalUserStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -918,6 +962,18 @@ export const NcrSeverity: typeof $Enums.NcrSeverity
 export type NcrStatus = $Enums.NcrStatus
 
 export const NcrStatus: typeof $Enums.NcrStatus
+
+export type InvoiceType = $Enums.InvoiceType
+
+export const InvoiceType: typeof $Enums.InvoiceType
+
+export type InvoiceStatus = $Enums.InvoiceStatus
+
+export const InvoiceStatus: typeof $Enums.InvoiceStatus
+
+export type PortalUserStatus = $Enums.PortalUserStatus
+
+export const PortalUserStatus: typeof $Enums.PortalUserStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1746,6 +1802,36 @@ export class PrismaClient<
     * ```
     */
   get ncr(): Prisma.NcrDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invoice`: Exposes CRUD operations for the **Invoice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invoices
+    * const invoices = await prisma.invoice.findMany()
+    * ```
+    */
+  get invoice(): Prisma.InvoiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Payments
+    * const payments = await prisma.payment.findMany()
+    * ```
+    */
+  get payment(): Prisma.PaymentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.portalUser`: Exposes CRUD operations for the **PortalUser** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PortalUsers
+    * const portalUsers = await prisma.portalUser.findMany()
+    * ```
+    */
+  get portalUser(): Prisma.PortalUserDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2257,7 +2343,10 @@ export namespace Prisma {
     QcPlanItem: 'QcPlanItem',
     QcInspection: 'QcInspection',
     QcInspectionItem: 'QcInspectionItem',
-    Ncr: 'Ncr'
+    Ncr: 'Ncr',
+    Invoice: 'Invoice',
+    Payment: 'Payment',
+    PortalUser: 'PortalUser'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2276,7 +2365,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7534,6 +7623,228 @@ export namespace Prisma {
           }
         }
       }
+      Invoice: {
+        payload: Prisma.$InvoicePayload<ExtArgs>
+        fields: Prisma.InvoiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          update: {
+            args: Prisma.InvoiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InvoiceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          upsert: {
+            args: Prisma.InvoiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoice>
+          }
+          groupBy: {
+            args: Prisma.InvoiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Payment: {
+        payload: Prisma.$PaymentPayload<ExtArgs>
+        fields: Prisma.PaymentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          update: {
+            args: Prisma.PaymentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PaymentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          upsert: {
+            args: Prisma.PaymentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePayment>
+          }
+          groupBy: {
+            args: Prisma.PaymentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCountAggregateOutputType> | number
+          }
+        }
+      }
+      PortalUser: {
+        payload: Prisma.$PortalUserPayload<ExtArgs>
+        fields: Prisma.PortalUserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PortalUserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PortalUserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>
+          }
+          findFirst: {
+            args: Prisma.PortalUserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PortalUserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>
+          }
+          findMany: {
+            args: Prisma.PortalUserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>[]
+          }
+          create: {
+            args: Prisma.PortalUserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>
+          }
+          createMany: {
+            args: Prisma.PortalUserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PortalUserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>[]
+          }
+          delete: {
+            args: Prisma.PortalUserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>
+          }
+          update: {
+            args: Prisma.PortalUserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>
+          }
+          deleteMany: {
+            args: Prisma.PortalUserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PortalUserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PortalUserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>[]
+          }
+          upsert: {
+            args: Prisma.PortalUserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PortalUserPayload>
+          }
+          aggregate: {
+            args: Prisma.PortalUserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePortalUser>
+          }
+          groupBy: {
+            args: Prisma.PortalUserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PortalUserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PortalUserCountArgs<ExtArgs>
+            result: $Utils.Optional<PortalUserCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -7701,6 +8012,9 @@ export namespace Prisma {
     qcInspection?: QcInspectionOmit
     qcInspectionItem?: QcInspectionItemOmit
     ncr?: NcrOmit
+    invoice?: InvoiceOmit
+    payment?: PaymentOmit
+    portalUser?: PortalUserOmit
   }
 
   /* Types for Logging */
@@ -7841,6 +8155,9 @@ export namespace Prisma {
     qcInspections: number
     qcInspectionItems: number
     ncrs: number
+    invoices: number
+    payments: number
+    portalUsers: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7904,6 +8221,9 @@ export namespace Prisma {
     qcInspections?: boolean | TenantCountOutputTypeCountQcInspectionsArgs
     qcInspectionItems?: boolean | TenantCountOutputTypeCountQcInspectionItemsArgs
     ncrs?: boolean | TenantCountOutputTypeCountNcrsArgs
+    invoices?: boolean | TenantCountOutputTypeCountInvoicesArgs
+    payments?: boolean | TenantCountOutputTypeCountPaymentsArgs
+    portalUsers?: boolean | TenantCountOutputTypeCountPortalUsersArgs
   }
 
   // Custom InputTypes
@@ -8335,6 +8655,27 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountNcrsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NcrWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPortalUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PortalUserWhereInput
   }
 
 
@@ -9137,6 +9478,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type InvoiceCountOutputType
+   */
+
+  export type InvoiceCountOutputType = {
+    payments: number
+  }
+
+  export type InvoiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCountOutputType
+     */
+    select?: InvoiceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -9414,6 +9786,9 @@ export namespace Prisma {
     qcInspections?: boolean | Tenant$qcInspectionsArgs<ExtArgs>
     qcInspectionItems?: boolean | Tenant$qcInspectionItemsArgs<ExtArgs>
     ncrs?: boolean | Tenant$ncrsArgs<ExtArgs>
+    invoices?: boolean | Tenant$invoicesArgs<ExtArgs>
+    payments?: boolean | Tenant$paymentsArgs<ExtArgs>
+    portalUsers?: boolean | Tenant$portalUsersArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -9509,6 +9884,9 @@ export namespace Prisma {
     qcInspections?: boolean | Tenant$qcInspectionsArgs<ExtArgs>
     qcInspectionItems?: boolean | Tenant$qcInspectionItemsArgs<ExtArgs>
     ncrs?: boolean | Tenant$ncrsArgs<ExtArgs>
+    invoices?: boolean | Tenant$invoicesArgs<ExtArgs>
+    payments?: boolean | Tenant$paymentsArgs<ExtArgs>
+    portalUsers?: boolean | Tenant$portalUsersArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9577,6 +9955,9 @@ export namespace Prisma {
       qcInspections: Prisma.$QcInspectionPayload<ExtArgs>[]
       qcInspectionItems: Prisma.$QcInspectionItemPayload<ExtArgs>[]
       ncrs: Prisma.$NcrPayload<ExtArgs>[]
+      invoices: Prisma.$InvoicePayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
+      portalUsers: Prisma.$PortalUserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10040,6 +10421,9 @@ export namespace Prisma {
     qcInspections<T extends Tenant$qcInspectionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$qcInspectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     qcInspectionItems<T extends Tenant$qcInspectionItemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$qcInspectionItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QcInspectionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ncrs<T extends Tenant$ncrsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$ncrsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NcrPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invoices<T extends Tenant$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends Tenant$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    portalUsers<T extends Tenant$portalUsersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$portalUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11901,6 +12285,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NcrScalarFieldEnum | NcrScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.invoices
+   */
+  export type Tenant$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    cursor?: InvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.payments
+   */
+  export type Tenant$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.portalUsers
+   */
+  export type Tenant$portalUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    where?: PortalUserWhereInput
+    orderBy?: PortalUserOrderByWithRelationInput | PortalUserOrderByWithRelationInput[]
+    cursor?: PortalUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PortalUserScalarFieldEnum | PortalUserScalarFieldEnum[]
   }
 
   /**
@@ -91634,6 +92090,3537 @@ export namespace Prisma {
 
 
   /**
+   * Model Invoice
+   */
+
+  export type AggregateInvoice = {
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  export type InvoiceAvgAggregateOutputType = {
+    total: Decimal | null
+    paidAmount: Decimal | null
+  }
+
+  export type InvoiceSumAggregateOutputType = {
+    total: Decimal | null
+    paidAmount: Decimal | null
+  }
+
+  export type InvoiceMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    invoiceNumber: string | null
+    invoiceType: $Enums.InvoiceType | null
+    partyRefId: string | null
+    orderRefId: string | null
+    currency: string | null
+    total: Decimal | null
+    paidAmount: Decimal | null
+    status: $Enums.InvoiceStatus | null
+    issuedAt: Date | null
+    dueAt: Date | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvoiceMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    invoiceNumber: string | null
+    invoiceType: $Enums.InvoiceType | null
+    partyRefId: string | null
+    orderRefId: string | null
+    currency: string | null
+    total: Decimal | null
+    paidAmount: Decimal | null
+    status: $Enums.InvoiceStatus | null
+    issuedAt: Date | null
+    dueAt: Date | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvoiceCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    invoiceNumber: number
+    invoiceType: number
+    partyRefId: number
+    orderRefId: number
+    currency: number
+    total: number
+    paidAmount: number
+    status: number
+    issuedAt: number
+    dueAt: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InvoiceAvgAggregateInputType = {
+    total?: true
+    paidAmount?: true
+  }
+
+  export type InvoiceSumAggregateInputType = {
+    total?: true
+    paidAmount?: true
+  }
+
+  export type InvoiceMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    invoiceNumber?: true
+    invoiceType?: true
+    partyRefId?: true
+    orderRefId?: true
+    currency?: true
+    total?: true
+    paidAmount?: true
+    status?: true
+    issuedAt?: true
+    dueAt?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvoiceMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    invoiceNumber?: true
+    invoiceType?: true
+    partyRefId?: true
+    orderRefId?: true
+    currency?: true
+    total?: true
+    paidAmount?: true
+    status?: true
+    issuedAt?: true
+    dueAt?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvoiceCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    invoiceNumber?: true
+    invoiceType?: true
+    partyRefId?: true
+    orderRefId?: true
+    currency?: true
+    total?: true
+    paidAmount?: true
+    status?: true
+    issuedAt?: true
+    dueAt?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InvoiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoice to aggregate.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Invoices
+    **/
+    _count?: true | InvoiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InvoiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InvoiceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvoiceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type GetInvoiceAggregateType<T extends InvoiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoice[P]>
+      : GetScalarType<T[P], AggregateInvoice[P]>
+  }
+
+
+
+
+  export type InvoiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithAggregationInput | InvoiceOrderByWithAggregationInput[]
+    by: InvoiceScalarFieldEnum[] | InvoiceScalarFieldEnum
+    having?: InvoiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceCountAggregateInputType | true
+    _avg?: InvoiceAvgAggregateInputType
+    _sum?: InvoiceSumAggregateInputType
+    _min?: InvoiceMinAggregateInputType
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type InvoiceGroupByOutputType = {
+    id: string
+    tenantId: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal
+    paidAmount: Decimal
+    status: $Enums.InvoiceStatus
+    issuedAt: Date
+    dueAt: Date | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceGroupByPayload<T extends InvoiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    invoiceNumber?: boolean
+    invoiceType?: boolean
+    partyRefId?: boolean
+    orderRefId?: boolean
+    currency?: boolean
+    total?: boolean
+    paidAmount?: boolean
+    status?: boolean
+    issuedAt?: boolean
+    dueAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    invoiceNumber?: boolean
+    invoiceType?: boolean
+    partyRefId?: boolean
+    orderRefId?: boolean
+    currency?: boolean
+    total?: boolean
+    paidAmount?: boolean
+    status?: boolean
+    issuedAt?: boolean
+    dueAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    invoiceNumber?: boolean
+    invoiceType?: boolean
+    partyRefId?: boolean
+    orderRefId?: boolean
+    currency?: boolean
+    total?: boolean
+    paidAmount?: boolean
+    status?: boolean
+    issuedAt?: boolean
+    dueAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    invoiceNumber?: boolean
+    invoiceType?: boolean
+    partyRefId?: boolean
+    orderRefId?: boolean
+    currency?: boolean
+    total?: boolean
+    paidAmount?: boolean
+    status?: boolean
+    issuedAt?: boolean
+    dueAt?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceNumber" | "invoiceType" | "partyRefId" | "orderRefId" | "currency" | "total" | "paidAmount" | "status" | "issuedAt" | "dueAt" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type InvoiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $InvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Invoice"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      invoiceNumber: string
+      invoiceType: $Enums.InvoiceType
+      partyRefId: string
+      orderRefId: string
+      currency: string
+      total: Prisma.Decimal
+      paidAmount: Prisma.Decimal
+      status: $Enums.InvoiceStatus
+      issuedAt: Date
+      dueAt: Date | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["invoice"]>
+    composites: {}
+  }
+
+  type InvoiceGetPayload<S extends boolean | null | undefined | InvoiceDefaultArgs> = $Result.GetResult<Prisma.$InvoicePayload, S>
+
+  type InvoiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvoiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvoiceCountAggregateInputType | true
+    }
+
+  export interface InvoiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Invoice'], meta: { name: 'Invoice' } }
+    /**
+     * Find zero or one Invoice that matches the filter.
+     * @param {InvoiceFindUniqueArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvoiceFindUniqueArgs>(args: SelectSubset<T, InvoiceFindUniqueArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Invoice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvoiceFindUniqueOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvoiceFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvoiceFindFirstArgs>(args?: SelectSubset<T, InvoiceFindFirstArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvoiceFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Invoices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Invoices
+     * const invoices = await prisma.invoice.findMany()
+     * 
+     * // Get first 10 Invoices
+     * const invoices = await prisma.invoice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvoiceFindManyArgs>(args?: SelectSubset<T, InvoiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Invoice.
+     * @param {InvoiceCreateArgs} args - Arguments to create a Invoice.
+     * @example
+     * // Create one Invoice
+     * const Invoice = await prisma.invoice.create({
+     *   data: {
+     *     // ... data to create a Invoice
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvoiceCreateArgs>(args: SelectSubset<T, InvoiceCreateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Invoices.
+     * @param {InvoiceCreateManyArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvoiceCreateManyArgs>(args?: SelectSubset<T, InvoiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Invoices and returns the data saved in the database.
+     * @param {InvoiceCreateManyAndReturnArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Invoices and only return the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvoiceCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Invoice.
+     * @param {InvoiceDeleteArgs} args - Arguments to delete one Invoice.
+     * @example
+     * // Delete one Invoice
+     * const Invoice = await prisma.invoice.delete({
+     *   where: {
+     *     // ... filter to delete one Invoice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvoiceDeleteArgs>(args: SelectSubset<T, InvoiceDeleteArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Invoice.
+     * @param {InvoiceUpdateArgs} args - Arguments to update one Invoice.
+     * @example
+     * // Update one Invoice
+     * const invoice = await prisma.invoice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvoiceUpdateArgs>(args: SelectSubset<T, InvoiceUpdateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Invoices.
+     * @param {InvoiceDeleteManyArgs} args - Arguments to filter Invoices to delete.
+     * @example
+     * // Delete a few Invoices
+     * const { count } = await prisma.invoice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvoiceDeleteManyArgs>(args?: SelectSubset<T, InvoiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvoiceUpdateManyArgs>(args: SelectSubset<T, InvoiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices and returns the data updated in the database.
+     * @param {InvoiceUpdateManyAndReturnArgs} args - Arguments to update many Invoices.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Invoices and only return the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InvoiceUpdateManyAndReturnArgs>(args: SelectSubset<T, InvoiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Invoice.
+     * @param {InvoiceUpsertArgs} args - Arguments to update or create a Invoice.
+     * @example
+     * // Update or create a Invoice
+     * const invoice = await prisma.invoice.upsert({
+     *   create: {
+     *     // ... data to create a Invoice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Invoice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceUpsertArgs>(args: SelectSubset<T, InvoiceUpsertArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCountArgs} args - Arguments to filter Invoices to count.
+     * @example
+     * // Count the number of Invoices
+     * const count = await prisma.invoice.count({
+     *   where: {
+     *     // ... the filter for the Invoices we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceCountArgs>(
+      args?: Subset<T, InvoiceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvoiceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvoiceAggregateArgs>(args: Subset<T, InvoiceAggregateArgs>): Prisma.PrismaPromise<GetInvoiceAggregateType<T>>
+
+    /**
+     * Group by Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvoiceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvoiceGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvoiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Invoice model
+   */
+  readonly fields: InvoiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Invoice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    payments<T extends Invoice$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Invoice model
+   */
+  interface InvoiceFieldRefs {
+    readonly id: FieldRef<"Invoice", 'String'>
+    readonly tenantId: FieldRef<"Invoice", 'String'>
+    readonly invoiceNumber: FieldRef<"Invoice", 'String'>
+    readonly invoiceType: FieldRef<"Invoice", 'InvoiceType'>
+    readonly partyRefId: FieldRef<"Invoice", 'String'>
+    readonly orderRefId: FieldRef<"Invoice", 'String'>
+    readonly currency: FieldRef<"Invoice", 'String'>
+    readonly total: FieldRef<"Invoice", 'Decimal'>
+    readonly paidAmount: FieldRef<"Invoice", 'Decimal'>
+    readonly status: FieldRef<"Invoice", 'InvoiceStatus'>
+    readonly issuedAt: FieldRef<"Invoice", 'DateTime'>
+    readonly dueAt: FieldRef<"Invoice", 'DateTime'>
+    readonly createdBy: FieldRef<"Invoice", 'String'>
+    readonly createdAt: FieldRef<"Invoice", 'DateTime'>
+    readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Invoice findUnique
+   */
+  export type InvoiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findUniqueOrThrow
+   */
+  export type InvoiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findFirst
+   */
+  export type InvoiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findFirstOrThrow
+   */
+  export type InvoiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findMany
+   */
+  export type InvoiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoices to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice create
+   */
+  export type InvoiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Invoice.
+     */
+    data: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+  }
+
+  /**
+   * Invoice createMany
+   */
+  export type InvoiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Invoice createManyAndReturn
+   */
+  export type InvoiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invoice update
+   */
+  export type InvoiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Invoice.
+     */
+    data: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+    /**
+     * Choose, which Invoice to update.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice updateMany
+   */
+  export type InvoiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice updateManyAndReturn
+   */
+  export type InvoiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invoice upsert
+   */
+  export type InvoiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Invoice to update in case it exists.
+     */
+    where: InvoiceWhereUniqueInput
+    /**
+     * In case the Invoice found by the `where` argument doesn't exist, create a new Invoice with this data.
+     */
+    create: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+    /**
+     * In case the Invoice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+  }
+
+  /**
+   * Invoice delete
+   */
+  export type InvoiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter which Invoice to delete.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice deleteMany
+   */
+  export type InvoiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoices to delete
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice.payments
+   */
+  export type Invoice$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice without action
+   */
+  export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Payment
+   */
+
+  export type AggregatePayment = {
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  export type PaymentAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type PaymentSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type PaymentMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    paymentNumber: string | null
+    invoiceId: string | null
+    amount: Decimal | null
+    currency: string | null
+    reference: string | null
+    receivedAt: Date | null
+    createdBy: string | null
+  }
+
+  export type PaymentMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    paymentNumber: string | null
+    invoiceId: string | null
+    amount: Decimal | null
+    currency: string | null
+    reference: string | null
+    receivedAt: Date | null
+    createdBy: string | null
+  }
+
+  export type PaymentCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    paymentNumber: number
+    invoiceId: number
+    amount: number
+    currency: number
+    reference: number
+    receivedAt: number
+    createdBy: number
+    _all: number
+  }
+
+
+  export type PaymentAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    paymentNumber?: true
+    invoiceId?: true
+    amount?: true
+    currency?: true
+    reference?: true
+    receivedAt?: true
+    createdBy?: true
+  }
+
+  export type PaymentMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    paymentNumber?: true
+    invoiceId?: true
+    amount?: true
+    currency?: true
+    reference?: true
+    receivedAt?: true
+    createdBy?: true
+  }
+
+  export type PaymentCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    paymentNumber?: true
+    invoiceId?: true
+    amount?: true
+    currency?: true
+    reference?: true
+    receivedAt?: true
+    createdBy?: true
+    _all?: true
+  }
+
+  export type PaymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payment to aggregate.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Payments
+    **/
+    _count?: true | PaymentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type GetPaymentAggregateType<T extends PaymentAggregateArgs> = {
+        [P in keyof T & keyof AggregatePayment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePayment[P]>
+      : GetScalarType<T[P], AggregatePayment[P]>
+  }
+
+
+
+
+  export type PaymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithAggregationInput | PaymentOrderByWithAggregationInput[]
+    by: PaymentScalarFieldEnum[] | PaymentScalarFieldEnum
+    having?: PaymentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentCountAggregateInputType | true
+    _avg?: PaymentAvgAggregateInputType
+    _sum?: PaymentSumAggregateInputType
+    _min?: PaymentMinAggregateInputType
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type PaymentGroupByOutputType = {
+    id: string
+    tenantId: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal
+    currency: string
+    reference: string | null
+    receivedAt: Date
+    createdBy: string | null
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  type GetPaymentGroupByPayload<T extends PaymentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    paymentNumber?: boolean
+    invoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    reference?: boolean
+    receivedAt?: boolean
+    createdBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    paymentNumber?: boolean
+    invoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    reference?: boolean
+    receivedAt?: boolean
+    createdBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    paymentNumber?: boolean
+    invoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    reference?: boolean
+    receivedAt?: boolean
+    createdBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    paymentNumber?: boolean
+    invoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    reference?: boolean
+    receivedAt?: boolean
+    createdBy?: boolean
+  }
+
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "paymentNumber" | "invoiceId" | "amount" | "currency" | "reference" | "receivedAt" | "createdBy", ExtArgs["result"]["payment"]>
+  export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Payment"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      invoice: Prisma.$InvoicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      paymentNumber: string
+      invoiceId: string
+      amount: Prisma.Decimal
+      currency: string
+      reference: string | null
+      receivedAt: Date
+      createdBy: string | null
+    }, ExtArgs["result"]["payment"]>
+    composites: {}
+  }
+
+  type PaymentGetPayload<S extends boolean | null | undefined | PaymentDefaultArgs> = $Result.GetResult<Prisma.$PaymentPayload, S>
+
+  type PaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PaymentCountAggregateInputType | true
+    }
+
+  export interface PaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Payment'], meta: { name: 'Payment' } }
+    /**
+     * Find zero or one Payment that matches the filter.
+     * @param {PaymentFindUniqueArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentFindUniqueArgs>(args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Payment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Payment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentFindFirstArgs>(args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Payment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Payments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Payments
+     * const payments = await prisma.payment.findMany()
+     * 
+     * // Get first 10 Payments
+     * const payments = await prisma.payment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentFindManyArgs>(args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Payment.
+     * @param {PaymentCreateArgs} args - Arguments to create a Payment.
+     * @example
+     * // Create one Payment
+     * const Payment = await prisma.payment.create({
+     *   data: {
+     *     // ... data to create a Payment
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentCreateArgs>(args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Payments.
+     * @param {PaymentCreateManyArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentCreateManyArgs>(args?: SelectSubset<T, PaymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Payments and returns the data saved in the database.
+     * @param {PaymentCreateManyAndReturnArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Payment.
+     * @param {PaymentDeleteArgs} args - Arguments to delete one Payment.
+     * @example
+     * // Delete one Payment
+     * const Payment = await prisma.payment.delete({
+     *   where: {
+     *     // ... filter to delete one Payment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentDeleteArgs>(args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Payment.
+     * @param {PaymentUpdateArgs} args - Arguments to update one Payment.
+     * @example
+     * // Update one Payment
+     * const payment = await prisma.payment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentUpdateArgs>(args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Payments.
+     * @param {PaymentDeleteManyArgs} args - Arguments to filter Payments to delete.
+     * @example
+     * // Delete a few Payments
+     * const { count } = await prisma.payment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentDeleteManyArgs>(args?: SelectSubset<T, PaymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentUpdateManyArgs>(args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payments and returns the data updated in the database.
+     * @param {PaymentUpdateManyAndReturnArgs} args - Arguments to update many Payments.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PaymentUpdateManyAndReturnArgs>(args: SelectSubset<T, PaymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Payment.
+     * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
+     * @example
+     * // Update or create a Payment
+     * const payment = await prisma.payment.upsert({
+     *   create: {
+     *     // ... data to create a Payment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Payment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentUpsertArgs>(args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCountArgs} args - Arguments to filter Payments to count.
+     * @example
+     * // Count the number of Payments
+     * const count = await prisma.payment.count({
+     *   where: {
+     *     // ... the filter for the Payments we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentCountArgs>(
+      args?: Subset<T, PaymentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentAggregateArgs>(args: Subset<T, PaymentAggregateArgs>): Prisma.PrismaPromise<GetPaymentAggregateType<T>>
+
+    /**
+     * Group by Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Payment model
+   */
+  readonly fields: PaymentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Payment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Payment model
+   */
+  interface PaymentFieldRefs {
+    readonly id: FieldRef<"Payment", 'String'>
+    readonly tenantId: FieldRef<"Payment", 'String'>
+    readonly paymentNumber: FieldRef<"Payment", 'String'>
+    readonly invoiceId: FieldRef<"Payment", 'String'>
+    readonly amount: FieldRef<"Payment", 'Decimal'>
+    readonly currency: FieldRef<"Payment", 'String'>
+    readonly reference: FieldRef<"Payment", 'String'>
+    readonly receivedAt: FieldRef<"Payment", 'DateTime'>
+    readonly createdBy: FieldRef<"Payment", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Payment findUnique
+   */
+  export type PaymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findUniqueOrThrow
+   */
+  export type PaymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findFirst
+   */
+  export type PaymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findFirstOrThrow
+   */
+  export type PaymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findMany
+   */
+  export type PaymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payments to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment create
+   */
+  export type PaymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Payment.
+     */
+    data: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+  }
+
+  /**
+   * Payment createMany
+   */
+  export type PaymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Payment createManyAndReturn
+   */
+  export type PaymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payment update
+   */
+  export type PaymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Payment.
+     */
+    data: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+    /**
+     * Choose, which Payment to update.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment updateMany
+   */
+  export type PaymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Payment updateManyAndReturn
+   */
+  export type PaymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payment upsert
+   */
+  export type PaymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Payment to update in case it exists.
+     */
+    where: PaymentWhereUniqueInput
+    /**
+     * In case the Payment found by the `where` argument doesn't exist, create a new Payment with this data.
+     */
+    create: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+    /**
+     * In case the Payment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+  }
+
+  /**
+   * Payment delete
+   */
+  export type PaymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter which Payment to delete.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment deleteMany
+   */
+  export type PaymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payments to delete
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Payment without action
+   */
+  export type PaymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PortalUser
+   */
+
+  export type AggregatePortalUser = {
+    _count: PortalUserCountAggregateOutputType | null
+    _min: PortalUserMinAggregateOutputType | null
+    _max: PortalUserMaxAggregateOutputType | null
+  }
+
+  export type PortalUserMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    accountId: string | null
+    idpSubject: string | null
+    displayName: string | null
+    email: string | null
+    status: $Enums.PortalUserStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PortalUserMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    accountId: string | null
+    idpSubject: string | null
+    displayName: string | null
+    email: string | null
+    status: $Enums.PortalUserStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PortalUserCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    accountId: number
+    idpSubject: number
+    displayName: number
+    email: number
+    status: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PortalUserMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    accountId?: true
+    idpSubject?: true
+    displayName?: true
+    email?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PortalUserMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    accountId?: true
+    idpSubject?: true
+    displayName?: true
+    email?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PortalUserCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    accountId?: true
+    idpSubject?: true
+    displayName?: true
+    email?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PortalUserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PortalUser to aggregate.
+     */
+    where?: PortalUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortalUsers to fetch.
+     */
+    orderBy?: PortalUserOrderByWithRelationInput | PortalUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PortalUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortalUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortalUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PortalUsers
+    **/
+    _count?: true | PortalUserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PortalUserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PortalUserMaxAggregateInputType
+  }
+
+  export type GetPortalUserAggregateType<T extends PortalUserAggregateArgs> = {
+        [P in keyof T & keyof AggregatePortalUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePortalUser[P]>
+      : GetScalarType<T[P], AggregatePortalUser[P]>
+  }
+
+
+
+
+  export type PortalUserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PortalUserWhereInput
+    orderBy?: PortalUserOrderByWithAggregationInput | PortalUserOrderByWithAggregationInput[]
+    by: PortalUserScalarFieldEnum[] | PortalUserScalarFieldEnum
+    having?: PortalUserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PortalUserCountAggregateInputType | true
+    _min?: PortalUserMinAggregateInputType
+    _max?: PortalUserMaxAggregateInputType
+  }
+
+  export type PortalUserGroupByOutputType = {
+    id: string
+    tenantId: string
+    accountId: string
+    idpSubject: string
+    displayName: string
+    email: string | null
+    status: $Enums.PortalUserStatus
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PortalUserCountAggregateOutputType | null
+    _min: PortalUserMinAggregateOutputType | null
+    _max: PortalUserMaxAggregateOutputType | null
+  }
+
+  type GetPortalUserGroupByPayload<T extends PortalUserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PortalUserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PortalUserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PortalUserGroupByOutputType[P]>
+            : GetScalarType<T[P], PortalUserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PortalUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    idpSubject?: boolean
+    displayName?: boolean
+    email?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["portalUser"]>
+
+  export type PortalUserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    idpSubject?: boolean
+    displayName?: boolean
+    email?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["portalUser"]>
+
+  export type PortalUserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    idpSubject?: boolean
+    displayName?: boolean
+    email?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["portalUser"]>
+
+  export type PortalUserSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    idpSubject?: boolean
+    displayName?: boolean
+    email?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PortalUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "accountId" | "idpSubject" | "displayName" | "email" | "status" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["portalUser"]>
+  export type PortalUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PortalUserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PortalUserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $PortalUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PortalUser"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      accountId: string
+      idpSubject: string
+      displayName: string
+      email: string | null
+      status: $Enums.PortalUserStatus
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["portalUser"]>
+    composites: {}
+  }
+
+  type PortalUserGetPayload<S extends boolean | null | undefined | PortalUserDefaultArgs> = $Result.GetResult<Prisma.$PortalUserPayload, S>
+
+  type PortalUserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PortalUserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PortalUserCountAggregateInputType | true
+    }
+
+  export interface PortalUserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PortalUser'], meta: { name: 'PortalUser' } }
+    /**
+     * Find zero or one PortalUser that matches the filter.
+     * @param {PortalUserFindUniqueArgs} args - Arguments to find a PortalUser
+     * @example
+     * // Get one PortalUser
+     * const portalUser = await prisma.portalUser.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PortalUserFindUniqueArgs>(args: SelectSubset<T, PortalUserFindUniqueArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PortalUser that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PortalUserFindUniqueOrThrowArgs} args - Arguments to find a PortalUser
+     * @example
+     * // Get one PortalUser
+     * const portalUser = await prisma.portalUser.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PortalUserFindUniqueOrThrowArgs>(args: SelectSubset<T, PortalUserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PortalUser that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortalUserFindFirstArgs} args - Arguments to find a PortalUser
+     * @example
+     * // Get one PortalUser
+     * const portalUser = await prisma.portalUser.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PortalUserFindFirstArgs>(args?: SelectSubset<T, PortalUserFindFirstArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PortalUser that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortalUserFindFirstOrThrowArgs} args - Arguments to find a PortalUser
+     * @example
+     * // Get one PortalUser
+     * const portalUser = await prisma.portalUser.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PortalUserFindFirstOrThrowArgs>(args?: SelectSubset<T, PortalUserFindFirstOrThrowArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PortalUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortalUserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PortalUsers
+     * const portalUsers = await prisma.portalUser.findMany()
+     * 
+     * // Get first 10 PortalUsers
+     * const portalUsers = await prisma.portalUser.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const portalUserWithIdOnly = await prisma.portalUser.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PortalUserFindManyArgs>(args?: SelectSubset<T, PortalUserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PortalUser.
+     * @param {PortalUserCreateArgs} args - Arguments to create a PortalUser.
+     * @example
+     * // Create one PortalUser
+     * const PortalUser = await prisma.portalUser.create({
+     *   data: {
+     *     // ... data to create a PortalUser
+     *   }
+     * })
+     * 
+     */
+    create<T extends PortalUserCreateArgs>(args: SelectSubset<T, PortalUserCreateArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PortalUsers.
+     * @param {PortalUserCreateManyArgs} args - Arguments to create many PortalUsers.
+     * @example
+     * // Create many PortalUsers
+     * const portalUser = await prisma.portalUser.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PortalUserCreateManyArgs>(args?: SelectSubset<T, PortalUserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PortalUsers and returns the data saved in the database.
+     * @param {PortalUserCreateManyAndReturnArgs} args - Arguments to create many PortalUsers.
+     * @example
+     * // Create many PortalUsers
+     * const portalUser = await prisma.portalUser.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PortalUsers and only return the `id`
+     * const portalUserWithIdOnly = await prisma.portalUser.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PortalUserCreateManyAndReturnArgs>(args?: SelectSubset<T, PortalUserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PortalUser.
+     * @param {PortalUserDeleteArgs} args - Arguments to delete one PortalUser.
+     * @example
+     * // Delete one PortalUser
+     * const PortalUser = await prisma.portalUser.delete({
+     *   where: {
+     *     // ... filter to delete one PortalUser
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PortalUserDeleteArgs>(args: SelectSubset<T, PortalUserDeleteArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PortalUser.
+     * @param {PortalUserUpdateArgs} args - Arguments to update one PortalUser.
+     * @example
+     * // Update one PortalUser
+     * const portalUser = await prisma.portalUser.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PortalUserUpdateArgs>(args: SelectSubset<T, PortalUserUpdateArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PortalUsers.
+     * @param {PortalUserDeleteManyArgs} args - Arguments to filter PortalUsers to delete.
+     * @example
+     * // Delete a few PortalUsers
+     * const { count } = await prisma.portalUser.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PortalUserDeleteManyArgs>(args?: SelectSubset<T, PortalUserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PortalUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortalUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PortalUsers
+     * const portalUser = await prisma.portalUser.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PortalUserUpdateManyArgs>(args: SelectSubset<T, PortalUserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PortalUsers and returns the data updated in the database.
+     * @param {PortalUserUpdateManyAndReturnArgs} args - Arguments to update many PortalUsers.
+     * @example
+     * // Update many PortalUsers
+     * const portalUser = await prisma.portalUser.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PortalUsers and only return the `id`
+     * const portalUserWithIdOnly = await prisma.portalUser.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PortalUserUpdateManyAndReturnArgs>(args: SelectSubset<T, PortalUserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PortalUser.
+     * @param {PortalUserUpsertArgs} args - Arguments to update or create a PortalUser.
+     * @example
+     * // Update or create a PortalUser
+     * const portalUser = await prisma.portalUser.upsert({
+     *   create: {
+     *     // ... data to create a PortalUser
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PortalUser we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PortalUserUpsertArgs>(args: SelectSubset<T, PortalUserUpsertArgs<ExtArgs>>): Prisma__PortalUserClient<$Result.GetResult<Prisma.$PortalUserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PortalUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortalUserCountArgs} args - Arguments to filter PortalUsers to count.
+     * @example
+     * // Count the number of PortalUsers
+     * const count = await prisma.portalUser.count({
+     *   where: {
+     *     // ... the filter for the PortalUsers we want to count
+     *   }
+     * })
+    **/
+    count<T extends PortalUserCountArgs>(
+      args?: Subset<T, PortalUserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PortalUserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PortalUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortalUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PortalUserAggregateArgs>(args: Subset<T, PortalUserAggregateArgs>): Prisma.PrismaPromise<GetPortalUserAggregateType<T>>
+
+    /**
+     * Group by PortalUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortalUserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PortalUserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PortalUserGroupByArgs['orderBy'] }
+        : { orderBy?: PortalUserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PortalUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPortalUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PortalUser model
+   */
+  readonly fields: PortalUserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PortalUser.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PortalUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PortalUser model
+   */
+  interface PortalUserFieldRefs {
+    readonly id: FieldRef<"PortalUser", 'String'>
+    readonly tenantId: FieldRef<"PortalUser", 'String'>
+    readonly accountId: FieldRef<"PortalUser", 'String'>
+    readonly idpSubject: FieldRef<"PortalUser", 'String'>
+    readonly displayName: FieldRef<"PortalUser", 'String'>
+    readonly email: FieldRef<"PortalUser", 'String'>
+    readonly status: FieldRef<"PortalUser", 'PortalUserStatus'>
+    readonly createdBy: FieldRef<"PortalUser", 'String'>
+    readonly createdAt: FieldRef<"PortalUser", 'DateTime'>
+    readonly updatedAt: FieldRef<"PortalUser", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PortalUser findUnique
+   */
+  export type PortalUserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * Filter, which PortalUser to fetch.
+     */
+    where: PortalUserWhereUniqueInput
+  }
+
+  /**
+   * PortalUser findUniqueOrThrow
+   */
+  export type PortalUserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * Filter, which PortalUser to fetch.
+     */
+    where: PortalUserWhereUniqueInput
+  }
+
+  /**
+   * PortalUser findFirst
+   */
+  export type PortalUserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * Filter, which PortalUser to fetch.
+     */
+    where?: PortalUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortalUsers to fetch.
+     */
+    orderBy?: PortalUserOrderByWithRelationInput | PortalUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PortalUsers.
+     */
+    cursor?: PortalUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortalUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortalUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PortalUsers.
+     */
+    distinct?: PortalUserScalarFieldEnum | PortalUserScalarFieldEnum[]
+  }
+
+  /**
+   * PortalUser findFirstOrThrow
+   */
+  export type PortalUserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * Filter, which PortalUser to fetch.
+     */
+    where?: PortalUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortalUsers to fetch.
+     */
+    orderBy?: PortalUserOrderByWithRelationInput | PortalUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PortalUsers.
+     */
+    cursor?: PortalUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortalUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortalUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PortalUsers.
+     */
+    distinct?: PortalUserScalarFieldEnum | PortalUserScalarFieldEnum[]
+  }
+
+  /**
+   * PortalUser findMany
+   */
+  export type PortalUserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * Filter, which PortalUsers to fetch.
+     */
+    where?: PortalUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortalUsers to fetch.
+     */
+    orderBy?: PortalUserOrderByWithRelationInput | PortalUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PortalUsers.
+     */
+    cursor?: PortalUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortalUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortalUsers.
+     */
+    skip?: number
+    distinct?: PortalUserScalarFieldEnum | PortalUserScalarFieldEnum[]
+  }
+
+  /**
+   * PortalUser create
+   */
+  export type PortalUserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PortalUser.
+     */
+    data: XOR<PortalUserCreateInput, PortalUserUncheckedCreateInput>
+  }
+
+  /**
+   * PortalUser createMany
+   */
+  export type PortalUserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PortalUsers.
+     */
+    data: PortalUserCreateManyInput | PortalUserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PortalUser createManyAndReturn
+   */
+  export type PortalUserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * The data used to create many PortalUsers.
+     */
+    data: PortalUserCreateManyInput | PortalUserCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PortalUser update
+   */
+  export type PortalUserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PortalUser.
+     */
+    data: XOR<PortalUserUpdateInput, PortalUserUncheckedUpdateInput>
+    /**
+     * Choose, which PortalUser to update.
+     */
+    where: PortalUserWhereUniqueInput
+  }
+
+  /**
+   * PortalUser updateMany
+   */
+  export type PortalUserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PortalUsers.
+     */
+    data: XOR<PortalUserUpdateManyMutationInput, PortalUserUncheckedUpdateManyInput>
+    /**
+     * Filter which PortalUsers to update
+     */
+    where?: PortalUserWhereInput
+    /**
+     * Limit how many PortalUsers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PortalUser updateManyAndReturn
+   */
+  export type PortalUserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * The data used to update PortalUsers.
+     */
+    data: XOR<PortalUserUpdateManyMutationInput, PortalUserUncheckedUpdateManyInput>
+    /**
+     * Filter which PortalUsers to update
+     */
+    where?: PortalUserWhereInput
+    /**
+     * Limit how many PortalUsers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PortalUser upsert
+   */
+  export type PortalUserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PortalUser to update in case it exists.
+     */
+    where: PortalUserWhereUniqueInput
+    /**
+     * In case the PortalUser found by the `where` argument doesn't exist, create a new PortalUser with this data.
+     */
+    create: XOR<PortalUserCreateInput, PortalUserUncheckedCreateInput>
+    /**
+     * In case the PortalUser was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PortalUserUpdateInput, PortalUserUncheckedUpdateInput>
+  }
+
+  /**
+   * PortalUser delete
+   */
+  export type PortalUserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+    /**
+     * Filter which PortalUser to delete.
+     */
+    where: PortalUserWhereUniqueInput
+  }
+
+  /**
+   * PortalUser deleteMany
+   */
+  export type PortalUserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PortalUsers to delete
+     */
+    where?: PortalUserWhereInput
+    /**
+     * Limit how many PortalUsers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PortalUser without action
+   */
+  export type PortalUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PortalUser
+     */
+    select?: PortalUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PortalUser
+     */
+    omit?: PortalUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PortalUserInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -92688,6 +96675,58 @@ export namespace Prisma {
   export type NcrScalarFieldEnum = (typeof NcrScalarFieldEnum)[keyof typeof NcrScalarFieldEnum]
 
 
+  export const InvoiceScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    invoiceNumber: 'invoiceNumber',
+    invoiceType: 'invoiceType',
+    partyRefId: 'partyRefId',
+    orderRefId: 'orderRefId',
+    currency: 'currency',
+    total: 'total',
+    paidAmount: 'paidAmount',
+    status: 'status',
+    issuedAt: 'issuedAt',
+    dueAt: 'dueAt',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+  export const PaymentScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    paymentNumber: 'paymentNumber',
+    invoiceId: 'invoiceId',
+    amount: 'amount',
+    currency: 'currency',
+    reference: 'reference',
+    receivedAt: 'receivedAt',
+    createdBy: 'createdBy'
+  };
+
+  export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+  export const PortalUserScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    accountId: 'accountId',
+    idpSubject: 'idpSubject',
+    displayName: 'displayName',
+    email: 'email',
+    status: 'status',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PortalUserScalarFieldEnum = (typeof PortalUserScalarFieldEnum)[keyof typeof PortalUserScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -93351,6 +97390,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'InvoiceType'
+   */
+  export type EnumInvoiceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceType'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceType[]'
+   */
+  export type ListEnumInvoiceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus'
+   */
+  export type EnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus[]'
+   */
+  export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PortalUserStatus'
+   */
+  export type EnumPortalUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PortalUserStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PortalUserStatus[]'
+   */
+  export type ListEnumPortalUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PortalUserStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -93438,6 +97519,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionListRelationFilter
     qcInspectionItems?: QcInspectionItemListRelationFilter
     ncrs?: NcrListRelationFilter
+    invoices?: InvoiceListRelationFilter
+    payments?: PaymentListRelationFilter
+    portalUsers?: PortalUserListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -93508,6 +97592,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionOrderByRelationAggregateInput
     qcInspectionItems?: QcInspectionItemOrderByRelationAggregateInput
     ncrs?: NcrOrderByRelationAggregateInput
+    invoices?: InvoiceOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
+    portalUsers?: PortalUserOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -93581,6 +97668,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionListRelationFilter
     qcInspectionItems?: QcInspectionItemListRelationFilter
     ncrs?: NcrListRelationFilter
+    invoices?: InvoiceListRelationFilter
+    payments?: PaymentListRelationFilter
+    portalUsers?: PortalUserListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -99017,6 +103107,280 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Ncr"> | Date | string
   }
 
+  export type InvoiceWhereInput = {
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    id?: UuidFilter<"Invoice"> | string
+    tenantId?: UuidFilter<"Invoice"> | string
+    invoiceNumber?: StringFilter<"Invoice"> | string
+    invoiceType?: EnumInvoiceTypeFilter<"Invoice"> | $Enums.InvoiceType
+    partyRefId?: UuidFilter<"Invoice"> | string
+    orderRefId?: UuidFilter<"Invoice"> | string
+    currency?: StringFilter<"Invoice"> | string
+    total?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFilter<"Invoice"> | Date | string
+    dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    createdBy?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    payments?: PaymentListRelationFilter
+  }
+
+  export type InvoiceOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    invoiceNumber?: SortOrder
+    invoiceType?: SortOrder
+    partyRefId?: SortOrder
+    orderRefId?: SortOrder
+    currency?: SortOrder
+    total?: SortOrder
+    paidAmount?: SortOrder
+    status?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    payments?: PaymentOrderByRelationAggregateInput
+  }
+
+  export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_invoiceNumber?: InvoiceTenantIdInvoiceNumberCompoundUniqueInput
+    tenantId_invoiceType_orderRefId?: InvoiceTenantIdInvoiceTypeOrderRefIdCompoundUniqueInput
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    tenantId?: UuidFilter<"Invoice"> | string
+    invoiceNumber?: StringFilter<"Invoice"> | string
+    invoiceType?: EnumInvoiceTypeFilter<"Invoice"> | $Enums.InvoiceType
+    partyRefId?: UuidFilter<"Invoice"> | string
+    orderRefId?: UuidFilter<"Invoice"> | string
+    currency?: StringFilter<"Invoice"> | string
+    total?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFilter<"Invoice"> | Date | string
+    dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    createdBy?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    payments?: PaymentListRelationFilter
+  }, "id" | "tenantId_invoiceNumber" | "tenantId_invoiceType_orderRefId">
+
+  export type InvoiceOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    invoiceNumber?: SortOrder
+    invoiceType?: SortOrder
+    partyRefId?: SortOrder
+    orderRefId?: SortOrder
+    currency?: SortOrder
+    total?: SortOrder
+    paidAmount?: SortOrder
+    status?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InvoiceCountOrderByAggregateInput
+    _avg?: InvoiceAvgOrderByAggregateInput
+    _max?: InvoiceMaxOrderByAggregateInput
+    _min?: InvoiceMinOrderByAggregateInput
+    _sum?: InvoiceSumOrderByAggregateInput
+  }
+
+  export type InvoiceScalarWhereWithAggregatesInput = {
+    AND?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    OR?: InvoiceScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Invoice"> | string
+    tenantId?: UuidWithAggregatesFilter<"Invoice"> | string
+    invoiceNumber?: StringWithAggregatesFilter<"Invoice"> | string
+    invoiceType?: EnumInvoiceTypeWithAggregatesFilter<"Invoice"> | $Enums.InvoiceType
+    partyRefId?: UuidWithAggregatesFilter<"Invoice"> | string
+    orderRefId?: UuidWithAggregatesFilter<"Invoice"> | string
+    currency?: StringWithAggregatesFilter<"Invoice"> | string
+    total?: DecimalWithAggregatesFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalWithAggregatesFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
+    issuedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    dueAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+  }
+
+  export type PaymentWhereInput = {
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    id?: UuidFilter<"Payment"> | string
+    tenantId?: UuidFilter<"Payment"> | string
+    paymentNumber?: StringFilter<"Payment"> | string
+    invoiceId?: UuidFilter<"Payment"> | string
+    amount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Payment"> | string
+    reference?: StringNullableFilter<"Payment"> | string | null
+    receivedAt?: DateTimeFilter<"Payment"> | Date | string
+    createdBy?: StringNullableFilter<"Payment"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }
+
+  export type PaymentOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    paymentNumber?: SortOrder
+    invoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    receivedAt?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    invoice?: InvoiceOrderByWithRelationInput
+  }
+
+  export type PaymentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_paymentNumber?: PaymentTenantIdPaymentNumberCompoundUniqueInput
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    tenantId?: UuidFilter<"Payment"> | string
+    paymentNumber?: StringFilter<"Payment"> | string
+    invoiceId?: UuidFilter<"Payment"> | string
+    amount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Payment"> | string
+    reference?: StringNullableFilter<"Payment"> | string | null
+    receivedAt?: DateTimeFilter<"Payment"> | Date | string
+    createdBy?: StringNullableFilter<"Payment"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }, "id" | "tenantId_paymentNumber">
+
+  export type PaymentOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    paymentNumber?: SortOrder
+    invoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    receivedAt?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    _count?: PaymentCountOrderByAggregateInput
+    _avg?: PaymentAvgOrderByAggregateInput
+    _max?: PaymentMaxOrderByAggregateInput
+    _min?: PaymentMinOrderByAggregateInput
+    _sum?: PaymentSumOrderByAggregateInput
+  }
+
+  export type PaymentScalarWhereWithAggregatesInput = {
+    AND?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    OR?: PaymentScalarWhereWithAggregatesInput[]
+    NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Payment"> | string
+    tenantId?: UuidWithAggregatesFilter<"Payment"> | string
+    paymentNumber?: StringWithAggregatesFilter<"Payment"> | string
+    invoiceId?: UuidWithAggregatesFilter<"Payment"> | string
+    amount?: DecimalWithAggregatesFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"Payment"> | string
+    reference?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    receivedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    createdBy?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+  }
+
+  export type PortalUserWhereInput = {
+    AND?: PortalUserWhereInput | PortalUserWhereInput[]
+    OR?: PortalUserWhereInput[]
+    NOT?: PortalUserWhereInput | PortalUserWhereInput[]
+    id?: UuidFilter<"PortalUser"> | string
+    tenantId?: UuidFilter<"PortalUser"> | string
+    accountId?: UuidFilter<"PortalUser"> | string
+    idpSubject?: StringFilter<"PortalUser"> | string
+    displayName?: StringFilter<"PortalUser"> | string
+    email?: StringNullableFilter<"PortalUser"> | string | null
+    status?: EnumPortalUserStatusFilter<"PortalUser"> | $Enums.PortalUserStatus
+    createdBy?: StringNullableFilter<"PortalUser"> | string | null
+    createdAt?: DateTimeFilter<"PortalUser"> | Date | string
+    updatedAt?: DateTimeFilter<"PortalUser"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type PortalUserOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    idpSubject?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type PortalUserWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_idpSubject?: PortalUserTenantIdIdpSubjectCompoundUniqueInput
+    AND?: PortalUserWhereInput | PortalUserWhereInput[]
+    OR?: PortalUserWhereInput[]
+    NOT?: PortalUserWhereInput | PortalUserWhereInput[]
+    tenantId?: UuidFilter<"PortalUser"> | string
+    accountId?: UuidFilter<"PortalUser"> | string
+    idpSubject?: StringFilter<"PortalUser"> | string
+    displayName?: StringFilter<"PortalUser"> | string
+    email?: StringNullableFilter<"PortalUser"> | string | null
+    status?: EnumPortalUserStatusFilter<"PortalUser"> | $Enums.PortalUserStatus
+    createdBy?: StringNullableFilter<"PortalUser"> | string | null
+    createdAt?: DateTimeFilter<"PortalUser"> | Date | string
+    updatedAt?: DateTimeFilter<"PortalUser"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_idpSubject">
+
+  export type PortalUserOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    idpSubject?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PortalUserCountOrderByAggregateInput
+    _max?: PortalUserMaxOrderByAggregateInput
+    _min?: PortalUserMinOrderByAggregateInput
+  }
+
+  export type PortalUserScalarWhereWithAggregatesInput = {
+    AND?: PortalUserScalarWhereWithAggregatesInput | PortalUserScalarWhereWithAggregatesInput[]
+    OR?: PortalUserScalarWhereWithAggregatesInput[]
+    NOT?: PortalUserScalarWhereWithAggregatesInput | PortalUserScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PortalUser"> | string
+    tenantId?: UuidWithAggregatesFilter<"PortalUser"> | string
+    accountId?: UuidWithAggregatesFilter<"PortalUser"> | string
+    idpSubject?: StringWithAggregatesFilter<"PortalUser"> | string
+    displayName?: StringWithAggregatesFilter<"PortalUser"> | string
+    email?: StringNullableWithAggregatesFilter<"PortalUser"> | string | null
+    status?: EnumPortalUserStatusWithAggregatesFilter<"PortalUser"> | $Enums.PortalUserStatus
+    createdBy?: StringNullableWithAggregatesFilter<"PortalUser"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PortalUser"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PortalUser"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -99085,6 +103449,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -99155,6 +103522,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -99225,6 +103595,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -99295,6 +103668,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -105083,6 +109459,307 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InvoiceCreateInput = {
+    id?: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutInvoicesInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceCreateManyInput = {
+    id?: string
+    tenantId: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCreateInput = {
+    id?: string
+    paymentNumber: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+    tenant: TenantCreateNestedOneWithoutPaymentsInput
+    invoice: InvoiceCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type PaymentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutPaymentsNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentCreateManyInput = {
+    id?: string
+    tenantId: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type PaymentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PortalUserCreateInput = {
+    id?: string
+    accountId: string
+    idpSubject: string
+    displayName: string
+    email?: string | null
+    status?: $Enums.PortalUserStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPortalUsersInput
+  }
+
+  export type PortalUserUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    accountId: string
+    idpSubject: string
+    displayName: string
+    email?: string | null
+    status?: $Enums.PortalUserStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PortalUserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    idpSubject?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPortalUserStatusFieldUpdateOperationsInput | $Enums.PortalUserStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPortalUsersNestedInput
+  }
+
+  export type PortalUserUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    idpSubject?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPortalUserStatusFieldUpdateOperationsInput | $Enums.PortalUserStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PortalUserCreateManyInput = {
+    id?: string
+    tenantId: string
+    accountId: string
+    idpSubject: string
+    displayName: string
+    email?: string | null
+    status?: $Enums.PortalUserStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PortalUserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    idpSubject?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPortalUserStatusFieldUpdateOperationsInput | $Enums.PortalUserStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PortalUserUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    idpSubject?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPortalUserStatusFieldUpdateOperationsInput | $Enums.PortalUserStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -105499,6 +110176,24 @@ export namespace Prisma {
     none?: NcrWhereInput
   }
 
+  export type InvoiceListRelationFilter = {
+    every?: InvoiceWhereInput
+    some?: InvoiceWhereInput
+    none?: InvoiceWhereInput
+  }
+
+  export type PaymentListRelationFilter = {
+    every?: PaymentWhereInput
+    some?: PaymentWhereInput
+    none?: PaymentWhereInput
+  }
+
+  export type PortalUserListRelationFilter = {
+    every?: PortalUserWhereInput
+    some?: PortalUserWhereInput
+    none?: PortalUserWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -105736,6 +110431,18 @@ export namespace Prisma {
   }
 
   export type NcrOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvoiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PortalUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -110035,6 +114742,230 @@ export namespace Prisma {
     _max?: NestedEnumNcrStatusFilter<$PrismaModel>
   }
 
+  export type EnumInvoiceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceType | EnumInvoiceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceTypeFilter<$PrismaModel> | $Enums.InvoiceType
+  }
+
+  export type EnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type InvoiceTenantIdInvoiceNumberCompoundUniqueInput = {
+    tenantId: string
+    invoiceNumber: string
+  }
+
+  export type InvoiceTenantIdInvoiceTypeOrderRefIdCompoundUniqueInput = {
+    tenantId: string
+    invoiceType: $Enums.InvoiceType
+    orderRefId: string
+  }
+
+  export type InvoiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    invoiceNumber?: SortOrder
+    invoiceType?: SortOrder
+    partyRefId?: SortOrder
+    orderRefId?: SortOrder
+    currency?: SortOrder
+    total?: SortOrder
+    paidAmount?: SortOrder
+    status?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceAvgOrderByAggregateInput = {
+    total?: SortOrder
+    paidAmount?: SortOrder
+  }
+
+  export type InvoiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    invoiceNumber?: SortOrder
+    invoiceType?: SortOrder
+    partyRefId?: SortOrder
+    orderRefId?: SortOrder
+    currency?: SortOrder
+    total?: SortOrder
+    paidAmount?: SortOrder
+    status?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    invoiceNumber?: SortOrder
+    invoiceType?: SortOrder
+    partyRefId?: SortOrder
+    orderRefId?: SortOrder
+    currency?: SortOrder
+    total?: SortOrder
+    paidAmount?: SortOrder
+    status?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceSumOrderByAggregateInput = {
+    total?: SortOrder
+    paidAmount?: SortOrder
+  }
+
+  export type EnumInvoiceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceType | EnumInvoiceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceTypeWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceTypeFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceTypeFilter<$PrismaModel>
+  }
+
+  export type EnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
+  export type InvoiceScalarRelationFilter = {
+    is?: InvoiceWhereInput
+    isNot?: InvoiceWhereInput
+  }
+
+  export type PaymentTenantIdPaymentNumberCompoundUniqueInput = {
+    tenantId: string
+    paymentNumber: string
+  }
+
+  export type PaymentCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    paymentNumber?: SortOrder
+    invoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    reference?: SortOrder
+    receivedAt?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type PaymentAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type PaymentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    paymentNumber?: SortOrder
+    invoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    reference?: SortOrder
+    receivedAt?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type PaymentMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    paymentNumber?: SortOrder
+    invoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    reference?: SortOrder
+    receivedAt?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type PaymentSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumPortalUserStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PortalUserStatus | EnumPortalUserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPortalUserStatusFilter<$PrismaModel> | $Enums.PortalUserStatus
+  }
+
+  export type PortalUserTenantIdIdpSubjectCompoundUniqueInput = {
+    tenantId: string
+    idpSubject: string
+  }
+
+  export type PortalUserCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    idpSubject?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PortalUserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    idpSubject?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PortalUserMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    idpSubject?: SortOrder
+    displayName?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumPortalUserStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PortalUserStatus | EnumPortalUserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPortalUserStatusWithAggregatesFilter<$PrismaModel> | $Enums.PortalUserStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPortalUserStatusFilter<$PrismaModel>
+    _max?: NestedEnumPortalUserStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -110455,6 +115386,27 @@ export namespace Prisma {
     connect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
   }
 
+  export type InvoiceCreateNestedManyWithoutTenantInput = {
+    create?: XOR<InvoiceCreateWithoutTenantInput, InvoiceUncheckedCreateWithoutTenantInput> | InvoiceCreateWithoutTenantInput[] | InvoiceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTenantInput | InvoiceCreateOrConnectWithoutTenantInput[]
+    createMany?: InvoiceCreateManyTenantInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type PaymentCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PaymentCreateWithoutTenantInput, PaymentUncheckedCreateWithoutTenantInput> | PaymentCreateWithoutTenantInput[] | PaymentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutTenantInput | PaymentCreateOrConnectWithoutTenantInput[]
+    createMany?: PaymentCreateManyTenantInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type PortalUserCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PortalUserCreateWithoutTenantInput, PortalUserUncheckedCreateWithoutTenantInput> | PortalUserCreateWithoutTenantInput[] | PortalUserUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PortalUserCreateOrConnectWithoutTenantInput | PortalUserCreateOrConnectWithoutTenantInput[]
+    createMany?: PortalUserCreateManyTenantInputEnvelope
+    connect?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -110873,6 +115825,27 @@ export namespace Prisma {
     connectOrCreate?: NcrCreateOrConnectWithoutTenantInput | NcrCreateOrConnectWithoutTenantInput[]
     createMany?: NcrCreateManyTenantInputEnvelope
     connect?: NcrWhereUniqueInput | NcrWhereUniqueInput[]
+  }
+
+  export type InvoiceUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<InvoiceCreateWithoutTenantInput, InvoiceUncheckedCreateWithoutTenantInput> | InvoiceCreateWithoutTenantInput[] | InvoiceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTenantInput | InvoiceCreateOrConnectWithoutTenantInput[]
+    createMany?: InvoiceCreateManyTenantInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PaymentCreateWithoutTenantInput, PaymentUncheckedCreateWithoutTenantInput> | PaymentCreateWithoutTenantInput[] | PaymentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutTenantInput | PaymentCreateOrConnectWithoutTenantInput[]
+    createMany?: PaymentCreateManyTenantInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type PortalUserUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PortalUserCreateWithoutTenantInput, PortalUserUncheckedCreateWithoutTenantInput> | PortalUserCreateWithoutTenantInput[] | PortalUserUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PortalUserCreateOrConnectWithoutTenantInput | PortalUserCreateOrConnectWithoutTenantInput[]
+    createMany?: PortalUserCreateManyTenantInputEnvelope
+    connect?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -111735,6 +116708,48 @@ export namespace Prisma {
     deleteMany?: NcrScalarWhereInput | NcrScalarWhereInput[]
   }
 
+  export type InvoiceUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<InvoiceCreateWithoutTenantInput, InvoiceUncheckedCreateWithoutTenantInput> | InvoiceCreateWithoutTenantInput[] | InvoiceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTenantInput | InvoiceCreateOrConnectWithoutTenantInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutTenantInput | InvoiceUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: InvoiceCreateManyTenantInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutTenantInput | InvoiceUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutTenantInput | InvoiceUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type PaymentUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PaymentCreateWithoutTenantInput, PaymentUncheckedCreateWithoutTenantInput> | PaymentCreateWithoutTenantInput[] | PaymentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutTenantInput | PaymentCreateOrConnectWithoutTenantInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutTenantInput | PaymentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PaymentCreateManyTenantInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutTenantInput | PaymentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutTenantInput | PaymentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type PortalUserUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PortalUserCreateWithoutTenantInput, PortalUserUncheckedCreateWithoutTenantInput> | PortalUserCreateWithoutTenantInput[] | PortalUserUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PortalUserCreateOrConnectWithoutTenantInput | PortalUserCreateOrConnectWithoutTenantInput[]
+    upsert?: PortalUserUpsertWithWhereUniqueWithoutTenantInput | PortalUserUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PortalUserCreateManyTenantInputEnvelope
+    set?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    disconnect?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    delete?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    connect?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    update?: PortalUserUpdateWithWhereUniqueWithoutTenantInput | PortalUserUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PortalUserUpdateManyWithWhereWithoutTenantInput | PortalUserUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PortalUserScalarWhereInput | PortalUserScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -112573,6 +117588,48 @@ export namespace Prisma {
     update?: NcrUpdateWithWhereUniqueWithoutTenantInput | NcrUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: NcrUpdateManyWithWhereWithoutTenantInput | NcrUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: NcrScalarWhereInput | NcrScalarWhereInput[]
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<InvoiceCreateWithoutTenantInput, InvoiceUncheckedCreateWithoutTenantInput> | InvoiceCreateWithoutTenantInput[] | InvoiceUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTenantInput | InvoiceCreateOrConnectWithoutTenantInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutTenantInput | InvoiceUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: InvoiceCreateManyTenantInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutTenantInput | InvoiceUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutTenantInput | InvoiceUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PaymentCreateWithoutTenantInput, PaymentUncheckedCreateWithoutTenantInput> | PaymentCreateWithoutTenantInput[] | PaymentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutTenantInput | PaymentCreateOrConnectWithoutTenantInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutTenantInput | PaymentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PaymentCreateManyTenantInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutTenantInput | PaymentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutTenantInput | PaymentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type PortalUserUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PortalUserCreateWithoutTenantInput, PortalUserUncheckedCreateWithoutTenantInput> | PortalUserCreateWithoutTenantInput[] | PortalUserUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PortalUserCreateOrConnectWithoutTenantInput | PortalUserCreateOrConnectWithoutTenantInput[]
+    upsert?: PortalUserUpsertWithWhereUniqueWithoutTenantInput | PortalUserUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PortalUserCreateManyTenantInputEnvelope
+    set?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    disconnect?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    delete?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    connect?: PortalUserWhereUniqueInput | PortalUserWhereUniqueInput[]
+    update?: PortalUserUpdateWithWhereUniqueWithoutTenantInput | PortalUserUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PortalUserUpdateManyWithWhereWithoutTenantInput | PortalUserUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PortalUserScalarWhereInput | PortalUserScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -115287,6 +120344,116 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutNcrsInput, TenantUpdateWithoutNcrsInput>, TenantUncheckedUpdateWithoutNcrsInput>
   }
 
+  export type TenantCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<TenantCreateWithoutInvoicesInput, TenantUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutInvoicesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type PaymentCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type EnumInvoiceTypeFieldUpdateOperationsInput = {
+    set?: $Enums.InvoiceType
+  }
+
+  export type EnumInvoiceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InvoiceStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutInvoicesNestedInput = {
+    create?: XOR<TenantCreateWithoutInvoicesInput, TenantUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutInvoicesInput
+    upsert?: TenantUpsertWithoutInvoicesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutInvoicesInput, TenantUpdateWithoutInvoicesInput>, TenantUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type PaymentUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutInvoiceInput | PaymentUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutInvoiceInput | PaymentUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutInvoiceInput | PaymentUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutInvoiceInput | PaymentUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutInvoiceInput | PaymentUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutInvoiceInput | PaymentUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<TenantCreateWithoutPaymentsInput, TenantUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPaymentsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type InvoiceCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutPaymentsInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<TenantCreateWithoutPaymentsInput, TenantUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPaymentsInput
+    upsert?: TenantUpsertWithoutPaymentsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPaymentsInput, TenantUpdateWithoutPaymentsInput>, TenantUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type InvoiceUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutPaymentsInput
+    upsert?: InvoiceUpsertWithoutPaymentsInput
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutPaymentsInput, InvoiceUpdateWithoutPaymentsInput>, InvoiceUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutPortalUsersInput = {
+    create?: XOR<TenantCreateWithoutPortalUsersInput, TenantUncheckedCreateWithoutPortalUsersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPortalUsersInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumPortalUserStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PortalUserStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutPortalUsersNestedInput = {
+    create?: XOR<TenantCreateWithoutPortalUsersInput, TenantUncheckedCreateWithoutPortalUsersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPortalUsersInput
+    upsert?: TenantUpsertWithoutPortalUsersInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPortalUsersInput, TenantUpdateWithoutPortalUsersInput>, TenantUncheckedUpdateWithoutPortalUsersInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -116295,6 +121462,57 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumNcrStatusFilter<$PrismaModel>
     _max?: NestedEnumNcrStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInvoiceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceType | EnumInvoiceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceTypeFilter<$PrismaModel> | $Enums.InvoiceType
+  }
+
+  export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type NestedEnumInvoiceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceType | EnumInvoiceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceType[] | ListEnumInvoiceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceTypeWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceTypeFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPortalUserStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PortalUserStatus | EnumPortalUserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPortalUserStatusFilter<$PrismaModel> | $Enums.PortalUserStatus
+  }
+
+  export type NestedEnumPortalUserStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PortalUserStatus | EnumPortalUserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PortalUserStatus[] | ListEnumPortalUserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPortalUserStatusWithAggregatesFilter<$PrismaModel> | $Enums.PortalUserStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPortalUserStatusFilter<$PrismaModel>
+    _max?: NestedEnumPortalUserStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -118279,6 +123497,118 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InvoiceCreateWithoutTenantInput = {
+    id?: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutTenantInput = {
+    id?: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutTenantInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutTenantInput, InvoiceUncheckedCreateWithoutTenantInput>
+  }
+
+  export type InvoiceCreateManyTenantInputEnvelope = {
+    data: InvoiceCreateManyTenantInput | InvoiceCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentCreateWithoutTenantInput = {
+    id?: string
+    paymentNumber: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+    invoice: InvoiceCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutTenantInput = {
+    id?: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type PaymentCreateOrConnectWithoutTenantInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutTenantInput, PaymentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PaymentCreateManyTenantInputEnvelope = {
+    data: PaymentCreateManyTenantInput | PaymentCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PortalUserCreateWithoutTenantInput = {
+    id?: string
+    accountId: string
+    idpSubject: string
+    displayName: string
+    email?: string | null
+    status?: $Enums.PortalUserStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PortalUserUncheckedCreateWithoutTenantInput = {
+    id?: string
+    accountId: string
+    idpSubject: string
+    displayName: string
+    email?: string | null
+    status?: $Enums.PortalUserStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PortalUserCreateOrConnectWithoutTenantInput = {
+    where: PortalUserWhereUniqueInput
+    create: XOR<PortalUserCreateWithoutTenantInput, PortalUserUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PortalUserCreateManyTenantInputEnvelope = {
+    data: PortalUserCreateManyTenantInput | PortalUserCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -120143,6 +125473,106 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Ncr"> | Date | string
   }
 
+  export type InvoiceUpsertWithWhereUniqueWithoutTenantInput = {
+    where: InvoiceWhereUniqueInput
+    update: XOR<InvoiceUpdateWithoutTenantInput, InvoiceUncheckedUpdateWithoutTenantInput>
+    create: XOR<InvoiceCreateWithoutTenantInput, InvoiceUncheckedCreateWithoutTenantInput>
+  }
+
+  export type InvoiceUpdateWithWhereUniqueWithoutTenantInput = {
+    where: InvoiceWhereUniqueInput
+    data: XOR<InvoiceUpdateWithoutTenantInput, InvoiceUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type InvoiceUpdateManyWithWhereWithoutTenantInput = {
+    where: InvoiceScalarWhereInput
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type InvoiceScalarWhereInput = {
+    AND?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    OR?: InvoiceScalarWhereInput[]
+    NOT?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    id?: UuidFilter<"Invoice"> | string
+    tenantId?: UuidFilter<"Invoice"> | string
+    invoiceNumber?: StringFilter<"Invoice"> | string
+    invoiceType?: EnumInvoiceTypeFilter<"Invoice"> | $Enums.InvoiceType
+    partyRefId?: UuidFilter<"Invoice"> | string
+    orderRefId?: UuidFilter<"Invoice"> | string
+    currency?: StringFilter<"Invoice"> | string
+    total?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFilter<"Invoice"> | Date | string
+    dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    createdBy?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutTenantInput, PaymentUncheckedUpdateWithoutTenantInput>
+    create: XOR<PaymentCreateWithoutTenantInput, PaymentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutTenantInput, PaymentUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutTenantInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PaymentScalarWhereInput = {
+    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    OR?: PaymentScalarWhereInput[]
+    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    id?: UuidFilter<"Payment"> | string
+    tenantId?: UuidFilter<"Payment"> | string
+    paymentNumber?: StringFilter<"Payment"> | string
+    invoiceId?: UuidFilter<"Payment"> | string
+    amount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Payment"> | string
+    reference?: StringNullableFilter<"Payment"> | string | null
+    receivedAt?: DateTimeFilter<"Payment"> | Date | string
+    createdBy?: StringNullableFilter<"Payment"> | string | null
+  }
+
+  export type PortalUserUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PortalUserWhereUniqueInput
+    update: XOR<PortalUserUpdateWithoutTenantInput, PortalUserUncheckedUpdateWithoutTenantInput>
+    create: XOR<PortalUserCreateWithoutTenantInput, PortalUserUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PortalUserUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PortalUserWhereUniqueInput
+    data: XOR<PortalUserUpdateWithoutTenantInput, PortalUserUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PortalUserUpdateManyWithWhereWithoutTenantInput = {
+    where: PortalUserScalarWhereInput
+    data: XOR<PortalUserUpdateManyMutationInput, PortalUserUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PortalUserScalarWhereInput = {
+    AND?: PortalUserScalarWhereInput | PortalUserScalarWhereInput[]
+    OR?: PortalUserScalarWhereInput[]
+    NOT?: PortalUserScalarWhereInput | PortalUserScalarWhereInput[]
+    id?: UuidFilter<"PortalUser"> | string
+    tenantId?: UuidFilter<"PortalUser"> | string
+    accountId?: UuidFilter<"PortalUser"> | string
+    idpSubject?: StringFilter<"PortalUser"> | string
+    displayName?: StringFilter<"PortalUser"> | string
+    email?: StringNullableFilter<"PortalUser"> | string | null
+    status?: EnumPortalUserStatusFilter<"PortalUser"> | $Enums.PortalUserStatus
+    createdBy?: StringNullableFilter<"PortalUser"> | string | null
+    createdAt?: DateTimeFilter<"PortalUser"> | Date | string
+    updatedAt?: DateTimeFilter<"PortalUser"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -120210,6 +125640,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -120279,6 +125712,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -120364,6 +125800,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -120433,6 +125872,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -120502,6 +125944,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -120571,6 +126016,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -120690,6 +126138,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -120759,6 +126210,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -120844,6 +126298,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -120913,6 +126370,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -121136,6 +126596,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -121205,6 +126668,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -121386,6 +126852,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -121455,6 +126924,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -121569,6 +127041,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -121638,6 +127113,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -121742,6 +127220,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -121811,6 +127292,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -121925,6 +127409,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -121994,6 +127481,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -122098,6 +127588,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -122167,6 +127660,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -122280,6 +127776,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -122349,6 +127848,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -122434,6 +127936,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -122503,6 +128008,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -122638,6 +128146,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -122707,6 +128218,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -122874,6 +128388,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -122943,6 +128460,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -123080,6 +128600,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -123149,6 +128672,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -123282,6 +128808,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -123351,6 +128880,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -123436,6 +128968,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -123505,6 +129040,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -123574,6 +129112,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -123643,6 +129184,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -123728,6 +129272,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -123797,6 +129344,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -123866,6 +129416,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -123935,6 +129488,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -124020,6 +129576,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -124089,6 +129648,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -124158,6 +129720,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -124227,6 +129792,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -124312,6 +129880,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -124381,6 +129952,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -124450,6 +130024,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -124519,6 +130096,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -124604,6 +130184,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -124673,6 +130256,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -124742,6 +130328,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -124811,6 +130400,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -124896,6 +130488,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -124965,6 +130560,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -125034,6 +130632,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -125103,6 +130704,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -125188,6 +130792,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -125257,6 +130864,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -125326,6 +130936,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -125395,6 +131008,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -125542,6 +131158,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -125611,6 +131230,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -125938,6 +131560,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -126007,6 +131632,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -126120,6 +131748,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -126189,6 +131820,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -126331,6 +131965,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -126400,6 +132037,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -126485,6 +132125,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -126554,6 +132197,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -126623,6 +132269,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -126692,6 +132341,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -126777,6 +132429,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -126846,6 +132501,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -126915,6 +132573,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -126984,6 +132645,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -127095,6 +132759,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -127164,6 +132831,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -127305,6 +132975,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -127374,6 +133047,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -127560,6 +133236,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -127629,6 +133308,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -127859,6 +133541,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -127928,6 +133613,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -128049,6 +133737,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -128118,6 +133809,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -128522,6 +134216,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -128591,6 +134288,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -128698,6 +134398,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -128767,6 +134470,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -128906,6 +134612,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -128975,6 +134684,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -129060,6 +134772,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -129129,6 +134844,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -129198,6 +134916,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -129267,6 +134988,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -129352,6 +135076,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -129421,6 +135148,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -129490,6 +135220,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -129559,6 +135292,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -129644,6 +135380,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -129713,6 +135452,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -129782,6 +135524,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -129851,6 +135596,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -129936,6 +135684,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -130005,6 +135756,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -130074,6 +135828,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -130143,6 +135900,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -130254,6 +136014,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -130323,6 +136086,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -130408,6 +136174,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -130477,6 +136246,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -130595,6 +136367,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -130664,6 +136439,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -130772,6 +136550,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -130841,6 +136622,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -130926,6 +136710,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -130995,6 +136782,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -131064,6 +136854,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -131133,6 +136926,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -131218,6 +137014,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -131287,6 +137086,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -131356,6 +137158,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -131425,6 +137230,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -131510,6 +137318,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -131579,6 +137390,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -131648,6 +137462,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -131717,6 +137534,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -131802,6 +137622,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -131871,6 +137694,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -131940,6 +137766,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -132009,6 +137838,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -132120,6 +137952,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -132189,6 +138024,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -132274,6 +138112,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -132343,6 +138184,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -132459,6 +138303,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -132528,6 +138375,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -132634,6 +138484,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -132703,6 +138556,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -132822,6 +138678,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -132891,6 +138750,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -132976,6 +138838,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -133045,6 +138910,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -133177,6 +139045,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -133246,6 +139117,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -133368,6 +139242,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -133437,6 +139314,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -133554,6 +139434,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -133623,6 +139506,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -133708,6 +139594,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -133777,6 +139666,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -133899,6 +139791,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -133968,6 +139863,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -134080,6 +139978,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -134149,6 +140050,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -134234,6 +140138,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -134303,6 +140210,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -134372,6 +140282,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -134441,6 +140354,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -134526,6 +140442,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -134595,6 +140514,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -134664,6 +140586,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -134733,6 +140658,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -134848,6 +140776,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -134917,6 +140848,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -135002,6 +140936,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -135071,6 +141008,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -135189,6 +141129,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -135258,6 +141201,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -135366,6 +141312,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -135435,6 +141384,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -135552,6 +141504,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -135621,6 +141576,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -135706,6 +141664,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -135775,6 +141736,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -135897,6 +141861,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -135966,6 +141933,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -136078,6 +142048,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -136147,6 +142120,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -136262,6 +142238,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -136331,6 +142310,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -136416,6 +142398,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -136485,6 +142470,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -136601,6 +142589,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -136670,6 +142661,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -136776,6 +142770,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -136845,6 +142842,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -136962,6 +142962,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -137031,6 +143034,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -137116,6 +143122,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -137185,6 +143194,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -137297,6 +143309,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -137366,6 +143381,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -137468,6 +143486,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -137537,6 +143558,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -137622,6 +143646,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -137691,6 +143718,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -137760,6 +143790,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -137829,6 +143862,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -137914,6 +143950,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -137983,6 +144022,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -138052,6 +144094,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -138121,6 +144166,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -138236,6 +144284,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -138305,6 +144356,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -138390,6 +144444,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -138459,6 +144516,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -138569,6 +144629,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -138638,6 +144701,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -138738,6 +144804,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -138807,6 +144876,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -138924,6 +144996,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -138993,6 +145068,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -139078,6 +145156,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -139147,6 +145228,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -139275,6 +145359,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -139344,6 +145431,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -139462,6 +145552,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -139531,6 +145624,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -139642,6 +145738,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -139711,6 +145810,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -139796,6 +145898,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -139865,6 +145970,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -139977,6 +146085,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -140046,6 +146157,9 @@ export namespace Prisma {
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -140148,6 +146262,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -140217,6 +146334,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -140332,6 +146452,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -140401,6 +146524,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -140486,6 +146612,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -140555,6 +146684,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -140675,6 +146807,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -140744,6 +146879,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -140854,6 +146992,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
     qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -140923,6 +147064,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
     qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
     qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -141008,6 +147152,9 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
     qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -141077,6 +147224,1057 @@ export namespace Prisma {
     qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
     qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
     qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutInvoicesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutInvoicesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutInvoicesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutInvoicesInput, TenantUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type PaymentCreateWithoutInvoiceInput = {
+    id?: string
+    paymentNumber: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+    tenant: TenantCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    tenantId: string
+    paymentNumber: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type PaymentCreateOrConnectWithoutInvoiceInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type PaymentCreateManyInvoiceInputEnvelope = {
+    data: PaymentCreateManyInvoiceInput | PaymentCreateManyInvoiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutInvoicesInput = {
+    update: XOR<TenantUpdateWithoutInvoicesInput, TenantUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<TenantCreateWithoutInvoicesInput, TenantUncheckedCreateWithoutInvoicesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutInvoicesInput, TenantUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type TenantUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutInvoiceInput, PaymentUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutInvoiceInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutInvoiceInput, PaymentUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutInvoiceInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type TenantCreateWithoutPaymentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPaymentsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPaymentsInput, TenantUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type InvoiceCreateWithoutPaymentsInput = {
+    id?: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    tenantId: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutPaymentsInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type TenantUpsertWithoutPaymentsInput = {
+    update: XOR<TenantUpdateWithoutPaymentsInput, TenantUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<TenantCreateWithoutPaymentsInput, TenantUncheckedCreateWithoutPaymentsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPaymentsInput, TenantUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type TenantUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type InvoiceUpsertWithoutPaymentsInput = {
+    update: XOR<InvoiceUpdateWithoutPaymentsInput, InvoiceUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutPaymentsInput, InvoiceUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type InvoiceUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutPortalUsersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPortalUsersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPortalUsersInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPortalUsersInput, TenantUncheckedCreateWithoutPortalUsersInput>
+  }
+
+  export type TenantUpsertWithoutPortalUsersInput = {
+    update: XOR<TenantUpdateWithoutPortalUsersInput, TenantUncheckedUpdateWithoutPortalUsersInput>
+    create: XOR<TenantCreateWithoutPortalUsersInput, TenantUncheckedCreateWithoutPortalUsersInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPortalUsersInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPortalUsersInput, TenantUncheckedUpdateWithoutPortalUsersInput>
+  }
+
+  export type TenantUpdateWithoutPortalUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPortalUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -141738,6 +148936,46 @@ export namespace Prisma {
     status?: $Enums.NcrStatus
     resolution?: string | null
     resolvedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceCreateManyTenantInput = {
+    id?: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateManyTenantInput = {
+    id?: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type PortalUserCreateManyTenantInput = {
+    id?: string
+    accountId: string
+    idpSubject: string
+    displayName: string
+    email?: string | null
+    status?: $Enums.PortalUserStatus
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -143789,6 +151027,128 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InvoiceUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice?: InvoiceUpdateOneRequiredWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PortalUserUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    idpSubject?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPortalUserStatusFieldUpdateOperationsInput | $Enums.PortalUserStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PortalUserUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    idpSubject?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPortalUserStatusFieldUpdateOperationsInput | $Enums.PortalUserStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PortalUserUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    idpSubject?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPortalUserStatusFieldUpdateOperationsInput | $Enums.PortalUserStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -144933,6 +152293,50 @@ export namespace Prisma {
     requirement?: StringFieldUpdateOperationsInput | string
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentCreateManyInvoiceInput = {
+    id?: string
+    tenantId: string
+    paymentNumber: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type PaymentUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

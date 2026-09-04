@@ -949,6 +949,49 @@ exports.Prisma.NcrScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  invoiceNumber: 'invoiceNumber',
+  invoiceType: 'invoiceType',
+  partyRefId: 'partyRefId',
+  orderRefId: 'orderRefId',
+  currency: 'currency',
+  total: 'total',
+  paidAmount: 'paidAmount',
+  status: 'status',
+  issuedAt: 'issuedAt',
+  dueAt: 'dueAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  paymentNumber: 'paymentNumber',
+  invoiceId: 'invoiceId',
+  amount: 'amount',
+  currency: 'currency',
+  reference: 'reference',
+  receivedAt: 'receivedAt',
+  createdBy: 'createdBy'
+};
+
+exports.Prisma.PortalUserScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  accountId: 'accountId',
+  idpSubject: 'idpSubject',
+  displayName: 'displayName',
+  email: 'email',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1231,6 +1274,23 @@ exports.NcrStatus = exports.$Enums.NcrStatus = {
   RESOLVED: 'RESOLVED'
 };
 
+exports.InvoiceType = exports.$Enums.InvoiceType = {
+  CUSTOMER: 'CUSTOMER',
+  SUPPLIER: 'SUPPLIER'
+};
+
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  OPEN: 'OPEN',
+  PARTIALLY_PAID: 'PARTIALLY_PAID',
+  PAID: 'PAID',
+  VOID: 'VOID'
+};
+
+exports.PortalUserStatus = exports.$Enums.PortalUserStatus = {
+  ACTIVE: 'ACTIVE',
+  DISABLED: 'DISABLED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1302,7 +1362,10 @@ exports.Prisma.ModelName = {
   QcPlanItem: 'QcPlanItem',
   QcInspection: 'QcInspection',
   QcInspectionItem: 'QcInspectionItem',
-  Ncr: 'Ncr'
+  Ncr: 'Ncr',
+  Invoice: 'Invoice',
+  Payment: 'Payment',
+  PortalUser: 'PortalUser'
 };
 
 /**
