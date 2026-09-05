@@ -94,6 +94,7 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'finance.pay',
   'analytics.read',
   'portal.manage',
+  'finance.manage',
   'collab.use',
   'search.read',
 ];

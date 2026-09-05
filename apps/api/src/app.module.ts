@@ -22,7 +22,7 @@ import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { MesService } from '@nexora/domain-mes';
 import { QualityService } from '@nexora/domain-qc';
-import { FinanceService } from '@nexora/domain-fin';
+import { FinanceService, TreasuryService } from '@nexora/domain-fin';
 import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
@@ -77,7 +77,12 @@ import {
   QcPlansController,
   QUALITY_SERVICE,
 } from './qc/qc.controller';
-import { FINANCE_SERVICE, FinanceController } from './fin/fin.controller';
+import {
+  FINANCE_SERVICE,
+  TREASURY_SERVICE,
+  TreasuryController,
+  FinanceController,
+} from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
 import { PORTAL_SERVICE, PortalController, PortalUsersController } from './b2b/b2b.controller';
 import {
@@ -174,6 +179,7 @@ export const REDIS = 'REDIS';
     QcInspectionsController,
     NcrsController,
     FinanceController,
+    TreasuryController,
     AnalyticsController,
     PortalUsersController,
     PortalController,
@@ -455,6 +461,11 @@ export const REDIS = 'REDIS';
     {
       provide: FINANCE_SERVICE,
       useFactory: (prisma: PrismaClient) => new FinanceService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: TREASURY_SERVICE,
+      useFactory: (prisma: PrismaClient) => new TreasuryService(prisma),
       inject: [PRISMA],
     },
     {

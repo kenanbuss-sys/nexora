@@ -8,3 +8,10 @@ export {
   type PaymentView,
   type PnlView,
 } from './finance.service';
+export {
+  TreasuryService,
+  type AgingBucketRow,
+  type BudgetRow,
+  type CashflowRow,
+  type CostCenterView,
+} from './treasury.service';

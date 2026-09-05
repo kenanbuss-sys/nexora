@@ -54,6 +54,44 @@ const INVOICE_BADGE: Record<InvoiceView['status'], string> = {
   VOID: '',
 };
 
+interface AgingBucketRow {
+  bucket: string;
+  count: number;
+  amount: string;
+}
+
+interface CashflowRow {
+  month: string;
+  cashIn: string;
+  cashOut: string;
+  net: string;
+}
+
+interface CostCenterView {
+  id: string;
+  code: string;
+  name: string;
+  active: boolean;
+}
+
+interface BudgetRow {
+  costCenterId: string;
+  costCenterCode: string;
+  costCenterName: string;
+  budget: string;
+  actual: string;
+  remaining: string;
+  currency: string;
+}
+
+const BUCKET_LABEL: Record<string, string> = {
+  NOT_DUE: 'Not due',
+  D0_30: '1–30 days',
+  D31_60: '31–60 days',
+  D61_90: '61–90 days',
+  D90_PLUS: '90+ days',
+};
+
 export default function FinancePage() {
   const { can } = useApp();
   const [invoices, setInvoices] = useState<InvoiceView[] | null>(null);
@@ -69,6 +107,16 @@ export default function FinancePage() {
   const [invoicePo, setInvoicePo] = useState('');
   const [payInvoice, setPayInvoice] = useState('');
   const [payAmount, setPayAmount] = useState('');
+  const [agingType, setAgingType] = useState<'CUSTOMER' | 'SUPPLIER'>('CUSTOMER');
+  const [aging, setAging] = useState<{ buckets: AgingBucketRow[]; totalOpen: string } | null>(null);
+  const [cashflow, setCashflow] = useState<CashflowRow[]>([]);
+  const [costCenters, setCostCenters] = useState<CostCenterView[]>([]);
+  const [budgetRows, setBudgetRows] = useState<BudgetRow[]>([]);
+  const [budgetPeriod, setBudgetPeriod] = useState(new Date().toISOString().slice(0, 7));
+  const [ccCode, setCcCode] = useState('');
+  const [ccName, setCcName] = useState('');
+  const [budgetCc, setBudgetCc] = useState('');
+  const [budgetAmount, setBudgetAmount] = useState('');
 
   const load = useCallback(() => {
     api<{ invoices: InvoiceView[] }>('GET', '/api/v1/finance/invoices')
@@ -93,6 +141,12 @@ export default function FinancePage() {
         ),
       )
       .catch(() => setPos([]));
+    api<{ rows: CashflowRow[] }>('GET', '/api/v1/finance/cashflow?months=6')
+      .then((r) => setCashflow(r.rows))
+      .catch(() => setCashflow([]));
+    api<{ costCenters: CostCenterView[] }>('GET', '/api/v1/finance/cost-centers')
+      .then((r) => setCostCenters(r.costCenters))
+      .catch(() => setCostCenters([]));
     // eslint-disable-next-line
   }, []);
 
@@ -100,6 +154,22 @@ export default function FinancePage() {
     load();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    api<{ buckets: AgingBucketRow[]; totalOpen: string }>(
+      'GET',
+      `/api/v1/finance/aging?type=${agingType}`,
+    )
+      .then(setAging)
+      .catch(() => setAging(null));
+  }, [agingType, invoices]);
+
+  useEffect(() => {
+    api<{ rows: BudgetRow[] }>('GET', `/api/v1/finance/budgets?period=${budgetPeriod}`)
+      .then((r) => setBudgetRows(r.rows))
+      .catch(() => setBudgetRows([]));
+    // eslint-disable-next-line
+  }, [budgetPeriod, notice]);
 
   async function run(fn: () => Promise<unknown>, successText: string | null) {
     setBusy(true);
@@ -288,6 +358,33 @@ export default function FinancePage() {
                   {i.status.replace('_', ' ')}
                 </span>
               </div>
+              {i.invoiceType === 'SUPPLIER' && can('finance.manage') && costCenters.length > 0 ? (
+                <div className="row" style={{ marginTop: 6 }}>
+                  <select
+                    className="select"
+                    style={{ maxWidth: 220, fontSize: 12 }}
+                    defaultValue=""
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        void run(
+                          () =>
+                            api('POST', `/api/v1/finance/invoices/${i.id}/cost-center`, {
+                              costCenterId: e.target.value,
+                            }),
+                          'Invoice assigned to the cost center.',
+                        );
+                      }
+                    }}
+                  >
+                    <option value="">Assign to cost center…</option>
+                    {costCenters.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.code} — {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
               {['OPEN', 'PARTIALLY_PAID'].includes(i.status) && can('finance.pay') ? (
                 <div className="row" style={{ marginTop: 8 }}>
                   <input
@@ -334,6 +431,209 @@ export default function FinancePage() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="grid-2" style={{ marginTop: 16 }}>
+        <div className="card">
+          <div className="spread">
+            <h2>Aging</h2>
+            <select
+              className="select"
+              style={{ maxWidth: 160 }}
+              value={agingType}
+              onChange={(e) => setAgingType(e.target.value as 'CUSTOMER' | 'SUPPLIER')}
+            >
+              <option value="CUSTOMER">Receivables (AR)</option>
+              <option value="SUPPLIER">Payables (AP)</option>
+            </select>
+          </div>
+          {aging === null ? <div className="loading">Loading aging…</div> : null}
+          {aging ? (
+            <>
+              <table className="table">
+                <tbody>
+                  {aging.buckets.map((b) => (
+                    <tr key={b.bucket}>
+                      <td>{BUCKET_LABEL[b.bucket] ?? b.bucket}</td>
+                      <td>{b.count} inv.</td>
+                      <td style={{ textAlign: 'right' }} className="mono">
+                        {b.amount}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="muted" style={{ fontSize: 13, marginTop: 6 }}>
+                Total open: <strong className="mono">{aging.totalOpen}</strong>
+              </div>
+            </>
+          ) : null}
+        </div>
+
+        <div className="card">
+          <h2>Cash flow (6 months)</h2>
+          {cashflow.length === 0 ? <div className="empty">No matched payments yet.</div> : null}
+          {cashflow.length > 0 ? (
+            <table className="table">
+              <tbody>
+                {cashflow.map((r) => (
+                  <tr key={r.month}>
+                    <td className="mono">{r.month}</td>
+                    <td className="mono" style={{ color: 'var(--color-ok, #15803d)' }}>
+                      +{r.cashIn}
+                    </td>
+                    <td className="mono" style={{ color: 'var(--color-danger, #b91c1c)' }}>
+                      −{r.cashOut}
+                    </td>
+                    <td className="mono" style={{ textAlign: 'right' }}>
+                      {r.net}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="card" style={{ marginTop: 16 }}>
+        <div className="spread">
+          <h2>Cost centers &amp; budgets</h2>
+          <input
+            className="input mono"
+            style={{ maxWidth: 110 }}
+            value={budgetPeriod}
+            onChange={(e) => setBudgetPeriod(e.target.value)}
+            title="Period (YYYY-MM)"
+          />
+        </div>
+        {budgetRows.length === 0 ? (
+          <div className="empty">No budgets for this period yet.</div>
+        ) : (
+          <table className="table">
+            <tbody>
+              {budgetRows.map((r) => {
+                const spent = Number(r.budget) > 0 ? Number(r.actual) / Number(r.budget) : 0;
+                return (
+                  <tr key={r.costCenterId}>
+                    <td>
+                      <span className="mono">{r.costCenterCode}</span> {r.costCenterName}
+                    </td>
+                    <td className="mono">
+                      {r.actual} / {r.budget} {r.currency}
+                    </td>
+                    <td style={{ width: 160 }}>
+                      <div
+                        style={{
+                          background: 'var(--color-border)',
+                          borderRadius: 6,
+                          height: 8,
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: `${Math.min(spent * 100, 100)}%`,
+                            height: '100%',
+                            background:
+                              spent > 1
+                                ? 'var(--color-danger, #b91c1c)'
+                                : 'var(--color-accent, #2563eb)',
+                          }}
+                        />
+                      </div>
+                    </td>
+                    <td
+                      className="mono"
+                      style={{
+                        textAlign: 'right',
+                        color: Number(r.remaining) < 0 ? 'var(--color-danger, #b91c1c)' : undefined,
+                      }}
+                    >
+                      {r.remaining}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+        {can('finance.manage') ? (
+          <div className="row" style={{ marginTop: 10, flexWrap: 'wrap' }}>
+            <input
+              className="input mono"
+              style={{ maxWidth: 90 }}
+              placeholder="Code"
+              value={ccCode}
+              onChange={(e) => setCcCode(e.target.value)}
+            />
+            <input
+              className="input"
+              style={{ maxWidth: 160 }}
+              placeholder="Cost center name"
+              value={ccName}
+              onChange={(e) => setCcName(e.target.value)}
+            />
+            <button
+              className="btn btn-sm"
+              disabled={busy || !ccCode || !ccName}
+              onClick={() =>
+                run(
+                  () => api('POST', '/api/v1/finance/cost-centers', { code: ccCode, name: ccName }),
+                  'Cost center created.',
+                ).then(() => {
+                  setCcCode('');
+                  setCcName('');
+                })
+              }
+              type="button"
+            >
+              Add cost center
+            </button>
+            <select
+              className="select"
+              style={{ maxWidth: 170 }}
+              value={budgetCc}
+              onChange={(e) => setBudgetCc(e.target.value)}
+            >
+              <option value="">Cost center…</option>
+              {costCenters.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.code} — {c.name}
+                </option>
+              ))}
+            </select>
+            <input
+              className="input"
+              style={{ maxWidth: 110 }}
+              type="number"
+              min="0"
+              step="any"
+              placeholder="Budget"
+              value={budgetAmount}
+              onChange={(e) => setBudgetAmount(e.target.value)}
+            />
+            <button
+              className="btn btn-sm btn-primary"
+              disabled={busy || !budgetCc || budgetAmount === ''}
+              onClick={() =>
+                run(
+                  () =>
+                    api('POST', '/api/v1/finance/budgets', {
+                      costCenterId: budgetCc,
+                      periodKey: budgetPeriod,
+                      amount: Number(budgetAmount),
+                      currency: 'EUR',
+                    }),
+                  'Budget set for the period.',
+                ).then(() => setBudgetAmount(''))
+              }
+              type="button"
+            >
+              Set budget
+            </button>
+          </div>
+        ) : null}
       </div>
     </main>
   );
