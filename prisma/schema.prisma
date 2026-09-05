@@ -125,6 +125,8 @@ model Tenant {
   skuSubstitutions      SkuSubstitution[]
   packagingLevels       PackagingLevel[]
   territories           Territory[]
+  salesTeams            SalesTeam[]
+  salesTeamMembers      SalesTeamMember[]
 
   @@map("tenant")
 }
@@ -1028,12 +1030,44 @@ model Territory {
   code        String
   name        String
   ownerUserId String?  @map("owner_user_id") @db.Uuid
+  /// Sprint 046: the sales team covering this territory.
+  teamId      String?  @map("team_id") @db.Uuid
   createdAt   DateTime @default(now()) @map("created_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
   @@unique([tenantId, code])
   @@map("territory")
+}
+
+/// Sales teams (CRM): named selling units with members; a territory can
+/// be covered by a team.
+model SalesTeam {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  code      String
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant  Tenant            @relation(fields: [tenantId], references: [id])
+  members SalesTeamMember[]
+
+  @@unique([tenantId, code])
+  @@map("sales_team")
+}
+
+model SalesTeamMember {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  teamId    String   @map("team_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant Tenant    @relation(fields: [tenantId], references: [id])
+  team   SalesTeam @relation(fields: [teamId], references: [id])
+
+  @@unique([tenantId, teamId, userId])
+  @@map("sales_team_member")
 }
 
 /// Commercial customer profile (CRM-002). Identity stays in MDM (partyId);
