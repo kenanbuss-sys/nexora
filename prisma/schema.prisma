@@ -703,14 +703,18 @@ model Product {
 }
 
 model Sku {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId  String    @map("tenant_id") @db.Uuid
-  productId String    @map("product_id") @db.Uuid
-  code      String
-  name      String
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String    @map("tenant_id") @db.Uuid
+  productId     String    @map("product_id") @db.Uuid
+  code          String
+  name          String
   /// Base unit of measure; cannot casually change once transactions exist.
-  baseUom   String    @map("base_uom")
-  status    SkuStatus @default(DRAFT)
+  baseUom       String    @map("base_uom")
+  /// Sprint 022 (PIM-010/012): lot policy — lot-tracked SKUs demand a
+  /// lot on every inbound movement; shelf life derives expiry.
+  lotTracked    Boolean   @default(false) @map("lot_tracked")
+  shelfLifeDays Int?      @map("shelf_life_days")
+  status        SkuStatus @default(DRAFT)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
 
@@ -802,6 +806,9 @@ model StockMovement {
   reason         String?
   /// Business idempotency key: duplicate submissions produce one stock effect.
   idempotencyKey String            @map("idempotency_key")
+  /// Sprint 022 (WMS-017/019): lot dimension on the ledger.
+  lotNumber      String?           @map("lot_number")
+  expiresAt      DateTime?         @map("expires_at")
   occurredAt     DateTime          @default(now()) @map("occurred_at")
   createdBy      String?           @map("created_by")
 
@@ -809,6 +816,7 @@ model StockMovement {
 
   @@unique([tenantId, idempotencyKey])
   @@index([tenantId, warehouseId, skuId])
+  @@index([tenantId, skuId, lotNumber])
   @@map("stock_movement")
 }
 
