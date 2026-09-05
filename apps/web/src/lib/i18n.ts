@@ -486,6 +486,13 @@ export const BS: Record<string, string> = {
   Pair: 'Par',
   Rate: 'Kurs',
   'Valid from': 'Vrijedi od',
+  Consents: 'Privole',
+  'Consents (GDPR)': 'Privole (GDPR)',
+  'not asked': 'nije pitano',
+  granted: 'data',
+  revoked: 'povučena',
+  'Consent recorded.': 'Privola zabilježena.',
+  'Revocation recorded.': 'Povlačenje zabilježeno.',
   'Enter the 6-digit code from your authenticator app.':
     'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };

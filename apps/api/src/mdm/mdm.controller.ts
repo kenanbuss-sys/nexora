@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { DataQualityService, PartyService } from '@nexora/domain-mdm';
+import type { ConsentService, DataQualityService, PartyService } from '@nexora/domain-mdm';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,7 +8,13 @@ import { parseBody } from '../common/validate';
 
 export const PARTY_SERVICE = 'PARTY_SERVICE';
 export const DATA_QUALITY_SERVICE = 'DATA_QUALITY_SERVICE';
+export const CONSENT_SERVICE = 'CONSENT_SERVICE';
 
+const consentSchema = z.object({
+  channel: z.enum(['EMAIL', 'PHONE', 'SMS', 'POST']),
+  granted: z.boolean(),
+  note: z.string().max(300).optional(),
+});
 const createPartySchema = z.object({
   partyType: z.enum(['PERSON', 'ORGANIZATION']),
   name: z.string().min(1).max(300),
@@ -30,7 +36,24 @@ export class PartiesController {
   constructor(
     @Inject(PARTY_SERVICE) private readonly parties: PartyService,
     @Inject(DATA_QUALITY_SERVICE) private readonly quality: DataQualityService,
+    @Inject(CONSENT_SERVICE) private readonly consents: ConsentService,
   ) {}
+
+  @Get(':id/consents')
+  @RequirePermission('mdm.read')
+  async listConsents(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.consents.consents(id, ctx);
+  }
+
+  @Post(':id/consents')
+  @RequirePermission('mdm.steward')
+  async recordConsent(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(consentSchema, body);
+    return this.consents.record(
+      { partyId: id, channel: input.channel, granted: input.granted, note: input.note },
+      ctx,
+    );
+  }
 
   /** Live data-quality report over master data (MDM stewardship). */
   @Get('quality')

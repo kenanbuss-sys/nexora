@@ -23,6 +23,20 @@ export default function PartiesPage() {
   const { can } = useApp();
   const [query, setQuery] = useState('');
   const [parties, setParties] = useState<PartyView[] | null>(null);
+  const [consentParty, setConsentParty] = useState<string | null>(null);
+  const [consents, setConsents] = useState<Array<{
+    channel: string;
+    granted: boolean | null;
+    recordedAt: string | null;
+  }> | null>(null);
+
+  function loadConsents(partyId: string) {
+    api<{
+      current: Array<{ channel: string; granted: boolean | null; recordedAt: string | null }>;
+    }>('GET', `/api/v1/parties/${partyId}/consents`)
+      .then((r) => setConsents(r.current))
+      .catch(() => setConsents([]));
+  }
   const [duplicates, setDuplicates] = useState<DuplicateGroup[] | null>(null);
   const [quality, setQuality] = useState<{
     checks: Array<{ key: string; label: string; count: number; samples: string[] }>;
@@ -62,6 +76,20 @@ export default function PartiesPage() {
       .then(setQuality)
       .catch(() => setQuality(null));
   }, []);
+
+  async function run(fn: () => Promise<unknown>, successText: string) {
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    try {
+      await fn();
+      setNotice(successText);
+    } catch (e: unknown) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function createParty(e: React.FormEvent) {
     e.preventDefault();
@@ -136,6 +164,7 @@ export default function PartiesPage() {
                   <th>Type</th>
                   <th>Email</th>
                   <th>Tax ID</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -147,10 +176,88 @@ export default function PartiesPage() {
                     </td>
                     <td>{p.email ?? '—'}</td>
                     <td className="mono">{p.taxId ?? '—'}</td>
+                    <td style={{ textAlign: 'right' }}>
+                      <button
+                        className="btn btn-sm"
+                        type="button"
+                        onClick={() => {
+                          if (consentParty === p.id) {
+                            setConsentParty(null);
+                            setConsents(null);
+                          } else {
+                            setConsentParty(p.id);
+                            setConsents(null);
+                            loadConsents(p.id);
+                          }
+                        }}
+                      >
+                        Consents
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          ) : null}
+
+          {consentParty && consents ? (
+            <div
+              style={{ marginTop: 12, borderTop: '1px solid var(--color-border)', paddingTop: 12 }}
+            >
+              <strong>Consents (GDPR)</strong>
+              <div className="row" style={{ marginTop: 8, flexWrap: 'wrap', gap: 10 }}>
+                {consents.map((c) => (
+                  <div key={c.channel} className="row" style={{ gap: 6 }}>
+                    <span className="mono" style={{ fontSize: 12 }}>
+                      {c.channel}
+                    </span>
+                    <span
+                      className={`badge ${
+                        c.granted === null ? '' : c.granted ? 'badge-ok' : 'badge-danger'
+                      }`}
+                    >
+                      {c.granted === null ? 'not asked' : c.granted ? 'granted' : 'revoked'}
+                    </span>
+                    {can('mdm.steward') ? (
+                      <>
+                        <button
+                          className="btn btn-sm"
+                          type="button"
+                          disabled={busy}
+                          onClick={() =>
+                            void run(async () => {
+                              await api('POST', `/api/v1/parties/${consentParty}/consents`, {
+                                channel: c.channel,
+                                granted: true,
+                              });
+                              loadConsents(consentParty);
+                            }, 'Consent recorded.')
+                          }
+                        >
+                          ✓
+                        </button>
+                        <button
+                          className="btn btn-sm"
+                          type="button"
+                          disabled={busy}
+                          onClick={() =>
+                            void run(async () => {
+                              await api('POST', `/api/v1/parties/${consentParty}/consents`, {
+                                channel: c.channel,
+                                granted: false,
+                              });
+                              loadConsents(consentParty);
+                            }, 'Revocation recorded.')
+                          }
+                        >
+                          ×
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : null}
         </div>
 

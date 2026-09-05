@@ -53,7 +53,7 @@ CRM-007,CRM,Sales teams,P1,DONE,R1,,,"Team master (uppercased unique codes), aud
 CRM-008,CRM,Credit profile,P1,DONE,R1,,,Credit profile with server-side enforcement on order confirm (Sprint 017)
 CRM-009,CRM,Segmentation,P1,DONE,R1,,,"Segmentation tags, validated and audited (Sprint 017)"
 CRM-010,CRM,Interaction timeline,Implemented (Sprint 006),PLANNED,R1,,,"Interaction timeline (activities, newest first)"
-CRM-011,CRM,Consent/preferences,P1,PLANNED,R1,,,
+CRM-011,CRM,Consent/preferences,P1,DONE,R1,,,"Append-only consent records per party and channel (EMAIL/PHONE/SMS/POST), latest-wins state, full trail with recorder; Parties UI (Sprint 048, MDM-owned)"
 CRM-012,CRM,Customer onboarding,P1,PLANNED,R1,,,
 PIM-001,PIM,Products/SKUs,P1,Implemented (Sprint 003),R1,,,Products/SKUs with lifecycle + events
 PIM-002,PIM,Variants,P1,DONE,R1,,,Variant axes + combination generator (Sprint 025)
