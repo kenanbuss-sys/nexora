@@ -116,6 +116,8 @@ model Tenant {
   productCategories     ProductCategory[]
   returnOrders          ReturnOrder[]
   returnOrderLines      ReturnOrderLine[]
+  stockCounts           StockCount[]
+  stockCountLines       StockCountLine[]
 
   @@map("tenant")
 }
@@ -2153,4 +2155,54 @@ model ReturnOrderLine {
 
   @@index([tenantId, returnId])
   @@map("return_order_line")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 030 — Stock counting (WMS-015) with adjustment governance
+// (WMS-016): variances post as governed, idempotent ledger adjustments,
+// and the person who created a count cannot post it.
+// ---------------------------------------------------------------------------
+
+enum StockCountStatus {
+  OPEN
+  POSTED
+  CANCELLED
+}
+
+model StockCount {
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String           @map("tenant_id") @db.Uuid
+  countNumber String           @map("count_number")
+  warehouseId String           @map("warehouse_id") @db.Uuid
+  status      StockCountStatus @default(OPEN)
+  note        String?
+  createdBy   String?          @map("created_by")
+  postedBy    String?          @map("posted_by")
+  postedAt    DateTime?        @map("posted_at")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  tenant Tenant           @relation(fields: [tenantId], references: [id])
+  lines  StockCountLine[]
+
+  @@unique([tenantId, countNumber])
+  @@index([tenantId, status])
+  @@map("stock_count")
+}
+
+model StockCountLine {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String  @map("tenant_id") @db.Uuid
+  countId     String  @map("count_id") @db.Uuid
+  skuId       String  @map("sku_id") @db.Uuid
+  /// On-hand snapshot at the moment the line was added.
+  expectedQty Decimal @map("expected_qty") @db.Decimal(18, 6)
+  countedQty  Decimal @map("counted_qty") @db.Decimal(18, 6)
+
+  tenant Tenant     @relation(fields: [tenantId], references: [id])
+  count  StockCount @relation(fields: [countId], references: [id])
+
+  @@unique([countId, skuId])
+  @@index([tenantId, countId])
+  @@map("stock_count_line")
 }
