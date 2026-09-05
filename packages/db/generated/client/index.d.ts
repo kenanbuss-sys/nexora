@@ -49687,10 +49687,18 @@ export namespace Prisma {
 
   export type SkuAvgAggregateOutputType = {
     shelfLifeDays: number | null
+    weightKg: Decimal | null
+    lengthCm: Decimal | null
+    widthCm: Decimal | null
+    heightCm: Decimal | null
   }
 
   export type SkuSumAggregateOutputType = {
     shelfLifeDays: number | null
+    weightKg: Decimal | null
+    lengthCm: Decimal | null
+    widthCm: Decimal | null
+    heightCm: Decimal | null
   }
 
   export type SkuMinAggregateOutputType = {
@@ -49702,6 +49710,10 @@ export namespace Prisma {
     baseUom: string | null
     lotTracked: boolean | null
     shelfLifeDays: number | null
+    weightKg: Decimal | null
+    lengthCm: Decimal | null
+    widthCm: Decimal | null
+    heightCm: Decimal | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -49716,6 +49728,10 @@ export namespace Prisma {
     baseUom: string | null
     lotTracked: boolean | null
     shelfLifeDays: number | null
+    weightKg: Decimal | null
+    lengthCm: Decimal | null
+    widthCm: Decimal | null
+    heightCm: Decimal | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -49731,6 +49747,10 @@ export namespace Prisma {
     lotTracked: number
     shelfLifeDays: number
     variantValues: number
+    weightKg: number
+    lengthCm: number
+    widthCm: number
+    heightCm: number
     status: number
     createdAt: number
     updatedAt: number
@@ -49740,10 +49760,18 @@ export namespace Prisma {
 
   export type SkuAvgAggregateInputType = {
     shelfLifeDays?: true
+    weightKg?: true
+    lengthCm?: true
+    widthCm?: true
+    heightCm?: true
   }
 
   export type SkuSumAggregateInputType = {
     shelfLifeDays?: true
+    weightKg?: true
+    lengthCm?: true
+    widthCm?: true
+    heightCm?: true
   }
 
   export type SkuMinAggregateInputType = {
@@ -49755,6 +49783,10 @@ export namespace Prisma {
     baseUom?: true
     lotTracked?: true
     shelfLifeDays?: true
+    weightKg?: true
+    lengthCm?: true
+    widthCm?: true
+    heightCm?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -49769,6 +49801,10 @@ export namespace Prisma {
     baseUom?: true
     lotTracked?: true
     shelfLifeDays?: true
+    weightKg?: true
+    lengthCm?: true
+    widthCm?: true
+    heightCm?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -49784,6 +49820,10 @@ export namespace Prisma {
     lotTracked?: true
     shelfLifeDays?: true
     variantValues?: true
+    weightKg?: true
+    lengthCm?: true
+    widthCm?: true
+    heightCm?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -49886,6 +49926,10 @@ export namespace Prisma {
     lotTracked: boolean
     shelfLifeDays: number | null
     variantValues: JsonValue | null
+    weightKg: Decimal | null
+    lengthCm: Decimal | null
+    widthCm: Decimal | null
+    heightCm: Decimal | null
     status: $Enums.SkuStatus
     createdAt: Date
     updatedAt: Date
@@ -49920,6 +49964,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: boolean
     variantValues?: boolean
+    weightKg?: boolean
+    lengthCm?: boolean
+    widthCm?: boolean
+    heightCm?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -49940,6 +49988,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: boolean
     variantValues?: boolean
+    weightKg?: boolean
+    lengthCm?: boolean
+    widthCm?: boolean
+    heightCm?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -49956,6 +50008,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: boolean
     variantValues?: boolean
+    weightKg?: boolean
+    lengthCm?: boolean
+    widthCm?: boolean
+    heightCm?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -49972,12 +50028,16 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: boolean
     variantValues?: boolean
+    weightKg?: boolean
+    lengthCm?: boolean
+    widthCm?: boolean
+    heightCm?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "variantValues" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
+  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "variantValues" | "weightKg" | "lengthCm" | "widthCm" | "heightCm" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
   export type SkuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     barcodes?: boolean | Sku$barcodesArgs<ExtArgs>
@@ -50020,6 +50080,13 @@ export namespace Prisma {
        * Sprint 025 (PIM-002): variant coordinates, e.g. {"color":"red"}.
        */
       variantValues: Prisma.JsonValue | null
+      /**
+       * Sprint 049 (PIM-009): logistics data per base unit.
+       */
+      weightKg: Prisma.Decimal | null
+      lengthCm: Prisma.Decimal | null
+      widthCm: Prisma.Decimal | null
+      heightCm: Prisma.Decimal | null
       status: $Enums.SkuStatus
       createdAt: Date
       updatedAt: Date
@@ -50459,6 +50526,10 @@ export namespace Prisma {
     readonly lotTracked: FieldRef<"Sku", 'Boolean'>
     readonly shelfLifeDays: FieldRef<"Sku", 'Int'>
     readonly variantValues: FieldRef<"Sku", 'Json'>
+    readonly weightKg: FieldRef<"Sku", 'Decimal'>
+    readonly lengthCm: FieldRef<"Sku", 'Decimal'>
+    readonly widthCm: FieldRef<"Sku", 'Decimal'>
+    readonly heightCm: FieldRef<"Sku", 'Decimal'>
     readonly status: FieldRef<"Sku", 'SkuStatus'>
     readonly createdAt: FieldRef<"Sku", 'DateTime'>
     readonly updatedAt: FieldRef<"Sku", 'DateTime'>
@@ -129291,6 +129362,10 @@ export namespace Prisma {
     lotTracked: 'lotTracked',
     shelfLifeDays: 'shelfLifeDays',
     variantValues: 'variantValues',
+    weightKg: 'weightKg',
+    lengthCm: 'lengthCm',
+    widthCm: 'widthCm',
+    heightCm: 'heightCm',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -130621,20 +130696,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'SkuStatus'
-   */
-  export type EnumSkuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SkuStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'SkuStatus[]'
-   */
-  export type ListEnumSkuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SkuStatus[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Decimal'
    */
   export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -130645,6 +130706,20 @@ export namespace Prisma {
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SkuStatus'
+   */
+  export type EnumSkuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SkuStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SkuStatus[]'
+   */
+  export type ListEnumSkuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SkuStatus[]'>
     
 
 
@@ -133650,6 +133725,10 @@ export namespace Prisma {
     lotTracked?: BoolFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
     variantValues?: JsonNullableFilter<"Sku">
+    weightKg?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -133669,6 +133748,10 @@ export namespace Prisma {
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrderInput | SortOrder
     variantValues?: SortOrderInput | SortOrder
+    weightKg?: SortOrderInput | SortOrder
+    lengthCm?: SortOrderInput | SortOrder
+    widthCm?: SortOrderInput | SortOrder
+    heightCm?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -133692,6 +133775,10 @@ export namespace Prisma {
     lotTracked?: BoolFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
     variantValues?: JsonNullableFilter<"Sku">
+    weightKg?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -133711,6 +133798,10 @@ export namespace Prisma {
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrderInput | SortOrder
     variantValues?: SortOrderInput | SortOrder
+    weightKg?: SortOrderInput | SortOrder
+    lengthCm?: SortOrderInput | SortOrder
+    widthCm?: SortOrderInput | SortOrder
+    heightCm?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -133734,6 +133825,10 @@ export namespace Prisma {
     lotTracked?: BoolWithAggregatesFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableWithAggregatesFilter<"Sku"> | number | null
     variantValues?: JsonNullableWithAggregatesFilter<"Sku">
+    weightKg?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    widthCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    heightCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusWithAggregatesFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
@@ -141842,6 +141937,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -141861,6 +141960,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -141878,6 +141981,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -141897,6 +142004,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -141915,6 +142026,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -141929,6 +142044,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -141944,6 +142063,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -150411,6 +150534,17 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type EnumSkuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -150458,6 +150592,10 @@ export namespace Prisma {
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrder
     variantValues?: SortOrder
+    weightKg?: SortOrder
+    lengthCm?: SortOrder
+    widthCm?: SortOrder
+    heightCm?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -150465,6 +150603,10 @@ export namespace Prisma {
 
   export type SkuAvgOrderByAggregateInput = {
     shelfLifeDays?: SortOrder
+    weightKg?: SortOrder
+    lengthCm?: SortOrder
+    widthCm?: SortOrder
+    heightCm?: SortOrder
   }
 
   export type SkuMaxOrderByAggregateInput = {
@@ -150476,6 +150618,10 @@ export namespace Prisma {
     baseUom?: SortOrder
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrder
+    weightKg?: SortOrder
+    lengthCm?: SortOrder
+    widthCm?: SortOrder
+    heightCm?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -150490,6 +150636,10 @@ export namespace Prisma {
     baseUom?: SortOrder
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrder
+    weightKg?: SortOrder
+    lengthCm?: SortOrder
+    widthCm?: SortOrder
+    heightCm?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -150497,6 +150647,10 @@ export namespace Prisma {
 
   export type SkuSumOrderByAggregateInput = {
     shelfLifeDays?: SortOrder
+    weightKg?: SortOrder
+    lengthCm?: SortOrder
+    widthCm?: SortOrder
+    heightCm?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -150513,6 +150667,22 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type EnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -151201,17 +151371,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type DecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
   export type EnumCrmAccountStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CrmAccountStatus | EnumCrmAccountStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CrmAccountStatus[] | ListEnumCrmAccountStatusFieldRefInput<$PrismaModel>
@@ -151283,22 +151442,6 @@ export namespace Prisma {
   export type CrmAccountSumOrderByAggregateInput = {
     creditLimit?: SortOrder
     paymentTermsDays?: SortOrder
-  }
-
-  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type EnumCrmAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -159542,6 +159685,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type EnumSkuStatusFieldUpdateOperationsInput = {
     set?: $Enums.SkuStatus
   }
@@ -160018,14 +160169,6 @@ export namespace Prisma {
     create?: XOR<TenantCreateWithoutCrmAccountsInput, TenantUncheckedCreateWithoutCrmAccountsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutCrmAccountsInput
     connect?: TenantWhereUniqueInput
-  }
-
-  export type NullableDecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string | null
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type CrmAccountUpdatetagsInput = {
@@ -162495,6 +162638,17 @@ export namespace Prisma {
     _max?: NestedEnumProductStatusFilter<$PrismaModel>
   }
 
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type NestedEnumSkuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -162527,6 +162681,22 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -162685,38 +162855,11 @@ export namespace Prisma {
     _max?: NestedEnumWmsOrderStatusFilter<$PrismaModel>
   }
 
-  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
   export type NestedEnumCrmAccountStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CrmAccountStatus | EnumCrmAccountStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CrmAccountStatus[] | ListEnumCrmAccountStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.CrmAccountStatus[] | ListEnumCrmAccountStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumCrmAccountStatusFilter<$PrismaModel> | $Enums.CrmAccountStatus
-  }
-
-  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumCrmAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -180209,6 +180352,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -180226,6 +180373,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -180480,6 +180631,10 @@ export namespace Prisma {
     lotTracked?: BoolFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
     variantValues?: JsonNullableFilter<"Sku">
+    weightKg?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -180718,6 +180873,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -180736,6 +180895,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -180768,6 +180931,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -180786,6 +180953,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -180802,6 +180973,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -180820,6 +180995,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -180852,6 +181031,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -180870,6 +181053,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -188477,6 +188664,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -188495,6 +188686,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -188734,6 +188929,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -188752,6 +188951,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -214528,6 +214731,10 @@ export namespace Prisma {
     lotTracked?: boolean
     shelfLifeDays?: number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -214542,6 +214749,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -214559,6 +214770,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -214576,6 +214791,10 @@ export namespace Prisma {
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

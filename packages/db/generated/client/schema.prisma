@@ -789,6 +789,11 @@ model Sku {
   shelfLifeDays Int?      @map("shelf_life_days")
   /// Sprint 025 (PIM-002): variant coordinates, e.g. {"color":"red"}.
   variantValues Json?     @map("variant_values")
+  /// Sprint 049 (PIM-009): logistics data per base unit.
+  weightKg      Decimal?  @map("weight_kg") @db.Decimal(12, 3)
+  lengthCm      Decimal?  @map("length_cm") @db.Decimal(10, 1)
+  widthCm       Decimal?  @map("width_cm") @db.Decimal(10, 1)
+  heightCm      Decimal?  @map("height_cm") @db.Decimal(10, 1)
   status        SkuStatus @default(DRAFT)
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")

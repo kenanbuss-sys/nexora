@@ -464,6 +464,10 @@ exports.Prisma.SkuScalarFieldEnum = {
   lotTracked: 'lotTracked',
   shelfLifeDays: 'shelfLifeDays',
   variantValues: 'variantValues',
+  weightKg: 'weightKg',
+  lengthCm: 'lengthCm',
+  widthCm: 'widthCm',
+  heightCm: 'heightCm',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
