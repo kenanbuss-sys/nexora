@@ -52,6 +52,13 @@ export default function ProductDetailPage() {
   const [barcodeSku, setBarcodeSku] = useState('');
   const [barcodeValue, setBarcodeValue] = useState('');
   const [categories, setCategories] = useState<CategoryView[]>([]);
+  const [packSku, setPackSku] = useState('');
+  const [packName, setPackName] = useState('');
+  const [packUnits, setPackUnits] = useState('');
+  const [packBarcode, setPackBarcode] = useState('');
+  const [packs, setPacks] = useState<
+    Array<{ id: string; name: string; unitsPerPack: string; barcodeValue: string | null }>
+  >([]);
   const [subPrimary, setSubPrimary] = useState('');
   const [subAlt, setSubAlt] = useState('');
   const [subs, setSubs] = useState<Array<{ id: string; substituteCode: string; priority: number }>>(
@@ -321,6 +328,123 @@ export default function ProductDetailPage() {
               </form>
             ) : null}
           </div>
+
+          {can('product.manage') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Packaging</h2>
+              <p className="muted">
+                Pack levels above the base unit — a pack barcode scans straight to the SKU with its
+                multiplier.
+              </p>
+              <div className="row" style={{ flexWrap: 'wrap' }}>
+                <select
+                  className="select"
+                  style={{ maxWidth: 170 }}
+                  value={packSku}
+                  onChange={(e) => {
+                    const skuId = e.target.value;
+                    setPackSku(skuId);
+                    setPacks([]);
+                    if (skuId) {
+                      api<{
+                        levels: Array<{
+                          id: string;
+                          name: string;
+                          unitsPerPack: string;
+                          barcodeValue: string | null;
+                        }>;
+                      }>('GET', `/api/v1/skus/${skuId}/packaging`)
+                        .then((r) => setPacks(r.levels))
+                        .catch(() => setPacks([]));
+                    }
+                  }}
+                >
+                  <option value="">SKU…</option>
+                  {product.skus.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.code}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="input"
+                  style={{ maxWidth: 110 }}
+                  placeholder="Pack name"
+                  value={packName}
+                  onChange={(e) => setPackName(e.target.value)}
+                />
+                <input
+                  className="input"
+                  style={{ maxWidth: 80 }}
+                  type="number"
+                  min="2"
+                  step="any"
+                  placeholder="Units"
+                  value={packUnits}
+                  onChange={(e) => setPackUnits(e.target.value)}
+                />
+                <input
+                  className="input mono"
+                  style={{ maxWidth: 140 }}
+                  placeholder="Barcode (optional)"
+                  value={packBarcode}
+                  onChange={(e) => setPackBarcode(e.target.value)}
+                />
+                <button
+                  className="btn btn-sm btn-primary"
+                  disabled={busy || !packSku || !packName || !packUnits}
+                  type="button"
+                  onClick={() =>
+                    run(async () => {
+                      await api('POST', `/api/v1/skus/${packSku}/packaging`, {
+                        name: packName,
+                        unitsPerPack: Number(packUnits),
+                        ...(packBarcode.trim() ? { barcodeValue: packBarcode.trim() } : {}),
+                      });
+                      setPackName('');
+                      setPackUnits('');
+                      setPackBarcode('');
+                      const r = await api<{
+                        levels: Array<{
+                          id: string;
+                          name: string;
+                          unitsPerPack: string;
+                          barcodeValue: string | null;
+                        }>;
+                      }>('GET', `/api/v1/skus/${packSku}/packaging`);
+                      setPacks(r.levels);
+                    }, 'Pack level added.')
+                  }
+                >
+                  Add pack
+                </button>
+              </div>
+              {packs.length > 0 ? (
+                <div className="row" style={{ marginTop: 8, flexWrap: 'wrap' }}>
+                  {packs.map((pk) => (
+                    <span key={pk.id} className="badge mono">
+                      {pk.name} = {pk.unitsPerPack}
+                      {pk.barcodeValue ? ` · ${pk.barcodeValue}` : ''}
+                      <button
+                        className="btn btn-sm"
+                        style={{ marginLeft: 4, padding: '0 6px' }}
+                        type="button"
+                        disabled={busy}
+                        onClick={() =>
+                          run(async () => {
+                            await api('POST', `/api/v1/skus/${packSku}/packaging/${pk.id}/remove`);
+                            setPacks((prev) => prev.filter((x) => x.id !== pk.id));
+                          }, 'Pack level removed.')
+                        }
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>

@@ -28,7 +28,12 @@ import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
 import { IntegrationService } from '@nexora/domain-int';
-import { MerchandisingService, CatalogService, SubstitutionService } from '@nexora/domain-pim';
+import {
+  MerchandisingService,
+  CatalogService,
+  PackagingService,
+  SubstitutionService,
+} from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { CountService, InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
@@ -135,6 +140,7 @@ import {
   BarcodesController,
   CATALOG_SERVICE,
   MERCHANDISING_SERVICE,
+  PACKAGING_SERVICE,
   SUBSTITUTION_SERVICE,
   MerchandisingController,
   ProductsController,
@@ -597,6 +603,11 @@ export const REDIS = 'REDIS';
     {
       provide: MERCHANDISING_SERVICE,
       useFactory: (prisma: PrismaClient) => new MerchandisingService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: PACKAGING_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PackagingService(prisma),
       inject: [PRISMA],
     },
     {

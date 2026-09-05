@@ -60,7 +60,7 @@ PIM-002,PIM,Variants,P1,DONE,R1,,,Variant axes + combination generator (Sprint 0
 PIM-003,PIM,Attributes,P1,DONE,R1,,,Typed attributes validated by custom-field defs (Sprint 025)
 PIM-004,PIM,Categories,P1,DONE,R1,,,Category tree with product counts (Sprint 025)
 PIM-005,PIM,Barcode/GTIN,P1,Partially implemented (Sprint 003),R1,,,Tenant-scoped barcode uniqueness + scan lookup
-PIM-006,PIM,Packaging hierarchy,P1,PLANNED,R1,,,
+PIM-006,PIM,Packaging hierarchy,P1,DONE,R1,,,"Pack levels per SKU with base-unit multiplier and scannable pack barcodes (shared namespace with unit barcodes, pack-aware lookup); catalog UI (Sprint 041)"
 PIM-007,PIM,Units of measure,P1,Partially implemented (Sprint 003),R1,,,Base UOM + per-SKU conversion factors
 PIM-008,PIM,Media,P1,PLANNED,R1,,,
 PIM-009,PIM,Channel content,P1,PLANNED,R1,,,

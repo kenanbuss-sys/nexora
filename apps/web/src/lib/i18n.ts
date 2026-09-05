@@ -429,6 +429,15 @@ export const BS: Record<string, string> = {
   'Substitution added.': 'Zamjena dodana.',
   'Substitution removed.': 'Zamjena uklonjena.',
   'Alternatives?': 'Alternative?',
+  Packaging: 'Pakovanje',
+  'Pack levels above the base unit — a pack barcode scans straight to the SKU with its multiplier.':
+    'Nivoi pakovanja iznad osnovne jedinice — barkod pakovanja se skenira direktno na artikal s množiteljem.',
+  'Pack name': 'Naziv pakovanja',
+  'Barcode (optional)': 'Barkod (opciono)',
+  'Add pack': 'Dodaj pakovanje',
+  'Pack level added.': 'Nivo pakovanja dodan.',
+  'Pack level removed.': 'Nivo pakovanja uklonjen.',
+  Units: 'Jedinice',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

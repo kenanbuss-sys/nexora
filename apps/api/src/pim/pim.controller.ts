@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
-import type { CatalogService, MerchandisingService, SubstitutionService } from '@nexora/domain-pim';
+import type {
+  CatalogService,
+  MerchandisingService,
+  PackagingService,
+  SubstitutionService,
+} from '@nexora/domain-pim';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -9,11 +14,17 @@ import { parseBody } from '../common/validate';
 export const CATALOG_SERVICE = 'CATALOG_SERVICE';
 export const MERCHANDISING_SERVICE = 'MERCHANDISING_SERVICE';
 export const SUBSTITUTION_SERVICE = 'SUBSTITUTION_SERVICE';
+export const PACKAGING_SERVICE = 'PACKAGING_SERVICE';
 
 const createProductSchema = z.object({
   code: z.string().min(1).max(64),
   name: z.string().min(1).max(300),
   description: z.string().max(2000).optional(),
+});
+const addPackagingSchema = z.object({
+  name: z.string().min(1).max(100),
+  unitsPerPack: z.number().gt(1),
+  barcodeValue: z.string().min(3).max(64).optional(),
 });
 const addSubstitutionSchema = z.object({
   substituteSkuId: z.string().uuid(),
@@ -71,6 +82,7 @@ export class SkusController {
   constructor(
     @Inject(CATALOG_SERVICE) private readonly catalog: CatalogService,
     @Inject(SUBSTITUTION_SERVICE) private readonly substitutions: SubstitutionService,
+    @Inject(PACKAGING_SERVICE) private readonly packaging: PackagingService,
   ) {}
 
   @Get(':id/substitutions')
@@ -109,6 +121,34 @@ export class SkusController {
   @RequirePermission('product.manage')
   async removeSubstitution(@Param('subId') subId: string, @Ctx() ctx: RequestContext) {
     await this.substitutions.removeSubstitution(subId, ctx);
+    return { removed: true };
+  }
+
+  @Get(':id/packaging')
+  @RequirePermission('product.read')
+  async listPackaging(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { levels: await this.packaging.listLevels(id, ctx) };
+  }
+
+  @Post(':id/packaging')
+  @RequirePermission('product.manage')
+  async addPackaging(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(addPackagingSchema, body);
+    return this.packaging.addLevel(
+      {
+        skuId: id,
+        name: input.name,
+        unitsPerPack: input.unitsPerPack,
+        barcodeValue: input.barcodeValue,
+      },
+      ctx,
+    );
+  }
+
+  @Post(':id/packaging/:levelId/remove')
+  @RequirePermission('product.manage')
+  async removePackaging(@Param('levelId') levelId: string, @Ctx() ctx: RequestContext) {
+    await this.packaging.removeLevel(levelId, ctx);
     return { removed: true };
   }
 
@@ -160,7 +200,10 @@ export class SkusController {
 
 @Controller('api/v1/barcodes')
 export class BarcodesController {
-  constructor(@Inject(CATALOG_SERVICE) private readonly catalog: CatalogService) {}
+  constructor(
+    @Inject(CATALOG_SERVICE) private readonly catalog: CatalogService,
+    @Inject(PACKAGING_SERVICE) private readonly packaging: PackagingService,
+  ) {}
 
   @Post()
   @RequirePermission('product.barcode.manage')
@@ -168,10 +211,25 @@ export class BarcodesController {
     return this.catalog.assignBarcode(parseBody(assignBarcodeSchema, body), ctx);
   }
 
+  /** Resolves unit barcodes and pack barcodes (with their multiplier). */
   @Get(':value')
   @RequirePermission('product.read')
   async lookup(@Param('value') value: string, @Ctx() ctx: RequestContext) {
-    return this.catalog.lookupBarcode(value, ctx);
+    try {
+      return await this.catalog.lookupBarcode(value, ctx);
+    } catch (error) {
+      const pack = await this.packaging.resolvePackBarcode(value, ctx);
+      if (pack) {
+        return {
+          id: pack.skuId,
+          code: pack.skuCode,
+          name: pack.skuName,
+          packName: pack.packName,
+          unitsPerPack: pack.unitsPerPack,
+        };
+      }
+      throw error;
+    }
   }
 }
 
