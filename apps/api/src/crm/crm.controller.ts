@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { CrmService, Customer360Service } from '@nexora/domain-crm';
+import type { CrmService, Customer360Service, TerritoryService } from '@nexora/domain-crm';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,6 +8,7 @@ import { parseBody } from '../common/validate';
 
 export const CRM_SERVICE = 'CRM_SERVICE';
 export const CUSTOMER360_SERVICE = 'CUSTOMER360_SERVICE';
+export const TERRITORY_SERVICE = 'TERRITORY_SERVICE';
 
 const createAccountSchema = z.object({
   partyId: z.string().uuid(),
@@ -19,6 +20,12 @@ const creditProfileSchema = z.object({
   paymentTermsDays: z.number().int().min(0).max(365).nullable().optional(),
 });
 const tagsSchema = z.object({ tags: z.array(z.string().min(1).max(30)).max(12) });
+const createTerritorySchema = z.object({
+  code: z.string().min(1).max(30),
+  name: z.string().min(1).max(200),
+  ownerUserId: z.string().uuid().optional(),
+});
+const assignTerritorySchema = z.object({ territoryId: z.string().uuid().nullable() });
 const createLeadSchema = z.object({
   name: z.string().min(1).max(200),
   company: z.string().max(200).optional(),
@@ -52,7 +59,23 @@ export class CrmAccountsController {
   constructor(
     @Inject(CRM_SERVICE) private readonly crm: CrmService,
     @Inject(CUSTOMER360_SERVICE) private readonly customer360: Customer360Service,
+    @Inject(TERRITORY_SERVICE) private readonly territories: TerritoryService,
   ) {}
+
+  @Post(':id/territory')
+  @RequirePermission('crm.manage')
+  async assignTerritory(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    await this.territories.assignTerritory(
+      id,
+      parseBody(assignTerritorySchema, body).territoryId,
+      ctx,
+    );
+    return { assigned: true };
+  }
 
   @Get()
   @RequirePermission('crm.read')
@@ -175,5 +198,23 @@ export class CrmActivitiesController {
   @RequirePermission('crm.manage')
   async log(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.crm.logActivity(parseBody(logActivitySchema, body), ctx);
+  }
+}
+
+/** Sales territories (CRM-005). */
+@Controller('api/v1/crm/territories')
+export class TerritoriesController {
+  constructor(@Inject(TERRITORY_SERVICE) private readonly territories: TerritoryService) {}
+
+  @Get()
+  @RequirePermission('crm.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { territories: await this.territories.listTerritories(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('crm.manage')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.territories.createTerritory(parseBody(createTerritorySchema, body), ctx);
   }
 }

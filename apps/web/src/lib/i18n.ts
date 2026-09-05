@@ -438,6 +438,11 @@ export const BS: Record<string, string> = {
   'Pack level added.': 'Nivo pakovanja dodan.',
   'Pack level removed.': 'Nivo pakovanja uklonjen.',
   Units: 'Jedinice',
+  Territories: 'Teritorije',
+  'No territories yet.': 'Još nema teritorija.',
+  'No territory': 'Bez teritorije',
+  'Territory created.': 'Teritorija kreirana.',
+  'Territory assigned.': 'Teritorija dodijeljena.',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

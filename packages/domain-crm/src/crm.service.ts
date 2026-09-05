@@ -26,6 +26,7 @@ export interface AccountView {
   status: CrmAccountStatus;
   creditLimit: string | null;
   ownerUserId: string | null;
+  territoryId: string | null;
 }
 
 export interface LeadView {
@@ -85,6 +86,7 @@ function toAccountView(a: {
   status: CrmAccountStatus;
   creditLimit: { toString(): string } | null;
   ownerUserId: string | null;
+  territoryId: string | null;
 }): AccountView {
   return {
     id: a.id,
@@ -93,6 +95,7 @@ function toAccountView(a: {
     status: a.status,
     creditLimit: a.creditLimit ? a.creditLimit.toString() : null,
     ownerUserId: a.ownerUserId,
+    territoryId: a.territoryId,
   };
 }
 

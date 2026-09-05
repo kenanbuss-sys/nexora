@@ -42,6 +42,14 @@ interface AccountView {
   partyName: string;
   accountNumber: string;
   status: string;
+  territoryId: string | null;
+}
+
+interface TerritoryView {
+  id: string;
+  code: string;
+  name: string;
+  accountCount: number;
 }
 
 interface OpportunityView {
@@ -85,6 +93,9 @@ export default function CrmPage() {
   const { can } = useApp();
   const [leads, setLeads] = useState<LeadView[] | null>(null);
   const [accounts, setAccounts] = useState<AccountView[] | null>(null);
+  const [territories, setTerritories] = useState<TerritoryView[]>([]);
+  const [terrCode, setTerrCode] = useState('');
+  const [terrName, setTerrName] = useState('');
   const [opportunities, setOpportunities] = useState<OpportunityView[]>([]);
   const [parties, setParties] = useState<PartyOption[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -126,6 +137,9 @@ export default function CrmPage() {
         setError(null);
       })
       .catch((e: unknown) => setError(errorText(e)));
+    api<{ territories: TerritoryView[] }>('GET', '/api/v1/crm/territories')
+      .then((r) => setTerritories(r.territories))
+      .catch(() => setTerritories([]));
     api<{ accounts: AccountView[] }>('GET', '/api/v1/crm/accounts')
       .then((r) => setAccounts(r.accounts))
       .catch(() => setAccounts([]));
@@ -297,6 +311,33 @@ export default function CrmPage() {
                         >
                           {a.status}
                         </span>
+                      </td>
+                      <td>
+                        {can('crm.manage') ? (
+                          <select
+                            className="select"
+                            style={{ maxWidth: 130, fontSize: 12 }}
+                            value={a.territoryId ?? ''}
+                            onChange={(e) =>
+                              void run(async () => {
+                                await api('POST', `/api/v1/crm/accounts/${a.id}/territory`, {
+                                  territoryId: e.target.value || null,
+                                });
+                              }, 'Territory assigned.')
+                            }
+                          >
+                            <option value="">No territory</option>
+                            {territories.map((t) => (
+                              <option key={t.id} value={t.id}>
+                                {t.code}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <span className="muted mono" style={{ fontSize: 12 }}>
+                            {territories.find((t) => t.id === a.territoryId)?.code ?? ''}
+                          </span>
+                        )}
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         <button
@@ -474,6 +515,63 @@ export default function CrmPage() {
               </form>
             ) : null}
           </div>
+        </div>
+
+        <div className="card">
+          <h2>Territories</h2>
+          {territories.length === 0 ? <div className="empty">No territories yet.</div> : null}
+          {territories.map((t) => (
+            <div key={t.id} className="row spread" style={{ marginBottom: 4 }}>
+              <span>
+                <span className="mono">{t.code}</span> — {t.name}
+              </span>
+              <span className="muted" style={{ fontSize: 12 }}>
+                {t.accountCount} accounts
+              </span>
+            </div>
+          ))}
+          {can('crm.manage') ? (
+            <form
+              className="row"
+              style={{ marginTop: 8 }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void run(async () => {
+                  await api('POST', '/api/v1/crm/territories', {
+                    code: terrCode,
+                    name: terrName,
+                  });
+                  setTerrCode('');
+                  setTerrName('');
+                  const r = await api<{ territories: TerritoryView[] }>(
+                    'GET',
+                    '/api/v1/crm/territories',
+                  );
+                  setTerritories(r.territories);
+                }, 'Territory created.');
+              }}
+            >
+              <input
+                className="input mono"
+                style={{ maxWidth: 90 }}
+                placeholder="Code"
+                value={terrCode}
+                onChange={(e) => setTerrCode(e.target.value)}
+                required
+              />
+              <input
+                className="input"
+                style={{ maxWidth: 160 }}
+                placeholder="Name"
+                value={terrName}
+                onChange={(e) => setTerrName(e.target.value)}
+                required
+              />
+              <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                Add
+              </button>
+            </form>
+          ) : null}
         </div>
 
         <div className="card">
