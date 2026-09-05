@@ -341,9 +341,31 @@ export const BS: Record<string, string> = {
   PLANNED: 'PLANIRAN',
   'Signing secret (shown once — store it now):': 'Tajna za potpis (samo jednom — sačuvaj je):',
   'Key (shown once — store it now):': 'Ključ (samo jednom — sačuvaj ga):',
+  'Import/export': 'Uvoz/izvoz',
+  'Load your real products, customers, suppliers and opening stock from CSV files — re-running the same file never duplicates data. Export the same entities any time.':
+    'Učitaj svoje stvarne proizvode, kupce, dobavljače i početno stanje zaliha iz CSV fajlova — ponovno pokretanje istog fajla nikad ne duplira podatke. Izvezi iste podatke bilo kad.',
+  'Import from CSV': 'Uvoz iz CSV-a',
+  'Export to CSV': 'Izvoz u CSV',
+  'Expected columns:': 'Očekivane kolone:',
+  Import: 'Uvezi',
+  'Importing…': 'Uvozim…',
+  'Import report': 'Izvještaj uvoza',
+  'Download the current data as CSV files.': 'Preuzmi trenutne podatke kao CSV fajlove.',
+  SKUs: 'Artikli',
+  Customers: 'Kupci',
+  Suppliers: 'Dobavljači',
+  'Opening stock': 'Početno stanje',
+  Row: 'Red',
+  Message: 'Poruka',
+  CREATED: 'KREIRAN',
+  SKIPPED: 'PRESKOČEN',
+  ERROR: 'GREŠKA',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
+  [/^(\d+) created$/, (m) => `${m[1]} kreirano`],
+  [/^(\d+) skipped$/, (m) => `${m[1]} preskočeno`],
+  [/^(\d+) errors$/, (m) => `${m[1]} grešaka`],
   [
     /^Comments \((\d+)\) · Attachments \((\d+)\)$/,
     (m) => `Komentari (${m[1]}) · Prilozi (${m[2]})`,

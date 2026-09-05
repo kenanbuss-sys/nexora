@@ -17,7 +17,7 @@ CORE-015,CORE,Custom fields,P0,Partially implemented (Sprint 002),R0,,,Custom fi
 CORE-016,CORE,Custom objects,P0,PLANNED,R0,,,
 CORE-017,CORE,Form builder,P0,PLANNED,R0,,,
 CORE-018,CORE,Reference data,P0,PLANNED,R0,,,
-CORE-019,CORE,Import/export framework,P0,PLANNED,R0,,,
+CORE-019,CORE,Import/export framework,P0,DONE,R0,,,"CSV import (products/SKUs/customers/suppliers/opening stock) via owning domains, idempotent re-runs, per-row report, CSV exports (Sprint 033)"
 CORE-020,CORE,Audit ledger,P0,Implemented (Sprint 001),R0,,,Immutable audit ledger + writer
 IAM-001,IAM,User lifecycle,P0,Implemented (Sprint 001),R0,,,Invite/suspend/idp-linkage lifecycle
 IAM-002,IAM,RBAC,P0,Implemented (Sprint 001),R0,,,"Roles, role permissions, tenant-admin bootstrap"

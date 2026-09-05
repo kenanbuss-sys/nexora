@@ -10,3 +10,14 @@ export {
 } from './organization.service';
 export { ConfigurationService, type CustomFieldView } from './configuration.service';
 export { TaskService, type NotificationView, type TaskView } from './task.service';
+export {
+  ImportExportService,
+  parseCsv,
+  toCsv,
+  type CatalogImportGate,
+  type CustomerImportGate,
+  type SupplierImportGate,
+  type StockImportGate,
+  type ImportReport,
+  type RowResult,
+} from './import.service';

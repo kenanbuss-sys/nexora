@@ -59,6 +59,7 @@ const ICONS: Record<string, string> = {
   kiosk: 'M2 3h20v14H2zM8 21h8M12 17v4',
   analytics: 'M18 20V10M12 20V4M6 20v-6',
   portal: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8',
+  data: 'M12 8c4.97 0 9-1.34 9-3s-4.03-3-9-3-9 1.34-9 3 4.03 3 9 3zM21 5v7c0 1.66-4.03 3-9 3s-9-1.34-9-3V5M21 12v7c0 1.66-4.03 3-9 3s-9-1.34-9-3v-7',
 };
 
 interface SearchHit {
@@ -195,6 +196,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },
   { href: '/operations', label: 'Operations', icon: 'operations', permission: 'inventory.read' },
   { href: '/devices', label: 'Devices', icon: 'devices', permission: 'device.read' },
+  { href: '/data', label: 'Import/export', icon: 'data', permission: 'product.read' },
   { href: '/users', label: 'Users & roles', icon: 'users', permission: 'iam.user.manage' },
 ];
 

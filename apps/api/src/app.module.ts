@@ -7,6 +7,7 @@ import type { PrismaClient } from '@nexora/db';
 import { createDb } from '@nexora/db';
 import {
   ConfigurationService,
+  ImportExportService,
   OrganizationService,
   TaskService,
   TenantService,
@@ -66,6 +67,7 @@ import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller'
 import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
 import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
 import { COUNT_SERVICE, CountsController } from './wms/counts.controller';
+import { DataController, IMPORT_EXPORT_SERVICE } from './data/data.controller';
 import { SHOPFLOOR_SERVICE, ShopFloorController } from './mes/shopfloor.controller';
 import {
   BomsController,
@@ -208,6 +210,7 @@ export const REDIS = 'REDIS';
     ReturnsController,
     CountsController,
     ShopFloorController,
+    DataController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -562,6 +565,57 @@ export const REDIS = 'REDIS';
       provide: SHOPFLOOR_SERVICE,
       useFactory: (prisma: PrismaClient) => new ShopFloorService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: IMPORT_EXPORT_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        catalog: CatalogService,
+        party: PartyService,
+        crm: CrmService,
+        procurement: ProcurementService,
+        inventory: InventoryService,
+      ) =>
+        new ImportExportService(
+          prisma,
+          {
+            createProduct: (input, ctx) => catalog.createProduct(input, ctx),
+            createSku: (input, ctx) => catalog.createSku(input, ctx),
+            activateSku: (skuId, ctx) => catalog.activateSku(skuId, ctx),
+          },
+          {
+            createOrganization: async (tenantId, name, email) => {
+              const view = await party.createParty(
+                { partyType: 'ORGANIZATION', name, ...(email ? { email } : {}) },
+                {
+                  tenantId,
+                  tenantSlug: '',
+                  tenantStatus: 'ACTIVE',
+                  actorType: 'SERVICE',
+                  userId: undefined,
+                  userStatus: undefined,
+                  platformAdmin: false,
+                },
+              );
+              return { partyId: view.id };
+            },
+            createAccount: (input, ctx) => crm.createAccount(input, ctx),
+          },
+          {
+            createSupplier: (input, ctx) => procurement.createSupplier(input, ctx),
+          },
+          {
+            postMovement: (input, ctx) => inventory.postMovement(input, ctx),
+          },
+        ),
+      inject: [
+        PRISMA,
+        CATALOG_SERVICE,
+        PARTY_SERVICE,
+        CRM_SERVICE,
+        PROCUREMENT_SERVICE,
+        INVENTORY_SERVICE,
+      ],
     },
     {
       provide: HEALTH_SERVICE,
