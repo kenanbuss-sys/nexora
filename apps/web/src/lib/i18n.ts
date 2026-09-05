@@ -391,6 +391,18 @@ export const BS: Record<string, string> = {
   'Terminology saved — refresh to see it in the navigation.':
     'Terminologija sačuvana — osvježi stranicu da je vidiš u navigaciji.',
   'Enter at least one term to save': 'Unesi bar jedan pojam za čuvanje',
+  Modules: 'Moduli',
+  'Switch off what this company does not use — the pages and the API disappear together.':
+    'Isključi ono što ova firma ne koristi — stranice i API nestaju zajedno.',
+  'Module enabled.': 'Modul uključen.',
+  'Module disabled — its pages and API are off.':
+    'Modul isključen — njegove stranice i API su ugašeni.',
+  'CRM & sales pipeline': 'CRM i prodajni lijevak',
+  'Quotes & orders': 'Ponude i nalozi',
+  'Engineering (BOM/routing)': 'Inženjering (sastavnice/rute)',
+  'Planning (MRP)': 'Planiranje (MRP)',
+  'Warehouse & inventory': 'Skladište i zalihe',
+  'Devices & scanning': 'Uređaji i skeniranje',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

@@ -4,7 +4,7 @@ CORE-002,CORE,Organization hierarchy,P0,Implemented (Sprint 001),R0,,,LegalEntit
 CORE-003,CORE,White-label branding,P0,DONE,R0,,,Versioned tenant configuration with sanitized branding (name/accent colors) applied across the web app; Settings UI + history (Sprint 035)
 CORE-004,CORE,Terminology dictionary,P0,DONE,R0,,,"Per-locale tenant vocabulary: governed writes, open read for signed-in users, applied to navigation; Settings editor (Sprint 036)"
 CORE-005,CORE,Localization,P0,DONE,R0,,,UI language layer EN/BS with remembered preference (Sprint 023)
-CORE-006,CORE,Feature flags & licensing,P0,Partially implemented (Sprint 002),R0,,,Module activation flags (licensing later)
+CORE-006,CORE,Feature flags & licensing,P0,DONE,R0,,,Module activations enforced server-side (guard cuts API surface per tenant) and in navigation; Settings toggles (Sprint 037)
 CORE-007,CORE,Configuration versioning,P0,DONE,R0,,,Versioned tenant configuration with sanitized branding (name/accent colors) applied across the web app; Settings UI + history (Sprint 035)
 CORE-008,CORE,Global numbering,P0,DONE,R0,,,Number sequences: atomic per-tenant draws (Sprint 016)
 CORE-009,CORE,Attachments,P0,DONE,R0,,,"Attachments behind storage port, DB adapter (Sprint 016)"

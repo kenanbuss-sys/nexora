@@ -95,4 +95,10 @@ export class VocabularyController {
     }
     return { entries: await this.configuration.getTerminology(locale, ctx) };
   }
+
+  /** Module activations for navigation gating (absent key = enabled). */
+  @Get('modules')
+  async modules(@Ctx() ctx: RequestContext) {
+    return { modules: await this.configuration.getModuleActivations(ctx) };
+  }
 }

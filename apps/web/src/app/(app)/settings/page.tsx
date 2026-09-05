@@ -24,6 +24,22 @@ interface VersionRow {
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
 
+/** Modules a tenant can switch off (absent = enabled). */
+const MODULES: Array<{ key: string; label: string }> = [
+  { key: 'crm', label: 'CRM & sales pipeline' },
+  { key: 'sales', label: 'Quotes & orders' },
+  { key: 'procurement', label: 'Procurement' },
+  { key: 'engineering', label: 'Engineering (BOM/routing)' },
+  { key: 'planning', label: 'Planning (MRP)' },
+  { key: 'manufacturing', label: 'Manufacturing' },
+  { key: 'quality', label: 'Quality' },
+  { key: 'finance', label: 'Finance' },
+  { key: 'warehouse', label: 'Warehouse & inventory' },
+  { key: 'devices', label: 'Devices & scanning' },
+  { key: 'integrations', label: 'Integrations' },
+  { key: 'portal', label: 'Customer portal' },
+];
+
 /** Navigation terms a tenant can rename (terminology dictionary keys). */
 const NAV_TERMS: Array<{ key: string; label: string }> = [
   { key: 'nav.dashboard', label: 'Dashboard' },
@@ -52,6 +68,29 @@ export default function SettingsPage() {
   const [busy, setBusy] = useState(false);
   const [termLocale, setTermLocale] = useState<'en' | 'bs'>('en');
   const [terms, setTerms] = useState<Record<string, string>>({});
+  const [modules, setModules] = useState<Record<string, boolean>>({});
+
+  const loadModules = useCallback(() => {
+    api<{ modules: Record<string, boolean> }>('GET', '/api/v1/tenant/modules')
+      .then((r) => setModules(r.modules))
+      .catch(() => setModules({}));
+  }, []);
+
+  useEffect(loadModules, [loadModules]);
+
+  async function toggleModule(key: string, enabled: boolean) {
+    setBusy(true);
+    setError(null);
+    try {
+      await api('PUT', `/api/v1/configuration/modules/${key}`, { enabled });
+      setModules((m) => ({ ...m, [key]: enabled }));
+      setNotice(enabled ? 'Module enabled.' : 'Module disabled — its pages and API are off.');
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   const loadTerms = useCallback((locale: 'en' | 'bs') => {
     api<Record<string, string>>('GET', `/api/v1/configuration/terminology/${locale}`)
@@ -208,6 +247,28 @@ export default function SettingsPage() {
           ) : (
             <p className="muted">Publishing needs the configuration.publish permission.</p>
           )}
+        </div>
+
+        <div className="card">
+          <h2>Modules</h2>
+          <p className="muted">
+            Switch off what this company does not use — the pages and the API disappear together.
+          </p>
+          {MODULES.map((m) => (
+            <label
+              key={m.key}
+              className="row"
+              style={{ marginBottom: 6, cursor: 'pointer', justifyContent: 'space-between' }}
+            >
+              <span>{m.label}</span>
+              <input
+                type="checkbox"
+                checked={modules[m.key] !== false}
+                disabled={busy || !can('configuration.publish')}
+                onChange={(e) => void toggleModule(m.key, e.target.checked)}
+              />
+            </label>
+          ))}
         </div>
 
         <div className="card">

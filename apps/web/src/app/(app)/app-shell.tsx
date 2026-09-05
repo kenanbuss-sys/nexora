@@ -211,6 +211,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [grants, setGrants] = useState<Grant[] | null>(null);
   const [brandName, setBrandName] = useState<string | null>(null);
   const [vocabulary, setVocabulary] = useState<Record<string, string>>({});
+  const [modules, setModules] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const s = getSession();
@@ -245,6 +246,10 @@ export function AppShell({ children }: { children: ReactNode }) {
     api<{ entries: Record<string, string> }>('GET', `/api/v1/tenant/vocabulary/${getLanguage()}`)
       .then((r) => setVocabulary(r.entries))
       .catch(() => setVocabulary({}));
+    // Feature flags: modules a tenant switched off leave the navigation.
+    api<{ modules: Record<string, boolean> }>('GET', '/api/v1/tenant/modules')
+      .then((r) => setModules(r.modules))
+      .catch(() => setModules({}));
   }, [router]);
 
   if (!session || grants === null) {
@@ -255,13 +260,33 @@ export function AppShell({ children }: { children: ReactNode }) {
     session.platformAdmin ||
     grants.some((g) => g.permissionKey === permissionKey && g.scopeType === 'TENANT');
 
+  // Feature flags: navigation entries for modules the tenant disabled.
+  const NAV_MODULE: Record<string, string> = {
+    '/crm': 'crm',
+    '/quotes': 'sales',
+    '/orders': 'sales',
+    '/procurement': 'procurement',
+    '/engineering': 'engineering',
+    '/planning': 'planning',
+    '/production': 'manufacturing',
+    '/kiosk': 'manufacturing',
+    '/quality': 'quality',
+    '/finance': 'finance',
+    '/inventory': 'warehouse',
+    '/operations': 'warehouse',
+    '/devices': 'devices',
+    '/integrations': 'integrations',
+    '/portal': 'portal',
+  };
+
   // UX rule: never render unauthorized modules. The portal entry is
   // visible to back-office managers and to portal customers alike.
   const nav = NAV.filter(
     (item) =>
-      item.permission === null ||
-      can(item.permission) ||
-      (item.href === '/portal' && can('portal.access')),
+      (item.permission === null ||
+        can(item.permission) ||
+        (item.href === '/portal' && can('portal.access'))) &&
+      modules[NAV_MODULE[item.href] ?? ''] !== false,
   );
 
   function signOut() {
