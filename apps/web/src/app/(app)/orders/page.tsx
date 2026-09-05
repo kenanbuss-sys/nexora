@@ -8,6 +8,7 @@ import { downloadDocument } from '../../../lib/download';
 
 interface OrderLineView {
   id: string;
+  skuId: string;
   description: string;
   quantity: string;
   unitPrice: string;
@@ -84,6 +85,9 @@ export default function OrdersPage() {
   const [warehouses, setWarehouses] = useState<WarehouseView[]>([]);
   const [quotes, setQuotes] = useState<QuoteOption[]>([]);
   const [skus, setSkus] = useState<SkuOption[]>([]);
+  const [alternatives, setAlternatives] = useState<
+    Record<string, Array<{ substituteCode: string; available: string }>>
+  >({});
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -368,6 +372,43 @@ export default function OrdersPage() {
                             <span className="badge badge-warn" style={{ marginLeft: 6 }}>
                               backorder
                             </span>
+                          ) : null}
+                          {l.backordered ? (
+                            alternatives[l.skuId] ? (
+                              alternatives[l.skuId]!.length > 0 ? (
+                                <span className="muted" style={{ marginLeft: 6, fontSize: 12 }}>
+                                  Alt:{' '}
+                                  {alternatives[l.skuId]!.map(
+                                    (a) => `${a.substituteCode} (${a.available})`,
+                                  ).join(', ')}
+                                </span>
+                              ) : null
+                            ) : (
+                              <button
+                                className="btn btn-sm"
+                                style={{ marginLeft: 6, padding: '1px 8px' }}
+                                type="button"
+                                onClick={() => {
+                                  api<{
+                                    alternatives: Array<{
+                                      substituteCode: string;
+                                      available: string;
+                                    }>;
+                                  }>('GET', `/api/v1/skus/${l.skuId}/alternatives`)
+                                    .then((r) =>
+                                      setAlternatives((prev) => ({
+                                        ...prev,
+                                        [l.skuId]: r.alternatives,
+                                      })),
+                                    )
+                                    .catch(() =>
+                                      setAlternatives((prev) => ({ ...prev, [l.skuId]: [] })),
+                                    );
+                                }}
+                              >
+                                Alternatives?
+                              </button>
+                            )
                           ) : null}
                         </td>
                         <td style={{ textAlign: 'right' }}>

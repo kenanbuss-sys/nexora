@@ -28,7 +28,7 @@ import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
 import { IntegrationService } from '@nexora/domain-int';
-import { MerchandisingService, CatalogService } from '@nexora/domain-pim';
+import { MerchandisingService, CatalogService, SubstitutionService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { CountService, InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
@@ -135,6 +135,7 @@ import {
   BarcodesController,
   CATALOG_SERVICE,
   MERCHANDISING_SERVICE,
+  SUBSTITUTION_SERVICE,
   MerchandisingController,
   ProductsController,
   SkusController,
@@ -597,6 +598,23 @@ export const REDIS = 'REDIS';
       provide: MERCHANDISING_SERVICE,
       useFactory: (prisma: PrismaClient) => new MerchandisingService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: SUBSTITUTION_SERVICE,
+      useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
+        new SubstitutionService(prisma, {
+          totalAvailability: (tenantId, skuId) =>
+            inventory.totalAvailability(skuId, {
+              tenantId,
+              tenantSlug: '',
+              tenantStatus: 'ACTIVE',
+              actorType: 'SERVICE',
+              userId: undefined,
+              userStatus: undefined,
+              platformAdmin: false,
+            }),
+        }),
+      inject: [PRISMA, INVENTORY_SERVICE],
     },
     {
       provide: RETURNS_SERVICE,

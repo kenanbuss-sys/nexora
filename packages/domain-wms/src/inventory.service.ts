@@ -583,6 +583,31 @@ export class InventoryService {
     await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${key}, 0))`;
   }
 
+  /** Tenant-wide availability for one SKU across all warehouses (WMS read). */
+  async totalAvailability(
+    skuId: string,
+    ctx: RequestContext,
+  ): Promise<{ onHand: number; available: number }> {
+    const rows = await this.prisma.$queryRaw<
+      Array<{ on_hand: string | null; reserved: string | null }>
+    >`
+      SELECT
+        (SELECT COALESCE(SUM(CASE WHEN movement_type IN ('RECEIPT','ADJUSTMENT_IN','TRANSFER_IN')
+                                  THEN quantity ELSE -quantity END), 0)
+           FROM "stock_movement"
+          WHERE tenant_id = ${ctx.tenantId}::uuid
+            AND sku_id = ${skuId}::uuid) AS on_hand,
+        (SELECT COALESCE(SUM(quantity), 0)
+           FROM "stock_reservation"
+          WHERE tenant_id = ${ctx.tenantId}::uuid
+            AND sku_id = ${skuId}::uuid
+            AND status = 'ACTIVE') AS reserved`;
+    const row = rows[0];
+    const onHand = Number(row?.on_hand ?? 0);
+    const reserved = Number(row?.reserved ?? 0);
+    return { onHand, available: onHand - reserved };
+  }
+
   private async sums(
     db: { $queryRaw: PrismaClient['$queryRaw'] },
     tenantId: string,

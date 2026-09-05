@@ -68,7 +68,7 @@ PIM-010,PIM,Lot policy,P1,DONE,R1,,,"Lot policy per SKU, audited (Sprint 022)"
 PIM-011,PIM,Serial policy,P1,PLANNED,R1,,,
 PIM-012,PIM,Expiry policy,P1,DONE,R1,,,Shelf-life expiry policy driving lot expiry (Sprint 022)
 PIM-013,PIM,Dimensions/weight,P1,PLANNED,R1,,,
-PIM-014,PIM,Substitutions,P1,PLANNED,R1,,,
+PIM-014,PIM,Substitutions,P1,DONE,R1,,,Directed SKU substitutions with priority; live-availability alternatives via WMS on backordered order lines; catalog management UI (Sprint 040)
 PIM-015,PIM,Bundles/kits,P1,PLANNED,R1,,,
 PIM-016,PIM,Lifecycle status,P1,Implemented (Sprint 003),R1,,,Product/SKU lifecycle statuses with guards
 CPQ-001,CPQ,Price lists,Implemented (Sprint 006),PLANNED,R1,,,"Versionable price lists, DRAFT->ACTIVE publish"

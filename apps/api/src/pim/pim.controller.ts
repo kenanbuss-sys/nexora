@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
-import type { CatalogService, MerchandisingService } from '@nexora/domain-pim';
+import type { CatalogService, MerchandisingService, SubstitutionService } from '@nexora/domain-pim';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,11 +8,17 @@ import { parseBody } from '../common/validate';
 
 export const CATALOG_SERVICE = 'CATALOG_SERVICE';
 export const MERCHANDISING_SERVICE = 'MERCHANDISING_SERVICE';
+export const SUBSTITUTION_SERVICE = 'SUBSTITUTION_SERVICE';
 
 const createProductSchema = z.object({
   code: z.string().min(1).max(64),
   name: z.string().min(1).max(300),
   description: z.string().max(2000).optional(),
+});
+const addSubstitutionSchema = z.object({
+  substituteSkuId: z.string().uuid(),
+  priority: z.number().int().min(1).max(100).optional(),
+  note: z.string().max(300).optional(),
 });
 const createSkuSchema = z.object({
   productId: z.string().uuid(),
@@ -62,7 +68,49 @@ export class ProductsController {
 
 @Controller('api/v1/skus')
 export class SkusController {
-  constructor(@Inject(CATALOG_SERVICE) private readonly catalog: CatalogService) {}
+  constructor(
+    @Inject(CATALOG_SERVICE) private readonly catalog: CatalogService,
+    @Inject(SUBSTITUTION_SERVICE) private readonly substitutions: SubstitutionService,
+  ) {}
+
+  @Get(':id/substitutions')
+  @RequirePermission('product.read')
+  async listSubstitutions(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { substitutions: await this.substitutions.listSubstitutions(id, ctx) };
+  }
+
+  /** Active substitutes with live availability (used on backordered lines). */
+  @Get(':id/alternatives')
+  @RequirePermission('product.read')
+  async listAlternatives(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { alternatives: await this.substitutions.listAlternatives(id, ctx) };
+  }
+
+  @Post(':id/substitutions')
+  @RequirePermission('product.manage')
+  async addSubstitution(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(addSubstitutionSchema, body);
+    return this.substitutions.addSubstitution(
+      {
+        skuId: id,
+        substituteSkuId: input.substituteSkuId,
+        priority: input.priority,
+        note: input.note,
+      },
+      ctx,
+    );
+  }
+
+  @Post(':id/substitutions/:subId/remove')
+  @RequirePermission('product.manage')
+  async removeSubstitution(@Param('subId') subId: string, @Ctx() ctx: RequestContext) {
+    await this.substitutions.removeSubstitution(subId, ctx);
+    return { removed: true };
+  }
 
   @Post()
   @RequirePermission('product.manage')

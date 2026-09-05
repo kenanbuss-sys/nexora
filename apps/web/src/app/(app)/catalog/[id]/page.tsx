@@ -52,6 +52,11 @@ export default function ProductDetailPage() {
   const [barcodeSku, setBarcodeSku] = useState('');
   const [barcodeValue, setBarcodeValue] = useState('');
   const [categories, setCategories] = useState<CategoryView[]>([]);
+  const [subPrimary, setSubPrimary] = useState('');
+  const [subAlt, setSubAlt] = useState('');
+  const [subs, setSubs] = useState<Array<{ id: string; substituteCode: string; priority: number }>>(
+    [],
+  );
   const [axis1, setAxis1] = useState('color');
   const [values1, setValues1] = useState('');
   const [axis2, setAxis2] = useState('size');
@@ -316,6 +321,108 @@ export default function ProductDetailPage() {
               </form>
             ) : null}
           </div>
+
+          {can('product.manage') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Substitutions</h2>
+              <p className="muted">
+                Alternatives offered when a SKU cannot be served (shown on backordered lines).
+              </p>
+              <div className="row" style={{ flexWrap: 'wrap' }}>
+                <select
+                  className="select"
+                  style={{ maxWidth: 170 }}
+                  value={subPrimary}
+                  onChange={(e) => {
+                    const skuId = e.target.value;
+                    setSubPrimary(skuId);
+                    setSubs([]);
+                    if (skuId) {
+                      api<{
+                        substitutions: Array<{
+                          id: string;
+                          substituteCode: string;
+                          priority: number;
+                        }>;
+                      }>('GET', `/api/v1/skus/${skuId}/substitutions`)
+                        .then((r) => setSubs(r.substitutions))
+                        .catch(() => setSubs([]));
+                    }
+                  }}
+                >
+                  <option value="">Primary SKU…</option>
+                  {product.skus.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.code}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="select"
+                  style={{ maxWidth: 170 }}
+                  value={subAlt}
+                  onChange={(e) => setSubAlt(e.target.value)}
+                >
+                  <option value="">Substitute…</option>
+                  {product.skus
+                    .filter((s) => s.id !== subPrimary)
+                    .map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.code}
+                      </option>
+                    ))}
+                </select>
+                <button
+                  className="btn btn-sm btn-primary"
+                  disabled={busy || !subPrimary || !subAlt}
+                  type="button"
+                  onClick={() =>
+                    run(async () => {
+                      await api('POST', `/api/v1/skus/${subPrimary}/substitutions`, {
+                        substituteSkuId: subAlt,
+                      });
+                      const r = await api<{
+                        substitutions: Array<{
+                          id: string;
+                          substituteCode: string;
+                          priority: number;
+                        }>;
+                      }>('GET', `/api/v1/skus/${subPrimary}/substitutions`);
+                      setSubs(r.substitutions);
+                    }, 'Substitution added.')
+                  }
+                >
+                  Add substitution
+                </button>
+              </div>
+              {subs.length > 0 ? (
+                <div className="row" style={{ marginTop: 8, flexWrap: 'wrap' }}>
+                  {subs.map((sub) => (
+                    <span key={sub.id} className="badge mono">
+                      → {sub.substituteCode}{' '}
+                      <button
+                        className="btn btn-sm"
+                        style={{ marginLeft: 4, padding: '0 6px' }}
+                        type="button"
+                        disabled={busy}
+                        onClick={() =>
+                          run(async () => {
+                            await api(
+                              'POST',
+                              `/api/v1/skus/${subPrimary}/substitutions/${sub.id}/remove`,
+                            );
+                            setSubs((prev) => prev.filter((x) => x.id !== sub.id));
+                          }, 'Substitution removed.')
+                        }
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>

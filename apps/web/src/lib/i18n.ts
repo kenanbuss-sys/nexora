@@ -422,6 +422,13 @@ export const BS: Record<string, string> = {
   'Rule deactivated.': 'Pravilo deaktivirano.',
   Deactivate: 'Deaktiviraj',
   inactive: 'neaktivno',
+  Substitutions: 'Zamjene',
+  'Alternatives offered when a SKU cannot be served (shown on backordered lines).':
+    'Alternative koje se nude kad artikal nije dostupan (prikazuju se na stavkama u zaostatku).',
+  'Add substitution': 'Dodaj zamjenu',
+  'Substitution added.': 'Zamjena dodana.',
+  'Substitution removed.': 'Zamjena uklonjena.',
+  'Alternatives?': 'Alternative?',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
