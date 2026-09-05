@@ -68,6 +68,15 @@ export interface SkuInfoGate {
   ): Promise<{ exists: boolean; active: boolean; code: string; name: string } | null>;
 }
 
+/** Cross-domain contract: credit policy is owned by CRM (CRM-008). */
+export interface CreditGate {
+  checkCredit(
+    tenantId: string,
+    accountId: string,
+    additionalAmount: number,
+  ): Promise<{ allowed: boolean; reason: string | null }>;
+}
+
 /** Cross-domain contract: stock truth is owned by WMS. */
 export interface StockGate {
   reserveStock(
@@ -138,6 +147,7 @@ export class OrderService {
     private readonly accounts: AccountGate,
     private readonly skus: SkuInfoGate,
     private readonly stock: StockGate,
+    private readonly credit?: CreditGate,
   ) {}
 
   async listOrders(
@@ -383,6 +393,16 @@ export class OrderService {
     const account = await this.accounts.getAccountState(ctx.tenantId, order.accountId);
     if (!account.exists || !account.active) {
       throw new DomainError('INVALID_STATE', 'Account is blocked or missing');
+    }
+    if (this.credit) {
+      const verdict = await this.credit.checkCredit(
+        ctx.tenantId,
+        order.accountId,
+        Number(order.total),
+      );
+      if (!verdict.allowed) {
+        throw new DomainError('INVALID_STATE', verdict.reason ?? 'Credit check failed');
+      }
     }
     for (const line of order.lines) {
       const sku = await this.skus.getSkuInfo(ctx.tenantId, line.skuId);

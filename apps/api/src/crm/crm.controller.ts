@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { CrmService } from '@nexora/domain-crm';
+import type { CrmService, Customer360Service } from '@nexora/domain-crm';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -7,11 +7,18 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const CRM_SERVICE = 'CRM_SERVICE';
+export const CUSTOMER360_SERVICE = 'CUSTOMER360_SERVICE';
 
 const createAccountSchema = z.object({
   partyId: z.string().uuid(),
   creditLimit: z.number().nonnegative().optional(),
 });
+const creditProfileSchema = z.object({
+  creditLimit: z.number().nonnegative().nullable().optional(),
+  creditHold: z.boolean().optional(),
+  paymentTermsDays: z.number().int().min(0).max(365).nullable().optional(),
+});
+const tagsSchema = z.object({ tags: z.array(z.string().min(1).max(30)).max(12) });
 const createLeadSchema = z.object({
   name: z.string().min(1).max(200),
   company: z.string().max(200).optional(),
@@ -42,7 +49,10 @@ const logActivitySchema = z.object({
 
 @Controller('api/v1/crm/accounts')
 export class CrmAccountsController {
-  constructor(@Inject(CRM_SERVICE) private readonly crm: CrmService) {}
+  constructor(
+    @Inject(CRM_SERVICE) private readonly crm: CrmService,
+    @Inject(CUSTOMER360_SERVICE) private readonly customer360: Customer360Service,
+  ) {}
 
   @Get()
   @RequirePermission('crm.read')
@@ -60,6 +70,26 @@ export class CrmAccountsController {
   @RequirePermission('crm.read')
   async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return this.crm.getAccount(id, ctx);
+  }
+
+  @Get(':id/summary')
+  @RequirePermission('crm.read')
+  async summary(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.customer360.customer360(id, ctx);
+  }
+
+  @Post(':id/credit')
+  @RequirePermission('crm.manage')
+  async setCredit(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.customer360.setCreditProfile(id, parseBody(creditProfileSchema, body), ctx);
+    return { ok: true };
+  }
+
+  @Post(':id/tags')
+  @RequirePermission('crm.manage')
+  async setTags(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.customer360.setTags(id, parseBody(tagsSchema, body).tags, ctx);
+    return { ok: true };
   }
 }
 

@@ -4,6 +4,7 @@
 export {
   OrderService,
   type AccountGate,
+  type CreditGate,
   type OrderEventView,
   type OrderLineView,
   type OrderView,

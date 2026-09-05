@@ -47,11 +47,11 @@ CRM-001,CRM,Leads,Implemented (Sprint 006),PLANNED,R1,,,"Leads with qualify/disq
 CRM-002,CRM,Accounts & contacts,Implemented (Sprint 006),PLANNED,R1,,,Accounts as commercial profile over MDM party
 CRM-003,CRM,Opportunities,Implemented (Sprint 006),PLANNED,R1,,,Opportunity stage machine NEW->QUALIFIED->PROPOSAL->WON/LOST
 CRM-004,CRM,Activities,Implemented (Sprint 006),PLANNED,R1,,,Activity log on accounts/opportunities
-CRM-005,CRM,Customer 360,P1,PLANNED,R1,,,
+CRM-005,CRM,Customer 360,P1,DONE,R1,,,Customer 360 read model (Sprint 017)
 CRM-006,CRM,Territories,P1,PLANNED,R1,,,
 CRM-007,CRM,Sales teams,P1,PLANNED,R1,,,
-CRM-008,CRM,Credit profile,P1,PLANNED,R1,,,
-CRM-009,CRM,Segmentation,P1,PLANNED,R1,,,
+CRM-008,CRM,Credit profile,P1,DONE,R1,,,Credit profile with server-side enforcement on order confirm (Sprint 017)
+CRM-009,CRM,Segmentation,P1,DONE,R1,,,"Segmentation tags, validated and audited (Sprint 017)"
 CRM-010,CRM,Interaction timeline,Implemented (Sprint 006),PLANNED,R1,,,"Interaction timeline (activities, newest first)"
 CRM-011,CRM,Consent/preferences,P1,PLANNED,R1,,,
 CRM-012,CRM,Customer onboarding,P1,PLANNED,R1,,,

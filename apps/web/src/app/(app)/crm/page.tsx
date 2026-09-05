@@ -12,6 +12,31 @@ interface LeadView {
   status: 'NEW' | 'QUALIFIED' | 'DISQUALIFIED' | 'CONVERTED';
 }
 
+interface Customer360View {
+  accountId: string;
+  accountNumber: string;
+  partyName: string;
+  status: string;
+  tags: string[];
+  credit: {
+    creditLimit: string | null;
+    creditHold: boolean;
+    paymentTermsDays: number | null;
+    invoiced: string;
+    paid: string;
+    openBalance: string;
+    availableCredit: string | null;
+  };
+  orders: {
+    count: number;
+    revenue: string;
+    recent: Array<{ id: string; orderNumber: string; status: string; total: string }>;
+  };
+  quotes: { open: number };
+  opportunities: { open: number; won: number };
+  activities: Array<{ id: string; activityType: string; subject: string; occurredAt: string }>;
+}
+
 interface AccountView {
   id: string;
   partyName: string;
@@ -70,6 +95,29 @@ export default function CrmPage() {
   const [leadCompany, setLeadCompany] = useState('');
   const [leadEmail, setLeadEmail] = useState('');
   const [accountParty, setAccountParty] = useState('');
+  const [selected360, setSelected360] = useState<string | null>(null);
+  const [summary, setSummary] = useState<Customer360View | null>(null);
+  const [creditLimitInput, setCreditLimitInput] = useState('');
+  const [creditHoldInput, setCreditHoldInput] = useState(false);
+  const [tagsInput, setTagsInput] = useState('');
+
+  async function open360(accountId: string, forceReload = false) {
+    if (selected360 === accountId && !forceReload) {
+      setSelected360(null);
+      setSummary(null);
+      return;
+    }
+    try {
+      const s = await api<Customer360View>('GET', `/api/v1/crm/accounts/${accountId}/summary`);
+      setSelected360(accountId);
+      setSummary(s);
+      setCreditLimitInput(s.credit.creditLimit ?? '');
+      setCreditHoldInput(s.credit.creditHold);
+      setTagsInput(s.tags.join(', '));
+    } catch (e: unknown) {
+      setError(errorText(e));
+    }
+  }
 
   const load = useCallback(() => {
     api<{ leads: LeadView[] }>('GET', '/api/v1/crm/leads')
@@ -250,10 +298,149 @@ export default function CrmPage() {
                           {a.status}
                         </span>
                       </td>
+                      <td style={{ textAlign: 'right' }}>
+                        <button
+                          className="btn btn-sm"
+                          onClick={() => void open360(a.id)}
+                          type="button"
+                        >
+                          {selected360 === a.id ? 'Close 360°' : '360°'}
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            ) : null}
+
+            {selected360 && summary ? (
+              <div
+                style={{
+                  marginTop: 12,
+                  borderTop: '1px solid var(--color-border)',
+                  paddingTop: 12,
+                }}
+              >
+                <div className="spread">
+                  <strong>
+                    {summary.partyName}{' '}
+                    <span className="mono muted" style={{ fontSize: 12 }}>
+                      {summary.accountNumber}
+                    </span>
+                  </strong>
+                  {summary.credit.creditHold ? (
+                    <span className="badge badge-danger">CREDIT HOLD</span>
+                  ) : null}
+                </div>
+                <div style={{ margin: '4px 0 8px' }}>
+                  {summary.tags.map((t) => (
+                    <span key={t} className="badge badge-accent" style={{ marginRight: 4 }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="grid-4" style={{ marginBottom: 10 }}>
+                  <div className="card stat">
+                    <div className="stat-label">Revenue ({summary.orders.count} orders)</div>
+                    <div className="stat-value">{summary.orders.revenue}</div>
+                  </div>
+                  <div className="card stat">
+                    <div className="stat-label">Open balance</div>
+                    <div className="stat-value">{summary.credit.openBalance}</div>
+                  </div>
+                  <div className="card stat">
+                    <div className="stat-label">Credit limit</div>
+                    <div className="stat-value">{summary.credit.creditLimit ?? '—'}</div>
+                  </div>
+                  <div className="card stat">
+                    <div className="stat-label">Available credit</div>
+                    <div className="stat-value">{summary.credit.availableCredit ?? '—'}</div>
+                  </div>
+                </div>
+                <div className="grid-2">
+                  <div>
+                    <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
+                      Recent orders · open quotes: {summary.quotes.open} · opportunities:{' '}
+                      {summary.opportunities.open} open / {summary.opportunities.won} won
+                    </div>
+                    {summary.orders.recent.length === 0 ? (
+                      <div className="empty">No orders yet.</div>
+                    ) : (
+                      summary.orders.recent.map((o) => (
+                        <div key={o.id} style={{ fontSize: 13, padding: '2px 0' }}>
+                          <span className="mono">{o.orderNumber}</span> — {o.total}{' '}
+                          <span className="badge badge-accent">{o.status}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  <div>
+                    <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
+                      Latest activity
+                    </div>
+                    {summary.activities.length === 0 ? (
+                      <div className="empty">No activities logged.</div>
+                    ) : (
+                      summary.activities.map((act) => (
+                        <div key={act.id} className="muted" style={{ fontSize: 12 }}>
+                          <span className="mono">
+                            {new Date(act.occurredAt).toLocaleDateString()}
+                          </span>{' '}
+                          — {act.activityType}: {act.subject}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+                {can('crm.manage') ? (
+                  <form
+                    className="row"
+                    style={{ marginTop: 10 }}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      void run(async () => {
+                        await api('POST', `/api/v1/crm/accounts/${selected360}/credit`, {
+                          creditLimit: creditLimitInput === '' ? null : Number(creditLimitInput),
+                          creditHold: creditHoldInput,
+                        });
+                        await api('POST', `/api/v1/crm/accounts/${selected360}/tags`, {
+                          tags: tagsInput
+                            .split(',')
+                            .map((t) => t.trim())
+                            .filter(Boolean),
+                        });
+                        await open360(selected360, true);
+                      }, 'Credit profile saved.');
+                    }}
+                  >
+                    <input
+                      className="input"
+                      style={{ maxWidth: 130 }}
+                      placeholder="Credit limit"
+                      value={creditLimitInput}
+                      onChange={(e) => setCreditLimitInput(e.target.value)}
+                    />
+                    <label style={{ fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <input
+                        type="checkbox"
+                        checked={creditHoldInput}
+                        onChange={(e) => setCreditHoldInput(e.target.checked)}
+                      />
+                      Credit hold
+                    </label>
+                    <input
+                      className="input"
+                      style={{ maxWidth: 220 }}
+                      placeholder="Tags (comma-separated)"
+                      value={tagsInput}
+                      onChange={(e) => setTagsInput(e.target.value)}
+                    />
+                    <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                      Save profile
+                    </button>
+                  </form>
+                ) : null}
+              </div>
             ) : null}
             {can('crm.manage') && parties.length > 0 ? (
               <form

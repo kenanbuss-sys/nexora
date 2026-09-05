@@ -9,3 +9,8 @@ export {
   type OpportunityView,
   type PartyGate,
 } from './crm.service';
+export {
+  Customer360Service,
+  type CreditProfile,
+  type Customer360View,
+} from './customer360.service';

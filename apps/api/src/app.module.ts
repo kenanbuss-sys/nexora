@@ -13,7 +13,7 @@ import {
 } from '@nexora/domain-core';
 import { DocumentTemplateService } from '@nexora/domain-doc';
 import { PricingService, QuoteService } from '@nexora/domain-cpq';
-import { CrmService } from '@nexora/domain-crm';
+import { CrmService, Customer360Service } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
 import { OrderService } from '@nexora/domain-oms';
@@ -49,6 +49,7 @@ import {
 } from './dev/dev.controller';
 import {
   CRM_SERVICE,
+  CUSTOMER360_SERVICE,
   CrmAccountsController,
   CrmActivitiesController,
   CrmLeadsController,
@@ -326,6 +327,11 @@ export const REDIS = 'REDIS';
       inject: [PRISMA, PARTY_SERVICE],
     },
     {
+      provide: CUSTOMER360_SERVICE,
+      useFactory: (prisma: PrismaClient) => new Customer360Service(prisma),
+      inject: [PRISMA],
+    },
+    {
       provide: PRICING_SERVICE,
       useFactory: (prisma: PrismaClient) => new PricingService(prisma),
       inject: [PRISMA],
@@ -358,6 +364,7 @@ export const REDIS = 'REDIS';
         crm: CrmService,
         catalog: CatalogService,
         inventory: InventoryService,
+        customer360: Customer360Service,
       ) =>
         new OrderService(
           prisma,
@@ -368,8 +375,9 @@ export const REDIS = 'REDIS';
             releaseReservation: (id, ctx) => inventory.releaseReservation(id, ctx),
             postMovement: (input, ctx) => inventory.postMovement(input, ctx),
           },
+          { checkCredit: (t, a, amount) => customer360.checkCredit(t, a, amount) },
         ),
-      inject: [PRISMA, CRM_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE],
+      inject: [PRISMA, CRM_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE, CUSTOMER360_SERVICE],
     },
     {
       provide: PROCUREMENT_SERVICE,
