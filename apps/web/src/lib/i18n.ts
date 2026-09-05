@@ -497,6 +497,8 @@ export const BS: Record<string, string> = {
   'Weight and dimensions per base unit — order totals derive from this.':
     'Težina i dimenzije po osnovnoj jedinici — zbir po narudžbi se računa iz ovoga.',
   'Logistics saved.': 'Logistika sačuvana.',
+  'This action requires a fresh password confirmation':
+    'Ova akcija zahtijeva svježu potvrdu lozinke',
   'Enter the 6-digit code from your authenticator app.':
     'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };

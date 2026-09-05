@@ -7,6 +7,7 @@ import { writeAudit } from '@nexora/audit';
 import { PRISMA, SERVICE_ACCOUNT_SERVICE } from '../auth/auth.guard';
 import { Ctx } from '../auth/ctx.decorator';
 import { PlatformOnly, RequirePermission } from '../auth/permissions.guard';
+import { RequireStepUp } from '../auth/step-up.guard';
 import { parseBody } from '../common/validate';
 
 const createKeySchema = z.object({
@@ -55,6 +56,7 @@ export class TenantExportController {
 
   @Get('export')
   @RequirePermission('iam.user.manage')
+  @RequireStepUp()
   async export(@Ctx() ctx: RequestContext) {
     const take = 1000;
     const where = { tenantId: ctx.tenantId };

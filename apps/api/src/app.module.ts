@@ -100,6 +100,7 @@ import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
 import { COUNT_SERVICE, CountsController } from './wms/counts.controller';
 import { DataController, IMPORT_EXPORT_SERVICE } from './data/data.controller';
 import { ModulesGuard } from './auth/modules.guard';
+import { StepUpGuard } from './auth/step-up.guard';
 import {
   CREDENTIAL_SERVICE,
   LocalAuthController,
@@ -778,6 +779,7 @@ export const REDIS = 'REDIS';
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: PermissionsGuard },
     { provide: APP_GUARD, useClass: ModulesGuard },
+    { provide: APP_GUARD, useClass: StepUpGuard },
     { provide: APP_FILTER, useClass: CanonicalErrorFilter },
   ],
 })

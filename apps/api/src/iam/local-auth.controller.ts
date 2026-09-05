@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import type Redis from 'ioredis';
 import type { CredentialService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -6,9 +7,11 @@ import { Public } from '../auth/auth.guard';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
+import { STEP_UP_TTL_SECONDS, stepUpKey } from '../auth/step-up.guard';
 
 export const CREDENTIAL_SERVICE = 'CREDENTIAL_SERVICE';
 export const TOKEN_SIGNER = 'TOKEN_SIGNER';
+const REDIS = 'REDIS';
 
 /** Signs a bearer token for a verified local login. */
 export interface TokenSigner {
@@ -23,6 +26,7 @@ const loginSchema = z.object({
 });
 const confirmMfaSchema = z.object({ code: z.string().min(6).max(8) });
 const disableMfaSchema = z.object({ currentPassword: z.string().min(1).max(200) });
+const stepUpSchema = z.object({ currentPassword: z.string().min(1).max(200) });
 const changePasswordSchema = z.object({
   currentPassword: z.string().min(1).max(200),
   newPassword: z.string().min(1).max(200),
@@ -35,7 +39,16 @@ export class LocalAuthController {
   constructor(
     @Inject(CREDENTIAL_SERVICE) private readonly credentials: CredentialService,
     @Inject(TOKEN_SIGNER) private readonly signer: TokenSigner,
+    @Inject(REDIS) private readonly redis: Redis,
   ) {}
+
+  /** Grants a short-lived elevation for @RequireStepUp routes. */
+  @Post('step-up')
+  async stepUp(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.credentials.verifyStepUp(parseBody(stepUpSchema, body).currentPassword, ctx);
+    await this.redis.set(stepUpKey(ctx.tenantId, ctx.userId ?? ''), '1', 'EX', STEP_UP_TTL_SECONDS);
+    return { elevated: true, ttlSeconds: STEP_UP_TTL_SECONDS };
+  }
 
   @Public()
   @Post('login')

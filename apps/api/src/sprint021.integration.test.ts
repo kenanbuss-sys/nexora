@@ -160,6 +160,18 @@ integration('Sprint 021 — platform ops & security', () => {
   });
 
   it('OPS-017: tenant export returns a bounded audited snapshot', async () => {
+    // Sprint 050: the export is a step-up route — confirm the password first.
+    const stepUpDenied = await api('GET', '/api/v1/tenant/export', tokenA);
+    expect(stepUpDenied.status).toBe(403);
+    const users = await api('GET', '/api/v1/users', tokenA);
+    const admin = (users.body.users as Array<{ id: string; email: string }>).find(
+      (u) => u.email === 'admin@s21a.example',
+    )!;
+    await api('POST', `/api/v1/users/${admin.id}/password`, tokenA, {
+      password: 'izvoz-lozinka-21',
+    });
+    await api('POST', '/api/v1/auth/step-up', tokenA, { currentPassword: 'izvoz-lozinka-21' });
+
     const exported = await api('GET', '/api/v1/tenant/export', tokenA);
     expect(exported.status).toBe(200);
     expect(exported.body.tenantSlug).toBe('test-s21a');

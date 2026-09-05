@@ -469,7 +469,7 @@ export default function UsersPage() {
               style={{ marginTop: 8 }}
               onClick={() => {
                 void (async () => {
-                  try {
+                  const download = async () => {
                     const data = await api<Record<string, unknown>>('GET', '/api/v1/tenant/export');
                     const url = URL.createObjectURL(
                       new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }),
@@ -480,8 +480,25 @@ export default function UsersPage() {
                     a.click();
                     URL.revokeObjectURL(url);
                     setNotice('Tenant data exported.');
+                  };
+                  try {
+                    await download();
                   } catch (e: unknown) {
-                    setError(errorText(e));
+                    // Sensitive export demands a fresh password (step-up).
+                    if (errorText(e).includes('fresh password')) {
+                      const password = window.prompt(
+                        'Confirm your password to export tenant data:',
+                      );
+                      if (!password) return;
+                      try {
+                        await api('POST', '/api/v1/auth/step-up', { currentPassword: password });
+                        await download();
+                      } catch (inner: unknown) {
+                        setError(errorText(inner));
+                      }
+                    } else {
+                      setError(errorText(e));
+                    }
                   }
                 })();
               }}

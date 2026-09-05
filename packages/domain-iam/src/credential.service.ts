@@ -370,6 +370,25 @@ export class CredentialService {
     await this.securityEvent(ctx.tenantId, 'auth.mfa.disabled', ctx.userId, null);
   }
 
+  /**
+   * Step-up: re-verifies the current password for a signed-in user (no
+   * lockout coupling — this is a freshness check, not a login).
+   */
+  async verifyStepUp(currentPassword: string, ctx: RequestContext): Promise<void> {
+    if (!ctx.userId) throw new DomainError('FORBIDDEN', 'Only signed-in users can step up');
+    const credential = await this.prisma.userCredential.findFirst({
+      where: { userId: ctx.userId, tenantId: ctx.tenantId },
+    });
+    if (!credential) {
+      throw new DomainError('INVALID_STATE', 'Set a password before using step-up actions');
+    }
+    if (!verifyPassword(currentPassword, credential.passwordHash)) {
+      await this.securityEvent(ctx.tenantId, 'auth.step_up.failed', ctx.userId, null);
+      throw new DomainError('FORBIDDEN', 'Current password is incorrect');
+    }
+    await this.securityEvent(ctx.tenantId, 'auth.step_up.granted', ctx.userId, null);
+  }
+
   /** Whether the signed-in user has a credential and armed MFA. */
   async mfaStatus(ctx: RequestContext): Promise<{ hasPassword: boolean; mfaEnabled: boolean }> {
     if (!ctx.userId) return { hasPassword: false, mfaEnabled: false };
