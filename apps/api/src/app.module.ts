@@ -25,6 +25,7 @@ import { QualityService } from '@nexora/domain-qc';
 import { FinanceService } from '@nexora/domain-fin';
 import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
+import { CollaborationService, SearchService } from '@nexora/domain-collab';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -78,6 +79,13 @@ import {
 import { FINANCE_SERVICE, FinanceController } from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
 import { PORTAL_SERVICE, PortalController, PortalUsersController } from './b2b/b2b.controller';
+import {
+  AttachmentsController,
+  COLLAB_SERVICE,
+  CommentsController,
+  SEARCH_SERVICE,
+  SearchController,
+} from './collab/collab.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -168,6 +176,9 @@ export const REDIS = 'REDIS';
     AnalyticsController,
     PortalUsersController,
     PortalController,
+    CommentsController,
+    AttachmentsController,
+    SearchController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -446,6 +457,28 @@ export const REDIS = 'REDIS';
     {
       provide: PORTAL_SERVICE,
       useFactory: (prisma: PrismaClient) => new PortalService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: COLLAB_SERVICE,
+      useFactory: (prisma: PrismaClient, tasks: TaskService) =>
+        new CollaborationService(prisma, {
+          notifyMention: async (tenantId, userId, input) => {
+            await tasks.notifyInTx(prisma, tenantId, {
+              userId,
+              type: 'mention',
+              title: input.title,
+              body: input.body,
+              relatedObjectType: input.entityType,
+              relatedObjectId: input.entityId,
+            });
+          },
+        }),
+      inject: [PRISMA, TASK_SERVICE],
+    },
+    {
+      provide: SEARCH_SERVICE,
+      useFactory: (prisma: PrismaClient) => new SearchService(prisma),
       inject: [PRISMA],
     },
     {

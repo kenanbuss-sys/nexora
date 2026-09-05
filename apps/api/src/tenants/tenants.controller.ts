@@ -94,6 +94,8 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'finance.pay',
   'analytics.read',
   'portal.manage',
+  'collab.use',
+  'search.read',
 ];
 
 const createTenantSchema = z.object({

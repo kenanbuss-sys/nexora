@@ -55,6 +55,97 @@ const ICONS: Record<string, string> = {
   quality: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
 };
 
+interface SearchHit {
+  type: string;
+  id: string;
+  title: string;
+  subtitle: string;
+  href: string;
+}
+
+/** Global search (CORE-011): sidebar box routing typed hits to modules. */
+function GlobalSearch() {
+  const router = useRouter();
+  const [q, setQ] = useState('');
+  const [hits, setHits] = useState<SearchHit[] | null>(null);
+
+  useEffect(() => {
+    if (q.trim().length < 2) {
+      setHits(null);
+      return;
+    }
+    const t = setTimeout(() => {
+      api<{ hits: SearchHit[] }>('GET', `/api/v1/search?q=${encodeURIComponent(q.trim())}`)
+        .then((r) => setHits(r.hits))
+        .catch(() => setHits([]));
+    }, 250);
+    return () => clearTimeout(t);
+  }, [q]);
+
+  return (
+    <div style={{ position: 'relative', padding: '0 10px 8px' }}>
+      <input
+        className="input"
+        style={{ width: '100%', fontSize: 13 }}
+        placeholder="Search everything…"
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        aria-label="Global search"
+      />
+      {hits !== null ? (
+        <div
+          style={{
+            position: 'absolute',
+            zIndex: 40,
+            left: 10,
+            right: 10,
+            background: 'var(--color-surface, #fff)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 8,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.18)',
+            maxHeight: 320,
+            overflowY: 'auto',
+          }}
+        >
+          {hits.length === 0 ? (
+            <div className="muted" style={{ padding: 10, fontSize: 13 }}>
+              No matches.
+            </div>
+          ) : (
+            hits.map((h) => (
+              <button
+                key={`${h.type}:${h.id}`}
+                type="button"
+                onClick={() => {
+                  setQ('');
+                  setHits(null);
+                  router.push(h.href);
+                }}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '8px 10px',
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: '1px solid var(--color-border)',
+                  cursor: 'pointer',
+                  color: 'inherit',
+                }}
+              >
+                <div style={{ fontSize: 13 }}>{h.title}</div>
+                <div className="muted" style={{ fontSize: 11 }}>
+                  {h.type.replace('_', ' ')} · {h.subtitle}
+                </div>
+              </button>
+            ))
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function NavIcon({ name }: { name: string }) {
   return (
     <svg
@@ -139,6 +230,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="shell">
         <aside className="sidebar">
           <div className="sidebar-brand">NexoraOS</div>
+          {can('search.read') ? <GlobalSearch /> : null}
           {nav.map((item) => (
             <Link
               key={item.href}

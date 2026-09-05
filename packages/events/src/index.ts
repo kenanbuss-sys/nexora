@@ -69,6 +69,8 @@ export const EVENT_TYPES = {
   INVOICE_ISSUED: 'invoice.issued',
   PAYMENT_RECEIVED: 'payment.received',
   PAYMENT_MATCHED: 'payment.matched',
+  COMMENT_ADDED: 'comment.added',
+  ATTACHMENT_UPLOADED: 'attachment.uploaded',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];

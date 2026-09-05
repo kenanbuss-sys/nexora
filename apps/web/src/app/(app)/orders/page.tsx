@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
+import { CollabPanel } from '../collab-panel';
 
 interface OrderLineView {
   id: string;
@@ -89,6 +90,7 @@ export default function OrdersPage() {
   const [holdOrder, setHoldOrder] = useState('');
   const [holdReason, setHoldReason] = useState('');
   const [timeline, setTimeline] = useState<Record<string, OrderEventView[]>>({});
+  const [discussion, setDiscussion] = useState<Record<string, boolean>>({});
 
   const load = useCallback(() => {
     api<{ orders: OrderView[] }>('GET', '/api/v1/orders')
@@ -518,6 +520,13 @@ export default function OrdersPage() {
                 <button className="btn btn-sm" onClick={() => toggleTimeline(o.id)} type="button">
                   {timeline[o.id] ? 'Hide history' : 'History'}
                 </button>
+                <button
+                  className="btn btn-sm"
+                  onClick={() => setDiscussion((d) => ({ ...d, [o.id]: !d[o.id] }))}
+                  type="button"
+                >
+                  {discussion[o.id] ? 'Hide discussion' : 'Discussion'}
+                </button>
               </div>
 
               {timeline[o.id] ? (
@@ -531,6 +540,8 @@ export default function OrdersPage() {
                   ))}
                 </div>
               ) : null}
+
+              {discussion[o.id] ? <CollabPanel entityType="sales_order" entityId={o.id} /> : null}
             </div>
           ))}
         </div>

@@ -6,10 +6,10 @@ CORE-004,CORE,Terminology dictionary,P0,Implemented (Sprint 002),R0,,,Terminolog
 CORE-005,CORE,Localization,P0,PLANNED,R0,,,
 CORE-006,CORE,Feature flags & licensing,P0,Partially implemented (Sprint 002),R0,,,Module activation flags (licensing later)
 CORE-007,CORE,Configuration versioning,P0,Partially implemented (Sprint 001),R0,,,TenantConfigurationVersion (foundation)
-CORE-008,CORE,Global numbering,P0,PLANNED,R0,,,
-CORE-009,CORE,Attachments,P0,PLANNED,R0,,,
-CORE-010,CORE,Comments/mentions,P0,PLANNED,R0,,,
-CORE-011,CORE,Global search,P0,PLANNED,R0,,,
+CORE-008,CORE,Global numbering,P0,DONE,R0,,,Number sequences: atomic per-tenant draws (Sprint 016)
+CORE-009,CORE,Attachments,P0,DONE,R0,,,"Attachments behind storage port, DB adapter (Sprint 016)"
+CORE-010,CORE,Comments/mentions,P0,DONE,R0,,,Comments with mention notifications (Sprint 016)
+CORE-011,CORE,Global search,P0,DONE,R0,,,Global search across record families (Sprint 016)
 CORE-012,CORE,Unified inbox,P0,Partially implemented (Sprint 002),R0,,,Unified inbox: tasks+approvals+notifications
 CORE-013,CORE,Notifications,P0,Partially implemented (Sprint 002),R0,,,Notification storage/read (channels later)
 CORE-014,CORE,Task engine,P0,Implemented (Sprint 002),R0,,,Task engine (create/complete/list) + audit

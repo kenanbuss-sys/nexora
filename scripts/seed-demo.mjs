@@ -137,6 +137,8 @@ const BASELINE = [
   'finance.pay',
   'analytics.read',
   'portal.manage',
+  'collab.use',
+  'search.read',
 ];
 try {
   const roles = await call('GET', '/api/v1/roles', admin);
