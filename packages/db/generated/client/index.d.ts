@@ -448,6 +448,18 @@ export type CostCenter = $Result.DefaultSelection<Prisma.$CostCenterPayload>
  * the cost center inside the period.
  */
 export type Budget = $Result.DefaultSelection<Prisma.$BudgetPayload>
+/**
+ * Model WebhookSubscription
+ * 
+ */
+export type WebhookSubscription = $Result.DefaultSelection<Prisma.$WebhookSubscriptionPayload>
+/**
+ * Model WebhookDelivery
+ * One attempt-tracked delivery of one event to one subscription.
+ * (subscription, outbox event) is unique, so fan-out retries are
+ * exactly-once (INT-011).
+ */
+export type WebhookDelivery = $Result.DefaultSelection<Prisma.$WebhookDeliveryPayload>
 
 /**
  * Enums
@@ -845,6 +857,16 @@ export const PortalUserStatus: {
 
 export type PortalUserStatus = (typeof PortalUserStatus)[keyof typeof PortalUserStatus]
 
+
+export const WebhookDeliveryStatus: {
+  PENDING: 'PENDING',
+  DELIVERED: 'DELIVERED',
+  FAILED: 'FAILED',
+  DEAD: 'DEAD'
+};
+
+export type WebhookDeliveryStatus = (typeof WebhookDeliveryStatus)[keyof typeof WebhookDeliveryStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1010,6 +1032,10 @@ export const InvoiceStatus: typeof $Enums.InvoiceStatus
 export type PortalUserStatus = $Enums.PortalUserStatus
 
 export const PortalUserStatus: typeof $Enums.PortalUserStatus
+
+export type WebhookDeliveryStatus = $Enums.WebhookDeliveryStatus
+
+export const WebhookDeliveryStatus: typeof $Enums.WebhookDeliveryStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1928,6 +1954,26 @@ export class PrismaClient<
     * ```
     */
   get budget(): Prisma.BudgetDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webhookSubscription`: Exposes CRUD operations for the **WebhookSubscription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebhookSubscriptions
+    * const webhookSubscriptions = await prisma.webhookSubscription.findMany()
+    * ```
+    */
+  get webhookSubscription(): Prisma.WebhookSubscriptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webhookDelivery`: Exposes CRUD operations for the **WebhookDelivery** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebhookDeliveries
+    * const webhookDeliveries = await prisma.webhookDelivery.findMany()
+    * ```
+    */
+  get webhookDelivery(): Prisma.WebhookDeliveryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2448,7 +2494,9 @@ export namespace Prisma {
     AttachmentBlob: 'AttachmentBlob',
     NumberSequence: 'NumberSequence',
     CostCenter: 'CostCenter',
-    Budget: 'Budget'
+    Budget: 'Budget',
+    WebhookSubscription: 'WebhookSubscription',
+    WebhookDelivery: 'WebhookDelivery'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2467,7 +2515,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -8391,6 +8439,154 @@ export namespace Prisma {
           }
         }
       }
+      WebhookSubscription: {
+        payload: Prisma.$WebhookSubscriptionPayload<ExtArgs>
+        fields: Prisma.WebhookSubscriptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebhookSubscriptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebhookSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>
+          }
+          findFirst: {
+            args: Prisma.WebhookSubscriptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebhookSubscriptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>
+          }
+          findMany: {
+            args: Prisma.WebhookSubscriptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>[]
+          }
+          create: {
+            args: Prisma.WebhookSubscriptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>
+          }
+          createMany: {
+            args: Prisma.WebhookSubscriptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WebhookSubscriptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>[]
+          }
+          delete: {
+            args: Prisma.WebhookSubscriptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>
+          }
+          update: {
+            args: Prisma.WebhookSubscriptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.WebhookSubscriptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WebhookSubscriptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WebhookSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.WebhookSubscriptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookSubscriptionPayload>
+          }
+          aggregate: {
+            args: Prisma.WebhookSubscriptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebhookSubscription>
+          }
+          groupBy: {
+            args: Prisma.WebhookSubscriptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebhookSubscriptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebhookSubscriptionCountArgs<ExtArgs>
+            result: $Utils.Optional<WebhookSubscriptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebhookDelivery: {
+        payload: Prisma.$WebhookDeliveryPayload<ExtArgs>
+        fields: Prisma.WebhookDeliveryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebhookDeliveryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebhookDeliveryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>
+          }
+          findFirst: {
+            args: Prisma.WebhookDeliveryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebhookDeliveryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>
+          }
+          findMany: {
+            args: Prisma.WebhookDeliveryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>[]
+          }
+          create: {
+            args: Prisma.WebhookDeliveryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>
+          }
+          createMany: {
+            args: Prisma.WebhookDeliveryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WebhookDeliveryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>[]
+          }
+          delete: {
+            args: Prisma.WebhookDeliveryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>
+          }
+          update: {
+            args: Prisma.WebhookDeliveryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>
+          }
+          deleteMany: {
+            args: Prisma.WebhookDeliveryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WebhookDeliveryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WebhookDeliveryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>[]
+          }
+          upsert: {
+            args: Prisma.WebhookDeliveryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>
+          }
+          aggregate: {
+            args: Prisma.WebhookDeliveryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebhookDelivery>
+          }
+          groupBy: {
+            args: Prisma.WebhookDeliveryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebhookDeliveryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebhookDeliveryCountArgs<ExtArgs>
+            result: $Utils.Optional<WebhookDeliveryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -8567,6 +8763,8 @@ export namespace Prisma {
     numberSequence?: NumberSequenceOmit
     costCenter?: CostCenterOmit
     budget?: BudgetOmit
+    webhookSubscription?: WebhookSubscriptionOmit
+    webhookDelivery?: WebhookDeliveryOmit
   }
 
   /* Types for Logging */
@@ -8716,6 +8914,8 @@ export namespace Prisma {
     numberSequences: number
     costCenters: number
     budgets: number
+    webhookSubscriptions: number
+    webhookDeliveries: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8788,6 +8988,8 @@ export namespace Prisma {
     numberSequences?: boolean | TenantCountOutputTypeCountNumberSequencesArgs
     costCenters?: boolean | TenantCountOutputTypeCountCostCentersArgs
     budgets?: boolean | TenantCountOutputTypeCountBudgetsArgs
+    webhookSubscriptions?: boolean | TenantCountOutputTypeCountWebhookSubscriptionsArgs
+    webhookDeliveries?: boolean | TenantCountOutputTypeCountWebhookDeliveriesArgs
   }
 
   // Custom InputTypes
@@ -9282,6 +9484,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountBudgetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BudgetWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountWebhookSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookSubscriptionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountWebhookDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookDeliveryWhereInput
   }
 
 
@@ -10146,6 +10362,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type WebhookSubscriptionCountOutputType
+   */
+
+  export type WebhookSubscriptionCountOutputType = {
+    deliveries: number
+  }
+
+  export type WebhookSubscriptionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deliveries?: boolean | WebhookSubscriptionCountOutputTypeCountDeliveriesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WebhookSubscriptionCountOutputType without action
+   */
+  export type WebhookSubscriptionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscriptionCountOutputType
+     */
+    select?: WebhookSubscriptionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WebhookSubscriptionCountOutputType without action
+   */
+  export type WebhookSubscriptionCountOutputTypeCountDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookDeliveryWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -10432,6 +10679,8 @@ export namespace Prisma {
     numberSequences?: boolean | Tenant$numberSequencesArgs<ExtArgs>
     costCenters?: boolean | Tenant$costCentersArgs<ExtArgs>
     budgets?: boolean | Tenant$budgetsArgs<ExtArgs>
+    webhookSubscriptions?: boolean | Tenant$webhookSubscriptionsArgs<ExtArgs>
+    webhookDeliveries?: boolean | Tenant$webhookDeliveriesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -10536,6 +10785,8 @@ export namespace Prisma {
     numberSequences?: boolean | Tenant$numberSequencesArgs<ExtArgs>
     costCenters?: boolean | Tenant$costCentersArgs<ExtArgs>
     budgets?: boolean | Tenant$budgetsArgs<ExtArgs>
+    webhookSubscriptions?: boolean | Tenant$webhookSubscriptionsArgs<ExtArgs>
+    webhookDeliveries?: boolean | Tenant$webhookDeliveriesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -10613,6 +10864,8 @@ export namespace Prisma {
       numberSequences: Prisma.$NumberSequencePayload<ExtArgs>[]
       costCenters: Prisma.$CostCenterPayload<ExtArgs>[]
       budgets: Prisma.$BudgetPayload<ExtArgs>[]
+      webhookSubscriptions: Prisma.$WebhookSubscriptionPayload<ExtArgs>[]
+      webhookDeliveries: Prisma.$WebhookDeliveryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11085,6 +11338,8 @@ export namespace Prisma {
     numberSequences<T extends Tenant$numberSequencesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$numberSequencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NumberSequencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     costCenters<T extends Tenant$costCentersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$costCentersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     budgets<T extends Tenant$budgetsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$budgetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    webhookSubscriptions<T extends Tenant$webhookSubscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$webhookSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    webhookDeliveries<T extends Tenant$webhookDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$webhookDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13162,6 +13417,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BudgetScalarFieldEnum | BudgetScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.webhookSubscriptions
+   */
+  export type Tenant$webhookSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    where?: WebhookSubscriptionWhereInput
+    orderBy?: WebhookSubscriptionOrderByWithRelationInput | WebhookSubscriptionOrderByWithRelationInput[]
+    cursor?: WebhookSubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WebhookSubscriptionScalarFieldEnum | WebhookSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.webhookDeliveries
+   */
+  export type Tenant$webhookDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    where?: WebhookDeliveryWhereInput
+    orderBy?: WebhookDeliveryOrderByWithRelationInput | WebhookDeliveryOrderByWithRelationInput[]
+    cursor?: WebhookDeliveryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WebhookDeliveryScalarFieldEnum | WebhookDeliveryScalarFieldEnum[]
   }
 
   /**
@@ -103175,6 +103478,2319 @@ export namespace Prisma {
 
 
   /**
+   * Model WebhookSubscription
+   */
+
+  export type AggregateWebhookSubscription = {
+    _count: WebhookSubscriptionCountAggregateOutputType | null
+    _min: WebhookSubscriptionMinAggregateOutputType | null
+    _max: WebhookSubscriptionMaxAggregateOutputType | null
+  }
+
+  export type WebhookSubscriptionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    url: string | null
+    secret: string | null
+    active: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WebhookSubscriptionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    url: string | null
+    secret: string | null
+    active: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WebhookSubscriptionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    name: number
+    url: number
+    secret: number
+    eventTypes: number
+    active: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WebhookSubscriptionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    url?: true
+    secret?: true
+    active?: true
+    createdAt?: true
+  }
+
+  export type WebhookSubscriptionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    url?: true
+    secret?: true
+    active?: true
+    createdAt?: true
+  }
+
+  export type WebhookSubscriptionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    url?: true
+    secret?: true
+    eventTypes?: true
+    active?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WebhookSubscriptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookSubscription to aggregate.
+     */
+    where?: WebhookSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookSubscriptions to fetch.
+     */
+    orderBy?: WebhookSubscriptionOrderByWithRelationInput | WebhookSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebhookSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebhookSubscriptions
+    **/
+    _count?: true | WebhookSubscriptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebhookSubscriptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebhookSubscriptionMaxAggregateInputType
+  }
+
+  export type GetWebhookSubscriptionAggregateType<T extends WebhookSubscriptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebhookSubscription]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebhookSubscription[P]>
+      : GetScalarType<T[P], AggregateWebhookSubscription[P]>
+  }
+
+
+
+
+  export type WebhookSubscriptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookSubscriptionWhereInput
+    orderBy?: WebhookSubscriptionOrderByWithAggregationInput | WebhookSubscriptionOrderByWithAggregationInput[]
+    by: WebhookSubscriptionScalarFieldEnum[] | WebhookSubscriptionScalarFieldEnum
+    having?: WebhookSubscriptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebhookSubscriptionCountAggregateInputType | true
+    _min?: WebhookSubscriptionMinAggregateInputType
+    _max?: WebhookSubscriptionMaxAggregateInputType
+  }
+
+  export type WebhookSubscriptionGroupByOutputType = {
+    id: string
+    tenantId: string
+    name: string
+    url: string
+    secret: string
+    eventTypes: string[]
+    active: boolean
+    createdAt: Date
+    _count: WebhookSubscriptionCountAggregateOutputType | null
+    _min: WebhookSubscriptionMinAggregateOutputType | null
+    _max: WebhookSubscriptionMaxAggregateOutputType | null
+  }
+
+  type GetWebhookSubscriptionGroupByPayload<T extends WebhookSubscriptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebhookSubscriptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebhookSubscriptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebhookSubscriptionGroupByOutputType[P]>
+            : GetScalarType<T[P], WebhookSubscriptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebhookSubscriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    url?: boolean
+    secret?: boolean
+    eventTypes?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    deliveries?: boolean | WebhookSubscription$deliveriesArgs<ExtArgs>
+    _count?: boolean | WebhookSubscriptionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookSubscription"]>
+
+  export type WebhookSubscriptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    url?: boolean
+    secret?: boolean
+    eventTypes?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookSubscription"]>
+
+  export type WebhookSubscriptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    url?: boolean
+    secret?: boolean
+    eventTypes?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookSubscription"]>
+
+  export type WebhookSubscriptionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    url?: boolean
+    secret?: boolean
+    eventTypes?: boolean
+    active?: boolean
+    createdAt?: boolean
+  }
+
+  export type WebhookSubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "url" | "secret" | "eventTypes" | "active" | "createdAt", ExtArgs["result"]["webhookSubscription"]>
+  export type WebhookSubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    deliveries?: boolean | WebhookSubscription$deliveriesArgs<ExtArgs>
+    _count?: boolean | WebhookSubscriptionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WebhookSubscriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type WebhookSubscriptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $WebhookSubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebhookSubscription"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      deliveries: Prisma.$WebhookDeliveryPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      name: string
+      url: string
+      /**
+       * HMAC-SHA256 signing secret; generated server-side, shown once.
+       */
+      secret: string
+      eventTypes: string[]
+      active: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["webhookSubscription"]>
+    composites: {}
+  }
+
+  type WebhookSubscriptionGetPayload<S extends boolean | null | undefined | WebhookSubscriptionDefaultArgs> = $Result.GetResult<Prisma.$WebhookSubscriptionPayload, S>
+
+  type WebhookSubscriptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebhookSubscriptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebhookSubscriptionCountAggregateInputType | true
+    }
+
+  export interface WebhookSubscriptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebhookSubscription'], meta: { name: 'WebhookSubscription' } }
+    /**
+     * Find zero or one WebhookSubscription that matches the filter.
+     * @param {WebhookSubscriptionFindUniqueArgs} args - Arguments to find a WebhookSubscription
+     * @example
+     * // Get one WebhookSubscription
+     * const webhookSubscription = await prisma.webhookSubscription.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebhookSubscriptionFindUniqueArgs>(args: SelectSubset<T, WebhookSubscriptionFindUniqueArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebhookSubscription that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebhookSubscriptionFindUniqueOrThrowArgs} args - Arguments to find a WebhookSubscription
+     * @example
+     * // Get one WebhookSubscription
+     * const webhookSubscription = await prisma.webhookSubscription.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebhookSubscriptionFindUniqueOrThrowArgs>(args: SelectSubset<T, WebhookSubscriptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookSubscription that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookSubscriptionFindFirstArgs} args - Arguments to find a WebhookSubscription
+     * @example
+     * // Get one WebhookSubscription
+     * const webhookSubscription = await prisma.webhookSubscription.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebhookSubscriptionFindFirstArgs>(args?: SelectSubset<T, WebhookSubscriptionFindFirstArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookSubscription that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookSubscriptionFindFirstOrThrowArgs} args - Arguments to find a WebhookSubscription
+     * @example
+     * // Get one WebhookSubscription
+     * const webhookSubscription = await prisma.webhookSubscription.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebhookSubscriptionFindFirstOrThrowArgs>(args?: SelectSubset<T, WebhookSubscriptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebhookSubscriptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookSubscriptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebhookSubscriptions
+     * const webhookSubscriptions = await prisma.webhookSubscription.findMany()
+     * 
+     * // Get first 10 WebhookSubscriptions
+     * const webhookSubscriptions = await prisma.webhookSubscription.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webhookSubscriptionWithIdOnly = await prisma.webhookSubscription.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebhookSubscriptionFindManyArgs>(args?: SelectSubset<T, WebhookSubscriptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WebhookSubscription.
+     * @param {WebhookSubscriptionCreateArgs} args - Arguments to create a WebhookSubscription.
+     * @example
+     * // Create one WebhookSubscription
+     * const WebhookSubscription = await prisma.webhookSubscription.create({
+     *   data: {
+     *     // ... data to create a WebhookSubscription
+     *   }
+     * })
+     * 
+     */
+    create<T extends WebhookSubscriptionCreateArgs>(args: SelectSubset<T, WebhookSubscriptionCreateArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WebhookSubscriptions.
+     * @param {WebhookSubscriptionCreateManyArgs} args - Arguments to create many WebhookSubscriptions.
+     * @example
+     * // Create many WebhookSubscriptions
+     * const webhookSubscription = await prisma.webhookSubscription.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WebhookSubscriptionCreateManyArgs>(args?: SelectSubset<T, WebhookSubscriptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WebhookSubscriptions and returns the data saved in the database.
+     * @param {WebhookSubscriptionCreateManyAndReturnArgs} args - Arguments to create many WebhookSubscriptions.
+     * @example
+     * // Create many WebhookSubscriptions
+     * const webhookSubscription = await prisma.webhookSubscription.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WebhookSubscriptions and only return the `id`
+     * const webhookSubscriptionWithIdOnly = await prisma.webhookSubscription.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WebhookSubscriptionCreateManyAndReturnArgs>(args?: SelectSubset<T, WebhookSubscriptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WebhookSubscription.
+     * @param {WebhookSubscriptionDeleteArgs} args - Arguments to delete one WebhookSubscription.
+     * @example
+     * // Delete one WebhookSubscription
+     * const WebhookSubscription = await prisma.webhookSubscription.delete({
+     *   where: {
+     *     // ... filter to delete one WebhookSubscription
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WebhookSubscriptionDeleteArgs>(args: SelectSubset<T, WebhookSubscriptionDeleteArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WebhookSubscription.
+     * @param {WebhookSubscriptionUpdateArgs} args - Arguments to update one WebhookSubscription.
+     * @example
+     * // Update one WebhookSubscription
+     * const webhookSubscription = await prisma.webhookSubscription.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WebhookSubscriptionUpdateArgs>(args: SelectSubset<T, WebhookSubscriptionUpdateArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WebhookSubscriptions.
+     * @param {WebhookSubscriptionDeleteManyArgs} args - Arguments to filter WebhookSubscriptions to delete.
+     * @example
+     * // Delete a few WebhookSubscriptions
+     * const { count } = await prisma.webhookSubscription.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WebhookSubscriptionDeleteManyArgs>(args?: SelectSubset<T, WebhookSubscriptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookSubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookSubscriptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebhookSubscriptions
+     * const webhookSubscription = await prisma.webhookSubscription.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WebhookSubscriptionUpdateManyArgs>(args: SelectSubset<T, WebhookSubscriptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookSubscriptions and returns the data updated in the database.
+     * @param {WebhookSubscriptionUpdateManyAndReturnArgs} args - Arguments to update many WebhookSubscriptions.
+     * @example
+     * // Update many WebhookSubscriptions
+     * const webhookSubscription = await prisma.webhookSubscription.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WebhookSubscriptions and only return the `id`
+     * const webhookSubscriptionWithIdOnly = await prisma.webhookSubscription.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WebhookSubscriptionUpdateManyAndReturnArgs>(args: SelectSubset<T, WebhookSubscriptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WebhookSubscription.
+     * @param {WebhookSubscriptionUpsertArgs} args - Arguments to update or create a WebhookSubscription.
+     * @example
+     * // Update or create a WebhookSubscription
+     * const webhookSubscription = await prisma.webhookSubscription.upsert({
+     *   create: {
+     *     // ... data to create a WebhookSubscription
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebhookSubscription we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebhookSubscriptionUpsertArgs>(args: SelectSubset<T, WebhookSubscriptionUpsertArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WebhookSubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookSubscriptionCountArgs} args - Arguments to filter WebhookSubscriptions to count.
+     * @example
+     * // Count the number of WebhookSubscriptions
+     * const count = await prisma.webhookSubscription.count({
+     *   where: {
+     *     // ... the filter for the WebhookSubscriptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebhookSubscriptionCountArgs>(
+      args?: Subset<T, WebhookSubscriptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebhookSubscriptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebhookSubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookSubscriptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebhookSubscriptionAggregateArgs>(args: Subset<T, WebhookSubscriptionAggregateArgs>): Prisma.PrismaPromise<GetWebhookSubscriptionAggregateType<T>>
+
+    /**
+     * Group by WebhookSubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookSubscriptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebhookSubscriptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebhookSubscriptionGroupByArgs['orderBy'] }
+        : { orderBy?: WebhookSubscriptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebhookSubscriptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebhookSubscriptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebhookSubscription model
+   */
+  readonly fields: WebhookSubscriptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebhookSubscription.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebhookSubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    deliveries<T extends WebhookSubscription$deliveriesArgs<ExtArgs> = {}>(args?: Subset<T, WebhookSubscription$deliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebhookSubscription model
+   */
+  interface WebhookSubscriptionFieldRefs {
+    readonly id: FieldRef<"WebhookSubscription", 'String'>
+    readonly tenantId: FieldRef<"WebhookSubscription", 'String'>
+    readonly name: FieldRef<"WebhookSubscription", 'String'>
+    readonly url: FieldRef<"WebhookSubscription", 'String'>
+    readonly secret: FieldRef<"WebhookSubscription", 'String'>
+    readonly eventTypes: FieldRef<"WebhookSubscription", 'String[]'>
+    readonly active: FieldRef<"WebhookSubscription", 'Boolean'>
+    readonly createdAt: FieldRef<"WebhookSubscription", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebhookSubscription findUnique
+   */
+  export type WebhookSubscriptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookSubscription to fetch.
+     */
+    where: WebhookSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * WebhookSubscription findUniqueOrThrow
+   */
+  export type WebhookSubscriptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookSubscription to fetch.
+     */
+    where: WebhookSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * WebhookSubscription findFirst
+   */
+  export type WebhookSubscriptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookSubscription to fetch.
+     */
+    where?: WebhookSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookSubscriptions to fetch.
+     */
+    orderBy?: WebhookSubscriptionOrderByWithRelationInput | WebhookSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookSubscriptions.
+     */
+    cursor?: WebhookSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookSubscriptions.
+     */
+    distinct?: WebhookSubscriptionScalarFieldEnum | WebhookSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookSubscription findFirstOrThrow
+   */
+  export type WebhookSubscriptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookSubscription to fetch.
+     */
+    where?: WebhookSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookSubscriptions to fetch.
+     */
+    orderBy?: WebhookSubscriptionOrderByWithRelationInput | WebhookSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookSubscriptions.
+     */
+    cursor?: WebhookSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookSubscriptions.
+     */
+    distinct?: WebhookSubscriptionScalarFieldEnum | WebhookSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookSubscription findMany
+   */
+  export type WebhookSubscriptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookSubscriptions to fetch.
+     */
+    where?: WebhookSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookSubscriptions to fetch.
+     */
+    orderBy?: WebhookSubscriptionOrderByWithRelationInput | WebhookSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebhookSubscriptions.
+     */
+    cursor?: WebhookSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookSubscriptions.
+     */
+    skip?: number
+    distinct?: WebhookSubscriptionScalarFieldEnum | WebhookSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookSubscription create
+   */
+  export type WebhookSubscriptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WebhookSubscription.
+     */
+    data: XOR<WebhookSubscriptionCreateInput, WebhookSubscriptionUncheckedCreateInput>
+  }
+
+  /**
+   * WebhookSubscription createMany
+   */
+  export type WebhookSubscriptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WebhookSubscriptions.
+     */
+    data: WebhookSubscriptionCreateManyInput | WebhookSubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WebhookSubscription createManyAndReturn
+   */
+  export type WebhookSubscriptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many WebhookSubscriptions.
+     */
+    data: WebhookSubscriptionCreateManyInput | WebhookSubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WebhookSubscription update
+   */
+  export type WebhookSubscriptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WebhookSubscription.
+     */
+    data: XOR<WebhookSubscriptionUpdateInput, WebhookSubscriptionUncheckedUpdateInput>
+    /**
+     * Choose, which WebhookSubscription to update.
+     */
+    where: WebhookSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * WebhookSubscription updateMany
+   */
+  export type WebhookSubscriptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WebhookSubscriptions.
+     */
+    data: XOR<WebhookSubscriptionUpdateManyMutationInput, WebhookSubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookSubscriptions to update
+     */
+    where?: WebhookSubscriptionWhereInput
+    /**
+     * Limit how many WebhookSubscriptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookSubscription updateManyAndReturn
+   */
+  export type WebhookSubscriptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * The data used to update WebhookSubscriptions.
+     */
+    data: XOR<WebhookSubscriptionUpdateManyMutationInput, WebhookSubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookSubscriptions to update
+     */
+    where?: WebhookSubscriptionWhereInput
+    /**
+     * Limit how many WebhookSubscriptions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WebhookSubscription upsert
+   */
+  export type WebhookSubscriptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WebhookSubscription to update in case it exists.
+     */
+    where: WebhookSubscriptionWhereUniqueInput
+    /**
+     * In case the WebhookSubscription found by the `where` argument doesn't exist, create a new WebhookSubscription with this data.
+     */
+    create: XOR<WebhookSubscriptionCreateInput, WebhookSubscriptionUncheckedCreateInput>
+    /**
+     * In case the WebhookSubscription was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebhookSubscriptionUpdateInput, WebhookSubscriptionUncheckedUpdateInput>
+  }
+
+  /**
+   * WebhookSubscription delete
+   */
+  export type WebhookSubscriptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter which WebhookSubscription to delete.
+     */
+    where: WebhookSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * WebhookSubscription deleteMany
+   */
+  export type WebhookSubscriptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookSubscriptions to delete
+     */
+    where?: WebhookSubscriptionWhereInput
+    /**
+     * Limit how many WebhookSubscriptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookSubscription.deliveries
+   */
+  export type WebhookSubscription$deliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    where?: WebhookDeliveryWhereInput
+    orderBy?: WebhookDeliveryOrderByWithRelationInput | WebhookDeliveryOrderByWithRelationInput[]
+    cursor?: WebhookDeliveryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WebhookDeliveryScalarFieldEnum | WebhookDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookSubscription without action
+   */
+  export type WebhookSubscriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookSubscription
+     */
+    select?: WebhookSubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookSubscription
+     */
+    omit?: WebhookSubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookSubscriptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebhookDelivery
+   */
+
+  export type AggregateWebhookDelivery = {
+    _count: WebhookDeliveryCountAggregateOutputType | null
+    _avg: WebhookDeliveryAvgAggregateOutputType | null
+    _sum: WebhookDeliverySumAggregateOutputType | null
+    _min: WebhookDeliveryMinAggregateOutputType | null
+    _max: WebhookDeliveryMaxAggregateOutputType | null
+  }
+
+  export type WebhookDeliveryAvgAggregateOutputType = {
+    attempts: number | null
+  }
+
+  export type WebhookDeliverySumAggregateOutputType = {
+    attempts: number | null
+  }
+
+  export type WebhookDeliveryMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    subscriptionId: string | null
+    outboxEventId: string | null
+    eventType: string | null
+    status: $Enums.WebhookDeliveryStatus | null
+    attempts: number | null
+    nextAttemptAt: Date | null
+    lastError: string | null
+    deliveredAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type WebhookDeliveryMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    subscriptionId: string | null
+    outboxEventId: string | null
+    eventType: string | null
+    status: $Enums.WebhookDeliveryStatus | null
+    attempts: number | null
+    nextAttemptAt: Date | null
+    lastError: string | null
+    deliveredAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type WebhookDeliveryCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    subscriptionId: number
+    outboxEventId: number
+    eventType: number
+    payload: number
+    status: number
+    attempts: number
+    nextAttemptAt: number
+    lastError: number
+    deliveredAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WebhookDeliveryAvgAggregateInputType = {
+    attempts?: true
+  }
+
+  export type WebhookDeliverySumAggregateInputType = {
+    attempts?: true
+  }
+
+  export type WebhookDeliveryMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    subscriptionId?: true
+    outboxEventId?: true
+    eventType?: true
+    status?: true
+    attempts?: true
+    nextAttemptAt?: true
+    lastError?: true
+    deliveredAt?: true
+    createdAt?: true
+  }
+
+  export type WebhookDeliveryMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    subscriptionId?: true
+    outboxEventId?: true
+    eventType?: true
+    status?: true
+    attempts?: true
+    nextAttemptAt?: true
+    lastError?: true
+    deliveredAt?: true
+    createdAt?: true
+  }
+
+  export type WebhookDeliveryCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    subscriptionId?: true
+    outboxEventId?: true
+    eventType?: true
+    payload?: true
+    status?: true
+    attempts?: true
+    nextAttemptAt?: true
+    lastError?: true
+    deliveredAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WebhookDeliveryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookDelivery to aggregate.
+     */
+    where?: WebhookDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookDeliveries to fetch.
+     */
+    orderBy?: WebhookDeliveryOrderByWithRelationInput | WebhookDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebhookDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookDeliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebhookDeliveries
+    **/
+    _count?: true | WebhookDeliveryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebhookDeliveryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebhookDeliverySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebhookDeliveryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebhookDeliveryMaxAggregateInputType
+  }
+
+  export type GetWebhookDeliveryAggregateType<T extends WebhookDeliveryAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebhookDelivery]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebhookDelivery[P]>
+      : GetScalarType<T[P], AggregateWebhookDelivery[P]>
+  }
+
+
+
+
+  export type WebhookDeliveryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookDeliveryWhereInput
+    orderBy?: WebhookDeliveryOrderByWithAggregationInput | WebhookDeliveryOrderByWithAggregationInput[]
+    by: WebhookDeliveryScalarFieldEnum[] | WebhookDeliveryScalarFieldEnum
+    having?: WebhookDeliveryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebhookDeliveryCountAggregateInputType | true
+    _avg?: WebhookDeliveryAvgAggregateInputType
+    _sum?: WebhookDeliverySumAggregateInputType
+    _min?: WebhookDeliveryMinAggregateInputType
+    _max?: WebhookDeliveryMaxAggregateInputType
+  }
+
+  export type WebhookDeliveryGroupByOutputType = {
+    id: string
+    tenantId: string
+    subscriptionId: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonValue
+    status: $Enums.WebhookDeliveryStatus
+    attempts: number
+    nextAttemptAt: Date
+    lastError: string | null
+    deliveredAt: Date | null
+    createdAt: Date
+    _count: WebhookDeliveryCountAggregateOutputType | null
+    _avg: WebhookDeliveryAvgAggregateOutputType | null
+    _sum: WebhookDeliverySumAggregateOutputType | null
+    _min: WebhookDeliveryMinAggregateOutputType | null
+    _max: WebhookDeliveryMaxAggregateOutputType | null
+  }
+
+  type GetWebhookDeliveryGroupByPayload<T extends WebhookDeliveryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebhookDeliveryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebhookDeliveryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebhookDeliveryGroupByOutputType[P]>
+            : GetScalarType<T[P], WebhookDeliveryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebhookDeliverySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    subscriptionId?: boolean
+    outboxEventId?: boolean
+    eventType?: boolean
+    payload?: boolean
+    status?: boolean
+    attempts?: boolean
+    nextAttemptAt?: boolean
+    lastError?: boolean
+    deliveredAt?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    subscription?: boolean | WebhookSubscriptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookDelivery"]>
+
+  export type WebhookDeliverySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    subscriptionId?: boolean
+    outboxEventId?: boolean
+    eventType?: boolean
+    payload?: boolean
+    status?: boolean
+    attempts?: boolean
+    nextAttemptAt?: boolean
+    lastError?: boolean
+    deliveredAt?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    subscription?: boolean | WebhookSubscriptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookDelivery"]>
+
+  export type WebhookDeliverySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    subscriptionId?: boolean
+    outboxEventId?: boolean
+    eventType?: boolean
+    payload?: boolean
+    status?: boolean
+    attempts?: boolean
+    nextAttemptAt?: boolean
+    lastError?: boolean
+    deliveredAt?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    subscription?: boolean | WebhookSubscriptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookDelivery"]>
+
+  export type WebhookDeliverySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    subscriptionId?: boolean
+    outboxEventId?: boolean
+    eventType?: boolean
+    payload?: boolean
+    status?: boolean
+    attempts?: boolean
+    nextAttemptAt?: boolean
+    lastError?: boolean
+    deliveredAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type WebhookDeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "subscriptionId" | "outboxEventId" | "eventType" | "payload" | "status" | "attempts" | "nextAttemptAt" | "lastError" | "deliveredAt" | "createdAt", ExtArgs["result"]["webhookDelivery"]>
+  export type WebhookDeliveryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    subscription?: boolean | WebhookSubscriptionDefaultArgs<ExtArgs>
+  }
+  export type WebhookDeliveryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    subscription?: boolean | WebhookSubscriptionDefaultArgs<ExtArgs>
+  }
+  export type WebhookDeliveryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    subscription?: boolean | WebhookSubscriptionDefaultArgs<ExtArgs>
+  }
+
+  export type $WebhookDeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebhookDelivery"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      subscription: Prisma.$WebhookSubscriptionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      subscriptionId: string
+      outboxEventId: string
+      eventType: string
+      payload: Prisma.JsonValue
+      status: $Enums.WebhookDeliveryStatus
+      attempts: number
+      nextAttemptAt: Date
+      lastError: string | null
+      deliveredAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["webhookDelivery"]>
+    composites: {}
+  }
+
+  type WebhookDeliveryGetPayload<S extends boolean | null | undefined | WebhookDeliveryDefaultArgs> = $Result.GetResult<Prisma.$WebhookDeliveryPayload, S>
+
+  type WebhookDeliveryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebhookDeliveryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebhookDeliveryCountAggregateInputType | true
+    }
+
+  export interface WebhookDeliveryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebhookDelivery'], meta: { name: 'WebhookDelivery' } }
+    /**
+     * Find zero or one WebhookDelivery that matches the filter.
+     * @param {WebhookDeliveryFindUniqueArgs} args - Arguments to find a WebhookDelivery
+     * @example
+     * // Get one WebhookDelivery
+     * const webhookDelivery = await prisma.webhookDelivery.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebhookDeliveryFindUniqueArgs>(args: SelectSubset<T, WebhookDeliveryFindUniqueArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebhookDelivery that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebhookDeliveryFindUniqueOrThrowArgs} args - Arguments to find a WebhookDelivery
+     * @example
+     * // Get one WebhookDelivery
+     * const webhookDelivery = await prisma.webhookDelivery.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebhookDeliveryFindUniqueOrThrowArgs>(args: SelectSubset<T, WebhookDeliveryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookDelivery that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookDeliveryFindFirstArgs} args - Arguments to find a WebhookDelivery
+     * @example
+     * // Get one WebhookDelivery
+     * const webhookDelivery = await prisma.webhookDelivery.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebhookDeliveryFindFirstArgs>(args?: SelectSubset<T, WebhookDeliveryFindFirstArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookDelivery that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookDeliveryFindFirstOrThrowArgs} args - Arguments to find a WebhookDelivery
+     * @example
+     * // Get one WebhookDelivery
+     * const webhookDelivery = await prisma.webhookDelivery.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebhookDeliveryFindFirstOrThrowArgs>(args?: SelectSubset<T, WebhookDeliveryFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebhookDeliveries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookDeliveryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebhookDeliveries
+     * const webhookDeliveries = await prisma.webhookDelivery.findMany()
+     * 
+     * // Get first 10 WebhookDeliveries
+     * const webhookDeliveries = await prisma.webhookDelivery.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webhookDeliveryWithIdOnly = await prisma.webhookDelivery.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebhookDeliveryFindManyArgs>(args?: SelectSubset<T, WebhookDeliveryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WebhookDelivery.
+     * @param {WebhookDeliveryCreateArgs} args - Arguments to create a WebhookDelivery.
+     * @example
+     * // Create one WebhookDelivery
+     * const WebhookDelivery = await prisma.webhookDelivery.create({
+     *   data: {
+     *     // ... data to create a WebhookDelivery
+     *   }
+     * })
+     * 
+     */
+    create<T extends WebhookDeliveryCreateArgs>(args: SelectSubset<T, WebhookDeliveryCreateArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WebhookDeliveries.
+     * @param {WebhookDeliveryCreateManyArgs} args - Arguments to create many WebhookDeliveries.
+     * @example
+     * // Create many WebhookDeliveries
+     * const webhookDelivery = await prisma.webhookDelivery.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WebhookDeliveryCreateManyArgs>(args?: SelectSubset<T, WebhookDeliveryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WebhookDeliveries and returns the data saved in the database.
+     * @param {WebhookDeliveryCreateManyAndReturnArgs} args - Arguments to create many WebhookDeliveries.
+     * @example
+     * // Create many WebhookDeliveries
+     * const webhookDelivery = await prisma.webhookDelivery.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WebhookDeliveries and only return the `id`
+     * const webhookDeliveryWithIdOnly = await prisma.webhookDelivery.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WebhookDeliveryCreateManyAndReturnArgs>(args?: SelectSubset<T, WebhookDeliveryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WebhookDelivery.
+     * @param {WebhookDeliveryDeleteArgs} args - Arguments to delete one WebhookDelivery.
+     * @example
+     * // Delete one WebhookDelivery
+     * const WebhookDelivery = await prisma.webhookDelivery.delete({
+     *   where: {
+     *     // ... filter to delete one WebhookDelivery
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WebhookDeliveryDeleteArgs>(args: SelectSubset<T, WebhookDeliveryDeleteArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WebhookDelivery.
+     * @param {WebhookDeliveryUpdateArgs} args - Arguments to update one WebhookDelivery.
+     * @example
+     * // Update one WebhookDelivery
+     * const webhookDelivery = await prisma.webhookDelivery.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WebhookDeliveryUpdateArgs>(args: SelectSubset<T, WebhookDeliveryUpdateArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WebhookDeliveries.
+     * @param {WebhookDeliveryDeleteManyArgs} args - Arguments to filter WebhookDeliveries to delete.
+     * @example
+     * // Delete a few WebhookDeliveries
+     * const { count } = await prisma.webhookDelivery.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WebhookDeliveryDeleteManyArgs>(args?: SelectSubset<T, WebhookDeliveryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookDeliveries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookDeliveryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebhookDeliveries
+     * const webhookDelivery = await prisma.webhookDelivery.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WebhookDeliveryUpdateManyArgs>(args: SelectSubset<T, WebhookDeliveryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookDeliveries and returns the data updated in the database.
+     * @param {WebhookDeliveryUpdateManyAndReturnArgs} args - Arguments to update many WebhookDeliveries.
+     * @example
+     * // Update many WebhookDeliveries
+     * const webhookDelivery = await prisma.webhookDelivery.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WebhookDeliveries and only return the `id`
+     * const webhookDeliveryWithIdOnly = await prisma.webhookDelivery.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WebhookDeliveryUpdateManyAndReturnArgs>(args: SelectSubset<T, WebhookDeliveryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WebhookDelivery.
+     * @param {WebhookDeliveryUpsertArgs} args - Arguments to update or create a WebhookDelivery.
+     * @example
+     * // Update or create a WebhookDelivery
+     * const webhookDelivery = await prisma.webhookDelivery.upsert({
+     *   create: {
+     *     // ... data to create a WebhookDelivery
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebhookDelivery we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebhookDeliveryUpsertArgs>(args: SelectSubset<T, WebhookDeliveryUpsertArgs<ExtArgs>>): Prisma__WebhookDeliveryClient<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WebhookDeliveries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookDeliveryCountArgs} args - Arguments to filter WebhookDeliveries to count.
+     * @example
+     * // Count the number of WebhookDeliveries
+     * const count = await prisma.webhookDelivery.count({
+     *   where: {
+     *     // ... the filter for the WebhookDeliveries we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebhookDeliveryCountArgs>(
+      args?: Subset<T, WebhookDeliveryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebhookDeliveryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebhookDelivery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookDeliveryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebhookDeliveryAggregateArgs>(args: Subset<T, WebhookDeliveryAggregateArgs>): Prisma.PrismaPromise<GetWebhookDeliveryAggregateType<T>>
+
+    /**
+     * Group by WebhookDelivery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookDeliveryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebhookDeliveryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebhookDeliveryGroupByArgs['orderBy'] }
+        : { orderBy?: WebhookDeliveryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebhookDeliveryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebhookDeliveryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebhookDelivery model
+   */
+  readonly fields: WebhookDeliveryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebhookDelivery.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebhookDeliveryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subscription<T extends WebhookSubscriptionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WebhookSubscriptionDefaultArgs<ExtArgs>>): Prisma__WebhookSubscriptionClient<$Result.GetResult<Prisma.$WebhookSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebhookDelivery model
+   */
+  interface WebhookDeliveryFieldRefs {
+    readonly id: FieldRef<"WebhookDelivery", 'String'>
+    readonly tenantId: FieldRef<"WebhookDelivery", 'String'>
+    readonly subscriptionId: FieldRef<"WebhookDelivery", 'String'>
+    readonly outboxEventId: FieldRef<"WebhookDelivery", 'String'>
+    readonly eventType: FieldRef<"WebhookDelivery", 'String'>
+    readonly payload: FieldRef<"WebhookDelivery", 'Json'>
+    readonly status: FieldRef<"WebhookDelivery", 'WebhookDeliveryStatus'>
+    readonly attempts: FieldRef<"WebhookDelivery", 'Int'>
+    readonly nextAttemptAt: FieldRef<"WebhookDelivery", 'DateTime'>
+    readonly lastError: FieldRef<"WebhookDelivery", 'String'>
+    readonly deliveredAt: FieldRef<"WebhookDelivery", 'DateTime'>
+    readonly createdAt: FieldRef<"WebhookDelivery", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebhookDelivery findUnique
+   */
+  export type WebhookDeliveryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookDelivery to fetch.
+     */
+    where: WebhookDeliveryWhereUniqueInput
+  }
+
+  /**
+   * WebhookDelivery findUniqueOrThrow
+   */
+  export type WebhookDeliveryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookDelivery to fetch.
+     */
+    where: WebhookDeliveryWhereUniqueInput
+  }
+
+  /**
+   * WebhookDelivery findFirst
+   */
+  export type WebhookDeliveryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookDelivery to fetch.
+     */
+    where?: WebhookDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookDeliveries to fetch.
+     */
+    orderBy?: WebhookDeliveryOrderByWithRelationInput | WebhookDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookDeliveries.
+     */
+    cursor?: WebhookDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookDeliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookDeliveries.
+     */
+    distinct?: WebhookDeliveryScalarFieldEnum | WebhookDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookDelivery findFirstOrThrow
+   */
+  export type WebhookDeliveryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookDelivery to fetch.
+     */
+    where?: WebhookDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookDeliveries to fetch.
+     */
+    orderBy?: WebhookDeliveryOrderByWithRelationInput | WebhookDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookDeliveries.
+     */
+    cursor?: WebhookDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookDeliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookDeliveries.
+     */
+    distinct?: WebhookDeliveryScalarFieldEnum | WebhookDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookDelivery findMany
+   */
+  export type WebhookDeliveryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookDeliveries to fetch.
+     */
+    where?: WebhookDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookDeliveries to fetch.
+     */
+    orderBy?: WebhookDeliveryOrderByWithRelationInput | WebhookDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebhookDeliveries.
+     */
+    cursor?: WebhookDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookDeliveries.
+     */
+    skip?: number
+    distinct?: WebhookDeliveryScalarFieldEnum | WebhookDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookDelivery create
+   */
+  export type WebhookDeliveryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WebhookDelivery.
+     */
+    data: XOR<WebhookDeliveryCreateInput, WebhookDeliveryUncheckedCreateInput>
+  }
+
+  /**
+   * WebhookDelivery createMany
+   */
+  export type WebhookDeliveryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WebhookDeliveries.
+     */
+    data: WebhookDeliveryCreateManyInput | WebhookDeliveryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WebhookDelivery createManyAndReturn
+   */
+  export type WebhookDeliveryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * The data used to create many WebhookDeliveries.
+     */
+    data: WebhookDeliveryCreateManyInput | WebhookDeliveryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WebhookDelivery update
+   */
+  export type WebhookDeliveryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WebhookDelivery.
+     */
+    data: XOR<WebhookDeliveryUpdateInput, WebhookDeliveryUncheckedUpdateInput>
+    /**
+     * Choose, which WebhookDelivery to update.
+     */
+    where: WebhookDeliveryWhereUniqueInput
+  }
+
+  /**
+   * WebhookDelivery updateMany
+   */
+  export type WebhookDeliveryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WebhookDeliveries.
+     */
+    data: XOR<WebhookDeliveryUpdateManyMutationInput, WebhookDeliveryUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookDeliveries to update
+     */
+    where?: WebhookDeliveryWhereInput
+    /**
+     * Limit how many WebhookDeliveries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookDelivery updateManyAndReturn
+   */
+  export type WebhookDeliveryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * The data used to update WebhookDeliveries.
+     */
+    data: XOR<WebhookDeliveryUpdateManyMutationInput, WebhookDeliveryUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookDeliveries to update
+     */
+    where?: WebhookDeliveryWhereInput
+    /**
+     * Limit how many WebhookDeliveries to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WebhookDelivery upsert
+   */
+  export type WebhookDeliveryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WebhookDelivery to update in case it exists.
+     */
+    where: WebhookDeliveryWhereUniqueInput
+    /**
+     * In case the WebhookDelivery found by the `where` argument doesn't exist, create a new WebhookDelivery with this data.
+     */
+    create: XOR<WebhookDeliveryCreateInput, WebhookDeliveryUncheckedCreateInput>
+    /**
+     * In case the WebhookDelivery was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebhookDeliveryUpdateInput, WebhookDeliveryUncheckedUpdateInput>
+  }
+
+  /**
+   * WebhookDelivery delete
+   */
+  export type WebhookDeliveryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter which WebhookDelivery to delete.
+     */
+    where: WebhookDeliveryWhereUniqueInput
+  }
+
+  /**
+   * WebhookDelivery deleteMany
+   */
+  export type WebhookDeliveryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookDeliveries to delete
+     */
+    where?: WebhookDeliveryWhereInput
+    /**
+     * Limit how many WebhookDeliveries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookDelivery without action
+   */
+  export type WebhookDeliveryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookDelivery
+     */
+    select?: WebhookDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookDelivery
+     */
+    omit?: WebhookDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookDeliveryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -104364,6 +106980,38 @@ export namespace Prisma {
   export type BudgetScalarFieldEnum = (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum]
 
 
+  export const WebhookSubscriptionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    name: 'name',
+    url: 'url',
+    secret: 'secret',
+    eventTypes: 'eventTypes',
+    active: 'active',
+    createdAt: 'createdAt'
+  };
+
+  export type WebhookSubscriptionScalarFieldEnum = (typeof WebhookSubscriptionScalarFieldEnum)[keyof typeof WebhookSubscriptionScalarFieldEnum]
+
+
+  export const WebhookDeliveryScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    subscriptionId: 'subscriptionId',
+    outboxEventId: 'outboxEventId',
+    eventType: 'eventType',
+    payload: 'payload',
+    status: 'status',
+    attempts: 'attempts',
+    nextAttemptAt: 'nextAttemptAt',
+    lastError: 'lastError',
+    deliveredAt: 'deliveredAt',
+    createdAt: 'createdAt'
+  };
+
+  export type WebhookDeliveryScalarFieldEnum = (typeof WebhookDeliveryScalarFieldEnum)[keyof typeof WebhookDeliveryScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -105083,6 +107731,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'WebhookDeliveryStatus'
+   */
+  export type EnumWebhookDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WebhookDeliveryStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WebhookDeliveryStatus[]'
+   */
+  export type ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WebhookDeliveryStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -105179,6 +107841,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceListRelationFilter
     costCenters?: CostCenterListRelationFilter
     budgets?: BudgetListRelationFilter
+    webhookSubscriptions?: WebhookSubscriptionListRelationFilter
+    webhookDeliveries?: WebhookDeliveryListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -105258,6 +107922,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceOrderByRelationAggregateInput
     costCenters?: CostCenterOrderByRelationAggregateInput
     budgets?: BudgetOrderByRelationAggregateInput
+    webhookSubscriptions?: WebhookSubscriptionOrderByRelationAggregateInput
+    webhookDeliveries?: WebhookDeliveryOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -105340,6 +108006,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceListRelationFilter
     costCenters?: CostCenterListRelationFilter
     budgets?: BudgetListRelationFilter
+    webhookSubscriptions?: WebhookSubscriptionListRelationFilter
+    webhookDeliveries?: WebhookDeliveryListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -111486,6 +114154,176 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Budget"> | Date | string
   }
 
+  export type WebhookSubscriptionWhereInput = {
+    AND?: WebhookSubscriptionWhereInput | WebhookSubscriptionWhereInput[]
+    OR?: WebhookSubscriptionWhereInput[]
+    NOT?: WebhookSubscriptionWhereInput | WebhookSubscriptionWhereInput[]
+    id?: UuidFilter<"WebhookSubscription"> | string
+    tenantId?: UuidFilter<"WebhookSubscription"> | string
+    name?: StringFilter<"WebhookSubscription"> | string
+    url?: StringFilter<"WebhookSubscription"> | string
+    secret?: StringFilter<"WebhookSubscription"> | string
+    eventTypes?: StringNullableListFilter<"WebhookSubscription">
+    active?: BoolFilter<"WebhookSubscription"> | boolean
+    createdAt?: DateTimeFilter<"WebhookSubscription"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    deliveries?: WebhookDeliveryListRelationFilter
+  }
+
+  export type WebhookSubscriptionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    secret?: SortOrder
+    eventTypes?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    deliveries?: WebhookDeliveryOrderByRelationAggregateInput
+  }
+
+  export type WebhookSubscriptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_name?: WebhookSubscriptionTenantIdNameCompoundUniqueInput
+    AND?: WebhookSubscriptionWhereInput | WebhookSubscriptionWhereInput[]
+    OR?: WebhookSubscriptionWhereInput[]
+    NOT?: WebhookSubscriptionWhereInput | WebhookSubscriptionWhereInput[]
+    tenantId?: UuidFilter<"WebhookSubscription"> | string
+    name?: StringFilter<"WebhookSubscription"> | string
+    url?: StringFilter<"WebhookSubscription"> | string
+    secret?: StringFilter<"WebhookSubscription"> | string
+    eventTypes?: StringNullableListFilter<"WebhookSubscription">
+    active?: BoolFilter<"WebhookSubscription"> | boolean
+    createdAt?: DateTimeFilter<"WebhookSubscription"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    deliveries?: WebhookDeliveryListRelationFilter
+  }, "id" | "tenantId_name">
+
+  export type WebhookSubscriptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    secret?: SortOrder
+    eventTypes?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    _count?: WebhookSubscriptionCountOrderByAggregateInput
+    _max?: WebhookSubscriptionMaxOrderByAggregateInput
+    _min?: WebhookSubscriptionMinOrderByAggregateInput
+  }
+
+  export type WebhookSubscriptionScalarWhereWithAggregatesInput = {
+    AND?: WebhookSubscriptionScalarWhereWithAggregatesInput | WebhookSubscriptionScalarWhereWithAggregatesInput[]
+    OR?: WebhookSubscriptionScalarWhereWithAggregatesInput[]
+    NOT?: WebhookSubscriptionScalarWhereWithAggregatesInput | WebhookSubscriptionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"WebhookSubscription"> | string
+    tenantId?: UuidWithAggregatesFilter<"WebhookSubscription"> | string
+    name?: StringWithAggregatesFilter<"WebhookSubscription"> | string
+    url?: StringWithAggregatesFilter<"WebhookSubscription"> | string
+    secret?: StringWithAggregatesFilter<"WebhookSubscription"> | string
+    eventTypes?: StringNullableListFilter<"WebhookSubscription">
+    active?: BoolWithAggregatesFilter<"WebhookSubscription"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"WebhookSubscription"> | Date | string
+  }
+
+  export type WebhookDeliveryWhereInput = {
+    AND?: WebhookDeliveryWhereInput | WebhookDeliveryWhereInput[]
+    OR?: WebhookDeliveryWhereInput[]
+    NOT?: WebhookDeliveryWhereInput | WebhookDeliveryWhereInput[]
+    id?: UuidFilter<"WebhookDelivery"> | string
+    tenantId?: UuidFilter<"WebhookDelivery"> | string
+    subscriptionId?: UuidFilter<"WebhookDelivery"> | string
+    outboxEventId?: UuidFilter<"WebhookDelivery"> | string
+    eventType?: StringFilter<"WebhookDelivery"> | string
+    payload?: JsonFilter<"WebhookDelivery">
+    status?: EnumWebhookDeliveryStatusFilter<"WebhookDelivery"> | $Enums.WebhookDeliveryStatus
+    attempts?: IntFilter<"WebhookDelivery"> | number
+    nextAttemptAt?: DateTimeFilter<"WebhookDelivery"> | Date | string
+    lastError?: StringNullableFilter<"WebhookDelivery"> | string | null
+    deliveredAt?: DateTimeNullableFilter<"WebhookDelivery"> | Date | string | null
+    createdAt?: DateTimeFilter<"WebhookDelivery"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    subscription?: XOR<WebhookSubscriptionScalarRelationFilter, WebhookSubscriptionWhereInput>
+  }
+
+  export type WebhookDeliveryOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    subscriptionId?: SortOrder
+    outboxEventId?: SortOrder
+    eventType?: SortOrder
+    payload?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    nextAttemptAt?: SortOrder
+    lastError?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    subscription?: WebhookSubscriptionOrderByWithRelationInput
+  }
+
+  export type WebhookDeliveryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    subscriptionId_outboxEventId?: WebhookDeliverySubscriptionIdOutboxEventIdCompoundUniqueInput
+    AND?: WebhookDeliveryWhereInput | WebhookDeliveryWhereInput[]
+    OR?: WebhookDeliveryWhereInput[]
+    NOT?: WebhookDeliveryWhereInput | WebhookDeliveryWhereInput[]
+    tenantId?: UuidFilter<"WebhookDelivery"> | string
+    subscriptionId?: UuidFilter<"WebhookDelivery"> | string
+    outboxEventId?: UuidFilter<"WebhookDelivery"> | string
+    eventType?: StringFilter<"WebhookDelivery"> | string
+    payload?: JsonFilter<"WebhookDelivery">
+    status?: EnumWebhookDeliveryStatusFilter<"WebhookDelivery"> | $Enums.WebhookDeliveryStatus
+    attempts?: IntFilter<"WebhookDelivery"> | number
+    nextAttemptAt?: DateTimeFilter<"WebhookDelivery"> | Date | string
+    lastError?: StringNullableFilter<"WebhookDelivery"> | string | null
+    deliveredAt?: DateTimeNullableFilter<"WebhookDelivery"> | Date | string | null
+    createdAt?: DateTimeFilter<"WebhookDelivery"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    subscription?: XOR<WebhookSubscriptionScalarRelationFilter, WebhookSubscriptionWhereInput>
+  }, "id" | "subscriptionId_outboxEventId">
+
+  export type WebhookDeliveryOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    subscriptionId?: SortOrder
+    outboxEventId?: SortOrder
+    eventType?: SortOrder
+    payload?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    nextAttemptAt?: SortOrder
+    lastError?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: WebhookDeliveryCountOrderByAggregateInput
+    _avg?: WebhookDeliveryAvgOrderByAggregateInput
+    _max?: WebhookDeliveryMaxOrderByAggregateInput
+    _min?: WebhookDeliveryMinOrderByAggregateInput
+    _sum?: WebhookDeliverySumOrderByAggregateInput
+  }
+
+  export type WebhookDeliveryScalarWhereWithAggregatesInput = {
+    AND?: WebhookDeliveryScalarWhereWithAggregatesInput | WebhookDeliveryScalarWhereWithAggregatesInput[]
+    OR?: WebhookDeliveryScalarWhereWithAggregatesInput[]
+    NOT?: WebhookDeliveryScalarWhereWithAggregatesInput | WebhookDeliveryScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"WebhookDelivery"> | string
+    tenantId?: UuidWithAggregatesFilter<"WebhookDelivery"> | string
+    subscriptionId?: UuidWithAggregatesFilter<"WebhookDelivery"> | string
+    outboxEventId?: UuidWithAggregatesFilter<"WebhookDelivery"> | string
+    eventType?: StringWithAggregatesFilter<"WebhookDelivery"> | string
+    payload?: JsonWithAggregatesFilter<"WebhookDelivery">
+    status?: EnumWebhookDeliveryStatusWithAggregatesFilter<"WebhookDelivery"> | $Enums.WebhookDeliveryStatus
+    attempts?: IntWithAggregatesFilter<"WebhookDelivery"> | number
+    nextAttemptAt?: DateTimeWithAggregatesFilter<"WebhookDelivery"> | Date | string
+    lastError?: StringNullableWithAggregatesFilter<"WebhookDelivery"> | string | null
+    deliveredAt?: DateTimeNullableWithAggregatesFilter<"WebhookDelivery"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebhookDelivery"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -111563,6 +114401,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -111642,6 +114482,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -111721,6 +114563,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -111800,6 +114644,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -118344,6 +121190,189 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WebhookSubscriptionCreateInput = {
+    id?: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWebhookSubscriptionsInput
+    deliveries?: WebhookDeliveryCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type WebhookSubscriptionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+    deliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type WebhookSubscriptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWebhookSubscriptionsNestedInput
+    deliveries?: WebhookDeliveryUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type WebhookSubscriptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveries?: WebhookDeliveryUncheckedUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type WebhookSubscriptionCreateManyInput = {
+    id?: string
+    tenantId: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WebhookSubscriptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookSubscriptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookDeliveryCreateInput = {
+    id?: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWebhookDeliveriesInput
+    subscription: WebhookSubscriptionCreateNestedOneWithoutDeliveriesInput
+  }
+
+  export type WebhookDeliveryUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    subscriptionId: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookDeliveryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWebhookDeliveriesNestedInput
+    subscription?: WebhookSubscriptionUpdateOneRequiredWithoutDeliveriesNestedInput
+  }
+
+  export type WebhookDeliveryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookDeliveryCreateManyInput = {
+    id?: string
+    tenantId: string
+    subscriptionId: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookDeliveryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookDeliveryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -118814,6 +121843,18 @@ export namespace Prisma {
     none?: BudgetWhereInput
   }
 
+  export type WebhookSubscriptionListRelationFilter = {
+    every?: WebhookSubscriptionWhereInput
+    some?: WebhookSubscriptionWhereInput
+    none?: WebhookSubscriptionWhereInput
+  }
+
+  export type WebhookDeliveryListRelationFilter = {
+    every?: WebhookDeliveryWhereInput
+    some?: WebhookDeliveryWhereInput
+    none?: WebhookDeliveryWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -119087,6 +122128,14 @@ export namespace Prisma {
   }
 
   export type BudgetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WebhookSubscriptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WebhookDeliveryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -123885,6 +126934,120 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type WebhookSubscriptionTenantIdNameCompoundUniqueInput = {
+    tenantId: string
+    name: string
+  }
+
+  export type WebhookSubscriptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    secret?: SortOrder
+    eventTypes?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookSubscriptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    secret?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookSubscriptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    secret?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumWebhookDeliveryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookDeliveryStatus | EnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookDeliveryStatusFilter<$PrismaModel> | $Enums.WebhookDeliveryStatus
+  }
+
+  export type WebhookSubscriptionScalarRelationFilter = {
+    is?: WebhookSubscriptionWhereInput
+    isNot?: WebhookSubscriptionWhereInput
+  }
+
+  export type WebhookDeliverySubscriptionIdOutboxEventIdCompoundUniqueInput = {
+    subscriptionId: string
+    outboxEventId: string
+  }
+
+  export type WebhookDeliveryCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    subscriptionId?: SortOrder
+    outboxEventId?: SortOrder
+    eventType?: SortOrder
+    payload?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    nextAttemptAt?: SortOrder
+    lastError?: SortOrder
+    deliveredAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookDeliveryAvgOrderByAggregateInput = {
+    attempts?: SortOrder
+  }
+
+  export type WebhookDeliveryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    subscriptionId?: SortOrder
+    outboxEventId?: SortOrder
+    eventType?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    nextAttemptAt?: SortOrder
+    lastError?: SortOrder
+    deliveredAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookDeliveryMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    subscriptionId?: SortOrder
+    outboxEventId?: SortOrder
+    eventType?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    nextAttemptAt?: SortOrder
+    lastError?: SortOrder
+    deliveredAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookDeliverySumOrderByAggregateInput = {
+    attempts?: SortOrder
+  }
+
+  export type EnumWebhookDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookDeliveryStatus | EnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookDeliveryStatusWithAggregatesFilter<$PrismaModel> | $Enums.WebhookDeliveryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWebhookDeliveryStatusFilter<$PrismaModel>
+    _max?: NestedEnumWebhookDeliveryStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -124368,6 +127531,20 @@ export namespace Prisma {
     connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
   }
 
+  export type WebhookSubscriptionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WebhookSubscriptionCreateWithoutTenantInput, WebhookSubscriptionUncheckedCreateWithoutTenantInput> | WebhookSubscriptionCreateWithoutTenantInput[] | WebhookSubscriptionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookSubscriptionCreateOrConnectWithoutTenantInput | WebhookSubscriptionCreateOrConnectWithoutTenantInput[]
+    createMany?: WebhookSubscriptionCreateManyTenantInputEnvelope
+    connect?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+  }
+
+  export type WebhookDeliveryCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutTenantInput, WebhookDeliveryUncheckedCreateWithoutTenantInput> | WebhookDeliveryCreateWithoutTenantInput[] | WebhookDeliveryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutTenantInput | WebhookDeliveryCreateOrConnectWithoutTenantInput[]
+    createMany?: WebhookDeliveryCreateManyTenantInputEnvelope
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -124849,6 +128026,20 @@ export namespace Prisma {
     connectOrCreate?: BudgetCreateOrConnectWithoutTenantInput | BudgetCreateOrConnectWithoutTenantInput[]
     createMany?: BudgetCreateManyTenantInputEnvelope
     connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+  }
+
+  export type WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WebhookSubscriptionCreateWithoutTenantInput, WebhookSubscriptionUncheckedCreateWithoutTenantInput> | WebhookSubscriptionCreateWithoutTenantInput[] | WebhookSubscriptionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookSubscriptionCreateOrConnectWithoutTenantInput | WebhookSubscriptionCreateOrConnectWithoutTenantInput[]
+    createMany?: WebhookSubscriptionCreateManyTenantInputEnvelope
+    connect?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+  }
+
+  export type WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutTenantInput, WebhookDeliveryUncheckedCreateWithoutTenantInput> | WebhookDeliveryCreateWithoutTenantInput[] | WebhookDeliveryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutTenantInput | WebhookDeliveryCreateOrConnectWithoutTenantInput[]
+    createMany?: WebhookDeliveryCreateManyTenantInputEnvelope
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -125837,6 +129028,34 @@ export namespace Prisma {
     deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
   }
 
+  export type WebhookSubscriptionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WebhookSubscriptionCreateWithoutTenantInput, WebhookSubscriptionUncheckedCreateWithoutTenantInput> | WebhookSubscriptionCreateWithoutTenantInput[] | WebhookSubscriptionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookSubscriptionCreateOrConnectWithoutTenantInput | WebhookSubscriptionCreateOrConnectWithoutTenantInput[]
+    upsert?: WebhookSubscriptionUpsertWithWhereUniqueWithoutTenantInput | WebhookSubscriptionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WebhookSubscriptionCreateManyTenantInputEnvelope
+    set?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    disconnect?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    delete?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    connect?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    update?: WebhookSubscriptionUpdateWithWhereUniqueWithoutTenantInput | WebhookSubscriptionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WebhookSubscriptionUpdateManyWithWhereWithoutTenantInput | WebhookSubscriptionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WebhookSubscriptionScalarWhereInput | WebhookSubscriptionScalarWhereInput[]
+  }
+
+  export type WebhookDeliveryUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutTenantInput, WebhookDeliveryUncheckedCreateWithoutTenantInput> | WebhookDeliveryCreateWithoutTenantInput[] | WebhookDeliveryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutTenantInput | WebhookDeliveryCreateOrConnectWithoutTenantInput[]
+    upsert?: WebhookDeliveryUpsertWithWhereUniqueWithoutTenantInput | WebhookDeliveryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WebhookDeliveryCreateManyTenantInputEnvelope
+    set?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    disconnect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    delete?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    update?: WebhookDeliveryUpdateWithWhereUniqueWithoutTenantInput | WebhookDeliveryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WebhookDeliveryUpdateManyWithWhereWithoutTenantInput | WebhookDeliveryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WebhookDeliveryScalarWhereInput | WebhookDeliveryScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -126801,6 +130020,34 @@ export namespace Prisma {
     update?: BudgetUpdateWithWhereUniqueWithoutTenantInput | BudgetUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: BudgetUpdateManyWithWhereWithoutTenantInput | BudgetUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+  }
+
+  export type WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WebhookSubscriptionCreateWithoutTenantInput, WebhookSubscriptionUncheckedCreateWithoutTenantInput> | WebhookSubscriptionCreateWithoutTenantInput[] | WebhookSubscriptionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookSubscriptionCreateOrConnectWithoutTenantInput | WebhookSubscriptionCreateOrConnectWithoutTenantInput[]
+    upsert?: WebhookSubscriptionUpsertWithWhereUniqueWithoutTenantInput | WebhookSubscriptionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WebhookSubscriptionCreateManyTenantInputEnvelope
+    set?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    disconnect?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    delete?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    connect?: WebhookSubscriptionWhereUniqueInput | WebhookSubscriptionWhereUniqueInput[]
+    update?: WebhookSubscriptionUpdateWithWhereUniqueWithoutTenantInput | WebhookSubscriptionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WebhookSubscriptionUpdateManyWithWhereWithoutTenantInput | WebhookSubscriptionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WebhookSubscriptionScalarWhereInput | WebhookSubscriptionScalarWhereInput[]
+  }
+
+  export type WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutTenantInput, WebhookDeliveryUncheckedCreateWithoutTenantInput> | WebhookDeliveryCreateWithoutTenantInput[] | WebhookDeliveryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutTenantInput | WebhookDeliveryCreateOrConnectWithoutTenantInput[]
+    upsert?: WebhookDeliveryUpsertWithWhereUniqueWithoutTenantInput | WebhookDeliveryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WebhookDeliveryCreateManyTenantInputEnvelope
+    set?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    disconnect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    delete?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    update?: WebhookDeliveryUpdateWithWhereUniqueWithoutTenantInput | WebhookDeliveryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WebhookDeliveryUpdateManyWithWhereWithoutTenantInput | WebhookDeliveryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WebhookDeliveryScalarWhereInput | WebhookDeliveryScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -129833,6 +133080,103 @@ export namespace Prisma {
     update?: XOR<XOR<CostCenterUpdateToOneWithWhereWithoutBudgetsInput, CostCenterUpdateWithoutBudgetsInput>, CostCenterUncheckedUpdateWithoutBudgetsInput>
   }
 
+  export type WebhookSubscriptionCreateeventTypesInput = {
+    set: string[]
+  }
+
+  export type TenantCreateNestedOneWithoutWebhookSubscriptionsInput = {
+    create?: XOR<TenantCreateWithoutWebhookSubscriptionsInput, TenantUncheckedCreateWithoutWebhookSubscriptionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWebhookSubscriptionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WebhookDeliveryCreateNestedManyWithoutSubscriptionInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutSubscriptionInput, WebhookDeliveryUncheckedCreateWithoutSubscriptionInput> | WebhookDeliveryCreateWithoutSubscriptionInput[] | WebhookDeliveryUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutSubscriptionInput | WebhookDeliveryCreateOrConnectWithoutSubscriptionInput[]
+    createMany?: WebhookDeliveryCreateManySubscriptionInputEnvelope
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+  }
+
+  export type WebhookDeliveryUncheckedCreateNestedManyWithoutSubscriptionInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutSubscriptionInput, WebhookDeliveryUncheckedCreateWithoutSubscriptionInput> | WebhookDeliveryCreateWithoutSubscriptionInput[] | WebhookDeliveryUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutSubscriptionInput | WebhookDeliveryCreateOrConnectWithoutSubscriptionInput[]
+    createMany?: WebhookDeliveryCreateManySubscriptionInputEnvelope
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+  }
+
+  export type WebhookSubscriptionUpdateeventTypesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutWebhookSubscriptionsNestedInput = {
+    create?: XOR<TenantCreateWithoutWebhookSubscriptionsInput, TenantUncheckedCreateWithoutWebhookSubscriptionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWebhookSubscriptionsInput
+    upsert?: TenantUpsertWithoutWebhookSubscriptionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWebhookSubscriptionsInput, TenantUpdateWithoutWebhookSubscriptionsInput>, TenantUncheckedUpdateWithoutWebhookSubscriptionsInput>
+  }
+
+  export type WebhookDeliveryUpdateManyWithoutSubscriptionNestedInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutSubscriptionInput, WebhookDeliveryUncheckedCreateWithoutSubscriptionInput> | WebhookDeliveryCreateWithoutSubscriptionInput[] | WebhookDeliveryUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutSubscriptionInput | WebhookDeliveryCreateOrConnectWithoutSubscriptionInput[]
+    upsert?: WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput | WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput[]
+    createMany?: WebhookDeliveryCreateManySubscriptionInputEnvelope
+    set?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    disconnect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    delete?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    update?: WebhookDeliveryUpdateWithWhereUniqueWithoutSubscriptionInput | WebhookDeliveryUpdateWithWhereUniqueWithoutSubscriptionInput[]
+    updateMany?: WebhookDeliveryUpdateManyWithWhereWithoutSubscriptionInput | WebhookDeliveryUpdateManyWithWhereWithoutSubscriptionInput[]
+    deleteMany?: WebhookDeliveryScalarWhereInput | WebhookDeliveryScalarWhereInput[]
+  }
+
+  export type WebhookDeliveryUncheckedUpdateManyWithoutSubscriptionNestedInput = {
+    create?: XOR<WebhookDeliveryCreateWithoutSubscriptionInput, WebhookDeliveryUncheckedCreateWithoutSubscriptionInput> | WebhookDeliveryCreateWithoutSubscriptionInput[] | WebhookDeliveryUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: WebhookDeliveryCreateOrConnectWithoutSubscriptionInput | WebhookDeliveryCreateOrConnectWithoutSubscriptionInput[]
+    upsert?: WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput | WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput[]
+    createMany?: WebhookDeliveryCreateManySubscriptionInputEnvelope
+    set?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    disconnect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    delete?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    connect?: WebhookDeliveryWhereUniqueInput | WebhookDeliveryWhereUniqueInput[]
+    update?: WebhookDeliveryUpdateWithWhereUniqueWithoutSubscriptionInput | WebhookDeliveryUpdateWithWhereUniqueWithoutSubscriptionInput[]
+    updateMany?: WebhookDeliveryUpdateManyWithWhereWithoutSubscriptionInput | WebhookDeliveryUpdateManyWithWhereWithoutSubscriptionInput[]
+    deleteMany?: WebhookDeliveryScalarWhereInput | WebhookDeliveryScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutWebhookDeliveriesInput = {
+    create?: XOR<TenantCreateWithoutWebhookDeliveriesInput, TenantUncheckedCreateWithoutWebhookDeliveriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWebhookDeliveriesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WebhookSubscriptionCreateNestedOneWithoutDeliveriesInput = {
+    create?: XOR<WebhookSubscriptionCreateWithoutDeliveriesInput, WebhookSubscriptionUncheckedCreateWithoutDeliveriesInput>
+    connectOrCreate?: WebhookSubscriptionCreateOrConnectWithoutDeliveriesInput
+    connect?: WebhookSubscriptionWhereUniqueInput
+  }
+
+  export type EnumWebhookDeliveryStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WebhookDeliveryStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutWebhookDeliveriesNestedInput = {
+    create?: XOR<TenantCreateWithoutWebhookDeliveriesInput, TenantUncheckedCreateWithoutWebhookDeliveriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWebhookDeliveriesInput
+    upsert?: TenantUpsertWithoutWebhookDeliveriesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWebhookDeliveriesInput, TenantUpdateWithoutWebhookDeliveriesInput>, TenantUncheckedUpdateWithoutWebhookDeliveriesInput>
+  }
+
+  export type WebhookSubscriptionUpdateOneRequiredWithoutDeliveriesNestedInput = {
+    create?: XOR<WebhookSubscriptionCreateWithoutDeliveriesInput, WebhookSubscriptionUncheckedCreateWithoutDeliveriesInput>
+    connectOrCreate?: WebhookSubscriptionCreateOrConnectWithoutDeliveriesInput
+    upsert?: WebhookSubscriptionUpsertWithoutDeliveriesInput
+    connect?: WebhookSubscriptionWhereUniqueInput
+    update?: XOR<XOR<WebhookSubscriptionUpdateToOneWithWhereWithoutDeliveriesInput, WebhookSubscriptionUpdateWithoutDeliveriesInput>, WebhookSubscriptionUncheckedUpdateWithoutDeliveriesInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -130909,6 +134253,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBytesFilter<$PrismaModel>
     _max?: NestedBytesFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWebhookDeliveryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookDeliveryStatus | EnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookDeliveryStatusFilter<$PrismaModel> | $Enums.WebhookDeliveryStatus
+  }
+
+  export type NestedEnumWebhookDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookDeliveryStatus | EnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookDeliveryStatus[] | ListEnumWebhookDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookDeliveryStatusWithAggregatesFilter<$PrismaModel> | $Enums.WebhookDeliveryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWebhookDeliveryStatusFilter<$PrismaModel>
+    _max?: NestedEnumWebhookDeliveryStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -133187,6 +136548,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WebhookSubscriptionCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+    deliveries?: WebhookDeliveryCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type WebhookSubscriptionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+    deliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type WebhookSubscriptionCreateOrConnectWithoutTenantInput = {
+    where: WebhookSubscriptionWhereUniqueInput
+    create: XOR<WebhookSubscriptionCreateWithoutTenantInput, WebhookSubscriptionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WebhookSubscriptionCreateManyTenantInputEnvelope = {
+    data: WebhookSubscriptionCreateManyTenantInput | WebhookSubscriptionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WebhookDeliveryCreateWithoutTenantInput = {
+    id?: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    subscription: WebhookSubscriptionCreateNestedOneWithoutDeliveriesInput
+  }
+
+  export type WebhookDeliveryUncheckedCreateWithoutTenantInput = {
+    id?: string
+    subscriptionId: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookDeliveryCreateOrConnectWithoutTenantInput = {
+    where: WebhookDeliveryWhereUniqueInput
+    create: XOR<WebhookDeliveryCreateWithoutTenantInput, WebhookDeliveryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WebhookDeliveryCreateManyTenantInputEnvelope = {
+    data: WebhookDeliveryCreateManyTenantInput | WebhookDeliveryCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -135330,6 +138761,70 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
   }
 
+  export type WebhookSubscriptionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: WebhookSubscriptionWhereUniqueInput
+    update: XOR<WebhookSubscriptionUpdateWithoutTenantInput, WebhookSubscriptionUncheckedUpdateWithoutTenantInput>
+    create: XOR<WebhookSubscriptionCreateWithoutTenantInput, WebhookSubscriptionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WebhookSubscriptionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: WebhookSubscriptionWhereUniqueInput
+    data: XOR<WebhookSubscriptionUpdateWithoutTenantInput, WebhookSubscriptionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type WebhookSubscriptionUpdateManyWithWhereWithoutTenantInput = {
+    where: WebhookSubscriptionScalarWhereInput
+    data: XOR<WebhookSubscriptionUpdateManyMutationInput, WebhookSubscriptionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type WebhookSubscriptionScalarWhereInput = {
+    AND?: WebhookSubscriptionScalarWhereInput | WebhookSubscriptionScalarWhereInput[]
+    OR?: WebhookSubscriptionScalarWhereInput[]
+    NOT?: WebhookSubscriptionScalarWhereInput | WebhookSubscriptionScalarWhereInput[]
+    id?: UuidFilter<"WebhookSubscription"> | string
+    tenantId?: UuidFilter<"WebhookSubscription"> | string
+    name?: StringFilter<"WebhookSubscription"> | string
+    url?: StringFilter<"WebhookSubscription"> | string
+    secret?: StringFilter<"WebhookSubscription"> | string
+    eventTypes?: StringNullableListFilter<"WebhookSubscription">
+    active?: BoolFilter<"WebhookSubscription"> | boolean
+    createdAt?: DateTimeFilter<"WebhookSubscription"> | Date | string
+  }
+
+  export type WebhookDeliveryUpsertWithWhereUniqueWithoutTenantInput = {
+    where: WebhookDeliveryWhereUniqueInput
+    update: XOR<WebhookDeliveryUpdateWithoutTenantInput, WebhookDeliveryUncheckedUpdateWithoutTenantInput>
+    create: XOR<WebhookDeliveryCreateWithoutTenantInput, WebhookDeliveryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WebhookDeliveryUpdateWithWhereUniqueWithoutTenantInput = {
+    where: WebhookDeliveryWhereUniqueInput
+    data: XOR<WebhookDeliveryUpdateWithoutTenantInput, WebhookDeliveryUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type WebhookDeliveryUpdateManyWithWhereWithoutTenantInput = {
+    where: WebhookDeliveryScalarWhereInput
+    data: XOR<WebhookDeliveryUpdateManyMutationInput, WebhookDeliveryUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type WebhookDeliveryScalarWhereInput = {
+    AND?: WebhookDeliveryScalarWhereInput | WebhookDeliveryScalarWhereInput[]
+    OR?: WebhookDeliveryScalarWhereInput[]
+    NOT?: WebhookDeliveryScalarWhereInput | WebhookDeliveryScalarWhereInput[]
+    id?: UuidFilter<"WebhookDelivery"> | string
+    tenantId?: UuidFilter<"WebhookDelivery"> | string
+    subscriptionId?: UuidFilter<"WebhookDelivery"> | string
+    outboxEventId?: UuidFilter<"WebhookDelivery"> | string
+    eventType?: StringFilter<"WebhookDelivery"> | string
+    payload?: JsonFilter<"WebhookDelivery">
+    status?: EnumWebhookDeliveryStatusFilter<"WebhookDelivery"> | $Enums.WebhookDeliveryStatus
+    attempts?: IntFilter<"WebhookDelivery"> | number
+    nextAttemptAt?: DateTimeFilter<"WebhookDelivery"> | Date | string
+    lastError?: StringNullableFilter<"WebhookDelivery"> | string | null
+    deliveredAt?: DateTimeNullableFilter<"WebhookDelivery"> | Date | string | null
+    createdAt?: DateTimeFilter<"WebhookDelivery"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -135406,6 +138901,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -135484,6 +138981,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -135578,6 +139077,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -135656,6 +139157,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -135734,6 +139237,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -135812,6 +139317,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -135940,6 +139447,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -136018,6 +139527,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -136112,6 +139623,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -136190,6 +139703,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -136422,6 +139937,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -136500,6 +140017,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -136690,6 +140209,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -136768,6 +140289,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -136891,6 +140414,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -136969,6 +140494,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -137082,6 +140609,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -137160,6 +140689,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -137283,6 +140814,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -137361,6 +140894,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -137474,6 +141009,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -137552,6 +141089,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -137674,6 +141213,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -137752,6 +141293,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -137846,6 +141389,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -137924,6 +141469,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -138068,6 +141615,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -138146,6 +141695,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -138322,6 +141873,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -138400,6 +141953,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -138546,6 +142101,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -138624,6 +142181,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -138766,6 +142325,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -138844,6 +142405,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -138938,6 +142501,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -139016,6 +142581,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -139094,6 +142661,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -139172,6 +142741,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -139266,6 +142837,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -139344,6 +142917,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -139422,6 +142997,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -139500,6 +143077,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -139594,6 +143173,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -139672,6 +143253,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -139750,6 +143333,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -139828,6 +143413,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -139922,6 +143509,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -140000,6 +143589,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -140078,6 +143669,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -140156,6 +143749,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -140250,6 +143845,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -140328,6 +143925,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -140406,6 +144005,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -140484,6 +144085,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -140578,6 +144181,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -140656,6 +144261,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -140734,6 +144341,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -140812,6 +144421,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -140906,6 +144517,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -140984,6 +144597,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -141062,6 +144677,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -141140,6 +144757,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -141296,6 +144915,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -141374,6 +144995,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -141710,6 +145333,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -141788,6 +145413,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -141910,6 +145537,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -141988,6 +145617,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -142139,6 +145770,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -142217,6 +145850,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -142311,6 +145946,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -142389,6 +146026,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -142467,6 +146106,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -142545,6 +146186,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -142639,6 +146282,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -142717,6 +146362,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -142795,6 +146442,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -142873,6 +146522,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -142993,6 +146644,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -143071,6 +146724,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -143221,6 +146876,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -143299,6 +146956,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -143494,6 +147153,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -143572,6 +147233,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -143811,6 +147474,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -143889,6 +147554,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -144019,6 +147686,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -144097,6 +147766,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -144510,6 +148181,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -144588,6 +148261,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -144704,6 +148379,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -144782,6 +148459,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -144930,6 +148609,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -145008,6 +148689,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -145102,6 +148785,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -145180,6 +148865,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -145258,6 +148945,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -145336,6 +149025,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -145430,6 +149121,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -145508,6 +149201,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -145586,6 +149281,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -145664,6 +149361,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -145758,6 +149457,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -145836,6 +149537,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -145914,6 +149617,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -145992,6 +149697,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -146086,6 +149793,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -146164,6 +149873,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -146242,6 +149953,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -146320,6 +150033,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -146440,6 +150155,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -146518,6 +150235,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -146612,6 +150331,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -146690,6 +150411,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -146817,6 +150540,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -146895,6 +150620,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -147012,6 +150739,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -147090,6 +150819,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -147184,6 +150915,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -147262,6 +150995,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -147340,6 +151075,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -147418,6 +151155,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -147512,6 +151251,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -147590,6 +151331,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -147668,6 +151411,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -147746,6 +151491,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -147840,6 +151587,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -147918,6 +151667,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -147996,6 +151747,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -148074,6 +151827,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -148168,6 +151923,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -148246,6 +152003,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -148324,6 +152083,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -148402,6 +152163,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -148522,6 +152285,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -148600,6 +152365,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -148694,6 +152461,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -148772,6 +152541,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -148897,6 +152668,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -148975,6 +152748,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -149090,6 +152865,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -149168,6 +152945,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -149296,6 +153075,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -149374,6 +153155,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -149468,6 +153251,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -149546,6 +153331,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -149687,6 +153474,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -149765,6 +153554,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -149896,6 +153687,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -149974,6 +153767,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -150102,6 +153897,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -150180,6 +153977,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -150274,6 +154073,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -150352,6 +154153,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -150483,6 +154286,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -150561,6 +154366,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -150682,6 +154489,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -150760,6 +154569,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -150854,6 +154665,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -150932,6 +154745,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -151010,6 +154825,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -151088,6 +154905,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -151182,6 +155001,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -151260,6 +155081,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -151338,6 +155161,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -151416,6 +155241,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -151540,6 +155367,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -151618,6 +155447,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -151712,6 +155543,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -151790,6 +155623,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -151917,6 +155752,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -151995,6 +155832,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -152112,6 +155951,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -152190,6 +156031,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -152316,6 +156159,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -152394,6 +156239,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -152488,6 +156335,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -152566,6 +156415,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -152697,6 +156548,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -152775,6 +156628,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -152896,6 +156751,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -152974,6 +156831,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -153098,6 +156957,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -153176,6 +157037,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -153270,6 +157133,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -153348,6 +157213,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -153473,6 +157340,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -153551,6 +157420,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -153666,6 +157537,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -153744,6 +157617,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -153870,6 +157745,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -153948,6 +157825,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -154042,6 +157921,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -154120,6 +158001,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -154241,6 +158124,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -154319,6 +158204,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -154430,6 +158317,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -154508,6 +158397,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -154602,6 +158493,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -154680,6 +158573,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -154758,6 +158653,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -154836,6 +158733,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -154930,6 +158829,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -155008,6 +158909,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -155086,6 +158989,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -155164,6 +159069,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -155288,6 +159195,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -155366,6 +159275,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -155460,6 +159371,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -155538,6 +159451,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -155657,6 +159572,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -155735,6 +159652,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -155844,6 +159763,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -155922,6 +159843,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -156048,6 +159971,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -156126,6 +160051,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -156220,6 +160147,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -156298,6 +160227,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -156435,6 +160366,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -156513,6 +160446,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -156640,6 +160575,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -156718,6 +160655,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -156838,6 +160777,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -156916,6 +160857,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -157010,6 +160953,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -157088,6 +161033,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -157209,6 +161156,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -157287,6 +161236,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -157398,6 +161349,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -157476,6 +161429,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -157600,6 +161555,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -157678,6 +161635,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -157772,6 +161731,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -157850,6 +161811,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -157979,6 +161942,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -158057,6 +162022,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -158176,6 +162143,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -158254,6 +162223,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -158348,6 +162319,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -158426,6 +162399,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -158504,6 +162479,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -158582,6 +162559,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -158708,6 +162687,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -158786,6 +162767,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -158880,6 +162863,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -158958,6 +162943,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -159095,6 +163082,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -159173,6 +163162,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -159300,6 +163291,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -159378,6 +163371,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -159472,6 +163467,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -159550,6 +163547,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -159628,6 +163627,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -159706,6 +163707,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -159800,6 +163803,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -159878,6 +163883,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -159956,6 +163963,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -160034,6 +164043,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -160145,6 +164156,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -160223,6 +164236,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -160324,6 +164339,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -160402,6 +164419,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -160527,6 +164546,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -160605,6 +164626,8 @@ export namespace Prisma {
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -160720,6 +164743,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -160798,6 +164823,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -160892,6 +164919,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -160970,6 +164999,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -161048,6 +165079,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -161126,6 +165159,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -161248,6 +165283,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -161326,6 +165363,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -161420,6 +165459,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -161498,6 +165539,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
     costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -161615,6 +165658,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -161693,6 +165738,8 @@ export namespace Prisma {
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
     costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -161720,6 +165767,792 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutWebhookSubscriptionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutWebhookSubscriptionsInput, TenantUncheckedCreateWithoutWebhookSubscriptionsInput>
+  }
+
+  export type WebhookDeliveryCreateWithoutSubscriptionInput = {
+    id?: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWebhookDeliveriesInput
+  }
+
+  export type WebhookDeliveryUncheckedCreateWithoutSubscriptionInput = {
+    id?: string
+    tenantId: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookDeliveryCreateOrConnectWithoutSubscriptionInput = {
+    where: WebhookDeliveryWhereUniqueInput
+    create: XOR<WebhookDeliveryCreateWithoutSubscriptionInput, WebhookDeliveryUncheckedCreateWithoutSubscriptionInput>
+  }
+
+  export type WebhookDeliveryCreateManySubscriptionInputEnvelope = {
+    data: WebhookDeliveryCreateManySubscriptionInput | WebhookDeliveryCreateManySubscriptionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutWebhookSubscriptionsInput = {
+    update: XOR<TenantUpdateWithoutWebhookSubscriptionsInput, TenantUncheckedUpdateWithoutWebhookSubscriptionsInput>
+    create: XOR<TenantCreateWithoutWebhookSubscriptionsInput, TenantUncheckedCreateWithoutWebhookSubscriptionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutWebhookSubscriptionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutWebhookSubscriptionsInput, TenantUncheckedUpdateWithoutWebhookSubscriptionsInput>
+  }
+
+  export type TenantUpdateWithoutWebhookSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
+    where: WebhookDeliveryWhereUniqueInput
+    update: XOR<WebhookDeliveryUpdateWithoutSubscriptionInput, WebhookDeliveryUncheckedUpdateWithoutSubscriptionInput>
+    create: XOR<WebhookDeliveryCreateWithoutSubscriptionInput, WebhookDeliveryUncheckedCreateWithoutSubscriptionInput>
+  }
+
+  export type WebhookDeliveryUpdateWithWhereUniqueWithoutSubscriptionInput = {
+    where: WebhookDeliveryWhereUniqueInput
+    data: XOR<WebhookDeliveryUpdateWithoutSubscriptionInput, WebhookDeliveryUncheckedUpdateWithoutSubscriptionInput>
+  }
+
+  export type WebhookDeliveryUpdateManyWithWhereWithoutSubscriptionInput = {
+    where: WebhookDeliveryScalarWhereInput
+    data: XOR<WebhookDeliveryUpdateManyMutationInput, WebhookDeliveryUncheckedUpdateManyWithoutSubscriptionInput>
+  }
+
+  export type TenantCreateWithoutWebhookDeliveriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutWebhookDeliveriesInput, TenantUncheckedCreateWithoutWebhookDeliveriesInput>
+  }
+
+  export type WebhookSubscriptionCreateWithoutDeliveriesInput = {
+    id?: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWebhookSubscriptionsInput
+  }
+
+  export type WebhookSubscriptionUncheckedCreateWithoutDeliveriesInput = {
+    id?: string
+    tenantId: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WebhookSubscriptionCreateOrConnectWithoutDeliveriesInput = {
+    where: WebhookSubscriptionWhereUniqueInput
+    create: XOR<WebhookSubscriptionCreateWithoutDeliveriesInput, WebhookSubscriptionUncheckedCreateWithoutDeliveriesInput>
+  }
+
+  export type TenantUpsertWithoutWebhookDeliveriesInput = {
+    update: XOR<TenantUpdateWithoutWebhookDeliveriesInput, TenantUncheckedUpdateWithoutWebhookDeliveriesInput>
+    create: XOR<TenantCreateWithoutWebhookDeliveriesInput, TenantUncheckedCreateWithoutWebhookDeliveriesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutWebhookDeliveriesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutWebhookDeliveriesInput, TenantUncheckedUpdateWithoutWebhookDeliveriesInput>
+  }
+
+  export type TenantUpdateWithoutWebhookDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
+    update: XOR<WebhookSubscriptionUpdateWithoutDeliveriesInput, WebhookSubscriptionUncheckedUpdateWithoutDeliveriesInput>
+    create: XOR<WebhookSubscriptionCreateWithoutDeliveriesInput, WebhookSubscriptionUncheckedCreateWithoutDeliveriesInput>
+    where?: WebhookSubscriptionWhereInput
+  }
+
+  export type WebhookSubscriptionUpdateToOneWithWhereWithoutDeliveriesInput = {
+    where?: WebhookSubscriptionWhereInput
+    data: XOR<WebhookSubscriptionUpdateWithoutDeliveriesInput, WebhookSubscriptionUncheckedUpdateWithoutDeliveriesInput>
+  }
+
+  export type WebhookSubscriptionUpdateWithoutDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWebhookSubscriptionsNestedInput
+  }
+
+  export type WebhookSubscriptionUncheckedUpdateWithoutDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -162485,6 +167318,30 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     currency: string
     updatedAt?: Date | string
+  }
+
+  export type WebhookSubscriptionCreateManyTenantInput = {
+    id?: string
+    name: string
+    url: string
+    secret: string
+    eventTypes?: WebhookSubscriptionCreateeventTypesInput | string[]
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WebhookDeliveryCreateManyTenantInput = {
+    id?: string
+    subscriptionId: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -164836,6 +169693,80 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WebhookSubscriptionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveries?: WebhookDeliveryUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type WebhookSubscriptionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveries?: WebhookDeliveryUncheckedUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type WebhookSubscriptionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    eventTypes?: WebhookSubscriptionUpdateeventTypesInput | string[]
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookDeliveryUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscription?: WebhookSubscriptionUpdateOneRequiredWithoutDeliveriesNestedInput
+  }
+
+  export type WebhookDeliveryUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookDeliveryUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -166064,6 +170995,62 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookDeliveryCreateManySubscriptionInput = {
+    id?: string
+    tenantId: string
+    outboxEventId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    status?: $Enums.WebhookDeliveryStatus
+    attempts?: number
+    nextAttemptAt?: Date | string
+    lastError?: string | null
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookDeliveryUpdateWithoutSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWebhookDeliveriesNestedInput
+  }
+
+  export type WebhookDeliveryUncheckedUpdateWithoutSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookDeliveryUncheckedUpdateManyWithoutSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    outboxEventId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumWebhookDeliveryStatusFieldUpdateOperationsInput | $Enums.WebhookDeliveryStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

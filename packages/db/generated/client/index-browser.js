@@ -1057,6 +1057,32 @@ exports.Prisma.BudgetScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.WebhookSubscriptionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  url: 'url',
+  secret: 'secret',
+  eventTypes: 'eventTypes',
+  active: 'active',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WebhookDeliveryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  subscriptionId: 'subscriptionId',
+  outboxEventId: 'outboxEventId',
+  eventType: 'eventType',
+  payload: 'payload',
+  status: 'status',
+  attempts: 'attempts',
+  nextAttemptAt: 'nextAttemptAt',
+  lastError: 'lastError',
+  deliveredAt: 'deliveredAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1356,6 +1382,13 @@ exports.PortalUserStatus = exports.$Enums.PortalUserStatus = {
   DISABLED: 'DISABLED'
 };
 
+exports.WebhookDeliveryStatus = exports.$Enums.WebhookDeliveryStatus = {
+  PENDING: 'PENDING',
+  DELIVERED: 'DELIVERED',
+  FAILED: 'FAILED',
+  DEAD: 'DEAD'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1436,7 +1469,9 @@ exports.Prisma.ModelName = {
   AttachmentBlob: 'AttachmentBlob',
   NumberSequence: 'NumberSequence',
   CostCenter: 'CostCenter',
-  Budget: 'Budget'
+  Budget: 'Budget',
+  WebhookSubscription: 'WebhookSubscription',
+  WebhookDelivery: 'WebhookDelivery'
 };
 
 /**
