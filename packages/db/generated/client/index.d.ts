@@ -56542,10 +56542,12 @@ export namespace Prisma {
 
   export type CrmAccountAvgAggregateOutputType = {
     creditLimit: Decimal | null
+    paymentTermsDays: number | null
   }
 
   export type CrmAccountSumAggregateOutputType = {
     creditLimit: Decimal | null
+    paymentTermsDays: number | null
   }
 
   export type CrmAccountMinAggregateOutputType = {
@@ -56555,6 +56557,8 @@ export namespace Prisma {
     accountNumber: string | null
     ownerUserId: string | null
     creditLimit: Decimal | null
+    creditHold: boolean | null
+    paymentTermsDays: number | null
     status: $Enums.CrmAccountStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -56567,6 +56571,8 @@ export namespace Prisma {
     accountNumber: string | null
     ownerUserId: string | null
     creditLimit: Decimal | null
+    creditHold: boolean | null
+    paymentTermsDays: number | null
     status: $Enums.CrmAccountStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -56579,6 +56585,9 @@ export namespace Prisma {
     accountNumber: number
     ownerUserId: number
     creditLimit: number
+    creditHold: number
+    paymentTermsDays: number
+    tags: number
     status: number
     createdAt: number
     updatedAt: number
@@ -56588,10 +56597,12 @@ export namespace Prisma {
 
   export type CrmAccountAvgAggregateInputType = {
     creditLimit?: true
+    paymentTermsDays?: true
   }
 
   export type CrmAccountSumAggregateInputType = {
     creditLimit?: true
+    paymentTermsDays?: true
   }
 
   export type CrmAccountMinAggregateInputType = {
@@ -56601,6 +56612,8 @@ export namespace Prisma {
     accountNumber?: true
     ownerUserId?: true
     creditLimit?: true
+    creditHold?: true
+    paymentTermsDays?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -56613,6 +56626,8 @@ export namespace Prisma {
     accountNumber?: true
     ownerUserId?: true
     creditLimit?: true
+    creditHold?: true
+    paymentTermsDays?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -56625,6 +56640,9 @@ export namespace Prisma {
     accountNumber?: true
     ownerUserId?: true
     creditLimit?: true
+    creditHold?: true
+    paymentTermsDays?: true
+    tags?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -56724,6 +56742,9 @@ export namespace Prisma {
     accountNumber: string
     ownerUserId: string | null
     creditLimit: Decimal | null
+    creditHold: boolean
+    paymentTermsDays: number | null
+    tags: string[]
     status: $Enums.CrmAccountStatus
     createdAt: Date
     updatedAt: Date
@@ -56755,6 +56776,9 @@ export namespace Prisma {
     accountNumber?: boolean
     ownerUserId?: boolean
     creditLimit?: boolean
+    creditHold?: boolean
+    paymentTermsDays?: boolean
+    tags?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -56768,6 +56792,9 @@ export namespace Prisma {
     accountNumber?: boolean
     ownerUserId?: boolean
     creditLimit?: boolean
+    creditHold?: boolean
+    paymentTermsDays?: boolean
+    tags?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -56781,6 +56808,9 @@ export namespace Prisma {
     accountNumber?: boolean
     ownerUserId?: boolean
     creditLimit?: boolean
+    creditHold?: boolean
+    paymentTermsDays?: boolean
+    tags?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -56794,12 +56824,15 @@ export namespace Prisma {
     accountNumber?: boolean
     ownerUserId?: boolean
     creditLimit?: boolean
+    creditHold?: boolean
+    paymentTermsDays?: boolean
+    tags?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CrmAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "partyId" | "accountNumber" | "ownerUserId" | "creditLimit" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["crmAccount"]>
+  export type CrmAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "partyId" | "accountNumber" | "ownerUserId" | "creditLimit" | "creditHold" | "paymentTermsDays" | "tags" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["crmAccount"]>
   export type CrmAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -56822,6 +56855,12 @@ export namespace Prisma {
       accountNumber: string
       ownerUserId: string | null
       creditLimit: Prisma.Decimal | null
+      /**
+       * Sprint 017 (CRM-008/009): governed credit profile and segmentation.
+       */
+      creditHold: boolean
+      paymentTermsDays: number | null
+      tags: string[]
       status: $Enums.CrmAccountStatus
       createdAt: Date
       updatedAt: Date
@@ -57255,6 +57294,9 @@ export namespace Prisma {
     readonly accountNumber: FieldRef<"CrmAccount", 'String'>
     readonly ownerUserId: FieldRef<"CrmAccount", 'String'>
     readonly creditLimit: FieldRef<"CrmAccount", 'Decimal'>
+    readonly creditHold: FieldRef<"CrmAccount", 'Boolean'>
+    readonly paymentTermsDays: FieldRef<"CrmAccount", 'Int'>
+    readonly tags: FieldRef<"CrmAccount", 'String[]'>
     readonly status: FieldRef<"CrmAccount", 'CrmAccountStatus'>
     readonly createdAt: FieldRef<"CrmAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"CrmAccount", 'DateTime'>
@@ -101153,6 +101195,9 @@ export namespace Prisma {
     accountNumber: 'accountNumber',
     ownerUserId: 'ownerUserId',
     creditLimit: 'creditLimit',
+    creditHold: 'creditHold',
+    paymentTermsDays: 'paymentTermsDays',
+    tags: 'tags',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -105560,6 +105605,9 @@ export namespace Prisma {
     accountNumber?: StringFilter<"CrmAccount"> | string
     ownerUserId?: UuidNullableFilter<"CrmAccount"> | string | null
     creditLimit?: DecimalNullableFilter<"CrmAccount"> | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFilter<"CrmAccount"> | boolean
+    paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
+    tags?: StringNullableListFilter<"CrmAccount">
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -105573,6 +105621,9 @@ export namespace Prisma {
     accountNumber?: SortOrder
     ownerUserId?: SortOrderInput | SortOrder
     creditLimit?: SortOrderInput | SortOrder
+    creditHold?: SortOrder
+    paymentTermsDays?: SortOrderInput | SortOrder
+    tags?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -105591,6 +105642,9 @@ export namespace Prisma {
     accountNumber?: StringFilter<"CrmAccount"> | string
     ownerUserId?: UuidNullableFilter<"CrmAccount"> | string | null
     creditLimit?: DecimalNullableFilter<"CrmAccount"> | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFilter<"CrmAccount"> | boolean
+    paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
+    tags?: StringNullableListFilter<"CrmAccount">
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -105604,6 +105658,9 @@ export namespace Prisma {
     accountNumber?: SortOrder
     ownerUserId?: SortOrderInput | SortOrder
     creditLimit?: SortOrderInput | SortOrder
+    creditHold?: SortOrder
+    paymentTermsDays?: SortOrderInput | SortOrder
+    tags?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -105624,6 +105681,9 @@ export namespace Prisma {
     accountNumber?: StringWithAggregatesFilter<"CrmAccount"> | string
     ownerUserId?: UuidNullableWithAggregatesFilter<"CrmAccount"> | string | null
     creditLimit?: DecimalNullableWithAggregatesFilter<"CrmAccount"> | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolWithAggregatesFilter<"CrmAccount"> | boolean
+    paymentTermsDays?: IntNullableWithAggregatesFilter<"CrmAccount"> | number | null
+    tags?: StringNullableListFilter<"CrmAccount">
     status?: EnumCrmAccountStatusWithAggregatesFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeWithAggregatesFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CrmAccount"> | Date | string
@@ -111998,6 +112058,9 @@ export namespace Prisma {
     accountNumber: string
     ownerUserId?: string | null
     creditLimit?: Decimal | DecimalJsLike | number | string | null
+    creditHold?: boolean
+    paymentTermsDays?: number | null
+    tags?: CrmAccountCreatetagsInput | string[]
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -112011,6 +112074,9 @@ export namespace Prisma {
     accountNumber: string
     ownerUserId?: string | null
     creditLimit?: Decimal | DecimalJsLike | number | string | null
+    creditHold?: boolean
+    paymentTermsDays?: number | null
+    tags?: CrmAccountCreatetagsInput | string[]
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -112022,6 +112088,9 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     creditLimit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFieldUpdateOperationsInput | boolean
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: CrmAccountUpdatetagsInput | string[]
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -112035,6 +112104,9 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     creditLimit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFieldUpdateOperationsInput | boolean
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: CrmAccountUpdatetagsInput | string[]
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -112047,6 +112119,9 @@ export namespace Prisma {
     accountNumber: string
     ownerUserId?: string | null
     creditLimit?: Decimal | DecimalJsLike | number | string | null
+    creditHold?: boolean
+    paymentTermsDays?: number | null
+    tags?: CrmAccountCreatetagsInput | string[]
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -112058,6 +112133,9 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     creditLimit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFieldUpdateOperationsInput | boolean
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: CrmAccountUpdatetagsInput | string[]
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -112070,6 +112148,9 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     creditLimit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFieldUpdateOperationsInput | boolean
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: CrmAccountUpdatetagsInput | string[]
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -118428,6 +118509,25 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type EnumCrmAccountStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CrmAccountStatus | EnumCrmAccountStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CrmAccountStatus[] | ListEnumCrmAccountStatusFieldRefInput<$PrismaModel>
@@ -118452,6 +118552,9 @@ export namespace Prisma {
     accountNumber?: SortOrder
     ownerUserId?: SortOrder
     creditLimit?: SortOrder
+    creditHold?: SortOrder
+    paymentTermsDays?: SortOrder
+    tags?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118459,6 +118562,7 @@ export namespace Prisma {
 
   export type CrmAccountAvgOrderByAggregateInput = {
     creditLimit?: SortOrder
+    paymentTermsDays?: SortOrder
   }
 
   export type CrmAccountMaxOrderByAggregateInput = {
@@ -118468,6 +118572,8 @@ export namespace Prisma {
     accountNumber?: SortOrder
     ownerUserId?: SortOrder
     creditLimit?: SortOrder
+    creditHold?: SortOrder
+    paymentTermsDays?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118480,6 +118586,8 @@ export namespace Prisma {
     accountNumber?: SortOrder
     ownerUserId?: SortOrder
     creditLimit?: SortOrder
+    creditHold?: SortOrder
+    paymentTermsDays?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118487,6 +118595,7 @@ export namespace Prisma {
 
   export type CrmAccountSumOrderByAggregateInput = {
     creditLimit?: SortOrder
+    paymentTermsDays?: SortOrder
   }
 
   export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -118503,6 +118612,22 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumCrmAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -119144,17 +119269,6 @@ export namespace Prisma {
     not?: NestedEnumSupplierStatusFilter<$PrismaModel> | $Enums.SupplierStatus
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type SupplierTenantIdPartyIdCompoundUniqueInput = {
     tenantId: string
     partyId: string
@@ -119214,22 +119328,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSupplierStatusFilter<$PrismaModel>
     _max?: NestedEnumSupplierStatusFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumRequisitionStatusFilter<$PrismaModel = never> = {
@@ -120625,14 +120723,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPortalUserStatusFilter<$PrismaModel>
     _max?: NestedEnumPortalUserStatusFilter<$PrismaModel>
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
   }
 
   export type CommentCountOrderByAggregateInput = {
@@ -125210,6 +125300,10 @@ export namespace Prisma {
     update?: XOR<XOR<WmsOrderUpdateToOneWithWhereWithoutLinesInput, WmsOrderUpdateWithoutLinesInput>, WmsOrderUncheckedUpdateWithoutLinesInput>
   }
 
+  export type CrmAccountCreatetagsInput = {
+    set: string[]
+  }
+
   export type TenantCreateNestedOneWithoutCrmAccountsInput = {
     create?: XOR<TenantCreateWithoutCrmAccountsInput, TenantUncheckedCreateWithoutCrmAccountsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutCrmAccountsInput
@@ -125222,6 +125316,19 @@ export namespace Prisma {
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
     divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CrmAccountUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type EnumCrmAccountStatusFieldUpdateOperationsInput = {
@@ -125576,14 +125683,6 @@ export namespace Prisma {
 
   export type EnumSupplierStatusFieldUpdateOperationsInput = {
     set?: $Enums.SupplierStatus
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type TenantUpdateOneRequiredWithoutSuppliersNestedInput = {
@@ -127248,6 +127347,33 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumCrmAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.CrmAccountStatus | EnumCrmAccountStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CrmAccountStatus[] | ListEnumCrmAccountStatusFieldRefInput<$PrismaModel>
@@ -127375,33 +127501,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSupplierStatusFilter<$PrismaModel>
     _max?: NestedEnumSupplierStatusFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumRequisitionStatusFilter<$PrismaModel = never> = {
@@ -128573,6 +128672,9 @@ export namespace Prisma {
     accountNumber: string
     ownerUserId?: string | null
     creditLimit?: Decimal | DecimalJsLike | number | string | null
+    creditHold?: boolean
+    paymentTermsDays?: number | null
+    tags?: CrmAccountCreatetagsInput | string[]
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128584,6 +128686,9 @@ export namespace Prisma {
     accountNumber: string
     ownerUserId?: string | null
     creditLimit?: Decimal | DecimalJsLike | number | string | null
+    creditHold?: boolean
+    paymentTermsDays?: number | null
+    tags?: CrmAccountCreatetagsInput | string[]
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -130766,6 +130871,9 @@ export namespace Prisma {
     accountNumber?: StringFilter<"CrmAccount"> | string
     ownerUserId?: UuidNullableFilter<"CrmAccount"> | string | null
     creditLimit?: DecimalNullableFilter<"CrmAccount"> | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFilter<"CrmAccount"> | boolean
+    paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
+    tags?: StringNullableListFilter<"CrmAccount">
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -157347,6 +157455,9 @@ export namespace Prisma {
     accountNumber: string
     ownerUserId?: string | null
     creditLimit?: Decimal | DecimalJsLike | number | string | null
+    creditHold?: boolean
+    paymentTermsDays?: number | null
+    tags?: CrmAccountCreatetagsInput | string[]
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -158710,6 +158821,9 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     creditLimit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFieldUpdateOperationsInput | boolean
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: CrmAccountUpdatetagsInput | string[]
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158721,6 +158835,9 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     creditLimit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFieldUpdateOperationsInput | boolean
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: CrmAccountUpdatetagsInput | string[]
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158732,6 +158849,9 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     creditLimit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    creditHold?: BoolFieldUpdateOperationsInput | boolean
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: CrmAccountUpdatetagsInput | string[]
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

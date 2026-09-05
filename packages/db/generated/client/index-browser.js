@@ -556,6 +556,9 @@ exports.Prisma.CrmAccountScalarFieldEnum = {
   accountNumber: 'accountNumber',
   ownerUserId: 'ownerUserId',
   creditLimit: 'creditLimit',
+  creditHold: 'creditHold',
+  paymentTermsDays: 'paymentTermsDays',
+  tags: 'tags',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

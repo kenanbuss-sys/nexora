@@ -965,15 +965,19 @@ enum CrmAccountStatus {
 /// Commercial customer profile (CRM-002). Identity stays in MDM (partyId);
 /// CRM owns only the commercial relationship.
 model CrmAccount {
-  id            String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId      String           @map("tenant_id") @db.Uuid
-  partyId       String           @map("party_id") @db.Uuid
-  accountNumber String           @map("account_number")
-  ownerUserId   String?          @map("owner_user_id") @db.Uuid
-  creditLimit   Decimal?         @map("credit_limit") @db.Decimal(18, 2)
-  status        CrmAccountStatus @default(ACTIVE)
-  createdAt     DateTime         @default(now()) @map("created_at")
-  updatedAt     DateTime         @updatedAt @map("updated_at")
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String           @map("tenant_id") @db.Uuid
+  partyId          String           @map("party_id") @db.Uuid
+  accountNumber    String           @map("account_number")
+  ownerUserId      String?          @map("owner_user_id") @db.Uuid
+  creditLimit      Decimal?         @map("credit_limit") @db.Decimal(18, 2)
+  /// Sprint 017 (CRM-008/009): governed credit profile and segmentation.
+  creditHold       Boolean          @default(false) @map("credit_hold")
+  paymentTermsDays Int?             @map("payment_terms_days")
+  tags             String[]         @default([])
+  status           CrmAccountStatus @default(ACTIVE)
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
