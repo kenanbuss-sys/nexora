@@ -1220,6 +1220,8 @@ model SalesOrderLine {
   unitPrice     Decimal @map("unit_price") @db.Decimal(18, 4)
   lineTotal     Decimal @map("line_total") @db.Decimal(18, 2)
   reservationId String? @map("reservation_id") @db.Uuid
+  /// Sprint 018 (OMS-006): confirmed without stock; released later.
+  backordered   Boolean @default(false)
 
   tenant Tenant     @relation(fields: [tenantId], references: [id])
   order  SalesOrder @relation(fields: [orderId], references: [id])
