@@ -188,6 +188,18 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserCredentialScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  passwordHash: 'passwordHash',
+  mustChangePassword: 'mustChangePassword',
+  failedAttempts: 'failedAttempts',
+  lockedUntil: 'lockedUntil',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.RoleScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1527,6 +1539,7 @@ exports.Prisma.ModelName = {
   Branch: 'Branch',
   Factory: 'Factory',
   User: 'User',
+  UserCredential: 'UserCredential',
   Role: 'Role',
   RolePermission: 'RolePermission',
   UserRoleAssignment: 'UserRoleAssignment',

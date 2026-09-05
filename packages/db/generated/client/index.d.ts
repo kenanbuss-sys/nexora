@@ -49,6 +49,13 @@ export type Factory = $Result.DefaultSelection<Prisma.$FactoryPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model UserCredential
+ * Local password credential (IAM hardening): stores only a scrypt hash,
+ * never the password. A user without a row signs in through the identity
+ * provider only. Lockout state guards against brute force.
+ */
+export type UserCredential = $Result.DefaultSelection<Prisma.$UserCredentialPayload>
+/**
  * Model Role
  * 
  */
@@ -1315,6 +1322,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userCredential`: Exposes CRUD operations for the **UserCredential** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserCredentials
+    * const userCredentials = await prisma.userCredential.findMany()
+    * ```
+    */
+  get userCredential(): Prisma.UserCredentialDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.role`: Exposes CRUD operations for the **Role** model.
@@ -2603,6 +2620,7 @@ export namespace Prisma {
     Branch: 'Branch',
     Factory: 'Factory',
     User: 'User',
+    UserCredential: 'UserCredential',
     Role: 'Role',
     RolePermission: 'RolePermission',
     UserRoleAssignment: 'UserRoleAssignment',
@@ -2705,7 +2723,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3224,6 +3242,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserCredential: {
+        payload: Prisma.$UserCredentialPayload<ExtArgs>
+        fields: Prisma.UserCredentialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserCredentialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserCredentialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>
+          }
+          findFirst: {
+            args: Prisma.UserCredentialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserCredentialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>
+          }
+          findMany: {
+            args: Prisma.UserCredentialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>[]
+          }
+          create: {
+            args: Prisma.UserCredentialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>
+          }
+          createMany: {
+            args: Prisma.UserCredentialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserCredentialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>[]
+          }
+          delete: {
+            args: Prisma.UserCredentialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>
+          }
+          update: {
+            args: Prisma.UserCredentialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserCredentialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserCredentialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserCredentialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserCredentialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCredentialPayload>
+          }
+          aggregate: {
+            args: Prisma.UserCredentialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserCredential>
+          }
+          groupBy: {
+            args: Prisma.UserCredentialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserCredentialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserCredentialCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCredentialCountAggregateOutputType> | number
           }
         }
       }
@@ -9546,6 +9638,7 @@ export namespace Prisma {
     branch?: BranchOmit
     factory?: FactoryOmit
     user?: UserOmit
+    userCredential?: UserCredentialOmit
     role?: RoleOmit
     rolePermission?: RolePermissionOmit
     userRoleAssignment?: UserRoleAssignmentOmit
@@ -9790,6 +9883,7 @@ export namespace Prisma {
     stockCountLines: number
     workCenters: number
     downtimeEvents: number
+    userCredentials: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9873,6 +9967,7 @@ export namespace Prisma {
     stockCountLines?: boolean | TenantCountOutputTypeCountStockCountLinesArgs
     workCenters?: boolean | TenantCountOutputTypeCountWorkCentersArgs
     downtimeEvents?: boolean | TenantCountOutputTypeCountDowntimeEventsArgs
+    userCredentials?: boolean | TenantCountOutputTypeCountUserCredentialsArgs
   }
 
   // Custom InputTypes
@@ -10444,6 +10539,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountDowntimeEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DowntimeEventWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountUserCredentialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCredentialWhereInput
   }
 
 
@@ -11760,6 +11862,7 @@ export namespace Prisma {
     stockCountLines?: boolean | Tenant$stockCountLinesArgs<ExtArgs>
     workCenters?: boolean | Tenant$workCentersArgs<ExtArgs>
     downtimeEvents?: boolean | Tenant$downtimeEventsArgs<ExtArgs>
+    userCredentials?: boolean | Tenant$userCredentialsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -11875,6 +11978,7 @@ export namespace Prisma {
     stockCountLines?: boolean | Tenant$stockCountLinesArgs<ExtArgs>
     workCenters?: boolean | Tenant$workCentersArgs<ExtArgs>
     downtimeEvents?: boolean | Tenant$downtimeEventsArgs<ExtArgs>
+    userCredentials?: boolean | Tenant$userCredentialsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11963,6 +12067,7 @@ export namespace Prisma {
       stockCountLines: Prisma.$StockCountLinePayload<ExtArgs>[]
       workCenters: Prisma.$WorkCenterPayload<ExtArgs>[]
       downtimeEvents: Prisma.$DowntimeEventPayload<ExtArgs>[]
+      userCredentials: Prisma.$UserCredentialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12446,6 +12551,7 @@ export namespace Prisma {
     stockCountLines<T extends Tenant$stockCountLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$stockCountLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workCenters<T extends Tenant$workCentersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workCentersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     downtimeEvents<T extends Tenant$downtimeEventsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$downtimeEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userCredentials<T extends Tenant$userCredentialsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$userCredentialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14787,6 +14893,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DowntimeEventScalarFieldEnum | DowntimeEventScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.userCredentials
+   */
+  export type Tenant$userCredentialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    where?: UserCredentialWhereInput
+    orderBy?: UserCredentialOrderByWithRelationInput | UserCredentialOrderByWithRelationInput[]
+    cursor?: UserCredentialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserCredentialScalarFieldEnum | UserCredentialScalarFieldEnum[]
   }
 
   /**
@@ -20563,6 +20693,7 @@ export namespace Prisma {
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     roleAssignments?: boolean | User$roleAssignmentsArgs<ExtArgs>
+    credential?: boolean | User$credentialArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -20605,6 +20736,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     roleAssignments?: boolean | User$roleAssignmentsArgs<ExtArgs>
+    credential?: boolean | User$credentialArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20619,6 +20751,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       roleAssignments: Prisma.$UserRoleAssignmentPayload<ExtArgs>[]
+      credential: Prisma.$UserCredentialPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21028,6 +21161,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     roleAssignments<T extends User$roleAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$roleAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRoleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    credential<T extends User$credentialArgs<ExtArgs> = {}>(args?: Subset<T, User$credentialArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21485,6 +21619,25 @@ export namespace Prisma {
   }
 
   /**
+   * User.credential
+   */
+  export type User$credentialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    where?: UserCredentialWhereInput
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21500,6 +21653,1158 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserCredential
+   */
+
+  export type AggregateUserCredential = {
+    _count: UserCredentialCountAggregateOutputType | null
+    _avg: UserCredentialAvgAggregateOutputType | null
+    _sum: UserCredentialSumAggregateOutputType | null
+    _min: UserCredentialMinAggregateOutputType | null
+    _max: UserCredentialMaxAggregateOutputType | null
+  }
+
+  export type UserCredentialAvgAggregateOutputType = {
+    failedAttempts: number | null
+  }
+
+  export type UserCredentialSumAggregateOutputType = {
+    failedAttempts: number | null
+  }
+
+  export type UserCredentialMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    userId: string | null
+    passwordHash: string | null
+    mustChangePassword: boolean | null
+    failedAttempts: number | null
+    lockedUntil: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserCredentialMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    userId: string | null
+    passwordHash: string | null
+    mustChangePassword: boolean | null
+    failedAttempts: number | null
+    lockedUntil: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserCredentialCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    userId: number
+    passwordHash: number
+    mustChangePassword: number
+    failedAttempts: number
+    lockedUntil: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserCredentialAvgAggregateInputType = {
+    failedAttempts?: true
+  }
+
+  export type UserCredentialSumAggregateInputType = {
+    failedAttempts?: true
+  }
+
+  export type UserCredentialMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    userId?: true
+    passwordHash?: true
+    mustChangePassword?: true
+    failedAttempts?: true
+    lockedUntil?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserCredentialMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    userId?: true
+    passwordHash?: true
+    mustChangePassword?: true
+    failedAttempts?: true
+    lockedUntil?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserCredentialCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    userId?: true
+    passwordHash?: true
+    mustChangePassword?: true
+    failedAttempts?: true
+    lockedUntil?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserCredentialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCredential to aggregate.
+     */
+    where?: UserCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredentials to fetch.
+     */
+    orderBy?: UserCredentialOrderByWithRelationInput | UserCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserCredentials
+    **/
+    _count?: true | UserCredentialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserCredentialAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserCredentialSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserCredentialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserCredentialMaxAggregateInputType
+  }
+
+  export type GetUserCredentialAggregateType<T extends UserCredentialAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserCredential]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserCredential[P]>
+      : GetScalarType<T[P], AggregateUserCredential[P]>
+  }
+
+
+
+
+  export type UserCredentialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCredentialWhereInput
+    orderBy?: UserCredentialOrderByWithAggregationInput | UserCredentialOrderByWithAggregationInput[]
+    by: UserCredentialScalarFieldEnum[] | UserCredentialScalarFieldEnum
+    having?: UserCredentialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCredentialCountAggregateInputType | true
+    _avg?: UserCredentialAvgAggregateInputType
+    _sum?: UserCredentialSumAggregateInputType
+    _min?: UserCredentialMinAggregateInputType
+    _max?: UserCredentialMaxAggregateInputType
+  }
+
+  export type UserCredentialGroupByOutputType = {
+    id: string
+    tenantId: string
+    userId: string
+    passwordHash: string
+    mustChangePassword: boolean
+    failedAttempts: number
+    lockedUntil: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: UserCredentialCountAggregateOutputType | null
+    _avg: UserCredentialAvgAggregateOutputType | null
+    _sum: UserCredentialSumAggregateOutputType | null
+    _min: UserCredentialMinAggregateOutputType | null
+    _max: UserCredentialMaxAggregateOutputType | null
+  }
+
+  type GetUserCredentialGroupByPayload<T extends UserCredentialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserCredentialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserCredentialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserCredentialGroupByOutputType[P]>
+            : GetScalarType<T[P], UserCredentialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserCredentialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    userId?: boolean
+    passwordHash?: boolean
+    mustChangePassword?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCredential"]>
+
+  export type UserCredentialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    userId?: boolean
+    passwordHash?: boolean
+    mustChangePassword?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCredential"]>
+
+  export type UserCredentialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    userId?: boolean
+    passwordHash?: boolean
+    mustChangePassword?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCredential"]>
+
+  export type UserCredentialSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    userId?: boolean
+    passwordHash?: boolean
+    mustChangePassword?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserCredentialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "userId" | "passwordHash" | "mustChangePassword" | "failedAttempts" | "lockedUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["userCredential"]>
+  export type UserCredentialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserCredentialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserCredentialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserCredentialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserCredential"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      userId: string
+      passwordHash: string
+      mustChangePassword: boolean
+      failedAttempts: number
+      lockedUntil: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userCredential"]>
+    composites: {}
+  }
+
+  type UserCredentialGetPayload<S extends boolean | null | undefined | UserCredentialDefaultArgs> = $Result.GetResult<Prisma.$UserCredentialPayload, S>
+
+  type UserCredentialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserCredentialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserCredentialCountAggregateInputType | true
+    }
+
+  export interface UserCredentialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserCredential'], meta: { name: 'UserCredential' } }
+    /**
+     * Find zero or one UserCredential that matches the filter.
+     * @param {UserCredentialFindUniqueArgs} args - Arguments to find a UserCredential
+     * @example
+     * // Get one UserCredential
+     * const userCredential = await prisma.userCredential.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserCredentialFindUniqueArgs>(args: SelectSubset<T, UserCredentialFindUniqueArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserCredential that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserCredentialFindUniqueOrThrowArgs} args - Arguments to find a UserCredential
+     * @example
+     * // Get one UserCredential
+     * const userCredential = await prisma.userCredential.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserCredentialFindUniqueOrThrowArgs>(args: SelectSubset<T, UserCredentialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserCredential that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCredentialFindFirstArgs} args - Arguments to find a UserCredential
+     * @example
+     * // Get one UserCredential
+     * const userCredential = await prisma.userCredential.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserCredentialFindFirstArgs>(args?: SelectSubset<T, UserCredentialFindFirstArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserCredential that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCredentialFindFirstOrThrowArgs} args - Arguments to find a UserCredential
+     * @example
+     * // Get one UserCredential
+     * const userCredential = await prisma.userCredential.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserCredentialFindFirstOrThrowArgs>(args?: SelectSubset<T, UserCredentialFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserCredentials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCredentialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserCredentials
+     * const userCredentials = await prisma.userCredential.findMany()
+     * 
+     * // Get first 10 UserCredentials
+     * const userCredentials = await prisma.userCredential.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userCredentialWithIdOnly = await prisma.userCredential.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserCredentialFindManyArgs>(args?: SelectSubset<T, UserCredentialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserCredential.
+     * @param {UserCredentialCreateArgs} args - Arguments to create a UserCredential.
+     * @example
+     * // Create one UserCredential
+     * const UserCredential = await prisma.userCredential.create({
+     *   data: {
+     *     // ... data to create a UserCredential
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserCredentialCreateArgs>(args: SelectSubset<T, UserCredentialCreateArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserCredentials.
+     * @param {UserCredentialCreateManyArgs} args - Arguments to create many UserCredentials.
+     * @example
+     * // Create many UserCredentials
+     * const userCredential = await prisma.userCredential.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserCredentialCreateManyArgs>(args?: SelectSubset<T, UserCredentialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserCredentials and returns the data saved in the database.
+     * @param {UserCredentialCreateManyAndReturnArgs} args - Arguments to create many UserCredentials.
+     * @example
+     * // Create many UserCredentials
+     * const userCredential = await prisma.userCredential.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserCredentials and only return the `id`
+     * const userCredentialWithIdOnly = await prisma.userCredential.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserCredentialCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCredentialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserCredential.
+     * @param {UserCredentialDeleteArgs} args - Arguments to delete one UserCredential.
+     * @example
+     * // Delete one UserCredential
+     * const UserCredential = await prisma.userCredential.delete({
+     *   where: {
+     *     // ... filter to delete one UserCredential
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserCredentialDeleteArgs>(args: SelectSubset<T, UserCredentialDeleteArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserCredential.
+     * @param {UserCredentialUpdateArgs} args - Arguments to update one UserCredential.
+     * @example
+     * // Update one UserCredential
+     * const userCredential = await prisma.userCredential.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserCredentialUpdateArgs>(args: SelectSubset<T, UserCredentialUpdateArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserCredentials.
+     * @param {UserCredentialDeleteManyArgs} args - Arguments to filter UserCredentials to delete.
+     * @example
+     * // Delete a few UserCredentials
+     * const { count } = await prisma.userCredential.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserCredentialDeleteManyArgs>(args?: SelectSubset<T, UserCredentialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCredentialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserCredentials
+     * const userCredential = await prisma.userCredential.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserCredentialUpdateManyArgs>(args: SelectSubset<T, UserCredentialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserCredentials and returns the data updated in the database.
+     * @param {UserCredentialUpdateManyAndReturnArgs} args - Arguments to update many UserCredentials.
+     * @example
+     * // Update many UserCredentials
+     * const userCredential = await prisma.userCredential.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserCredentials and only return the `id`
+     * const userCredentialWithIdOnly = await prisma.userCredential.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserCredentialUpdateManyAndReturnArgs>(args: SelectSubset<T, UserCredentialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserCredential.
+     * @param {UserCredentialUpsertArgs} args - Arguments to update or create a UserCredential.
+     * @example
+     * // Update or create a UserCredential
+     * const userCredential = await prisma.userCredential.upsert({
+     *   create: {
+     *     // ... data to create a UserCredential
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserCredential we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserCredentialUpsertArgs>(args: SelectSubset<T, UserCredentialUpsertArgs<ExtArgs>>): Prisma__UserCredentialClient<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCredentialCountArgs} args - Arguments to filter UserCredentials to count.
+     * @example
+     * // Count the number of UserCredentials
+     * const count = await prisma.userCredential.count({
+     *   where: {
+     *     // ... the filter for the UserCredentials we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCredentialCountArgs>(
+      args?: Subset<T, UserCredentialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCredentialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCredentialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserCredentialAggregateArgs>(args: Subset<T, UserCredentialAggregateArgs>): Prisma.PrismaPromise<GetUserCredentialAggregateType<T>>
+
+    /**
+     * Group by UserCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCredentialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserCredentialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserCredentialGroupByArgs['orderBy'] }
+        : { orderBy?: UserCredentialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserCredentialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserCredentialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserCredential model
+   */
+  readonly fields: UserCredentialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserCredential.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserCredentialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserCredential model
+   */
+  interface UserCredentialFieldRefs {
+    readonly id: FieldRef<"UserCredential", 'String'>
+    readonly tenantId: FieldRef<"UserCredential", 'String'>
+    readonly userId: FieldRef<"UserCredential", 'String'>
+    readonly passwordHash: FieldRef<"UserCredential", 'String'>
+    readonly mustChangePassword: FieldRef<"UserCredential", 'Boolean'>
+    readonly failedAttempts: FieldRef<"UserCredential", 'Int'>
+    readonly lockedUntil: FieldRef<"UserCredential", 'DateTime'>
+    readonly createdAt: FieldRef<"UserCredential", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserCredential", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserCredential findUnique
+   */
+  export type UserCredentialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredential to fetch.
+     */
+    where: UserCredentialWhereUniqueInput
+  }
+
+  /**
+   * UserCredential findUniqueOrThrow
+   */
+  export type UserCredentialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredential to fetch.
+     */
+    where: UserCredentialWhereUniqueInput
+  }
+
+  /**
+   * UserCredential findFirst
+   */
+  export type UserCredentialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredential to fetch.
+     */
+    where?: UserCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredentials to fetch.
+     */
+    orderBy?: UserCredentialOrderByWithRelationInput | UserCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCredentials.
+     */
+    cursor?: UserCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCredentials.
+     */
+    distinct?: UserCredentialScalarFieldEnum | UserCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * UserCredential findFirstOrThrow
+   */
+  export type UserCredentialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredential to fetch.
+     */
+    where?: UserCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredentials to fetch.
+     */
+    orderBy?: UserCredentialOrderByWithRelationInput | UserCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCredentials.
+     */
+    cursor?: UserCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCredentials.
+     */
+    distinct?: UserCredentialScalarFieldEnum | UserCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * UserCredential findMany
+   */
+  export type UserCredentialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredentials to fetch.
+     */
+    where?: UserCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredentials to fetch.
+     */
+    orderBy?: UserCredentialOrderByWithRelationInput | UserCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserCredentials.
+     */
+    cursor?: UserCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredentials.
+     */
+    skip?: number
+    distinct?: UserCredentialScalarFieldEnum | UserCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * UserCredential create
+   */
+  export type UserCredentialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserCredential.
+     */
+    data: XOR<UserCredentialCreateInput, UserCredentialUncheckedCreateInput>
+  }
+
+  /**
+   * UserCredential createMany
+   */
+  export type UserCredentialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserCredentials.
+     */
+    data: UserCredentialCreateManyInput | UserCredentialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserCredential createManyAndReturn
+   */
+  export type UserCredentialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserCredentials.
+     */
+    data: UserCredentialCreateManyInput | UserCredentialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserCredential update
+   */
+  export type UserCredentialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserCredential.
+     */
+    data: XOR<UserCredentialUpdateInput, UserCredentialUncheckedUpdateInput>
+    /**
+     * Choose, which UserCredential to update.
+     */
+    where: UserCredentialWhereUniqueInput
+  }
+
+  /**
+   * UserCredential updateMany
+   */
+  export type UserCredentialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserCredentials.
+     */
+    data: XOR<UserCredentialUpdateManyMutationInput, UserCredentialUncheckedUpdateManyInput>
+    /**
+     * Filter which UserCredentials to update
+     */
+    where?: UserCredentialWhereInput
+    /**
+     * Limit how many UserCredentials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserCredential updateManyAndReturn
+   */
+  export type UserCredentialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * The data used to update UserCredentials.
+     */
+    data: XOR<UserCredentialUpdateManyMutationInput, UserCredentialUncheckedUpdateManyInput>
+    /**
+     * Filter which UserCredentials to update
+     */
+    where?: UserCredentialWhereInput
+    /**
+     * Limit how many UserCredentials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserCredential upsert
+   */
+  export type UserCredentialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserCredential to update in case it exists.
+     */
+    where: UserCredentialWhereUniqueInput
+    /**
+     * In case the UserCredential found by the `where` argument doesn't exist, create a new UserCredential with this data.
+     */
+    create: XOR<UserCredentialCreateInput, UserCredentialUncheckedCreateInput>
+    /**
+     * In case the UserCredential was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserCredentialUpdateInput, UserCredentialUncheckedUpdateInput>
+  }
+
+  /**
+   * UserCredential delete
+   */
+  export type UserCredentialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
+    /**
+     * Filter which UserCredential to delete.
+     */
+    where: UserCredentialWhereUniqueInput
+  }
+
+  /**
+   * UserCredential deleteMany
+   */
+  export type UserCredentialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCredentials to delete
+     */
+    where?: UserCredentialWhereInput
+    /**
+     * Limit how many UserCredentials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserCredential without action
+   */
+  export type UserCredentialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredential
+     */
+    select?: UserCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCredential
+     */
+    omit?: UserCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCredentialInclude<ExtArgs> | null
   }
 
 
@@ -117534,6 +118839,21 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const UserCredentialScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    userId: 'userId',
+    passwordHash: 'passwordHash',
+    mustChangePassword: 'mustChangePassword',
+    failedAttempts: 'failedAttempts',
+    lockedUntil: 'lockedUntil',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserCredentialScalarFieldEnum = (typeof UserCredentialScalarFieldEnum)[keyof typeof UserCredentialScalarFieldEnum]
+
+
   export const RoleScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -118927,6 +120247,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'ScopeType'
    */
   export type EnumScopeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScopeType'>
@@ -118965,13 +120292,6 @@ export namespace Prisma {
    * Reference to a field of type 'OutboxStatus[]'
    */
   export type ListEnumOutboxStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OutboxStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -119671,6 +120991,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineListRelationFilter
     workCenters?: WorkCenterListRelationFilter
     downtimeEvents?: DowntimeEventListRelationFilter
+    userCredentials?: UserCredentialListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -119761,6 +121082,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineOrderByRelationAggregateInput
     workCenters?: WorkCenterOrderByRelationAggregateInput
     downtimeEvents?: DowntimeEventOrderByRelationAggregateInput
+    userCredentials?: UserCredentialOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -119854,6 +121176,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineListRelationFilter
     workCenters?: WorkCenterListRelationFilter
     downtimeEvents?: DowntimeEventListRelationFilter
+    userCredentials?: UserCredentialListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -120234,6 +121557,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     roleAssignments?: UserRoleAssignmentListRelationFilter
+    credential?: XOR<UserCredentialNullableScalarRelationFilter, UserCredentialWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -120247,6 +121571,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     roleAssignments?: UserRoleAssignmentOrderByRelationAggregateInput
+    credential?: UserCredentialOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -120264,6 +121589,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     roleAssignments?: UserRoleAssignmentListRelationFilter
+    credential?: XOR<UserCredentialNullableScalarRelationFilter, UserCredentialWhereInput> | null
   }, "id" | "tenantId_email">
 
   export type UserOrderByWithAggregationInput = {
@@ -120292,6 +121618,86 @@ export namespace Prisma {
     idpSubject?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type UserCredentialWhereInput = {
+    AND?: UserCredentialWhereInput | UserCredentialWhereInput[]
+    OR?: UserCredentialWhereInput[]
+    NOT?: UserCredentialWhereInput | UserCredentialWhereInput[]
+    id?: UuidFilter<"UserCredential"> | string
+    tenantId?: UuidFilter<"UserCredential"> | string
+    userId?: UuidFilter<"UserCredential"> | string
+    passwordHash?: StringFilter<"UserCredential"> | string
+    mustChangePassword?: BoolFilter<"UserCredential"> | boolean
+    failedAttempts?: IntFilter<"UserCredential"> | number
+    lockedUntil?: DateTimeNullableFilter<"UserCredential"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserCredential"> | Date | string
+    updatedAt?: DateTimeFilter<"UserCredential"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserCredentialOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    userId?: SortOrder
+    passwordHash?: SortOrder
+    mustChangePassword?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserCredentialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: UserCredentialWhereInput | UserCredentialWhereInput[]
+    OR?: UserCredentialWhereInput[]
+    NOT?: UserCredentialWhereInput | UserCredentialWhereInput[]
+    tenantId?: UuidFilter<"UserCredential"> | string
+    passwordHash?: StringFilter<"UserCredential"> | string
+    mustChangePassword?: BoolFilter<"UserCredential"> | boolean
+    failedAttempts?: IntFilter<"UserCredential"> | number
+    lockedUntil?: DateTimeNullableFilter<"UserCredential"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserCredential"> | Date | string
+    updatedAt?: DateTimeFilter<"UserCredential"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type UserCredentialOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    userId?: SortOrder
+    passwordHash?: SortOrder
+    mustChangePassword?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserCredentialCountOrderByAggregateInput
+    _avg?: UserCredentialAvgOrderByAggregateInput
+    _max?: UserCredentialMaxOrderByAggregateInput
+    _min?: UserCredentialMinOrderByAggregateInput
+    _sum?: UserCredentialSumOrderByAggregateInput
+  }
+
+  export type UserCredentialScalarWhereWithAggregatesInput = {
+    AND?: UserCredentialScalarWhereWithAggregatesInput | UserCredentialScalarWhereWithAggregatesInput[]
+    OR?: UserCredentialScalarWhereWithAggregatesInput[]
+    NOT?: UserCredentialScalarWhereWithAggregatesInput | UserCredentialScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"UserCredential"> | string
+    tenantId?: UuidWithAggregatesFilter<"UserCredential"> | string
+    userId?: UuidWithAggregatesFilter<"UserCredential"> | string
+    passwordHash?: StringWithAggregatesFilter<"UserCredential"> | string
+    mustChangePassword?: BoolWithAggregatesFilter<"UserCredential"> | boolean
+    failedAttempts?: IntWithAggregatesFilter<"UserCredential"> | number
+    lockedUntil?: DateTimeNullableWithAggregatesFilter<"UserCredential"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserCredential"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserCredential"> | Date | string
   }
 
   export type RoleWhereInput = {
@@ -126971,6 +128377,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -127061,6 +128468,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -127151,6 +128559,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -127241,6 +128650,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -127612,6 +129022,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutUsersInput
     roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutUserInput
+    credential?: UserCredentialCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -127624,6 +129035,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutUserInput
+    credential?: UserCredentialUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -127636,6 +129048,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutUsersNestedInput
     roleAssignments?: UserRoleAssignmentUpdateManyWithoutUserNestedInput
+    credential?: UserCredentialUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -127648,6 +129061,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    credential?: UserCredentialUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -127678,6 +129092,88 @@ export namespace Prisma {
     displayName?: StringFieldUpdateOperationsInput | string
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     idpSubject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCredentialCreateInput = {
+    id?: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutUserCredentialsInput
+    user: UserCreateNestedOneWithoutCredentialInput
+  }
+
+  export type UserCredentialUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCredentialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutUserCredentialsNestedInput
+    user?: UserUpdateOneRequiredWithoutCredentialNestedInput
+  }
+
+  export type UserCredentialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCredentialCreateManyInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCredentialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCredentialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -135263,6 +136759,12 @@ export namespace Prisma {
     none?: DowntimeEventWhereInput
   }
 
+  export type UserCredentialListRelationFilter = {
+    every?: UserCredentialWhereInput
+    some?: UserCredentialWhereInput
+    none?: UserCredentialWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -135580,6 +137082,10 @@ export namespace Prisma {
   }
 
   export type DowntimeEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCredentialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -136007,6 +137513,11 @@ export namespace Prisma {
     not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
   }
 
+  export type UserCredentialNullableScalarRelationFilter = {
+    is?: UserCredentialWhereInput | null
+    isNot?: UserCredentialWhereInput | null
+  }
+
   export type UserTenantIdEmailCompoundUniqueInput = {
     tenantId: string
     email: string
@@ -136053,6 +137564,93 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserStatusFilter<$PrismaModel>
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type UserCredentialCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    userId?: SortOrder
+    passwordHash?: SortOrder
+    mustChangePassword?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCredentialAvgOrderByAggregateInput = {
+    failedAttempts?: SortOrder
+  }
+
+  export type UserCredentialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    userId?: SortOrder
+    passwordHash?: SortOrder
+    mustChangePassword?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCredentialMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    userId?: SortOrder
+    passwordHash?: SortOrder
+    mustChangePassword?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCredentialSumOrderByAggregateInput = {
+    failedAttempts?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type RolePermissionListRelationFilter = {
@@ -136133,11 +137731,6 @@ export namespace Prisma {
     in?: $Enums.ScopeType[] | ListEnumScopeTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.ScopeType[] | ListEnumScopeTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumScopeTypeFilter<$PrismaModel> | $Enums.ScopeType
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type UserRoleAssignmentTenantIdUserIdRoleIdScopeTypeScopeIdCompoundUniqueInput = {
@@ -136305,17 +137898,6 @@ export namespace Prisma {
     not?: NestedEnumOutboxStatusFilter<$PrismaModel> | $Enums.OutboxStatus
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type OutboxEventCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -136391,20 +137973,6 @@ export namespace Prisma {
     _max?: NestedEnumOutboxStatusFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type TerminologyEntryTenantIdLocaleKeyCompoundUniqueInput = {
     tenantId: string
     locale: string
@@ -136435,11 +138003,6 @@ export namespace Prisma {
     label?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type ModuleActivationTenantIdModuleKeyCompoundUniqueInput = {
     tenantId: string
     moduleKey: string
@@ -136467,14 +138030,6 @@ export namespace Prisma {
     moduleKey?: SortOrder
     enabled?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type EnumCustomFieldTypeFilter<$PrismaModel = never> = {
@@ -141508,6 +143063,13 @@ export namespace Prisma {
     connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
   }
 
+  export type UserCredentialCreateNestedManyWithoutTenantInput = {
+    create?: XOR<UserCredentialCreateWithoutTenantInput, UserCredentialUncheckedCreateWithoutTenantInput> | UserCredentialCreateWithoutTenantInput[] | UserCredentialUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutTenantInput | UserCredentialCreateOrConnectWithoutTenantInput[]
+    createMany?: UserCredentialCreateManyTenantInputEnvelope
+    connect?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -142066,6 +143628,13 @@ export namespace Prisma {
     connectOrCreate?: DowntimeEventCreateOrConnectWithoutTenantInput | DowntimeEventCreateOrConnectWithoutTenantInput[]
     createMany?: DowntimeEventCreateManyTenantInputEnvelope
     connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+  }
+
+  export type UserCredentialUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<UserCredentialCreateWithoutTenantInput, UserCredentialUncheckedCreateWithoutTenantInput> | UserCredentialCreateWithoutTenantInput[] | UserCredentialUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutTenantInput | UserCredentialCreateOrConnectWithoutTenantInput[]
+    createMany?: UserCredentialCreateManyTenantInputEnvelope
+    connect?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -143208,6 +144777,20 @@ export namespace Prisma {
     deleteMany?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
   }
 
+  export type UserCredentialUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<UserCredentialCreateWithoutTenantInput, UserCredentialUncheckedCreateWithoutTenantInput> | UserCredentialCreateWithoutTenantInput[] | UserCredentialUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutTenantInput | UserCredentialCreateOrConnectWithoutTenantInput[]
+    upsert?: UserCredentialUpsertWithWhereUniqueWithoutTenantInput | UserCredentialUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: UserCredentialCreateManyTenantInputEnvelope
+    set?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    disconnect?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    delete?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    connect?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    update?: UserCredentialUpdateWithWhereUniqueWithoutTenantInput | UserCredentialUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: UserCredentialUpdateManyWithWhereWithoutTenantInput | UserCredentialUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: UserCredentialScalarWhereInput | UserCredentialScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -144328,6 +145911,20 @@ export namespace Prisma {
     deleteMany?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
   }
 
+  export type UserCredentialUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<UserCredentialCreateWithoutTenantInput, UserCredentialUncheckedCreateWithoutTenantInput> | UserCredentialCreateWithoutTenantInput[] | UserCredentialUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutTenantInput | UserCredentialCreateOrConnectWithoutTenantInput[]
+    upsert?: UserCredentialUpsertWithWhereUniqueWithoutTenantInput | UserCredentialUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: UserCredentialCreateManyTenantInputEnvelope
+    set?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    disconnect?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    delete?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    connect?: UserCredentialWhereUniqueInput | UserCredentialWhereUniqueInput[]
+    update?: UserCredentialUpdateWithWhereUniqueWithoutTenantInput | UserCredentialUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: UserCredentialUpdateManyWithWhereWithoutTenantInput | UserCredentialUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: UserCredentialScalarWhereInput | UserCredentialScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
     create?: XOR<TenantCreateWithoutConfigurationVersionsInput, TenantUncheckedCreateWithoutConfigurationVersionsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutConfigurationVersionsInput
@@ -144641,11 +146238,23 @@ export namespace Prisma {
     connect?: UserRoleAssignmentWhereUniqueInput | UserRoleAssignmentWhereUniqueInput[]
   }
 
+  export type UserCredentialCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserCredentialCreateWithoutUserInput, UserCredentialUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutUserInput
+    connect?: UserCredentialWhereUniqueInput
+  }
+
   export type UserRoleAssignmentUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<UserRoleAssignmentCreateWithoutUserInput, UserRoleAssignmentUncheckedCreateWithoutUserInput> | UserRoleAssignmentCreateWithoutUserInput[] | UserRoleAssignmentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserRoleAssignmentCreateOrConnectWithoutUserInput | UserRoleAssignmentCreateOrConnectWithoutUserInput[]
     createMany?: UserRoleAssignmentCreateManyUserInputEnvelope
     connect?: UserRoleAssignmentWhereUniqueInput | UserRoleAssignmentWhereUniqueInput[]
+  }
+
+  export type UserCredentialUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserCredentialCreateWithoutUserInput, UserCredentialUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutUserInput
+    connect?: UserCredentialWhereUniqueInput
   }
 
   export type EnumUserStatusFieldUpdateOperationsInput = {
@@ -144674,6 +146283,16 @@ export namespace Prisma {
     deleteMany?: UserRoleAssignmentScalarWhereInput | UserRoleAssignmentScalarWhereInput[]
   }
 
+  export type UserCredentialUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserCredentialCreateWithoutUserInput, UserCredentialUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutUserInput
+    upsert?: UserCredentialUpsertWithoutUserInput
+    disconnect?: UserCredentialWhereInput | boolean
+    delete?: UserCredentialWhereInput | boolean
+    connect?: UserCredentialWhereUniqueInput
+    update?: XOR<XOR<UserCredentialUpdateToOneWithWhereWithoutUserInput, UserCredentialUpdateWithoutUserInput>, UserCredentialUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserRoleAssignmentUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<UserRoleAssignmentCreateWithoutUserInput, UserRoleAssignmentUncheckedCreateWithoutUserInput> | UserRoleAssignmentCreateWithoutUserInput[] | UserRoleAssignmentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserRoleAssignmentCreateOrConnectWithoutUserInput | UserRoleAssignmentCreateOrConnectWithoutUserInput[]
@@ -144686,6 +146305,52 @@ export namespace Prisma {
     update?: UserRoleAssignmentUpdateWithWhereUniqueWithoutUserInput | UserRoleAssignmentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserRoleAssignmentUpdateManyWithWhereWithoutUserInput | UserRoleAssignmentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserRoleAssignmentScalarWhereInput | UserRoleAssignmentScalarWhereInput[]
+  }
+
+  export type UserCredentialUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserCredentialCreateWithoutUserInput, UserCredentialUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCredentialCreateOrConnectWithoutUserInput
+    upsert?: UserCredentialUpsertWithoutUserInput
+    disconnect?: UserCredentialWhereInput | boolean
+    delete?: UserCredentialWhereInput | boolean
+    connect?: UserCredentialWhereUniqueInput
+    update?: XOR<XOR<UserCredentialUpdateToOneWithWhereWithoutUserInput, UserCredentialUpdateWithoutUserInput>, UserCredentialUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TenantCreateNestedOneWithoutUserCredentialsInput = {
+    create?: XOR<TenantCreateWithoutUserCredentialsInput, TenantUncheckedCreateWithoutUserCredentialsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutUserCredentialsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCredentialInput = {
+    create?: XOR<UserCreateWithoutCredentialInput, UserUncheckedCreateWithoutCredentialInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCredentialInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type TenantUpdateOneRequiredWithoutUserCredentialsNestedInput = {
+    create?: XOR<TenantCreateWithoutUserCredentialsInput, TenantUncheckedCreateWithoutUserCredentialsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutUserCredentialsInput
+    upsert?: TenantUpsertWithoutUserCredentialsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutUserCredentialsInput, TenantUpdateWithoutUserCredentialsInput>, TenantUncheckedUpdateWithoutUserCredentialsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCredentialNestedInput = {
+    create?: XOR<UserCreateWithoutCredentialInput, UserUncheckedCreateWithoutCredentialInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCredentialInput
+    upsert?: UserUpsertWithoutCredentialInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCredentialInput, UserUpdateWithoutCredentialInput>, UserUncheckedUpdateWithoutCredentialInput>
   }
 
   export type TenantCreateNestedOneWithoutRolesInput = {
@@ -144874,10 +146539,6 @@ export namespace Prisma {
     set?: $Enums.OutboxStatus
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type TenantUpdateOneRequiredWithoutOutboxEventsNestedInput = {
     create?: XOR<TenantCreateWithoutOutboxEventsInput, TenantUncheckedCreateWithoutOutboxEventsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutOutboxEventsInput
@@ -144904,10 +146565,6 @@ export namespace Prisma {
     create?: XOR<TenantCreateWithoutModuleActivationsInput, TenantUncheckedCreateWithoutModuleActivationsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutModuleActivationsInput
     connect?: TenantWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type TenantUpdateOneRequiredWithoutModuleActivationsNestedInput = {
@@ -148082,6 +149739,44 @@ export namespace Prisma {
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumScopeTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ScopeType | EnumScopeTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ScopeType[] | ListEnumScopeTypeFieldRefInput<$PrismaModel>
@@ -148146,17 +149841,6 @@ export namespace Prisma {
     not?: NestedEnumOutboxStatusFilter<$PrismaModel> | $Enums.OutboxStatus
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumOutboxStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.OutboxStatus | EnumOutboxStatusFieldRefInput<$PrismaModel>
     in?: $Enums.OutboxStatus[] | ListEnumOutboxStatusFieldRefInput<$PrismaModel>
@@ -148165,33 +149849,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumOutboxStatusFilter<$PrismaModel>
     _max?: NestedEnumOutboxStatusFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumCustomFieldTypeFilter<$PrismaModel = never> = {
@@ -149134,6 +150791,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutUserInput
+    credential?: UserCredentialCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTenantInput = {
@@ -149145,6 +150803,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutUserInput
+    credential?: UserCredentialUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTenantInput = {
@@ -151618,6 +153277,38 @@ export namespace Prisma {
 
   export type DowntimeEventCreateManyTenantInputEnvelope = {
     data: DowntimeEventCreateManyTenantInput | DowntimeEventCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCredentialCreateWithoutTenantInput = {
+    id?: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCredentialInput
+  }
+
+  export type UserCredentialUncheckedCreateWithoutTenantInput = {
+    id?: string
+    userId: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCredentialCreateOrConnectWithoutTenantInput = {
+    where: UserCredentialWhereUniqueInput
+    create: XOR<UserCredentialCreateWithoutTenantInput, UserCredentialUncheckedCreateWithoutTenantInput>
+  }
+
+  export type UserCredentialCreateManyTenantInputEnvelope = {
+    data: UserCredentialCreateManyTenantInput | UserCredentialCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -154104,6 +155795,37 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"DowntimeEvent"> | string | null
   }
 
+  export type UserCredentialUpsertWithWhereUniqueWithoutTenantInput = {
+    where: UserCredentialWhereUniqueInput
+    update: XOR<UserCredentialUpdateWithoutTenantInput, UserCredentialUncheckedUpdateWithoutTenantInput>
+    create: XOR<UserCredentialCreateWithoutTenantInput, UserCredentialUncheckedCreateWithoutTenantInput>
+  }
+
+  export type UserCredentialUpdateWithWhereUniqueWithoutTenantInput = {
+    where: UserCredentialWhereUniqueInput
+    data: XOR<UserCredentialUpdateWithoutTenantInput, UserCredentialUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type UserCredentialUpdateManyWithWhereWithoutTenantInput = {
+    where: UserCredentialScalarWhereInput
+    data: XOR<UserCredentialUpdateManyMutationInput, UserCredentialUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type UserCredentialScalarWhereInput = {
+    AND?: UserCredentialScalarWhereInput | UserCredentialScalarWhereInput[]
+    OR?: UserCredentialScalarWhereInput[]
+    NOT?: UserCredentialScalarWhereInput | UserCredentialScalarWhereInput[]
+    id?: UuidFilter<"UserCredential"> | string
+    tenantId?: UuidFilter<"UserCredential"> | string
+    userId?: UuidFilter<"UserCredential"> | string
+    passwordHash?: StringFilter<"UserCredential"> | string
+    mustChangePassword?: BoolFilter<"UserCredential"> | boolean
+    failedAttempts?: IntFilter<"UserCredential"> | number
+    lockedUntil?: DateTimeNullableFilter<"UserCredential"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserCredential"> | Date | string
+    updatedAt?: DateTimeFilter<"UserCredential"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -154191,6 +155913,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -154280,6 +156003,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -154385,6 +156109,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -154474,6 +156199,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -154563,6 +156289,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -154652,6 +156379,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -154791,6 +156519,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -154880,6 +156609,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -154985,6 +156715,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -155074,6 +156805,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -155317,6 +157049,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -155406,6 +157139,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -155607,6 +157341,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -155696,6 +157431,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -155830,6 +157566,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -155919,6 +157656,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -156043,6 +157781,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -156132,6 +157871,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -156266,6 +158006,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -156355,6 +158096,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -156479,6 +158221,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -156568,6 +158311,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -156601,6 +158345,33 @@ export namespace Prisma {
   export type UserRoleAssignmentCreateManyUserInputEnvelope = {
     data: UserRoleAssignmentCreateManyUserInput | UserRoleAssignmentCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserCredentialCreateWithoutUserInput = {
+    id?: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutUserCredentialsInput
+  }
+
+  export type UserCredentialUncheckedCreateWithoutUserInput = {
+    id?: string
+    tenantId: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCredentialCreateOrConnectWithoutUserInput = {
+    where: UserCredentialWhereUniqueInput
+    create: XOR<UserCredentialCreateWithoutUserInput, UserCredentialUncheckedCreateWithoutUserInput>
   }
 
   export type TenantUpsertWithoutUsersInput = {
@@ -156701,6 +158472,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -156790,6 +158562,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -156806,6 +158579,479 @@ export namespace Prisma {
   export type UserRoleAssignmentUpdateManyWithWhereWithoutUserInput = {
     where: UserRoleAssignmentScalarWhereInput
     data: XOR<UserRoleAssignmentUpdateManyMutationInput, UserRoleAssignmentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserCredentialUpsertWithoutUserInput = {
+    update: XOR<UserCredentialUpdateWithoutUserInput, UserCredentialUncheckedUpdateWithoutUserInput>
+    create: XOR<UserCredentialCreateWithoutUserInput, UserCredentialUncheckedCreateWithoutUserInput>
+    where?: UserCredentialWhereInput
+  }
+
+  export type UserCredentialUpdateToOneWithWhereWithoutUserInput = {
+    where?: UserCredentialWhereInput
+    data: XOR<UserCredentialUpdateWithoutUserInput, UserCredentialUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserCredentialUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutUserCredentialsNestedInput
+  }
+
+  export type UserCredentialUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutUserCredentialsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutUserCredentialsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutUserCredentialsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutUserCredentialsInput, TenantUncheckedCreateWithoutUserCredentialsInput>
+  }
+
+  export type UserCreateWithoutCredentialInput = {
+    id?: string
+    email: string
+    displayName: string
+    status?: $Enums.UserStatus
+    idpSubject?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutUsersInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCredentialInput = {
+    id?: string
+    tenantId: string
+    email: string
+    displayName: string
+    status?: $Enums.UserStatus
+    idpSubject?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCredentialInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCredentialInput, UserUncheckedCreateWithoutCredentialInput>
+  }
+
+  export type TenantUpsertWithoutUserCredentialsInput = {
+    update: XOR<TenantUpdateWithoutUserCredentialsInput, TenantUncheckedUpdateWithoutUserCredentialsInput>
+    create: XOR<TenantCreateWithoutUserCredentialsInput, TenantUncheckedCreateWithoutUserCredentialsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutUserCredentialsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutUserCredentialsInput, TenantUncheckedUpdateWithoutUserCredentialsInput>
+  }
+
+  export type TenantUpdateWithoutUserCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type UserUpsertWithoutCredentialInput = {
+    update: XOR<UserUpdateWithoutCredentialInput, UserUncheckedUpdateWithoutCredentialInput>
+    create: XOR<UserCreateWithoutCredentialInput, UserUncheckedCreateWithoutCredentialInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCredentialInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCredentialInput, UserUncheckedUpdateWithoutCredentialInput>
+  }
+
+  export type UserUpdateWithoutCredentialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    idpSubject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutUsersNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCredentialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    idpSubject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TenantCreateWithoutRolesInput = {
@@ -156895,6 +159141,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -156984,6 +159231,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -157139,6 +159387,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -157228,6 +159477,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -157415,6 +159665,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -157504,6 +159755,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -157520,6 +159772,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutUsersInput
+    credential?: UserCredentialCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -157531,6 +159784,7 @@ export namespace Prisma {
     idpSubject?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    credential?: UserCredentialUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -157661,6 +159915,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -157750,6 +160005,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -157772,6 +160028,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutUsersNestedInput
+    credential?: UserCredentialUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -157783,6 +160040,7 @@ export namespace Prisma {
     idpSubject?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    credential?: UserCredentialUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type RoleUpsertWithoutAssignmentsInput = {
@@ -157903,6 +160161,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -157992,6 +160251,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -158097,6 +160357,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -158186,6 +160447,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -158275,6 +160537,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -158364,6 +160627,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -158469,6 +160733,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -158558,6 +160823,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -158647,6 +160913,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -158736,6 +161003,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -158841,6 +161109,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -158930,6 +161199,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -159019,6 +161289,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -159108,6 +161379,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -159213,6 +161485,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -159302,6 +161575,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -159391,6 +161665,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -159480,6 +161755,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -159585,6 +161861,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -159674,6 +161951,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -159763,6 +162041,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -159852,6 +162131,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -159957,6 +162237,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -160046,6 +162327,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -160135,6 +162417,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -160224,6 +162507,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -160329,6 +162613,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -160418,6 +162703,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -160507,6 +162793,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -160596,6 +162883,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -160763,6 +163051,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -160852,6 +163141,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -161199,6 +163489,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -161288,6 +163579,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -161421,6 +163713,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -161510,6 +163803,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -161672,6 +163966,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -161761,6 +164056,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -161866,6 +164162,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -161955,6 +164252,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -162044,6 +164342,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -162133,6 +164432,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -162238,6 +164538,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -162327,6 +164628,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -162416,6 +164718,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -162505,6 +164808,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -162636,6 +164940,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -162725,6 +165030,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -162886,6 +165192,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -162975,6 +165282,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -163181,6 +165489,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -163270,6 +165579,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -163520,6 +165830,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -163609,6 +165920,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -163756,6 +166068,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -163845,6 +166158,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -164308,6 +166622,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -164397,6 +166712,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -164524,6 +166840,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -164613,6 +166930,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -164772,6 +167090,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -164861,6 +167180,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -164966,6 +167286,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -165055,6 +167376,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -165144,6 +167466,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -165233,6 +167556,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -165338,6 +167662,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -165427,6 +167752,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -165516,6 +167842,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -165605,6 +167932,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -165710,6 +168038,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -165799,6 +168128,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -165888,6 +168218,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -165977,6 +168308,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -166082,6 +168414,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -166171,6 +168504,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -166260,6 +168594,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -166349,6 +168684,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -166480,6 +168816,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -166569,6 +168906,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -166674,6 +169012,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -166763,6 +169102,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -166901,6 +169241,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -166990,6 +169331,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -167118,6 +169460,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -167207,6 +169550,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -167312,6 +169656,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -167401,6 +169746,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -167490,6 +169836,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -167579,6 +169926,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -167684,6 +170032,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -167773,6 +170122,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -167862,6 +170212,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -167951,6 +170302,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -168056,6 +170408,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -168145,6 +170498,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -168234,6 +170588,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -168323,6 +170678,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -168428,6 +170784,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -168517,6 +170874,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -168606,6 +170964,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -168695,6 +171054,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -168826,6 +171186,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -168915,6 +171276,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -169020,6 +171382,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -169109,6 +171472,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -169245,6 +171609,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -169334,6 +171699,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -169460,6 +171826,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -169549,6 +171916,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -169688,6 +172056,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -169777,6 +172146,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -169882,6 +172252,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -169971,6 +172342,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -170123,6 +172495,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -170212,6 +172585,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -170354,6 +172728,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -170443,6 +172818,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -170582,6 +172958,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -170671,6 +173048,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -170776,6 +173154,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -170865,6 +173244,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -171007,6 +173387,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -171096,6 +173477,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -171228,6 +173610,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -171317,6 +173700,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -171422,6 +173806,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -171511,6 +173896,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -171600,6 +173986,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -171689,6 +174076,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -171794,6 +174182,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -171883,6 +174272,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -171972,6 +174362,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -172061,6 +174452,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -172196,6 +174588,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -172285,6 +174678,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -172390,6 +174784,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -172479,6 +174874,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -172617,6 +175013,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -172706,6 +175103,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -172834,6 +175232,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -172923,6 +175322,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -173060,6 +175460,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -173149,6 +175550,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -173254,6 +175656,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -173343,6 +175746,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -173485,6 +175889,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -173574,6 +175979,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -173706,6 +176112,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -173795,6 +176202,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -173930,6 +176338,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -174019,6 +176428,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -174124,6 +176534,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -174213,6 +176624,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -174349,6 +176761,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -174438,6 +176851,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -174564,6 +176978,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -174653,6 +177068,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -174790,6 +177206,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -174879,6 +177296,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -174984,6 +177402,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -175073,6 +177492,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -175205,6 +177625,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -175294,6 +177715,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -175416,6 +177838,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -175505,6 +177928,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -175610,6 +178034,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -175699,6 +178124,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -175788,6 +178214,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -175877,6 +178304,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -175982,6 +178410,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -176071,6 +178500,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -176160,6 +178590,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -176249,6 +178680,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -176384,6 +178816,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -176473,6 +178906,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -176578,6 +179012,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -176667,6 +179102,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -176797,6 +179233,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -176886,6 +179323,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -177006,6 +179444,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -177095,6 +179534,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -177232,6 +179672,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -177321,6 +179762,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -177426,6 +179868,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -177515,6 +179958,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -177663,6 +180107,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -177752,6 +180197,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -177890,6 +180336,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -177979,6 +180426,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -178110,6 +180558,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -178199,6 +180648,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -178304,6 +180754,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -178393,6 +180844,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -178525,6 +180977,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -178614,6 +181067,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -178736,6 +181190,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -178825,6 +181280,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -178960,6 +181416,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -179049,6 +181506,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -179154,6 +181612,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -179243,6 +181702,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -179383,6 +181843,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -179472,6 +181933,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -179602,6 +182064,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -179691,6 +182154,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -179796,6 +182260,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -179885,6 +182350,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -179974,6 +182440,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -180063,6 +182530,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -180200,6 +182668,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -180289,6 +182758,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -180394,6 +182864,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -180483,6 +182954,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -180631,6 +183103,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -180720,6 +183193,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -180858,6 +183332,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -180947,6 +183422,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -181052,6 +183528,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -181141,6 +183618,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -181230,6 +183708,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -181319,6 +183798,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -181424,6 +183904,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -181513,6 +183994,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -181602,6 +184084,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -181691,6 +184174,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -181813,6 +184297,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -181902,6 +184387,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -182014,6 +184500,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -182103,6 +184590,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -182239,6 +184727,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -182328,6 +184817,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -182454,6 +184944,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -182543,6 +185034,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -182648,6 +185140,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -182737,6 +185230,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -182826,6 +185320,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -182915,6 +185410,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -183048,6 +185544,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -183137,6 +185634,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -183242,6 +185740,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -183331,6 +185830,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -183459,6 +185959,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -183548,6 +186049,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -183666,6 +186168,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -183755,6 +186258,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -183898,6 +186402,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -183987,6 +186492,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -184092,6 +186598,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -184181,6 +186688,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -184313,6 +186821,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -184402,6 +186911,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -184524,6 +187034,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -184613,6 +187124,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -184718,6 +187230,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -184807,6 +187320,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -184896,6 +187410,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -184985,6 +187500,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -185090,6 +187606,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -185179,6 +187696,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -185268,6 +187786,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -185357,6 +187876,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -185513,6 +188033,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -185602,6 +188123,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -185736,6 +188258,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -185825,6 +188348,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -185958,6 +188482,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -186047,6 +188572,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -186152,6 +188678,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -186241,6 +188768,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -186381,6 +188909,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -186470,6 +188999,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -186600,6 +189130,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -186689,6 +189220,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -186820,6 +189352,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -186909,6 +189442,7 @@ export namespace Prisma {
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -187014,6 +189548,7 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -187103,6 +189638,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -187241,6 +189777,7 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -187330,6 +189867,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -187458,6 +189996,7 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -187547,6 +190086,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -187684,6 +190224,7 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -187773,6 +190314,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -187878,6 +190420,7 @@ export namespace Prisma {
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -187967,6 +190510,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -188095,6 +190639,7 @@ export namespace Prisma {
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -188184,6 +190729,7 @@ export namespace Prisma {
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -189098,6 +191644,17 @@ export namespace Prisma {
     createdBy?: string | null
   }
 
+  export type UserCredentialCreateManyTenantInput = {
+    id?: string
+    userId: string
+    passwordHash: string
+    mustChangePassword?: boolean
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     version?: IntFieldUpdateOperationsInput | number
@@ -189238,6 +191795,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roleAssignments?: UserRoleAssignmentUpdateManyWithoutUserNestedInput
+    credential?: UserCredentialUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTenantInput = {
@@ -189249,6 +191807,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    credential?: UserCredentialUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutTenantInput = {
@@ -191815,6 +194374,39 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserCredentialUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCredentialNestedInput
+  }
+
+  export type UserCredentialUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCredentialUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessUnitCreateManyLegalEntityInput = {
