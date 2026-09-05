@@ -992,6 +992,47 @@ exports.Prisma.PortalUserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  body: 'body',
+  mentions: 'mentions',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  fileName: 'fileName',
+  contentType: 'contentType',
+  sizeBytes: 'sizeBytes',
+  storageKey: 'storageKey',
+  uploadedBy: 'uploadedBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AttachmentBlobScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  attachmentId: 'attachmentId',
+  data: 'data'
+};
+
+exports.Prisma.NumberSequenceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  sequenceKey: 'sequenceKey',
+  prefix: 'prefix',
+  padding: 'padding',
+  nextValue: 'nextValue',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1365,7 +1406,11 @@ exports.Prisma.ModelName = {
   Ncr: 'Ncr',
   Invoice: 'Invoice',
   Payment: 'Payment',
-  PortalUser: 'PortalUser'
+  PortalUser: 'PortalUser',
+  Comment: 'Comment',
+  Attachment: 'Attachment',
+  AttachmentBlob: 'AttachmentBlob',
+  NumberSequence: 'NumberSequence'
 };
 
 /**

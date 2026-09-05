@@ -103,6 +103,10 @@ model Tenant {
   invoices              Invoice[]
   payments              Payment[]
   portalUsers           PortalUser[]
+  comments              Comment[]
+  attachments           Attachment[]
+  attachmentBlobs       AttachmentBlob[]
+  numberSequences       NumberSequence[]
 
   @@map("tenant")
 }
@@ -1832,4 +1836,80 @@ model PortalUser {
   @@unique([tenantId, idpSubject])
   @@index([tenantId, accountId])
   @@map("portal_user")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 016 — Collaboration & findability: comments with mentions
+// (CORE-010), attachments behind a storage port (CORE-009) and governed
+// number sequences (CORE-008). Global search (CORE-011) is query-only.
+// ---------------------------------------------------------------------------
+
+/// Comment on any business record (CORE-010). Append-only; mentions
+/// carry the mentioned user ids and fan out as notifications.
+model Comment {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id") @db.Uuid
+  body       String
+  mentions   String[] @default([])
+  createdBy  String?  @map("created_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, entityType, entityId, createdAt])
+  @@map("comment")
+}
+
+/// Attachment metadata (CORE-009). Bytes live behind the storage port;
+/// the default adapter keeps them in attachment_blob so listings never
+/// load content.
+model Attachment {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  entityType  String   @map("entity_type")
+  entityId    String   @map("entity_id") @db.Uuid
+  fileName    String   @map("file_name")
+  contentType String   @map("content_type")
+  sizeBytes   Int      @map("size_bytes")
+  storageKey  String   @map("storage_key")
+  uploadedBy  String?  @map("uploaded_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  tenant Tenant          @relation(fields: [tenantId], references: [id])
+  blob   AttachmentBlob?
+
+  @@index([tenantId, entityType, entityId])
+  @@map("attachment")
+}
+
+/// Default storage-adapter payload table (database-backed object store).
+model AttachmentBlob {
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String @map("tenant_id") @db.Uuid
+  attachmentId String @unique @map("attachment_id") @db.Uuid
+  data         Bytes
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id])
+  attachment Attachment @relation(fields: [attachmentId], references: [id])
+
+  @@map("attachment_blob")
+}
+
+/// Governed per-tenant number sequence (CORE-008): one row per document
+/// family, advanced atomically so numbers never collide or reuse.
+model NumberSequence {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  sequenceKey String   @map("sequence_key")
+  prefix      String   @default("")
+  padding     Int      @default(5)
+  nextValue   Int      @default(1) @map("next_value")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, sequenceKey])
+  @@map("number_sequence")
 }
