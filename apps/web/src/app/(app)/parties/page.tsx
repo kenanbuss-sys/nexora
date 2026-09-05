@@ -24,6 +24,10 @@ export default function PartiesPage() {
   const [query, setQuery] = useState('');
   const [parties, setParties] = useState<PartyView[] | null>(null);
   const [duplicates, setDuplicates] = useState<DuplicateGroup[] | null>(null);
+  const [quality, setQuality] = useState<{
+    checks: Array<{ key: string; label: string; count: number; samples: string[] }>;
+    totalIssues: number;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -51,6 +55,12 @@ export default function PartiesPage() {
     api<{ duplicates: DuplicateGroup[] }>('GET', '/api/v1/parties/duplicates')
       .then((r) => setDuplicates(r.duplicates))
       .catch(() => setDuplicates([]));
+    api<{
+      checks: Array<{ key: string; label: string; count: number; samples: string[] }>;
+      totalIssues: number;
+    }>('GET', '/api/v1/parties/quality')
+      .then(setQuality)
+      .catch(() => setQuality(null));
   }, []);
 
   async function createParty(e: React.FormEvent) {
@@ -182,6 +192,34 @@ export default function PartiesPage() {
                 {busy ? 'Creating…' : 'Create party'}
               </button>
             </form>
+          ) : null}
+
+          {can('mdm.steward') && quality ? (
+            <div className="card">
+              <h2>Data quality</h2>
+              {quality.totalIssues === 0 ? (
+                <div className="empty">Master data is clean — no open issues.</div>
+              ) : (
+                quality.checks
+                  .filter((c) => c.count > 0)
+                  .map((c) => (
+                    <div key={c.key} className="row spread" style={{ marginBottom: 6 }}>
+                      <span>
+                        {c.label}
+                        {c.samples.length > 0 ? (
+                          <span className="muted mono" style={{ fontSize: 11, marginLeft: 6 }}>
+                            {c.samples.join(', ')}
+                            {c.count > c.samples.length ? '…' : ''}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className={`badge ${c.count > 0 ? 'badge-warn' : 'badge-ok'}`}>
+                        {c.count}
+                      </span>
+                    </div>
+                  ))
+              )}
+            </div>
           ) : null}
 
           {can('mdm.steward') && duplicates && duplicates.length > 0 ? (

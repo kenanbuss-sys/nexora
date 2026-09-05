@@ -443,6 +443,14 @@ export const BS: Record<string, string> = {
   'No territory': 'Bez teritorije',
   'Territory created.': 'Teritorija kreirana.',
   'Territory assigned.': 'Teritorija dodijeljena.',
+  'Data quality': 'Kvalitet podataka',
+  'Master data is clean — no open issues.': 'Matični podaci su čisti — nema otvorenih problema.',
+  'Active parties without an e-mail': 'Aktivne strane bez e-maila',
+  'Possible duplicate parties (same name)': 'Mogući duplikati strana (isto ime)',
+  'Customer accounts without a territory': 'Kupci bez teritorije',
+  'Active SKUs without a barcode': 'Aktivni artikli bez barkoda',
+  'Products without a SKU': 'Proizvodi bez artikla',
+  'Active suppliers without a lead time': 'Aktivni dobavljači bez roka isporuke',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

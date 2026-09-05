@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { PartyService } from '@nexora/domain-mdm';
+import type { DataQualityService, PartyService } from '@nexora/domain-mdm';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -7,6 +7,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const PARTY_SERVICE = 'PARTY_SERVICE';
+export const DATA_QUALITY_SERVICE = 'DATA_QUALITY_SERVICE';
 
 const createPartySchema = z.object({
   partyType: z.enum(['PERSON', 'ORGANIZATION']),
@@ -26,7 +27,17 @@ const mapIdentitySchema = z.object({
 
 @Controller('api/v1/parties')
 export class PartiesController {
-  constructor(@Inject(PARTY_SERVICE) private readonly parties: PartyService) {}
+  constructor(
+    @Inject(PARTY_SERVICE) private readonly parties: PartyService,
+    @Inject(DATA_QUALITY_SERVICE) private readonly quality: DataQualityService,
+  ) {}
+
+  /** Live data-quality report over master data (MDM stewardship). */
+  @Get('quality')
+  @RequirePermission('mdm.steward')
+  async qualityReport(@Ctx() ctx: RequestContext) {
+    return this.quality.report(ctx);
+  }
 
   @Post()
   @RequirePermission('mdm.create')

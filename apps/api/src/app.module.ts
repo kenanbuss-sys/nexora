@@ -16,7 +16,7 @@ import { PdfService, DocumentTemplateService } from '@nexora/domain-doc';
 import { DiscountRuleService, PricingService, QuoteService } from '@nexora/domain-cpq';
 import { CrmService, Customer360Service, TerritoryService } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
-import { PartyService } from '@nexora/domain-mdm';
+import { DataQualityService, PartyService } from '@nexora/domain-mdm';
 import { ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ProcurementService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
@@ -56,7 +56,7 @@ import {
   ConfigController,
   VocabularyController,
 } from './config/config.controller';
-import { PartiesController, PARTY_SERVICE } from './mdm/mdm.controller';
+import { DATA_QUALITY_SERVICE, PartiesController, PARTY_SERVICE } from './mdm/mdm.controller';
 import {
   DEVICE_SERVICE,
   DevicesController,
@@ -324,6 +324,11 @@ export const REDIS = 'REDIS';
     {
       provide: PARTY_SERVICE,
       useFactory: (prisma: PrismaClient) => new PartyService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: DATA_QUALITY_SERVICE,
+      useFactory: (prisma: PrismaClient) => new DataQualityService(prisma),
       inject: [PRISMA],
     },
     {

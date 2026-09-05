@@ -39,7 +39,7 @@ MDM-003,MDM,Location master,P0,PLANNED,R1,,,
 MDM-004,MDM,UOM master,P0,PLANNED,R1,,,
 MDM-005,MDM,Duplicate detection/merge,P0,Partially implemented (Sprint 003),R1,,,Duplicate detection by normalized name + merge
 MDM-006,MDM,Master data approvals,P0,PLANNED,R1,,,
-MDM-007,MDM,Data quality rules,P0,PLANNED,R1,,,
+MDM-007,MDM,Data quality rules,P0,DONE,R1,,,"Live computed data-quality report (missing e-mails, duplicate names, unassigned territories, SKUs without barcodes, empty products, suppliers without lead time) with samples; Parties UI (Sprint 043)"
 MDM-008,MDM,Golden record policy,P0,PLANNED,R1,,,
 MDM-009,MDM,External ID mapping,P0,Implemented (Sprint 003),R1,,,External ID mapping + canonical resolution
 MDM-010,MDM,Effective dating,P0,PLANNED,R1,,,
