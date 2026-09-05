@@ -1122,6 +1122,31 @@ exports.Prisma.ProductCategoryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ReturnOrderScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  rmaNumber: 'rmaNumber',
+  orderId: 'orderId',
+  accountId: 'accountId',
+  warehouseId: 'warehouseId',
+  status: 'status',
+  reason: 'reason',
+  decisionNote: 'decisionNote',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReturnOrderLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  returnId: 'returnId',
+  orderLineId: 'orderLineId',
+  skuId: 'skuId',
+  description: 'description',
+  quantity: 'quantity'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1428,6 +1453,14 @@ exports.WebhookDeliveryStatus = exports.$Enums.WebhookDeliveryStatus = {
   DEAD: 'DEAD'
 };
 
+exports.ReturnStatus = exports.$Enums.ReturnStatus = {
+  REQUESTED: 'REQUESTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  RECEIVED: 'RECEIVED',
+  CLOSED: 'CLOSED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1513,7 +1546,9 @@ exports.Prisma.ModelName = {
   WebhookDelivery: 'WebhookDelivery',
   ApiKey: 'ApiKey',
   SecurityEvent: 'SecurityEvent',
-  ProductCategory: 'ProductCategory'
+  ProductCategory: 'ProductCategory',
+  ReturnOrder: 'ReturnOrder',
+  ReturnOrderLine: 'ReturnOrderLine'
 };
 
 /**
