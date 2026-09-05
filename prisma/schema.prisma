@@ -128,6 +128,7 @@ model Tenant {
   salesTeams            SalesTeam[]
   salesTeamMembers      SalesTeamMember[]
   exchangeRates         ExchangeRate[]
+  consentRecords        ConsentRecord[]
 
   @@map("tenant")
 }
@@ -690,9 +691,37 @@ model Party {
   mergedInto         Party?                  @relation("PartyMergeRedirect", fields: [mergedIntoId], references: [id])
   mergedParties      Party[]                 @relation("PartyMergeRedirect")
   externalIdentities PartyExternalIdentity[]
+  consentRecords     ConsentRecord[]
 
   @@index([tenantId, normalizedName])
   @@map("party")
+}
+
+enum ConsentChannel {
+  EMAIL
+  PHONE
+  SMS
+  POST
+}
+
+/// Consent records (MDM/GDPR): append-only — the current state per
+/// channel is the newest row, and every grant or revocation stays on
+/// record with who captured it and when.
+model ConsentRecord {
+  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String         @map("tenant_id") @db.Uuid
+  partyId    String         @map("party_id") @db.Uuid
+  channel    ConsentChannel
+  granted    Boolean
+  note       String?
+  recordedAt DateTime       @default(now()) @map("recorded_at")
+  recordedBy String?        @map("recorded_by") @db.Uuid
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  party  Party  @relation(fields: [partyId], references: [id])
+
+  @@index([tenantId, partyId, channel, recordedAt])
+  @@map("consent_record")
 }
 
 model PartyExternalIdentity {
