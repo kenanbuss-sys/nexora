@@ -10,3 +10,4 @@ export {
   type WarehouseView,
 } from './inventory.service';
 export { WmsOrderService, type WmsOrderLineView, type WmsOrderView } from './order.service';
+export { CountService, type CountLineView, type CountView } from './count.service';

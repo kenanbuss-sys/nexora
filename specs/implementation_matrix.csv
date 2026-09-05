@@ -156,8 +156,8 @@ WMS-011,WMS,Packing,P1,PLANNED,R1,,,
 WMS-012,WMS,Shipping staging,P1,PLANNED,R1,,,
 WMS-013,WMS,Transfers,Implemented (Sprint 005),PLANNED,R1,,,"Transfer orders post OUT+IN, retriable"
 WMS-014,WMS,Cycle counting,Implemented (Sprint 005),PLANNED,R1,,,Cycle count adjusts ledger to counted qty
-WMS-015,WMS,Full inventory,P1,PLANNED,R1,,,
-WMS-016,WMS,Adjustment governance,P1,PLANNED,R1,,,
+WMS-015,WMS,Full inventory,P1,DONE,R1,,,Stock counts with snapshot/variance and idempotent posting (Sprint 030)
+WMS-016,WMS,Adjustment governance,P1,DONE,R1,,,Adjustment governance: approve permission + SoD on posting (Sprint 030)
 WMS-017,WMS,Lot control,P1,DONE,R1,,,Lot dimension on ledger with per-lot balances (Sprint 022)
 WMS-018,WMS,Serial control,P1,PLANNED,R1,,,
 WMS-019,WMS,Expiry/FEFO,P1,DONE,R1,,,"FEFO auto-pick, expired lots blocked except write-off (Sprint 022)"

@@ -75,6 +75,7 @@ export const EVENT_TYPES = {
   RETURN_APPROVED: 'return.approved',
   RETURN_REJECTED: 'return.rejected',
   RETURN_RECEIVED: 'return.received',
+  STOCK_COUNT_POSTED: 'stock_count.posted',
   BACKORDER_CREATED: 'backorder.created',
   BACKORDER_RELEASED: 'backorder.released',
   ATTACHMENT_UPLOADED: 'attachment.uploaded',

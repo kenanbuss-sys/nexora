@@ -273,6 +273,12 @@ export const BS: Record<string, string> = {
 
   // Misc
   Language: 'Jezik',
+  'Stock counts': 'Inventure (popisi)',
+  'New count': 'Nova inventura',
+  'Post variances': 'Proknjiži razlike',
+  'Record selected SKU': 'Upiši za odabrani artikal',
+  'No stock counts yet.': 'Još nema inventura.',
+  POSTED: 'PROKNJIŽENO',
   'Supplier performance': 'Performanse dobavljača',
   Supplier: 'Dobavljač',
   Spend: 'Potrošnja',

@@ -29,7 +29,7 @@ import { CollaborationService, SearchService } from '@nexora/domain-collab';
 import { IntegrationService } from '@nexora/domain-int';
 import { MerchandisingService, CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
-import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
+import { CountService, InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import { ServiceAccountService, RoleService, UserService } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
@@ -65,6 +65,7 @@ import {
 import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
 import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
 import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
+import { COUNT_SERVICE, CountsController } from './wms/counts.controller';
 import {
   BomsController,
   ENGINEERING_SERVICE,
@@ -204,6 +205,7 @@ export const REDIS = 'REDIS';
     PdfController,
     MerchandisingController,
     ReturnsController,
+    CountsController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -546,6 +548,12 @@ export const REDIS = 'REDIS';
           releaseReservation: (id, ctx) => inventory.releaseReservation(id, ctx),
           postMovement: (input, ctx) => inventory.postMovement(input, ctx),
         }),
+      inject: [PRISMA, INVENTORY_SERVICE],
+    },
+    {
+      provide: COUNT_SERVICE,
+      useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
+        new CountService(prisma, inventory),
       inject: [PRISMA, INVENTORY_SERVICE],
     },
     {

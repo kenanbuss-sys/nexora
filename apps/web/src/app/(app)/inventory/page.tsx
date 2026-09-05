@@ -30,6 +30,22 @@ interface LotBalance {
   expiringSoon: boolean;
 }
 
+interface CountLineView {
+  id: string;
+  skuId: string;
+  expectedQty: string;
+  countedQty: string;
+  variance: string;
+}
+
+interface CountView {
+  id: string;
+  countNumber: string;
+  warehouseId: string;
+  status: 'OPEN' | 'POSTED' | 'CANCELLED';
+  lines: CountLineView[];
+}
+
 interface Movement {
   id: string;
   movementType: string;
@@ -82,6 +98,8 @@ export default function InventoryPage() {
   const [reference, setReference] = useState('');
   const [lotNumber, setLotNumber] = useState('');
   const [lots, setLots] = useState<LotBalance[]>([]);
+  const [counts, setCounts] = useState<CountView[]>([]);
+  const [countQty, setCountQty] = useState('');
 
   useEffect(() => {
     api<{ warehouses: WarehouseView[] }>('GET', '/api/v1/warehouses')
@@ -136,6 +154,12 @@ export default function InventoryPage() {
     api<{ lots: LotBalance[] }>('GET', `/api/v1/stock/lots?${qs}`)
       .then((r) => setLots(r.lots))
       .catch(() => setLots([]));
+    if (can('inventory.count')) {
+      api<{ counts: CountView[] }>('GET', '/api/v1/stock/counts')
+        .then((r) => setCounts(r.counts))
+        .catch(() => setCounts([]));
+    }
+    // eslint-disable-next-line
   }, [warehouseId, skuId]);
 
   useEffect(refresh, [refresh]);
@@ -495,6 +519,144 @@ export default function InventoryPage() {
           </p>
         </div>
       </div>
+      {can('inventory.count') ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <div className="spread">
+            <h2>Stock counts</h2>
+            <button
+              className="btn btn-sm"
+              disabled={busy || !warehouseId}
+              onClick={() =>
+                run(
+                  () => api('POST', '/api/v1/stock/counts', { warehouseId }),
+                  'Stock count opened for the selected warehouse.',
+                )
+              }
+              type="button"
+            >
+              New count
+            </button>
+          </div>
+          {counts.length === 0 ? <div className="empty">No stock counts yet.</div> : null}
+          {counts.map((c) => (
+            <div
+              key={c.id}
+              style={{
+                border: '1px solid var(--color-border)',
+                borderRadius: 8,
+                padding: 12,
+                marginBottom: 10,
+              }}
+            >
+              <div className="spread">
+                <strong className="mono">{c.countNumber}</strong>
+                <span className="row" style={{ gap: 6 }}>
+                  <span
+                    className={`badge ${
+                      c.status === 'POSTED'
+                        ? 'badge-ok'
+                        : c.status === 'CANCELLED'
+                          ? 'badge-danger'
+                          : 'badge-warn'
+                    }`}
+                  >
+                    {c.status}
+                  </span>
+                  {c.status === 'OPEN' && can('inventory.adjust.approve') ? (
+                    <button
+                      className="btn btn-sm btn-primary"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          () => api('POST', `/api/v1/stock/counts/${c.id}/post`),
+                          'Count posted — variances adjusted in the ledger.',
+                        )
+                      }
+                      type="button"
+                    >
+                      Post variances
+                    </button>
+                  ) : null}
+                  {c.status === 'OPEN' ? (
+                    <button
+                      className="btn btn-sm"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          () => api('POST', `/api/v1/stock/counts/${c.id}/cancel`),
+                          'Count cancelled.',
+                        )
+                      }
+                      type="button"
+                    >
+                      Cancel
+                    </button>
+                  ) : null}
+                </span>
+              </div>
+              {c.lines.length > 0 ? (
+                <table className="table" style={{ marginTop: 6 }}>
+                  <tbody>
+                    {c.lines.map((l) => (
+                      <tr key={l.id}>
+                        <td className="mono">{skuLabel(l.skuId)}</td>
+                        <td>
+                          expected {l.expectedQty} · counted {l.countedQty}
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <span
+                            className={`badge ${
+                              Number(l.variance) === 0
+                                ? 'badge-ok'
+                                : Number(l.variance) > 0
+                                  ? 'badge-warn'
+                                  : 'badge-danger'
+                            }`}
+                          >
+                            {Number(l.variance) > 0 ? '+' : ''}
+                            {l.variance}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : null}
+              {c.status === 'OPEN' ? (
+                <div className="row" style={{ marginTop: 6 }}>
+                  <input
+                    className="input"
+                    style={{ maxWidth: 130 }}
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="Counted qty"
+                    value={countQty}
+                    onChange={(e) => setCountQty(e.target.value)}
+                  />
+                  <button
+                    className="btn btn-sm"
+                    disabled={busy || !skuId || countQty === ''}
+                    onClick={() =>
+                      run(
+                        () =>
+                          api('POST', `/api/v1/stock/counts/${c.id}/lines`, {
+                            skuId,
+                            countedQty: Number(countQty),
+                          }),
+                        'Counted quantity recorded for the selected SKU.',
+                      ).then(() => setCountQty(''))
+                    }
+                    type="button"
+                  >
+                    Record selected SKU
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </main>
   );
 }
