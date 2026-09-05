@@ -436,6 +436,18 @@ export type AttachmentBlob = $Result.DefaultSelection<Prisma.$AttachmentBlobPayl
  * family, advanced atomically so numbers never collide or reuse.
  */
 export type NumberSequence = $Result.DefaultSelection<Prisma.$NumberSequencePayload>
+/**
+ * Model CostCenter
+ * 
+ */
+export type CostCenter = $Result.DefaultSelection<Prisma.$CostCenterPayload>
+/**
+ * Model Budget
+ * Budget per cost center and period (FIN-008). periodKey is
+ * 'YYYY' or 'YYYY-MM'; actuals aggregate supplier invoices linked to
+ * the cost center inside the period.
+ */
+export type Budget = $Result.DefaultSelection<Prisma.$BudgetPayload>
 
 /**
  * Enums
@@ -1896,6 +1908,26 @@ export class PrismaClient<
     * ```
     */
   get numberSequence(): Prisma.NumberSequenceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.costCenter`: Exposes CRUD operations for the **CostCenter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CostCenters
+    * const costCenters = await prisma.costCenter.findMany()
+    * ```
+    */
+  get costCenter(): Prisma.CostCenterDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.budget`: Exposes CRUD operations for the **Budget** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Budgets
+    * const budgets = await prisma.budget.findMany()
+    * ```
+    */
+  get budget(): Prisma.BudgetDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2414,7 +2446,9 @@ export namespace Prisma {
     Comment: 'Comment',
     Attachment: 'Attachment',
     AttachmentBlob: 'AttachmentBlob',
-    NumberSequence: 'NumberSequence'
+    NumberSequence: 'NumberSequence',
+    CostCenter: 'CostCenter',
+    Budget: 'Budget'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2433,7 +2467,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -8209,6 +8243,154 @@ export namespace Prisma {
           }
         }
       }
+      CostCenter: {
+        payload: Prisma.$CostCenterPayload<ExtArgs>
+        fields: Prisma.CostCenterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CostCenterFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CostCenterFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>
+          }
+          findFirst: {
+            args: Prisma.CostCenterFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CostCenterFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>
+          }
+          findMany: {
+            args: Prisma.CostCenterFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>[]
+          }
+          create: {
+            args: Prisma.CostCenterCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>
+          }
+          createMany: {
+            args: Prisma.CostCenterCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CostCenterCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>[]
+          }
+          delete: {
+            args: Prisma.CostCenterDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>
+          }
+          update: {
+            args: Prisma.CostCenterUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>
+          }
+          deleteMany: {
+            args: Prisma.CostCenterDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CostCenterUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CostCenterUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>[]
+          }
+          upsert: {
+            args: Prisma.CostCenterUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostCenterPayload>
+          }
+          aggregate: {
+            args: Prisma.CostCenterAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCostCenter>
+          }
+          groupBy: {
+            args: Prisma.CostCenterGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CostCenterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CostCenterCountArgs<ExtArgs>
+            result: $Utils.Optional<CostCenterCountAggregateOutputType> | number
+          }
+        }
+      }
+      Budget: {
+        payload: Prisma.$BudgetPayload<ExtArgs>
+        fields: Prisma.BudgetFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BudgetFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BudgetFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>
+          }
+          findFirst: {
+            args: Prisma.BudgetFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BudgetFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>
+          }
+          findMany: {
+            args: Prisma.BudgetFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>[]
+          }
+          create: {
+            args: Prisma.BudgetCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>
+          }
+          createMany: {
+            args: Prisma.BudgetCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BudgetCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>[]
+          }
+          delete: {
+            args: Prisma.BudgetDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>
+          }
+          update: {
+            args: Prisma.BudgetUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>
+          }
+          deleteMany: {
+            args: Prisma.BudgetDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BudgetUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BudgetUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>[]
+          }
+          upsert: {
+            args: Prisma.BudgetUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BudgetPayload>
+          }
+          aggregate: {
+            args: Prisma.BudgetAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBudget>
+          }
+          groupBy: {
+            args: Prisma.BudgetGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BudgetGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BudgetCountArgs<ExtArgs>
+            result: $Utils.Optional<BudgetCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -8383,6 +8565,8 @@ export namespace Prisma {
     attachment?: AttachmentOmit
     attachmentBlob?: AttachmentBlobOmit
     numberSequence?: NumberSequenceOmit
+    costCenter?: CostCenterOmit
+    budget?: BudgetOmit
   }
 
   /* Types for Logging */
@@ -8530,6 +8714,8 @@ export namespace Prisma {
     attachments: number
     attachmentBlobs: number
     numberSequences: number
+    costCenters: number
+    budgets: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8600,6 +8786,8 @@ export namespace Prisma {
     attachments?: boolean | TenantCountOutputTypeCountAttachmentsArgs
     attachmentBlobs?: boolean | TenantCountOutputTypeCountAttachmentBlobsArgs
     numberSequences?: boolean | TenantCountOutputTypeCountNumberSequencesArgs
+    costCenters?: boolean | TenantCountOutputTypeCountCostCentersArgs
+    budgets?: boolean | TenantCountOutputTypeCountBudgetsArgs
   }
 
   // Custom InputTypes
@@ -9080,6 +9268,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountNumberSequencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NumberSequenceWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountCostCentersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CostCenterWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountBudgetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BudgetWhereInput
   }
 
 
@@ -9913,6 +10115,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CostCenterCountOutputType
+   */
+
+  export type CostCenterCountOutputType = {
+    budgets: number
+  }
+
+  export type CostCenterCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    budgets?: boolean | CostCenterCountOutputTypeCountBudgetsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CostCenterCountOutputType without action
+   */
+  export type CostCenterCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenterCountOutputType
+     */
+    select?: CostCenterCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CostCenterCountOutputType without action
+   */
+  export type CostCenterCountOutputTypeCountBudgetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BudgetWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -10197,6 +10430,8 @@ export namespace Prisma {
     attachments?: boolean | Tenant$attachmentsArgs<ExtArgs>
     attachmentBlobs?: boolean | Tenant$attachmentBlobsArgs<ExtArgs>
     numberSequences?: boolean | Tenant$numberSequencesArgs<ExtArgs>
+    costCenters?: boolean | Tenant$costCentersArgs<ExtArgs>
+    budgets?: boolean | Tenant$budgetsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -10299,6 +10534,8 @@ export namespace Prisma {
     attachments?: boolean | Tenant$attachmentsArgs<ExtArgs>
     attachmentBlobs?: boolean | Tenant$attachmentBlobsArgs<ExtArgs>
     numberSequences?: boolean | Tenant$numberSequencesArgs<ExtArgs>
+    costCenters?: boolean | Tenant$costCentersArgs<ExtArgs>
+    budgets?: boolean | Tenant$budgetsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -10374,6 +10611,8 @@ export namespace Prisma {
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       attachmentBlobs: Prisma.$AttachmentBlobPayload<ExtArgs>[]
       numberSequences: Prisma.$NumberSequencePayload<ExtArgs>[]
+      costCenters: Prisma.$CostCenterPayload<ExtArgs>[]
+      budgets: Prisma.$BudgetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10844,6 +11083,8 @@ export namespace Prisma {
     attachments<T extends Tenant$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attachmentBlobs<T extends Tenant$attachmentBlobsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$attachmentBlobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentBlobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     numberSequences<T extends Tenant$numberSequencesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$numberSequencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NumberSequencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    costCenters<T extends Tenant$costCentersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$costCentersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    budgets<T extends Tenant$budgetsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$budgetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12873,6 +13114,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NumberSequenceScalarFieldEnum | NumberSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.costCenters
+   */
+  export type Tenant$costCentersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    where?: CostCenterWhereInput
+    orderBy?: CostCenterOrderByWithRelationInput | CostCenterOrderByWithRelationInput[]
+    cursor?: CostCenterWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CostCenterScalarFieldEnum | CostCenterScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.budgets
+   */
+  export type Tenant$budgetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    where?: BudgetWhereInput
+    orderBy?: BudgetOrderByWithRelationInput | BudgetOrderByWithRelationInput[]
+    cursor?: BudgetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BudgetScalarFieldEnum | BudgetScalarFieldEnum[]
   }
 
   /**
@@ -92698,6 +92987,7 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus | null
     issuedAt: Date | null
     dueAt: Date | null
+    costCenterId: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -92716,6 +93006,7 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus | null
     issuedAt: Date | null
     dueAt: Date | null
+    costCenterId: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -92734,6 +93025,7 @@ export namespace Prisma {
     status: number
     issuedAt: number
     dueAt: number
+    costCenterId: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -92764,6 +93056,7 @@ export namespace Prisma {
     status?: true
     issuedAt?: true
     dueAt?: true
+    costCenterId?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -92782,6 +93075,7 @@ export namespace Prisma {
     status?: true
     issuedAt?: true
     dueAt?: true
+    costCenterId?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -92800,6 +93094,7 @@ export namespace Prisma {
     status?: true
     issuedAt?: true
     dueAt?: true
+    costCenterId?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -92905,6 +93200,7 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus
     issuedAt: Date
     dueAt: Date | null
+    costCenterId: string | null
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -92942,6 +93238,7 @@ export namespace Prisma {
     status?: boolean
     issuedAt?: boolean
     dueAt?: boolean
+    costCenterId?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -92963,6 +93260,7 @@ export namespace Prisma {
     status?: boolean
     issuedAt?: boolean
     dueAt?: boolean
+    costCenterId?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -92982,6 +93280,7 @@ export namespace Prisma {
     status?: boolean
     issuedAt?: boolean
     dueAt?: boolean
+    costCenterId?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -93001,12 +93300,13 @@ export namespace Prisma {
     status?: boolean
     issuedAt?: boolean
     dueAt?: boolean
+    costCenterId?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceNumber" | "invoiceType" | "partyRefId" | "orderRefId" | "currency" | "total" | "paidAmount" | "status" | "issuedAt" | "dueAt" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceNumber" | "invoiceType" | "partyRefId" | "orderRefId" | "currency" | "total" | "paidAmount" | "status" | "issuedAt" | "dueAt" | "costCenterId" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
@@ -93038,6 +93338,10 @@ export namespace Prisma {
       status: $Enums.InvoiceStatus
       issuedAt: Date
       dueAt: Date | null
+      /**
+       * Sprint 019 (FIN-016): actual spend/revenue attribution.
+       */
+      costCenterId: string | null
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -93478,6 +93782,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Invoice", 'InvoiceStatus'>
     readonly issuedAt: FieldRef<"Invoice", 'DateTime'>
     readonly dueAt: FieldRef<"Invoice", 'DateTime'>
+    readonly costCenterId: FieldRef<"Invoice", 'String'>
     readonly createdBy: FieldRef<"Invoice", 'String'>
     readonly createdAt: FieldRef<"Invoice", 'DateTime'>
     readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
@@ -100643,6 +100948,2233 @@ export namespace Prisma {
 
 
   /**
+   * Model CostCenter
+   */
+
+  export type AggregateCostCenter = {
+    _count: CostCenterCountAggregateOutputType | null
+    _min: CostCenterMinAggregateOutputType | null
+    _max: CostCenterMaxAggregateOutputType | null
+  }
+
+  export type CostCenterMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    active: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CostCenterMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    active: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CostCenterCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    active: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CostCenterMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    active?: true
+    createdAt?: true
+  }
+
+  export type CostCenterMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    active?: true
+    createdAt?: true
+  }
+
+  export type CostCenterCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    active?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CostCenterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CostCenter to aggregate.
+     */
+    where?: CostCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostCenters to fetch.
+     */
+    orderBy?: CostCenterOrderByWithRelationInput | CostCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CostCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostCenters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CostCenters
+    **/
+    _count?: true | CostCenterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CostCenterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CostCenterMaxAggregateInputType
+  }
+
+  export type GetCostCenterAggregateType<T extends CostCenterAggregateArgs> = {
+        [P in keyof T & keyof AggregateCostCenter]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCostCenter[P]>
+      : GetScalarType<T[P], AggregateCostCenter[P]>
+  }
+
+
+
+
+  export type CostCenterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CostCenterWhereInput
+    orderBy?: CostCenterOrderByWithAggregationInput | CostCenterOrderByWithAggregationInput[]
+    by: CostCenterScalarFieldEnum[] | CostCenterScalarFieldEnum
+    having?: CostCenterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CostCenterCountAggregateInputType | true
+    _min?: CostCenterMinAggregateInputType
+    _max?: CostCenterMaxAggregateInputType
+  }
+
+  export type CostCenterGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: string
+    active: boolean
+    createdAt: Date
+    _count: CostCenterCountAggregateOutputType | null
+    _min: CostCenterMinAggregateOutputType | null
+    _max: CostCenterMaxAggregateOutputType | null
+  }
+
+  type GetCostCenterGroupByPayload<T extends CostCenterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CostCenterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CostCenterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CostCenterGroupByOutputType[P]>
+            : GetScalarType<T[P], CostCenterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CostCenterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    budgets?: boolean | CostCenter$budgetsArgs<ExtArgs>
+    _count?: boolean | CostCenterCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["costCenter"]>
+
+  export type CostCenterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["costCenter"]>
+
+  export type CostCenterSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["costCenter"]>
+
+  export type CostCenterSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+  }
+
+  export type CostCenterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "active" | "createdAt", ExtArgs["result"]["costCenter"]>
+  export type CostCenterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    budgets?: boolean | CostCenter$budgetsArgs<ExtArgs>
+    _count?: boolean | CostCenterCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CostCenterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type CostCenterIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $CostCenterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CostCenter"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      budgets: Prisma.$BudgetPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: string
+      active: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["costCenter"]>
+    composites: {}
+  }
+
+  type CostCenterGetPayload<S extends boolean | null | undefined | CostCenterDefaultArgs> = $Result.GetResult<Prisma.$CostCenterPayload, S>
+
+  type CostCenterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CostCenterFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CostCenterCountAggregateInputType | true
+    }
+
+  export interface CostCenterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CostCenter'], meta: { name: 'CostCenter' } }
+    /**
+     * Find zero or one CostCenter that matches the filter.
+     * @param {CostCenterFindUniqueArgs} args - Arguments to find a CostCenter
+     * @example
+     * // Get one CostCenter
+     * const costCenter = await prisma.costCenter.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CostCenterFindUniqueArgs>(args: SelectSubset<T, CostCenterFindUniqueArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CostCenter that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CostCenterFindUniqueOrThrowArgs} args - Arguments to find a CostCenter
+     * @example
+     * // Get one CostCenter
+     * const costCenter = await prisma.costCenter.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CostCenterFindUniqueOrThrowArgs>(args: SelectSubset<T, CostCenterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CostCenter that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostCenterFindFirstArgs} args - Arguments to find a CostCenter
+     * @example
+     * // Get one CostCenter
+     * const costCenter = await prisma.costCenter.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CostCenterFindFirstArgs>(args?: SelectSubset<T, CostCenterFindFirstArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CostCenter that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostCenterFindFirstOrThrowArgs} args - Arguments to find a CostCenter
+     * @example
+     * // Get one CostCenter
+     * const costCenter = await prisma.costCenter.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CostCenterFindFirstOrThrowArgs>(args?: SelectSubset<T, CostCenterFindFirstOrThrowArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CostCenters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostCenterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CostCenters
+     * const costCenters = await prisma.costCenter.findMany()
+     * 
+     * // Get first 10 CostCenters
+     * const costCenters = await prisma.costCenter.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const costCenterWithIdOnly = await prisma.costCenter.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CostCenterFindManyArgs>(args?: SelectSubset<T, CostCenterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CostCenter.
+     * @param {CostCenterCreateArgs} args - Arguments to create a CostCenter.
+     * @example
+     * // Create one CostCenter
+     * const CostCenter = await prisma.costCenter.create({
+     *   data: {
+     *     // ... data to create a CostCenter
+     *   }
+     * })
+     * 
+     */
+    create<T extends CostCenterCreateArgs>(args: SelectSubset<T, CostCenterCreateArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CostCenters.
+     * @param {CostCenterCreateManyArgs} args - Arguments to create many CostCenters.
+     * @example
+     * // Create many CostCenters
+     * const costCenter = await prisma.costCenter.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CostCenterCreateManyArgs>(args?: SelectSubset<T, CostCenterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CostCenters and returns the data saved in the database.
+     * @param {CostCenterCreateManyAndReturnArgs} args - Arguments to create many CostCenters.
+     * @example
+     * // Create many CostCenters
+     * const costCenter = await prisma.costCenter.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CostCenters and only return the `id`
+     * const costCenterWithIdOnly = await prisma.costCenter.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CostCenterCreateManyAndReturnArgs>(args?: SelectSubset<T, CostCenterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CostCenter.
+     * @param {CostCenterDeleteArgs} args - Arguments to delete one CostCenter.
+     * @example
+     * // Delete one CostCenter
+     * const CostCenter = await prisma.costCenter.delete({
+     *   where: {
+     *     // ... filter to delete one CostCenter
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CostCenterDeleteArgs>(args: SelectSubset<T, CostCenterDeleteArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CostCenter.
+     * @param {CostCenterUpdateArgs} args - Arguments to update one CostCenter.
+     * @example
+     * // Update one CostCenter
+     * const costCenter = await prisma.costCenter.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CostCenterUpdateArgs>(args: SelectSubset<T, CostCenterUpdateArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CostCenters.
+     * @param {CostCenterDeleteManyArgs} args - Arguments to filter CostCenters to delete.
+     * @example
+     * // Delete a few CostCenters
+     * const { count } = await prisma.costCenter.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CostCenterDeleteManyArgs>(args?: SelectSubset<T, CostCenterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CostCenters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostCenterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CostCenters
+     * const costCenter = await prisma.costCenter.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CostCenterUpdateManyArgs>(args: SelectSubset<T, CostCenterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CostCenters and returns the data updated in the database.
+     * @param {CostCenterUpdateManyAndReturnArgs} args - Arguments to update many CostCenters.
+     * @example
+     * // Update many CostCenters
+     * const costCenter = await prisma.costCenter.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CostCenters and only return the `id`
+     * const costCenterWithIdOnly = await prisma.costCenter.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CostCenterUpdateManyAndReturnArgs>(args: SelectSubset<T, CostCenterUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CostCenter.
+     * @param {CostCenterUpsertArgs} args - Arguments to update or create a CostCenter.
+     * @example
+     * // Update or create a CostCenter
+     * const costCenter = await prisma.costCenter.upsert({
+     *   create: {
+     *     // ... data to create a CostCenter
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CostCenter we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CostCenterUpsertArgs>(args: SelectSubset<T, CostCenterUpsertArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CostCenters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostCenterCountArgs} args - Arguments to filter CostCenters to count.
+     * @example
+     * // Count the number of CostCenters
+     * const count = await prisma.costCenter.count({
+     *   where: {
+     *     // ... the filter for the CostCenters we want to count
+     *   }
+     * })
+    **/
+    count<T extends CostCenterCountArgs>(
+      args?: Subset<T, CostCenterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CostCenterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CostCenter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostCenterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CostCenterAggregateArgs>(args: Subset<T, CostCenterAggregateArgs>): Prisma.PrismaPromise<GetCostCenterAggregateType<T>>
+
+    /**
+     * Group by CostCenter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostCenterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CostCenterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CostCenterGroupByArgs['orderBy'] }
+        : { orderBy?: CostCenterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CostCenterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCostCenterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CostCenter model
+   */
+  readonly fields: CostCenterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CostCenter.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CostCenterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    budgets<T extends CostCenter$budgetsArgs<ExtArgs> = {}>(args?: Subset<T, CostCenter$budgetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CostCenter model
+   */
+  interface CostCenterFieldRefs {
+    readonly id: FieldRef<"CostCenter", 'String'>
+    readonly tenantId: FieldRef<"CostCenter", 'String'>
+    readonly code: FieldRef<"CostCenter", 'String'>
+    readonly name: FieldRef<"CostCenter", 'String'>
+    readonly active: FieldRef<"CostCenter", 'Boolean'>
+    readonly createdAt: FieldRef<"CostCenter", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CostCenter findUnique
+   */
+  export type CostCenterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which CostCenter to fetch.
+     */
+    where: CostCenterWhereUniqueInput
+  }
+
+  /**
+   * CostCenter findUniqueOrThrow
+   */
+  export type CostCenterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which CostCenter to fetch.
+     */
+    where: CostCenterWhereUniqueInput
+  }
+
+  /**
+   * CostCenter findFirst
+   */
+  export type CostCenterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which CostCenter to fetch.
+     */
+    where?: CostCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostCenters to fetch.
+     */
+    orderBy?: CostCenterOrderByWithRelationInput | CostCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CostCenters.
+     */
+    cursor?: CostCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostCenters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostCenters.
+     */
+    distinct?: CostCenterScalarFieldEnum | CostCenterScalarFieldEnum[]
+  }
+
+  /**
+   * CostCenter findFirstOrThrow
+   */
+  export type CostCenterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which CostCenter to fetch.
+     */
+    where?: CostCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostCenters to fetch.
+     */
+    orderBy?: CostCenterOrderByWithRelationInput | CostCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CostCenters.
+     */
+    cursor?: CostCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostCenters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostCenters.
+     */
+    distinct?: CostCenterScalarFieldEnum | CostCenterScalarFieldEnum[]
+  }
+
+  /**
+   * CostCenter findMany
+   */
+  export type CostCenterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which CostCenters to fetch.
+     */
+    where?: CostCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostCenters to fetch.
+     */
+    orderBy?: CostCenterOrderByWithRelationInput | CostCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CostCenters.
+     */
+    cursor?: CostCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostCenters.
+     */
+    skip?: number
+    distinct?: CostCenterScalarFieldEnum | CostCenterScalarFieldEnum[]
+  }
+
+  /**
+   * CostCenter create
+   */
+  export type CostCenterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CostCenter.
+     */
+    data: XOR<CostCenterCreateInput, CostCenterUncheckedCreateInput>
+  }
+
+  /**
+   * CostCenter createMany
+   */
+  export type CostCenterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CostCenters.
+     */
+    data: CostCenterCreateManyInput | CostCenterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CostCenter createManyAndReturn
+   */
+  export type CostCenterCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * The data used to create many CostCenters.
+     */
+    data: CostCenterCreateManyInput | CostCenterCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CostCenter update
+   */
+  export type CostCenterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CostCenter.
+     */
+    data: XOR<CostCenterUpdateInput, CostCenterUncheckedUpdateInput>
+    /**
+     * Choose, which CostCenter to update.
+     */
+    where: CostCenterWhereUniqueInput
+  }
+
+  /**
+   * CostCenter updateMany
+   */
+  export type CostCenterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CostCenters.
+     */
+    data: XOR<CostCenterUpdateManyMutationInput, CostCenterUncheckedUpdateManyInput>
+    /**
+     * Filter which CostCenters to update
+     */
+    where?: CostCenterWhereInput
+    /**
+     * Limit how many CostCenters to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CostCenter updateManyAndReturn
+   */
+  export type CostCenterUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * The data used to update CostCenters.
+     */
+    data: XOR<CostCenterUpdateManyMutationInput, CostCenterUncheckedUpdateManyInput>
+    /**
+     * Filter which CostCenters to update
+     */
+    where?: CostCenterWhereInput
+    /**
+     * Limit how many CostCenters to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CostCenter upsert
+   */
+  export type CostCenterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CostCenter to update in case it exists.
+     */
+    where: CostCenterWhereUniqueInput
+    /**
+     * In case the CostCenter found by the `where` argument doesn't exist, create a new CostCenter with this data.
+     */
+    create: XOR<CostCenterCreateInput, CostCenterUncheckedCreateInput>
+    /**
+     * In case the CostCenter was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CostCenterUpdateInput, CostCenterUncheckedUpdateInput>
+  }
+
+  /**
+   * CostCenter delete
+   */
+  export type CostCenterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+    /**
+     * Filter which CostCenter to delete.
+     */
+    where: CostCenterWhereUniqueInput
+  }
+
+  /**
+   * CostCenter deleteMany
+   */
+  export type CostCenterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CostCenters to delete
+     */
+    where?: CostCenterWhereInput
+    /**
+     * Limit how many CostCenters to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CostCenter.budgets
+   */
+  export type CostCenter$budgetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    where?: BudgetWhereInput
+    orderBy?: BudgetOrderByWithRelationInput | BudgetOrderByWithRelationInput[]
+    cursor?: BudgetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BudgetScalarFieldEnum | BudgetScalarFieldEnum[]
+  }
+
+  /**
+   * CostCenter without action
+   */
+  export type CostCenterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostCenter
+     */
+    select?: CostCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostCenter
+     */
+    omit?: CostCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostCenterInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Budget
+   */
+
+  export type AggregateBudget = {
+    _count: BudgetCountAggregateOutputType | null
+    _avg: BudgetAvgAggregateOutputType | null
+    _sum: BudgetSumAggregateOutputType | null
+    _min: BudgetMinAggregateOutputType | null
+    _max: BudgetMaxAggregateOutputType | null
+  }
+
+  export type BudgetAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type BudgetSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type BudgetMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    costCenterId: string | null
+    periodKey: string | null
+    amount: Decimal | null
+    currency: string | null
+    updatedAt: Date | null
+  }
+
+  export type BudgetMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    costCenterId: string | null
+    periodKey: string | null
+    amount: Decimal | null
+    currency: string | null
+    updatedAt: Date | null
+  }
+
+  export type BudgetCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    costCenterId: number
+    periodKey: number
+    amount: number
+    currency: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BudgetAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type BudgetSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type BudgetMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    costCenterId?: true
+    periodKey?: true
+    amount?: true
+    currency?: true
+    updatedAt?: true
+  }
+
+  export type BudgetMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    costCenterId?: true
+    periodKey?: true
+    amount?: true
+    currency?: true
+    updatedAt?: true
+  }
+
+  export type BudgetCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    costCenterId?: true
+    periodKey?: true
+    amount?: true
+    currency?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BudgetAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Budget to aggregate.
+     */
+    where?: BudgetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Budgets to fetch.
+     */
+    orderBy?: BudgetOrderByWithRelationInput | BudgetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BudgetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Budgets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Budgets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Budgets
+    **/
+    _count?: true | BudgetCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BudgetAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BudgetSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BudgetMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BudgetMaxAggregateInputType
+  }
+
+  export type GetBudgetAggregateType<T extends BudgetAggregateArgs> = {
+        [P in keyof T & keyof AggregateBudget]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBudget[P]>
+      : GetScalarType<T[P], AggregateBudget[P]>
+  }
+
+
+
+
+  export type BudgetGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BudgetWhereInput
+    orderBy?: BudgetOrderByWithAggregationInput | BudgetOrderByWithAggregationInput[]
+    by: BudgetScalarFieldEnum[] | BudgetScalarFieldEnum
+    having?: BudgetScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BudgetCountAggregateInputType | true
+    _avg?: BudgetAvgAggregateInputType
+    _sum?: BudgetSumAggregateInputType
+    _min?: BudgetMinAggregateInputType
+    _max?: BudgetMaxAggregateInputType
+  }
+
+  export type BudgetGroupByOutputType = {
+    id: string
+    tenantId: string
+    costCenterId: string
+    periodKey: string
+    amount: Decimal
+    currency: string
+    updatedAt: Date
+    _count: BudgetCountAggregateOutputType | null
+    _avg: BudgetAvgAggregateOutputType | null
+    _sum: BudgetSumAggregateOutputType | null
+    _min: BudgetMinAggregateOutputType | null
+    _max: BudgetMaxAggregateOutputType | null
+  }
+
+  type GetBudgetGroupByPayload<T extends BudgetGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BudgetGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BudgetGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BudgetGroupByOutputType[P]>
+            : GetScalarType<T[P], BudgetGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BudgetSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    costCenterId?: boolean
+    periodKey?: boolean
+    amount?: boolean
+    currency?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    costCenter?: boolean | CostCenterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["budget"]>
+
+  export type BudgetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    costCenterId?: boolean
+    periodKey?: boolean
+    amount?: boolean
+    currency?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    costCenter?: boolean | CostCenterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["budget"]>
+
+  export type BudgetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    costCenterId?: boolean
+    periodKey?: boolean
+    amount?: boolean
+    currency?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    costCenter?: boolean | CostCenterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["budget"]>
+
+  export type BudgetSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    costCenterId?: boolean
+    periodKey?: boolean
+    amount?: boolean
+    currency?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BudgetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "costCenterId" | "periodKey" | "amount" | "currency" | "updatedAt", ExtArgs["result"]["budget"]>
+  export type BudgetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    costCenter?: boolean | CostCenterDefaultArgs<ExtArgs>
+  }
+  export type BudgetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    costCenter?: boolean | CostCenterDefaultArgs<ExtArgs>
+  }
+  export type BudgetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    costCenter?: boolean | CostCenterDefaultArgs<ExtArgs>
+  }
+
+  export type $BudgetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Budget"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      costCenter: Prisma.$CostCenterPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      costCenterId: string
+      periodKey: string
+      amount: Prisma.Decimal
+      currency: string
+      updatedAt: Date
+    }, ExtArgs["result"]["budget"]>
+    composites: {}
+  }
+
+  type BudgetGetPayload<S extends boolean | null | undefined | BudgetDefaultArgs> = $Result.GetResult<Prisma.$BudgetPayload, S>
+
+  type BudgetCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BudgetFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BudgetCountAggregateInputType | true
+    }
+
+  export interface BudgetDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Budget'], meta: { name: 'Budget' } }
+    /**
+     * Find zero or one Budget that matches the filter.
+     * @param {BudgetFindUniqueArgs} args - Arguments to find a Budget
+     * @example
+     * // Get one Budget
+     * const budget = await prisma.budget.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BudgetFindUniqueArgs>(args: SelectSubset<T, BudgetFindUniqueArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Budget that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BudgetFindUniqueOrThrowArgs} args - Arguments to find a Budget
+     * @example
+     * // Get one Budget
+     * const budget = await prisma.budget.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BudgetFindUniqueOrThrowArgs>(args: SelectSubset<T, BudgetFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Budget that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetFindFirstArgs} args - Arguments to find a Budget
+     * @example
+     * // Get one Budget
+     * const budget = await prisma.budget.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BudgetFindFirstArgs>(args?: SelectSubset<T, BudgetFindFirstArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Budget that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetFindFirstOrThrowArgs} args - Arguments to find a Budget
+     * @example
+     * // Get one Budget
+     * const budget = await prisma.budget.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BudgetFindFirstOrThrowArgs>(args?: SelectSubset<T, BudgetFindFirstOrThrowArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Budgets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Budgets
+     * const budgets = await prisma.budget.findMany()
+     * 
+     * // Get first 10 Budgets
+     * const budgets = await prisma.budget.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const budgetWithIdOnly = await prisma.budget.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BudgetFindManyArgs>(args?: SelectSubset<T, BudgetFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Budget.
+     * @param {BudgetCreateArgs} args - Arguments to create a Budget.
+     * @example
+     * // Create one Budget
+     * const Budget = await prisma.budget.create({
+     *   data: {
+     *     // ... data to create a Budget
+     *   }
+     * })
+     * 
+     */
+    create<T extends BudgetCreateArgs>(args: SelectSubset<T, BudgetCreateArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Budgets.
+     * @param {BudgetCreateManyArgs} args - Arguments to create many Budgets.
+     * @example
+     * // Create many Budgets
+     * const budget = await prisma.budget.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BudgetCreateManyArgs>(args?: SelectSubset<T, BudgetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Budgets and returns the data saved in the database.
+     * @param {BudgetCreateManyAndReturnArgs} args - Arguments to create many Budgets.
+     * @example
+     * // Create many Budgets
+     * const budget = await prisma.budget.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Budgets and only return the `id`
+     * const budgetWithIdOnly = await prisma.budget.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BudgetCreateManyAndReturnArgs>(args?: SelectSubset<T, BudgetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Budget.
+     * @param {BudgetDeleteArgs} args - Arguments to delete one Budget.
+     * @example
+     * // Delete one Budget
+     * const Budget = await prisma.budget.delete({
+     *   where: {
+     *     // ... filter to delete one Budget
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BudgetDeleteArgs>(args: SelectSubset<T, BudgetDeleteArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Budget.
+     * @param {BudgetUpdateArgs} args - Arguments to update one Budget.
+     * @example
+     * // Update one Budget
+     * const budget = await prisma.budget.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BudgetUpdateArgs>(args: SelectSubset<T, BudgetUpdateArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Budgets.
+     * @param {BudgetDeleteManyArgs} args - Arguments to filter Budgets to delete.
+     * @example
+     * // Delete a few Budgets
+     * const { count } = await prisma.budget.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BudgetDeleteManyArgs>(args?: SelectSubset<T, BudgetDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Budgets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Budgets
+     * const budget = await prisma.budget.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BudgetUpdateManyArgs>(args: SelectSubset<T, BudgetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Budgets and returns the data updated in the database.
+     * @param {BudgetUpdateManyAndReturnArgs} args - Arguments to update many Budgets.
+     * @example
+     * // Update many Budgets
+     * const budget = await prisma.budget.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Budgets and only return the `id`
+     * const budgetWithIdOnly = await prisma.budget.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BudgetUpdateManyAndReturnArgs>(args: SelectSubset<T, BudgetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Budget.
+     * @param {BudgetUpsertArgs} args - Arguments to update or create a Budget.
+     * @example
+     * // Update or create a Budget
+     * const budget = await prisma.budget.upsert({
+     *   create: {
+     *     // ... data to create a Budget
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Budget we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BudgetUpsertArgs>(args: SelectSubset<T, BudgetUpsertArgs<ExtArgs>>): Prisma__BudgetClient<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Budgets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetCountArgs} args - Arguments to filter Budgets to count.
+     * @example
+     * // Count the number of Budgets
+     * const count = await prisma.budget.count({
+     *   where: {
+     *     // ... the filter for the Budgets we want to count
+     *   }
+     * })
+    **/
+    count<T extends BudgetCountArgs>(
+      args?: Subset<T, BudgetCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BudgetCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Budget.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BudgetAggregateArgs>(args: Subset<T, BudgetAggregateArgs>): Prisma.PrismaPromise<GetBudgetAggregateType<T>>
+
+    /**
+     * Group by Budget.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BudgetGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BudgetGroupByArgs['orderBy'] }
+        : { orderBy?: BudgetGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BudgetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBudgetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Budget model
+   */
+  readonly fields: BudgetFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Budget.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BudgetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    costCenter<T extends CostCenterDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CostCenterDefaultArgs<ExtArgs>>): Prisma__CostCenterClient<$Result.GetResult<Prisma.$CostCenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Budget model
+   */
+  interface BudgetFieldRefs {
+    readonly id: FieldRef<"Budget", 'String'>
+    readonly tenantId: FieldRef<"Budget", 'String'>
+    readonly costCenterId: FieldRef<"Budget", 'String'>
+    readonly periodKey: FieldRef<"Budget", 'String'>
+    readonly amount: FieldRef<"Budget", 'Decimal'>
+    readonly currency: FieldRef<"Budget", 'String'>
+    readonly updatedAt: FieldRef<"Budget", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Budget findUnique
+   */
+  export type BudgetFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * Filter, which Budget to fetch.
+     */
+    where: BudgetWhereUniqueInput
+  }
+
+  /**
+   * Budget findUniqueOrThrow
+   */
+  export type BudgetFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * Filter, which Budget to fetch.
+     */
+    where: BudgetWhereUniqueInput
+  }
+
+  /**
+   * Budget findFirst
+   */
+  export type BudgetFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * Filter, which Budget to fetch.
+     */
+    where?: BudgetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Budgets to fetch.
+     */
+    orderBy?: BudgetOrderByWithRelationInput | BudgetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Budgets.
+     */
+    cursor?: BudgetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Budgets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Budgets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Budgets.
+     */
+    distinct?: BudgetScalarFieldEnum | BudgetScalarFieldEnum[]
+  }
+
+  /**
+   * Budget findFirstOrThrow
+   */
+  export type BudgetFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * Filter, which Budget to fetch.
+     */
+    where?: BudgetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Budgets to fetch.
+     */
+    orderBy?: BudgetOrderByWithRelationInput | BudgetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Budgets.
+     */
+    cursor?: BudgetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Budgets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Budgets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Budgets.
+     */
+    distinct?: BudgetScalarFieldEnum | BudgetScalarFieldEnum[]
+  }
+
+  /**
+   * Budget findMany
+   */
+  export type BudgetFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * Filter, which Budgets to fetch.
+     */
+    where?: BudgetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Budgets to fetch.
+     */
+    orderBy?: BudgetOrderByWithRelationInput | BudgetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Budgets.
+     */
+    cursor?: BudgetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Budgets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Budgets.
+     */
+    skip?: number
+    distinct?: BudgetScalarFieldEnum | BudgetScalarFieldEnum[]
+  }
+
+  /**
+   * Budget create
+   */
+  export type BudgetCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Budget.
+     */
+    data: XOR<BudgetCreateInput, BudgetUncheckedCreateInput>
+  }
+
+  /**
+   * Budget createMany
+   */
+  export type BudgetCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Budgets.
+     */
+    data: BudgetCreateManyInput | BudgetCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Budget createManyAndReturn
+   */
+  export type BudgetCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * The data used to create many Budgets.
+     */
+    data: BudgetCreateManyInput | BudgetCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Budget update
+   */
+  export type BudgetUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Budget.
+     */
+    data: XOR<BudgetUpdateInput, BudgetUncheckedUpdateInput>
+    /**
+     * Choose, which Budget to update.
+     */
+    where: BudgetWhereUniqueInput
+  }
+
+  /**
+   * Budget updateMany
+   */
+  export type BudgetUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Budgets.
+     */
+    data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyInput>
+    /**
+     * Filter which Budgets to update
+     */
+    where?: BudgetWhereInput
+    /**
+     * Limit how many Budgets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Budget updateManyAndReturn
+   */
+  export type BudgetUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * The data used to update Budgets.
+     */
+    data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyInput>
+    /**
+     * Filter which Budgets to update
+     */
+    where?: BudgetWhereInput
+    /**
+     * Limit how many Budgets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Budget upsert
+   */
+  export type BudgetUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Budget to update in case it exists.
+     */
+    where: BudgetWhereUniqueInput
+    /**
+     * In case the Budget found by the `where` argument doesn't exist, create a new Budget with this data.
+     */
+    create: XOR<BudgetCreateInput, BudgetUncheckedCreateInput>
+    /**
+     * In case the Budget was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BudgetUpdateInput, BudgetUncheckedUpdateInput>
+  }
+
+  /**
+   * Budget delete
+   */
+  export type BudgetDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    /**
+     * Filter which Budget to delete.
+     */
+    where: BudgetWhereUniqueInput
+  }
+
+  /**
+   * Budget deleteMany
+   */
+  export type BudgetDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Budgets to delete
+     */
+    where?: BudgetWhereInput
+    /**
+     * Limit how many Budgets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Budget without action
+   */
+  export type BudgetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -101714,6 +104246,7 @@ export namespace Prisma {
     status: 'status',
     issuedAt: 'issuedAt',
     dueAt: 'dueAt',
+    costCenterId: 'costCenterId',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -101804,6 +104337,31 @@ export namespace Prisma {
   };
 
   export type NumberSequenceScalarFieldEnum = (typeof NumberSequenceScalarFieldEnum)[keyof typeof NumberSequenceScalarFieldEnum]
+
+
+  export const CostCenterScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    active: 'active',
+    createdAt: 'createdAt'
+  };
+
+  export type CostCenterScalarFieldEnum = (typeof CostCenterScalarFieldEnum)[keyof typeof CostCenterScalarFieldEnum]
+
+
+  export const BudgetScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    costCenterId: 'costCenterId',
+    periodKey: 'periodKey',
+    amount: 'amount',
+    currency: 'currency',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BudgetScalarFieldEnum = (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -102619,6 +105177,8 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     attachmentBlobs?: AttachmentBlobListRelationFilter
     numberSequences?: NumberSequenceListRelationFilter
+    costCenters?: CostCenterListRelationFilter
+    budgets?: BudgetListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -102696,6 +105256,8 @@ export namespace Prisma {
     attachments?: AttachmentOrderByRelationAggregateInput
     attachmentBlobs?: AttachmentBlobOrderByRelationAggregateInput
     numberSequences?: NumberSequenceOrderByRelationAggregateInput
+    costCenters?: CostCenterOrderByRelationAggregateInput
+    budgets?: BudgetOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -102776,6 +105338,8 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     attachmentBlobs?: AttachmentBlobListRelationFilter
     numberSequences?: NumberSequenceListRelationFilter
+    costCenters?: CostCenterListRelationFilter
+    budgets?: BudgetListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -108248,6 +110812,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     issuedAt?: DateTimeFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    costCenterId?: UuidNullableFilter<"Invoice"> | string | null
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -108268,6 +110833,7 @@ export namespace Prisma {
     status?: SortOrder
     issuedAt?: SortOrder
     dueAt?: SortOrderInput | SortOrder
+    costCenterId?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -108293,6 +110859,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     issuedAt?: DateTimeFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    costCenterId?: UuidNullableFilter<"Invoice"> | string | null
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -108313,6 +110880,7 @@ export namespace Prisma {
     status?: SortOrder
     issuedAt?: SortOrder
     dueAt?: SortOrderInput | SortOrder
+    costCenterId?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -108339,6 +110907,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
     issuedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+    costCenterId?: UuidNullableWithAggregatesFilter<"Invoice"> | string | null
     createdBy?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
@@ -108782,6 +111351,141 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"NumberSequence"> | Date | string
   }
 
+  export type CostCenterWhereInput = {
+    AND?: CostCenterWhereInput | CostCenterWhereInput[]
+    OR?: CostCenterWhereInput[]
+    NOT?: CostCenterWhereInput | CostCenterWhereInput[]
+    id?: UuidFilter<"CostCenter"> | string
+    tenantId?: UuidFilter<"CostCenter"> | string
+    code?: StringFilter<"CostCenter"> | string
+    name?: StringFilter<"CostCenter"> | string
+    active?: BoolFilter<"CostCenter"> | boolean
+    createdAt?: DateTimeFilter<"CostCenter"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    budgets?: BudgetListRelationFilter
+  }
+
+  export type CostCenterOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    budgets?: BudgetOrderByRelationAggregateInput
+  }
+
+  export type CostCenterWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: CostCenterTenantIdCodeCompoundUniqueInput
+    AND?: CostCenterWhereInput | CostCenterWhereInput[]
+    OR?: CostCenterWhereInput[]
+    NOT?: CostCenterWhereInput | CostCenterWhereInput[]
+    tenantId?: UuidFilter<"CostCenter"> | string
+    code?: StringFilter<"CostCenter"> | string
+    name?: StringFilter<"CostCenter"> | string
+    active?: BoolFilter<"CostCenter"> | boolean
+    createdAt?: DateTimeFilter<"CostCenter"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    budgets?: BudgetListRelationFilter
+  }, "id" | "tenantId_code">
+
+  export type CostCenterOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    _count?: CostCenterCountOrderByAggregateInput
+    _max?: CostCenterMaxOrderByAggregateInput
+    _min?: CostCenterMinOrderByAggregateInput
+  }
+
+  export type CostCenterScalarWhereWithAggregatesInput = {
+    AND?: CostCenterScalarWhereWithAggregatesInput | CostCenterScalarWhereWithAggregatesInput[]
+    OR?: CostCenterScalarWhereWithAggregatesInput[]
+    NOT?: CostCenterScalarWhereWithAggregatesInput | CostCenterScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"CostCenter"> | string
+    tenantId?: UuidWithAggregatesFilter<"CostCenter"> | string
+    code?: StringWithAggregatesFilter<"CostCenter"> | string
+    name?: StringWithAggregatesFilter<"CostCenter"> | string
+    active?: BoolWithAggregatesFilter<"CostCenter"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CostCenter"> | Date | string
+  }
+
+  export type BudgetWhereInput = {
+    AND?: BudgetWhereInput | BudgetWhereInput[]
+    OR?: BudgetWhereInput[]
+    NOT?: BudgetWhereInput | BudgetWhereInput[]
+    id?: UuidFilter<"Budget"> | string
+    tenantId?: UuidFilter<"Budget"> | string
+    costCenterId?: UuidFilter<"Budget"> | string
+    periodKey?: StringFilter<"Budget"> | string
+    amount?: DecimalFilter<"Budget"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Budget"> | string
+    updatedAt?: DateTimeFilter<"Budget"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    costCenter?: XOR<CostCenterScalarRelationFilter, CostCenterWhereInput>
+  }
+
+  export type BudgetOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    costCenterId?: SortOrder
+    periodKey?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    costCenter?: CostCenterOrderByWithRelationInput
+  }
+
+  export type BudgetWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_costCenterId_periodKey?: BudgetTenantIdCostCenterIdPeriodKeyCompoundUniqueInput
+    AND?: BudgetWhereInput | BudgetWhereInput[]
+    OR?: BudgetWhereInput[]
+    NOT?: BudgetWhereInput | BudgetWhereInput[]
+    tenantId?: UuidFilter<"Budget"> | string
+    costCenterId?: UuidFilter<"Budget"> | string
+    periodKey?: StringFilter<"Budget"> | string
+    amount?: DecimalFilter<"Budget"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Budget"> | string
+    updatedAt?: DateTimeFilter<"Budget"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    costCenter?: XOR<CostCenterScalarRelationFilter, CostCenterWhereInput>
+  }, "id" | "tenantId_costCenterId_periodKey">
+
+  export type BudgetOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    costCenterId?: SortOrder
+    periodKey?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BudgetCountOrderByAggregateInput
+    _avg?: BudgetAvgOrderByAggregateInput
+    _max?: BudgetMaxOrderByAggregateInput
+    _min?: BudgetMinOrderByAggregateInput
+    _sum?: BudgetSumOrderByAggregateInput
+  }
+
+  export type BudgetScalarWhereWithAggregatesInput = {
+    AND?: BudgetScalarWhereWithAggregatesInput | BudgetScalarWhereWithAggregatesInput[]
+    OR?: BudgetScalarWhereWithAggregatesInput[]
+    NOT?: BudgetScalarWhereWithAggregatesInput | BudgetScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Budget"> | string
+    tenantId?: UuidWithAggregatesFilter<"Budget"> | string
+    costCenterId?: UuidWithAggregatesFilter<"Budget"> | string
+    periodKey?: StringWithAggregatesFilter<"Budget"> | string
+    amount?: DecimalWithAggregatesFilter<"Budget"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"Budget"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Budget"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -108857,6 +111561,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -108934,6 +111640,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -109011,6 +111719,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -109088,6 +111798,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -114916,6 +117628,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -114936,6 +117649,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -114954,6 +117668,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -114974,6 +117689,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -114993,6 +117709,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -115010,6 +117727,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -115028,6 +117746,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -115491,6 +118210,140 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CostCenterCreateInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCostCentersInput
+    budgets?: BudgetCreateNestedManyWithoutCostCenterInput
+  }
+
+  export type CostCenterUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    budgets?: BudgetUncheckedCreateNestedManyWithoutCostCenterInput
+  }
+
+  export type CostCenterUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCostCentersNestedInput
+    budgets?: BudgetUpdateManyWithoutCostCenterNestedInput
+  }
+
+  export type CostCenterUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    budgets?: BudgetUncheckedUpdateManyWithoutCostCenterNestedInput
+  }
+
+  export type CostCenterCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CostCenterUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostCenterUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BudgetCreateInput = {
+    id?: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBudgetsInput
+    costCenter: CostCenterCreateNestedOneWithoutBudgetsInput
+  }
+
+  export type BudgetUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    costCenterId: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+  }
+
+  export type BudgetUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBudgetsNestedInput
+    costCenter?: CostCenterUpdateOneRequiredWithoutBudgetsNestedInput
+  }
+
+  export type BudgetUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    costCenterId?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BudgetCreateManyInput = {
+    id?: string
+    tenantId: string
+    costCenterId: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+  }
+
+  export type BudgetUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BudgetUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    costCenterId?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -115949,6 +118802,18 @@ export namespace Prisma {
     none?: NumberSequenceWhereInput
   }
 
+  export type CostCenterListRelationFilter = {
+    every?: CostCenterWhereInput
+    some?: CostCenterWhereInput
+    none?: CostCenterWhereInput
+  }
+
+  export type BudgetListRelationFilter = {
+    every?: BudgetWhereInput
+    some?: BudgetWhereInput
+    none?: BudgetWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -116214,6 +119079,14 @@ export namespace Prisma {
   }
 
   export type NumberSequenceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CostCenterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BudgetOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -120571,6 +123444,7 @@ export namespace Prisma {
     status?: SortOrder
     issuedAt?: SortOrder
     dueAt?: SortOrder
+    costCenterId?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -120594,6 +123468,7 @@ export namespace Prisma {
     status?: SortOrder
     issuedAt?: SortOrder
     dueAt?: SortOrder
+    costCenterId?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -120612,6 +123487,7 @@ export namespace Prisma {
     status?: SortOrder
     issuedAt?: SortOrder
     dueAt?: SortOrder
+    costCenterId?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -120926,6 +123802,87 @@ export namespace Prisma {
   export type NumberSequenceSumOrderByAggregateInput = {
     padding?: SortOrder
     nextValue?: SortOrder
+  }
+
+  export type CostCenterTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type CostCenterCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CostCenterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CostCenterMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CostCenterScalarRelationFilter = {
+    is?: CostCenterWhereInput
+    isNot?: CostCenterWhereInput
+  }
+
+  export type BudgetTenantIdCostCenterIdPeriodKeyCompoundUniqueInput = {
+    tenantId: string
+    costCenterId: string
+    periodKey: string
+  }
+
+  export type BudgetCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    costCenterId?: SortOrder
+    periodKey?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BudgetAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type BudgetMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    costCenterId?: SortOrder
+    periodKey?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BudgetMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    costCenterId?: SortOrder
+    periodKey?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BudgetSumOrderByAggregateInput = {
+    amount?: SortOrder
   }
 
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
@@ -121397,6 +124354,20 @@ export namespace Prisma {
     connect?: NumberSequenceWhereUniqueInput | NumberSequenceWhereUniqueInput[]
   }
 
+  export type CostCenterCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CostCenterCreateWithoutTenantInput, CostCenterUncheckedCreateWithoutTenantInput> | CostCenterCreateWithoutTenantInput[] | CostCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CostCenterCreateOrConnectWithoutTenantInput | CostCenterCreateOrConnectWithoutTenantInput[]
+    createMany?: CostCenterCreateManyTenantInputEnvelope
+    connect?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+  }
+
+  export type BudgetCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BudgetCreateWithoutTenantInput, BudgetUncheckedCreateWithoutTenantInput> | BudgetCreateWithoutTenantInput[] | BudgetUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutTenantInput | BudgetCreateOrConnectWithoutTenantInput[]
+    createMany?: BudgetCreateManyTenantInputEnvelope
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -121864,6 +124835,20 @@ export namespace Prisma {
     connectOrCreate?: NumberSequenceCreateOrConnectWithoutTenantInput | NumberSequenceCreateOrConnectWithoutTenantInput[]
     createMany?: NumberSequenceCreateManyTenantInputEnvelope
     connect?: NumberSequenceWhereUniqueInput | NumberSequenceWhereUniqueInput[]
+  }
+
+  export type CostCenterUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CostCenterCreateWithoutTenantInput, CostCenterUncheckedCreateWithoutTenantInput> | CostCenterCreateWithoutTenantInput[] | CostCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CostCenterCreateOrConnectWithoutTenantInput | CostCenterCreateOrConnectWithoutTenantInput[]
+    createMany?: CostCenterCreateManyTenantInputEnvelope
+    connect?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+  }
+
+  export type BudgetUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BudgetCreateWithoutTenantInput, BudgetUncheckedCreateWithoutTenantInput> | BudgetCreateWithoutTenantInput[] | BudgetUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutTenantInput | BudgetCreateOrConnectWithoutTenantInput[]
+    createMany?: BudgetCreateManyTenantInputEnvelope
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -122824,6 +125809,34 @@ export namespace Prisma {
     deleteMany?: NumberSequenceScalarWhereInput | NumberSequenceScalarWhereInput[]
   }
 
+  export type CostCenterUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CostCenterCreateWithoutTenantInput, CostCenterUncheckedCreateWithoutTenantInput> | CostCenterCreateWithoutTenantInput[] | CostCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CostCenterCreateOrConnectWithoutTenantInput | CostCenterCreateOrConnectWithoutTenantInput[]
+    upsert?: CostCenterUpsertWithWhereUniqueWithoutTenantInput | CostCenterUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CostCenterCreateManyTenantInputEnvelope
+    set?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    disconnect?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    delete?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    connect?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    update?: CostCenterUpdateWithWhereUniqueWithoutTenantInput | CostCenterUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CostCenterUpdateManyWithWhereWithoutTenantInput | CostCenterUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CostCenterScalarWhereInput | CostCenterScalarWhereInput[]
+  }
+
+  export type BudgetUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BudgetCreateWithoutTenantInput, BudgetUncheckedCreateWithoutTenantInput> | BudgetCreateWithoutTenantInput[] | BudgetUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutTenantInput | BudgetCreateOrConnectWithoutTenantInput[]
+    upsert?: BudgetUpsertWithWhereUniqueWithoutTenantInput | BudgetUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BudgetCreateManyTenantInputEnvelope
+    set?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    disconnect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    delete?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    update?: BudgetUpdateWithWhereUniqueWithoutTenantInput | BudgetUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BudgetUpdateManyWithWhereWithoutTenantInput | BudgetUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -123760,6 +126773,34 @@ export namespace Prisma {
     update?: NumberSequenceUpdateWithWhereUniqueWithoutTenantInput | NumberSequenceUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: NumberSequenceUpdateManyWithWhereWithoutTenantInput | NumberSequenceUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: NumberSequenceScalarWhereInput | NumberSequenceScalarWhereInput[]
+  }
+
+  export type CostCenterUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CostCenterCreateWithoutTenantInput, CostCenterUncheckedCreateWithoutTenantInput> | CostCenterCreateWithoutTenantInput[] | CostCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CostCenterCreateOrConnectWithoutTenantInput | CostCenterCreateOrConnectWithoutTenantInput[]
+    upsert?: CostCenterUpsertWithWhereUniqueWithoutTenantInput | CostCenterUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CostCenterCreateManyTenantInputEnvelope
+    set?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    disconnect?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    delete?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    connect?: CostCenterWhereUniqueInput | CostCenterWhereUniqueInput[]
+    update?: CostCenterUpdateWithWhereUniqueWithoutTenantInput | CostCenterUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CostCenterUpdateManyWithWhereWithoutTenantInput | CostCenterUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CostCenterScalarWhereInput | CostCenterScalarWhereInput[]
+  }
+
+  export type BudgetUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BudgetCreateWithoutTenantInput, BudgetUncheckedCreateWithoutTenantInput> | BudgetCreateWithoutTenantInput[] | BudgetUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutTenantInput | BudgetCreateOrConnectWithoutTenantInput[]
+    upsert?: BudgetUpsertWithWhereUniqueWithoutTenantInput | BudgetUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BudgetCreateManyTenantInputEnvelope
+    set?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    disconnect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    delete?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    update?: BudgetUpdateWithWhereUniqueWithoutTenantInput | BudgetUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BudgetUpdateManyWithWhereWithoutTenantInput | BudgetUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -126706,6 +129747,90 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutNumberSequencesInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutNumberSequencesInput, TenantUpdateWithoutNumberSequencesInput>, TenantUncheckedUpdateWithoutNumberSequencesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutCostCentersInput = {
+    create?: XOR<TenantCreateWithoutCostCentersInput, TenantUncheckedCreateWithoutCostCentersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCostCentersInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BudgetCreateNestedManyWithoutCostCenterInput = {
+    create?: XOR<BudgetCreateWithoutCostCenterInput, BudgetUncheckedCreateWithoutCostCenterInput> | BudgetCreateWithoutCostCenterInput[] | BudgetUncheckedCreateWithoutCostCenterInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutCostCenterInput | BudgetCreateOrConnectWithoutCostCenterInput[]
+    createMany?: BudgetCreateManyCostCenterInputEnvelope
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+  }
+
+  export type BudgetUncheckedCreateNestedManyWithoutCostCenterInput = {
+    create?: XOR<BudgetCreateWithoutCostCenterInput, BudgetUncheckedCreateWithoutCostCenterInput> | BudgetCreateWithoutCostCenterInput[] | BudgetUncheckedCreateWithoutCostCenterInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutCostCenterInput | BudgetCreateOrConnectWithoutCostCenterInput[]
+    createMany?: BudgetCreateManyCostCenterInputEnvelope
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutCostCentersNestedInput = {
+    create?: XOR<TenantCreateWithoutCostCentersInput, TenantUncheckedCreateWithoutCostCentersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCostCentersInput
+    upsert?: TenantUpsertWithoutCostCentersInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutCostCentersInput, TenantUpdateWithoutCostCentersInput>, TenantUncheckedUpdateWithoutCostCentersInput>
+  }
+
+  export type BudgetUpdateManyWithoutCostCenterNestedInput = {
+    create?: XOR<BudgetCreateWithoutCostCenterInput, BudgetUncheckedCreateWithoutCostCenterInput> | BudgetCreateWithoutCostCenterInput[] | BudgetUncheckedCreateWithoutCostCenterInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutCostCenterInput | BudgetCreateOrConnectWithoutCostCenterInput[]
+    upsert?: BudgetUpsertWithWhereUniqueWithoutCostCenterInput | BudgetUpsertWithWhereUniqueWithoutCostCenterInput[]
+    createMany?: BudgetCreateManyCostCenterInputEnvelope
+    set?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    disconnect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    delete?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    update?: BudgetUpdateWithWhereUniqueWithoutCostCenterInput | BudgetUpdateWithWhereUniqueWithoutCostCenterInput[]
+    updateMany?: BudgetUpdateManyWithWhereWithoutCostCenterInput | BudgetUpdateManyWithWhereWithoutCostCenterInput[]
+    deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+  }
+
+  export type BudgetUncheckedUpdateManyWithoutCostCenterNestedInput = {
+    create?: XOR<BudgetCreateWithoutCostCenterInput, BudgetUncheckedCreateWithoutCostCenterInput> | BudgetCreateWithoutCostCenterInput[] | BudgetUncheckedCreateWithoutCostCenterInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutCostCenterInput | BudgetCreateOrConnectWithoutCostCenterInput[]
+    upsert?: BudgetUpsertWithWhereUniqueWithoutCostCenterInput | BudgetUpsertWithWhereUniqueWithoutCostCenterInput[]
+    createMany?: BudgetCreateManyCostCenterInputEnvelope
+    set?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    disconnect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    delete?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    update?: BudgetUpdateWithWhereUniqueWithoutCostCenterInput | BudgetUpdateWithWhereUniqueWithoutCostCenterInput[]
+    updateMany?: BudgetUpdateManyWithWhereWithoutCostCenterInput | BudgetUpdateManyWithWhereWithoutCostCenterInput[]
+    deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutBudgetsInput = {
+    create?: XOR<TenantCreateWithoutBudgetsInput, TenantUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBudgetsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type CostCenterCreateNestedOneWithoutBudgetsInput = {
+    create?: XOR<CostCenterCreateWithoutBudgetsInput, CostCenterUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: CostCenterCreateOrConnectWithoutBudgetsInput
+    connect?: CostCenterWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutBudgetsNestedInput = {
+    create?: XOR<TenantCreateWithoutBudgetsInput, TenantUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBudgetsInput
+    upsert?: TenantUpsertWithoutBudgetsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutBudgetsInput, TenantUpdateWithoutBudgetsInput>, TenantUncheckedUpdateWithoutBudgetsInput>
+  }
+
+  export type CostCenterUpdateOneRequiredWithoutBudgetsNestedInput = {
+    create?: XOR<CostCenterCreateWithoutBudgetsInput, CostCenterUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: CostCenterCreateOrConnectWithoutBudgetsInput
+    upsert?: CostCenterUpsertWithoutBudgetsInput
+    connect?: CostCenterWhereUniqueInput
+    update?: XOR<XOR<CostCenterUpdateToOneWithWhereWithoutBudgetsInput, CostCenterUpdateWithoutBudgetsInput>, CostCenterUncheckedUpdateWithoutBudgetsInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -129788,6 +132913,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -129806,6 +132932,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -130001,6 +133128,62 @@ export namespace Prisma {
 
   export type NumberSequenceCreateManyTenantInputEnvelope = {
     data: NumberSequenceCreateManyTenantInput | NumberSequenceCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CostCenterCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    budgets?: BudgetCreateNestedManyWithoutCostCenterInput
+  }
+
+  export type CostCenterUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    budgets?: BudgetUncheckedCreateNestedManyWithoutCostCenterInput
+  }
+
+  export type CostCenterCreateOrConnectWithoutTenantInput = {
+    where: CostCenterWhereUniqueInput
+    create: XOR<CostCenterCreateWithoutTenantInput, CostCenterUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CostCenterCreateManyTenantInputEnvelope = {
+    data: CostCenterCreateManyTenantInput | CostCenterCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BudgetCreateWithoutTenantInput = {
+    id?: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+    costCenter: CostCenterCreateNestedOneWithoutBudgetsInput
+  }
+
+  export type BudgetUncheckedCreateWithoutTenantInput = {
+    id?: string
+    costCenterId: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+  }
+
+  export type BudgetCreateOrConnectWithoutTenantInput = {
+    where: BudgetWhereUniqueInput
+    create: XOR<BudgetCreateWithoutTenantInput, BudgetUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BudgetCreateManyTenantInputEnvelope = {
+    data: BudgetCreateManyTenantInput | BudgetCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -131904,6 +135087,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     issuedAt?: DateTimeFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    costCenterId?: UuidNullableFilter<"Invoice"> | string | null
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -132089,6 +135273,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"NumberSequence"> | Date | string
   }
 
+  export type CostCenterUpsertWithWhereUniqueWithoutTenantInput = {
+    where: CostCenterWhereUniqueInput
+    update: XOR<CostCenterUpdateWithoutTenantInput, CostCenterUncheckedUpdateWithoutTenantInput>
+    create: XOR<CostCenterCreateWithoutTenantInput, CostCenterUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CostCenterUpdateWithWhereUniqueWithoutTenantInput = {
+    where: CostCenterWhereUniqueInput
+    data: XOR<CostCenterUpdateWithoutTenantInput, CostCenterUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type CostCenterUpdateManyWithWhereWithoutTenantInput = {
+    where: CostCenterScalarWhereInput
+    data: XOR<CostCenterUpdateManyMutationInput, CostCenterUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type CostCenterScalarWhereInput = {
+    AND?: CostCenterScalarWhereInput | CostCenterScalarWhereInput[]
+    OR?: CostCenterScalarWhereInput[]
+    NOT?: CostCenterScalarWhereInput | CostCenterScalarWhereInput[]
+    id?: UuidFilter<"CostCenter"> | string
+    tenantId?: UuidFilter<"CostCenter"> | string
+    code?: StringFilter<"CostCenter"> | string
+    name?: StringFilter<"CostCenter"> | string
+    active?: BoolFilter<"CostCenter"> | boolean
+    createdAt?: DateTimeFilter<"CostCenter"> | Date | string
+  }
+
+  export type BudgetUpsertWithWhereUniqueWithoutTenantInput = {
+    where: BudgetWhereUniqueInput
+    update: XOR<BudgetUpdateWithoutTenantInput, BudgetUncheckedUpdateWithoutTenantInput>
+    create: XOR<BudgetCreateWithoutTenantInput, BudgetUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BudgetUpdateWithWhereUniqueWithoutTenantInput = {
+    where: BudgetWhereUniqueInput
+    data: XOR<BudgetUpdateWithoutTenantInput, BudgetUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type BudgetUpdateManyWithWhereWithoutTenantInput = {
+    where: BudgetScalarWhereInput
+    data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type BudgetScalarWhereInput = {
+    AND?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+    OR?: BudgetScalarWhereInput[]
+    NOT?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+    id?: UuidFilter<"Budget"> | string
+    tenantId?: UuidFilter<"Budget"> | string
+    costCenterId?: UuidFilter<"Budget"> | string
+    periodKey?: StringFilter<"Budget"> | string
+    amount?: DecimalFilter<"Budget"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Budget"> | string
+    updatedAt?: DateTimeFilter<"Budget"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -132163,6 +135404,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -132239,6 +135482,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -132331,6 +135576,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -132407,6 +135654,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -132483,6 +135732,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -132559,6 +135810,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -132685,6 +135938,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -132761,6 +136016,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -132853,6 +136110,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -132929,6 +136188,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -133159,6 +136420,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -133235,6 +136498,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -133423,6 +136688,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -133499,6 +136766,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -133620,6 +136889,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -133696,6 +136967,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -133807,6 +137080,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -133883,6 +137158,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -134004,6 +137281,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -134080,6 +137359,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -134191,6 +137472,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -134267,6 +137550,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -134387,6 +137672,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -134463,6 +137750,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -134555,6 +137844,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -134631,6 +137922,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -134773,6 +138066,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -134849,6 +138144,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -135023,6 +138320,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -135099,6 +138398,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -135243,6 +138544,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -135319,6 +138622,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -135459,6 +138764,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -135535,6 +138842,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -135627,6 +138936,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -135703,6 +139014,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -135779,6 +139092,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -135855,6 +139170,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -135947,6 +139264,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -136023,6 +139342,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -136099,6 +139420,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -136175,6 +139498,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -136267,6 +139592,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -136343,6 +139670,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -136419,6 +139748,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -136495,6 +139826,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -136587,6 +139920,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -136663,6 +139998,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -136739,6 +140076,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -136815,6 +140154,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -136907,6 +140248,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -136983,6 +140326,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -137059,6 +140404,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -137135,6 +140482,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -137227,6 +140576,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -137303,6 +140654,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -137379,6 +140732,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -137455,6 +140810,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -137547,6 +140904,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -137623,6 +140982,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -137699,6 +141060,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -137775,6 +141138,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -137929,6 +141294,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -138005,6 +141372,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -138339,6 +141708,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -138415,6 +141786,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -138535,6 +141908,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -138611,6 +141986,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -138760,6 +142137,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -138836,6 +142215,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -138928,6 +142309,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -139004,6 +142387,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -139080,6 +142465,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -139156,6 +142543,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -139248,6 +142637,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -139324,6 +142715,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -139400,6 +142793,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -139476,6 +142871,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -139594,6 +142991,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -139670,6 +143069,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -139818,6 +143219,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -139894,6 +143297,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -140087,6 +143492,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -140163,6 +143570,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -140400,6 +143809,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -140476,6 +143887,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -140604,6 +144017,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -140680,6 +144095,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -141091,6 +144508,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -141167,6 +144586,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -141281,6 +144702,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -141357,6 +144780,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -141503,6 +144928,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -141579,6 +145006,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -141671,6 +145100,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -141747,6 +145178,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -141823,6 +145256,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -141899,6 +145334,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -141991,6 +145428,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -142067,6 +145506,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -142143,6 +145584,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -142219,6 +145662,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -142311,6 +145756,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -142387,6 +145834,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -142463,6 +145912,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -142539,6 +145990,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -142631,6 +146084,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -142707,6 +146162,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -142783,6 +146240,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -142859,6 +146318,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -142977,6 +146438,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -143053,6 +146516,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -143145,6 +146610,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -143221,6 +146688,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -143346,6 +146815,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -143422,6 +146893,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -143537,6 +147010,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -143613,6 +147088,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -143705,6 +147182,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -143781,6 +147260,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -143857,6 +147338,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -143933,6 +147416,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -144025,6 +147510,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -144101,6 +147588,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -144177,6 +147666,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -144253,6 +147744,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -144345,6 +147838,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -144421,6 +147916,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -144497,6 +147994,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -144573,6 +148072,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -144665,6 +148166,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -144741,6 +148244,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -144817,6 +148322,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -144893,6 +148400,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -145011,6 +148520,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -145087,6 +148598,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -145179,6 +148692,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -145255,6 +148770,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -145378,6 +148895,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -145454,6 +148973,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -145567,6 +149088,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -145643,6 +149166,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -145769,6 +149294,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -145845,6 +149372,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -145937,6 +149466,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -146013,6 +149544,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -146152,6 +149685,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -146228,6 +149763,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -146357,6 +149894,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -146433,6 +149972,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -146559,6 +150100,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -146635,6 +150178,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -146727,6 +150272,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -146803,6 +150350,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -146932,6 +150481,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -147008,6 +150559,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -147127,6 +150680,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -147203,6 +150758,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -147295,6 +150852,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -147371,6 +150930,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -147447,6 +151008,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -147523,6 +151086,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -147615,6 +151180,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -147691,6 +151258,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -147767,6 +151336,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -147843,6 +151414,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -147965,6 +151538,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -148041,6 +151616,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -148133,6 +151710,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -148209,6 +151788,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -148334,6 +151915,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -148410,6 +151993,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -148525,6 +152110,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -148601,6 +152188,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -148725,6 +152314,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -148801,6 +152392,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -148893,6 +152486,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -148969,6 +152564,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -149098,6 +152695,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -149174,6 +152773,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -149293,6 +152894,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -149369,6 +152972,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -149491,6 +153096,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -149567,6 +153174,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -149659,6 +153268,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -149735,6 +153346,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -149858,6 +153471,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -149934,6 +153549,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -150047,6 +153664,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -150123,6 +153742,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -150247,6 +153868,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -150323,6 +153946,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -150415,6 +154040,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -150491,6 +154118,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -150610,6 +154239,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -150686,6 +154317,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -150795,6 +154428,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -150871,6 +154506,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -150963,6 +154600,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -151039,6 +154678,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -151115,6 +154756,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -151191,6 +154834,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -151283,6 +154928,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -151359,6 +155006,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -151435,6 +155084,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -151511,6 +155162,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -151633,6 +155286,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -151709,6 +155364,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -151801,6 +155458,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -151877,6 +155536,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -151994,6 +155655,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -152070,6 +155733,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -152177,6 +155842,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -152253,6 +155920,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -152377,6 +156046,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -152453,6 +156124,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -152545,6 +156218,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -152621,6 +156296,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -152756,6 +156433,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -152832,6 +156511,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -152957,6 +156638,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -153033,6 +156716,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -153151,6 +156836,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -153227,6 +156914,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -153319,6 +157008,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -153395,6 +157086,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -153514,6 +157207,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -153590,6 +157285,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -153699,6 +157396,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -153775,6 +157474,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -153897,6 +157598,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -153973,6 +157676,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -154065,6 +157770,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -154141,6 +157848,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -154268,6 +157977,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -154344,6 +158055,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -154461,6 +158174,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -154537,6 +158252,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -154629,6 +158346,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -154705,6 +158424,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -154781,6 +158502,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -154857,6 +158580,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -154981,6 +158706,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -155057,6 +158784,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -155149,6 +158878,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -155225,6 +158956,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -155244,6 +158977,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -155263,6 +158997,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -155358,6 +159093,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -155434,6 +159171,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -155459,6 +159198,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -155478,6 +159218,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -155557,6 +159298,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -155633,6 +159376,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -155725,6 +159470,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -155801,6 +159548,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -155877,6 +159626,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -155953,6 +159704,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -156045,6 +159798,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -156121,6 +159876,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -156197,6 +159954,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -156273,6 +160032,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -156382,6 +160143,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -156458,6 +160221,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -156557,6 +160322,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutTenantInput
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -156633,6 +160400,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -156756,6 +160525,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutTenantNestedInput
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -156832,6 +160603,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -156945,6 +160718,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutTenantInput
     attachments?: AttachmentCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -157021,6 +160796,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
     attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -157113,6 +160890,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutTenantNestedInput
     attachments?: AttachmentUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -157189,6 +160968,760 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
     attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutCostCentersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutCostCentersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutCostCentersInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutCostCentersInput, TenantUncheckedCreateWithoutCostCentersInput>
+  }
+
+  export type BudgetCreateWithoutCostCenterInput = {
+    id?: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBudgetsInput
+  }
+
+  export type BudgetUncheckedCreateWithoutCostCenterInput = {
+    id?: string
+    tenantId: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+  }
+
+  export type BudgetCreateOrConnectWithoutCostCenterInput = {
+    where: BudgetWhereUniqueInput
+    create: XOR<BudgetCreateWithoutCostCenterInput, BudgetUncheckedCreateWithoutCostCenterInput>
+  }
+
+  export type BudgetCreateManyCostCenterInputEnvelope = {
+    data: BudgetCreateManyCostCenterInput | BudgetCreateManyCostCenterInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutCostCentersInput = {
+    update: XOR<TenantUpdateWithoutCostCentersInput, TenantUncheckedUpdateWithoutCostCentersInput>
+    create: XOR<TenantCreateWithoutCostCentersInput, TenantUncheckedCreateWithoutCostCentersInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutCostCentersInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutCostCentersInput, TenantUncheckedUpdateWithoutCostCentersInput>
+  }
+
+  export type TenantUpdateWithoutCostCentersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutCostCentersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
+    where: BudgetWhereUniqueInput
+    update: XOR<BudgetUpdateWithoutCostCenterInput, BudgetUncheckedUpdateWithoutCostCenterInput>
+    create: XOR<BudgetCreateWithoutCostCenterInput, BudgetUncheckedCreateWithoutCostCenterInput>
+  }
+
+  export type BudgetUpdateWithWhereUniqueWithoutCostCenterInput = {
+    where: BudgetWhereUniqueInput
+    data: XOR<BudgetUpdateWithoutCostCenterInput, BudgetUncheckedUpdateWithoutCostCenterInput>
+  }
+
+  export type BudgetUpdateManyWithWhereWithoutCostCenterInput = {
+    where: BudgetScalarWhereInput
+    data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyWithoutCostCenterInput>
+  }
+
+  export type TenantCreateWithoutBudgetsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBudgetsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBudgetsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBudgetsInput, TenantUncheckedCreateWithoutBudgetsInput>
+  }
+
+  export type CostCenterCreateWithoutBudgetsInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCostCentersInput
+  }
+
+  export type CostCenterUncheckedCreateWithoutBudgetsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CostCenterCreateOrConnectWithoutBudgetsInput = {
+    where: CostCenterWhereUniqueInput
+    create: XOR<CostCenterCreateWithoutBudgetsInput, CostCenterUncheckedCreateWithoutBudgetsInput>
+  }
+
+  export type TenantUpsertWithoutBudgetsInput = {
+    update: XOR<TenantUpdateWithoutBudgetsInput, TenantUncheckedUpdateWithoutBudgetsInput>
+    create: XOR<TenantCreateWithoutBudgetsInput, TenantUncheckedCreateWithoutBudgetsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutBudgetsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutBudgetsInput, TenantUncheckedUpdateWithoutBudgetsInput>
+  }
+
+  export type TenantUpdateWithoutBudgetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBudgetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type CostCenterUpsertWithoutBudgetsInput = {
+    update: XOR<CostCenterUpdateWithoutBudgetsInput, CostCenterUncheckedUpdateWithoutBudgetsInput>
+    create: XOR<CostCenterCreateWithoutBudgetsInput, CostCenterUncheckedCreateWithoutBudgetsInput>
+    where?: CostCenterWhereInput
+  }
+
+  export type CostCenterUpdateToOneWithWhereWithoutBudgetsInput = {
+    where?: CostCenterWhereInput
+    data: XOR<CostCenterUpdateWithoutBudgetsInput, CostCenterUncheckedUpdateWithoutBudgetsInput>
+  }
+
+  export type CostCenterUpdateWithoutBudgetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCostCentersNestedInput
+  }
+
+  export type CostCenterUncheckedUpdateWithoutBudgetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -157871,6 +162404,7 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     issuedAt?: Date | string
     dueAt?: Date | string | null
+    costCenterId?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -157933,6 +162467,23 @@ export namespace Prisma {
     prefix?: string
     padding?: number
     nextValue?: number
+    updatedAt?: Date | string
+  }
+
+  export type CostCenterCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type BudgetCreateManyTenantInput = {
+    id?: string
+    costCenterId: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
     updatedAt?: Date | string
   }
 
@@ -160006,6 +164557,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -160024,6 +164576,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -160042,6 +164595,7 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -160226,6 +164780,59 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     padding?: IntFieldUpdateOperationsInput | number
     nextValue?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostCenterUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    budgets?: BudgetUpdateManyWithoutCostCenterNestedInput
+  }
+
+  export type CostCenterUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    budgets?: BudgetUncheckedUpdateManyWithoutCostCenterNestedInput
+  }
+
+  export type CostCenterUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BudgetUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    costCenter?: CostCenterUpdateOneRequiredWithoutBudgetsNestedInput
+  }
+
+  export type BudgetUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costCenterId?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BudgetUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costCenterId?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -161421,6 +166028,42 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BudgetCreateManyCostCenterInput = {
+    id?: string
+    tenantId: string
+    periodKey: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    updatedAt?: Date | string
+  }
+
+  export type BudgetUpdateWithoutCostCenterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBudgetsNestedInput
+  }
+
+  export type BudgetUncheckedUpdateWithoutCostCenterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BudgetUncheckedUpdateManyWithoutCostCenterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -966,6 +966,7 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   status: 'status',
   issuedAt: 'issuedAt',
   dueAt: 'dueAt',
+  costCenterId: 'costCenterId',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1034,6 +1035,25 @@ exports.Prisma.NumberSequenceScalarFieldEnum = {
   prefix: 'prefix',
   padding: 'padding',
   nextValue: 'nextValue',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CostCenterScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  active: 'active',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BudgetScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  costCenterId: 'costCenterId',
+  periodKey: 'periodKey',
+  amount: 'amount',
+  currency: 'currency',
   updatedAt: 'updatedAt'
 };
 
@@ -1414,7 +1434,9 @@ exports.Prisma.ModelName = {
   Comment: 'Comment',
   Attachment: 'Attachment',
   AttachmentBlob: 'AttachmentBlob',
-  NumberSequence: 'NumberSequence'
+  NumberSequence: 'NumberSequence',
+  CostCenter: 'CostCenter',
+  Budget: 'Budget'
 };
 
 /**

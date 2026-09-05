@@ -107,6 +107,8 @@ model Tenant {
   attachments           Attachment[]
   attachmentBlobs       AttachmentBlob[]
   numberSequences       NumberSequence[]
+  costCenters           CostCenter[]
+  budgets               Budget[]
 
   @@map("tenant")
 }
@@ -1782,6 +1784,8 @@ model Invoice {
   status        InvoiceStatus @default(OPEN)
   issuedAt      DateTime      @default(now()) @map("issued_at")
   dueAt         DateTime?     @map("due_at")
+  /// Sprint 019 (FIN-016): actual spend/revenue attribution.
+  costCenterId  String?       @map("cost_center_id") @db.Uuid
   createdBy     String?       @map("created_by")
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
@@ -1918,4 +1922,44 @@ model NumberSequence {
 
   @@unique([tenantId, sequenceKey])
   @@map("number_sequence")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 019 — Financial depth: cost centers (FIN-016), budgets
+// (FIN-008) and the invoice cost-center link that ties actual spend to
+// them. Aging and cash flow are read models over invoices/payments.
+// ---------------------------------------------------------------------------
+
+model CostCenter {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  code      String
+  name      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant  Tenant   @relation(fields: [tenantId], references: [id])
+  budgets Budget[]
+
+  @@unique([tenantId, code])
+  @@map("cost_center")
+}
+
+/// Budget per cost center and period (FIN-008). periodKey is
+/// 'YYYY' or 'YYYY-MM'; actuals aggregate supplier invoices linked to
+/// the cost center inside the period.
+model Budget {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  costCenterId String   @map("cost_center_id") @db.Uuid
+  periodKey    String   @map("period_key")
+  amount       Decimal  @db.Decimal(18, 2)
+  currency     String   @db.Char(3)
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id])
+  costCenter CostCenter @relation(fields: [costCenterId], references: [id])
+
+  @@unique([tenantId, costCenterId, periodKey])
+  @@map("budget")
 }
