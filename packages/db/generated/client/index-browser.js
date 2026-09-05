@@ -194,6 +194,8 @@ exports.Prisma.UserCredentialScalarFieldEnum = {
   userId: 'userId',
   passwordHash: 'passwordHash',
   mustChangePassword: 'mustChangePassword',
+  totpSecret: 'totpSecret',
+  mfaEnabled: 'mfaEnabled',
   failedAttempts: 'failedAttempts',
   lockedUntil: 'lockedUntil',
   createdAt: 'createdAt',

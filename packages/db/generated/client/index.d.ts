@@ -22212,6 +22212,8 @@ export namespace Prisma {
     userId: string | null
     passwordHash: string | null
     mustChangePassword: boolean | null
+    totpSecret: string | null
+    mfaEnabled: boolean | null
     failedAttempts: number | null
     lockedUntil: Date | null
     createdAt: Date | null
@@ -22224,6 +22226,8 @@ export namespace Prisma {
     userId: string | null
     passwordHash: string | null
     mustChangePassword: boolean | null
+    totpSecret: string | null
+    mfaEnabled: boolean | null
     failedAttempts: number | null
     lockedUntil: Date | null
     createdAt: Date | null
@@ -22236,6 +22240,8 @@ export namespace Prisma {
     userId: number
     passwordHash: number
     mustChangePassword: number
+    totpSecret: number
+    mfaEnabled: number
     failedAttempts: number
     lockedUntil: number
     createdAt: number
@@ -22258,6 +22264,8 @@ export namespace Prisma {
     userId?: true
     passwordHash?: true
     mustChangePassword?: true
+    totpSecret?: true
+    mfaEnabled?: true
     failedAttempts?: true
     lockedUntil?: true
     createdAt?: true
@@ -22270,6 +22278,8 @@ export namespace Prisma {
     userId?: true
     passwordHash?: true
     mustChangePassword?: true
+    totpSecret?: true
+    mfaEnabled?: true
     failedAttempts?: true
     lockedUntil?: true
     createdAt?: true
@@ -22282,6 +22292,8 @@ export namespace Prisma {
     userId?: true
     passwordHash?: true
     mustChangePassword?: true
+    totpSecret?: true
+    mfaEnabled?: true
     failedAttempts?: true
     lockedUntil?: true
     createdAt?: true
@@ -22381,6 +22393,8 @@ export namespace Prisma {
     userId: string
     passwordHash: string
     mustChangePassword: boolean
+    totpSecret: string | null
+    mfaEnabled: boolean
     failedAttempts: number
     lockedUntil: Date | null
     createdAt: Date
@@ -22412,6 +22426,8 @@ export namespace Prisma {
     userId?: boolean
     passwordHash?: boolean
     mustChangePassword?: boolean
+    totpSecret?: boolean
+    mfaEnabled?: boolean
     failedAttempts?: boolean
     lockedUntil?: boolean
     createdAt?: boolean
@@ -22426,6 +22442,8 @@ export namespace Prisma {
     userId?: boolean
     passwordHash?: boolean
     mustChangePassword?: boolean
+    totpSecret?: boolean
+    mfaEnabled?: boolean
     failedAttempts?: boolean
     lockedUntil?: boolean
     createdAt?: boolean
@@ -22440,6 +22458,8 @@ export namespace Prisma {
     userId?: boolean
     passwordHash?: boolean
     mustChangePassword?: boolean
+    totpSecret?: boolean
+    mfaEnabled?: boolean
     failedAttempts?: boolean
     lockedUntil?: boolean
     createdAt?: boolean
@@ -22454,13 +22474,15 @@ export namespace Prisma {
     userId?: boolean
     passwordHash?: boolean
     mustChangePassword?: boolean
+    totpSecret?: boolean
+    mfaEnabled?: boolean
     failedAttempts?: boolean
     lockedUntil?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserCredentialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "userId" | "passwordHash" | "mustChangePassword" | "failedAttempts" | "lockedUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["userCredential"]>
+  export type UserCredentialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "userId" | "passwordHash" | "mustChangePassword" | "totpSecret" | "mfaEnabled" | "failedAttempts" | "lockedUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["userCredential"]>
   export type UserCredentialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -22486,6 +22508,12 @@ export namespace Prisma {
       userId: string
       passwordHash: string
       mustChangePassword: boolean
+      /**
+       * Sprint 044 (MFA): TOTP secret (base32) — set at enrollment, armed by
+       * mfaEnabled once the first code verifies.
+       */
+      totpSecret: string | null
+      mfaEnabled: boolean
       failedAttempts: number
       lockedUntil: Date | null
       createdAt: Date
@@ -22920,6 +22948,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"UserCredential", 'String'>
     readonly passwordHash: FieldRef<"UserCredential", 'String'>
     readonly mustChangePassword: FieldRef<"UserCredential", 'Boolean'>
+    readonly totpSecret: FieldRef<"UserCredential", 'String'>
+    readonly mfaEnabled: FieldRef<"UserCredential", 'Boolean'>
     readonly failedAttempts: FieldRef<"UserCredential", 'Int'>
     readonly lockedUntil: FieldRef<"UserCredential", 'DateTime'>
     readonly createdAt: FieldRef<"UserCredential", 'DateTime'>
@@ -123927,6 +123957,8 @@ export namespace Prisma {
     userId: 'userId',
     passwordHash: 'passwordHash',
     mustChangePassword: 'mustChangePassword',
+    totpSecret: 'totpSecret',
+    mfaEnabled: 'mfaEnabled',
     failedAttempts: 'failedAttempts',
     lockedUntil: 'lockedUntil',
     createdAt: 'createdAt',
@@ -126780,6 +126812,8 @@ export namespace Prisma {
     userId?: UuidFilter<"UserCredential"> | string
     passwordHash?: StringFilter<"UserCredential"> | string
     mustChangePassword?: BoolFilter<"UserCredential"> | boolean
+    totpSecret?: StringNullableFilter<"UserCredential"> | string | null
+    mfaEnabled?: BoolFilter<"UserCredential"> | boolean
     failedAttempts?: IntFilter<"UserCredential"> | number
     lockedUntil?: DateTimeNullableFilter<"UserCredential"> | Date | string | null
     createdAt?: DateTimeFilter<"UserCredential"> | Date | string
@@ -126794,6 +126828,8 @@ export namespace Prisma {
     userId?: SortOrder
     passwordHash?: SortOrder
     mustChangePassword?: SortOrder
+    totpSecret?: SortOrderInput | SortOrder
+    mfaEnabled?: SortOrder
     failedAttempts?: SortOrder
     lockedUntil?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -126811,6 +126847,8 @@ export namespace Prisma {
     tenantId?: UuidFilter<"UserCredential"> | string
     passwordHash?: StringFilter<"UserCredential"> | string
     mustChangePassword?: BoolFilter<"UserCredential"> | boolean
+    totpSecret?: StringNullableFilter<"UserCredential"> | string | null
+    mfaEnabled?: BoolFilter<"UserCredential"> | boolean
     failedAttempts?: IntFilter<"UserCredential"> | number
     lockedUntil?: DateTimeNullableFilter<"UserCredential"> | Date | string | null
     createdAt?: DateTimeFilter<"UserCredential"> | Date | string
@@ -126825,6 +126863,8 @@ export namespace Prisma {
     userId?: SortOrder
     passwordHash?: SortOrder
     mustChangePassword?: SortOrder
+    totpSecret?: SortOrderInput | SortOrder
+    mfaEnabled?: SortOrder
     failedAttempts?: SortOrder
     lockedUntil?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -126845,6 +126885,8 @@ export namespace Prisma {
     userId?: UuidWithAggregatesFilter<"UserCredential"> | string
     passwordHash?: StringWithAggregatesFilter<"UserCredential"> | string
     mustChangePassword?: BoolWithAggregatesFilter<"UserCredential"> | boolean
+    totpSecret?: StringNullableWithAggregatesFilter<"UserCredential"> | string | null
+    mfaEnabled?: BoolWithAggregatesFilter<"UserCredential"> | boolean
     failedAttempts?: IntWithAggregatesFilter<"UserCredential"> | number
     lockedUntil?: DateTimeNullableWithAggregatesFilter<"UserCredential"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"UserCredential"> | Date | string
@@ -134568,6 +134610,8 @@ export namespace Prisma {
     id?: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -134582,6 +134626,8 @@ export namespace Prisma {
     userId: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -134592,6 +134638,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -134606,6 +134654,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -134618,6 +134668,8 @@ export namespace Prisma {
     userId: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -134628,6 +134680,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -134640,6 +134694,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -143415,6 +143471,8 @@ export namespace Prisma {
     userId?: SortOrder
     passwordHash?: SortOrder
     mustChangePassword?: SortOrder
+    totpSecret?: SortOrder
+    mfaEnabled?: SortOrder
     failedAttempts?: SortOrder
     lockedUntil?: SortOrder
     createdAt?: SortOrder
@@ -143431,6 +143489,8 @@ export namespace Prisma {
     userId?: SortOrder
     passwordHash?: SortOrder
     mustChangePassword?: SortOrder
+    totpSecret?: SortOrder
+    mfaEnabled?: SortOrder
     failedAttempts?: SortOrder
     lockedUntil?: SortOrder
     createdAt?: SortOrder
@@ -143443,6 +143503,8 @@ export namespace Prisma {
     userId?: SortOrder
     passwordHash?: SortOrder
     mustChangePassword?: SortOrder
+    totpSecret?: SortOrder
+    mfaEnabled?: SortOrder
     failedAttempts?: SortOrder
     lockedUntil?: SortOrder
     createdAt?: SortOrder
@@ -159571,6 +159633,8 @@ export namespace Prisma {
     id?: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -159583,6 +159647,8 @@ export namespace Prisma {
     userId: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -162228,6 +162294,8 @@ export namespace Prisma {
     userId?: UuidFilter<"UserCredential"> | string
     passwordHash?: StringFilter<"UserCredential"> | string
     mustChangePassword?: BoolFilter<"UserCredential"> | boolean
+    totpSecret?: StringNullableFilter<"UserCredential"> | string | null
+    mfaEnabled?: BoolFilter<"UserCredential"> | boolean
     failedAttempts?: IntFilter<"UserCredential"> | number
     lockedUntil?: DateTimeNullableFilter<"UserCredential"> | Date | string | null
     createdAt?: DateTimeFilter<"UserCredential"> | Date | string
@@ -164967,6 +165035,8 @@ export namespace Prisma {
     id?: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -164979,6 +165049,8 @@ export namespace Prisma {
     tenantId: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -165220,6 +165292,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -165232,6 +165306,8 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -201180,6 +201256,8 @@ export namespace Prisma {
     userId: string
     passwordHash: string
     mustChangePassword?: boolean
+    totpSecret?: string | null
+    mfaEnabled?: boolean
     failedAttempts?: number
     lockedUntil?: Date | string | null
     createdAt?: Date | string
@@ -203954,6 +204032,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -203966,6 +204046,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -203977,6 +204059,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     failedAttempts?: IntFieldUpdateOperationsInput | number
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

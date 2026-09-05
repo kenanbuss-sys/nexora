@@ -251,6 +251,10 @@ model UserCredential {
   userId             String    @unique @map("user_id") @db.Uuid
   passwordHash       String    @map("password_hash")
   mustChangePassword Boolean   @default(true) @map("must_change_password")
+  /// Sprint 044 (MFA): TOTP secret (base32) — set at enrollment, armed by
+  /// mfaEnabled once the first code verifies.
+  totpSecret         String?   @map("totp_secret")
+  mfaEnabled         Boolean   @default(false) @map("mfa_enabled")
   failedAttempts     Int       @default(0) @map("failed_attempts")
   lockedUntil        DateTime? @map("locked_until")
   createdAt          DateTime  @default(now()) @map("created_at")
