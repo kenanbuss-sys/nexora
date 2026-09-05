@@ -1083,6 +1083,28 @@ exports.Prisma.WebhookDeliveryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ApiKeyScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  prefix: 'prefix',
+  keyHash: 'keyHash',
+  permissions: 'permissions',
+  active: 'active',
+  lastUsedAt: 'lastUsedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SecurityEventScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  eventType: 'eventType',
+  subject: 'subject',
+  detail: 'detail',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1471,7 +1493,9 @@ exports.Prisma.ModelName = {
   CostCenter: 'CostCenter',
   Budget: 'Budget',
   WebhookSubscription: 'WebhookSubscription',
-  WebhookDelivery: 'WebhookDelivery'
+  WebhookDelivery: 'WebhookDelivery',
+  ApiKey: 'ApiKey',
+  SecurityEvent: 'SecurityEvent'
 };
 
 /**
