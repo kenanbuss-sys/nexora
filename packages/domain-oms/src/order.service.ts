@@ -28,6 +28,7 @@ export interface OrderLineView {
   unitPrice: string;
   lineTotal: string;
   reservationId: string | null;
+  backordered: boolean;
 }
 
 export interface OrderView {
@@ -116,6 +117,7 @@ function toView(order: {
     unitPrice: { toString(): string };
     lineTotal: { toString(): string };
     reservationId: string | null;
+    backordered: boolean;
   }>;
 }): OrderView {
   return {
@@ -133,6 +135,7 @@ function toView(order: {
       id: l.id,
       skuId: l.skuId,
       description: l.description,
+      backordered: l.backordered,
       quantity: l.quantity.toString(),
       unitPrice: l.unitPrice.toString(),
       lineTotal: l.lineTotal.toString(),
@@ -378,7 +381,11 @@ export class OrderService {
    * already-created reservations are released (compensation) and the
    * order stays DRAFT.
    */
-  async confirmOrder(orderId: string, ctx: RequestContext): Promise<OrderView> {
+  async confirmOrder(
+    orderId: string,
+    ctx: RequestContext,
+    options?: { allowBackorder?: boolean | undefined },
+  ): Promise<OrderView> {
     const order = await this.prisma.salesOrder.findFirst({
       where: { id: orderId, tenantId: ctx.tenantId },
       include: { lines: true },
@@ -411,20 +418,31 @@ export class OrderService {
       }
     }
 
-    // Reserve stock line by line; compensate on partial failure (OMS-010).
+    // Reserve stock line by line; compensate on partial failure
+    // (OMS-010). With allowBackorder, a line that cannot reserve is
+    // confirmed as backordered instead of failing the order (OMS-006).
     const reserved: Array<{ lineId: string; reservationId: string }> = [];
+    const backordered: string[] = [];
     try {
       for (const line of order.lines) {
-        const { reservationId } = await this.stock.reserveStock(
-          {
-            warehouseId: order.warehouseId,
-            skuId: line.skuId,
-            quantity: Number(line.quantity),
-            reference: `order:${order.orderNumber}`,
-          },
-          ctx,
-        );
-        reserved.push({ lineId: line.id, reservationId });
+        try {
+          const { reservationId } = await this.stock.reserveStock(
+            {
+              warehouseId: order.warehouseId,
+              skuId: line.skuId,
+              quantity: Number(line.quantity),
+              reference: `order:${order.orderNumber}`,
+            },
+            ctx,
+          );
+          reserved.push({ lineId: line.id, reservationId });
+        } catch (lineError) {
+          if (options?.allowBackorder) {
+            backordered.push(line.id);
+          } else {
+            throw lineError;
+          }
+        }
       }
     } catch (error) {
       for (const r of reserved.reverse()) {
@@ -459,15 +477,35 @@ export class OrderService {
           data: { reservationId: r.reservationId },
         });
       }
+      for (const lineId of backordered) {
+        await tx.salesOrderLine.updateMany({
+          where: { id: lineId, tenantId: ctx.tenantId },
+          data: { backordered: true },
+        });
+      }
       await tx.orderEvent.create({
         data: {
           tenantId: ctx.tenantId,
           orderId: order.id,
           eventType: EVENT_TYPES.ORDER_CONFIRMED,
-          note: `${reserved.length} line(s) reserved`,
+          note:
+            backordered.length > 0
+              ? `${reserved.length} line(s) reserved, ${backordered.length} backordered`
+              : `${reserved.length} line(s) reserved`,
           createdBy: ctx.userId ?? null,
         },
       });
+      if (backordered.length > 0) {
+        await publishToOutbox(tx, {
+          tenantId: ctx.tenantId,
+          eventType: EVENT_TYPES.BACKORDER_CREATED,
+          aggregateType: 'SalesOrder',
+          aggregateId: order.id,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          payload: { orderId: order.id, lineIds: backordered },
+        });
+      }
       await writeAudit(tx, {
         tenantId: ctx.tenantId,
         actorType: ctx.actorType,
@@ -572,6 +610,12 @@ export class OrderService {
     if (order.status !== 'CONFIRMED') {
       throw new DomainError('INVALID_STATE', 'Only confirmed orders can be fulfilled');
     }
+    if (order.lines.some((l) => l.backordered)) {
+      throw new DomainError(
+        'INVALID_STATE',
+        'Backordered lines must be released before fulfillment',
+      );
+    }
 
     for (const line of order.lines) {
       if (line.reservationId) {
@@ -603,6 +647,129 @@ export class OrderService {
       order.id,
       EVENT_TYPES.ORDER_FULFILLMENT_PLANNED,
       `${order.lines.length} line(s) issued`,
+      ctx,
+    );
+    return this.getOrder(order.id, ctx);
+  }
+
+  /**
+   * Retries reservation for backordered lines once stock arrives
+   * (OMS-006). Idempotent per call: lines that reserve flip to normal;
+   * the rest stay backordered.
+   */
+  async releaseBackorders(
+    orderId: string,
+    ctx: RequestContext,
+  ): Promise<{ released: number; remaining: number }> {
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('SalesOrder', orderId);
+    if (order.status !== 'CONFIRMED') {
+      throw new DomainError('INVALID_STATE', 'Only confirmed orders carry backorders');
+    }
+    let released = 0;
+    let remaining = 0;
+    for (const line of order.lines.filter((l) => l.backordered)) {
+      try {
+        const { reservationId } = await this.stock.reserveStock(
+          {
+            warehouseId: order.warehouseId,
+            skuId: line.skuId,
+            quantity: Number(line.quantity),
+            reference: `order:${order.orderNumber}`,
+          },
+          ctx,
+        );
+        await this.prisma.salesOrderLine.updateMany({
+          where: { id: line.id, tenantId: ctx.tenantId, backordered: true },
+          data: { reservationId, backordered: false },
+        });
+        released += 1;
+      } catch {
+        remaining += 1;
+      }
+    }
+    if (released > 0) {
+      await this.recordTransition(
+        order.id,
+        EVENT_TYPES.BACKORDER_RELEASED,
+        `${released} backordered line(s) reserved`,
+        ctx,
+      );
+    }
+    return { released, remaining };
+  }
+
+  /**
+   * Amends a line quantity on a draft or confirmed order (OMS-009).
+   * On confirmed orders the new quantity is reserved before the old
+   * reservation is released, and increases pass the credit gate.
+   */
+  async amendLine(
+    orderId: string,
+    lineId: string,
+    input: { quantity: number },
+    ctx: RequestContext,
+  ): Promise<OrderView> {
+    if (!(input.quantity > 0)) {
+      throw new DomainError('VALIDATION_FAILED', 'Quantity must be positive');
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('SalesOrder', orderId);
+    if (order.status !== 'DRAFT' && order.status !== 'CONFIRMED') {
+      throw new DomainError('INVALID_STATE', `A ${order.status} order cannot be amended`);
+    }
+    const line = order.lines.find((l) => l.id === lineId);
+    if (!line) throw notFound('SalesOrderLine', lineId);
+    const oldQuantity = Number(line.quantity);
+    if (Math.abs(oldQuantity - input.quantity) < 1e-9) {
+      return this.getOrder(order.id, ctx);
+    }
+    const unitPrice = Number(line.unitPrice);
+    const delta = Math.round((input.quantity - oldQuantity) * unitPrice * 100) / 100;
+    if (order.status === 'CONFIRMED' && delta > 0 && this.credit) {
+      const verdict = await this.credit.checkCredit(ctx.tenantId, order.accountId, delta);
+      if (!verdict.allowed) {
+        throw new DomainError('INVALID_STATE', verdict.reason ?? 'Credit check failed');
+      }
+    }
+
+    let newReservationId: string | null = line.reservationId;
+    if (order.status === 'CONFIRMED' && !line.backordered) {
+      const { reservationId } = await this.stock.reserveStock(
+        {
+          warehouseId: order.warehouseId,
+          skuId: line.skuId,
+          quantity: input.quantity,
+          reference: `order:${order.orderNumber}:amend`,
+        },
+        ctx,
+      );
+      if (line.reservationId) {
+        try {
+          await this.stock.releaseReservation(line.reservationId, ctx);
+        } catch {
+          // The old reservation may already be gone; the new one stands.
+        }
+      }
+      newReservationId = reservationId;
+    }
+
+    const lineTotal = Math.round(input.quantity * unitPrice * 100) / 100;
+    await this.prisma.salesOrderLine.updateMany({
+      where: { id: line.id, tenantId: ctx.tenantId },
+      data: { quantity: input.quantity, lineTotal, reservationId: newReservationId },
+    });
+    await this.recomputeTotal(order.id, ctx);
+    await this.recordTransition(
+      order.id,
+      EVENT_TYPES.ORDER_AMENDED,
+      `${line.description}: ${oldQuantity} -> ${input.quantity}`,
       ctx,
     );
     return this.getOrder(order.id, ctx);

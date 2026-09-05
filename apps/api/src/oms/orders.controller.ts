@@ -23,6 +23,8 @@ const addLineSchema = z.object({
   unitPrice: z.number().nonnegative(),
 });
 const holdSchema = z.object({ reason: z.string().min(1).max(500) });
+const confirmSchema = z.object({ allowBackorder: z.boolean().optional() });
+const amendSchema = z.object({ quantity: z.number().positive() });
 
 @Controller('api/v1/orders')
 export class OrdersController {
@@ -78,8 +80,26 @@ export class OrdersController {
 
   @Post(':id/confirm')
   @RequirePermission('order.confirm')
-  async confirm(@Param('id') id: string, @Ctx() ctx: RequestContext) {
-    return this.orders.confirmOrder(id, ctx);
+  async confirm(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const options = parseBody(confirmSchema, body ?? {});
+    return this.orders.confirmOrder(id, ctx, options);
+  }
+
+  @Post(':id/release-backorders')
+  @RequirePermission('order.confirm')
+  async releaseBackorders(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.orders.releaseBackorders(id, ctx);
+  }
+
+  @Post(':id/lines/:lineId/amend')
+  @RequirePermission('order.confirm')
+  async amendLine(
+    @Param('id') id: string,
+    @Param('lineId') lineId: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    return this.orders.amendLine(id, lineId, parseBody(amendSchema, body), ctx);
   }
 
   @Post(':id/hold')

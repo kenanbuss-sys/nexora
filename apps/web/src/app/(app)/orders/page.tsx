@@ -12,6 +12,7 @@ interface OrderLineView {
   unitPrice: string;
   lineTotal: string;
   reservationId: string | null;
+  backordered: boolean;
 }
 
 interface OrderView {
@@ -349,8 +350,37 @@ export default function OrdersPage() {
                               reserved
                             </span>
                           ) : null}
+                          {l.backordered ? (
+                            <span className="badge badge-warn" style={{ marginLeft: 6 }}>
+                              backorder
+                            </span>
+                          ) : null}
                         </td>
-                        <td style={{ textAlign: 'right' }}>{l.lineTotal}</td>
+                        <td style={{ textAlign: 'right' }}>
+                          {l.lineTotal}
+                          {['DRAFT', 'CONFIRMED'].includes(o.status) && can('order.confirm') ? (
+                            <button
+                              className="btn btn-sm"
+                              style={{ marginLeft: 6, padding: '1px 8px' }}
+                              disabled={busy}
+                              onClick={() => {
+                                const next = window.prompt('New quantity', l.quantity);
+                                if (next && Number(next) > 0) {
+                                  void run(
+                                    () =>
+                                      api('POST', `/api/v1/orders/${o.id}/lines/${l.id}/amend`, {
+                                        quantity: Number(next),
+                                      }),
+                                    'Line amended.',
+                                  );
+                                }
+                              }}
+                              type="button"
+                            >
+                              Amend
+                            </button>
+                          ) : null}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -435,6 +465,25 @@ export default function OrdersPage() {
                         Confirm
                       </button>
                     ) : null}
+                    {o.lines.length > 0 && can('order.confirm') ? (
+                      <button
+                        className="btn btn-sm"
+                        disabled={busy}
+                        title="Confirm even when stock is missing — short lines become backorders"
+                        onClick={() =>
+                          run(
+                            () =>
+                              api('POST', `/api/v1/orders/${o.id}/confirm`, {
+                                allowBackorder: true,
+                              }),
+                            'Order confirmed — missing stock recorded as backorders.',
+                          )
+                        }
+                        type="button"
+                      >
+                        Confirm + backorder
+                      </button>
+                    ) : null}
                   </>
                 ) : null}
 
@@ -453,6 +502,21 @@ export default function OrdersPage() {
                         type="button"
                       >
                         Fulfill
+                      </button>
+                    ) : null}
+                    {o.lines.some((l) => l.backordered) && can('order.confirm') ? (
+                      <button
+                        className="btn btn-sm"
+                        disabled={busy}
+                        onClick={() =>
+                          run(
+                            () => api('POST', `/api/v1/orders/${o.id}/release-backorders`),
+                            'Backorder release attempted — reserved what stock allows.',
+                          )
+                        }
+                        type="button"
+                      >
+                        Release backorders
                       </button>
                     ) : null}
                     {can('order.hold') ? (

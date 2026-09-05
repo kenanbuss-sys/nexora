@@ -70,6 +70,9 @@ export const EVENT_TYPES = {
   PAYMENT_RECEIVED: 'payment.received',
   PAYMENT_MATCHED: 'payment.matched',
   COMMENT_ADDED: 'comment.added',
+  ORDER_AMENDED: 'order.amended',
+  BACKORDER_CREATED: 'backorder.created',
+  BACKORDER_RELEASED: 'backorder.released',
   ATTACHMENT_UPLOADED: 'attachment.uploaded',
 } as const;
 

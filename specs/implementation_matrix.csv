@@ -104,10 +104,10 @@ OMS-002,OMS,Validation,P1,DONE,R1,,,
 OMS-003,OMS,Allocation,P1,PLANNED,R1,,,
 OMS-004,OMS,Reservation,P1,DONE,R1,,,
 OMS-005,OMS,Split fulfillment,P1,PLANNED,R1,,,
-OMS-006,OMS,Backorders,P1,PLANNED,R1,,,
+OMS-006,OMS,Backorders,P1,DONE,R1,,,"Backorders: confirm with allowBackorder, release on arrival (Sprint 018)"
 OMS-007,OMS,Substitution,P1,PLANNED,R1,,,
 OMS-008,OMS,Holds,P1,DONE,R1,,,
-OMS-009,OMS,Order amendments,P1,PLANNED,R1,,,
+OMS-009,OMS,Order amendments,P1,DONE,R1,,,Order amendments with reservation swap and credit gate (Sprint 018)
 OMS-010,OMS,Cancellation,P1,DONE,R1,,,
 OMS-011,OMS,Fulfillment orchestration,P1,DONE,R1,,,
 OMS-012,OMS,Returns orchestration,P1,PLANNED,R1,,,
