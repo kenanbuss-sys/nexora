@@ -109,6 +109,8 @@ model Tenant {
   numberSequences       NumberSequence[]
   costCenters           CostCenter[]
   budgets               Budget[]
+  webhookSubscriptions  WebhookSubscription[]
+  webhookDeliveries     WebhookDelivery[]
 
   @@map("tenant")
 }
@@ -1962,4 +1964,60 @@ model Budget {
 
   @@unique([tenantId, costCenterId, periodKey])
   @@map("budget")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 020 — Integration hub: webhook subscriptions (INT-008) with
+// idempotent fan-out (INT-011), retrying signed deliveries (INT-012),
+// dead-lettering (INT-013) and run history (INT-016).
+// ---------------------------------------------------------------------------
+
+model WebhookSubscription {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  name       String
+  url        String
+  /// HMAC-SHA256 signing secret; generated server-side, shown once.
+  secret     String
+  eventTypes String[] @map("event_types")
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  tenant     Tenant            @relation(fields: [tenantId], references: [id])
+  deliveries WebhookDelivery[]
+
+  @@unique([tenantId, name])
+  @@map("webhook_subscription")
+}
+
+enum WebhookDeliveryStatus {
+  PENDING
+  DELIVERED
+  FAILED
+  DEAD
+}
+
+/// One attempt-tracked delivery of one event to one subscription.
+/// (subscription, outbox event) is unique, so fan-out retries are
+/// exactly-once (INT-011).
+model WebhookDelivery {
+  id             String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String                @map("tenant_id") @db.Uuid
+  subscriptionId String                @map("subscription_id") @db.Uuid
+  outboxEventId  String                @map("outbox_event_id") @db.Uuid
+  eventType      String                @map("event_type")
+  payload        Json
+  status         WebhookDeliveryStatus @default(PENDING)
+  attempts       Int                   @default(0)
+  nextAttemptAt  DateTime              @default(now()) @map("next_attempt_at")
+  lastError      String?               @map("last_error")
+  deliveredAt    DateTime?             @map("delivered_at")
+  createdAt      DateTime              @default(now()) @map("created_at")
+
+  tenant       Tenant              @relation(fields: [tenantId], references: [id])
+  subscription WebhookSubscription @relation(fields: [subscriptionId], references: [id])
+
+  @@unique([subscriptionId, outboxEventId])
+  @@index([tenantId, status, nextAttemptAt])
+  @@map("webhook_delivery")
 }
