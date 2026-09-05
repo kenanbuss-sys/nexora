@@ -577,6 +577,23 @@ exports.Prisma.TerritoryScalarFieldEnum = {
   code: 'code',
   name: 'name',
   ownerUserId: 'ownerUserId',
+  teamId: 'teamId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SalesTeamScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SalesTeamMemberScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  teamId: 'teamId',
+  userId: 'userId',
   createdAt: 'createdAt'
 };
 
@@ -1621,6 +1638,8 @@ exports.Prisma.ModelName = {
   WmsOrder: 'WmsOrder',
   WmsOrderLine: 'WmsOrderLine',
   Territory: 'Territory',
+  SalesTeam: 'SalesTeam',
+  SalesTeamMember: 'SalesTeamMember',
   CrmAccount: 'CrmAccount',
   Lead: 'Lead',
   Opportunity: 'Opportunity',

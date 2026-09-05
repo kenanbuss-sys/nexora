@@ -233,6 +233,17 @@ export type WmsOrderLine = $Result.DefaultSelection<Prisma.$WmsOrderLinePayload>
  */
 export type Territory = $Result.DefaultSelection<Prisma.$TerritoryPayload>
 /**
+ * Model SalesTeam
+ * Sales teams (CRM): named selling units with members; a territory can
+ * be covered by a team.
+ */
+export type SalesTeam = $Result.DefaultSelection<Prisma.$SalesTeamPayload>
+/**
+ * Model SalesTeamMember
+ * 
+ */
+export type SalesTeamMember = $Result.DefaultSelection<Prisma.$SalesTeamMemberPayload>
+/**
  * Model CrmAccount
  * Commercial customer profile (CRM-002). Identity stays in MDM (partyId);
  * CRM owns only the commercial relationship.
@@ -1703,6 +1714,26 @@ export class PrismaClient<
   get territory(): Prisma.TerritoryDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.salesTeam`: Exposes CRUD operations for the **SalesTeam** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SalesTeams
+    * const salesTeams = await prisma.salesTeam.findMany()
+    * ```
+    */
+  get salesTeam(): Prisma.SalesTeamDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.salesTeamMember`: Exposes CRUD operations for the **SalesTeamMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SalesTeamMembers
+    * const salesTeamMembers = await prisma.salesTeamMember.findMany()
+    * ```
+    */
+  get salesTeamMember(): Prisma.SalesTeamMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.crmAccount`: Exposes CRUD operations for the **CrmAccount** model.
     * Example usage:
     * ```ts
@@ -2724,6 +2755,8 @@ export namespace Prisma {
     WmsOrder: 'WmsOrder',
     WmsOrderLine: 'WmsOrderLine',
     Territory: 'Territory',
+    SalesTeam: 'SalesTeam',
+    SalesTeamMember: 'SalesTeamMember',
     CrmAccount: 'CrmAccount',
     Lead: 'Lead',
     Opportunity: 'Opportunity',
@@ -2796,7 +2829,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5905,6 +5938,154 @@ export namespace Prisma {
           count: {
             args: Prisma.TerritoryCountArgs<ExtArgs>
             result: $Utils.Optional<TerritoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      SalesTeam: {
+        payload: Prisma.$SalesTeamPayload<ExtArgs>
+        fields: Prisma.SalesTeamFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SalesTeamFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SalesTeamFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>
+          }
+          findFirst: {
+            args: Prisma.SalesTeamFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SalesTeamFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>
+          }
+          findMany: {
+            args: Prisma.SalesTeamFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>[]
+          }
+          create: {
+            args: Prisma.SalesTeamCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>
+          }
+          createMany: {
+            args: Prisma.SalesTeamCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SalesTeamCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>[]
+          }
+          delete: {
+            args: Prisma.SalesTeamDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>
+          }
+          update: {
+            args: Prisma.SalesTeamUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>
+          }
+          deleteMany: {
+            args: Prisma.SalesTeamDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SalesTeamUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SalesTeamUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>[]
+          }
+          upsert: {
+            args: Prisma.SalesTeamUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamPayload>
+          }
+          aggregate: {
+            args: Prisma.SalesTeamAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSalesTeam>
+          }
+          groupBy: {
+            args: Prisma.SalesTeamGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SalesTeamGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SalesTeamCountArgs<ExtArgs>
+            result: $Utils.Optional<SalesTeamCountAggregateOutputType> | number
+          }
+        }
+      }
+      SalesTeamMember: {
+        payload: Prisma.$SalesTeamMemberPayload<ExtArgs>
+        fields: Prisma.SalesTeamMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SalesTeamMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SalesTeamMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.SalesTeamMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SalesTeamMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>
+          }
+          findMany: {
+            args: Prisma.SalesTeamMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>[]
+          }
+          create: {
+            args: Prisma.SalesTeamMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>
+          }
+          createMany: {
+            args: Prisma.SalesTeamMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SalesTeamMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.SalesTeamMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>
+          }
+          update: {
+            args: Prisma.SalesTeamMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.SalesTeamMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SalesTeamMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SalesTeamMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.SalesTeamMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalesTeamMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.SalesTeamMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSalesTeamMember>
+          }
+          groupBy: {
+            args: Prisma.SalesTeamMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SalesTeamMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SalesTeamMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<SalesTeamMemberCountAggregateOutputType> | number
           }
         }
       }
@@ -10042,6 +10223,8 @@ export namespace Prisma {
     wmsOrder?: WmsOrderOmit
     wmsOrderLine?: WmsOrderLineOmit
     territory?: TerritoryOmit
+    salesTeam?: SalesTeamOmit
+    salesTeamMember?: SalesTeamMemberOmit
     crmAccount?: CrmAccountOmit
     lead?: LeadOmit
     opportunity?: OpportunityOmit
@@ -10261,6 +10444,8 @@ export namespace Prisma {
     skuSubstitutions: number
     packagingLevels: number
     territories: number
+    salesTeams: number
+    salesTeamMembers: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10349,6 +10534,8 @@ export namespace Prisma {
     skuSubstitutions?: boolean | TenantCountOutputTypeCountSkuSubstitutionsArgs
     packagingLevels?: boolean | TenantCountOutputTypeCountPackagingLevelsArgs
     territories?: boolean | TenantCountOutputTypeCountTerritoriesArgs
+    salesTeams?: boolean | TenantCountOutputTypeCountSalesTeamsArgs
+    salesTeamMembers?: boolean | TenantCountOutputTypeCountSalesTeamMembersArgs
   }
 
   // Custom InputTypes
@@ -10957,6 +11144,20 @@ export namespace Prisma {
     where?: TerritoryWhereInput
   }
 
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSalesTeamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalesTeamWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSalesTeamMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalesTeamMemberWhereInput
+  }
+
 
   /**
    * Count Type LegalEntityCountOutputType
@@ -11421,6 +11622,37 @@ export namespace Prisma {
    */
   export type WmsOrderCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WmsOrderLineWhereInput
+  }
+
+
+  /**
+   * Count Type SalesTeamCountOutputType
+   */
+
+  export type SalesTeamCountOutputType = {
+    members: number
+  }
+
+  export type SalesTeamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | SalesTeamCountOutputTypeCountMembersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SalesTeamCountOutputType without action
+   */
+  export type SalesTeamCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamCountOutputType
+     */
+    select?: SalesTeamCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SalesTeamCountOutputType without action
+   */
+  export type SalesTeamCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalesTeamMemberWhereInput
   }
 
 
@@ -12285,6 +12517,8 @@ export namespace Prisma {
     skuSubstitutions?: boolean | Tenant$skuSubstitutionsArgs<ExtArgs>
     packagingLevels?: boolean | Tenant$packagingLevelsArgs<ExtArgs>
     territories?: boolean | Tenant$territoriesArgs<ExtArgs>
+    salesTeams?: boolean | Tenant$salesTeamsArgs<ExtArgs>
+    salesTeamMembers?: boolean | Tenant$salesTeamMembersArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -12405,6 +12639,8 @@ export namespace Prisma {
     skuSubstitutions?: boolean | Tenant$skuSubstitutionsArgs<ExtArgs>
     packagingLevels?: boolean | Tenant$packagingLevelsArgs<ExtArgs>
     territories?: boolean | Tenant$territoriesArgs<ExtArgs>
+    salesTeams?: boolean | Tenant$salesTeamsArgs<ExtArgs>
+    salesTeamMembers?: boolean | Tenant$salesTeamMembersArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12498,6 +12734,8 @@ export namespace Prisma {
       skuSubstitutions: Prisma.$SkuSubstitutionPayload<ExtArgs>[]
       packagingLevels: Prisma.$PackagingLevelPayload<ExtArgs>[]
       territories: Prisma.$TerritoryPayload<ExtArgs>[]
+      salesTeams: Prisma.$SalesTeamPayload<ExtArgs>[]
+      salesTeamMembers: Prisma.$SalesTeamMemberPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12986,6 +13224,8 @@ export namespace Prisma {
     skuSubstitutions<T extends Tenant$skuSubstitutionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$skuSubstitutionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packagingLevels<T extends Tenant$packagingLevelsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$packagingLevelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagingLevelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     territories<T extends Tenant$territoriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$territoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    salesTeams<T extends Tenant$salesTeamsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$salesTeamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    salesTeamMembers<T extends Tenant$salesTeamMembersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$salesTeamMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15447,6 +15687,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TerritoryScalarFieldEnum | TerritoryScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.salesTeams
+   */
+  export type Tenant$salesTeamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    where?: SalesTeamWhereInput
+    orderBy?: SalesTeamOrderByWithRelationInput | SalesTeamOrderByWithRelationInput[]
+    cursor?: SalesTeamWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SalesTeamScalarFieldEnum | SalesTeamScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.salesTeamMembers
+   */
+  export type Tenant$salesTeamMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    where?: SalesTeamMemberWhereInput
+    orderBy?: SalesTeamMemberOrderByWithRelationInput | SalesTeamMemberOrderByWithRelationInput[]
+    cursor?: SalesTeamMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SalesTeamMemberScalarFieldEnum | SalesTeamMemberScalarFieldEnum[]
   }
 
   /**
@@ -60490,6 +60778,7 @@ export namespace Prisma {
     code: string | null
     name: string | null
     ownerUserId: string | null
+    teamId: string | null
     createdAt: Date | null
   }
 
@@ -60499,6 +60788,7 @@ export namespace Prisma {
     code: string | null
     name: string | null
     ownerUserId: string | null
+    teamId: string | null
     createdAt: Date | null
   }
 
@@ -60508,6 +60798,7 @@ export namespace Prisma {
     code: number
     name: number
     ownerUserId: number
+    teamId: number
     createdAt: number
     _all: number
   }
@@ -60519,6 +60810,7 @@ export namespace Prisma {
     code?: true
     name?: true
     ownerUserId?: true
+    teamId?: true
     createdAt?: true
   }
 
@@ -60528,6 +60820,7 @@ export namespace Prisma {
     code?: true
     name?: true
     ownerUserId?: true
+    teamId?: true
     createdAt?: true
   }
 
@@ -60537,6 +60830,7 @@ export namespace Prisma {
     code?: true
     name?: true
     ownerUserId?: true
+    teamId?: true
     createdAt?: true
     _all?: true
   }
@@ -60619,6 +60913,7 @@ export namespace Prisma {
     code: string
     name: string
     ownerUserId: string | null
+    teamId: string | null
     createdAt: Date
     _count: TerritoryCountAggregateOutputType | null
     _min: TerritoryMinAggregateOutputType | null
@@ -60645,6 +60940,7 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     ownerUserId?: boolean
+    teamId?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["territory"]>
@@ -60655,6 +60951,7 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     ownerUserId?: boolean
+    teamId?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["territory"]>
@@ -60665,6 +60962,7 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     ownerUserId?: boolean
+    teamId?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["territory"]>
@@ -60675,10 +60973,11 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     ownerUserId?: boolean
+    teamId?: boolean
     createdAt?: boolean
   }
 
-  export type TerritoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "ownerUserId" | "createdAt", ExtArgs["result"]["territory"]>
+  export type TerritoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "ownerUserId" | "teamId" | "createdAt", ExtArgs["result"]["territory"]>
   export type TerritoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -60700,6 +60999,10 @@ export namespace Prisma {
       code: string
       name: string
       ownerUserId: string | null
+      /**
+       * Sprint 046: the sales team covering this territory.
+       */
+      teamId: string | null
       createdAt: Date
     }, ExtArgs["result"]["territory"]>
     composites: {}
@@ -61130,6 +61433,7 @@ export namespace Prisma {
     readonly code: FieldRef<"Territory", 'String'>
     readonly name: FieldRef<"Territory", 'String'>
     readonly ownerUserId: FieldRef<"Territory", 'String'>
+    readonly teamId: FieldRef<"Territory", 'String'>
     readonly createdAt: FieldRef<"Territory", 'DateTime'>
   }
     
@@ -61542,6 +61846,2160 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TerritoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SalesTeam
+   */
+
+  export type AggregateSalesTeam = {
+    _count: SalesTeamCountAggregateOutputType | null
+    _min: SalesTeamMinAggregateOutputType | null
+    _max: SalesTeamMaxAggregateOutputType | null
+  }
+
+  export type SalesTeamMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type SalesTeamMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type SalesTeamCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SalesTeamMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type SalesTeamMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type SalesTeamCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SalesTeamAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalesTeam to aggregate.
+     */
+    where?: SalesTeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeams to fetch.
+     */
+    orderBy?: SalesTeamOrderByWithRelationInput | SalesTeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SalesTeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SalesTeams
+    **/
+    _count?: true | SalesTeamCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SalesTeamMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SalesTeamMaxAggregateInputType
+  }
+
+  export type GetSalesTeamAggregateType<T extends SalesTeamAggregateArgs> = {
+        [P in keyof T & keyof AggregateSalesTeam]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSalesTeam[P]>
+      : GetScalarType<T[P], AggregateSalesTeam[P]>
+  }
+
+
+
+
+  export type SalesTeamGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalesTeamWhereInput
+    orderBy?: SalesTeamOrderByWithAggregationInput | SalesTeamOrderByWithAggregationInput[]
+    by: SalesTeamScalarFieldEnum[] | SalesTeamScalarFieldEnum
+    having?: SalesTeamScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SalesTeamCountAggregateInputType | true
+    _min?: SalesTeamMinAggregateInputType
+    _max?: SalesTeamMaxAggregateInputType
+  }
+
+  export type SalesTeamGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: string
+    createdAt: Date
+    _count: SalesTeamCountAggregateOutputType | null
+    _min: SalesTeamMinAggregateOutputType | null
+    _max: SalesTeamMaxAggregateOutputType | null
+  }
+
+  type GetSalesTeamGroupByPayload<T extends SalesTeamGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SalesTeamGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SalesTeamGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SalesTeamGroupByOutputType[P]>
+            : GetScalarType<T[P], SalesTeamGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SalesTeamSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    members?: boolean | SalesTeam$membersArgs<ExtArgs>
+    _count?: boolean | SalesTeamCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salesTeam"]>
+
+  export type SalesTeamSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salesTeam"]>
+
+  export type SalesTeamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salesTeam"]>
+
+  export type SalesTeamSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }
+
+  export type SalesTeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "createdAt", ExtArgs["result"]["salesTeam"]>
+  export type SalesTeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    members?: boolean | SalesTeam$membersArgs<ExtArgs>
+    _count?: boolean | SalesTeamCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SalesTeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SalesTeamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $SalesTeamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SalesTeam"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      members: Prisma.$SalesTeamMemberPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: string
+      createdAt: Date
+    }, ExtArgs["result"]["salesTeam"]>
+    composites: {}
+  }
+
+  type SalesTeamGetPayload<S extends boolean | null | undefined | SalesTeamDefaultArgs> = $Result.GetResult<Prisma.$SalesTeamPayload, S>
+
+  type SalesTeamCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SalesTeamFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SalesTeamCountAggregateInputType | true
+    }
+
+  export interface SalesTeamDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SalesTeam'], meta: { name: 'SalesTeam' } }
+    /**
+     * Find zero or one SalesTeam that matches the filter.
+     * @param {SalesTeamFindUniqueArgs} args - Arguments to find a SalesTeam
+     * @example
+     * // Get one SalesTeam
+     * const salesTeam = await prisma.salesTeam.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SalesTeamFindUniqueArgs>(args: SelectSubset<T, SalesTeamFindUniqueArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SalesTeam that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SalesTeamFindUniqueOrThrowArgs} args - Arguments to find a SalesTeam
+     * @example
+     * // Get one SalesTeam
+     * const salesTeam = await prisma.salesTeam.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SalesTeamFindUniqueOrThrowArgs>(args: SelectSubset<T, SalesTeamFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalesTeam that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamFindFirstArgs} args - Arguments to find a SalesTeam
+     * @example
+     * // Get one SalesTeam
+     * const salesTeam = await prisma.salesTeam.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SalesTeamFindFirstArgs>(args?: SelectSubset<T, SalesTeamFindFirstArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalesTeam that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamFindFirstOrThrowArgs} args - Arguments to find a SalesTeam
+     * @example
+     * // Get one SalesTeam
+     * const salesTeam = await prisma.salesTeam.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SalesTeamFindFirstOrThrowArgs>(args?: SelectSubset<T, SalesTeamFindFirstOrThrowArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SalesTeams that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SalesTeams
+     * const salesTeams = await prisma.salesTeam.findMany()
+     * 
+     * // Get first 10 SalesTeams
+     * const salesTeams = await prisma.salesTeam.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const salesTeamWithIdOnly = await prisma.salesTeam.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SalesTeamFindManyArgs>(args?: SelectSubset<T, SalesTeamFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SalesTeam.
+     * @param {SalesTeamCreateArgs} args - Arguments to create a SalesTeam.
+     * @example
+     * // Create one SalesTeam
+     * const SalesTeam = await prisma.salesTeam.create({
+     *   data: {
+     *     // ... data to create a SalesTeam
+     *   }
+     * })
+     * 
+     */
+    create<T extends SalesTeamCreateArgs>(args: SelectSubset<T, SalesTeamCreateArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SalesTeams.
+     * @param {SalesTeamCreateManyArgs} args - Arguments to create many SalesTeams.
+     * @example
+     * // Create many SalesTeams
+     * const salesTeam = await prisma.salesTeam.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SalesTeamCreateManyArgs>(args?: SelectSubset<T, SalesTeamCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SalesTeams and returns the data saved in the database.
+     * @param {SalesTeamCreateManyAndReturnArgs} args - Arguments to create many SalesTeams.
+     * @example
+     * // Create many SalesTeams
+     * const salesTeam = await prisma.salesTeam.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SalesTeams and only return the `id`
+     * const salesTeamWithIdOnly = await prisma.salesTeam.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SalesTeamCreateManyAndReturnArgs>(args?: SelectSubset<T, SalesTeamCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SalesTeam.
+     * @param {SalesTeamDeleteArgs} args - Arguments to delete one SalesTeam.
+     * @example
+     * // Delete one SalesTeam
+     * const SalesTeam = await prisma.salesTeam.delete({
+     *   where: {
+     *     // ... filter to delete one SalesTeam
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SalesTeamDeleteArgs>(args: SelectSubset<T, SalesTeamDeleteArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SalesTeam.
+     * @param {SalesTeamUpdateArgs} args - Arguments to update one SalesTeam.
+     * @example
+     * // Update one SalesTeam
+     * const salesTeam = await prisma.salesTeam.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SalesTeamUpdateArgs>(args: SelectSubset<T, SalesTeamUpdateArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SalesTeams.
+     * @param {SalesTeamDeleteManyArgs} args - Arguments to filter SalesTeams to delete.
+     * @example
+     * // Delete a few SalesTeams
+     * const { count } = await prisma.salesTeam.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SalesTeamDeleteManyArgs>(args?: SelectSubset<T, SalesTeamDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalesTeams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SalesTeams
+     * const salesTeam = await prisma.salesTeam.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SalesTeamUpdateManyArgs>(args: SelectSubset<T, SalesTeamUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalesTeams and returns the data updated in the database.
+     * @param {SalesTeamUpdateManyAndReturnArgs} args - Arguments to update many SalesTeams.
+     * @example
+     * // Update many SalesTeams
+     * const salesTeam = await prisma.salesTeam.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SalesTeams and only return the `id`
+     * const salesTeamWithIdOnly = await prisma.salesTeam.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SalesTeamUpdateManyAndReturnArgs>(args: SelectSubset<T, SalesTeamUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SalesTeam.
+     * @param {SalesTeamUpsertArgs} args - Arguments to update or create a SalesTeam.
+     * @example
+     * // Update or create a SalesTeam
+     * const salesTeam = await prisma.salesTeam.upsert({
+     *   create: {
+     *     // ... data to create a SalesTeam
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SalesTeam we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SalesTeamUpsertArgs>(args: SelectSubset<T, SalesTeamUpsertArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SalesTeams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamCountArgs} args - Arguments to filter SalesTeams to count.
+     * @example
+     * // Count the number of SalesTeams
+     * const count = await prisma.salesTeam.count({
+     *   where: {
+     *     // ... the filter for the SalesTeams we want to count
+     *   }
+     * })
+    **/
+    count<T extends SalesTeamCountArgs>(
+      args?: Subset<T, SalesTeamCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SalesTeamCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SalesTeam.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SalesTeamAggregateArgs>(args: Subset<T, SalesTeamAggregateArgs>): Prisma.PrismaPromise<GetSalesTeamAggregateType<T>>
+
+    /**
+     * Group by SalesTeam.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SalesTeamGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SalesTeamGroupByArgs['orderBy'] }
+        : { orderBy?: SalesTeamGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SalesTeamGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSalesTeamGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SalesTeam model
+   */
+  readonly fields: SalesTeamFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SalesTeam.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SalesTeamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    members<T extends SalesTeam$membersArgs<ExtArgs> = {}>(args?: Subset<T, SalesTeam$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SalesTeam model
+   */
+  interface SalesTeamFieldRefs {
+    readonly id: FieldRef<"SalesTeam", 'String'>
+    readonly tenantId: FieldRef<"SalesTeam", 'String'>
+    readonly code: FieldRef<"SalesTeam", 'String'>
+    readonly name: FieldRef<"SalesTeam", 'String'>
+    readonly createdAt: FieldRef<"SalesTeam", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SalesTeam findUnique
+   */
+  export type SalesTeamFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeam to fetch.
+     */
+    where: SalesTeamWhereUniqueInput
+  }
+
+  /**
+   * SalesTeam findUniqueOrThrow
+   */
+  export type SalesTeamFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeam to fetch.
+     */
+    where: SalesTeamWhereUniqueInput
+  }
+
+  /**
+   * SalesTeam findFirst
+   */
+  export type SalesTeamFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeam to fetch.
+     */
+    where?: SalesTeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeams to fetch.
+     */
+    orderBy?: SalesTeamOrderByWithRelationInput | SalesTeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalesTeams.
+     */
+    cursor?: SalesTeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalesTeams.
+     */
+    distinct?: SalesTeamScalarFieldEnum | SalesTeamScalarFieldEnum[]
+  }
+
+  /**
+   * SalesTeam findFirstOrThrow
+   */
+  export type SalesTeamFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeam to fetch.
+     */
+    where?: SalesTeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeams to fetch.
+     */
+    orderBy?: SalesTeamOrderByWithRelationInput | SalesTeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalesTeams.
+     */
+    cursor?: SalesTeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalesTeams.
+     */
+    distinct?: SalesTeamScalarFieldEnum | SalesTeamScalarFieldEnum[]
+  }
+
+  /**
+   * SalesTeam findMany
+   */
+  export type SalesTeamFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeams to fetch.
+     */
+    where?: SalesTeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeams to fetch.
+     */
+    orderBy?: SalesTeamOrderByWithRelationInput | SalesTeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SalesTeams.
+     */
+    cursor?: SalesTeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeams.
+     */
+    skip?: number
+    distinct?: SalesTeamScalarFieldEnum | SalesTeamScalarFieldEnum[]
+  }
+
+  /**
+   * SalesTeam create
+   */
+  export type SalesTeamCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SalesTeam.
+     */
+    data: XOR<SalesTeamCreateInput, SalesTeamUncheckedCreateInput>
+  }
+
+  /**
+   * SalesTeam createMany
+   */
+  export type SalesTeamCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SalesTeams.
+     */
+    data: SalesTeamCreateManyInput | SalesTeamCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SalesTeam createManyAndReturn
+   */
+  export type SalesTeamCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * The data used to create many SalesTeams.
+     */
+    data: SalesTeamCreateManyInput | SalesTeamCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalesTeam update
+   */
+  export type SalesTeamUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SalesTeam.
+     */
+    data: XOR<SalesTeamUpdateInput, SalesTeamUncheckedUpdateInput>
+    /**
+     * Choose, which SalesTeam to update.
+     */
+    where: SalesTeamWhereUniqueInput
+  }
+
+  /**
+   * SalesTeam updateMany
+   */
+  export type SalesTeamUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SalesTeams.
+     */
+    data: XOR<SalesTeamUpdateManyMutationInput, SalesTeamUncheckedUpdateManyInput>
+    /**
+     * Filter which SalesTeams to update
+     */
+    where?: SalesTeamWhereInput
+    /**
+     * Limit how many SalesTeams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalesTeam updateManyAndReturn
+   */
+  export type SalesTeamUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * The data used to update SalesTeams.
+     */
+    data: XOR<SalesTeamUpdateManyMutationInput, SalesTeamUncheckedUpdateManyInput>
+    /**
+     * Filter which SalesTeams to update
+     */
+    where?: SalesTeamWhereInput
+    /**
+     * Limit how many SalesTeams to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalesTeam upsert
+   */
+  export type SalesTeamUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SalesTeam to update in case it exists.
+     */
+    where: SalesTeamWhereUniqueInput
+    /**
+     * In case the SalesTeam found by the `where` argument doesn't exist, create a new SalesTeam with this data.
+     */
+    create: XOR<SalesTeamCreateInput, SalesTeamUncheckedCreateInput>
+    /**
+     * In case the SalesTeam was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SalesTeamUpdateInput, SalesTeamUncheckedUpdateInput>
+  }
+
+  /**
+   * SalesTeam delete
+   */
+  export type SalesTeamDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+    /**
+     * Filter which SalesTeam to delete.
+     */
+    where: SalesTeamWhereUniqueInput
+  }
+
+  /**
+   * SalesTeam deleteMany
+   */
+  export type SalesTeamDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalesTeams to delete
+     */
+    where?: SalesTeamWhereInput
+    /**
+     * Limit how many SalesTeams to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalesTeam.members
+   */
+  export type SalesTeam$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    where?: SalesTeamMemberWhereInput
+    orderBy?: SalesTeamMemberOrderByWithRelationInput | SalesTeamMemberOrderByWithRelationInput[]
+    cursor?: SalesTeamMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SalesTeamMemberScalarFieldEnum | SalesTeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * SalesTeam without action
+   */
+  export type SalesTeamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeam
+     */
+    select?: SalesTeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeam
+     */
+    omit?: SalesTeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SalesTeamMember
+   */
+
+  export type AggregateSalesTeamMember = {
+    _count: SalesTeamMemberCountAggregateOutputType | null
+    _min: SalesTeamMemberMinAggregateOutputType | null
+    _max: SalesTeamMemberMaxAggregateOutputType | null
+  }
+
+  export type SalesTeamMemberMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    teamId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type SalesTeamMemberMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    teamId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type SalesTeamMemberCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    teamId: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SalesTeamMemberMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    teamId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type SalesTeamMemberMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    teamId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type SalesTeamMemberCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    teamId?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SalesTeamMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalesTeamMember to aggregate.
+     */
+    where?: SalesTeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeamMembers to fetch.
+     */
+    orderBy?: SalesTeamMemberOrderByWithRelationInput | SalesTeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SalesTeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SalesTeamMembers
+    **/
+    _count?: true | SalesTeamMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SalesTeamMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SalesTeamMemberMaxAggregateInputType
+  }
+
+  export type GetSalesTeamMemberAggregateType<T extends SalesTeamMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateSalesTeamMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSalesTeamMember[P]>
+      : GetScalarType<T[P], AggregateSalesTeamMember[P]>
+  }
+
+
+
+
+  export type SalesTeamMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalesTeamMemberWhereInput
+    orderBy?: SalesTeamMemberOrderByWithAggregationInput | SalesTeamMemberOrderByWithAggregationInput[]
+    by: SalesTeamMemberScalarFieldEnum[] | SalesTeamMemberScalarFieldEnum
+    having?: SalesTeamMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SalesTeamMemberCountAggregateInputType | true
+    _min?: SalesTeamMemberMinAggregateInputType
+    _max?: SalesTeamMemberMaxAggregateInputType
+  }
+
+  export type SalesTeamMemberGroupByOutputType = {
+    id: string
+    tenantId: string
+    teamId: string
+    userId: string
+    createdAt: Date
+    _count: SalesTeamMemberCountAggregateOutputType | null
+    _min: SalesTeamMemberMinAggregateOutputType | null
+    _max: SalesTeamMemberMaxAggregateOutputType | null
+  }
+
+  type GetSalesTeamMemberGroupByPayload<T extends SalesTeamMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SalesTeamMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SalesTeamMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SalesTeamMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], SalesTeamMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SalesTeamMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    teamId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    team?: boolean | SalesTeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salesTeamMember"]>
+
+  export type SalesTeamMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    teamId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    team?: boolean | SalesTeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salesTeamMember"]>
+
+  export type SalesTeamMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    teamId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    team?: boolean | SalesTeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salesTeamMember"]>
+
+  export type SalesTeamMemberSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    teamId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+  }
+
+  export type SalesTeamMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "teamId" | "userId" | "createdAt", ExtArgs["result"]["salesTeamMember"]>
+  export type SalesTeamMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    team?: boolean | SalesTeamDefaultArgs<ExtArgs>
+  }
+  export type SalesTeamMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    team?: boolean | SalesTeamDefaultArgs<ExtArgs>
+  }
+  export type SalesTeamMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    team?: boolean | SalesTeamDefaultArgs<ExtArgs>
+  }
+
+  export type $SalesTeamMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SalesTeamMember"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      team: Prisma.$SalesTeamPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      teamId: string
+      userId: string
+      createdAt: Date
+    }, ExtArgs["result"]["salesTeamMember"]>
+    composites: {}
+  }
+
+  type SalesTeamMemberGetPayload<S extends boolean | null | undefined | SalesTeamMemberDefaultArgs> = $Result.GetResult<Prisma.$SalesTeamMemberPayload, S>
+
+  type SalesTeamMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SalesTeamMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SalesTeamMemberCountAggregateInputType | true
+    }
+
+  export interface SalesTeamMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SalesTeamMember'], meta: { name: 'SalesTeamMember' } }
+    /**
+     * Find zero or one SalesTeamMember that matches the filter.
+     * @param {SalesTeamMemberFindUniqueArgs} args - Arguments to find a SalesTeamMember
+     * @example
+     * // Get one SalesTeamMember
+     * const salesTeamMember = await prisma.salesTeamMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SalesTeamMemberFindUniqueArgs>(args: SelectSubset<T, SalesTeamMemberFindUniqueArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SalesTeamMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SalesTeamMemberFindUniqueOrThrowArgs} args - Arguments to find a SalesTeamMember
+     * @example
+     * // Get one SalesTeamMember
+     * const salesTeamMember = await prisma.salesTeamMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SalesTeamMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, SalesTeamMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalesTeamMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamMemberFindFirstArgs} args - Arguments to find a SalesTeamMember
+     * @example
+     * // Get one SalesTeamMember
+     * const salesTeamMember = await prisma.salesTeamMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SalesTeamMemberFindFirstArgs>(args?: SelectSubset<T, SalesTeamMemberFindFirstArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalesTeamMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamMemberFindFirstOrThrowArgs} args - Arguments to find a SalesTeamMember
+     * @example
+     * // Get one SalesTeamMember
+     * const salesTeamMember = await prisma.salesTeamMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SalesTeamMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, SalesTeamMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SalesTeamMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SalesTeamMembers
+     * const salesTeamMembers = await prisma.salesTeamMember.findMany()
+     * 
+     * // Get first 10 SalesTeamMembers
+     * const salesTeamMembers = await prisma.salesTeamMember.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const salesTeamMemberWithIdOnly = await prisma.salesTeamMember.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SalesTeamMemberFindManyArgs>(args?: SelectSubset<T, SalesTeamMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SalesTeamMember.
+     * @param {SalesTeamMemberCreateArgs} args - Arguments to create a SalesTeamMember.
+     * @example
+     * // Create one SalesTeamMember
+     * const SalesTeamMember = await prisma.salesTeamMember.create({
+     *   data: {
+     *     // ... data to create a SalesTeamMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends SalesTeamMemberCreateArgs>(args: SelectSubset<T, SalesTeamMemberCreateArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SalesTeamMembers.
+     * @param {SalesTeamMemberCreateManyArgs} args - Arguments to create many SalesTeamMembers.
+     * @example
+     * // Create many SalesTeamMembers
+     * const salesTeamMember = await prisma.salesTeamMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SalesTeamMemberCreateManyArgs>(args?: SelectSubset<T, SalesTeamMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SalesTeamMembers and returns the data saved in the database.
+     * @param {SalesTeamMemberCreateManyAndReturnArgs} args - Arguments to create many SalesTeamMembers.
+     * @example
+     * // Create many SalesTeamMembers
+     * const salesTeamMember = await prisma.salesTeamMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SalesTeamMembers and only return the `id`
+     * const salesTeamMemberWithIdOnly = await prisma.salesTeamMember.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SalesTeamMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, SalesTeamMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SalesTeamMember.
+     * @param {SalesTeamMemberDeleteArgs} args - Arguments to delete one SalesTeamMember.
+     * @example
+     * // Delete one SalesTeamMember
+     * const SalesTeamMember = await prisma.salesTeamMember.delete({
+     *   where: {
+     *     // ... filter to delete one SalesTeamMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SalesTeamMemberDeleteArgs>(args: SelectSubset<T, SalesTeamMemberDeleteArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SalesTeamMember.
+     * @param {SalesTeamMemberUpdateArgs} args - Arguments to update one SalesTeamMember.
+     * @example
+     * // Update one SalesTeamMember
+     * const salesTeamMember = await prisma.salesTeamMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SalesTeamMemberUpdateArgs>(args: SelectSubset<T, SalesTeamMemberUpdateArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SalesTeamMembers.
+     * @param {SalesTeamMemberDeleteManyArgs} args - Arguments to filter SalesTeamMembers to delete.
+     * @example
+     * // Delete a few SalesTeamMembers
+     * const { count } = await prisma.salesTeamMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SalesTeamMemberDeleteManyArgs>(args?: SelectSubset<T, SalesTeamMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalesTeamMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SalesTeamMembers
+     * const salesTeamMember = await prisma.salesTeamMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SalesTeamMemberUpdateManyArgs>(args: SelectSubset<T, SalesTeamMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalesTeamMembers and returns the data updated in the database.
+     * @param {SalesTeamMemberUpdateManyAndReturnArgs} args - Arguments to update many SalesTeamMembers.
+     * @example
+     * // Update many SalesTeamMembers
+     * const salesTeamMember = await prisma.salesTeamMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SalesTeamMembers and only return the `id`
+     * const salesTeamMemberWithIdOnly = await prisma.salesTeamMember.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SalesTeamMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, SalesTeamMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SalesTeamMember.
+     * @param {SalesTeamMemberUpsertArgs} args - Arguments to update or create a SalesTeamMember.
+     * @example
+     * // Update or create a SalesTeamMember
+     * const salesTeamMember = await prisma.salesTeamMember.upsert({
+     *   create: {
+     *     // ... data to create a SalesTeamMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SalesTeamMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SalesTeamMemberUpsertArgs>(args: SelectSubset<T, SalesTeamMemberUpsertArgs<ExtArgs>>): Prisma__SalesTeamMemberClient<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SalesTeamMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamMemberCountArgs} args - Arguments to filter SalesTeamMembers to count.
+     * @example
+     * // Count the number of SalesTeamMembers
+     * const count = await prisma.salesTeamMember.count({
+     *   where: {
+     *     // ... the filter for the SalesTeamMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends SalesTeamMemberCountArgs>(
+      args?: Subset<T, SalesTeamMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SalesTeamMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SalesTeamMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SalesTeamMemberAggregateArgs>(args: Subset<T, SalesTeamMemberAggregateArgs>): Prisma.PrismaPromise<GetSalesTeamMemberAggregateType<T>>
+
+    /**
+     * Group by SalesTeamMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalesTeamMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SalesTeamMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SalesTeamMemberGroupByArgs['orderBy'] }
+        : { orderBy?: SalesTeamMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SalesTeamMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSalesTeamMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SalesTeamMember model
+   */
+  readonly fields: SalesTeamMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SalesTeamMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SalesTeamMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    team<T extends SalesTeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SalesTeamDefaultArgs<ExtArgs>>): Prisma__SalesTeamClient<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SalesTeamMember model
+   */
+  interface SalesTeamMemberFieldRefs {
+    readonly id: FieldRef<"SalesTeamMember", 'String'>
+    readonly tenantId: FieldRef<"SalesTeamMember", 'String'>
+    readonly teamId: FieldRef<"SalesTeamMember", 'String'>
+    readonly userId: FieldRef<"SalesTeamMember", 'String'>
+    readonly createdAt: FieldRef<"SalesTeamMember", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SalesTeamMember findUnique
+   */
+  export type SalesTeamMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeamMember to fetch.
+     */
+    where: SalesTeamMemberWhereUniqueInput
+  }
+
+  /**
+   * SalesTeamMember findUniqueOrThrow
+   */
+  export type SalesTeamMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeamMember to fetch.
+     */
+    where: SalesTeamMemberWhereUniqueInput
+  }
+
+  /**
+   * SalesTeamMember findFirst
+   */
+  export type SalesTeamMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeamMember to fetch.
+     */
+    where?: SalesTeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeamMembers to fetch.
+     */
+    orderBy?: SalesTeamMemberOrderByWithRelationInput | SalesTeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalesTeamMembers.
+     */
+    cursor?: SalesTeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalesTeamMembers.
+     */
+    distinct?: SalesTeamMemberScalarFieldEnum | SalesTeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * SalesTeamMember findFirstOrThrow
+   */
+  export type SalesTeamMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeamMember to fetch.
+     */
+    where?: SalesTeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeamMembers to fetch.
+     */
+    orderBy?: SalesTeamMemberOrderByWithRelationInput | SalesTeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalesTeamMembers.
+     */
+    cursor?: SalesTeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalesTeamMembers.
+     */
+    distinct?: SalesTeamMemberScalarFieldEnum | SalesTeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * SalesTeamMember findMany
+   */
+  export type SalesTeamMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which SalesTeamMembers to fetch.
+     */
+    where?: SalesTeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalesTeamMembers to fetch.
+     */
+    orderBy?: SalesTeamMemberOrderByWithRelationInput | SalesTeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SalesTeamMembers.
+     */
+    cursor?: SalesTeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalesTeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalesTeamMembers.
+     */
+    skip?: number
+    distinct?: SalesTeamMemberScalarFieldEnum | SalesTeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * SalesTeamMember create
+   */
+  export type SalesTeamMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SalesTeamMember.
+     */
+    data: XOR<SalesTeamMemberCreateInput, SalesTeamMemberUncheckedCreateInput>
+  }
+
+  /**
+   * SalesTeamMember createMany
+   */
+  export type SalesTeamMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SalesTeamMembers.
+     */
+    data: SalesTeamMemberCreateManyInput | SalesTeamMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SalesTeamMember createManyAndReturn
+   */
+  export type SalesTeamMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many SalesTeamMembers.
+     */
+    data: SalesTeamMemberCreateManyInput | SalesTeamMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalesTeamMember update
+   */
+  export type SalesTeamMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SalesTeamMember.
+     */
+    data: XOR<SalesTeamMemberUpdateInput, SalesTeamMemberUncheckedUpdateInput>
+    /**
+     * Choose, which SalesTeamMember to update.
+     */
+    where: SalesTeamMemberWhereUniqueInput
+  }
+
+  /**
+   * SalesTeamMember updateMany
+   */
+  export type SalesTeamMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SalesTeamMembers.
+     */
+    data: XOR<SalesTeamMemberUpdateManyMutationInput, SalesTeamMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which SalesTeamMembers to update
+     */
+    where?: SalesTeamMemberWhereInput
+    /**
+     * Limit how many SalesTeamMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalesTeamMember updateManyAndReturn
+   */
+  export type SalesTeamMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update SalesTeamMembers.
+     */
+    data: XOR<SalesTeamMemberUpdateManyMutationInput, SalesTeamMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which SalesTeamMembers to update
+     */
+    where?: SalesTeamMemberWhereInput
+    /**
+     * Limit how many SalesTeamMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalesTeamMember upsert
+   */
+  export type SalesTeamMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SalesTeamMember to update in case it exists.
+     */
+    where: SalesTeamMemberWhereUniqueInput
+    /**
+     * In case the SalesTeamMember found by the `where` argument doesn't exist, create a new SalesTeamMember with this data.
+     */
+    create: XOR<SalesTeamMemberCreateInput, SalesTeamMemberUncheckedCreateInput>
+    /**
+     * In case the SalesTeamMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SalesTeamMemberUpdateInput, SalesTeamMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * SalesTeamMember delete
+   */
+  export type SalesTeamMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter which SalesTeamMember to delete.
+     */
+    where: SalesTeamMemberWhereUniqueInput
+  }
+
+  /**
+   * SalesTeamMember deleteMany
+   */
+  export type SalesTeamMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalesTeamMembers to delete
+     */
+    where?: SalesTeamMemberWhereInput
+    /**
+     * Limit how many SalesTeamMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalesTeamMember without action
+   */
+  export type SalesTeamMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalesTeamMember
+     */
+    select?: SalesTeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalesTeamMember
+     */
+    omit?: SalesTeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalesTeamMemberInclude<ExtArgs> | null
   }
 
 
@@ -124442,10 +126900,33 @@ export namespace Prisma {
     code: 'code',
     name: 'name',
     ownerUserId: 'ownerUserId',
+    teamId: 'teamId',
     createdAt: 'createdAt'
   };
 
   export type TerritoryScalarFieldEnum = (typeof TerritoryScalarFieldEnum)[keyof typeof TerritoryScalarFieldEnum]
+
+
+  export const SalesTeamScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    createdAt: 'createdAt'
+  };
+
+  export type SalesTeamScalarFieldEnum = (typeof SalesTeamScalarFieldEnum)[keyof typeof SalesTeamScalarFieldEnum]
+
+
+  export const SalesTeamMemberScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    teamId: 'teamId',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type SalesTeamMemberScalarFieldEnum = (typeof SalesTeamMemberScalarFieldEnum)[keyof typeof SalesTeamMemberScalarFieldEnum]
 
 
   export const CrmAccountScalarFieldEnum: {
@@ -126167,6 +128648,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionListRelationFilter
     packagingLevels?: PackagingLevelListRelationFilter
     territories?: TerritoryListRelationFilter
+    salesTeams?: SalesTeamListRelationFilter
+    salesTeamMembers?: SalesTeamMemberListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -126262,6 +128745,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionOrderByRelationAggregateInput
     packagingLevels?: PackagingLevelOrderByRelationAggregateInput
     territories?: TerritoryOrderByRelationAggregateInput
+    salesTeams?: SalesTeamOrderByRelationAggregateInput
+    salesTeamMembers?: SalesTeamMemberOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -126360,6 +128845,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionListRelationFilter
     packagingLevels?: PackagingLevelListRelationFilter
     territories?: TerritoryListRelationFilter
+    salesTeams?: SalesTeamListRelationFilter
+    salesTeamMembers?: SalesTeamMemberListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -129343,6 +131830,7 @@ export namespace Prisma {
     code?: StringFilter<"Territory"> | string
     name?: StringFilter<"Territory"> | string
     ownerUserId?: UuidNullableFilter<"Territory"> | string | null
+    teamId?: UuidNullableFilter<"Territory"> | string | null
     createdAt?: DateTimeFilter<"Territory"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
   }
@@ -129353,6 +131841,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     ownerUserId?: SortOrderInput | SortOrder
+    teamId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
   }
@@ -129367,6 +131856,7 @@ export namespace Prisma {
     code?: StringFilter<"Territory"> | string
     name?: StringFilter<"Territory"> | string
     ownerUserId?: UuidNullableFilter<"Territory"> | string | null
+    teamId?: UuidNullableFilter<"Territory"> | string | null
     createdAt?: DateTimeFilter<"Territory"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
   }, "id" | "tenantId_code">
@@ -129377,6 +131867,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     ownerUserId?: SortOrderInput | SortOrder
+    teamId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: TerritoryCountOrderByAggregateInput
     _max?: TerritoryMaxOrderByAggregateInput
@@ -129392,7 +131883,126 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"Territory"> | string
     name?: StringWithAggregatesFilter<"Territory"> | string
     ownerUserId?: UuidNullableWithAggregatesFilter<"Territory"> | string | null
+    teamId?: UuidNullableWithAggregatesFilter<"Territory"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Territory"> | Date | string
+  }
+
+  export type SalesTeamWhereInput = {
+    AND?: SalesTeamWhereInput | SalesTeamWhereInput[]
+    OR?: SalesTeamWhereInput[]
+    NOT?: SalesTeamWhereInput | SalesTeamWhereInput[]
+    id?: UuidFilter<"SalesTeam"> | string
+    tenantId?: UuidFilter<"SalesTeam"> | string
+    code?: StringFilter<"SalesTeam"> | string
+    name?: StringFilter<"SalesTeam"> | string
+    createdAt?: DateTimeFilter<"SalesTeam"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    members?: SalesTeamMemberListRelationFilter
+  }
+
+  export type SalesTeamOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    members?: SalesTeamMemberOrderByRelationAggregateInput
+  }
+
+  export type SalesTeamWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: SalesTeamTenantIdCodeCompoundUniqueInput
+    AND?: SalesTeamWhereInput | SalesTeamWhereInput[]
+    OR?: SalesTeamWhereInput[]
+    NOT?: SalesTeamWhereInput | SalesTeamWhereInput[]
+    tenantId?: UuidFilter<"SalesTeam"> | string
+    code?: StringFilter<"SalesTeam"> | string
+    name?: StringFilter<"SalesTeam"> | string
+    createdAt?: DateTimeFilter<"SalesTeam"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    members?: SalesTeamMemberListRelationFilter
+  }, "id" | "tenantId_code">
+
+  export type SalesTeamOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    _count?: SalesTeamCountOrderByAggregateInput
+    _max?: SalesTeamMaxOrderByAggregateInput
+    _min?: SalesTeamMinOrderByAggregateInput
+  }
+
+  export type SalesTeamScalarWhereWithAggregatesInput = {
+    AND?: SalesTeamScalarWhereWithAggregatesInput | SalesTeamScalarWhereWithAggregatesInput[]
+    OR?: SalesTeamScalarWhereWithAggregatesInput[]
+    NOT?: SalesTeamScalarWhereWithAggregatesInput | SalesTeamScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SalesTeam"> | string
+    tenantId?: UuidWithAggregatesFilter<"SalesTeam"> | string
+    code?: StringWithAggregatesFilter<"SalesTeam"> | string
+    name?: StringWithAggregatesFilter<"SalesTeam"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SalesTeam"> | Date | string
+  }
+
+  export type SalesTeamMemberWhereInput = {
+    AND?: SalesTeamMemberWhereInput | SalesTeamMemberWhereInput[]
+    OR?: SalesTeamMemberWhereInput[]
+    NOT?: SalesTeamMemberWhereInput | SalesTeamMemberWhereInput[]
+    id?: UuidFilter<"SalesTeamMember"> | string
+    tenantId?: UuidFilter<"SalesTeamMember"> | string
+    teamId?: UuidFilter<"SalesTeamMember"> | string
+    userId?: UuidFilter<"SalesTeamMember"> | string
+    createdAt?: DateTimeFilter<"SalesTeamMember"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    team?: XOR<SalesTeamScalarRelationFilter, SalesTeamWhereInput>
+  }
+
+  export type SalesTeamMemberOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    team?: SalesTeamOrderByWithRelationInput
+  }
+
+  export type SalesTeamMemberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_teamId_userId?: SalesTeamMemberTenantIdTeamIdUserIdCompoundUniqueInput
+    AND?: SalesTeamMemberWhereInput | SalesTeamMemberWhereInput[]
+    OR?: SalesTeamMemberWhereInput[]
+    NOT?: SalesTeamMemberWhereInput | SalesTeamMemberWhereInput[]
+    tenantId?: UuidFilter<"SalesTeamMember"> | string
+    teamId?: UuidFilter<"SalesTeamMember"> | string
+    userId?: UuidFilter<"SalesTeamMember"> | string
+    createdAt?: DateTimeFilter<"SalesTeamMember"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    team?: XOR<SalesTeamScalarRelationFilter, SalesTeamWhereInput>
+  }, "id" | "tenantId_teamId_userId">
+
+  export type SalesTeamMemberOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    _count?: SalesTeamMemberCountOrderByAggregateInput
+    _max?: SalesTeamMemberMaxOrderByAggregateInput
+    _min?: SalesTeamMemberMinOrderByAggregateInput
+  }
+
+  export type SalesTeamMemberScalarWhereWithAggregatesInput = {
+    AND?: SalesTeamMemberScalarWhereWithAggregatesInput | SalesTeamMemberScalarWhereWithAggregatesInput[]
+    OR?: SalesTeamMemberScalarWhereWithAggregatesInput[]
+    NOT?: SalesTeamMemberScalarWhereWithAggregatesInput | SalesTeamMemberScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SalesTeamMember"> | string
+    tenantId?: UuidWithAggregatesFilter<"SalesTeamMember"> | string
+    teamId?: UuidWithAggregatesFilter<"SalesTeamMember"> | string
+    userId?: UuidWithAggregatesFilter<"SalesTeamMember"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SalesTeamMember"> | Date | string
   }
 
   export type CrmAccountWhereInput = {
@@ -133876,6 +136486,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -133971,6 +136583,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -134066,6 +136680,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -134161,6 +136777,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -137312,6 +139930,7 @@ export namespace Prisma {
     code: string
     name: string
     ownerUserId?: string | null
+    teamId?: string | null
     createdAt?: Date | string
     tenant: TenantCreateNestedOneWithoutTerritoriesInput
   }
@@ -137322,6 +139941,7 @@ export namespace Prisma {
     code: string
     name: string
     ownerUserId?: string | null
+    teamId?: string | null
     createdAt?: Date | string
   }
 
@@ -137330,6 +139950,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutTerritoriesNestedInput
   }
@@ -137340,6 +139961,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -137349,6 +139971,7 @@ export namespace Prisma {
     code: string
     name: string
     ownerUserId?: string | null
+    teamId?: string | null
     createdAt?: Date | string
   }
 
@@ -137357,6 +139980,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -137366,6 +139990,120 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamCreateInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSalesTeamsInput
+    members?: SalesTeamMemberCreateNestedManyWithoutTeamInput
+  }
+
+  export type SalesTeamUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    members?: SalesTeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type SalesTeamUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSalesTeamsNestedInput
+    members?: SalesTeamMemberUpdateManyWithoutTeamNestedInput
+  }
+
+  export type SalesTeamUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: SalesTeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type SalesTeamCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamMemberCreateInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSalesTeamMembersInput
+    team: SalesTeamCreateNestedOneWithoutMembersInput
+  }
+
+  export type SalesTeamMemberUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    teamId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamMemberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSalesTeamMembersNestedInput
+    team?: SalesTeamUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type SalesTeamMemberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamMemberCreateManyInput = {
+    id?: string
+    tenantId: string
+    teamId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamMemberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamMemberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -142627,6 +145365,18 @@ export namespace Prisma {
     none?: TerritoryWhereInput
   }
 
+  export type SalesTeamListRelationFilter = {
+    every?: SalesTeamWhereInput
+    some?: SalesTeamWhereInput
+    none?: SalesTeamWhereInput
+  }
+
+  export type SalesTeamMemberListRelationFilter = {
+    every?: SalesTeamMemberWhereInput
+    some?: SalesTeamMemberWhereInput
+    none?: SalesTeamMemberWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -142964,6 +145714,14 @@ export namespace Prisma {
   }
 
   export type TerritoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SalesTeamOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SalesTeamMemberOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -145404,6 +148162,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     ownerUserId?: SortOrder
+    teamId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -145413,6 +148172,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     ownerUserId?: SortOrder
+    teamId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -145422,6 +148182,71 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     ownerUserId?: SortOrder
+    teamId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalesTeamTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type SalesTeamCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalesTeamMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalesTeamMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalesTeamScalarRelationFilter = {
+    is?: SalesTeamWhereInput
+    isNot?: SalesTeamWhereInput
+  }
+
+  export type SalesTeamMemberTenantIdTeamIdUserIdCompoundUniqueInput = {
+    tenantId: string
+    teamId: string
+    userId: string
+  }
+
+  export type SalesTeamMemberCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalesTeamMemberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalesTeamMemberMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -149165,6 +151990,20 @@ export namespace Prisma {
     connect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
   }
 
+  export type SalesTeamCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SalesTeamCreateWithoutTenantInput, SalesTeamUncheckedCreateWithoutTenantInput> | SalesTeamCreateWithoutTenantInput[] | SalesTeamUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamCreateOrConnectWithoutTenantInput | SalesTeamCreateOrConnectWithoutTenantInput[]
+    createMany?: SalesTeamCreateManyTenantInputEnvelope
+    connect?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+  }
+
+  export type SalesTeamMemberCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTenantInput, SalesTeamMemberUncheckedCreateWithoutTenantInput> | SalesTeamMemberCreateWithoutTenantInput[] | SalesTeamMemberUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTenantInput | SalesTeamMemberCreateOrConnectWithoutTenantInput[]
+    createMany?: SalesTeamMemberCreateManyTenantInputEnvelope
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -149758,6 +152597,20 @@ export namespace Prisma {
     connectOrCreate?: TerritoryCreateOrConnectWithoutTenantInput | TerritoryCreateOrConnectWithoutTenantInput[]
     createMany?: TerritoryCreateManyTenantInputEnvelope
     connect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+  }
+
+  export type SalesTeamUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SalesTeamCreateWithoutTenantInput, SalesTeamUncheckedCreateWithoutTenantInput> | SalesTeamCreateWithoutTenantInput[] | SalesTeamUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamCreateOrConnectWithoutTenantInput | SalesTeamCreateOrConnectWithoutTenantInput[]
+    createMany?: SalesTeamCreateManyTenantInputEnvelope
+    connect?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+  }
+
+  export type SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTenantInput, SalesTeamMemberUncheckedCreateWithoutTenantInput> | SalesTeamMemberCreateWithoutTenantInput[] | SalesTeamMemberUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTenantInput | SalesTeamMemberCreateOrConnectWithoutTenantInput[]
+    createMany?: SalesTeamMemberCreateManyTenantInputEnvelope
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -150970,6 +153823,34 @@ export namespace Prisma {
     deleteMany?: TerritoryScalarWhereInput | TerritoryScalarWhereInput[]
   }
 
+  export type SalesTeamUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SalesTeamCreateWithoutTenantInput, SalesTeamUncheckedCreateWithoutTenantInput> | SalesTeamCreateWithoutTenantInput[] | SalesTeamUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamCreateOrConnectWithoutTenantInput | SalesTeamCreateOrConnectWithoutTenantInput[]
+    upsert?: SalesTeamUpsertWithWhereUniqueWithoutTenantInput | SalesTeamUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SalesTeamCreateManyTenantInputEnvelope
+    set?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    disconnect?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    delete?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    connect?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    update?: SalesTeamUpdateWithWhereUniqueWithoutTenantInput | SalesTeamUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SalesTeamUpdateManyWithWhereWithoutTenantInput | SalesTeamUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SalesTeamScalarWhereInput | SalesTeamScalarWhereInput[]
+  }
+
+  export type SalesTeamMemberUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTenantInput, SalesTeamMemberUncheckedCreateWithoutTenantInput> | SalesTeamMemberCreateWithoutTenantInput[] | SalesTeamMemberUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTenantInput | SalesTeamMemberCreateOrConnectWithoutTenantInput[]
+    upsert?: SalesTeamMemberUpsertWithWhereUniqueWithoutTenantInput | SalesTeamMemberUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SalesTeamMemberCreateManyTenantInputEnvelope
+    set?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    disconnect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    delete?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    update?: SalesTeamMemberUpdateWithWhereUniqueWithoutTenantInput | SalesTeamMemberUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SalesTeamMemberUpdateManyWithWhereWithoutTenantInput | SalesTeamMemberUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SalesTeamMemberScalarWhereInput | SalesTeamMemberScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -152158,6 +155039,34 @@ export namespace Prisma {
     update?: TerritoryUpdateWithWhereUniqueWithoutTenantInput | TerritoryUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: TerritoryUpdateManyWithWhereWithoutTenantInput | TerritoryUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: TerritoryScalarWhereInput | TerritoryScalarWhereInput[]
+  }
+
+  export type SalesTeamUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SalesTeamCreateWithoutTenantInput, SalesTeamUncheckedCreateWithoutTenantInput> | SalesTeamCreateWithoutTenantInput[] | SalesTeamUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamCreateOrConnectWithoutTenantInput | SalesTeamCreateOrConnectWithoutTenantInput[]
+    upsert?: SalesTeamUpsertWithWhereUniqueWithoutTenantInput | SalesTeamUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SalesTeamCreateManyTenantInputEnvelope
+    set?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    disconnect?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    delete?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    connect?: SalesTeamWhereUniqueInput | SalesTeamWhereUniqueInput[]
+    update?: SalesTeamUpdateWithWhereUniqueWithoutTenantInput | SalesTeamUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SalesTeamUpdateManyWithWhereWithoutTenantInput | SalesTeamUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SalesTeamScalarWhereInput | SalesTeamScalarWhereInput[]
+  }
+
+  export type SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTenantInput, SalesTeamMemberUncheckedCreateWithoutTenantInput> | SalesTeamMemberCreateWithoutTenantInput[] | SalesTeamMemberUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTenantInput | SalesTeamMemberCreateOrConnectWithoutTenantInput[]
+    upsert?: SalesTeamMemberUpsertWithWhereUniqueWithoutTenantInput | SalesTeamMemberUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SalesTeamMemberCreateManyTenantInputEnvelope
+    set?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    disconnect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    delete?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    update?: SalesTeamMemberUpdateWithWhereUniqueWithoutTenantInput | SalesTeamMemberUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SalesTeamMemberUpdateManyWithWhereWithoutTenantInput | SalesTeamMemberUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SalesTeamMemberScalarWhereInput | SalesTeamMemberScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -153861,6 +156770,90 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutTerritoriesInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTerritoriesInput, TenantUpdateWithoutTerritoriesInput>, TenantUncheckedUpdateWithoutTerritoriesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutSalesTeamsInput = {
+    create?: XOR<TenantCreateWithoutSalesTeamsInput, TenantUncheckedCreateWithoutSalesTeamsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSalesTeamsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type SalesTeamMemberCreateNestedManyWithoutTeamInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTeamInput, SalesTeamMemberUncheckedCreateWithoutTeamInput> | SalesTeamMemberCreateWithoutTeamInput[] | SalesTeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTeamInput | SalesTeamMemberCreateOrConnectWithoutTeamInput[]
+    createMany?: SalesTeamMemberCreateManyTeamInputEnvelope
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+  }
+
+  export type SalesTeamMemberUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTeamInput, SalesTeamMemberUncheckedCreateWithoutTeamInput> | SalesTeamMemberCreateWithoutTeamInput[] | SalesTeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTeamInput | SalesTeamMemberCreateOrConnectWithoutTeamInput[]
+    createMany?: SalesTeamMemberCreateManyTeamInputEnvelope
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutSalesTeamsNestedInput = {
+    create?: XOR<TenantCreateWithoutSalesTeamsInput, TenantUncheckedCreateWithoutSalesTeamsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSalesTeamsInput
+    upsert?: TenantUpsertWithoutSalesTeamsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSalesTeamsInput, TenantUpdateWithoutSalesTeamsInput>, TenantUncheckedUpdateWithoutSalesTeamsInput>
+  }
+
+  export type SalesTeamMemberUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTeamInput, SalesTeamMemberUncheckedCreateWithoutTeamInput> | SalesTeamMemberCreateWithoutTeamInput[] | SalesTeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTeamInput | SalesTeamMemberCreateOrConnectWithoutTeamInput[]
+    upsert?: SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput | SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: SalesTeamMemberCreateManyTeamInputEnvelope
+    set?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    disconnect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    delete?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    update?: SalesTeamMemberUpdateWithWhereUniqueWithoutTeamInput | SalesTeamMemberUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: SalesTeamMemberUpdateManyWithWhereWithoutTeamInput | SalesTeamMemberUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: SalesTeamMemberScalarWhereInput | SalesTeamMemberScalarWhereInput[]
+  }
+
+  export type SalesTeamMemberUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<SalesTeamMemberCreateWithoutTeamInput, SalesTeamMemberUncheckedCreateWithoutTeamInput> | SalesTeamMemberCreateWithoutTeamInput[] | SalesTeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: SalesTeamMemberCreateOrConnectWithoutTeamInput | SalesTeamMemberCreateOrConnectWithoutTeamInput[]
+    upsert?: SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput | SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: SalesTeamMemberCreateManyTeamInputEnvelope
+    set?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    disconnect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    delete?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    connect?: SalesTeamMemberWhereUniqueInput | SalesTeamMemberWhereUniqueInput[]
+    update?: SalesTeamMemberUpdateWithWhereUniqueWithoutTeamInput | SalesTeamMemberUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: SalesTeamMemberUpdateManyWithWhereWithoutTeamInput | SalesTeamMemberUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: SalesTeamMemberScalarWhereInput | SalesTeamMemberScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutSalesTeamMembersInput = {
+    create?: XOR<TenantCreateWithoutSalesTeamMembersInput, TenantUncheckedCreateWithoutSalesTeamMembersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSalesTeamMembersInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type SalesTeamCreateNestedOneWithoutMembersInput = {
+    create?: XOR<SalesTeamCreateWithoutMembersInput, SalesTeamUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: SalesTeamCreateOrConnectWithoutMembersInput
+    connect?: SalesTeamWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSalesTeamMembersNestedInput = {
+    create?: XOR<TenantCreateWithoutSalesTeamMembersInput, TenantUncheckedCreateWithoutSalesTeamMembersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSalesTeamMembersInput
+    upsert?: TenantUpsertWithoutSalesTeamMembersInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSalesTeamMembersInput, TenantUpdateWithoutSalesTeamMembersInput>, TenantUncheckedUpdateWithoutSalesTeamMembersInput>
+  }
+
+  export type SalesTeamUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<SalesTeamCreateWithoutMembersInput, SalesTeamUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: SalesTeamCreateOrConnectWithoutMembersInput
+    upsert?: SalesTeamUpsertWithoutMembersInput
+    connect?: SalesTeamWhereUniqueInput
+    update?: XOR<XOR<SalesTeamUpdateToOneWithWhereWithoutMembersInput, SalesTeamUpdateWithoutMembersInput>, SalesTeamUncheckedUpdateWithoutMembersInput>
   }
 
   export type CrmAccountCreatetagsInput = {
@@ -159764,6 +162757,7 @@ export namespace Prisma {
     code: string
     name: string
     ownerUserId?: string | null
+    teamId?: string | null
     createdAt?: Date | string
   }
 
@@ -159772,6 +162766,7 @@ export namespace Prisma {
     code: string
     name: string
     ownerUserId?: string | null
+    teamId?: string | null
     createdAt?: Date | string
   }
 
@@ -159782,6 +162777,56 @@ export namespace Prisma {
 
   export type TerritoryCreateManyTenantInputEnvelope = {
     data: TerritoryCreateManyTenantInput | TerritoryCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SalesTeamCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    members?: SalesTeamMemberCreateNestedManyWithoutTeamInput
+  }
+
+  export type SalesTeamUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    members?: SalesTeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type SalesTeamCreateOrConnectWithoutTenantInput = {
+    where: SalesTeamWhereUniqueInput
+    create: XOR<SalesTeamCreateWithoutTenantInput, SalesTeamUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SalesTeamCreateManyTenantInputEnvelope = {
+    data: SalesTeamCreateManyTenantInput | SalesTeamCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SalesTeamMemberCreateWithoutTenantInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    team: SalesTeamCreateNestedOneWithoutMembersInput
+  }
+
+  export type SalesTeamMemberUncheckedCreateWithoutTenantInput = {
+    id?: string
+    teamId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamMemberCreateOrConnectWithoutTenantInput = {
+    where: SalesTeamMemberWhereUniqueInput
+    create: XOR<SalesTeamMemberCreateWithoutTenantInput, SalesTeamMemberUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SalesTeamMemberCreateManyTenantInputEnvelope = {
+    data: SalesTeamMemberCreateManyTenantInput | SalesTeamMemberCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -162419,7 +165464,62 @@ export namespace Prisma {
     code?: StringFilter<"Territory"> | string
     name?: StringFilter<"Territory"> | string
     ownerUserId?: UuidNullableFilter<"Territory"> | string | null
+    teamId?: UuidNullableFilter<"Territory"> | string | null
     createdAt?: DateTimeFilter<"Territory"> | Date | string
+  }
+
+  export type SalesTeamUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SalesTeamWhereUniqueInput
+    update: XOR<SalesTeamUpdateWithoutTenantInput, SalesTeamUncheckedUpdateWithoutTenantInput>
+    create: XOR<SalesTeamCreateWithoutTenantInput, SalesTeamUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SalesTeamUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SalesTeamWhereUniqueInput
+    data: XOR<SalesTeamUpdateWithoutTenantInput, SalesTeamUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SalesTeamUpdateManyWithWhereWithoutTenantInput = {
+    where: SalesTeamScalarWhereInput
+    data: XOR<SalesTeamUpdateManyMutationInput, SalesTeamUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SalesTeamScalarWhereInput = {
+    AND?: SalesTeamScalarWhereInput | SalesTeamScalarWhereInput[]
+    OR?: SalesTeamScalarWhereInput[]
+    NOT?: SalesTeamScalarWhereInput | SalesTeamScalarWhereInput[]
+    id?: UuidFilter<"SalesTeam"> | string
+    tenantId?: UuidFilter<"SalesTeam"> | string
+    code?: StringFilter<"SalesTeam"> | string
+    name?: StringFilter<"SalesTeam"> | string
+    createdAt?: DateTimeFilter<"SalesTeam"> | Date | string
+  }
+
+  export type SalesTeamMemberUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SalesTeamMemberWhereUniqueInput
+    update: XOR<SalesTeamMemberUpdateWithoutTenantInput, SalesTeamMemberUncheckedUpdateWithoutTenantInput>
+    create: XOR<SalesTeamMemberCreateWithoutTenantInput, SalesTeamMemberUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SalesTeamMemberUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SalesTeamMemberWhereUniqueInput
+    data: XOR<SalesTeamMemberUpdateWithoutTenantInput, SalesTeamMemberUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SalesTeamMemberUpdateManyWithWhereWithoutTenantInput = {
+    where: SalesTeamMemberScalarWhereInput
+    data: XOR<SalesTeamMemberUpdateManyMutationInput, SalesTeamMemberUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SalesTeamMemberScalarWhereInput = {
+    AND?: SalesTeamMemberScalarWhereInput | SalesTeamMemberScalarWhereInput[]
+    OR?: SalesTeamMemberScalarWhereInput[]
+    NOT?: SalesTeamMemberScalarWhereInput | SalesTeamMemberScalarWhereInput[]
+    id?: UuidFilter<"SalesTeamMember"> | string
+    tenantId?: UuidFilter<"SalesTeamMember"> | string
+    teamId?: UuidFilter<"SalesTeamMember"> | string
+    userId?: UuidFilter<"SalesTeamMember"> | string
+    createdAt?: DateTimeFilter<"SalesTeamMember"> | Date | string
   }
 
   export type TenantCreateWithoutConfigurationVersionsInput = {
@@ -162514,6 +165614,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -162608,6 +165710,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -162718,6 +165822,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -162812,6 +165918,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -162906,6 +166014,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -163000,6 +166110,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -163144,6 +166256,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -163238,6 +166352,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -163348,6 +166464,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -163442,6 +166560,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -163690,6 +166810,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -163784,6 +166906,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -163990,6 +167114,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -164084,6 +167210,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -164223,6 +167351,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -164317,6 +167447,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -164446,6 +167578,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -164540,6 +167674,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -164679,6 +167815,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -164773,6 +167911,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -164902,6 +168042,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -164996,6 +168138,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -165165,6 +168309,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -165259,6 +168405,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -165406,6 +168554,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -165500,6 +168650,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -165639,6 +168791,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -165733,6 +168887,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -165862,6 +169018,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -165956,6 +169114,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -166116,6 +169276,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -166210,6 +169372,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -166402,6 +169566,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -166496,6 +169662,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -166660,6 +169828,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -166754,6 +169924,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -166914,6 +170086,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -167008,6 +170182,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -167118,6 +170294,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -167212,6 +170390,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -167306,6 +170486,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -167400,6 +170582,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -167510,6 +170694,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -167604,6 +170790,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -167698,6 +170886,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -167792,6 +170982,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -167902,6 +171094,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -167996,6 +171190,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -168090,6 +171286,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -168184,6 +171382,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -168294,6 +171494,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -168388,6 +171590,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -168482,6 +171686,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -168576,6 +171782,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -168686,6 +171894,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -168780,6 +171990,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -168874,6 +172086,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -168968,6 +172182,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -169078,6 +172294,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -169172,6 +172390,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -169266,6 +172486,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -169360,6 +172582,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -169470,6 +172694,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -169564,6 +172790,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -169658,6 +172886,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -169752,6 +172982,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -169924,6 +173156,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -170018,6 +173252,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -170370,6 +173606,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -170464,6 +173702,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -170602,6 +173842,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -170696,6 +173938,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -170863,6 +174107,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -170957,6 +174203,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -171067,6 +174315,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -171161,6 +174411,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -171255,6 +174507,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -171349,6 +174603,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -171459,6 +174715,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -171553,6 +174811,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -171647,6 +174907,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -171741,6 +175003,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -171877,6 +175141,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -171971,6 +175237,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -172137,6 +175405,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -172231,6 +175501,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -172442,6 +175714,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -172536,6 +175810,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -172791,6 +176067,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -172885,6 +176163,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -173039,6 +176319,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -173133,6 +176415,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -173653,6 +176937,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -173747,6 +177033,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -173879,6 +177167,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -173973,6 +177263,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -174137,6 +177429,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -174231,6 +177525,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -174341,6 +177637,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -174435,6 +177733,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -174529,6 +177829,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -174623,6 +177925,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -174733,6 +178037,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -174827,6 +178133,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -174921,6 +178229,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -175015,6 +178325,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -175125,6 +178437,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -175219,6 +178533,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -175313,6 +178629,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -175407,6 +178725,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -175517,6 +178837,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -175611,6 +178933,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -175705,6 +179029,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -175799,6 +179125,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -175935,6 +179263,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -176029,6 +179359,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -176139,6 +179471,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -176233,6 +179567,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -176376,6 +179712,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -176470,6 +179808,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -176603,6 +179943,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -176697,6 +180039,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -176807,6 +180151,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -176901,6 +180247,896 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutSalesTeamsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSalesTeamsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSalesTeamsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSalesTeamsInput, TenantUncheckedCreateWithoutSalesTeamsInput>
+  }
+
+  export type SalesTeamMemberCreateWithoutTeamInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSalesTeamMembersInput
+  }
+
+  export type SalesTeamMemberUncheckedCreateWithoutTeamInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamMemberCreateOrConnectWithoutTeamInput = {
+    where: SalesTeamMemberWhereUniqueInput
+    create: XOR<SalesTeamMemberCreateWithoutTeamInput, SalesTeamMemberUncheckedCreateWithoutTeamInput>
+  }
+
+  export type SalesTeamMemberCreateManyTeamInputEnvelope = {
+    data: SalesTeamMemberCreateManyTeamInput | SalesTeamMemberCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutSalesTeamsInput = {
+    update: XOR<TenantUpdateWithoutSalesTeamsInput, TenantUncheckedUpdateWithoutSalesTeamsInput>
+    create: XOR<TenantCreateWithoutSalesTeamsInput, TenantUncheckedCreateWithoutSalesTeamsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSalesTeamsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSalesTeamsInput, TenantUncheckedUpdateWithoutSalesTeamsInput>
+  }
+
+  export type TenantUpdateWithoutSalesTeamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
+    where: SalesTeamMemberWhereUniqueInput
+    update: XOR<SalesTeamMemberUpdateWithoutTeamInput, SalesTeamMemberUncheckedUpdateWithoutTeamInput>
+    create: XOR<SalesTeamMemberCreateWithoutTeamInput, SalesTeamMemberUncheckedCreateWithoutTeamInput>
+  }
+
+  export type SalesTeamMemberUpdateWithWhereUniqueWithoutTeamInput = {
+    where: SalesTeamMemberWhereUniqueInput
+    data: XOR<SalesTeamMemberUpdateWithoutTeamInput, SalesTeamMemberUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type SalesTeamMemberUpdateManyWithWhereWithoutTeamInput = {
+    where: SalesTeamMemberScalarWhereInput
+    data: XOR<SalesTeamMemberUpdateManyMutationInput, SalesTeamMemberUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type TenantCreateWithoutSalesTeamMembersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSalesTeamMembersInput, TenantUncheckedCreateWithoutSalesTeamMembersInput>
+  }
+
+  export type SalesTeamCreateWithoutMembersInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSalesTeamsInput
+  }
+
+  export type SalesTeamUncheckedCreateWithoutMembersInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamCreateOrConnectWithoutMembersInput = {
+    where: SalesTeamWhereUniqueInput
+    create: XOR<SalesTeamCreateWithoutMembersInput, SalesTeamUncheckedCreateWithoutMembersInput>
+  }
+
+  export type TenantUpsertWithoutSalesTeamMembersInput = {
+    update: XOR<TenantUpdateWithoutSalesTeamMembersInput, TenantUncheckedUpdateWithoutSalesTeamMembersInput>
+    create: XOR<TenantCreateWithoutSalesTeamMembersInput, TenantUncheckedCreateWithoutSalesTeamMembersInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSalesTeamMembersInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSalesTeamMembersInput, TenantUncheckedUpdateWithoutSalesTeamMembersInput>
+  }
+
+  export type TenantUpdateWithoutSalesTeamMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type SalesTeamUpsertWithoutMembersInput = {
+    update: XOR<SalesTeamUpdateWithoutMembersInput, SalesTeamUncheckedUpdateWithoutMembersInput>
+    create: XOR<SalesTeamCreateWithoutMembersInput, SalesTeamUncheckedCreateWithoutMembersInput>
+    where?: SalesTeamWhereInput
+  }
+
+  export type SalesTeamUpdateToOneWithWhereWithoutMembersInput = {
+    where?: SalesTeamWhereInput
+    data: XOR<SalesTeamUpdateWithoutMembersInput, SalesTeamUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type SalesTeamUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSalesTeamsNestedInput
+  }
+
+  export type SalesTeamUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TenantCreateWithoutCrmAccountsInput = {
@@ -176995,6 +181231,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -177089,6 +181327,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -177199,6 +181439,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -177293,6 +181535,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -177387,6 +181631,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -177481,6 +181727,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -177591,6 +181839,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -177685,6 +181935,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -177779,6 +182031,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -177873,6 +182127,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -177983,6 +182239,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -178077,6 +182335,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -178171,6 +182431,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -178265,6 +182527,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -178375,6 +182639,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -178469,6 +182735,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -178563,6 +182831,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -178657,6 +182927,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -178793,6 +183065,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -178887,6 +183161,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -178997,6 +183273,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -179091,6 +183369,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -179232,6 +183512,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -179326,6 +183608,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -179457,6 +183741,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -179551,6 +183837,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -179695,6 +183983,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -179789,6 +184079,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -179899,6 +184191,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -179993,6 +184287,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -180142,6 +184438,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -180236,6 +184534,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -180375,6 +184675,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -180469,6 +184771,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -180579,6 +184883,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -180673,6 +184979,8 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -180767,6 +185075,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -180861,6 +185171,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -180971,6 +185283,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -181065,6 +185379,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -181159,6 +185475,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -181253,6 +185571,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -181410,6 +185730,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -181504,6 +185826,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -181651,6 +185975,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -181745,6 +186071,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -181889,6 +186217,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -181983,6 +186313,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -182093,6 +186425,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -182187,6 +186521,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -182334,6 +186670,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -182428,6 +186766,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -182565,6 +186905,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -182659,6 +187001,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -182769,6 +187113,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -182863,6 +187209,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -182957,6 +187305,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -183051,6 +187401,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -183161,6 +187513,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -183255,6 +187609,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -183349,6 +187705,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -183443,6 +187801,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -183583,6 +187943,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -183677,6 +188039,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -183787,6 +188151,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -183881,6 +188247,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -184024,6 +188392,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -184118,6 +188488,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -184251,6 +188623,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -184345,6 +188719,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -184487,6 +188863,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -184581,6 +188959,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -184691,6 +189071,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -184785,6 +189167,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -184932,6 +189316,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -185026,6 +189412,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -185163,6 +189551,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -185257,6 +189647,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -185397,6 +189789,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -185491,6 +189885,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -185601,6 +189997,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -185695,6 +190093,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -185836,6 +190236,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -185930,6 +190332,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -186061,6 +190465,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -186155,6 +190561,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -186297,6 +190705,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -186391,6 +190801,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -186501,6 +190913,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -186595,6 +191009,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -186732,6 +191148,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -186826,6 +191244,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -186953,6 +191373,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -187047,6 +191469,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -187157,6 +191581,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -187251,6 +191677,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -187345,6 +191773,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -187439,6 +191869,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -187549,6 +191981,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -187643,6 +192077,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -187737,6 +192173,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -187831,6 +192269,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -187971,6 +192411,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -188065,6 +192507,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -188175,6 +192619,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -188269,6 +192715,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -188404,6 +192852,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -188498,6 +192948,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -188623,6 +193075,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -188717,6 +193171,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -188859,6 +193315,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -188953,6 +193411,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -189063,6 +193523,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -189157,6 +193619,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -189310,6 +193774,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -189404,6 +193870,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -189547,6 +194015,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -189641,6 +194111,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -189777,6 +194249,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -189871,6 +194345,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -189981,6 +194457,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -190075,6 +194553,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -190212,6 +194692,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -190306,6 +194788,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -190433,6 +194917,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -190527,6 +195013,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -190667,6 +195155,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -190761,6 +195251,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -190871,6 +195363,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -190965,6 +195459,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -191110,6 +195606,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -191204,6 +195702,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -191339,6 +195839,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -191433,6 +195935,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -191543,6 +196047,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -191637,6 +196143,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -191731,6 +196239,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -191825,6 +196335,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -191967,6 +196479,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -192061,6 +196575,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -192171,6 +196687,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -192265,6 +196783,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -192418,6 +196938,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -192512,6 +197034,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -192655,6 +197179,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -192749,6 +197275,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -192859,6 +197387,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -192953,6 +197483,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -193047,6 +197579,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -193141,6 +197675,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -193251,6 +197787,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -193345,6 +197883,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -193439,6 +197979,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -193533,6 +198075,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -193660,6 +198204,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -193754,6 +198300,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -193871,6 +198419,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -193965,6 +198515,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -194106,6 +198658,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -194200,6 +198754,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -194331,6 +198887,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -194425,6 +198983,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -194535,6 +199095,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -194629,6 +199191,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -194723,6 +199287,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -194817,6 +199383,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -194955,6 +199523,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -195049,6 +199619,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -195159,6 +199731,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -195253,6 +199827,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -195386,6 +199962,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -195480,6 +200058,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -195603,6 +200183,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -195697,6 +200279,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -195845,6 +200429,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -195939,6 +200525,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -196049,6 +200637,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -196143,6 +200733,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -196280,6 +200872,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -196374,6 +200968,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -196501,6 +201097,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -196595,6 +201193,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -196705,6 +201305,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -196799,6 +201401,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -196893,6 +201497,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -196987,6 +201593,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -197097,6 +201705,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -197191,6 +201801,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -197285,6 +201897,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -197379,6 +201993,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -197540,6 +202156,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -197634,6 +202252,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -197773,6 +202393,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -197867,6 +202489,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -198005,6 +202629,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -198099,6 +202725,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -198209,6 +202837,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -198303,6 +202933,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -198448,6 +203080,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -198542,6 +203176,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -198677,6 +203313,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -198771,6 +203409,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -198907,6 +203547,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -199001,6 +203643,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -199111,6 +203755,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -199205,6 +203851,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -199348,6 +203996,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -199442,6 +204092,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -199575,6 +204227,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -199669,6 +204323,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -199811,6 +204467,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -199905,6 +204563,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -200015,6 +204675,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
     territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -200109,6 +204771,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -200242,6 +204906,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -200336,6 +205002,8 @@ export namespace Prisma {
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -201301,6 +205969,21 @@ export namespace Prisma {
     code: string
     name: string
     ownerUserId?: string | null
+    teamId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamMemberCreateManyTenantInput = {
+    id?: string
+    teamId: string
+    userId: string
     createdAt?: Date | string
   }
 
@@ -204168,6 +208851,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -204176,6 +208860,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -204184,6 +208869,51 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: SalesTeamMemberUpdateManyWithoutTeamNestedInput
+  }
+
+  export type SalesTeamUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: SalesTeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type SalesTeamUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamMemberUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: SalesTeamUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type SalesTeamMemberUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamMemberUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -204933,6 +209663,34 @@ export namespace Prisma {
     skuId?: StringFieldUpdateOperationsInput | string
     expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type SalesTeamMemberCreateManyTeamInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type SalesTeamMemberUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSalesTeamMembersNestedInput
+  }
+
+  export type SalesTeamMemberUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalesTeamMemberUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PriceListEntryCreateManyPriceListInput = {
