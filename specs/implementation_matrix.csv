@@ -56,9 +56,9 @@ CRM-010,CRM,Interaction timeline,Implemented (Sprint 006),PLANNED,R1,,,"Interact
 CRM-011,CRM,Consent/preferences,P1,PLANNED,R1,,,
 CRM-012,CRM,Customer onboarding,P1,PLANNED,R1,,,
 PIM-001,PIM,Products/SKUs,P1,Implemented (Sprint 003),R1,,,Products/SKUs with lifecycle + events
-PIM-002,PIM,Variants,P1,PLANNED,R1,,,
-PIM-003,PIM,Attributes,P1,PLANNED,R1,,,
-PIM-004,PIM,Categories,P1,PLANNED,R1,,,
+PIM-002,PIM,Variants,P1,DONE,R1,,,Variant axes + combination generator (Sprint 025)
+PIM-003,PIM,Attributes,P1,DONE,R1,,,Typed attributes validated by custom-field defs (Sprint 025)
+PIM-004,PIM,Categories,P1,DONE,R1,,,Category tree with product counts (Sprint 025)
 PIM-005,PIM,Barcode/GTIN,P1,Partially implemented (Sprint 003),R1,,,Tenant-scoped barcode uniqueness + scan lookup
 PIM-006,PIM,Packaging hierarchy,P1,PLANNED,R1,,,
 PIM-007,PIM,Units of measure,P1,Partially implemented (Sprint 003),R1,,,Base UOM + per-SKU conversion factors

@@ -23,6 +23,14 @@ interface ProductDetail {
   skus: SkuView[];
 }
 
+interface CategoryView {
+  id: string;
+  code: string;
+  name: string;
+  parentId: string | null;
+  productCount: number;
+}
+
 const SKU_BADGE: Record<SkuView['status'], string> = {
   DRAFT: 'badge-warn',
   ACTIVE: 'badge-ok',
@@ -43,6 +51,11 @@ export default function ProductDetailPage() {
   const [baseUom, setBaseUom] = useState('pcs');
   const [barcodeSku, setBarcodeSku] = useState('');
   const [barcodeValue, setBarcodeValue] = useState('');
+  const [categories, setCategories] = useState<CategoryView[]>([]);
+  const [axis1, setAxis1] = useState('color');
+  const [values1, setValues1] = useState('');
+  const [axis2, setAxis2] = useState('size');
+  const [values2, setValues2] = useState('');
 
   const load = useCallback(() => {
     api<ProductDetail>('GET', `/api/v1/products/${productId}`)
@@ -54,6 +67,12 @@ export default function ProductDetailPage() {
   }, [productId]);
 
   useEffect(load, [load]);
+
+  useEffect(() => {
+    api<{ categories: CategoryView[] }>('GET', '/api/v1/catalog/categories')
+      .then((r) => setCategories(r.categories))
+      .catch(() => setCategories([]));
+  }, [notice]);
 
   async function run(fn: () => Promise<unknown>, successText: string) {
     setBusy(true);
@@ -297,6 +316,127 @@ export default function ProductDetailPage() {
               </form>
             ) : null}
           </div>
+
+          {can('product.manage') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Merchandising</h2>
+              <div className="row" style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
+                <div>
+                  <label className="label">Category</label>
+                  <select
+                    className="select"
+                    style={{ minWidth: 200 }}
+                    defaultValue=""
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        void run(
+                          () =>
+                            api('POST', `/api/v1/catalog/products/${productId}/category`, {
+                              categoryId: e.target.value,
+                            }),
+                          'Product assigned to the category.',
+                        );
+                      }
+                    }}
+                  >
+                    <option value="">Assign to category…</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.code} — {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  className="btn btn-sm"
+                  disabled={busy}
+                  onClick={() => {
+                    const code = window.prompt('New category code (e.g. LIGHTING)');
+                    if (!code) return;
+                    const name = window.prompt('Category name') ?? code;
+                    void run(
+                      () => api('POST', '/api/v1/catalog/categories', { code, name }),
+                      'Category created.',
+                    );
+                  }}
+                  type="button"
+                >
+                  New category
+                </button>
+              </div>
+
+              <div
+                style={{
+                  marginTop: 14,
+                  borderTop: '1px solid var(--color-border)',
+                  paddingTop: 10,
+                }}
+              >
+                <div className="muted" style={{ fontSize: 13, marginBottom: 6 }}>
+                  Variant generator — one SKU per combination (e.g. color × size).
+                </div>
+                <div className="row" style={{ flexWrap: 'wrap' }}>
+                  <input
+                    className="input mono"
+                    style={{ maxWidth: 100 }}
+                    value={axis1}
+                    onChange={(e) => setAxis1(e.target.value)}
+                    placeholder="axis 1"
+                  />
+                  <input
+                    className="input"
+                    style={{ maxWidth: 200 }}
+                    value={values1}
+                    onChange={(e) => setValues1(e.target.value)}
+                    placeholder="red, blue, black"
+                  />
+                  <input
+                    className="input mono"
+                    style={{ maxWidth: 100 }}
+                    value={axis2}
+                    onChange={(e) => setAxis2(e.target.value)}
+                    placeholder="axis 2 (optional)"
+                  />
+                  <input
+                    className="input"
+                    style={{ maxWidth: 160 }}
+                    value={values2}
+                    onChange={(e) => setValues2(e.target.value)}
+                    placeholder="S, M, L"
+                  />
+                  <button
+                    className="btn btn-sm btn-primary"
+                    disabled={busy || !axis1 || !values1.trim()}
+                    onClick={() => {
+                      const axes: Record<string, string[]> = {
+                        [axis1]: values1
+                          .split(',')
+                          .map((v) => v.trim())
+                          .filter(Boolean),
+                      };
+                      if (axis2 && values2.trim()) {
+                        axes[axis2] = values2
+                          .split(',')
+                          .map((v) => v.trim())
+                          .filter(Boolean);
+                      }
+                      void run(
+                        () =>
+                          api(`POST`, `/api/v1/catalog/products/${productId}/variants`, {
+                            axes,
+                            baseUom: 'pcs',
+                          }),
+                        'Variants generated.',
+                      );
+                    }}
+                    type="button"
+                  >
+                    Generate variants
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </>
       ) : null}
     </main>

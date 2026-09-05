@@ -27,7 +27,7 @@ import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
 import { IntegrationService } from '@nexora/domain-int';
-import { CatalogService } from '@nexora/domain-pim';
+import { MerchandisingService, CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
@@ -110,6 +110,8 @@ import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/
 import {
   BarcodesController,
   CATALOG_SERVICE,
+  MERCHANDISING_SERVICE,
+  MerchandisingController,
   ProductsController,
   SkusController,
 } from './pim/pim.controller';
@@ -199,6 +201,7 @@ export const REDIS = 'REDIS';
     TenantExportController,
     PlatformUsageController,
     PdfController,
+    MerchandisingController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -526,6 +529,11 @@ export const REDIS = 'REDIS';
     {
       provide: PDF_SERVICE,
       useFactory: (prisma: PrismaClient) => new PdfService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: MERCHANDISING_SERVICE,
+      useFactory: (prisma: PrismaClient) => new MerchandisingService(prisma),
       inject: [PRISMA],
     },
     {

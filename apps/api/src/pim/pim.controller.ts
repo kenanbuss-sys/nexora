@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
-import type { CatalogService } from '@nexora/domain-pim';
+import type { CatalogService, MerchandisingService } from '@nexora/domain-pim';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -7,6 +7,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const CATALOG_SERVICE = 'CATALOG_SERVICE';
+export const MERCHANDISING_SERVICE = 'MERCHANDISING_SERVICE';
 
 const createProductSchema = z.object({
   code: z.string().min(1).max(64),
@@ -123,5 +124,63 @@ export class BarcodesController {
   @RequirePermission('product.read')
   async lookup(@Param('value') value: string, @Ctx() ctx: RequestContext) {
     return this.catalog.lookupBarcode(value, ctx);
+  }
+}
+
+const createCategorySchema = z.object({
+  code: z.string().min(1).max(40),
+  name: z.string().min(1).max(200),
+  parentId: z.string().uuid().optional(),
+});
+const assignCategorySchema = z.object({ categoryId: z.string().uuid().nullable() });
+const attributesSchema = z.object({ attributes: z.record(z.unknown()) });
+const generateVariantsSchema = z.object({
+  axes: z.record(z.array(z.string().min(1).max(40)).min(1).max(20)),
+  baseUom: z.string().min(1).max(16),
+});
+
+/** Merchandising: categories, attributes, variants (Sprint 025). */
+@Controller('api/v1/catalog')
+export class MerchandisingController {
+  constructor(
+    @Inject(MERCHANDISING_SERVICE) private readonly merchandising: MerchandisingService,
+  ) {}
+
+  @Get('categories')
+  @RequirePermission('product.read')
+  async categories(@Ctx() ctx: RequestContext) {
+    return { categories: await this.merchandising.listCategories(ctx) };
+  }
+
+  @Post('categories')
+  @RequirePermission('product.manage')
+  async createCategory(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.merchandising.createCategory(parseBody(createCategorySchema, body), ctx);
+  }
+
+  @Post('products/:id/category')
+  @RequirePermission('product.manage')
+  async assignCategory(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const { categoryId } = parseBody(assignCategorySchema, body);
+    await this.merchandising.assignCategory(id, categoryId, ctx);
+    return { ok: true };
+  }
+
+  @Post('products/:id/attributes')
+  @RequirePermission('product.manage')
+  async setAttributes(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const { attributes } = parseBody(attributesSchema, body);
+    await this.merchandising.setAttributes(id, attributes, ctx);
+    return { ok: true };
+  }
+
+  @Post('products/:id/variants')
+  @RequirePermission('product.manage')
+  async generateVariants(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    return this.merchandising.generateVariants(id, parseBody(generateVariantsSchema, body), ctx);
   }
 }

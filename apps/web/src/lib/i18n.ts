@@ -273,6 +273,12 @@ export const BS: Record<string, string> = {
 
   // Misc
   Language: 'Jezik',
+  Merchandising: 'Merchandising',
+  'New category': 'Nova kategorija',
+  'Generate variants': 'Generiši varijante',
+  'Assign to category…': 'Dodijeli kategoriji…',
+  'Variant generator — one SKU per combination (e.g. color × size).':
+    'Generator varijanti — jedan artikal po kombinaciji (npr. boja × veličina).',
   'Shop floor': 'Pogon',
   'All work orders': 'Svi radni nalozi',
   '← All work orders': '← Svi radni nalozi',
