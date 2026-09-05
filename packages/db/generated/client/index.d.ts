@@ -156,6 +156,13 @@ export type DocumentTemplateVersion = $Result.DefaultSelection<Prisma.$DocumentT
  */
 export type Party = $Result.DefaultSelection<Prisma.$PartyPayload>
 /**
+ * Model ConsentRecord
+ * Consent records (MDM/GDPR): append-only — the current state per
+ * channel is the newest row, and every grant or revocation stays on
+ * record with who captured it and when.
+ */
+export type ConsentRecord = $Result.DefaultSelection<Prisma.$ConsentRecordPayload>
+/**
  * Model PartyExternalIdentity
  * 
  */
@@ -668,6 +675,16 @@ export const PartyStatus: {
 export type PartyStatus = (typeof PartyStatus)[keyof typeof PartyStatus]
 
 
+export const ConsentChannel: {
+  EMAIL: 'EMAIL',
+  PHONE: 'PHONE',
+  SMS: 'SMS',
+  POST: 'POST'
+};
+
+export type ConsentChannel = (typeof ConsentChannel)[keyof typeof ConsentChannel]
+
+
 export const ProductStatus: {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED',
@@ -1045,6 +1062,10 @@ export const PartyType: typeof $Enums.PartyType
 export type PartyStatus = $Enums.PartyStatus
 
 export const PartyStatus: typeof $Enums.PartyStatus
+
+export type ConsentChannel = $Enums.ConsentChannel
+
+export const ConsentChannel: typeof $Enums.ConsentChannel
 
 export type ProductStatus = $Enums.ProductStatus
 
@@ -1579,6 +1600,16 @@ export class PrismaClient<
     * ```
     */
   get party(): Prisma.PartyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.consentRecord`: Exposes CRUD operations for the **ConsentRecord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConsentRecords
+    * const consentRecords = await prisma.consentRecord.findMany()
+    * ```
+    */
+  get consentRecord(): Prisma.ConsentRecordDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.partyExternalIdentity`: Exposes CRUD operations for the **PartyExternalIdentity** model.
@@ -2758,6 +2789,7 @@ export namespace Prisma {
     DocumentTemplate: 'DocumentTemplate',
     DocumentTemplateVersion: 'DocumentTemplateVersion',
     Party: 'Party',
+    ConsentRecord: 'ConsentRecord',
     PartyExternalIdentity: 'PartyExternalIdentity',
     Product: 'Product',
     Sku: 'Sku',
@@ -2847,7 +2879,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4920,6 +4952,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PartyCountArgs<ExtArgs>
             result: $Utils.Optional<PartyCountAggregateOutputType> | number
+          }
+        }
+      }
+      ConsentRecord: {
+        payload: Prisma.$ConsentRecordPayload<ExtArgs>
+        fields: Prisma.ConsentRecordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConsentRecordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConsentRecordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>
+          }
+          findFirst: {
+            args: Prisma.ConsentRecordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConsentRecordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>
+          }
+          findMany: {
+            args: Prisma.ConsentRecordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>[]
+          }
+          create: {
+            args: Prisma.ConsentRecordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>
+          }
+          createMany: {
+            args: Prisma.ConsentRecordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConsentRecordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>[]
+          }
+          delete: {
+            args: Prisma.ConsentRecordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>
+          }
+          update: {
+            args: Prisma.ConsentRecordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConsentRecordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConsentRecordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConsentRecordUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>[]
+          }
+          upsert: {
+            args: Prisma.ConsentRecordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentRecordPayload>
+          }
+          aggregate: {
+            args: Prisma.ConsentRecordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConsentRecord>
+          }
+          groupBy: {
+            args: Prisma.ConsentRecordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConsentRecordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConsentRecordCountArgs<ExtArgs>
+            result: $Utils.Optional<ConsentRecordCountAggregateOutputType> | number
           }
         }
       }
@@ -10301,6 +10407,7 @@ export namespace Prisma {
     documentTemplate?: DocumentTemplateOmit
     documentTemplateVersion?: DocumentTemplateVersionOmit
     party?: PartyOmit
+    consentRecord?: ConsentRecordOmit
     partyExternalIdentity?: PartyExternalIdentityOmit
     product?: ProductOmit
     sku?: SkuOmit
@@ -10540,6 +10647,7 @@ export namespace Prisma {
     salesTeams: number
     salesTeamMembers: number
     exchangeRates: number
+    consentRecords: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10631,6 +10739,7 @@ export namespace Prisma {
     salesTeams?: boolean | TenantCountOutputTypeCountSalesTeamsArgs
     salesTeamMembers?: boolean | TenantCountOutputTypeCountSalesTeamMembersArgs
     exchangeRates?: boolean | TenantCountOutputTypeCountExchangeRatesArgs
+    consentRecords?: boolean | TenantCountOutputTypeCountConsentRecordsArgs
   }
 
   // Custom InputTypes
@@ -11260,6 +11369,13 @@ export namespace Prisma {
     where?: ExchangeRateWhereInput
   }
 
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountConsentRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentRecordWhereInput
+  }
+
 
   /**
    * Count Type LegalEntityCountOutputType
@@ -11552,11 +11668,13 @@ export namespace Prisma {
   export type PartyCountOutputType = {
     mergedParties: number
     externalIdentities: number
+    consentRecords: number
   }
 
   export type PartyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mergedParties?: boolean | PartyCountOutputTypeCountMergedPartiesArgs
     externalIdentities?: boolean | PartyCountOutputTypeCountExternalIdentitiesArgs
+    consentRecords?: boolean | PartyCountOutputTypeCountConsentRecordsArgs
   }
 
   // Custom InputTypes
@@ -11582,6 +11700,13 @@ export namespace Prisma {
    */
   export type PartyCountOutputTypeCountExternalIdentitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PartyExternalIdentityWhereInput
+  }
+
+  /**
+   * PartyCountOutputType without action
+   */
+  export type PartyCountOutputTypeCountConsentRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentRecordWhereInput
   }
 
 
@@ -12622,6 +12747,7 @@ export namespace Prisma {
     salesTeams?: boolean | Tenant$salesTeamsArgs<ExtArgs>
     salesTeamMembers?: boolean | Tenant$salesTeamMembersArgs<ExtArgs>
     exchangeRates?: boolean | Tenant$exchangeRatesArgs<ExtArgs>
+    consentRecords?: boolean | Tenant$consentRecordsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -12745,6 +12871,7 @@ export namespace Prisma {
     salesTeams?: boolean | Tenant$salesTeamsArgs<ExtArgs>
     salesTeamMembers?: boolean | Tenant$salesTeamMembersArgs<ExtArgs>
     exchangeRates?: boolean | Tenant$exchangeRatesArgs<ExtArgs>
+    consentRecords?: boolean | Tenant$consentRecordsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12841,6 +12968,7 @@ export namespace Prisma {
       salesTeams: Prisma.$SalesTeamPayload<ExtArgs>[]
       salesTeamMembers: Prisma.$SalesTeamMemberPayload<ExtArgs>[]
       exchangeRates: Prisma.$ExchangeRatePayload<ExtArgs>[]
+      consentRecords: Prisma.$ConsentRecordPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13332,6 +13460,7 @@ export namespace Prisma {
     salesTeams<T extends Tenant$salesTeamsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$salesTeamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     salesTeamMembers<T extends Tenant$salesTeamMembersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$salesTeamMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     exchangeRates<T extends Tenant$exchangeRatesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$exchangeRatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExchangeRatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    consentRecords<T extends Tenant$consentRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$consentRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15865,6 +15994,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExchangeRateScalarFieldEnum | ExchangeRateScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.consentRecords
+   */
+  export type Tenant$consentRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    where?: ConsentRecordWhereInput
+    orderBy?: ConsentRecordOrderByWithRelationInput | ConsentRecordOrderByWithRelationInput[]
+    cursor?: ConsentRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConsentRecordScalarFieldEnum | ConsentRecordScalarFieldEnum[]
   }
 
   /**
@@ -45144,6 +45297,7 @@ export namespace Prisma {
     mergedInto?: boolean | Party$mergedIntoArgs<ExtArgs>
     mergedParties?: boolean | Party$mergedPartiesArgs<ExtArgs>
     externalIdentities?: boolean | Party$externalIdentitiesArgs<ExtArgs>
+    consentRecords?: boolean | Party$consentRecordsArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["party"]>
 
@@ -45199,6 +45353,7 @@ export namespace Prisma {
     mergedInto?: boolean | Party$mergedIntoArgs<ExtArgs>
     mergedParties?: boolean | Party$mergedPartiesArgs<ExtArgs>
     externalIdentities?: boolean | Party$externalIdentitiesArgs<ExtArgs>
+    consentRecords?: boolean | Party$consentRecordsArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PartyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -45217,6 +45372,7 @@ export namespace Prisma {
       mergedInto: Prisma.$PartyPayload<ExtArgs> | null
       mergedParties: Prisma.$PartyPayload<ExtArgs>[]
       externalIdentities: Prisma.$PartyExternalIdentityPayload<ExtArgs>[]
+      consentRecords: Prisma.$ConsentRecordPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -45634,6 +45790,7 @@ export namespace Prisma {
     mergedInto<T extends Party$mergedIntoArgs<ExtArgs> = {}>(args?: Subset<T, Party$mergedIntoArgs<ExtArgs>>): Prisma__PartyClient<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     mergedParties<T extends Party$mergedPartiesArgs<ExtArgs> = {}>(args?: Subset<T, Party$mergedPartiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     externalIdentities<T extends Party$externalIdentitiesArgs<ExtArgs> = {}>(args?: Subset<T, Party$externalIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyExternalIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    consentRecords<T extends Party$consentRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Party$consentRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -46137,6 +46294,30 @@ export namespace Prisma {
   }
 
   /**
+   * Party.consentRecords
+   */
+  export type Party$consentRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    where?: ConsentRecordWhereInput
+    orderBy?: ConsentRecordOrderByWithRelationInput | ConsentRecordOrderByWithRelationInput[]
+    cursor?: ConsentRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConsentRecordScalarFieldEnum | ConsentRecordScalarFieldEnum[]
+  }
+
+  /**
    * Party without action
    */
   export type PartyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -46152,6 +46333,1111 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PartyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ConsentRecord
+   */
+
+  export type AggregateConsentRecord = {
+    _count: ConsentRecordCountAggregateOutputType | null
+    _min: ConsentRecordMinAggregateOutputType | null
+    _max: ConsentRecordMaxAggregateOutputType | null
+  }
+
+  export type ConsentRecordMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    partyId: string | null
+    channel: $Enums.ConsentChannel | null
+    granted: boolean | null
+    note: string | null
+    recordedAt: Date | null
+    recordedBy: string | null
+  }
+
+  export type ConsentRecordMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    partyId: string | null
+    channel: $Enums.ConsentChannel | null
+    granted: boolean | null
+    note: string | null
+    recordedAt: Date | null
+    recordedBy: string | null
+  }
+
+  export type ConsentRecordCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    partyId: number
+    channel: number
+    granted: number
+    note: number
+    recordedAt: number
+    recordedBy: number
+    _all: number
+  }
+
+
+  export type ConsentRecordMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    partyId?: true
+    channel?: true
+    granted?: true
+    note?: true
+    recordedAt?: true
+    recordedBy?: true
+  }
+
+  export type ConsentRecordMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    partyId?: true
+    channel?: true
+    granted?: true
+    note?: true
+    recordedAt?: true
+    recordedBy?: true
+  }
+
+  export type ConsentRecordCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    partyId?: true
+    channel?: true
+    granted?: true
+    note?: true
+    recordedAt?: true
+    recordedBy?: true
+    _all?: true
+  }
+
+  export type ConsentRecordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConsentRecord to aggregate.
+     */
+    where?: ConsentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsentRecords to fetch.
+     */
+    orderBy?: ConsentRecordOrderByWithRelationInput | ConsentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConsentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsentRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ConsentRecords
+    **/
+    _count?: true | ConsentRecordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConsentRecordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConsentRecordMaxAggregateInputType
+  }
+
+  export type GetConsentRecordAggregateType<T extends ConsentRecordAggregateArgs> = {
+        [P in keyof T & keyof AggregateConsentRecord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConsentRecord[P]>
+      : GetScalarType<T[P], AggregateConsentRecord[P]>
+  }
+
+
+
+
+  export type ConsentRecordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentRecordWhereInput
+    orderBy?: ConsentRecordOrderByWithAggregationInput | ConsentRecordOrderByWithAggregationInput[]
+    by: ConsentRecordScalarFieldEnum[] | ConsentRecordScalarFieldEnum
+    having?: ConsentRecordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConsentRecordCountAggregateInputType | true
+    _min?: ConsentRecordMinAggregateInputType
+    _max?: ConsentRecordMaxAggregateInputType
+  }
+
+  export type ConsentRecordGroupByOutputType = {
+    id: string
+    tenantId: string
+    partyId: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note: string | null
+    recordedAt: Date
+    recordedBy: string | null
+    _count: ConsentRecordCountAggregateOutputType | null
+    _min: ConsentRecordMinAggregateOutputType | null
+    _max: ConsentRecordMaxAggregateOutputType | null
+  }
+
+  type GetConsentRecordGroupByPayload<T extends ConsentRecordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConsentRecordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConsentRecordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConsentRecordGroupByOutputType[P]>
+            : GetScalarType<T[P], ConsentRecordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConsentRecordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    partyId?: boolean
+    channel?: boolean
+    granted?: boolean
+    note?: boolean
+    recordedAt?: boolean
+    recordedBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consentRecord"]>
+
+  export type ConsentRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    partyId?: boolean
+    channel?: boolean
+    granted?: boolean
+    note?: boolean
+    recordedAt?: boolean
+    recordedBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consentRecord"]>
+
+  export type ConsentRecordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    partyId?: boolean
+    channel?: boolean
+    granted?: boolean
+    note?: boolean
+    recordedAt?: boolean
+    recordedBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consentRecord"]>
+
+  export type ConsentRecordSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    partyId?: boolean
+    channel?: boolean
+    granted?: boolean
+    note?: boolean
+    recordedAt?: boolean
+    recordedBy?: boolean
+  }
+
+  export type ConsentRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "partyId" | "channel" | "granted" | "note" | "recordedAt" | "recordedBy", ExtArgs["result"]["consentRecord"]>
+  export type ConsentRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }
+  export type ConsentRecordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }
+  export type ConsentRecordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }
+
+  export type $ConsentRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConsentRecord"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      party: Prisma.$PartyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      partyId: string
+      channel: $Enums.ConsentChannel
+      granted: boolean
+      note: string | null
+      recordedAt: Date
+      recordedBy: string | null
+    }, ExtArgs["result"]["consentRecord"]>
+    composites: {}
+  }
+
+  type ConsentRecordGetPayload<S extends boolean | null | undefined | ConsentRecordDefaultArgs> = $Result.GetResult<Prisma.$ConsentRecordPayload, S>
+
+  type ConsentRecordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConsentRecordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConsentRecordCountAggregateInputType | true
+    }
+
+  export interface ConsentRecordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConsentRecord'], meta: { name: 'ConsentRecord' } }
+    /**
+     * Find zero or one ConsentRecord that matches the filter.
+     * @param {ConsentRecordFindUniqueArgs} args - Arguments to find a ConsentRecord
+     * @example
+     * // Get one ConsentRecord
+     * const consentRecord = await prisma.consentRecord.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConsentRecordFindUniqueArgs>(args: SelectSubset<T, ConsentRecordFindUniqueArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ConsentRecord that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConsentRecordFindUniqueOrThrowArgs} args - Arguments to find a ConsentRecord
+     * @example
+     * // Get one ConsentRecord
+     * const consentRecord = await prisma.consentRecord.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConsentRecordFindUniqueOrThrowArgs>(args: SelectSubset<T, ConsentRecordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConsentRecord that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentRecordFindFirstArgs} args - Arguments to find a ConsentRecord
+     * @example
+     * // Get one ConsentRecord
+     * const consentRecord = await prisma.consentRecord.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConsentRecordFindFirstArgs>(args?: SelectSubset<T, ConsentRecordFindFirstArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConsentRecord that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentRecordFindFirstOrThrowArgs} args - Arguments to find a ConsentRecord
+     * @example
+     * // Get one ConsentRecord
+     * const consentRecord = await prisma.consentRecord.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConsentRecordFindFirstOrThrowArgs>(args?: SelectSubset<T, ConsentRecordFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ConsentRecords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentRecordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ConsentRecords
+     * const consentRecords = await prisma.consentRecord.findMany()
+     * 
+     * // Get first 10 ConsentRecords
+     * const consentRecords = await prisma.consentRecord.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const consentRecordWithIdOnly = await prisma.consentRecord.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConsentRecordFindManyArgs>(args?: SelectSubset<T, ConsentRecordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ConsentRecord.
+     * @param {ConsentRecordCreateArgs} args - Arguments to create a ConsentRecord.
+     * @example
+     * // Create one ConsentRecord
+     * const ConsentRecord = await prisma.consentRecord.create({
+     *   data: {
+     *     // ... data to create a ConsentRecord
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConsentRecordCreateArgs>(args: SelectSubset<T, ConsentRecordCreateArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ConsentRecords.
+     * @param {ConsentRecordCreateManyArgs} args - Arguments to create many ConsentRecords.
+     * @example
+     * // Create many ConsentRecords
+     * const consentRecord = await prisma.consentRecord.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConsentRecordCreateManyArgs>(args?: SelectSubset<T, ConsentRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ConsentRecords and returns the data saved in the database.
+     * @param {ConsentRecordCreateManyAndReturnArgs} args - Arguments to create many ConsentRecords.
+     * @example
+     * // Create many ConsentRecords
+     * const consentRecord = await prisma.consentRecord.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ConsentRecords and only return the `id`
+     * const consentRecordWithIdOnly = await prisma.consentRecord.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConsentRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, ConsentRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ConsentRecord.
+     * @param {ConsentRecordDeleteArgs} args - Arguments to delete one ConsentRecord.
+     * @example
+     * // Delete one ConsentRecord
+     * const ConsentRecord = await prisma.consentRecord.delete({
+     *   where: {
+     *     // ... filter to delete one ConsentRecord
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConsentRecordDeleteArgs>(args: SelectSubset<T, ConsentRecordDeleteArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ConsentRecord.
+     * @param {ConsentRecordUpdateArgs} args - Arguments to update one ConsentRecord.
+     * @example
+     * // Update one ConsentRecord
+     * const consentRecord = await prisma.consentRecord.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConsentRecordUpdateArgs>(args: SelectSubset<T, ConsentRecordUpdateArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ConsentRecords.
+     * @param {ConsentRecordDeleteManyArgs} args - Arguments to filter ConsentRecords to delete.
+     * @example
+     * // Delete a few ConsentRecords
+     * const { count } = await prisma.consentRecord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConsentRecordDeleteManyArgs>(args?: SelectSubset<T, ConsentRecordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConsentRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentRecordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ConsentRecords
+     * const consentRecord = await prisma.consentRecord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConsentRecordUpdateManyArgs>(args: SelectSubset<T, ConsentRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConsentRecords and returns the data updated in the database.
+     * @param {ConsentRecordUpdateManyAndReturnArgs} args - Arguments to update many ConsentRecords.
+     * @example
+     * // Update many ConsentRecords
+     * const consentRecord = await prisma.consentRecord.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ConsentRecords and only return the `id`
+     * const consentRecordWithIdOnly = await prisma.consentRecord.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConsentRecordUpdateManyAndReturnArgs>(args: SelectSubset<T, ConsentRecordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ConsentRecord.
+     * @param {ConsentRecordUpsertArgs} args - Arguments to update or create a ConsentRecord.
+     * @example
+     * // Update or create a ConsentRecord
+     * const consentRecord = await prisma.consentRecord.upsert({
+     *   create: {
+     *     // ... data to create a ConsentRecord
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ConsentRecord we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConsentRecordUpsertArgs>(args: SelectSubset<T, ConsentRecordUpsertArgs<ExtArgs>>): Prisma__ConsentRecordClient<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ConsentRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentRecordCountArgs} args - Arguments to filter ConsentRecords to count.
+     * @example
+     * // Count the number of ConsentRecords
+     * const count = await prisma.consentRecord.count({
+     *   where: {
+     *     // ... the filter for the ConsentRecords we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConsentRecordCountArgs>(
+      args?: Subset<T, ConsentRecordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConsentRecordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ConsentRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentRecordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConsentRecordAggregateArgs>(args: Subset<T, ConsentRecordAggregateArgs>): Prisma.PrismaPromise<GetConsentRecordAggregateType<T>>
+
+    /**
+     * Group by ConsentRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentRecordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConsentRecordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConsentRecordGroupByArgs['orderBy'] }
+        : { orderBy?: ConsentRecordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConsentRecordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConsentRecordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ConsentRecord model
+   */
+  readonly fields: ConsentRecordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ConsentRecord.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConsentRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    party<T extends PartyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PartyDefaultArgs<ExtArgs>>): Prisma__PartyClient<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ConsentRecord model
+   */
+  interface ConsentRecordFieldRefs {
+    readonly id: FieldRef<"ConsentRecord", 'String'>
+    readonly tenantId: FieldRef<"ConsentRecord", 'String'>
+    readonly partyId: FieldRef<"ConsentRecord", 'String'>
+    readonly channel: FieldRef<"ConsentRecord", 'ConsentChannel'>
+    readonly granted: FieldRef<"ConsentRecord", 'Boolean'>
+    readonly note: FieldRef<"ConsentRecord", 'String'>
+    readonly recordedAt: FieldRef<"ConsentRecord", 'DateTime'>
+    readonly recordedBy: FieldRef<"ConsentRecord", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ConsentRecord findUnique
+   */
+  export type ConsentRecordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which ConsentRecord to fetch.
+     */
+    where: ConsentRecordWhereUniqueInput
+  }
+
+  /**
+   * ConsentRecord findUniqueOrThrow
+   */
+  export type ConsentRecordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which ConsentRecord to fetch.
+     */
+    where: ConsentRecordWhereUniqueInput
+  }
+
+  /**
+   * ConsentRecord findFirst
+   */
+  export type ConsentRecordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which ConsentRecord to fetch.
+     */
+    where?: ConsentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsentRecords to fetch.
+     */
+    orderBy?: ConsentRecordOrderByWithRelationInput | ConsentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConsentRecords.
+     */
+    cursor?: ConsentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsentRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConsentRecords.
+     */
+    distinct?: ConsentRecordScalarFieldEnum | ConsentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * ConsentRecord findFirstOrThrow
+   */
+  export type ConsentRecordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which ConsentRecord to fetch.
+     */
+    where?: ConsentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsentRecords to fetch.
+     */
+    orderBy?: ConsentRecordOrderByWithRelationInput | ConsentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConsentRecords.
+     */
+    cursor?: ConsentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsentRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConsentRecords.
+     */
+    distinct?: ConsentRecordScalarFieldEnum | ConsentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * ConsentRecord findMany
+   */
+  export type ConsentRecordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which ConsentRecords to fetch.
+     */
+    where?: ConsentRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsentRecords to fetch.
+     */
+    orderBy?: ConsentRecordOrderByWithRelationInput | ConsentRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ConsentRecords.
+     */
+    cursor?: ConsentRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsentRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsentRecords.
+     */
+    skip?: number
+    distinct?: ConsentRecordScalarFieldEnum | ConsentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * ConsentRecord create
+   */
+  export type ConsentRecordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ConsentRecord.
+     */
+    data: XOR<ConsentRecordCreateInput, ConsentRecordUncheckedCreateInput>
+  }
+
+  /**
+   * ConsentRecord createMany
+   */
+  export type ConsentRecordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ConsentRecords.
+     */
+    data: ConsentRecordCreateManyInput | ConsentRecordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConsentRecord createManyAndReturn
+   */
+  export type ConsentRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * The data used to create many ConsentRecords.
+     */
+    data: ConsentRecordCreateManyInput | ConsentRecordCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConsentRecord update
+   */
+  export type ConsentRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ConsentRecord.
+     */
+    data: XOR<ConsentRecordUpdateInput, ConsentRecordUncheckedUpdateInput>
+    /**
+     * Choose, which ConsentRecord to update.
+     */
+    where: ConsentRecordWhereUniqueInput
+  }
+
+  /**
+   * ConsentRecord updateMany
+   */
+  export type ConsentRecordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ConsentRecords.
+     */
+    data: XOR<ConsentRecordUpdateManyMutationInput, ConsentRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which ConsentRecords to update
+     */
+    where?: ConsentRecordWhereInput
+    /**
+     * Limit how many ConsentRecords to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConsentRecord updateManyAndReturn
+   */
+  export type ConsentRecordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * The data used to update ConsentRecords.
+     */
+    data: XOR<ConsentRecordUpdateManyMutationInput, ConsentRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which ConsentRecords to update
+     */
+    where?: ConsentRecordWhereInput
+    /**
+     * Limit how many ConsentRecords to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConsentRecord upsert
+   */
+  export type ConsentRecordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ConsentRecord to update in case it exists.
+     */
+    where: ConsentRecordWhereUniqueInput
+    /**
+     * In case the ConsentRecord found by the `where` argument doesn't exist, create a new ConsentRecord with this data.
+     */
+    create: XOR<ConsentRecordCreateInput, ConsentRecordUncheckedCreateInput>
+    /**
+     * In case the ConsentRecord was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConsentRecordUpdateInput, ConsentRecordUncheckedUpdateInput>
+  }
+
+  /**
+   * ConsentRecord delete
+   */
+  export type ConsentRecordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
+    /**
+     * Filter which ConsentRecord to delete.
+     */
+    where: ConsentRecordWhereUniqueInput
+  }
+
+  /**
+   * ConsentRecord deleteMany
+   */
+  export type ConsentRecordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConsentRecords to delete
+     */
+    where?: ConsentRecordWhereInput
+    /**
+     * Limit how many ConsentRecords to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConsentRecord without action
+   */
+  export type ConsentRecordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsentRecord
+     */
+    select?: ConsentRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsentRecord
+     */
+    omit?: ConsentRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentRecordInclude<ExtArgs> | null
   }
 
 
@@ -127952,6 +129238,20 @@ export namespace Prisma {
   export type PartyScalarFieldEnum = (typeof PartyScalarFieldEnum)[keyof typeof PartyScalarFieldEnum]
 
 
+  export const ConsentRecordScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    partyId: 'partyId',
+    channel: 'channel',
+    granted: 'granted',
+    note: 'note',
+    recordedAt: 'recordedAt',
+    recordedBy: 'recordedBy'
+  };
+
+  export type ConsentRecordScalarFieldEnum = (typeof ConsentRecordScalarFieldEnum)[keyof typeof ConsentRecordScalarFieldEnum]
+
+
   export const PartyExternalIdentityScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -129293,6 +130593,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ConsentChannel'
+   */
+  export type EnumConsentChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsentChannel'>
+    
+
+
+  /**
+   * Reference to a field of type 'ConsentChannel[]'
+   */
+  export type ListEnumConsentChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsentChannel[]'>
+    
+
+
+  /**
    * Reference to a field of type 'ProductStatus'
    */
   export type EnumProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductStatus'>
@@ -129912,6 +131226,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamListRelationFilter
     salesTeamMembers?: SalesTeamMemberListRelationFilter
     exchangeRates?: ExchangeRateListRelationFilter
+    consentRecords?: ConsentRecordListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -130010,6 +131325,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamOrderByRelationAggregateInput
     salesTeamMembers?: SalesTeamMemberOrderByRelationAggregateInput
     exchangeRates?: ExchangeRateOrderByRelationAggregateInput
+    consentRecords?: ConsentRecordOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -130111,6 +131427,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamListRelationFilter
     salesTeamMembers?: SalesTeamMemberListRelationFilter
     exchangeRates?: ExchangeRateListRelationFilter
+    consentRecords?: ConsentRecordListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -132019,6 +133336,7 @@ export namespace Prisma {
     mergedInto?: XOR<PartyNullableScalarRelationFilter, PartyWhereInput> | null
     mergedParties?: PartyListRelationFilter
     externalIdentities?: PartyExternalIdentityListRelationFilter
+    consentRecords?: ConsentRecordListRelationFilter
   }
 
   export type PartyOrderByWithRelationInput = {
@@ -132037,6 +133355,7 @@ export namespace Prisma {
     mergedInto?: PartyOrderByWithRelationInput
     mergedParties?: PartyOrderByRelationAggregateInput
     externalIdentities?: PartyExternalIdentityOrderByRelationAggregateInput
+    consentRecords?: ConsentRecordOrderByRelationAggregateInput
   }
 
   export type PartyWhereUniqueInput = Prisma.AtLeast<{
@@ -132058,6 +133377,7 @@ export namespace Prisma {
     mergedInto?: XOR<PartyNullableScalarRelationFilter, PartyWhereInput> | null
     mergedParties?: PartyListRelationFilter
     externalIdentities?: PartyExternalIdentityListRelationFilter
+    consentRecords?: ConsentRecordListRelationFilter
   }, "id">
 
   export type PartyOrderByWithAggregationInput = {
@@ -132092,6 +133412,79 @@ export namespace Prisma {
     mergedIntoId?: UuidNullableWithAggregatesFilter<"Party"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Party"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Party"> | Date | string
+  }
+
+  export type ConsentRecordWhereInput = {
+    AND?: ConsentRecordWhereInput | ConsentRecordWhereInput[]
+    OR?: ConsentRecordWhereInput[]
+    NOT?: ConsentRecordWhereInput | ConsentRecordWhereInput[]
+    id?: UuidFilter<"ConsentRecord"> | string
+    tenantId?: UuidFilter<"ConsentRecord"> | string
+    partyId?: UuidFilter<"ConsentRecord"> | string
+    channel?: EnumConsentChannelFilter<"ConsentRecord"> | $Enums.ConsentChannel
+    granted?: BoolFilter<"ConsentRecord"> | boolean
+    note?: StringNullableFilter<"ConsentRecord"> | string | null
+    recordedAt?: DateTimeFilter<"ConsentRecord"> | Date | string
+    recordedBy?: UuidNullableFilter<"ConsentRecord"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    party?: XOR<PartyScalarRelationFilter, PartyWhereInput>
+  }
+
+  export type ConsentRecordOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    partyId?: SortOrder
+    channel?: SortOrder
+    granted?: SortOrder
+    note?: SortOrderInput | SortOrder
+    recordedAt?: SortOrder
+    recordedBy?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    party?: PartyOrderByWithRelationInput
+  }
+
+  export type ConsentRecordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ConsentRecordWhereInput | ConsentRecordWhereInput[]
+    OR?: ConsentRecordWhereInput[]
+    NOT?: ConsentRecordWhereInput | ConsentRecordWhereInput[]
+    tenantId?: UuidFilter<"ConsentRecord"> | string
+    partyId?: UuidFilter<"ConsentRecord"> | string
+    channel?: EnumConsentChannelFilter<"ConsentRecord"> | $Enums.ConsentChannel
+    granted?: BoolFilter<"ConsentRecord"> | boolean
+    note?: StringNullableFilter<"ConsentRecord"> | string | null
+    recordedAt?: DateTimeFilter<"ConsentRecord"> | Date | string
+    recordedBy?: UuidNullableFilter<"ConsentRecord"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    party?: XOR<PartyScalarRelationFilter, PartyWhereInput>
+  }, "id">
+
+  export type ConsentRecordOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    partyId?: SortOrder
+    channel?: SortOrder
+    granted?: SortOrder
+    note?: SortOrderInput | SortOrder
+    recordedAt?: SortOrder
+    recordedBy?: SortOrderInput | SortOrder
+    _count?: ConsentRecordCountOrderByAggregateInput
+    _max?: ConsentRecordMaxOrderByAggregateInput
+    _min?: ConsentRecordMinOrderByAggregateInput
+  }
+
+  export type ConsentRecordScalarWhereWithAggregatesInput = {
+    AND?: ConsentRecordScalarWhereWithAggregatesInput | ConsentRecordScalarWhereWithAggregatesInput[]
+    OR?: ConsentRecordScalarWhereWithAggregatesInput[]
+    NOT?: ConsentRecordScalarWhereWithAggregatesInput | ConsentRecordScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"ConsentRecord"> | string
+    tenantId?: UuidWithAggregatesFilter<"ConsentRecord"> | string
+    partyId?: UuidWithAggregatesFilter<"ConsentRecord"> | string
+    channel?: EnumConsentChannelWithAggregatesFilter<"ConsentRecord"> | $Enums.ConsentChannel
+    granted?: BoolWithAggregatesFilter<"ConsentRecord"> | boolean
+    note?: StringNullableWithAggregatesFilter<"ConsentRecord"> | string | null
+    recordedAt?: DateTimeWithAggregatesFilter<"ConsentRecord"> | Date | string
+    recordedBy?: UuidNullableWithAggregatesFilter<"ConsentRecord"> | string | null
   }
 
   export type PartyExternalIdentityWhereInput = {
@@ -137821,6 +139214,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -137919,6 +139313,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -138017,6 +139412,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -138115,6 +139511,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -140104,6 +141501,7 @@ export namespace Prisma {
     mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateInput = {
@@ -140120,6 +141518,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUpdateInput = {
@@ -140136,6 +141535,7 @@ export namespace Prisma {
     mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateInput = {
@@ -140152,6 +141552,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyCreateManyInput = {
@@ -140192,6 +141593,81 @@ export namespace Prisma {
     mergedIntoId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsentRecordCreateInput = {
+    id?: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+    tenant: TenantCreateNestedOneWithoutConsentRecordsInput
+    party: PartyCreateNestedOneWithoutConsentRecordsInput
+  }
+
+  export type ConsentRecordUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    partyId: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+  }
+
+  export type ConsentRecordUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutConsentRecordsNestedInput
+    party?: PartyUpdateOneRequiredWithoutConsentRecordsNestedInput
+  }
+
+  export type ConsentRecordUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConsentRecordCreateManyInput = {
+    id?: string
+    tenantId: string
+    partyId: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+  }
+
+  export type ConsentRecordUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConsentRecordUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PartyExternalIdentityCreateInput = {
@@ -146788,6 +148264,12 @@ export namespace Prisma {
     none?: ExchangeRateWhereInput
   }
 
+  export type ConsentRecordListRelationFilter = {
+    every?: ConsentRecordWhereInput
+    some?: ConsentRecordWhereInput
+    none?: ConsentRecordWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -147137,6 +148619,10 @@ export namespace Prisma {
   }
 
   export type ExchangeRateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConsentRecordOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -148748,9 +150234,59 @@ export namespace Prisma {
     _max?: NestedEnumPartyStatusFilter<$PrismaModel>
   }
 
+  export type EnumConsentChannelFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentChannel | EnumConsentChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentChannelFilter<$PrismaModel> | $Enums.ConsentChannel
+  }
+
   export type PartyScalarRelationFilter = {
     is?: PartyWhereInput
     isNot?: PartyWhereInput
+  }
+
+  export type ConsentRecordCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    partyId?: SortOrder
+    channel?: SortOrder
+    granted?: SortOrder
+    note?: SortOrder
+    recordedAt?: SortOrder
+    recordedBy?: SortOrder
+  }
+
+  export type ConsentRecordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    partyId?: SortOrder
+    channel?: SortOrder
+    granted?: SortOrder
+    note?: SortOrder
+    recordedAt?: SortOrder
+    recordedBy?: SortOrder
+  }
+
+  export type ConsentRecordMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    partyId?: SortOrder
+    channel?: SortOrder
+    granted?: SortOrder
+    note?: SortOrder
+    recordedAt?: SortOrder
+    recordedBy?: SortOrder
+  }
+
+  export type EnumConsentChannelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentChannel | EnumConsentChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentChannelWithAggregatesFilter<$PrismaModel> | $Enums.ConsentChannel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConsentChannelFilter<$PrismaModel>
+    _max?: NestedEnumConsentChannelFilter<$PrismaModel>
   }
 
   export type PartyExternalIdentityTenantIdSourceSystemExternalIdCompoundUniqueInput = {
@@ -153471,6 +155007,13 @@ export namespace Prisma {
     connect?: ExchangeRateWhereUniqueInput | ExchangeRateWhereUniqueInput[]
   }
 
+  export type ConsentRecordCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ConsentRecordCreateWithoutTenantInput, ConsentRecordUncheckedCreateWithoutTenantInput> | ConsentRecordCreateWithoutTenantInput[] | ConsentRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutTenantInput | ConsentRecordCreateOrConnectWithoutTenantInput[]
+    createMany?: ConsentRecordCreateManyTenantInputEnvelope
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -154085,6 +155628,13 @@ export namespace Prisma {
     connectOrCreate?: ExchangeRateCreateOrConnectWithoutTenantInput | ExchangeRateCreateOrConnectWithoutTenantInput[]
     createMany?: ExchangeRateCreateManyTenantInputEnvelope
     connect?: ExchangeRateWhereUniqueInput | ExchangeRateWhereUniqueInput[]
+  }
+
+  export type ConsentRecordUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ConsentRecordCreateWithoutTenantInput, ConsentRecordUncheckedCreateWithoutTenantInput> | ConsentRecordCreateWithoutTenantInput[] | ConsentRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutTenantInput | ConsentRecordCreateOrConnectWithoutTenantInput[]
+    createMany?: ConsentRecordCreateManyTenantInputEnvelope
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -155339,6 +156889,20 @@ export namespace Prisma {
     deleteMany?: ExchangeRateScalarWhereInput | ExchangeRateScalarWhereInput[]
   }
 
+  export type ConsentRecordUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ConsentRecordCreateWithoutTenantInput, ConsentRecordUncheckedCreateWithoutTenantInput> | ConsentRecordCreateWithoutTenantInput[] | ConsentRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutTenantInput | ConsentRecordCreateOrConnectWithoutTenantInput[]
+    upsert?: ConsentRecordUpsertWithWhereUniqueWithoutTenantInput | ConsentRecordUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ConsentRecordCreateManyTenantInputEnvelope
+    set?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    disconnect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    delete?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    update?: ConsentRecordUpdateWithWhereUniqueWithoutTenantInput | ConsentRecordUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ConsentRecordUpdateManyWithWhereWithoutTenantInput | ConsentRecordUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -156571,6 +158135,20 @@ export namespace Prisma {
     deleteMany?: ExchangeRateScalarWhereInput | ExchangeRateScalarWhereInput[]
   }
 
+  export type ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ConsentRecordCreateWithoutTenantInput, ConsentRecordUncheckedCreateWithoutTenantInput> | ConsentRecordCreateWithoutTenantInput[] | ConsentRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutTenantInput | ConsentRecordCreateOrConnectWithoutTenantInput[]
+    upsert?: ConsentRecordUpsertWithWhereUniqueWithoutTenantInput | ConsentRecordUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ConsentRecordCreateManyTenantInputEnvelope
+    set?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    disconnect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    delete?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    update?: ConsentRecordUpdateWithWhereUniqueWithoutTenantInput | ConsentRecordUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ConsentRecordUpdateManyWithWhereWithoutTenantInput | ConsentRecordUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
     create?: XOR<TenantCreateWithoutConfigurationVersionsInput, TenantUncheckedCreateWithoutConfigurationVersionsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutConfigurationVersionsInput
@@ -157655,6 +159233,13 @@ export namespace Prisma {
     connect?: PartyExternalIdentityWhereUniqueInput | PartyExternalIdentityWhereUniqueInput[]
   }
 
+  export type ConsentRecordCreateNestedManyWithoutPartyInput = {
+    create?: XOR<ConsentRecordCreateWithoutPartyInput, ConsentRecordUncheckedCreateWithoutPartyInput> | ConsentRecordCreateWithoutPartyInput[] | ConsentRecordUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutPartyInput | ConsentRecordCreateOrConnectWithoutPartyInput[]
+    createMany?: ConsentRecordCreateManyPartyInputEnvelope
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+  }
+
   export type PartyUncheckedCreateNestedManyWithoutMergedIntoInput = {
     create?: XOR<PartyCreateWithoutMergedIntoInput, PartyUncheckedCreateWithoutMergedIntoInput> | PartyCreateWithoutMergedIntoInput[] | PartyUncheckedCreateWithoutMergedIntoInput[]
     connectOrCreate?: PartyCreateOrConnectWithoutMergedIntoInput | PartyCreateOrConnectWithoutMergedIntoInput[]
@@ -157667,6 +159252,13 @@ export namespace Prisma {
     connectOrCreate?: PartyExternalIdentityCreateOrConnectWithoutPartyInput | PartyExternalIdentityCreateOrConnectWithoutPartyInput[]
     createMany?: PartyExternalIdentityCreateManyPartyInputEnvelope
     connect?: PartyExternalIdentityWhereUniqueInput | PartyExternalIdentityWhereUniqueInput[]
+  }
+
+  export type ConsentRecordUncheckedCreateNestedManyWithoutPartyInput = {
+    create?: XOR<ConsentRecordCreateWithoutPartyInput, ConsentRecordUncheckedCreateWithoutPartyInput> | ConsentRecordCreateWithoutPartyInput[] | ConsentRecordUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutPartyInput | ConsentRecordCreateOrConnectWithoutPartyInput[]
+    createMany?: ConsentRecordCreateManyPartyInputEnvelope
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
   }
 
   export type EnumPartyTypeFieldUpdateOperationsInput = {
@@ -157723,6 +159315,20 @@ export namespace Prisma {
     deleteMany?: PartyExternalIdentityScalarWhereInput | PartyExternalIdentityScalarWhereInput[]
   }
 
+  export type ConsentRecordUpdateManyWithoutPartyNestedInput = {
+    create?: XOR<ConsentRecordCreateWithoutPartyInput, ConsentRecordUncheckedCreateWithoutPartyInput> | ConsentRecordCreateWithoutPartyInput[] | ConsentRecordUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutPartyInput | ConsentRecordCreateOrConnectWithoutPartyInput[]
+    upsert?: ConsentRecordUpsertWithWhereUniqueWithoutPartyInput | ConsentRecordUpsertWithWhereUniqueWithoutPartyInput[]
+    createMany?: ConsentRecordCreateManyPartyInputEnvelope
+    set?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    disconnect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    delete?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    update?: ConsentRecordUpdateWithWhereUniqueWithoutPartyInput | ConsentRecordUpdateWithWhereUniqueWithoutPartyInput[]
+    updateMany?: ConsentRecordUpdateManyWithWhereWithoutPartyInput | ConsentRecordUpdateManyWithWhereWithoutPartyInput[]
+    deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+  }
+
   export type PartyUncheckedUpdateManyWithoutMergedIntoNestedInput = {
     create?: XOR<PartyCreateWithoutMergedIntoInput, PartyUncheckedCreateWithoutMergedIntoInput> | PartyCreateWithoutMergedIntoInput[] | PartyUncheckedCreateWithoutMergedIntoInput[]
     connectOrCreate?: PartyCreateOrConnectWithoutMergedIntoInput | PartyCreateOrConnectWithoutMergedIntoInput[]
@@ -157749,6 +159355,52 @@ export namespace Prisma {
     update?: PartyExternalIdentityUpdateWithWhereUniqueWithoutPartyInput | PartyExternalIdentityUpdateWithWhereUniqueWithoutPartyInput[]
     updateMany?: PartyExternalIdentityUpdateManyWithWhereWithoutPartyInput | PartyExternalIdentityUpdateManyWithWhereWithoutPartyInput[]
     deleteMany?: PartyExternalIdentityScalarWhereInput | PartyExternalIdentityScalarWhereInput[]
+  }
+
+  export type ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput = {
+    create?: XOR<ConsentRecordCreateWithoutPartyInput, ConsentRecordUncheckedCreateWithoutPartyInput> | ConsentRecordCreateWithoutPartyInput[] | ConsentRecordUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ConsentRecordCreateOrConnectWithoutPartyInput | ConsentRecordCreateOrConnectWithoutPartyInput[]
+    upsert?: ConsentRecordUpsertWithWhereUniqueWithoutPartyInput | ConsentRecordUpsertWithWhereUniqueWithoutPartyInput[]
+    createMany?: ConsentRecordCreateManyPartyInputEnvelope
+    set?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    disconnect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    delete?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+    update?: ConsentRecordUpdateWithWhereUniqueWithoutPartyInput | ConsentRecordUpdateWithWhereUniqueWithoutPartyInput[]
+    updateMany?: ConsentRecordUpdateManyWithWhereWithoutPartyInput | ConsentRecordUpdateManyWithWhereWithoutPartyInput[]
+    deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutConsentRecordsInput = {
+    create?: XOR<TenantCreateWithoutConsentRecordsInput, TenantUncheckedCreateWithoutConsentRecordsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutConsentRecordsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type PartyCreateNestedOneWithoutConsentRecordsInput = {
+    create?: XOR<PartyCreateWithoutConsentRecordsInput, PartyUncheckedCreateWithoutConsentRecordsInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutConsentRecordsInput
+    connect?: PartyWhereUniqueInput
+  }
+
+  export type EnumConsentChannelFieldUpdateOperationsInput = {
+    set?: $Enums.ConsentChannel
+  }
+
+  export type TenantUpdateOneRequiredWithoutConsentRecordsNestedInput = {
+    create?: XOR<TenantCreateWithoutConsentRecordsInput, TenantUncheckedCreateWithoutConsentRecordsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutConsentRecordsInput
+    upsert?: TenantUpsertWithoutConsentRecordsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutConsentRecordsInput, TenantUpdateWithoutConsentRecordsInput>, TenantUncheckedUpdateWithoutConsentRecordsInput>
+  }
+
+  export type PartyUpdateOneRequiredWithoutConsentRecordsNestedInput = {
+    create?: XOR<PartyCreateWithoutConsentRecordsInput, PartyUncheckedCreateWithoutConsentRecordsInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutConsentRecordsInput
+    upsert?: PartyUpsertWithoutConsentRecordsInput
+    connect?: PartyWhereUniqueInput
+    update?: XOR<XOR<PartyUpdateToOneWithWhereWithoutConsentRecordsInput, PartyUpdateWithoutConsentRecordsInput>, PartyUncheckedUpdateWithoutConsentRecordsInput>
   }
 
   export type PartyCreateNestedOneWithoutExternalIdentitiesInput = {
@@ -160809,6 +162461,23 @@ export namespace Prisma {
     _max?: NestedEnumPartyStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumConsentChannelFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentChannel | EnumConsentChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentChannelFilter<$PrismaModel> | $Enums.ConsentChannel
+  }
+
+  export type NestedEnumConsentChannelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentChannel | EnumConsentChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentChannel[] | ListEnumConsentChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentChannelWithAggregatesFilter<$PrismaModel> | $Enums.ConsentChannel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConsentChannelFilter<$PrismaModel>
+    _max?: NestedEnumConsentChannelFilter<$PrismaModel>
+  }
+
   export type NestedEnumProductStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ProductStatus | EnumProductStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
@@ -162121,6 +163790,7 @@ export namespace Prisma {
     mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutTenantInput = {
@@ -162136,6 +163806,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutTenantInput = {
@@ -164371,6 +166042,36 @@ export namespace Prisma {
 
   export type ExchangeRateCreateManyTenantInputEnvelope = {
     data: ExchangeRateCreateManyTenantInput | ExchangeRateCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConsentRecordCreateWithoutTenantInput = {
+    id?: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+    party: PartyCreateNestedOneWithoutConsentRecordsInput
+  }
+
+  export type ConsentRecordUncheckedCreateWithoutTenantInput = {
+    id?: string
+    partyId: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+  }
+
+  export type ConsentRecordCreateOrConnectWithoutTenantInput = {
+    where: ConsentRecordWhereUniqueInput
+    create: XOR<ConsentRecordCreateWithoutTenantInput, ConsentRecordUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ConsentRecordCreateManyTenantInputEnvelope = {
+    data: ConsentRecordCreateManyTenantInput | ConsentRecordCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -167095,6 +168796,36 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ExchangeRate"> | Date | string
   }
 
+  export type ConsentRecordUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ConsentRecordWhereUniqueInput
+    update: XOR<ConsentRecordUpdateWithoutTenantInput, ConsentRecordUncheckedUpdateWithoutTenantInput>
+    create: XOR<ConsentRecordCreateWithoutTenantInput, ConsentRecordUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ConsentRecordUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ConsentRecordWhereUniqueInput
+    data: XOR<ConsentRecordUpdateWithoutTenantInput, ConsentRecordUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ConsentRecordUpdateManyWithWhereWithoutTenantInput = {
+    where: ConsentRecordScalarWhereInput
+    data: XOR<ConsentRecordUpdateManyMutationInput, ConsentRecordUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ConsentRecordScalarWhereInput = {
+    AND?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+    OR?: ConsentRecordScalarWhereInput[]
+    NOT?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+    id?: UuidFilter<"ConsentRecord"> | string
+    tenantId?: UuidFilter<"ConsentRecord"> | string
+    partyId?: UuidFilter<"ConsentRecord"> | string
+    channel?: EnumConsentChannelFilter<"ConsentRecord"> | $Enums.ConsentChannel
+    granted?: BoolFilter<"ConsentRecord"> | boolean
+    note?: StringNullableFilter<"ConsentRecord"> | string | null
+    recordedAt?: DateTimeFilter<"ConsentRecord"> | Date | string
+    recordedBy?: UuidNullableFilter<"ConsentRecord"> | string | null
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -167190,6 +168921,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -167287,6 +169019,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -167400,6 +169133,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -167497,6 +169231,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -167594,6 +169329,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -167691,6 +169427,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -167838,6 +169575,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -167935,6 +169673,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -168048,6 +169787,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -168145,6 +169885,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -168396,6 +170137,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -168493,6 +170235,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -168702,6 +170445,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -168799,6 +170543,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -168941,6 +170686,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -169038,6 +170784,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -169170,6 +170917,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -169267,6 +171015,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -169409,6 +171158,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -169506,6 +171256,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -169638,6 +171389,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -169735,6 +171487,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -169907,6 +171660,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -170004,6 +171758,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -170154,6 +171909,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -170251,6 +172007,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -170393,6 +172150,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -170490,6 +172248,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -170622,6 +172381,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -170719,6 +172479,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -170882,6 +172643,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -170979,6 +172741,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -171174,6 +172937,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -171271,6 +173035,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -171438,6 +173203,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -171535,6 +173301,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -171698,6 +173465,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -171795,6 +173563,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -171908,6 +173677,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -172005,6 +173775,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -172102,6 +173873,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -172199,6 +173971,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -172312,6 +174085,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -172409,6 +174183,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -172506,6 +174281,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -172603,6 +174379,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -172716,6 +174493,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -172813,6 +174591,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -172910,6 +174689,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -173007,6 +174787,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -173120,6 +174901,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -173217,6 +174999,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -173314,6 +175097,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -173411,6 +175195,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -173524,6 +175309,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -173621,6 +175407,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -173718,6 +175505,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -173815,6 +175603,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -173928,6 +175717,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -174025,6 +175815,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -174122,6 +175913,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -174219,6 +176011,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -174332,6 +176125,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -174429,6 +176223,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -174526,6 +176321,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -174623,6 +176419,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -174798,6 +176595,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -174895,6 +176693,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -175250,6 +177049,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -175347,6 +177147,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -175488,6 +177289,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -175585,6 +177387,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -175755,6 +177558,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -175852,6 +177656,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -175965,6 +177770,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -176062,6 +177868,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -176159,6 +177966,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -176256,6 +178064,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -176369,6 +178178,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -176466,6 +178276,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -176563,6 +178374,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -176660,6 +178472,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -176799,6 +178612,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -176896,6 +178710,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -177065,6 +178880,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -177162,6 +178978,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -177182,6 +178999,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutPartiesInput
     mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutMergedPartiesInput = {
@@ -177197,6 +179015,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutMergedPartiesInput = {
@@ -177217,6 +179036,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutPartiesInput
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutMergedIntoInput = {
@@ -177232,6 +179052,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutMergedIntoInput = {
@@ -177267,6 +179088,36 @@ export namespace Prisma {
 
   export type PartyExternalIdentityCreateManyPartyInputEnvelope = {
     data: PartyExternalIdentityCreateManyPartyInput | PartyExternalIdentityCreateManyPartyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConsentRecordCreateWithoutPartyInput = {
+    id?: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+    tenant: TenantCreateNestedOneWithoutConsentRecordsInput
+  }
+
+  export type ConsentRecordUncheckedCreateWithoutPartyInput = {
+    id?: string
+    tenantId: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+  }
+
+  export type ConsentRecordCreateOrConnectWithoutPartyInput = {
+    where: ConsentRecordWhereUniqueInput
+    create: XOR<ConsentRecordCreateWithoutPartyInput, ConsentRecordUncheckedCreateWithoutPartyInput>
+  }
+
+  export type ConsentRecordCreateManyPartyInputEnvelope = {
+    data: ConsentRecordCreateManyPartyInput | ConsentRecordCreateManyPartyInput[]
     skipDuplicates?: boolean
   }
 
@@ -177376,6 +179227,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -177473,6 +179325,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -177499,6 +179352,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
     mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutMergedPartiesInput = {
@@ -177514,6 +179368,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUpsertWithWhereUniqueWithoutMergedIntoInput = {
@@ -177560,6 +179415,510 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PartyExternalIdentity"> | Date | string
   }
 
+  export type ConsentRecordUpsertWithWhereUniqueWithoutPartyInput = {
+    where: ConsentRecordWhereUniqueInput
+    update: XOR<ConsentRecordUpdateWithoutPartyInput, ConsentRecordUncheckedUpdateWithoutPartyInput>
+    create: XOR<ConsentRecordCreateWithoutPartyInput, ConsentRecordUncheckedCreateWithoutPartyInput>
+  }
+
+  export type ConsentRecordUpdateWithWhereUniqueWithoutPartyInput = {
+    where: ConsentRecordWhereUniqueInput
+    data: XOR<ConsentRecordUpdateWithoutPartyInput, ConsentRecordUncheckedUpdateWithoutPartyInput>
+  }
+
+  export type ConsentRecordUpdateManyWithWhereWithoutPartyInput = {
+    where: ConsentRecordScalarWhereInput
+    data: XOR<ConsentRecordUpdateManyMutationInput, ConsentRecordUncheckedUpdateManyWithoutPartyInput>
+  }
+
+  export type TenantCreateWithoutConsentRecordsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutConsentRecordsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutConsentRecordsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutConsentRecordsInput, TenantUncheckedCreateWithoutConsentRecordsInput>
+  }
+
+  export type PartyCreateWithoutConsentRecordsInput = {
+    id?: string
+    partyType: $Enums.PartyType
+    name: string
+    normalizedName: string
+    email?: string | null
+    taxId?: string | null
+    status?: $Enums.PartyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPartiesInput
+    mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
+    mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
+    externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
+  }
+
+  export type PartyUncheckedCreateWithoutConsentRecordsInput = {
+    id?: string
+    tenantId: string
+    partyType: $Enums.PartyType
+    name: string
+    normalizedName: string
+    email?: string | null
+    taxId?: string | null
+    status?: $Enums.PartyStatus
+    mergedIntoId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
+    externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
+  }
+
+  export type PartyCreateOrConnectWithoutConsentRecordsInput = {
+    where: PartyWhereUniqueInput
+    create: XOR<PartyCreateWithoutConsentRecordsInput, PartyUncheckedCreateWithoutConsentRecordsInput>
+  }
+
+  export type TenantUpsertWithoutConsentRecordsInput = {
+    update: XOR<TenantUpdateWithoutConsentRecordsInput, TenantUncheckedUpdateWithoutConsentRecordsInput>
+    create: XOR<TenantCreateWithoutConsentRecordsInput, TenantUncheckedCreateWithoutConsentRecordsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutConsentRecordsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutConsentRecordsInput, TenantUncheckedUpdateWithoutConsentRecordsInput>
+  }
+
+  export type TenantUpdateWithoutConsentRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PartyUpsertWithoutConsentRecordsInput = {
+    update: XOR<PartyUpdateWithoutConsentRecordsInput, PartyUncheckedUpdateWithoutConsentRecordsInput>
+    create: XOR<PartyCreateWithoutConsentRecordsInput, PartyUncheckedCreateWithoutConsentRecordsInput>
+    where?: PartyWhereInput
+  }
+
+  export type PartyUpdateToOneWithWhereWithoutConsentRecordsInput = {
+    where?: PartyWhereInput
+    data: XOR<PartyUpdateWithoutConsentRecordsInput, PartyUncheckedUpdateWithoutConsentRecordsInput>
+  }
+
+  export type PartyUpdateWithoutConsentRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    partyType?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    name?: StringFieldUpdateOperationsInput | string
+    normalizedName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPartyStatusFieldUpdateOperationsInput | $Enums.PartyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
+    mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
+    mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
+    externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
+  }
+
+  export type PartyUncheckedUpdateWithoutConsentRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    partyType?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    name?: StringFieldUpdateOperationsInput | string
+    normalizedName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPartyStatusFieldUpdateOperationsInput | $Enums.PartyStatus
+    mergedIntoId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
+    externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
+  }
+
   export type PartyCreateWithoutExternalIdentitiesInput = {
     id?: string
     partyType: $Enums.PartyType
@@ -177573,6 +179932,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutPartiesInput
     mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutExternalIdentitiesInput = {
@@ -177588,6 +179948,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutExternalIdentitiesInput = {
@@ -177619,6 +179980,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
     mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutExternalIdentitiesInput = {
@@ -177634,6 +179996,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type TenantCreateWithoutProductsInput = {
@@ -177731,6 +180094,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -177828,6 +180192,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -177985,6 +180350,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -178082,6 +180448,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -178605,6 +180972,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -178702,6 +181070,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -178837,6 +181206,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -178934,6 +181304,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -179101,6 +181472,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -179198,6 +181570,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -179311,6 +181684,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -179408,6 +181782,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -179505,6 +181880,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -179602,6 +181978,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -179715,6 +182092,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -179812,6 +182190,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -179909,6 +182288,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -180006,6 +182386,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -180119,6 +182500,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -180216,6 +182598,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -180313,6 +182696,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -180410,6 +182794,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -180523,6 +182908,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -180620,6 +183006,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -180717,6 +183104,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -180814,6 +183202,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -180953,6 +183342,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -181050,6 +183440,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -181163,6 +183554,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -181260,6 +183652,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -181406,6 +183799,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -181503,6 +183897,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -181639,6 +184034,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -181736,6 +184132,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -181849,6 +184246,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -181946,6 +184344,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -182043,6 +184442,7 @@ export namespace Prisma {
     territories?: TerritoryCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -182140,6 +184540,7 @@ export namespace Prisma {
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -182277,6 +184678,7 @@ export namespace Prisma {
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -182374,6 +184776,7 @@ export namespace Prisma {
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -182487,6 +184890,7 @@ export namespace Prisma {
     territories?: TerritoryCreateNestedManyWithoutTenantInput
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -182584,6 +184988,7 @@ export namespace Prisma {
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -182718,6 +185123,7 @@ export namespace Prisma {
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -182815,6 +185221,7 @@ export namespace Prisma {
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -182939,6 +185346,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -183036,6 +185444,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -183149,6 +185558,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -183246,6 +185656,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -183343,6 +185754,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -183440,6 +185852,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -183553,6 +185966,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -183650,6 +186064,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -183747,6 +186162,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -183844,6 +186260,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -183957,6 +186374,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -184054,6 +186472,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -184151,6 +186570,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -184248,6 +186668,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -184361,6 +186782,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -184458,6 +186880,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -184555,6 +186978,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -184652,6 +187076,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -184791,6 +187216,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -184888,6 +187314,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -185001,6 +187428,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -185098,6 +187526,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -185242,6 +187671,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -185339,6 +187769,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -185473,6 +187904,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -185570,6 +188002,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -185717,6 +188150,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -185814,6 +188248,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -185927,6 +188362,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -186024,6 +188460,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -186176,6 +188613,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -186273,6 +188711,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -186415,6 +188854,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -186512,6 +188952,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -186625,6 +189066,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -186722,6 +189164,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -186819,6 +189262,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -186916,6 +189360,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -187029,6 +189474,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -187126,6 +189572,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -187223,6 +189670,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -187320,6 +189768,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -187480,6 +189929,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -187577,6 +190027,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -187727,6 +190178,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -187824,6 +190276,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -187971,6 +190424,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -188068,6 +190522,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -188181,6 +190636,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -188278,6 +190734,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -188428,6 +190885,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -188525,6 +190983,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -188665,6 +191124,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -188762,6 +191222,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -188875,6 +191336,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -188972,6 +191434,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -189069,6 +191532,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -189166,6 +191630,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -189279,6 +191744,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -189376,6 +191842,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -189473,6 +191940,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -189570,6 +192038,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -189713,6 +192182,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -189810,6 +192280,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -189923,6 +192394,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -190020,6 +192492,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -190166,6 +192639,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -190263,6 +192737,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -190399,6 +192874,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -190496,6 +192972,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -190641,6 +193118,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -190738,6 +193216,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -190851,6 +193330,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -190948,6 +193428,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -191098,6 +193579,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -191195,6 +193677,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -191335,6 +193818,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -191432,6 +193916,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -191575,6 +194060,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -191672,6 +194158,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -191785,6 +194272,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -191882,6 +194370,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -192026,6 +194515,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -192123,6 +194613,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -192257,6 +194748,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -192354,6 +194846,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -192499,6 +194992,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -192596,6 +195090,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -192709,6 +195204,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -192806,6 +195302,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -192946,6 +195443,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -193043,6 +195541,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -193173,6 +195672,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -193270,6 +195770,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -193383,6 +195884,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -193480,6 +195982,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -193577,6 +196080,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -193674,6 +196178,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -193787,6 +196292,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -193884,6 +196390,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -193981,6 +196488,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -194078,6 +196586,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -194221,6 +196730,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -194318,6 +196828,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -194431,6 +196942,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -194528,6 +197040,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -194666,6 +197179,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -194763,6 +197277,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -194891,6 +197406,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -194988,6 +197504,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -195133,6 +197650,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -195230,6 +197748,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -195343,6 +197862,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -195440,6 +197960,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -195596,6 +198117,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -195693,6 +198215,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -195839,6 +198362,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -195936,6 +198460,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -196075,6 +198600,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -196172,6 +198698,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -196285,6 +198812,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -196382,6 +198910,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -196522,6 +199051,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -196619,6 +199149,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -196749,6 +199280,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -196846,6 +199378,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -196989,6 +199522,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -197086,6 +199620,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -197199,6 +199734,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -197296,6 +199832,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -197444,6 +199981,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -197541,6 +200079,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -197679,6 +200218,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -197776,6 +200316,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -197889,6 +200430,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -197986,6 +200528,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -198083,6 +200626,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -198180,6 +200724,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -198325,6 +200870,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -198422,6 +200968,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -198535,6 +201082,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -198632,6 +201180,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -198788,6 +201337,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -198885,6 +201435,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -199031,6 +201582,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -199128,6 +201680,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -199241,6 +201794,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -199338,6 +201892,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -199435,6 +201990,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -199532,6 +202088,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -199645,6 +202202,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -199742,6 +202300,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -199839,6 +202398,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -199936,6 +202496,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -200066,6 +202627,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -200163,6 +202725,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -200283,6 +202846,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -200380,6 +202944,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -200524,6 +203089,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -200621,6 +203187,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -200755,6 +203322,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -200852,6 +203420,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -200965,6 +203534,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -201062,6 +203632,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -201159,6 +203730,7 @@ export namespace Prisma {
     territories?: TerritoryCreateNestedManyWithoutTenantInput
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -201256,6 +203828,7 @@ export namespace Prisma {
     territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -201369,6 +203942,7 @@ export namespace Prisma {
     territories?: TerritoryUpdateManyWithoutTenantNestedInput
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -201466,6 +204040,7 @@ export namespace Prisma {
     territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -201563,6 +204138,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -201660,6 +204236,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -201801,6 +204378,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -201898,6 +204476,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -202011,6 +204590,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -202108,6 +204688,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -202244,6 +204825,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -202341,6 +204923,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -202467,6 +205050,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -202564,6 +205148,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -202715,6 +205300,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -202812,6 +205398,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -202925,6 +205512,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -203022,6 +205610,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -203162,6 +205751,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -203259,6 +205849,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -203389,6 +205980,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -203486,6 +206078,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -203599,6 +206192,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -203696,6 +206290,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -203793,6 +206388,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -203890,6 +206486,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -204003,6 +206600,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -204100,6 +206698,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -204197,6 +206796,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -204294,6 +206894,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -204458,6 +207059,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -204555,6 +207157,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -204697,6 +207300,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -204794,6 +207398,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -204935,6 +207540,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -205032,6 +207638,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -205145,6 +207752,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -205242,6 +207850,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -205390,6 +207999,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -205487,6 +208097,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -205625,6 +208236,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -205722,6 +208334,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -205861,6 +208474,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -205958,6 +208572,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -206071,6 +208686,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -206168,6 +208784,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -206314,6 +208931,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -206411,6 +209029,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -206547,6 +209166,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -206644,6 +209264,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -206789,6 +209410,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -206886,6 +209508,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -206999,6 +209622,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -207096,6 +209720,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -207232,6 +209857,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -207329,6 +209955,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -208321,6 +210948,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ConsentRecordCreateManyTenantInput = {
+    id?: string
+    partyId: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+  }
+
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     version?: IntFieldUpdateOperationsInput | number
@@ -208937,6 +211574,7 @@ export namespace Prisma {
     mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutTenantInput = {
@@ -208952,6 +211590,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutTenantInput = {
@@ -211278,6 +213917,36 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ConsentRecordUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    party?: PartyUpdateOneRequiredWithoutConsentRecordsNestedInput
+  }
+
+  export type ConsentRecordUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConsentRecordUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -211741,6 +214410,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ConsentRecordCreateManyPartyInput = {
+    id?: string
+    tenantId: string
+    channel: $Enums.ConsentChannel
+    granted: boolean
+    note?: string | null
+    recordedAt?: Date | string
+    recordedBy?: string | null
+  }
+
   export type PartyUpdateWithoutMergedIntoInput = {
     id?: StringFieldUpdateOperationsInput | string
     partyType?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
@@ -211754,6 +214433,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutMergedIntoInput = {
@@ -211769,6 +214449,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutMergedIntoInput = {
@@ -211806,6 +214487,36 @@ export namespace Prisma {
     sourceSystem?: StringFieldUpdateOperationsInput | string
     externalId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsentRecordUpdateWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutConsentRecordsNestedInput
+  }
+
+  export type ConsentRecordUncheckedUpdateWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConsentRecordUncheckedUpdateManyWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    channel?: EnumConsentChannelFieldUpdateOperationsInput | $Enums.ConsentChannel
+    granted?: BoolFieldUpdateOperationsInput | boolean
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SkuCreateManyProductInput = {

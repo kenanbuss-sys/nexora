@@ -420,6 +420,17 @@ exports.Prisma.PartyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConsentRecordScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  partyId: 'partyId',
+  channel: 'channel',
+  granted: 'granted',
+  note: 'note',
+  recordedAt: 'recordedAt',
+  recordedBy: 'recordedBy'
+};
+
 exports.Prisma.PartyExternalIdentityScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1374,6 +1385,13 @@ exports.PartyStatus = exports.$Enums.PartyStatus = {
   MERGED: 'MERGED'
 };
 
+exports.ConsentChannel = exports.$Enums.ConsentChannel = {
+  EMAIL: 'EMAIL',
+  PHONE: 'PHONE',
+  SMS: 'SMS',
+  POST: 'POST'
+};
+
 exports.ProductStatus = exports.$Enums.ProductStatus = {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED',
@@ -1634,6 +1652,7 @@ exports.Prisma.ModelName = {
   DocumentTemplate: 'DocumentTemplate',
   DocumentTemplateVersion: 'DocumentTemplateVersion',
   Party: 'Party',
+  ConsentRecord: 'ConsentRecord',
   PartyExternalIdentity: 'PartyExternalIdentity',
   Product: 'Product',
   Sku: 'Sku',
