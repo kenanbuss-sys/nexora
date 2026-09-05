@@ -474,6 +474,11 @@ export const BS: Record<string, string> = {
   'No photos yet.': 'Još nema fotografija.',
   'Image uploaded.': 'Slika učitana.',
   'Only image files can be product media': 'Samo slike mogu biti mediji proizvoda',
+  'Sales teams': 'Prodajni timovi',
+  'No teams yet.': 'Još nema timova.',
+  'Team created.': 'Tim kreiran.',
+  'Member added.': 'Član dodan.',
+  'Member removed.': 'Član uklonjen.',
   'Enter the 6-digit code from your authenticator app.':
     'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };

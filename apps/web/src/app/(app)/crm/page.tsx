@@ -52,6 +52,14 @@ interface TerritoryView {
   accountCount: number;
 }
 
+interface TeamView {
+  id: string;
+  code: string;
+  name: string;
+  territoryCount: number;
+  members: Array<{ id: string; userId: string; displayName: string; email: string }>;
+}
+
 interface OpportunityView {
   id: string;
   accountId: string;
@@ -96,6 +104,10 @@ export default function CrmPage() {
   const [territories, setTerritories] = useState<TerritoryView[]>([]);
   const [terrCode, setTerrCode] = useState('');
   const [terrName, setTerrName] = useState('');
+  const [teams, setTeams] = useState<TeamView[]>([]);
+  const [teamCode, setTeamCode] = useState('');
+  const [teamName, setTeamName] = useState('');
+  const [tenantUsers, setTenantUsers] = useState<Array<{ id: string; displayName: string }>>([]);
   const [opportunities, setOpportunities] = useState<OpportunityView[]>([]);
   const [parties, setParties] = useState<PartyOption[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -140,6 +152,14 @@ export default function CrmPage() {
     api<{ territories: TerritoryView[] }>('GET', '/api/v1/crm/territories')
       .then((r) => setTerritories(r.territories))
       .catch(() => setTerritories([]));
+    api<{ teams: TeamView[] }>('GET', '/api/v1/crm/teams')
+      .then((r) => setTeams(r.teams))
+      .catch(() => setTeams([]));
+    if (can('iam.user.manage')) {
+      api<{ users: Array<{ id: string; displayName: string }> }>('GET', '/api/v1/users')
+        .then((r) => setTenantUsers(r.users))
+        .catch(() => setTenantUsers([]));
+    }
     api<{ accounts: AccountView[] }>('GET', '/api/v1/crm/accounts')
       .then((r) => setAccounts(r.accounts))
       .catch(() => setAccounts([]));
@@ -565,6 +585,104 @@ export default function CrmPage() {
                 placeholder="Name"
                 value={terrName}
                 onChange={(e) => setTerrName(e.target.value)}
+                required
+              />
+              <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                Add
+              </button>
+            </form>
+          ) : null}
+        </div>
+
+        <div className="card">
+          <h2>Sales teams</h2>
+          {teams.length === 0 ? <div className="empty">No teams yet.</div> : null}
+          {teams.map((t) => (
+            <div key={t.id} style={{ marginBottom: 10 }}>
+              <div className="spread">
+                <span>
+                  <span className="mono">{t.code}</span> — {t.name}
+                </span>
+                <span className="muted" style={{ fontSize: 12 }}>
+                  {t.territoryCount} territories
+                </span>
+              </div>
+              <div className="row" style={{ marginTop: 4, flexWrap: 'wrap', gap: 6 }}>
+                {t.members.map((m) => (
+                  <span key={m.id} className="badge">
+                    {m.displayName}
+                    {can('crm.manage') ? (
+                      <button
+                        className="btn btn-sm"
+                        style={{ marginLeft: 4, padding: '0 6px' }}
+                        type="button"
+                        disabled={busy}
+                        onClick={() =>
+                          void run(
+                            () => api('POST', `/api/v1/crm/teams/${t.id}/members/${m.id}/remove`),
+                            'Member removed.',
+                          )
+                        }
+                      >
+                        ×
+                      </button>
+                    ) : null}
+                  </span>
+                ))}
+                {can('crm.manage') && tenantUsers.length > 0 ? (
+                  <select
+                    className="select"
+                    style={{ maxWidth: 150, fontSize: 12 }}
+                    value=""
+                    onChange={(e) => {
+                      const userId = e.target.value;
+                      if (!userId) return;
+                      void run(
+                        () => api('POST', `/api/v1/crm/teams/${t.id}/members`, { userId }),
+                        'Member added.',
+                      );
+                    }}
+                  >
+                    <option value="">+ member…</option>
+                    {tenantUsers
+                      .filter((u) => !t.members.some((m) => m.userId === u.id))
+                      .map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.displayName}
+                        </option>
+                      ))}
+                  </select>
+                ) : null}
+              </div>
+            </div>
+          ))}
+          {can('crm.manage') ? (
+            <form
+              className="row"
+              style={{ marginTop: 8 }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void run(async () => {
+                  await api('POST', '/api/v1/crm/teams', { code: teamCode, name: teamName });
+                  setTeamCode('');
+                  setTeamName('');
+                }, 'Team created.');
+              }}
+            >
+              <input
+                className="input mono"
+                style={{ maxWidth: 90 }}
+                placeholder="Code"
+                value={teamCode}
+                onChange={(e) => setTeamCode(e.target.value)}
+                required
+              />
+              <input
+                className="input"
+                style={{ maxWidth: 160 }}
+                placeholder="Name"
+                value={teamName}
+                onChange={(e) => setTeamName(e.target.value)}
                 required
               />
               <button className="btn btn-sm btn-primary" disabled={busy} type="submit">

@@ -49,7 +49,7 @@ CRM-003,CRM,Opportunities,Implemented (Sprint 006),PLANNED,R1,,,Opportunity stag
 CRM-004,CRM,Activities,Implemented (Sprint 006),PLANNED,R1,,,Activity log on accounts/opportunities
 CRM-005,CRM,Customer 360,P1,DONE,R1,,,Customer 360 read model (Sprint 017)
 CRM-006,CRM,Territories,P1,DONE,R1,,,"Territory master (code/name/owner), audited account assignment with per-territory counts; Sales UI (Sprint 042)"
-CRM-007,CRM,Sales teams,P1,PLANNED,R1,,,
+CRM-007,CRM,Sales teams,P1,DONE,R1,,,"Team master (uppercased unique codes), audited membership from tenant users, territory coverage counts; Sales UI (Sprint 046)"
 CRM-008,CRM,Credit profile,P1,DONE,R1,,,Credit profile with server-side enforcement on order confirm (Sprint 017)
 CRM-009,CRM,Segmentation,P1,DONE,R1,,,"Segmentation tags, validated and audited (Sprint 017)"
 CRM-010,CRM,Interaction timeline,Implemented (Sprint 006),PLANNED,R1,,,"Interaction timeline (activities, newest first)"

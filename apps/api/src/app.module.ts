@@ -14,7 +14,12 @@ import {
 } from '@nexora/domain-core';
 import { PdfService, DocumentTemplateService } from '@nexora/domain-doc';
 import { DiscountRuleService, PricingService, QuoteService } from '@nexora/domain-cpq';
-import { CrmService, Customer360Service, TerritoryService } from '@nexora/domain-crm';
+import {
+  CrmService,
+  Customer360Service,
+  SalesTeamService,
+  TerritoryService,
+} from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
 import { DataQualityService, PartyService } from '@nexora/domain-mdm';
 import { ReturnsService, OrderService } from '@nexora/domain-oms';
@@ -66,8 +71,11 @@ import {
 import {
   CRM_SERVICE,
   CUSTOMER360_SERVICE,
+  SALES_TEAM_SERVICE,
+  SalesTeamsController,
   TERRITORY_SERVICE,
   TerritoriesController,
+  TerritoryTeamController,
   CrmAccountsController,
   CrmActivitiesController,
   CrmLeadsController,
@@ -209,6 +217,8 @@ export const REDIS = 'REDIS';
     CrmOpportunitiesController,
     CrmActivitiesController,
     TerritoriesController,
+    SalesTeamsController,
+    TerritoryTeamController,
     PriceListsController,
     QuotesController,
     DiscountRulesController,
@@ -403,6 +413,11 @@ export const REDIS = 'REDIS';
     {
       provide: TERRITORY_SERVICE,
       useFactory: (prisma: PrismaClient) => new TerritoryService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: SALES_TEAM_SERVICE,
+      useFactory: (prisma: PrismaClient) => new SalesTeamService(prisma),
       inject: [PRISMA],
     },
     {

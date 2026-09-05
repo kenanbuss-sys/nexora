@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { CrmService, Customer360Service, TerritoryService } from '@nexora/domain-crm';
+import type {
+  CrmService,
+  Customer360Service,
+  SalesTeamService,
+  TerritoryService,
+} from '@nexora/domain-crm';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -9,6 +14,7 @@ import { parseBody } from '../common/validate';
 export const CRM_SERVICE = 'CRM_SERVICE';
 export const CUSTOMER360_SERVICE = 'CUSTOMER360_SERVICE';
 export const TERRITORY_SERVICE = 'TERRITORY_SERVICE';
+export const SALES_TEAM_SERVICE = 'SALES_TEAM_SERVICE';
 
 const createAccountSchema = z.object({
   partyId: z.string().uuid(),
@@ -26,6 +32,12 @@ const createTerritorySchema = z.object({
   ownerUserId: z.string().uuid().optional(),
 });
 const assignTerritorySchema = z.object({ territoryId: z.string().uuid().nullable() });
+const createTeamSchema = z.object({
+  code: z.string().min(1).max(30),
+  name: z.string().min(1).max(200),
+});
+const addMemberSchema = z.object({ userId: z.string().uuid() });
+const assignTeamSchema = z.object({ teamId: z.string().uuid().nullable() });
 const createLeadSchema = z.object({
   name: z.string().min(1).max(200),
   company: z.string().max(200).optional(),
@@ -216,5 +228,50 @@ export class TerritoriesController {
   @RequirePermission('crm.manage')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.territories.createTerritory(parseBody(createTerritorySchema, body), ctx);
+  }
+}
+
+/** Sales teams (CRM). */
+@Controller('api/v1/crm/teams')
+export class SalesTeamsController {
+  constructor(@Inject(SALES_TEAM_SERVICE) private readonly teams: SalesTeamService) {}
+
+  @Get()
+  @RequirePermission('crm.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { teams: await this.teams.listTeams(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('crm.manage')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.teams.createTeam(parseBody(createTeamSchema, body), ctx);
+  }
+
+  @Post(':id/members')
+  @RequirePermission('crm.manage')
+  async addMember(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.teams.addMember(id, parseBody(addMemberSchema, body).userId, ctx);
+    return { added: true };
+  }
+
+  @Post(':id/members/:memberId/remove')
+  @RequirePermission('crm.manage')
+  async removeMember(@Param('memberId') memberId: string, @Ctx() ctx: RequestContext) {
+    await this.teams.removeMember(memberId, ctx);
+    return { removed: true };
+  }
+}
+
+/** Territory coverage by a team. */
+@Controller('api/v1/crm/territories')
+export class TerritoryTeamController {
+  constructor(@Inject(SALES_TEAM_SERVICE) private readonly teams: SalesTeamService) {}
+
+  @Post(':id/team')
+  @RequirePermission('crm.manage')
+  async assignTeam(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.teams.assignTerritory(id, parseBody(assignTeamSchema, body).teamId, ctx);
+    return { assigned: true };
   }
 }

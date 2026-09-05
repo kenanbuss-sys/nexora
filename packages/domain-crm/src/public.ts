@@ -10,6 +10,7 @@ export {
   type PartyGate,
 } from './crm.service';
 export { TerritoryService, type TerritoryView } from './territory.service';
+export { SalesTeamService, type SalesTeamView, type TeamMemberView } from './team.service';
 export {
   Customer360Service,
   type CreditProfile,
