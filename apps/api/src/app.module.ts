@@ -438,6 +438,7 @@ export const REDIS = 'REDIS';
         approvals: ApprovalService,
         catalog: CatalogService,
         inventory: InventoryService,
+        tenants: TenantService,
       ) => {
         const serviceCtx = (tenantId: string) => ({
           tenantId,
@@ -473,9 +474,24 @@ export const REDIS = 'REDIS';
           },
           { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) },
           { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
+          {
+            requisitionThreshold: async (tenantId) => {
+              const { config } = await tenants.getEffectiveConfiguration(tenantId);
+              const raw = (config as { approvals?: { requisitionThreshold?: unknown } })?.approvals
+                ?.requisitionThreshold;
+              return typeof raw === 'number' && Number.isFinite(raw) && raw >= 0 ? raw : null;
+            },
+          },
         );
       },
-      inject: [PRISMA, PARTY_SERVICE, APPROVAL_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE],
+      inject: [
+        PRISMA,
+        PARTY_SERVICE,
+        APPROVAL_SERVICE,
+        CATALOG_SERVICE,
+        INVENTORY_SERVICE,
+        TENANT_SERVICE,
+      ],
     },
     {
       provide: ENGINEERING_SERVICE,

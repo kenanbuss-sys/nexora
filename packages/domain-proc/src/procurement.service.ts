@@ -210,6 +210,15 @@ function poView(po: {
   };
 }
 
+/**
+ * Approval authority matrix (IAM/PROC): the tenant-configurable threshold
+ * above which requisitions route through a WF approval. Owned by CORE
+ * configuration; absent or invalid values fall back to the default.
+ */
+export interface ApprovalPolicyGate {
+  requisitionThreshold(tenantId: string): Promise<number | null>;
+}
+
 export class ProcurementService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -217,6 +226,7 @@ export class ProcurementService {
     private readonly approvals: ApprovalGate,
     private readonly skus: SkuInfoGate,
     private readonly receipts: ReceiptGate,
+    private readonly policy?: ApprovalPolicyGate,
   ) {}
 
   // -------------------------------------------------------------- suppliers
@@ -420,11 +430,19 @@ export class ProcurementService {
     if (requisition.lines.length === 0) {
       throw new DomainError('VALIDATION_FAILED', 'A requisition needs at least one line');
     }
-    const needsApproval = Number(requisition.total) > REQUISITION_APPROVAL_THRESHOLD;
+    const configured = await this.policy?.requisitionThreshold(ctx.tenantId);
+    const threshold =
+      configured !== null &&
+      configured !== undefined &&
+      Number.isFinite(configured) &&
+      configured >= 0
+        ? configured
+        : REQUISITION_APPROVAL_THRESHOLD;
+    const needsApproval = Number(requisition.total) > threshold;
     if (needsApproval) {
       const approval = await this.approvals.requestApproval(
         {
-          title: `Purchase ${requisition.requisitionNumber} for ${requisition.total} ${requisition.currency} (threshold ${REQUISITION_APPROVAL_THRESHOLD})`,
+          title: `Purchase ${requisition.requisitionNumber} for ${requisition.total} ${requisition.currency} (threshold ${threshold})`,
           subjectObjectType: 'PurchaseRequisition',
           subjectObjectId: requisition.id,
         },

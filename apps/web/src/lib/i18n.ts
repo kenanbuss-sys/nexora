@@ -403,6 +403,13 @@ export const BS: Record<string, string> = {
   'Planning (MRP)': 'Planiranje (MRP)',
   'Warehouse & inventory': 'Skladište i zalihe',
   'Devices & scanning': 'Uređaji i skeniranje',
+  Approvals: 'Odobrenja',
+  'Purchase requisitions above this amount route through an approval before conversion.':
+    'Zahtjevi za nabavku iznad ovog iznosa idu na odobrenje prije konverzije.',
+  'Requisition approval threshold': 'Prag odobrenja zahtjeva',
+  'Publish approval policy': 'Objavi politiku odobrenja',
+  'Approval policy published.': 'Politika odobrenja objavljena.',
+  'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

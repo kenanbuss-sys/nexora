@@ -5,6 +5,7 @@ export {
   ProcurementService,
   REQUISITION_APPROVAL_THRESHOLD,
   type ApprovalGate,
+  type ApprovalPolicyGate,
   type PartyGate,
   type PoLineView,
   type PriceHistoryEntry,

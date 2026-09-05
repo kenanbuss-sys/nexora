@@ -12,6 +12,9 @@ interface EffectiveConfig {
       accentColor?: string;
       accentColor2?: string;
     };
+    approvals?: {
+      requisitionThreshold?: number;
+    };
     [key: string]: unknown;
   };
 }
@@ -69,6 +72,30 @@ export default function SettingsPage() {
   const [termLocale, setTermLocale] = useState<'en' | 'bs'>('en');
   const [terms, setTerms] = useState<Record<string, string>>({});
   const [modules, setModules] = useState<Record<string, boolean>>({});
+  const [reqThreshold, setReqThreshold] = useState('1000');
+
+  async function saveApprovals() {
+    const value = Number(reqThreshold);
+    if (!Number.isFinite(value) || value < 0) {
+      setError('Approval threshold must be a number ≥ 0');
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const base = config?.config && typeof config.config === 'object' ? { ...config.config } : {};
+      await api('POST', '/api/v1/tenant/configuration', {
+        config: { ...base, approvals: { ...(base.approvals ?? {}), requisitionThreshold: value } },
+      });
+      setNotice('Approval policy published.');
+      load();
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   const loadModules = useCallback(() => {
     api<{ modules: Record<string, boolean> }>('GET', '/api/v1/tenant/modules')
@@ -130,6 +157,8 @@ export default function SettingsPage() {
         if (branding.name) setName(branding.name);
         if (branding.accentColor) setAccentColor(branding.accentColor);
         if (branding.accentColor2) setAccentColor2(branding.accentColor2);
+        const threshold = c.config?.approvals?.requisitionThreshold;
+        if (typeof threshold === 'number') setReqThreshold(String(threshold));
       })
       .catch((e) => setError(errorText(e)));
     api<{ versions: VersionRow[] }>('GET', '/api/v1/tenant/configuration/history')
@@ -247,6 +276,34 @@ export default function SettingsPage() {
           ) : (
             <p className="muted">Publishing needs the configuration.publish permission.</p>
           )}
+        </div>
+
+        <div className="card">
+          <h2>Approvals</h2>
+          <p className="muted">
+            Purchase requisitions above this amount route through an approval before conversion.
+          </p>
+          <label className="label" htmlFor="req-threshold">
+            Requisition approval threshold
+          </label>
+          <input
+            id="req-threshold"
+            className="input mono"
+            style={{ maxWidth: 160 }}
+            inputMode="decimal"
+            value={reqThreshold}
+            onChange={(e) => setReqThreshold(e.target.value)}
+          />
+          {can('configuration.publish') ? (
+            <button
+              className="btn btn-primary"
+              style={{ marginTop: 10, display: 'block' }}
+              disabled={busy}
+              onClick={() => void saveApprovals()}
+            >
+              {busy ? 'Publishing…' : 'Publish approval policy'}
+            </button>
+          ) : null}
         </div>
 
         <div className="card">
