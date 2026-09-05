@@ -118,6 +118,8 @@ model Tenant {
   returnOrderLines      ReturnOrderLine[]
   stockCounts           StockCount[]
   stockCountLines       StockCountLine[]
+  workCenters           WorkCenter[]
+  downtimeEvents        DowntimeEvent[]
 
   @@map("tenant")
 }
@@ -2205,4 +2207,52 @@ model StockCountLine {
   @@unique([countId, skuId])
   @@index([tenantId, countId])
   @@map("stock_count_line")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 031 — MES depth: work-center master data (MES-003), downtime
+// logging (MES-014) and OEE inputs (MES-021) as read models.
+// ---------------------------------------------------------------------------
+
+model WorkCenter {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  code      String
+  name      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant    Tenant          @relation(fields: [tenantId], references: [id])
+  downtimes DowntimeEvent[]
+
+  @@unique([tenantId, code])
+  @@map("work_center")
+}
+
+enum DowntimeCategory {
+  BREAKDOWN
+  SETUP
+  MATERIAL
+  QUALITY
+  OTHER
+}
+
+/// Logged downtime (MES-014). Append-only; minutes are recorded
+/// directly so shop-floor entry stays one step.
+model DowntimeEvent {
+  id           String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String           @map("tenant_id") @db.Uuid
+  workCenterId String           @map("work_center_id") @db.Uuid
+  workOrderId  String?          @map("work_order_id") @db.Uuid
+  category     DowntimeCategory @default(OTHER)
+  minutes      Int
+  reason       String
+  occurredAt   DateTime         @default(now()) @map("occurred_at")
+  createdBy    String?          @map("created_by")
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id])
+  workCenter WorkCenter @relation(fields: [workCenterId], references: [id])
+
+  @@index([tenantId, workCenterId, occurredAt])
+  @@map("downtime_event")
 }

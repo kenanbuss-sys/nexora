@@ -497,6 +497,17 @@ export type StockCount = $Result.DefaultSelection<Prisma.$StockCountPayload>
  * 
  */
 export type StockCountLine = $Result.DefaultSelection<Prisma.$StockCountLinePayload>
+/**
+ * Model WorkCenter
+ * 
+ */
+export type WorkCenter = $Result.DefaultSelection<Prisma.$WorkCenterPayload>
+/**
+ * Model DowntimeEvent
+ * Logged downtime (MES-014). Append-only; minutes are recorded
+ * directly so shop-floor entry stays one step.
+ */
+export type DowntimeEvent = $Result.DefaultSelection<Prisma.$DowntimeEventPayload>
 
 /**
  * Enums
@@ -924,6 +935,17 @@ export const StockCountStatus: {
 
 export type StockCountStatus = (typeof StockCountStatus)[keyof typeof StockCountStatus]
 
+
+export const DowntimeCategory: {
+  BREAKDOWN: 'BREAKDOWN',
+  SETUP: 'SETUP',
+  MATERIAL: 'MATERIAL',
+  QUALITY: 'QUALITY',
+  OTHER: 'OTHER'
+};
+
+export type DowntimeCategory = (typeof DowntimeCategory)[keyof typeof DowntimeCategory]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1101,6 +1123,10 @@ export const ReturnStatus: typeof $Enums.ReturnStatus
 export type StockCountStatus = $Enums.StockCountStatus
 
 export const StockCountStatus: typeof $Enums.StockCountStatus
+
+export type DowntimeCategory = $Enums.DowntimeCategory
+
+export const DowntimeCategory: typeof $Enums.DowntimeCategory
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2109,6 +2135,26 @@ export class PrismaClient<
     * ```
     */
   get stockCountLine(): Prisma.StockCountLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workCenter`: Exposes CRUD operations for the **WorkCenter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WorkCenters
+    * const workCenters = await prisma.workCenter.findMany()
+    * ```
+    */
+  get workCenter(): Prisma.WorkCenterDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.downtimeEvent`: Exposes CRUD operations for the **DowntimeEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DowntimeEvents
+    * const downtimeEvents = await prisma.downtimeEvent.findMany()
+    * ```
+    */
+  get downtimeEvent(): Prisma.DowntimeEventDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2638,7 +2684,9 @@ export namespace Prisma {
     ReturnOrder: 'ReturnOrder',
     ReturnOrderLine: 'ReturnOrderLine',
     StockCount: 'StockCount',
-    StockCountLine: 'StockCountLine'
+    StockCountLine: 'StockCountLine',
+    WorkCenter: 'WorkCenter',
+    DowntimeEvent: 'DowntimeEvent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2657,7 +2705,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -9247,6 +9295,154 @@ export namespace Prisma {
           }
         }
       }
+      WorkCenter: {
+        payload: Prisma.$WorkCenterPayload<ExtArgs>
+        fields: Prisma.WorkCenterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkCenterFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkCenterFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkCenterFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkCenterFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>
+          }
+          findMany: {
+            args: Prisma.WorkCenterFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>[]
+          }
+          create: {
+            args: Prisma.WorkCenterCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>
+          }
+          createMany: {
+            args: Prisma.WorkCenterCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WorkCenterCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>[]
+          }
+          delete: {
+            args: Prisma.WorkCenterDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>
+          }
+          update: {
+            args: Prisma.WorkCenterUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkCenterDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkCenterUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WorkCenterUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>[]
+          }
+          upsert: {
+            args: Prisma.WorkCenterUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkCenterPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkCenterAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkCenter>
+          }
+          groupBy: {
+            args: Prisma.WorkCenterGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkCenterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkCenterCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkCenterCountAggregateOutputType> | number
+          }
+        }
+      }
+      DowntimeEvent: {
+        payload: Prisma.$DowntimeEventPayload<ExtArgs>
+        fields: Prisma.DowntimeEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DowntimeEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DowntimeEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>
+          }
+          findFirst: {
+            args: Prisma.DowntimeEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DowntimeEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>
+          }
+          findMany: {
+            args: Prisma.DowntimeEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>[]
+          }
+          create: {
+            args: Prisma.DowntimeEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>
+          }
+          createMany: {
+            args: Prisma.DowntimeEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DowntimeEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>[]
+          }
+          delete: {
+            args: Prisma.DowntimeEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>
+          }
+          update: {
+            args: Prisma.DowntimeEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.DowntimeEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DowntimeEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DowntimeEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.DowntimeEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DowntimeEventPayload>
+          }
+          aggregate: {
+            args: Prisma.DowntimeEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDowntimeEvent>
+          }
+          groupBy: {
+            args: Prisma.DowntimeEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DowntimeEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DowntimeEventCountArgs<ExtArgs>
+            result: $Utils.Optional<DowntimeEventCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -9432,6 +9628,8 @@ export namespace Prisma {
     returnOrderLine?: ReturnOrderLineOmit
     stockCount?: StockCountOmit
     stockCountLine?: StockCountLineOmit
+    workCenter?: WorkCenterOmit
+    downtimeEvent?: DowntimeEventOmit
   }
 
   /* Types for Logging */
@@ -9590,6 +9788,8 @@ export namespace Prisma {
     returnOrderLines: number
     stockCounts: number
     stockCountLines: number
+    workCenters: number
+    downtimeEvents: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9671,6 +9871,8 @@ export namespace Prisma {
     returnOrderLines?: boolean | TenantCountOutputTypeCountReturnOrderLinesArgs
     stockCounts?: boolean | TenantCountOutputTypeCountStockCountsArgs
     stockCountLines?: boolean | TenantCountOutputTypeCountStockCountLinesArgs
+    workCenters?: boolean | TenantCountOutputTypeCountWorkCentersArgs
+    downtimeEvents?: boolean | TenantCountOutputTypeCountDowntimeEventsArgs
   }
 
   // Custom InputTypes
@@ -10228,6 +10430,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountStockCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StockCountLineWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountWorkCentersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkCenterWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountDowntimeEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DowntimeEventWhereInput
   }
 
 
@@ -11216,6 +11432,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type WorkCenterCountOutputType
+   */
+
+  export type WorkCenterCountOutputType = {
+    downtimes: number
+  }
+
+  export type WorkCenterCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    downtimes?: boolean | WorkCenterCountOutputTypeCountDowntimesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WorkCenterCountOutputType without action
+   */
+  export type WorkCenterCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenterCountOutputType
+     */
+    select?: WorkCenterCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WorkCenterCountOutputType without action
+   */
+  export type WorkCenterCountOutputTypeCountDowntimesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DowntimeEventWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -11511,6 +11758,8 @@ export namespace Prisma {
     returnOrderLines?: boolean | Tenant$returnOrderLinesArgs<ExtArgs>
     stockCounts?: boolean | Tenant$stockCountsArgs<ExtArgs>
     stockCountLines?: boolean | Tenant$stockCountLinesArgs<ExtArgs>
+    workCenters?: boolean | Tenant$workCentersArgs<ExtArgs>
+    downtimeEvents?: boolean | Tenant$downtimeEventsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -11624,6 +11873,8 @@ export namespace Prisma {
     returnOrderLines?: boolean | Tenant$returnOrderLinesArgs<ExtArgs>
     stockCounts?: boolean | Tenant$stockCountsArgs<ExtArgs>
     stockCountLines?: boolean | Tenant$stockCountLinesArgs<ExtArgs>
+    workCenters?: boolean | Tenant$workCentersArgs<ExtArgs>
+    downtimeEvents?: boolean | Tenant$downtimeEventsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11710,6 +11961,8 @@ export namespace Prisma {
       returnOrderLines: Prisma.$ReturnOrderLinePayload<ExtArgs>[]
       stockCounts: Prisma.$StockCountPayload<ExtArgs>[]
       stockCountLines: Prisma.$StockCountLinePayload<ExtArgs>[]
+      workCenters: Prisma.$WorkCenterPayload<ExtArgs>[]
+      downtimeEvents: Prisma.$DowntimeEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12191,6 +12444,8 @@ export namespace Prisma {
     returnOrderLines<T extends Tenant$returnOrderLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$returnOrderLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReturnOrderLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockCounts<T extends Tenant$stockCountsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$stockCountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockCountLines<T extends Tenant$stockCountLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$stockCountLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockCountLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workCenters<T extends Tenant$workCentersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$workCentersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    downtimeEvents<T extends Tenant$downtimeEventsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$downtimeEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14484,6 +14739,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StockCountLineScalarFieldEnum | StockCountLineScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.workCenters
+   */
+  export type Tenant$workCentersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    where?: WorkCenterWhereInput
+    orderBy?: WorkCenterOrderByWithRelationInput | WorkCenterOrderByWithRelationInput[]
+    cursor?: WorkCenterWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkCenterScalarFieldEnum | WorkCenterScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.downtimeEvents
+   */
+  export type Tenant$downtimeEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    where?: DowntimeEventWhereInput
+    orderBy?: DowntimeEventOrderByWithRelationInput | DowntimeEventOrderByWithRelationInput[]
+    cursor?: DowntimeEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DowntimeEventScalarFieldEnum | DowntimeEventScalarFieldEnum[]
   }
 
   /**
@@ -114877,6 +115180,2259 @@ export namespace Prisma {
 
 
   /**
+   * Model WorkCenter
+   */
+
+  export type AggregateWorkCenter = {
+    _count: WorkCenterCountAggregateOutputType | null
+    _min: WorkCenterMinAggregateOutputType | null
+    _max: WorkCenterMaxAggregateOutputType | null
+  }
+
+  export type WorkCenterMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    active: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WorkCenterMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    active: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WorkCenterCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    active: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WorkCenterMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    active?: true
+    createdAt?: true
+  }
+
+  export type WorkCenterMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    active?: true
+    createdAt?: true
+  }
+
+  export type WorkCenterCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    active?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WorkCenterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkCenter to aggregate.
+     */
+    where?: WorkCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkCenters to fetch.
+     */
+    orderBy?: WorkCenterOrderByWithRelationInput | WorkCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkCenters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WorkCenters
+    **/
+    _count?: true | WorkCenterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkCenterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkCenterMaxAggregateInputType
+  }
+
+  export type GetWorkCenterAggregateType<T extends WorkCenterAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkCenter]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkCenter[P]>
+      : GetScalarType<T[P], AggregateWorkCenter[P]>
+  }
+
+
+
+
+  export type WorkCenterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkCenterWhereInput
+    orderBy?: WorkCenterOrderByWithAggregationInput | WorkCenterOrderByWithAggregationInput[]
+    by: WorkCenterScalarFieldEnum[] | WorkCenterScalarFieldEnum
+    having?: WorkCenterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkCenterCountAggregateInputType | true
+    _min?: WorkCenterMinAggregateInputType
+    _max?: WorkCenterMaxAggregateInputType
+  }
+
+  export type WorkCenterGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: string
+    active: boolean
+    createdAt: Date
+    _count: WorkCenterCountAggregateOutputType | null
+    _min: WorkCenterMinAggregateOutputType | null
+    _max: WorkCenterMaxAggregateOutputType | null
+  }
+
+  type GetWorkCenterGroupByPayload<T extends WorkCenterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkCenterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkCenterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkCenterGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkCenterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkCenterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    downtimes?: boolean | WorkCenter$downtimesArgs<ExtArgs>
+    _count?: boolean | WorkCenterCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workCenter"]>
+
+  export type WorkCenterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workCenter"]>
+
+  export type WorkCenterSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workCenter"]>
+
+  export type WorkCenterSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    active?: boolean
+    createdAt?: boolean
+  }
+
+  export type WorkCenterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "active" | "createdAt", ExtArgs["result"]["workCenter"]>
+  export type WorkCenterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    downtimes?: boolean | WorkCenter$downtimesArgs<ExtArgs>
+    _count?: boolean | WorkCenterCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WorkCenterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type WorkCenterIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $WorkCenterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WorkCenter"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      downtimes: Prisma.$DowntimeEventPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: string
+      active: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["workCenter"]>
+    composites: {}
+  }
+
+  type WorkCenterGetPayload<S extends boolean | null | undefined | WorkCenterDefaultArgs> = $Result.GetResult<Prisma.$WorkCenterPayload, S>
+
+  type WorkCenterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkCenterFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkCenterCountAggregateInputType | true
+    }
+
+  export interface WorkCenterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkCenter'], meta: { name: 'WorkCenter' } }
+    /**
+     * Find zero or one WorkCenter that matches the filter.
+     * @param {WorkCenterFindUniqueArgs} args - Arguments to find a WorkCenter
+     * @example
+     * // Get one WorkCenter
+     * const workCenter = await prisma.workCenter.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkCenterFindUniqueArgs>(args: SelectSubset<T, WorkCenterFindUniqueArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WorkCenter that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkCenterFindUniqueOrThrowArgs} args - Arguments to find a WorkCenter
+     * @example
+     * // Get one WorkCenter
+     * const workCenter = await prisma.workCenter.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkCenterFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkCenterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkCenter that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkCenterFindFirstArgs} args - Arguments to find a WorkCenter
+     * @example
+     * // Get one WorkCenter
+     * const workCenter = await prisma.workCenter.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkCenterFindFirstArgs>(args?: SelectSubset<T, WorkCenterFindFirstArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkCenter that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkCenterFindFirstOrThrowArgs} args - Arguments to find a WorkCenter
+     * @example
+     * // Get one WorkCenter
+     * const workCenter = await prisma.workCenter.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkCenterFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkCenterFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WorkCenters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkCenterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WorkCenters
+     * const workCenters = await prisma.workCenter.findMany()
+     * 
+     * // Get first 10 WorkCenters
+     * const workCenters = await prisma.workCenter.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workCenterWithIdOnly = await prisma.workCenter.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkCenterFindManyArgs>(args?: SelectSubset<T, WorkCenterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WorkCenter.
+     * @param {WorkCenterCreateArgs} args - Arguments to create a WorkCenter.
+     * @example
+     * // Create one WorkCenter
+     * const WorkCenter = await prisma.workCenter.create({
+     *   data: {
+     *     // ... data to create a WorkCenter
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkCenterCreateArgs>(args: SelectSubset<T, WorkCenterCreateArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WorkCenters.
+     * @param {WorkCenterCreateManyArgs} args - Arguments to create many WorkCenters.
+     * @example
+     * // Create many WorkCenters
+     * const workCenter = await prisma.workCenter.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkCenterCreateManyArgs>(args?: SelectSubset<T, WorkCenterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WorkCenters and returns the data saved in the database.
+     * @param {WorkCenterCreateManyAndReturnArgs} args - Arguments to create many WorkCenters.
+     * @example
+     * // Create many WorkCenters
+     * const workCenter = await prisma.workCenter.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WorkCenters and only return the `id`
+     * const workCenterWithIdOnly = await prisma.workCenter.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WorkCenterCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkCenterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WorkCenter.
+     * @param {WorkCenterDeleteArgs} args - Arguments to delete one WorkCenter.
+     * @example
+     * // Delete one WorkCenter
+     * const WorkCenter = await prisma.workCenter.delete({
+     *   where: {
+     *     // ... filter to delete one WorkCenter
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkCenterDeleteArgs>(args: SelectSubset<T, WorkCenterDeleteArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WorkCenter.
+     * @param {WorkCenterUpdateArgs} args - Arguments to update one WorkCenter.
+     * @example
+     * // Update one WorkCenter
+     * const workCenter = await prisma.workCenter.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkCenterUpdateArgs>(args: SelectSubset<T, WorkCenterUpdateArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WorkCenters.
+     * @param {WorkCenterDeleteManyArgs} args - Arguments to filter WorkCenters to delete.
+     * @example
+     * // Delete a few WorkCenters
+     * const { count } = await prisma.workCenter.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkCenterDeleteManyArgs>(args?: SelectSubset<T, WorkCenterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkCenters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkCenterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WorkCenters
+     * const workCenter = await prisma.workCenter.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkCenterUpdateManyArgs>(args: SelectSubset<T, WorkCenterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkCenters and returns the data updated in the database.
+     * @param {WorkCenterUpdateManyAndReturnArgs} args - Arguments to update many WorkCenters.
+     * @example
+     * // Update many WorkCenters
+     * const workCenter = await prisma.workCenter.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WorkCenters and only return the `id`
+     * const workCenterWithIdOnly = await prisma.workCenter.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WorkCenterUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkCenterUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WorkCenter.
+     * @param {WorkCenterUpsertArgs} args - Arguments to update or create a WorkCenter.
+     * @example
+     * // Update or create a WorkCenter
+     * const workCenter = await prisma.workCenter.upsert({
+     *   create: {
+     *     // ... data to create a WorkCenter
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WorkCenter we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkCenterUpsertArgs>(args: SelectSubset<T, WorkCenterUpsertArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WorkCenters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkCenterCountArgs} args - Arguments to filter WorkCenters to count.
+     * @example
+     * // Count the number of WorkCenters
+     * const count = await prisma.workCenter.count({
+     *   where: {
+     *     // ... the filter for the WorkCenters we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkCenterCountArgs>(
+      args?: Subset<T, WorkCenterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkCenterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WorkCenter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkCenterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkCenterAggregateArgs>(args: Subset<T, WorkCenterAggregateArgs>): Prisma.PrismaPromise<GetWorkCenterAggregateType<T>>
+
+    /**
+     * Group by WorkCenter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkCenterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkCenterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkCenterGroupByArgs['orderBy'] }
+        : { orderBy?: WorkCenterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkCenterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkCenterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WorkCenter model
+   */
+  readonly fields: WorkCenterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WorkCenter.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkCenterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    downtimes<T extends WorkCenter$downtimesArgs<ExtArgs> = {}>(args?: Subset<T, WorkCenter$downtimesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WorkCenter model
+   */
+  interface WorkCenterFieldRefs {
+    readonly id: FieldRef<"WorkCenter", 'String'>
+    readonly tenantId: FieldRef<"WorkCenter", 'String'>
+    readonly code: FieldRef<"WorkCenter", 'String'>
+    readonly name: FieldRef<"WorkCenter", 'String'>
+    readonly active: FieldRef<"WorkCenter", 'Boolean'>
+    readonly createdAt: FieldRef<"WorkCenter", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WorkCenter findUnique
+   */
+  export type WorkCenterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkCenter to fetch.
+     */
+    where: WorkCenterWhereUniqueInput
+  }
+
+  /**
+   * WorkCenter findUniqueOrThrow
+   */
+  export type WorkCenterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkCenter to fetch.
+     */
+    where: WorkCenterWhereUniqueInput
+  }
+
+  /**
+   * WorkCenter findFirst
+   */
+  export type WorkCenterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkCenter to fetch.
+     */
+    where?: WorkCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkCenters to fetch.
+     */
+    orderBy?: WorkCenterOrderByWithRelationInput | WorkCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkCenters.
+     */
+    cursor?: WorkCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkCenters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkCenters.
+     */
+    distinct?: WorkCenterScalarFieldEnum | WorkCenterScalarFieldEnum[]
+  }
+
+  /**
+   * WorkCenter findFirstOrThrow
+   */
+  export type WorkCenterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkCenter to fetch.
+     */
+    where?: WorkCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkCenters to fetch.
+     */
+    orderBy?: WorkCenterOrderByWithRelationInput | WorkCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkCenters.
+     */
+    cursor?: WorkCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkCenters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkCenters.
+     */
+    distinct?: WorkCenterScalarFieldEnum | WorkCenterScalarFieldEnum[]
+  }
+
+  /**
+   * WorkCenter findMany
+   */
+  export type WorkCenterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkCenters to fetch.
+     */
+    where?: WorkCenterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkCenters to fetch.
+     */
+    orderBy?: WorkCenterOrderByWithRelationInput | WorkCenterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WorkCenters.
+     */
+    cursor?: WorkCenterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkCenters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkCenters.
+     */
+    skip?: number
+    distinct?: WorkCenterScalarFieldEnum | WorkCenterScalarFieldEnum[]
+  }
+
+  /**
+   * WorkCenter create
+   */
+  export type WorkCenterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WorkCenter.
+     */
+    data: XOR<WorkCenterCreateInput, WorkCenterUncheckedCreateInput>
+  }
+
+  /**
+   * WorkCenter createMany
+   */
+  export type WorkCenterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WorkCenters.
+     */
+    data: WorkCenterCreateManyInput | WorkCenterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WorkCenter createManyAndReturn
+   */
+  export type WorkCenterCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * The data used to create many WorkCenters.
+     */
+    data: WorkCenterCreateManyInput | WorkCenterCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkCenter update
+   */
+  export type WorkCenterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WorkCenter.
+     */
+    data: XOR<WorkCenterUpdateInput, WorkCenterUncheckedUpdateInput>
+    /**
+     * Choose, which WorkCenter to update.
+     */
+    where: WorkCenterWhereUniqueInput
+  }
+
+  /**
+   * WorkCenter updateMany
+   */
+  export type WorkCenterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WorkCenters.
+     */
+    data: XOR<WorkCenterUpdateManyMutationInput, WorkCenterUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkCenters to update
+     */
+    where?: WorkCenterWhereInput
+    /**
+     * Limit how many WorkCenters to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkCenter updateManyAndReturn
+   */
+  export type WorkCenterUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * The data used to update WorkCenters.
+     */
+    data: XOR<WorkCenterUpdateManyMutationInput, WorkCenterUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkCenters to update
+     */
+    where?: WorkCenterWhereInput
+    /**
+     * Limit how many WorkCenters to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WorkCenter upsert
+   */
+  export type WorkCenterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WorkCenter to update in case it exists.
+     */
+    where: WorkCenterWhereUniqueInput
+    /**
+     * In case the WorkCenter found by the `where` argument doesn't exist, create a new WorkCenter with this data.
+     */
+    create: XOR<WorkCenterCreateInput, WorkCenterUncheckedCreateInput>
+    /**
+     * In case the WorkCenter was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkCenterUpdateInput, WorkCenterUncheckedUpdateInput>
+  }
+
+  /**
+   * WorkCenter delete
+   */
+  export type WorkCenterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+    /**
+     * Filter which WorkCenter to delete.
+     */
+    where: WorkCenterWhereUniqueInput
+  }
+
+  /**
+   * WorkCenter deleteMany
+   */
+  export type WorkCenterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkCenters to delete
+     */
+    where?: WorkCenterWhereInput
+    /**
+     * Limit how many WorkCenters to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkCenter.downtimes
+   */
+  export type WorkCenter$downtimesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    where?: DowntimeEventWhereInput
+    orderBy?: DowntimeEventOrderByWithRelationInput | DowntimeEventOrderByWithRelationInput[]
+    cursor?: DowntimeEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DowntimeEventScalarFieldEnum | DowntimeEventScalarFieldEnum[]
+  }
+
+  /**
+   * WorkCenter without action
+   */
+  export type WorkCenterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkCenter
+     */
+    select?: WorkCenterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkCenter
+     */
+    omit?: WorkCenterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkCenterInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DowntimeEvent
+   */
+
+  export type AggregateDowntimeEvent = {
+    _count: DowntimeEventCountAggregateOutputType | null
+    _avg: DowntimeEventAvgAggregateOutputType | null
+    _sum: DowntimeEventSumAggregateOutputType | null
+    _min: DowntimeEventMinAggregateOutputType | null
+    _max: DowntimeEventMaxAggregateOutputType | null
+  }
+
+  export type DowntimeEventAvgAggregateOutputType = {
+    minutes: number | null
+  }
+
+  export type DowntimeEventSumAggregateOutputType = {
+    minutes: number | null
+  }
+
+  export type DowntimeEventMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    workCenterId: string | null
+    workOrderId: string | null
+    category: $Enums.DowntimeCategory | null
+    minutes: number | null
+    reason: string | null
+    occurredAt: Date | null
+    createdBy: string | null
+  }
+
+  export type DowntimeEventMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    workCenterId: string | null
+    workOrderId: string | null
+    category: $Enums.DowntimeCategory | null
+    minutes: number | null
+    reason: string | null
+    occurredAt: Date | null
+    createdBy: string | null
+  }
+
+  export type DowntimeEventCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    workCenterId: number
+    workOrderId: number
+    category: number
+    minutes: number
+    reason: number
+    occurredAt: number
+    createdBy: number
+    _all: number
+  }
+
+
+  export type DowntimeEventAvgAggregateInputType = {
+    minutes?: true
+  }
+
+  export type DowntimeEventSumAggregateInputType = {
+    minutes?: true
+  }
+
+  export type DowntimeEventMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    workCenterId?: true
+    workOrderId?: true
+    category?: true
+    minutes?: true
+    reason?: true
+    occurredAt?: true
+    createdBy?: true
+  }
+
+  export type DowntimeEventMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    workCenterId?: true
+    workOrderId?: true
+    category?: true
+    minutes?: true
+    reason?: true
+    occurredAt?: true
+    createdBy?: true
+  }
+
+  export type DowntimeEventCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    workCenterId?: true
+    workOrderId?: true
+    category?: true
+    minutes?: true
+    reason?: true
+    occurredAt?: true
+    createdBy?: true
+    _all?: true
+  }
+
+  export type DowntimeEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DowntimeEvent to aggregate.
+     */
+    where?: DowntimeEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DowntimeEvents to fetch.
+     */
+    orderBy?: DowntimeEventOrderByWithRelationInput | DowntimeEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DowntimeEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DowntimeEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DowntimeEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DowntimeEvents
+    **/
+    _count?: true | DowntimeEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DowntimeEventAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DowntimeEventSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DowntimeEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DowntimeEventMaxAggregateInputType
+  }
+
+  export type GetDowntimeEventAggregateType<T extends DowntimeEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateDowntimeEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDowntimeEvent[P]>
+      : GetScalarType<T[P], AggregateDowntimeEvent[P]>
+  }
+
+
+
+
+  export type DowntimeEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DowntimeEventWhereInput
+    orderBy?: DowntimeEventOrderByWithAggregationInput | DowntimeEventOrderByWithAggregationInput[]
+    by: DowntimeEventScalarFieldEnum[] | DowntimeEventScalarFieldEnum
+    having?: DowntimeEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DowntimeEventCountAggregateInputType | true
+    _avg?: DowntimeEventAvgAggregateInputType
+    _sum?: DowntimeEventSumAggregateInputType
+    _min?: DowntimeEventMinAggregateInputType
+    _max?: DowntimeEventMaxAggregateInputType
+  }
+
+  export type DowntimeEventGroupByOutputType = {
+    id: string
+    tenantId: string
+    workCenterId: string
+    workOrderId: string | null
+    category: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt: Date
+    createdBy: string | null
+    _count: DowntimeEventCountAggregateOutputType | null
+    _avg: DowntimeEventAvgAggregateOutputType | null
+    _sum: DowntimeEventSumAggregateOutputType | null
+    _min: DowntimeEventMinAggregateOutputType | null
+    _max: DowntimeEventMaxAggregateOutputType | null
+  }
+
+  type GetDowntimeEventGroupByPayload<T extends DowntimeEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DowntimeEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DowntimeEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DowntimeEventGroupByOutputType[P]>
+            : GetScalarType<T[P], DowntimeEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DowntimeEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    workCenterId?: boolean
+    workOrderId?: boolean
+    category?: boolean
+    minutes?: boolean
+    reason?: boolean
+    occurredAt?: boolean
+    createdBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workCenter?: boolean | WorkCenterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["downtimeEvent"]>
+
+  export type DowntimeEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    workCenterId?: boolean
+    workOrderId?: boolean
+    category?: boolean
+    minutes?: boolean
+    reason?: boolean
+    occurredAt?: boolean
+    createdBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workCenter?: boolean | WorkCenterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["downtimeEvent"]>
+
+  export type DowntimeEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    workCenterId?: boolean
+    workOrderId?: boolean
+    category?: boolean
+    minutes?: boolean
+    reason?: boolean
+    occurredAt?: boolean
+    createdBy?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workCenter?: boolean | WorkCenterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["downtimeEvent"]>
+
+  export type DowntimeEventSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    workCenterId?: boolean
+    workOrderId?: boolean
+    category?: boolean
+    minutes?: boolean
+    reason?: boolean
+    occurredAt?: boolean
+    createdBy?: boolean
+  }
+
+  export type DowntimeEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "workCenterId" | "workOrderId" | "category" | "minutes" | "reason" | "occurredAt" | "createdBy", ExtArgs["result"]["downtimeEvent"]>
+  export type DowntimeEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workCenter?: boolean | WorkCenterDefaultArgs<ExtArgs>
+  }
+  export type DowntimeEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workCenter?: boolean | WorkCenterDefaultArgs<ExtArgs>
+  }
+  export type DowntimeEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    workCenter?: boolean | WorkCenterDefaultArgs<ExtArgs>
+  }
+
+  export type $DowntimeEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DowntimeEvent"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      workCenter: Prisma.$WorkCenterPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      workCenterId: string
+      workOrderId: string | null
+      category: $Enums.DowntimeCategory
+      minutes: number
+      reason: string
+      occurredAt: Date
+      createdBy: string | null
+    }, ExtArgs["result"]["downtimeEvent"]>
+    composites: {}
+  }
+
+  type DowntimeEventGetPayload<S extends boolean | null | undefined | DowntimeEventDefaultArgs> = $Result.GetResult<Prisma.$DowntimeEventPayload, S>
+
+  type DowntimeEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DowntimeEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DowntimeEventCountAggregateInputType | true
+    }
+
+  export interface DowntimeEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DowntimeEvent'], meta: { name: 'DowntimeEvent' } }
+    /**
+     * Find zero or one DowntimeEvent that matches the filter.
+     * @param {DowntimeEventFindUniqueArgs} args - Arguments to find a DowntimeEvent
+     * @example
+     * // Get one DowntimeEvent
+     * const downtimeEvent = await prisma.downtimeEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DowntimeEventFindUniqueArgs>(args: SelectSubset<T, DowntimeEventFindUniqueArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DowntimeEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DowntimeEventFindUniqueOrThrowArgs} args - Arguments to find a DowntimeEvent
+     * @example
+     * // Get one DowntimeEvent
+     * const downtimeEvent = await prisma.downtimeEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DowntimeEventFindUniqueOrThrowArgs>(args: SelectSubset<T, DowntimeEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DowntimeEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DowntimeEventFindFirstArgs} args - Arguments to find a DowntimeEvent
+     * @example
+     * // Get one DowntimeEvent
+     * const downtimeEvent = await prisma.downtimeEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DowntimeEventFindFirstArgs>(args?: SelectSubset<T, DowntimeEventFindFirstArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DowntimeEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DowntimeEventFindFirstOrThrowArgs} args - Arguments to find a DowntimeEvent
+     * @example
+     * // Get one DowntimeEvent
+     * const downtimeEvent = await prisma.downtimeEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DowntimeEventFindFirstOrThrowArgs>(args?: SelectSubset<T, DowntimeEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DowntimeEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DowntimeEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DowntimeEvents
+     * const downtimeEvents = await prisma.downtimeEvent.findMany()
+     * 
+     * // Get first 10 DowntimeEvents
+     * const downtimeEvents = await prisma.downtimeEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const downtimeEventWithIdOnly = await prisma.downtimeEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DowntimeEventFindManyArgs>(args?: SelectSubset<T, DowntimeEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DowntimeEvent.
+     * @param {DowntimeEventCreateArgs} args - Arguments to create a DowntimeEvent.
+     * @example
+     * // Create one DowntimeEvent
+     * const DowntimeEvent = await prisma.downtimeEvent.create({
+     *   data: {
+     *     // ... data to create a DowntimeEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends DowntimeEventCreateArgs>(args: SelectSubset<T, DowntimeEventCreateArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DowntimeEvents.
+     * @param {DowntimeEventCreateManyArgs} args - Arguments to create many DowntimeEvents.
+     * @example
+     * // Create many DowntimeEvents
+     * const downtimeEvent = await prisma.downtimeEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DowntimeEventCreateManyArgs>(args?: SelectSubset<T, DowntimeEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DowntimeEvents and returns the data saved in the database.
+     * @param {DowntimeEventCreateManyAndReturnArgs} args - Arguments to create many DowntimeEvents.
+     * @example
+     * // Create many DowntimeEvents
+     * const downtimeEvent = await prisma.downtimeEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DowntimeEvents and only return the `id`
+     * const downtimeEventWithIdOnly = await prisma.downtimeEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DowntimeEventCreateManyAndReturnArgs>(args?: SelectSubset<T, DowntimeEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DowntimeEvent.
+     * @param {DowntimeEventDeleteArgs} args - Arguments to delete one DowntimeEvent.
+     * @example
+     * // Delete one DowntimeEvent
+     * const DowntimeEvent = await prisma.downtimeEvent.delete({
+     *   where: {
+     *     // ... filter to delete one DowntimeEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DowntimeEventDeleteArgs>(args: SelectSubset<T, DowntimeEventDeleteArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DowntimeEvent.
+     * @param {DowntimeEventUpdateArgs} args - Arguments to update one DowntimeEvent.
+     * @example
+     * // Update one DowntimeEvent
+     * const downtimeEvent = await prisma.downtimeEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DowntimeEventUpdateArgs>(args: SelectSubset<T, DowntimeEventUpdateArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DowntimeEvents.
+     * @param {DowntimeEventDeleteManyArgs} args - Arguments to filter DowntimeEvents to delete.
+     * @example
+     * // Delete a few DowntimeEvents
+     * const { count } = await prisma.downtimeEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DowntimeEventDeleteManyArgs>(args?: SelectSubset<T, DowntimeEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DowntimeEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DowntimeEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DowntimeEvents
+     * const downtimeEvent = await prisma.downtimeEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DowntimeEventUpdateManyArgs>(args: SelectSubset<T, DowntimeEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DowntimeEvents and returns the data updated in the database.
+     * @param {DowntimeEventUpdateManyAndReturnArgs} args - Arguments to update many DowntimeEvents.
+     * @example
+     * // Update many DowntimeEvents
+     * const downtimeEvent = await prisma.downtimeEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DowntimeEvents and only return the `id`
+     * const downtimeEventWithIdOnly = await prisma.downtimeEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DowntimeEventUpdateManyAndReturnArgs>(args: SelectSubset<T, DowntimeEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DowntimeEvent.
+     * @param {DowntimeEventUpsertArgs} args - Arguments to update or create a DowntimeEvent.
+     * @example
+     * // Update or create a DowntimeEvent
+     * const downtimeEvent = await prisma.downtimeEvent.upsert({
+     *   create: {
+     *     // ... data to create a DowntimeEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DowntimeEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DowntimeEventUpsertArgs>(args: SelectSubset<T, DowntimeEventUpsertArgs<ExtArgs>>): Prisma__DowntimeEventClient<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DowntimeEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DowntimeEventCountArgs} args - Arguments to filter DowntimeEvents to count.
+     * @example
+     * // Count the number of DowntimeEvents
+     * const count = await prisma.downtimeEvent.count({
+     *   where: {
+     *     // ... the filter for the DowntimeEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends DowntimeEventCountArgs>(
+      args?: Subset<T, DowntimeEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DowntimeEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DowntimeEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DowntimeEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DowntimeEventAggregateArgs>(args: Subset<T, DowntimeEventAggregateArgs>): Prisma.PrismaPromise<GetDowntimeEventAggregateType<T>>
+
+    /**
+     * Group by DowntimeEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DowntimeEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DowntimeEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DowntimeEventGroupByArgs['orderBy'] }
+        : { orderBy?: DowntimeEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DowntimeEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDowntimeEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DowntimeEvent model
+   */
+  readonly fields: DowntimeEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DowntimeEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DowntimeEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    workCenter<T extends WorkCenterDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkCenterDefaultArgs<ExtArgs>>): Prisma__WorkCenterClient<$Result.GetResult<Prisma.$WorkCenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DowntimeEvent model
+   */
+  interface DowntimeEventFieldRefs {
+    readonly id: FieldRef<"DowntimeEvent", 'String'>
+    readonly tenantId: FieldRef<"DowntimeEvent", 'String'>
+    readonly workCenterId: FieldRef<"DowntimeEvent", 'String'>
+    readonly workOrderId: FieldRef<"DowntimeEvent", 'String'>
+    readonly category: FieldRef<"DowntimeEvent", 'DowntimeCategory'>
+    readonly minutes: FieldRef<"DowntimeEvent", 'Int'>
+    readonly reason: FieldRef<"DowntimeEvent", 'String'>
+    readonly occurredAt: FieldRef<"DowntimeEvent", 'DateTime'>
+    readonly createdBy: FieldRef<"DowntimeEvent", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DowntimeEvent findUnique
+   */
+  export type DowntimeEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * Filter, which DowntimeEvent to fetch.
+     */
+    where: DowntimeEventWhereUniqueInput
+  }
+
+  /**
+   * DowntimeEvent findUniqueOrThrow
+   */
+  export type DowntimeEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * Filter, which DowntimeEvent to fetch.
+     */
+    where: DowntimeEventWhereUniqueInput
+  }
+
+  /**
+   * DowntimeEvent findFirst
+   */
+  export type DowntimeEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * Filter, which DowntimeEvent to fetch.
+     */
+    where?: DowntimeEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DowntimeEvents to fetch.
+     */
+    orderBy?: DowntimeEventOrderByWithRelationInput | DowntimeEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DowntimeEvents.
+     */
+    cursor?: DowntimeEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DowntimeEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DowntimeEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DowntimeEvents.
+     */
+    distinct?: DowntimeEventScalarFieldEnum | DowntimeEventScalarFieldEnum[]
+  }
+
+  /**
+   * DowntimeEvent findFirstOrThrow
+   */
+  export type DowntimeEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * Filter, which DowntimeEvent to fetch.
+     */
+    where?: DowntimeEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DowntimeEvents to fetch.
+     */
+    orderBy?: DowntimeEventOrderByWithRelationInput | DowntimeEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DowntimeEvents.
+     */
+    cursor?: DowntimeEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DowntimeEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DowntimeEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DowntimeEvents.
+     */
+    distinct?: DowntimeEventScalarFieldEnum | DowntimeEventScalarFieldEnum[]
+  }
+
+  /**
+   * DowntimeEvent findMany
+   */
+  export type DowntimeEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * Filter, which DowntimeEvents to fetch.
+     */
+    where?: DowntimeEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DowntimeEvents to fetch.
+     */
+    orderBy?: DowntimeEventOrderByWithRelationInput | DowntimeEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DowntimeEvents.
+     */
+    cursor?: DowntimeEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DowntimeEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DowntimeEvents.
+     */
+    skip?: number
+    distinct?: DowntimeEventScalarFieldEnum | DowntimeEventScalarFieldEnum[]
+  }
+
+  /**
+   * DowntimeEvent create
+   */
+  export type DowntimeEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DowntimeEvent.
+     */
+    data: XOR<DowntimeEventCreateInput, DowntimeEventUncheckedCreateInput>
+  }
+
+  /**
+   * DowntimeEvent createMany
+   */
+  export type DowntimeEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DowntimeEvents.
+     */
+    data: DowntimeEventCreateManyInput | DowntimeEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DowntimeEvent createManyAndReturn
+   */
+  export type DowntimeEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many DowntimeEvents.
+     */
+    data: DowntimeEventCreateManyInput | DowntimeEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DowntimeEvent update
+   */
+  export type DowntimeEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DowntimeEvent.
+     */
+    data: XOR<DowntimeEventUpdateInput, DowntimeEventUncheckedUpdateInput>
+    /**
+     * Choose, which DowntimeEvent to update.
+     */
+    where: DowntimeEventWhereUniqueInput
+  }
+
+  /**
+   * DowntimeEvent updateMany
+   */
+  export type DowntimeEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DowntimeEvents.
+     */
+    data: XOR<DowntimeEventUpdateManyMutationInput, DowntimeEventUncheckedUpdateManyInput>
+    /**
+     * Filter which DowntimeEvents to update
+     */
+    where?: DowntimeEventWhereInput
+    /**
+     * Limit how many DowntimeEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DowntimeEvent updateManyAndReturn
+   */
+  export type DowntimeEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * The data used to update DowntimeEvents.
+     */
+    data: XOR<DowntimeEventUpdateManyMutationInput, DowntimeEventUncheckedUpdateManyInput>
+    /**
+     * Filter which DowntimeEvents to update
+     */
+    where?: DowntimeEventWhereInput
+    /**
+     * Limit how many DowntimeEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DowntimeEvent upsert
+   */
+  export type DowntimeEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DowntimeEvent to update in case it exists.
+     */
+    where: DowntimeEventWhereUniqueInput
+    /**
+     * In case the DowntimeEvent found by the `where` argument doesn't exist, create a new DowntimeEvent with this data.
+     */
+    create: XOR<DowntimeEventCreateInput, DowntimeEventUncheckedCreateInput>
+    /**
+     * In case the DowntimeEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DowntimeEventUpdateInput, DowntimeEventUncheckedUpdateInput>
+  }
+
+  /**
+   * DowntimeEvent delete
+   */
+  export type DowntimeEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+    /**
+     * Filter which DowntimeEvent to delete.
+     */
+    where: DowntimeEventWhereUniqueInput
+  }
+
+  /**
+   * DowntimeEvent deleteMany
+   */
+  export type DowntimeEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DowntimeEvents to delete
+     */
+    where?: DowntimeEventWhereInput
+    /**
+     * Limit how many DowntimeEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DowntimeEvent without action
+   */
+  export type DowntimeEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DowntimeEvent
+     */
+    select?: DowntimeEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DowntimeEvent
+     */
+    omit?: DowntimeEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DowntimeEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -116206,6 +118762,33 @@ export namespace Prisma {
   export type StockCountLineScalarFieldEnum = (typeof StockCountLineScalarFieldEnum)[keyof typeof StockCountLineScalarFieldEnum]
 
 
+  export const WorkCenterScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    active: 'active',
+    createdAt: 'createdAt'
+  };
+
+  export type WorkCenterScalarFieldEnum = (typeof WorkCenterScalarFieldEnum)[keyof typeof WorkCenterScalarFieldEnum]
+
+
+  export const DowntimeEventScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    workCenterId: 'workCenterId',
+    workOrderId: 'workOrderId',
+    category: 'category',
+    minutes: 'minutes',
+    reason: 'reason',
+    occurredAt: 'occurredAt',
+    createdBy: 'createdBy'
+  };
+
+  export type DowntimeEventScalarFieldEnum = (typeof DowntimeEventScalarFieldEnum)[keyof typeof DowntimeEventScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -116967,6 +119550,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DowntimeCategory'
+   */
+  export type EnumDowntimeCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DowntimeCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'DowntimeCategory[]'
+   */
+  export type ListEnumDowntimeCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DowntimeCategory[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -117072,6 +119669,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineListRelationFilter
     stockCounts?: StockCountListRelationFilter
     stockCountLines?: StockCountLineListRelationFilter
+    workCenters?: WorkCenterListRelationFilter
+    downtimeEvents?: DowntimeEventListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -117160,6 +119759,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineOrderByRelationAggregateInput
     stockCounts?: StockCountOrderByRelationAggregateInput
     stockCountLines?: StockCountLineOrderByRelationAggregateInput
+    workCenters?: WorkCenterOrderByRelationAggregateInput
+    downtimeEvents?: DowntimeEventOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -117251,6 +119852,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineListRelationFilter
     stockCounts?: StockCountListRelationFilter
     stockCountLines?: StockCountLineListRelationFilter
+    workCenters?: WorkCenterListRelationFilter
+    downtimeEvents?: DowntimeEventListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -124136,6 +126739,150 @@ export namespace Prisma {
     countedQty?: DecimalWithAggregatesFilter<"StockCountLine"> | Decimal | DecimalJsLike | number | string
   }
 
+  export type WorkCenterWhereInput = {
+    AND?: WorkCenterWhereInput | WorkCenterWhereInput[]
+    OR?: WorkCenterWhereInput[]
+    NOT?: WorkCenterWhereInput | WorkCenterWhereInput[]
+    id?: UuidFilter<"WorkCenter"> | string
+    tenantId?: UuidFilter<"WorkCenter"> | string
+    code?: StringFilter<"WorkCenter"> | string
+    name?: StringFilter<"WorkCenter"> | string
+    active?: BoolFilter<"WorkCenter"> | boolean
+    createdAt?: DateTimeFilter<"WorkCenter"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    downtimes?: DowntimeEventListRelationFilter
+  }
+
+  export type WorkCenterOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    downtimes?: DowntimeEventOrderByRelationAggregateInput
+  }
+
+  export type WorkCenterWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: WorkCenterTenantIdCodeCompoundUniqueInput
+    AND?: WorkCenterWhereInput | WorkCenterWhereInput[]
+    OR?: WorkCenterWhereInput[]
+    NOT?: WorkCenterWhereInput | WorkCenterWhereInput[]
+    tenantId?: UuidFilter<"WorkCenter"> | string
+    code?: StringFilter<"WorkCenter"> | string
+    name?: StringFilter<"WorkCenter"> | string
+    active?: BoolFilter<"WorkCenter"> | boolean
+    createdAt?: DateTimeFilter<"WorkCenter"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    downtimes?: DowntimeEventListRelationFilter
+  }, "id" | "tenantId_code">
+
+  export type WorkCenterOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    _count?: WorkCenterCountOrderByAggregateInput
+    _max?: WorkCenterMaxOrderByAggregateInput
+    _min?: WorkCenterMinOrderByAggregateInput
+  }
+
+  export type WorkCenterScalarWhereWithAggregatesInput = {
+    AND?: WorkCenterScalarWhereWithAggregatesInput | WorkCenterScalarWhereWithAggregatesInput[]
+    OR?: WorkCenterScalarWhereWithAggregatesInput[]
+    NOT?: WorkCenterScalarWhereWithAggregatesInput | WorkCenterScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"WorkCenter"> | string
+    tenantId?: UuidWithAggregatesFilter<"WorkCenter"> | string
+    code?: StringWithAggregatesFilter<"WorkCenter"> | string
+    name?: StringWithAggregatesFilter<"WorkCenter"> | string
+    active?: BoolWithAggregatesFilter<"WorkCenter"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"WorkCenter"> | Date | string
+  }
+
+  export type DowntimeEventWhereInput = {
+    AND?: DowntimeEventWhereInput | DowntimeEventWhereInput[]
+    OR?: DowntimeEventWhereInput[]
+    NOT?: DowntimeEventWhereInput | DowntimeEventWhereInput[]
+    id?: UuidFilter<"DowntimeEvent"> | string
+    tenantId?: UuidFilter<"DowntimeEvent"> | string
+    workCenterId?: UuidFilter<"DowntimeEvent"> | string
+    workOrderId?: UuidNullableFilter<"DowntimeEvent"> | string | null
+    category?: EnumDowntimeCategoryFilter<"DowntimeEvent"> | $Enums.DowntimeCategory
+    minutes?: IntFilter<"DowntimeEvent"> | number
+    reason?: StringFilter<"DowntimeEvent"> | string
+    occurredAt?: DateTimeFilter<"DowntimeEvent"> | Date | string
+    createdBy?: StringNullableFilter<"DowntimeEvent"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    workCenter?: XOR<WorkCenterScalarRelationFilter, WorkCenterWhereInput>
+  }
+
+  export type DowntimeEventOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workCenterId?: SortOrder
+    workOrderId?: SortOrderInput | SortOrder
+    category?: SortOrder
+    minutes?: SortOrder
+    reason?: SortOrder
+    occurredAt?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    workCenter?: WorkCenterOrderByWithRelationInput
+  }
+
+  export type DowntimeEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DowntimeEventWhereInput | DowntimeEventWhereInput[]
+    OR?: DowntimeEventWhereInput[]
+    NOT?: DowntimeEventWhereInput | DowntimeEventWhereInput[]
+    tenantId?: UuidFilter<"DowntimeEvent"> | string
+    workCenterId?: UuidFilter<"DowntimeEvent"> | string
+    workOrderId?: UuidNullableFilter<"DowntimeEvent"> | string | null
+    category?: EnumDowntimeCategoryFilter<"DowntimeEvent"> | $Enums.DowntimeCategory
+    minutes?: IntFilter<"DowntimeEvent"> | number
+    reason?: StringFilter<"DowntimeEvent"> | string
+    occurredAt?: DateTimeFilter<"DowntimeEvent"> | Date | string
+    createdBy?: StringNullableFilter<"DowntimeEvent"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    workCenter?: XOR<WorkCenterScalarRelationFilter, WorkCenterWhereInput>
+  }, "id">
+
+  export type DowntimeEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workCenterId?: SortOrder
+    workOrderId?: SortOrderInput | SortOrder
+    category?: SortOrder
+    minutes?: SortOrder
+    reason?: SortOrder
+    occurredAt?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    _count?: DowntimeEventCountOrderByAggregateInput
+    _avg?: DowntimeEventAvgOrderByAggregateInput
+    _max?: DowntimeEventMaxOrderByAggregateInput
+    _min?: DowntimeEventMinOrderByAggregateInput
+    _sum?: DowntimeEventSumOrderByAggregateInput
+  }
+
+  export type DowntimeEventScalarWhereWithAggregatesInput = {
+    AND?: DowntimeEventScalarWhereWithAggregatesInput | DowntimeEventScalarWhereWithAggregatesInput[]
+    OR?: DowntimeEventScalarWhereWithAggregatesInput[]
+    NOT?: DowntimeEventScalarWhereWithAggregatesInput | DowntimeEventScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"DowntimeEvent"> | string
+    tenantId?: UuidWithAggregatesFilter<"DowntimeEvent"> | string
+    workCenterId?: UuidWithAggregatesFilter<"DowntimeEvent"> | string
+    workOrderId?: UuidNullableWithAggregatesFilter<"DowntimeEvent"> | string | null
+    category?: EnumDowntimeCategoryWithAggregatesFilter<"DowntimeEvent"> | $Enums.DowntimeCategory
+    minutes?: IntWithAggregatesFilter<"DowntimeEvent"> | number
+    reason?: StringWithAggregatesFilter<"DowntimeEvent"> | string
+    occurredAt?: DateTimeWithAggregatesFilter<"DowntimeEvent"> | Date | string
+    createdBy?: StringNullableWithAggregatesFilter<"DowntimeEvent"> | string | null
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -124222,6 +126969,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -124310,6 +127059,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -124398,6 +127149,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -124486,6 +127239,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -131824,6 +134579,154 @@ export namespace Prisma {
     countedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
+  export type WorkCenterCreateInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWorkCentersInput
+    downtimes?: DowntimeEventCreateNestedManyWithoutWorkCenterInput
+  }
+
+  export type WorkCenterUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    downtimes?: DowntimeEventUncheckedCreateNestedManyWithoutWorkCenterInput
+  }
+
+  export type WorkCenterUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWorkCentersNestedInput
+    downtimes?: DowntimeEventUpdateManyWithoutWorkCenterNestedInput
+  }
+
+  export type WorkCenterUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    downtimes?: DowntimeEventUncheckedUpdateManyWithoutWorkCenterNestedInput
+  }
+
+  export type WorkCenterCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WorkCenterUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkCenterUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DowntimeEventCreateInput = {
+    id?: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+    tenant: TenantCreateNestedOneWithoutDowntimeEventsInput
+    workCenter: WorkCenterCreateNestedOneWithoutDowntimesInput
+  }
+
+  export type DowntimeEventUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    workCenterId: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type DowntimeEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutDowntimeEventsNestedInput
+    workCenter?: WorkCenterUpdateOneRequiredWithoutDowntimesNestedInput
+  }
+
+  export type DowntimeEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    workCenterId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DowntimeEventCreateManyInput = {
+    id?: string
+    tenantId: string
+    workCenterId: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type DowntimeEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DowntimeEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    workCenterId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -132348,6 +135251,18 @@ export namespace Prisma {
     none?: StockCountLineWhereInput
   }
 
+  export type WorkCenterListRelationFilter = {
+    every?: WorkCenterWhereInput
+    some?: WorkCenterWhereInput
+    none?: WorkCenterWhereInput
+  }
+
+  export type DowntimeEventListRelationFilter = {
+    every?: DowntimeEventWhereInput
+    some?: DowntimeEventWhereInput
+    none?: DowntimeEventWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -132657,6 +135572,14 @@ export namespace Prisma {
   }
 
   export type StockCountLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkCenterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DowntimeEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -137927,6 +140850,104 @@ export namespace Prisma {
     countedQty?: SortOrder
   }
 
+  export type WorkCenterTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type WorkCenterCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkCenterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkCenterMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumDowntimeCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.DowntimeCategory | EnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDowntimeCategoryFilter<$PrismaModel> | $Enums.DowntimeCategory
+  }
+
+  export type WorkCenterScalarRelationFilter = {
+    is?: WorkCenterWhereInput
+    isNot?: WorkCenterWhereInput
+  }
+
+  export type DowntimeEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workCenterId?: SortOrder
+    workOrderId?: SortOrder
+    category?: SortOrder
+    minutes?: SortOrder
+    reason?: SortOrder
+    occurredAt?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type DowntimeEventAvgOrderByAggregateInput = {
+    minutes?: SortOrder
+  }
+
+  export type DowntimeEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workCenterId?: SortOrder
+    workOrderId?: SortOrder
+    category?: SortOrder
+    minutes?: SortOrder
+    reason?: SortOrder
+    occurredAt?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type DowntimeEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    workCenterId?: SortOrder
+    workOrderId?: SortOrder
+    category?: SortOrder
+    minutes?: SortOrder
+    reason?: SortOrder
+    occurredAt?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type DowntimeEventSumOrderByAggregateInput = {
+    minutes?: SortOrder
+  }
+
+  export type EnumDowntimeCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DowntimeCategory | EnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDowntimeCategoryWithAggregatesFilter<$PrismaModel> | $Enums.DowntimeCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDowntimeCategoryFilter<$PrismaModel>
+    _max?: NestedEnumDowntimeCategoryFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -138473,6 +141494,20 @@ export namespace Prisma {
     connect?: StockCountLineWhereUniqueInput | StockCountLineWhereUniqueInput[]
   }
 
+  export type WorkCenterCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WorkCenterCreateWithoutTenantInput, WorkCenterUncheckedCreateWithoutTenantInput> | WorkCenterCreateWithoutTenantInput[] | WorkCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkCenterCreateOrConnectWithoutTenantInput | WorkCenterCreateOrConnectWithoutTenantInput[]
+    createMany?: WorkCenterCreateManyTenantInputEnvelope
+    connect?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+  }
+
+  export type DowntimeEventCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DowntimeEventCreateWithoutTenantInput, DowntimeEventUncheckedCreateWithoutTenantInput> | DowntimeEventCreateWithoutTenantInput[] | DowntimeEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutTenantInput | DowntimeEventCreateOrConnectWithoutTenantInput[]
+    createMany?: DowntimeEventCreateManyTenantInputEnvelope
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -139017,6 +142052,20 @@ export namespace Prisma {
     connectOrCreate?: StockCountLineCreateOrConnectWithoutTenantInput | StockCountLineCreateOrConnectWithoutTenantInput[]
     createMany?: StockCountLineCreateManyTenantInputEnvelope
     connect?: StockCountLineWhereUniqueInput | StockCountLineWhereUniqueInput[]
+  }
+
+  export type WorkCenterUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<WorkCenterCreateWithoutTenantInput, WorkCenterUncheckedCreateWithoutTenantInput> | WorkCenterCreateWithoutTenantInput[] | WorkCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkCenterCreateOrConnectWithoutTenantInput | WorkCenterCreateOrConnectWithoutTenantInput[]
+    createMany?: WorkCenterCreateManyTenantInputEnvelope
+    connect?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+  }
+
+  export type DowntimeEventUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DowntimeEventCreateWithoutTenantInput, DowntimeEventUncheckedCreateWithoutTenantInput> | DowntimeEventCreateWithoutTenantInput[] | DowntimeEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutTenantInput | DowntimeEventCreateOrConnectWithoutTenantInput[]
+    createMany?: DowntimeEventCreateManyTenantInputEnvelope
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -140131,6 +143180,34 @@ export namespace Prisma {
     deleteMany?: StockCountLineScalarWhereInput | StockCountLineScalarWhereInput[]
   }
 
+  export type WorkCenterUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WorkCenterCreateWithoutTenantInput, WorkCenterUncheckedCreateWithoutTenantInput> | WorkCenterCreateWithoutTenantInput[] | WorkCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkCenterCreateOrConnectWithoutTenantInput | WorkCenterCreateOrConnectWithoutTenantInput[]
+    upsert?: WorkCenterUpsertWithWhereUniqueWithoutTenantInput | WorkCenterUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WorkCenterCreateManyTenantInputEnvelope
+    set?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    disconnect?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    delete?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    connect?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    update?: WorkCenterUpdateWithWhereUniqueWithoutTenantInput | WorkCenterUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WorkCenterUpdateManyWithWhereWithoutTenantInput | WorkCenterUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WorkCenterScalarWhereInput | WorkCenterScalarWhereInput[]
+  }
+
+  export type DowntimeEventUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DowntimeEventCreateWithoutTenantInput, DowntimeEventUncheckedCreateWithoutTenantInput> | DowntimeEventCreateWithoutTenantInput[] | DowntimeEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutTenantInput | DowntimeEventCreateOrConnectWithoutTenantInput[]
+    upsert?: DowntimeEventUpsertWithWhereUniqueWithoutTenantInput | DowntimeEventUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DowntimeEventCreateManyTenantInputEnvelope
+    set?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    disconnect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    delete?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    update?: DowntimeEventUpdateWithWhereUniqueWithoutTenantInput | DowntimeEventUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DowntimeEventUpdateManyWithWhereWithoutTenantInput | DowntimeEventUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -141221,6 +144298,34 @@ export namespace Prisma {
     update?: StockCountLineUpdateWithWhereUniqueWithoutTenantInput | StockCountLineUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: StockCountLineUpdateManyWithWhereWithoutTenantInput | StockCountLineUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: StockCountLineScalarWhereInput | StockCountLineScalarWhereInput[]
+  }
+
+  export type WorkCenterUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<WorkCenterCreateWithoutTenantInput, WorkCenterUncheckedCreateWithoutTenantInput> | WorkCenterCreateWithoutTenantInput[] | WorkCenterUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: WorkCenterCreateOrConnectWithoutTenantInput | WorkCenterCreateOrConnectWithoutTenantInput[]
+    upsert?: WorkCenterUpsertWithWhereUniqueWithoutTenantInput | WorkCenterUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: WorkCenterCreateManyTenantInputEnvelope
+    set?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    disconnect?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    delete?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    connect?: WorkCenterWhereUniqueInput | WorkCenterWhereUniqueInput[]
+    update?: WorkCenterUpdateWithWhereUniqueWithoutTenantInput | WorkCenterUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: WorkCenterUpdateManyWithWhereWithoutTenantInput | WorkCenterUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: WorkCenterScalarWhereInput | WorkCenterScalarWhereInput[]
+  }
+
+  export type DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DowntimeEventCreateWithoutTenantInput, DowntimeEventUncheckedCreateWithoutTenantInput> | DowntimeEventCreateWithoutTenantInput[] | DowntimeEventUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutTenantInput | DowntimeEventCreateOrConnectWithoutTenantInput[]
+    upsert?: DowntimeEventUpsertWithWhereUniqueWithoutTenantInput | DowntimeEventUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DowntimeEventCreateManyTenantInputEnvelope
+    set?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    disconnect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    delete?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    update?: DowntimeEventUpdateWithWhereUniqueWithoutTenantInput | DowntimeEventUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DowntimeEventUpdateManyWithWhereWithoutTenantInput | DowntimeEventUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -144646,6 +147751,94 @@ export namespace Prisma {
     update?: XOR<XOR<StockCountUpdateToOneWithWhereWithoutLinesInput, StockCountUpdateWithoutLinesInput>, StockCountUncheckedUpdateWithoutLinesInput>
   }
 
+  export type TenantCreateNestedOneWithoutWorkCentersInput = {
+    create?: XOR<TenantCreateWithoutWorkCentersInput, TenantUncheckedCreateWithoutWorkCentersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWorkCentersInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type DowntimeEventCreateNestedManyWithoutWorkCenterInput = {
+    create?: XOR<DowntimeEventCreateWithoutWorkCenterInput, DowntimeEventUncheckedCreateWithoutWorkCenterInput> | DowntimeEventCreateWithoutWorkCenterInput[] | DowntimeEventUncheckedCreateWithoutWorkCenterInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutWorkCenterInput | DowntimeEventCreateOrConnectWithoutWorkCenterInput[]
+    createMany?: DowntimeEventCreateManyWorkCenterInputEnvelope
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+  }
+
+  export type DowntimeEventUncheckedCreateNestedManyWithoutWorkCenterInput = {
+    create?: XOR<DowntimeEventCreateWithoutWorkCenterInput, DowntimeEventUncheckedCreateWithoutWorkCenterInput> | DowntimeEventCreateWithoutWorkCenterInput[] | DowntimeEventUncheckedCreateWithoutWorkCenterInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutWorkCenterInput | DowntimeEventCreateOrConnectWithoutWorkCenterInput[]
+    createMany?: DowntimeEventCreateManyWorkCenterInputEnvelope
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutWorkCentersNestedInput = {
+    create?: XOR<TenantCreateWithoutWorkCentersInput, TenantUncheckedCreateWithoutWorkCentersInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutWorkCentersInput
+    upsert?: TenantUpsertWithoutWorkCentersInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutWorkCentersInput, TenantUpdateWithoutWorkCentersInput>, TenantUncheckedUpdateWithoutWorkCentersInput>
+  }
+
+  export type DowntimeEventUpdateManyWithoutWorkCenterNestedInput = {
+    create?: XOR<DowntimeEventCreateWithoutWorkCenterInput, DowntimeEventUncheckedCreateWithoutWorkCenterInput> | DowntimeEventCreateWithoutWorkCenterInput[] | DowntimeEventUncheckedCreateWithoutWorkCenterInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutWorkCenterInput | DowntimeEventCreateOrConnectWithoutWorkCenterInput[]
+    upsert?: DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput | DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput[]
+    createMany?: DowntimeEventCreateManyWorkCenterInputEnvelope
+    set?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    disconnect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    delete?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    update?: DowntimeEventUpdateWithWhereUniqueWithoutWorkCenterInput | DowntimeEventUpdateWithWhereUniqueWithoutWorkCenterInput[]
+    updateMany?: DowntimeEventUpdateManyWithWhereWithoutWorkCenterInput | DowntimeEventUpdateManyWithWhereWithoutWorkCenterInput[]
+    deleteMany?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
+  }
+
+  export type DowntimeEventUncheckedUpdateManyWithoutWorkCenterNestedInput = {
+    create?: XOR<DowntimeEventCreateWithoutWorkCenterInput, DowntimeEventUncheckedCreateWithoutWorkCenterInput> | DowntimeEventCreateWithoutWorkCenterInput[] | DowntimeEventUncheckedCreateWithoutWorkCenterInput[]
+    connectOrCreate?: DowntimeEventCreateOrConnectWithoutWorkCenterInput | DowntimeEventCreateOrConnectWithoutWorkCenterInput[]
+    upsert?: DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput | DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput[]
+    createMany?: DowntimeEventCreateManyWorkCenterInputEnvelope
+    set?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    disconnect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    delete?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    connect?: DowntimeEventWhereUniqueInput | DowntimeEventWhereUniqueInput[]
+    update?: DowntimeEventUpdateWithWhereUniqueWithoutWorkCenterInput | DowntimeEventUpdateWithWhereUniqueWithoutWorkCenterInput[]
+    updateMany?: DowntimeEventUpdateManyWithWhereWithoutWorkCenterInput | DowntimeEventUpdateManyWithWhereWithoutWorkCenterInput[]
+    deleteMany?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutDowntimeEventsInput = {
+    create?: XOR<TenantCreateWithoutDowntimeEventsInput, TenantUncheckedCreateWithoutDowntimeEventsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDowntimeEventsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WorkCenterCreateNestedOneWithoutDowntimesInput = {
+    create?: XOR<WorkCenterCreateWithoutDowntimesInput, WorkCenterUncheckedCreateWithoutDowntimesInput>
+    connectOrCreate?: WorkCenterCreateOrConnectWithoutDowntimesInput
+    connect?: WorkCenterWhereUniqueInput
+  }
+
+  export type EnumDowntimeCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.DowntimeCategory
+  }
+
+  export type TenantUpdateOneRequiredWithoutDowntimeEventsNestedInput = {
+    create?: XOR<TenantCreateWithoutDowntimeEventsInput, TenantUncheckedCreateWithoutDowntimeEventsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDowntimeEventsInput
+    upsert?: TenantUpsertWithoutDowntimeEventsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutDowntimeEventsInput, TenantUpdateWithoutDowntimeEventsInput>, TenantUncheckedUpdateWithoutDowntimeEventsInput>
+  }
+
+  export type WorkCenterUpdateOneRequiredWithoutDowntimesNestedInput = {
+    create?: XOR<WorkCenterCreateWithoutDowntimesInput, WorkCenterUncheckedCreateWithoutDowntimesInput>
+    connectOrCreate?: WorkCenterCreateOrConnectWithoutDowntimesInput
+    upsert?: WorkCenterUpsertWithoutDowntimesInput
+    connect?: WorkCenterWhereUniqueInput
+    update?: XOR<XOR<WorkCenterUpdateToOneWithWhereWithoutDowntimesInput, WorkCenterUpdateWithoutDowntimesInput>, WorkCenterUncheckedUpdateWithoutDowntimesInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -145773,6 +148966,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStockCountStatusFilter<$PrismaModel>
     _max?: NestedEnumStockCountStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDowntimeCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.DowntimeCategory | EnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDowntimeCategoryFilter<$PrismaModel> | $Enums.DowntimeCategory
+  }
+
+  export type NestedEnumDowntimeCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DowntimeCategory | EnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DowntimeCategory[] | ListEnumDowntimeCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDowntimeCategoryWithAggregatesFilter<$PrismaModel> | $Enums.DowntimeCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDowntimeCategoryFilter<$PrismaModel>
+    _max?: NestedEnumDowntimeCategoryFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -148351,6 +151561,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WorkCenterCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    downtimes?: DowntimeEventCreateNestedManyWithoutWorkCenterInput
+  }
+
+  export type WorkCenterUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    downtimes?: DowntimeEventUncheckedCreateNestedManyWithoutWorkCenterInput
+  }
+
+  export type WorkCenterCreateOrConnectWithoutTenantInput = {
+    where: WorkCenterWhereUniqueInput
+    create: XOR<WorkCenterCreateWithoutTenantInput, WorkCenterUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WorkCenterCreateManyTenantInputEnvelope = {
+    data: WorkCenterCreateManyTenantInput | WorkCenterCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DowntimeEventCreateWithoutTenantInput = {
+    id?: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+    workCenter: WorkCenterCreateNestedOneWithoutDowntimesInput
+  }
+
+  export type DowntimeEventUncheckedCreateWithoutTenantInput = {
+    id?: string
+    workCenterId: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type DowntimeEventCreateOrConnectWithoutTenantInput = {
+    where: DowntimeEventWhereUniqueInput
+    create: XOR<DowntimeEventCreateWithoutTenantInput, DowntimeEventUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DowntimeEventCreateManyTenantInputEnvelope = {
+    data: DowntimeEventCreateManyTenantInput | DowntimeEventCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -150775,6 +154045,65 @@ export namespace Prisma {
     countedQty?: DecimalFilter<"StockCountLine"> | Decimal | DecimalJsLike | number | string
   }
 
+  export type WorkCenterUpsertWithWhereUniqueWithoutTenantInput = {
+    where: WorkCenterWhereUniqueInput
+    update: XOR<WorkCenterUpdateWithoutTenantInput, WorkCenterUncheckedUpdateWithoutTenantInput>
+    create: XOR<WorkCenterCreateWithoutTenantInput, WorkCenterUncheckedCreateWithoutTenantInput>
+  }
+
+  export type WorkCenterUpdateWithWhereUniqueWithoutTenantInput = {
+    where: WorkCenterWhereUniqueInput
+    data: XOR<WorkCenterUpdateWithoutTenantInput, WorkCenterUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type WorkCenterUpdateManyWithWhereWithoutTenantInput = {
+    where: WorkCenterScalarWhereInput
+    data: XOR<WorkCenterUpdateManyMutationInput, WorkCenterUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type WorkCenterScalarWhereInput = {
+    AND?: WorkCenterScalarWhereInput | WorkCenterScalarWhereInput[]
+    OR?: WorkCenterScalarWhereInput[]
+    NOT?: WorkCenterScalarWhereInput | WorkCenterScalarWhereInput[]
+    id?: UuidFilter<"WorkCenter"> | string
+    tenantId?: UuidFilter<"WorkCenter"> | string
+    code?: StringFilter<"WorkCenter"> | string
+    name?: StringFilter<"WorkCenter"> | string
+    active?: BoolFilter<"WorkCenter"> | boolean
+    createdAt?: DateTimeFilter<"WorkCenter"> | Date | string
+  }
+
+  export type DowntimeEventUpsertWithWhereUniqueWithoutTenantInput = {
+    where: DowntimeEventWhereUniqueInput
+    update: XOR<DowntimeEventUpdateWithoutTenantInput, DowntimeEventUncheckedUpdateWithoutTenantInput>
+    create: XOR<DowntimeEventCreateWithoutTenantInput, DowntimeEventUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DowntimeEventUpdateWithWhereUniqueWithoutTenantInput = {
+    where: DowntimeEventWhereUniqueInput
+    data: XOR<DowntimeEventUpdateWithoutTenantInput, DowntimeEventUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type DowntimeEventUpdateManyWithWhereWithoutTenantInput = {
+    where: DowntimeEventScalarWhereInput
+    data: XOR<DowntimeEventUpdateManyMutationInput, DowntimeEventUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type DowntimeEventScalarWhereInput = {
+    AND?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
+    OR?: DowntimeEventScalarWhereInput[]
+    NOT?: DowntimeEventScalarWhereInput | DowntimeEventScalarWhereInput[]
+    id?: UuidFilter<"DowntimeEvent"> | string
+    tenantId?: UuidFilter<"DowntimeEvent"> | string
+    workCenterId?: UuidFilter<"DowntimeEvent"> | string
+    workOrderId?: UuidNullableFilter<"DowntimeEvent"> | string | null
+    category?: EnumDowntimeCategoryFilter<"DowntimeEvent"> | $Enums.DowntimeCategory
+    minutes?: IntFilter<"DowntimeEvent"> | number
+    reason?: StringFilter<"DowntimeEvent"> | string
+    occurredAt?: DateTimeFilter<"DowntimeEvent"> | Date | string
+    createdBy?: StringNullableFilter<"DowntimeEvent"> | string | null
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -150860,6 +154189,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -150947,6 +154278,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -151050,6 +154383,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -151137,6 +154472,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -151224,6 +154561,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -151311,6 +154650,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -151448,6 +154789,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -151535,6 +154878,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -151638,6 +154983,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -151725,6 +155072,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -151966,6 +155315,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -152053,6 +155404,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -152252,6 +155605,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -152339,6 +155694,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -152471,6 +155828,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -152558,6 +155917,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -152680,6 +156041,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -152767,6 +156130,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -152899,6 +156264,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -152986,6 +156353,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -153108,6 +156477,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -153195,6 +156566,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -153326,6 +156699,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -153413,6 +156788,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -153516,6 +156893,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -153603,6 +156982,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -153756,6 +157137,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -153843,6 +157226,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -154028,6 +157413,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -154115,6 +157502,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -154270,6 +157659,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -154357,6 +157748,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -154508,6 +157901,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -154595,6 +157990,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -154698,6 +158095,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -154785,6 +158184,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -154872,6 +158273,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -154959,6 +158362,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -155062,6 +158467,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -155149,6 +158556,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -155236,6 +158645,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -155323,6 +158734,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -155426,6 +158839,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -155513,6 +158928,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -155600,6 +159017,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -155687,6 +159106,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -155790,6 +159211,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -155877,6 +159300,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -155964,6 +159389,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -156051,6 +159478,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -156154,6 +159583,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -156241,6 +159672,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -156328,6 +159761,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -156415,6 +159850,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -156518,6 +159955,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -156605,6 +160044,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -156692,6 +160133,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -156779,6 +160222,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -156882,6 +160327,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -156969,6 +160416,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -157056,6 +160505,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -157143,6 +160594,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -157308,6 +160761,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -157395,6 +160850,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -157740,6 +161197,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -157827,6 +161286,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -157958,6 +161419,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -158045,6 +161508,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -158205,6 +161670,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -158292,6 +161759,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -158395,6 +161864,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -158482,6 +161953,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -158569,6 +162042,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -158656,6 +162131,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -158759,6 +162236,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -158846,6 +162325,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -158933,6 +162414,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -159020,6 +162503,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -159149,6 +162634,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -159236,6 +162723,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -159395,6 +162884,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -159482,6 +162973,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -159686,6 +163179,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -159773,6 +163268,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -160021,6 +163518,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -160108,6 +163607,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -160253,6 +163754,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -160340,6 +163843,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -160801,6 +164306,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -160888,6 +164395,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -161013,6 +164522,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -161100,6 +164611,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -161257,6 +164770,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -161344,6 +164859,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -161447,6 +164964,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -161534,6 +165053,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -161621,6 +165142,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -161708,6 +165231,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -161811,6 +165336,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -161898,6 +165425,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -161985,6 +165514,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -162072,6 +165603,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -162175,6 +165708,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -162262,6 +165797,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -162349,6 +165886,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -162436,6 +165975,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -162539,6 +166080,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -162626,6 +166169,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -162713,6 +166258,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -162800,6 +166347,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -162929,6 +166478,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -163016,6 +166567,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -163119,6 +166672,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -163206,6 +166761,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -163342,6 +166899,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -163429,6 +166988,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -163555,6 +167116,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -163642,6 +167205,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -163745,6 +167310,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -163832,6 +167399,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -163919,6 +167488,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -164006,6 +167577,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -164109,6 +167682,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -164196,6 +167771,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -164283,6 +167860,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -164370,6 +167949,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -164473,6 +168054,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -164560,6 +168143,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -164647,6 +168232,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -164734,6 +168321,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -164837,6 +168426,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -164924,6 +168515,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -165011,6 +168604,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -165098,6 +168693,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -165227,6 +168824,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -165314,6 +168913,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -165417,6 +169018,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -165504,6 +169107,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -165638,6 +169243,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -165725,6 +169332,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -165849,6 +169458,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -165936,6 +169547,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -166073,6 +169686,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -166160,6 +169775,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -166263,6 +169880,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -166350,6 +169969,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -166500,6 +170121,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -166587,6 +170210,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -166727,6 +170352,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -166814,6 +170441,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -166951,6 +170580,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -167038,6 +170669,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -167141,6 +170774,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -167228,6 +170863,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -167368,6 +171005,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -167455,6 +171094,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -167585,6 +171226,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -167672,6 +171315,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -167775,6 +171420,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -167862,6 +171509,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -167949,6 +171598,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -168036,6 +171687,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -168139,6 +171792,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -168226,6 +171881,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -168313,6 +171970,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -168400,6 +172059,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -168533,6 +172194,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -168620,6 +172283,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -168723,6 +172388,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -168810,6 +172477,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -168946,6 +172615,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -169033,6 +172704,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -169159,6 +172832,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -169246,6 +172921,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -169381,6 +173058,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -169468,6 +173147,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -169571,6 +173252,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -169658,6 +173341,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -169798,6 +173483,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -169885,6 +173572,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -170015,6 +173704,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -170102,6 +173793,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -170235,6 +173928,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -170322,6 +174017,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -170425,6 +174122,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -170512,6 +174211,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -170646,6 +174347,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -170733,6 +174436,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -170857,6 +174562,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -170944,6 +174651,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -171079,6 +174788,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -171166,6 +174877,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -171269,6 +174982,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -171356,6 +175071,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -171486,6 +175203,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -171573,6 +175292,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -171693,6 +175414,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -171780,6 +175503,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -171883,6 +175608,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -171970,6 +175697,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -172057,6 +175786,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -172144,6 +175875,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -172247,6 +175980,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -172334,6 +176069,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -172421,6 +176158,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -172508,6 +176247,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -172641,6 +176382,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -172728,6 +176471,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -172831,6 +176576,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -172918,6 +176665,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -173046,6 +176795,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -173133,6 +176884,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -173251,6 +177004,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -173338,6 +177093,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -173473,6 +177230,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -173560,6 +177319,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -173663,6 +177424,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -173750,6 +177513,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -173896,6 +177661,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -173983,6 +177750,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -174119,6 +177888,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -174206,6 +177977,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -174335,6 +178108,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -174422,6 +178197,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -174525,6 +178302,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -174612,6 +178391,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -174742,6 +178523,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -174829,6 +178612,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -174949,6 +178734,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -175036,6 +178823,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -175169,6 +178958,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -175256,6 +179047,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -175359,6 +179152,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -175446,6 +179241,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -175584,6 +179381,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -175671,6 +179470,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -175799,6 +179600,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -175886,6 +179689,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -175989,6 +179794,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -176076,6 +179883,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -176163,6 +179972,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -176250,6 +180061,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -176385,6 +180198,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -176472,6 +180287,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -176575,6 +180392,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -176662,6 +180481,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -176808,6 +180629,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -176895,6 +180718,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -177031,6 +180856,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -177118,6 +180945,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -177221,6 +181050,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -177308,6 +181139,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -177395,6 +181228,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -177482,6 +181317,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -177585,6 +181422,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -177672,6 +181511,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -177759,6 +181600,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -177846,6 +181689,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -177966,6 +181811,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -178053,6 +181900,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -178163,6 +182012,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -178250,6 +182101,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -178384,6 +182237,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -178471,6 +182326,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -178595,6 +182452,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -178682,6 +182541,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -178785,6 +182646,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -178872,6 +182735,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -178959,6 +182824,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -179046,6 +182913,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -179177,6 +183046,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -179264,6 +183135,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -179367,6 +183240,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -179454,6 +183329,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -179580,6 +183457,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -179667,6 +183546,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -179783,6 +183664,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -179870,6 +183753,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -180011,6 +183896,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -180098,6 +183985,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -180201,6 +184090,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -180288,6 +184179,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -180418,6 +184311,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -180505,6 +184400,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -180625,6 +184522,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -180712,6 +184611,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -180815,6 +184716,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -180902,6 +184805,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -180989,6 +184894,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -181076,6 +184983,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -181179,6 +185088,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -181266,6 +185177,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -181353,6 +185266,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -181440,6 +185355,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -181594,6 +185511,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -181681,6 +185600,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -181813,6 +185734,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -181900,6 +185823,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -182031,6 +185956,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -182118,6 +186045,8 @@ export namespace Prisma {
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -182221,6 +186150,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -182308,6 +186239,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -182446,6 +186379,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -182533,6 +186468,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -182661,6 +186598,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -182748,6 +186687,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -182877,6 +186818,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -182964,6 +186907,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -183067,6 +187012,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
     returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -183154,6 +187101,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
     returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
     stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -183290,6 +187239,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
     returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -183377,6 +187328,8 @@ export namespace Prisma {
     returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
     returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
     stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -183416,6 +187369,850 @@ export namespace Prisma {
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutWorkCentersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutWorkCentersInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutWorkCentersInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutWorkCentersInput, TenantUncheckedCreateWithoutWorkCentersInput>
+  }
+
+  export type DowntimeEventCreateWithoutWorkCenterInput = {
+    id?: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+    tenant: TenantCreateNestedOneWithoutDowntimeEventsInput
+  }
+
+  export type DowntimeEventUncheckedCreateWithoutWorkCenterInput = {
+    id?: string
+    tenantId: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type DowntimeEventCreateOrConnectWithoutWorkCenterInput = {
+    where: DowntimeEventWhereUniqueInput
+    create: XOR<DowntimeEventCreateWithoutWorkCenterInput, DowntimeEventUncheckedCreateWithoutWorkCenterInput>
+  }
+
+  export type DowntimeEventCreateManyWorkCenterInputEnvelope = {
+    data: DowntimeEventCreateManyWorkCenterInput | DowntimeEventCreateManyWorkCenterInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutWorkCentersInput = {
+    update: XOR<TenantUpdateWithoutWorkCentersInput, TenantUncheckedUpdateWithoutWorkCentersInput>
+    create: XOR<TenantCreateWithoutWorkCentersInput, TenantUncheckedCreateWithoutWorkCentersInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutWorkCentersInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutWorkCentersInput, TenantUncheckedUpdateWithoutWorkCentersInput>
+  }
+
+  export type TenantUpdateWithoutWorkCentersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutWorkCentersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
+    where: DowntimeEventWhereUniqueInput
+    update: XOR<DowntimeEventUpdateWithoutWorkCenterInput, DowntimeEventUncheckedUpdateWithoutWorkCenterInput>
+    create: XOR<DowntimeEventCreateWithoutWorkCenterInput, DowntimeEventUncheckedCreateWithoutWorkCenterInput>
+  }
+
+  export type DowntimeEventUpdateWithWhereUniqueWithoutWorkCenterInput = {
+    where: DowntimeEventWhereUniqueInput
+    data: XOR<DowntimeEventUpdateWithoutWorkCenterInput, DowntimeEventUncheckedUpdateWithoutWorkCenterInput>
+  }
+
+  export type DowntimeEventUpdateManyWithWhereWithoutWorkCenterInput = {
+    where: DowntimeEventScalarWhereInput
+    data: XOR<DowntimeEventUpdateManyMutationInput, DowntimeEventUncheckedUpdateManyWithoutWorkCenterInput>
+  }
+
+  export type TenantCreateWithoutDowntimeEventsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutDowntimeEventsInput, TenantUncheckedCreateWithoutDowntimeEventsInput>
+  }
+
+  export type WorkCenterCreateWithoutDowntimesInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutWorkCentersInput
+  }
+
+  export type WorkCenterUncheckedCreateWithoutDowntimesInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WorkCenterCreateOrConnectWithoutDowntimesInput = {
+    where: WorkCenterWhereUniqueInput
+    create: XOR<WorkCenterCreateWithoutDowntimesInput, WorkCenterUncheckedCreateWithoutDowntimesInput>
+  }
+
+  export type TenantUpsertWithoutDowntimeEventsInput = {
+    update: XOR<TenantUpdateWithoutDowntimeEventsInput, TenantUncheckedUpdateWithoutDowntimeEventsInput>
+    create: XOR<TenantCreateWithoutDowntimeEventsInput, TenantUncheckedCreateWithoutDowntimeEventsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutDowntimeEventsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutDowntimeEventsInput, TenantUncheckedUpdateWithoutDowntimeEventsInput>
+  }
+
+  export type TenantUpdateWithoutDowntimeEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WorkCenterUpsertWithoutDowntimesInput = {
+    update: XOR<WorkCenterUpdateWithoutDowntimesInput, WorkCenterUncheckedUpdateWithoutDowntimesInput>
+    create: XOR<WorkCenterCreateWithoutDowntimesInput, WorkCenterUncheckedCreateWithoutDowntimesInput>
+    where?: WorkCenterWhereInput
+  }
+
+  export type WorkCenterUpdateToOneWithWhereWithoutDowntimesInput = {
+    where?: WorkCenterWhereInput
+    data: XOR<WorkCenterUpdateWithoutDowntimesInput, WorkCenterUncheckedUpdateWithoutDowntimesInput>
+  }
+
+  export type WorkCenterUpdateWithoutDowntimesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutWorkCentersNestedInput
+  }
+
+  export type WorkCenterUncheckedUpdateWithoutDowntimesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -184280,6 +189077,25 @@ export namespace Prisma {
     skuId: string
     expectedQty: Decimal | DecimalJsLike | number | string
     countedQty: Decimal | DecimalJsLike | number | string
+  }
+
+  export type WorkCenterCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+  }
+
+  export type DowntimeEventCreateManyTenantInput = {
+    id?: string
+    workCenterId: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -186942,6 +191758,65 @@ export namespace Prisma {
     countedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
+  export type WorkCenterUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    downtimes?: DowntimeEventUpdateManyWithoutWorkCenterNestedInput
+  }
+
+  export type WorkCenterUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    downtimes?: DowntimeEventUncheckedUpdateManyWithoutWorkCenterNestedInput
+  }
+
+  export type WorkCenterUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DowntimeEventUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    workCenter?: WorkCenterUpdateOneRequiredWithoutDowntimesNestedInput
+  }
+
+  export type DowntimeEventUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workCenterId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DowntimeEventUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workCenterId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -188340,6 +193215,50 @@ export namespace Prisma {
     skuId?: StringFieldUpdateOperationsInput | string
     expectedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     countedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type DowntimeEventCreateManyWorkCenterInput = {
+    id?: string
+    tenantId: string
+    workOrderId?: string | null
+    category?: $Enums.DowntimeCategory
+    minutes: number
+    reason: string
+    occurredAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type DowntimeEventUpdateWithoutWorkCenterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutDowntimeEventsNestedInput
+  }
+
+  export type DowntimeEventUncheckedUpdateWithoutWorkCenterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DowntimeEventUncheckedUpdateManyWithoutWorkCenterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumDowntimeCategoryFieldUpdateOperationsInput | $Enums.DowntimeCategory
+    minutes?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

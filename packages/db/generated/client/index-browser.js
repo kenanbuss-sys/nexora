@@ -1170,6 +1170,27 @@ exports.Prisma.StockCountLineScalarFieldEnum = {
   countedQty: 'countedQty'
 };
 
+exports.Prisma.WorkCenterScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  active: 'active',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DowntimeEventScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  workCenterId: 'workCenterId',
+  workOrderId: 'workOrderId',
+  category: 'category',
+  minutes: 'minutes',
+  reason: 'reason',
+  occurredAt: 'occurredAt',
+  createdBy: 'createdBy'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1490,6 +1511,14 @@ exports.StockCountStatus = exports.$Enums.StockCountStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.DowntimeCategory = exports.$Enums.DowntimeCategory = {
+  BREAKDOWN: 'BREAKDOWN',
+  SETUP: 'SETUP',
+  MATERIAL: 'MATERIAL',
+  QUALITY: 'QUALITY',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1579,7 +1608,9 @@ exports.Prisma.ModelName = {
   ReturnOrder: 'ReturnOrder',
   ReturnOrderLine: 'ReturnOrderLine',
   StockCount: 'StockCount',
-  StockCountLine: 'StockCountLine'
+  StockCountLine: 'StockCountLine',
+  WorkCenter: 'WorkCenter',
+  DowntimeEvent: 'DowntimeEvent'
 };
 
 /**
