@@ -1122,6 +1122,16 @@ exports.Prisma.NumberSequenceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ExchangeRateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  baseCurrency: 'baseCurrency',
+  quoteCurrency: 'quoteCurrency',
+  rate: 'rate',
+  validFrom: 'validFrom',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.CostCenterScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1681,6 +1691,7 @@ exports.Prisma.ModelName = {
   Attachment: 'Attachment',
   AttachmentBlob: 'AttachmentBlob',
   NumberSequence: 'NumberSequence',
+  ExchangeRate: 'ExchangeRate',
   CostCenter: 'CostCenter',
   Budget: 'Budget',
   WebhookSubscription: 'WebhookSubscription',
