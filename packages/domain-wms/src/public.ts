@@ -3,6 +3,7 @@
  */
 export {
   InventoryService,
+  type LotBalance,
   type MovementInput,
   type SkuGate,
   type StockPosition,

@@ -36,12 +36,37 @@ export interface MovementInput {
   idempotencyKey: string;
   locationId?: string | undefined;
   reason?: string | undefined;
+  /** Sprint 022 (WMS-017): lot dimension. */
+  lotNumber?: string | undefined;
+  expiresAt?: Date | undefined;
 }
 
-/** Cross-domain gate: SKU identity is owned by PIM (public contract only). */
-export interface SkuGate {
-  getSkuState(tenantId: string, skuId: string): Promise<{ exists: boolean; active: boolean }>;
+export interface LotBalance {
+  lotNumber: string;
+  onHand: string;
+  expiresAt: string | null;
+  expired: boolean;
+  expiringSoon: boolean;
 }
+
+/** Cross-domain gate: SKU identity and lot policy are owned by PIM. */
+export interface SkuGate {
+  getSkuState(
+    tenantId: string,
+    skuId: string,
+  ): Promise<{
+    exists: boolean;
+    active: boolean;
+    lotTracked?: boolean;
+    shelfLifeDays?: number | null;
+  }>;
+}
+
+const INBOUND: ReadonlySet<StockMovementType> = new Set([
+  'RECEIPT',
+  'ADJUSTMENT_IN',
+  'TRANSFER_IN',
+]);
 
 const OUTBOUND: ReadonlySet<StockMovementType> = new Set([
   'ISSUE',
@@ -203,6 +228,10 @@ export class InventoryService {
     if (!sku.active && input.movementType === 'RECEIPT') {
       throw new DomainError('INVALID_STATE', 'Inactive SKU cannot be newly transacted');
     }
+    const lotTracked = sku.lotTracked === true;
+    if (lotTracked && INBOUND.has(input.movementType) && !input.lotNumber) {
+      throw new DomainError('VALIDATION_FAILED', 'Lot-tracked SKU needs a lot number on receipt');
+    }
 
     return this.prisma.$transaction(async (tx) => {
       const warehouse = await tx.warehouse.findFirst({
@@ -232,50 +261,209 @@ export class InventoryService {
         }
       }
 
-      const movement = await tx.stockMovement.create({
-        data: {
+      const writeMovement = async (
+        quantity: number,
+        idempotencyKey: string,
+        lotNumber: string | null,
+        expiresAt: Date | null,
+      ) => {
+        const movement = await tx.stockMovement.create({
+          data: {
+            tenantId: ctx.tenantId,
+            warehouseId: input.warehouseId,
+            locationId: input.locationId ?? null,
+            skuId: input.skuId,
+            movementType: input.movementType,
+            quantity,
+            reason: input.reason ?? null,
+            idempotencyKey,
+            lotNumber,
+            expiresAt,
+            createdBy: ctx.userId ?? null,
+          },
+        });
+        await writeAudit(tx, {
           tenantId: ctx.tenantId,
-          warehouseId: input.warehouseId,
-          locationId: input.locationId ?? null,
-          skuId: input.skuId,
-          movementType: input.movementType,
-          quantity: input.quantity,
-          reason: input.reason ?? null,
-          idempotencyKey: input.idempotencyKey,
-          createdBy: ctx.userId ?? null,
-        },
-      });
-      await writeAudit(tx, {
-        tenantId: ctx.tenantId,
-        actorType: ctx.actorType,
-        actorId: ctx.userId,
-        action: 'stock.move',
-        objectType: 'StockMovement',
-        objectId: movement.id,
-        source: 'api',
-        newValues: {
-          movementType: input.movementType,
-          quantity: input.quantity,
-          skuId: input.skuId,
-        },
-      });
-      await publishToOutbox(tx, {
-        tenantId: ctx.tenantId,
-        eventType: EVENT_TYPES.STOCK_MOVED,
-        aggregateType: 'StockMovement',
-        aggregateId: movement.id,
-        actorType: ctx.actorType,
-        actorId: ctx.userId,
-        payload: {
-          movementId: movement.id,
-          skuId: input.skuId,
-          quantity: input.quantity,
-          from: OUTBOUND.has(input.movementType) ? input.warehouseId : null,
-          to: OUTBOUND.has(input.movementType) ? null : input.warehouseId,
-        },
-      });
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'stock.move',
+          objectType: 'StockMovement',
+          objectId: movement.id,
+          source: 'api',
+          newValues: {
+            movementType: input.movementType,
+            quantity,
+            skuId: input.skuId,
+            ...(lotNumber ? { lotNumber } : {}),
+          },
+        });
+        await publishToOutbox(tx, {
+          tenantId: ctx.tenantId,
+          eventType: EVENT_TYPES.STOCK_MOVED,
+          aggregateType: 'StockMovement',
+          aggregateId: movement.id,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          payload: {
+            movementId: movement.id,
+            skuId: input.skuId,
+            quantity,
+            lotNumber,
+            from: OUTBOUND.has(input.movementType) ? input.warehouseId : null,
+            to: OUTBOUND.has(input.movementType) ? null : input.warehouseId,
+          },
+        });
+        return movement;
+      };
+
+      // Lot handling (WMS-017/019).
+      if (lotTracked && OUTBOUND.has(input.movementType)) {
+        const balances = await this.lotBalancesInTx(
+          tx,
+          ctx.tenantId,
+          input.warehouseId,
+          input.skuId,
+        );
+        const now = Date.now();
+        if (input.lotNumber) {
+          const lot = balances.find((b) => b.lotNumber === input.lotNumber);
+          const lotOnHand = lot ? Number(lot.onHand) : 0;
+          if (lotOnHand < input.quantity) {
+            throw new DomainError('INVALID_STATE', 'Insufficient stock in this lot', {
+              lot: input.lotNumber,
+              onHand: lotOnHand.toString(),
+            });
+          }
+          if (
+            lot?.expiresAt &&
+            new Date(lot.expiresAt).getTime() < now &&
+            input.movementType !== 'ADJUSTMENT_OUT'
+          ) {
+            throw new DomainError(
+              'INVALID_STATE',
+              `Lot ${input.lotNumber} is expired — only a write-off (ADJUSTMENT_OUT) may move it`,
+            );
+          }
+          const movement = await writeMovement(
+            input.quantity,
+            input.idempotencyKey,
+            input.lotNumber,
+            lot?.expiresAt ? new Date(lot.expiresAt) : null,
+          );
+          return { movementId: movement.id, duplicate: false };
+        }
+        // FEFO (WMS-019): earliest expiry first, expired lots skipped
+        // unless this is a write-off.
+        const usable = balances
+          .filter((b) => Number(b.onHand) > 0)
+          .filter(
+            (b) =>
+              input.movementType === 'ADJUSTMENT_OUT' ||
+              !b.expiresAt ||
+              new Date(b.expiresAt).getTime() >= now,
+          )
+          .sort((a, z) => {
+            if (a.expiresAt === null) return 1;
+            if (z.expiresAt === null) return -1;
+            return a.expiresAt.localeCompare(z.expiresAt);
+          });
+        const usableTotal = usable.reduce((sum, b) => sum + Number(b.onHand), 0);
+        if (usableTotal < input.quantity) {
+          throw new DomainError('INVALID_STATE', 'Insufficient unexpired lot stock', {
+            usable: usableTotal.toString(),
+            requested: input.quantity.toString(),
+          });
+        }
+        let remaining = input.quantity;
+        let firstId: string | null = null;
+        let part = 0;
+        for (const lot of usable) {
+          if (remaining <= 0) break;
+          const take = Math.min(Number(lot.onHand), remaining);
+          part += 1;
+          const key = part === 1 ? input.idempotencyKey : `${input.idempotencyKey}#${part}`;
+          const movement = await writeMovement(
+            take,
+            key,
+            lot.lotNumber,
+            lot.expiresAt ? new Date(lot.expiresAt) : null,
+          );
+          firstId = firstId ?? movement.id;
+          remaining = Math.round((remaining - take) * 1e6) / 1e6;
+        }
+        return { movementId: firstId!, duplicate: false };
+      }
+
+      const inboundExpiry =
+        lotTracked && INBOUND.has(input.movementType)
+          ? (input.expiresAt ??
+            (sku.shelfLifeDays ? new Date(Date.now() + sku.shelfLifeDays * 86_400_000) : null))
+          : (input.expiresAt ?? null);
+      const movement = await writeMovement(
+        input.quantity,
+        input.idempotencyKey,
+        input.lotNumber ?? null,
+        inboundExpiry,
+      );
       return { movementId: movement.id, duplicate: false };
     });
+  }
+
+  /** Per-lot on-hand from the ledger (WMS-017), with expiry flags. */
+  async lotBalances(
+    warehouseId: string,
+    skuId: string,
+    ctx: RequestContext,
+  ): Promise<LotBalance[]> {
+    return this.lotBalancesInTx(this.prisma, ctx.tenantId, warehouseId, skuId);
+  }
+
+  private async lotBalancesInTx(
+    db: {
+      stockMovement: {
+        findMany: (args: { where: Record<string, unknown> }) => Promise<
+          Array<{
+            movementType: StockMovementType;
+            quantity: { toString(): string };
+            lotNumber: string | null;
+            expiresAt: Date | null;
+          }>
+        >;
+      };
+    },
+    tenantId: string,
+    warehouseId: string,
+    skuId: string,
+  ): Promise<LotBalance[]> {
+    const movements = await db.stockMovement.findMany({
+      where: { tenantId, warehouseId, skuId, lotNumber: { not: null } },
+    });
+    const lots = new Map<string, { onHand: number; expiresAt: Date | null }>();
+    for (const m of movements) {
+      const lot = lots.get(m.lotNumber!) ?? { onHand: 0, expiresAt: null };
+      const qty = Number(m.quantity);
+      lot.onHand += OUTBOUND.has(m.movementType) ? -qty : qty;
+      if (m.expiresAt) lot.expiresAt = m.expiresAt;
+      lots.set(m.lotNumber!, lot);
+    }
+    const now = Date.now();
+    const soon = now + 30 * 86_400_000;
+    return [...lots.entries()]
+      .map(([lotNumber, lot]) => ({
+        lotNumber,
+        onHand: (Math.round(lot.onHand * 1e6) / 1e6).toString(),
+        expiresAt: lot.expiresAt ? lot.expiresAt.toISOString() : null,
+        expired: lot.expiresAt !== null && lot.expiresAt.getTime() < now,
+        expiringSoon:
+          lot.expiresAt !== null &&
+          lot.expiresAt.getTime() >= now &&
+          lot.expiresAt.getTime() < soon,
+      }))
+      .sort((a, z) => {
+        if (a.expiresAt === null) return 1;
+        if (z.expiresAt === null) return -1;
+        return a.expiresAt.localeCompare(z.expiresAt);
+      });
   }
 
   /**

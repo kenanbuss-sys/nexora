@@ -32,6 +32,8 @@ const movementSchema = z.object({
   idempotencyKey: z.string().min(8).max(128),
   locationId: z.string().uuid().optional(),
   reason: z.string().max(500).optional(),
+  lotNumber: z.string().min(1).max(64).optional(),
+  expiresAt: z.string().datetime().optional(),
 });
 const reserveSchema = z.object({
   warehouseId: z.string().uuid(),
@@ -92,7 +94,25 @@ export class StockController {
         details: { permission },
       });
     }
-    return this.inventory.postMovement(input, ctx);
+    const { expiresAt, ...rest } = input;
+    return this.inventory.postMovement(
+      { ...rest, ...(expiresAt ? { expiresAt: new Date(expiresAt) } : {}) },
+      ctx,
+    );
+  }
+
+  @Get('lots')
+  @RequirePermission('inventory.read')
+  async lots(
+    @Query('warehouseId') warehouseId: string,
+    @Query('skuId') skuId: string,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const params = parseBody(
+      z.object({ warehouseId: z.string().uuid(), skuId: z.string().uuid() }),
+      { warehouseId, skuId },
+    );
+    return { lots: await this.inventory.lotBalances(params.warehouseId, params.skuId, ctx) };
   }
 
   @Post('reservations')

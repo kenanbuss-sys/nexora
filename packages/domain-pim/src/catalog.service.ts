@@ -392,10 +392,48 @@ export class CatalogService {
   async getSkuState(
     tenantId: string,
     skuId: string,
-  ): Promise<{ exists: boolean; active: boolean }> {
+  ): Promise<{
+    exists: boolean;
+    active: boolean;
+    lotTracked?: boolean;
+    shelfLifeDays?: number | null;
+  }> {
     const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId } });
     if (!sku) return { exists: false, active: false };
-    return { exists: true, active: sku.status === 'ACTIVE' };
+    return {
+      exists: true,
+      active: sku.status === 'ACTIVE',
+      lotTracked: sku.lotTracked,
+      shelfLifeDays: sku.shelfLifeDays,
+    };
+  }
+
+  /** Lot policy (PIM-010/012): governed, audited configuration. */
+  async setLotPolicy(
+    skuId: string,
+    input: { lotTracked: boolean; shelfLifeDays?: number | null | undefined },
+    ctx: RequestContext,
+  ): Promise<void> {
+    await this.prisma.$transaction(async (tx) => {
+      const updated = await tx.sku.updateMany({
+        where: { id: skuId, tenantId: ctx.tenantId },
+        data: {
+          lotTracked: input.lotTracked,
+          shelfLifeDays: input.shelfLifeDays ?? null,
+        },
+      });
+      if (updated.count === 0) throw notFound('Sku', skuId);
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'pim.sku.lot_policy',
+        objectType: 'Sku',
+        objectId: skuId,
+        source: 'api',
+        newValues: { lotTracked: input.lotTracked, shelfLifeDays: input.shelfLifeDays ?? null },
+      });
+    });
   }
 
   async getUomConversions(

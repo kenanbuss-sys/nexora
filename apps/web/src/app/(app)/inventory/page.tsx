@@ -22,6 +22,14 @@ interface Position {
   available: string;
 }
 
+interface LotBalance {
+  lotNumber: string;
+  onHand: string;
+  expiresAt: string | null;
+  expired: boolean;
+  expiringSoon: boolean;
+}
+
 interface Movement {
   id: string;
   movementType: string;
@@ -72,6 +80,8 @@ export default function InventoryPage() {
   const [reason, setReason] = useState('');
   const [reserveQty, setReserveQty] = useState('1');
   const [reference, setReference] = useState('');
+  const [lotNumber, setLotNumber] = useState('');
+  const [lots, setLots] = useState<LotBalance[]>([]);
 
   useEffect(() => {
     api<{ warehouses: WarehouseView[] }>('GET', '/api/v1/warehouses')
@@ -123,6 +133,9 @@ export default function InventoryPage() {
     api<{ reservations: Reservation[] }>('GET', `/api/v1/stock/reservations?${qs}`)
       .then((r) => setReservations(r.reservations))
       .catch(() => setReservations([]));
+    api<{ lots: LotBalance[] }>('GET', `/api/v1/stock/lots?${qs}`)
+      .then((r) => setLots(r.lots))
+      .catch(() => setLots([]));
   }, [warehouseId, skuId]);
 
   useEffect(refresh, [refresh]);
@@ -203,6 +216,30 @@ export default function InventoryPage() {
         {warehouses !== null && warehouses.length === 0 ? (
           <div className="empty">No warehouses yet — create one below.</div>
         ) : null}
+        {lots.length > 0 ? (
+          <div style={{ marginTop: 10, borderTop: '1px solid var(--color-border)', paddingTop: 8 }}>
+            <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
+              Lots (FEFO — issues consume the earliest expiry first)
+            </div>
+            <div className="row" style={{ flexWrap: 'wrap' }}>
+              {lots.map((l) => (
+                <span
+                  key={l.lotNumber}
+                  className={`badge ${l.expired ? 'badge-danger' : l.expiringSoon ? 'badge-warn' : 'badge-ok'}`}
+                  title={
+                    l.expiresAt
+                      ? `Expires ${new Date(l.expiresAt).toLocaleDateString()}`
+                      : 'No expiry'
+                  }
+                >
+                  {l.lotNumber}: {l.onHand}
+                  {l.expiresAt ? ` · ${new Date(l.expiresAt).toLocaleDateString()}` : ''}
+                  {l.expired ? ' · EXPIRED' : ''}
+                </span>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="grid-2">
@@ -221,6 +258,7 @@ export default function InventoryPage() {
                       quantity: Number(quantity),
                       idempotencyKey: randomKey(),
                       ...(reason ? { reason } : {}),
+                      ...(lotNumber ? { lotNumber } : {}),
                     }),
                   'Movement posted to the ledger.',
                 );
@@ -248,6 +286,13 @@ export default function InventoryPage() {
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 required
+              />
+              <label className="label">Lot (required for lot-tracked SKUs on receipt)</label>
+              <input
+                className="input mono"
+                placeholder="e.g. LOT-2026-091"
+                value={lotNumber}
+                onChange={(e) => setLotNumber(e.target.value)}
               />
               <label className="label">Reason (optional)</label>
               <input className="input" value={reason} onChange={(e) => setReason(e.target.value)} />

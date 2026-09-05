@@ -81,6 +81,20 @@ export class SkusController {
     return this.catalog.discontinueSku(id, ctx);
   }
 
+  @Post(':id/lot-policy')
+  @RequirePermission('product.manage')
+  async setLotPolicy(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        lotTracked: z.boolean(),
+        shelfLifeDays: z.number().int().min(1).max(3650).nullable().optional(),
+      }),
+      body,
+    );
+    await this.catalog.setLotPolicy(id, input, ctx);
+    return { ok: true };
+  }
+
   @Put(':id/uom-conversions')
   @RequirePermission('product.manage')
   async setUom(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {

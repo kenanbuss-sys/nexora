@@ -147,6 +147,34 @@ export default function ProductDetailPage() {
                             Activate
                           </button>
                         ) : null}
+                        {can('product.manage') ? (
+                          <button
+                            className="btn btn-sm"
+                            disabled={busy}
+                            title="Lot tracking & shelf life (FEFO)"
+                            onClick={() => {
+                              const answer = window.prompt(
+                                'Shelf life in days for lot tracking (empty disables lot tracking)',
+                                '365',
+                              );
+                              if (answer === null) return;
+                              const days = answer.trim() === '' ? null : Number(answer);
+                              void run(
+                                () =>
+                                  api('POST', `/api/v1/skus/${s.id}/lot-policy`, {
+                                    lotTracked: days !== null,
+                                    shelfLifeDays: days,
+                                  }),
+                                days !== null
+                                  ? `SKU ${s.code} is lot-tracked (shelf life ${days} days).`
+                                  : `Lot tracking disabled for ${s.code}.`,
+                              );
+                            }}
+                            type="button"
+                          >
+                            Lot policy
+                          </button>
+                        ) : null}{' '}
                         {s.status === 'ACTIVE' && can('product.manage') ? (
                           <button
                             className="btn btn-sm btn-danger"
