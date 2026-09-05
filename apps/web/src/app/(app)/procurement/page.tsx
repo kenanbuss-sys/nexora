@@ -4,6 +4,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 
+interface SupplierPerformanceRow {
+  supplierId: string;
+  supplierName: string;
+  poCount: number;
+  spend: string;
+  fillRatePct: string;
+  avgReceiptDays: string | null;
+}
+
 interface SupplierView {
   id: string;
   supplierNumber: string;
@@ -77,6 +86,7 @@ const PO_BADGE: Record<PurchaseOrderView['status'], string> = {
 export default function ProcurementPage() {
   const { can } = useApp();
   const [suppliers, setSuppliers] = useState<SupplierView[]>([]);
+  const [performance, setPerformance] = useState<SupplierPerformanceRow[]>([]);
   const [requisitions, setRequisitions] = useState<RequisitionView[] | null>(null);
   const [pos, setPos] = useState<PurchaseOrderView[]>([]);
   const [warehouses, setWarehouses] = useState<WarehouseView[]>([]);
@@ -102,6 +112,9 @@ export default function ProcurementPage() {
     api<{ suppliers: SupplierView[] }>('GET', '/api/v1/suppliers')
       .then((r) => setSuppliers(r.suppliers))
       .catch(() => setSuppliers([]));
+    api<{ suppliers: SupplierPerformanceRow[] }>('GET', '/api/v1/suppliers/performance')
+      .then((r) => setPerformance(r.suppliers))
+      .catch(() => setPerformance([]));
     api<{ requisitions: RequisitionView[] }>('GET', '/api/v1/requisitions')
       .then((r) => {
         setRequisitions(r.requisitions);
@@ -621,6 +634,49 @@ export default function ProcurementPage() {
           </div>
         </div>
       </div>
+      {performance.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Supplier performance</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'left' }}>Supplier</th>
+                <th>Orders</th>
+                <th>Spend</th>
+                <th>Fill rate</th>
+                <th>Avg. receipt time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {performance.map((row) => (
+                <tr key={row.supplierId}>
+                  <td>{row.supplierName}</td>
+                  <td style={{ textAlign: 'center' }}>{row.poCount}</td>
+                  <td style={{ textAlign: 'center' }} className="mono">
+                    {row.spend}
+                  </td>
+                  <td style={{ textAlign: 'center' }}>
+                    <span
+                      className={`badge ${
+                        Number(row.fillRatePct) >= 95
+                          ? 'badge-ok'
+                          : Number(row.fillRatePct) >= 70
+                            ? 'badge-warn'
+                            : 'badge-danger'
+                      }`}
+                    >
+                      {row.fillRatePct}%
+                    </span>
+                  </td>
+                  <td style={{ textAlign: 'center' }} className="mono">
+                    {row.avgReceiptDays !== null ? `${row.avgReceiptDays} d` : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
     </main>
   );
 }

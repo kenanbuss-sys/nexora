@@ -743,4 +743,103 @@ export class ProcurementService {
       });
     });
   }
+  // ------------------------------------------------ supplier insights (029)
+
+  /**
+   * Supplier performance (PROC-012): per supplier — order count, spend
+   * on received goods, fill rate and average days from order to first
+   * receipt, all derived from POs and the receipt ledger.
+   */
+  async supplierPerformance(ctx: RequestContext): Promise<
+    Array<{
+      supplierId: string;
+      supplierName: string;
+      poCount: number;
+      spend: string;
+      fillRatePct: string;
+      avgReceiptDays: string | null;
+    }>
+  > {
+    const suppliers = await this.prisma.supplier.findMany({
+      where: { tenantId: ctx.tenantId },
+    });
+    const rows = [];
+    for (const supplier of suppliers) {
+      const party = await this.prisma.party.findFirst({
+        where: { id: supplier.partyId, tenantId: ctx.tenantId },
+      });
+      const orders = await this.prisma.purchaseOrder.findMany({
+        where: { tenantId: ctx.tenantId, supplierId: supplier.id, status: { not: 'CANCELLED' } },
+        include: { lines: true },
+      });
+      let ordered = 0;
+      let received = 0;
+      let spend = 0;
+      const receiptDays: number[] = [];
+      for (const po of orders) {
+        for (const line of po.lines) {
+          ordered += Number(line.quantity);
+          received += Number(line.receivedQty);
+          spend += Number(line.receivedQty) * Number(line.unitPrice);
+        }
+        const firstReceipt = await this.prisma.stockMovement.findFirst({
+          where: {
+            tenantId: ctx.tenantId,
+            idempotencyKey: { startsWith: `po:${po.id}:` },
+          },
+          orderBy: { occurredAt: 'asc' },
+        });
+        if (firstReceipt) {
+          receiptDays.push(
+            (firstReceipt.occurredAt.getTime() - po.createdAt.getTime()) / 86_400_000,
+          );
+        }
+      }
+      rows.push({
+        supplierId: supplier.id,
+        supplierName: party?.name ?? supplier.supplierNumber,
+        poCount: orders.length,
+        spend: spend.toFixed(2),
+        fillRatePct: ordered > 0 ? ((received / ordered) * 100).toFixed(1) : '0.0',
+        avgReceiptDays:
+          receiptDays.length > 0
+            ? (receiptDays.reduce((a, b) => a + b, 0) / receiptDays.length).toFixed(1)
+            : null,
+      });
+    }
+    return rows.sort((a, z) => Number(z.spend) - Number(a.spend));
+  }
+
+  /**
+   * One-click purchase suggestion conversion (PROC-015): an MRP
+   * PURCHASE suggestion becomes a draft requisition line, priced at the
+   * SKU's last purchase price when one exists.
+   */
+  async requisitionFromSuggestion(
+    suggestionId: string,
+    ctx: RequestContext,
+  ): Promise<RequisitionView> {
+    const suggestion = await this.prisma.mrpSuggestion.findFirst({
+      where: { id: suggestionId, tenantId: ctx.tenantId },
+    });
+    if (!suggestion) throw notFound('MrpSuggestion', suggestionId);
+    if (suggestion.suggestionType !== 'PURCHASE') {
+      throw new DomainError('VALIDATION_FAILED', 'Only purchase suggestions become requisitions');
+    }
+    const lastPriced = await this.prisma.purchaseOrderLine.findFirst({
+      where: { tenantId: ctx.tenantId, skuId: suggestion.skuId },
+      orderBy: { id: 'desc' },
+    });
+    const estUnitPrice = lastPriced ? Number(lastPriced.unitPrice) : 0;
+    const requisition = await this.createRequisition({ currency: 'EUR' }, ctx);
+    return this.addRequisitionLine(
+      {
+        requisitionId: requisition.id,
+        skuId: suggestion.skuId,
+        quantity: Number(suggestion.quantity),
+        estUnitPrice,
+      },
+      ctx,
+    );
+  }
 }

@@ -270,6 +270,26 @@ export default function PlanningPage() {
                               </div>
                             ) : null}
                           </td>
+                          <td style={{ textAlign: 'right' }}>
+                            {s.suggestionType === 'PURCHASE' && can('purchase.request') ? (
+                              <button
+                                className="btn btn-sm"
+                                disabled={busy}
+                                onClick={() =>
+                                  run(
+                                    () =>
+                                      api('POST', '/api/v1/requisitions/from-suggestion', {
+                                        suggestionId: s.id,
+                                      }),
+                                    'Draft requisition created from the suggestion.',
+                                  )
+                                }
+                                type="button"
+                              >
+                                → Requisition
+                              </button>
+                            ) : null}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

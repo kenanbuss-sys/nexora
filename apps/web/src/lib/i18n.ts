@@ -273,6 +273,12 @@ export const BS: Record<string, string> = {
 
   // Misc
   Language: 'Jezik',
+  'Supplier performance': 'Performanse dobavljača',
+  Supplier: 'Dobavljač',
+  Spend: 'Potrošnja',
+  'Fill rate': 'Stopa ispunjenja',
+  'Avg. receipt time': 'Prosj. vrijeme prijema',
+  '→ Requisition': '→ Trebovanje',
   'Request return': 'Zahtjev za povrat',
   'Returns (RMA)': 'Povrati (RMA)',
   Approve: 'Odobri',

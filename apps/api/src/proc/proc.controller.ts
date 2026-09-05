@@ -43,6 +43,12 @@ export class SuppliersController {
     return { suppliers: await this.proc.listSuppliers(ctx) };
   }
 
+  @Get('performance')
+  @RequirePermission('purchase.read')
+  async performance(@Ctx() ctx: RequestContext) {
+    return { suppliers: await this.proc.supplierPerformance(ctx) };
+  }
+
   @Post()
   @RequirePermission('purchase.manage')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
@@ -72,6 +78,13 @@ export class RequisitionsController {
   @RequirePermission('purchase.read')
   async list(@Ctx() ctx: RequestContext) {
     return { requisitions: await this.proc.listRequisitions(ctx) };
+  }
+
+  @Post('from-suggestion')
+  @RequirePermission('purchase.request')
+  async fromSuggestion(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const { suggestionId } = parseBody(z.object({ suggestionId: z.string().uuid() }), body);
+    return this.proc.requisitionFromSuggestion(suggestionId, ctx);
   }
 
   @Post()
