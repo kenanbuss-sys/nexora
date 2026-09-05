@@ -569,6 +569,15 @@ exports.Prisma.WmsOrderLineScalarFieldEnum = {
   processedQty: 'processedQty'
 };
 
+exports.Prisma.TerritoryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  ownerUserId: 'ownerUserId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.CrmAccountScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -579,6 +588,7 @@ exports.Prisma.CrmAccountScalarFieldEnum = {
   creditHold: 'creditHold',
   paymentTermsDays: 'paymentTermsDays',
   tags: 'tags',
+  territoryId: 'territoryId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1608,6 +1618,7 @@ exports.Prisma.ModelName = {
   ScanEvent: 'ScanEvent',
   WmsOrder: 'WmsOrder',
   WmsOrderLine: 'WmsOrderLine',
+  Territory: 'Territory',
   CrmAccount: 'CrmAccount',
   Lead: 'Lead',
   Opportunity: 'Opportunity',

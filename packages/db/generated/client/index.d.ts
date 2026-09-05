@@ -227,6 +227,12 @@ export type WmsOrder = $Result.DefaultSelection<Prisma.$WmsOrderPayload>
  */
 export type WmsOrderLine = $Result.DefaultSelection<Prisma.$WmsOrderLinePayload>
 /**
+ * Model Territory
+ * Sales territories (CRM-005): named commercial areas with an optional
+ * responsible rep; accounts attach to at most one territory.
+ */
+export type Territory = $Result.DefaultSelection<Prisma.$TerritoryPayload>
+/**
  * Model CrmAccount
  * Commercial customer profile (CRM-002). Identity stays in MDM (partyId);
  * CRM owns only the commercial relationship.
@@ -1687,6 +1693,16 @@ export class PrismaClient<
   get wmsOrderLine(): Prisma.WmsOrderLineDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.territory`: Exposes CRUD operations for the **Territory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Territories
+    * const territories = await prisma.territory.findMany()
+    * ```
+    */
+  get territory(): Prisma.TerritoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.crmAccount`: Exposes CRUD operations for the **CrmAccount** model.
     * Example usage:
     * ```ts
@@ -2707,6 +2723,7 @@ export namespace Prisma {
     ScanEvent: 'ScanEvent',
     WmsOrder: 'WmsOrder',
     WmsOrderLine: 'WmsOrderLine',
+    Territory: 'Territory',
     CrmAccount: 'CrmAccount',
     Lead: 'Lead',
     Opportunity: 'Opportunity',
@@ -2779,7 +2796,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5814,6 +5831,80 @@ export namespace Prisma {
           count: {
             args: Prisma.WmsOrderLineCountArgs<ExtArgs>
             result: $Utils.Optional<WmsOrderLineCountAggregateOutputType> | number
+          }
+        }
+      }
+      Territory: {
+        payload: Prisma.$TerritoryPayload<ExtArgs>
+        fields: Prisma.TerritoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TerritoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TerritoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>
+          }
+          findFirst: {
+            args: Prisma.TerritoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TerritoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>
+          }
+          findMany: {
+            args: Prisma.TerritoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>[]
+          }
+          create: {
+            args: Prisma.TerritoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>
+          }
+          createMany: {
+            args: Prisma.TerritoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TerritoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>[]
+          }
+          delete: {
+            args: Prisma.TerritoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>
+          }
+          update: {
+            args: Prisma.TerritoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.TerritoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TerritoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TerritoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.TerritoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TerritoryPayload>
+          }
+          aggregate: {
+            args: Prisma.TerritoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTerritory>
+          }
+          groupBy: {
+            args: Prisma.TerritoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TerritoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TerritoryCountArgs<ExtArgs>
+            result: $Utils.Optional<TerritoryCountAggregateOutputType> | number
           }
         }
       }
@@ -9950,6 +10041,7 @@ export namespace Prisma {
     scanEvent?: ScanEventOmit
     wmsOrder?: WmsOrderOmit
     wmsOrderLine?: WmsOrderLineOmit
+    territory?: TerritoryOmit
     crmAccount?: CrmAccountOmit
     lead?: LeadOmit
     opportunity?: OpportunityOmit
@@ -10168,6 +10260,7 @@ export namespace Prisma {
     discountRules: number
     skuSubstitutions: number
     packagingLevels: number
+    territories: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10255,6 +10348,7 @@ export namespace Prisma {
     discountRules?: boolean | TenantCountOutputTypeCountDiscountRulesArgs
     skuSubstitutions?: boolean | TenantCountOutputTypeCountSkuSubstitutionsArgs
     packagingLevels?: boolean | TenantCountOutputTypeCountPackagingLevelsArgs
+    territories?: boolean | TenantCountOutputTypeCountTerritoriesArgs
   }
 
   // Custom InputTypes
@@ -10854,6 +10948,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountPackagingLevelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PackagingLevelWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTerritoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TerritoryWhereInput
   }
 
 
@@ -12183,6 +12284,7 @@ export namespace Prisma {
     discountRules?: boolean | Tenant$discountRulesArgs<ExtArgs>
     skuSubstitutions?: boolean | Tenant$skuSubstitutionsArgs<ExtArgs>
     packagingLevels?: boolean | Tenant$packagingLevelsArgs<ExtArgs>
+    territories?: boolean | Tenant$territoriesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -12302,6 +12404,7 @@ export namespace Prisma {
     discountRules?: boolean | Tenant$discountRulesArgs<ExtArgs>
     skuSubstitutions?: boolean | Tenant$skuSubstitutionsArgs<ExtArgs>
     packagingLevels?: boolean | Tenant$packagingLevelsArgs<ExtArgs>
+    territories?: boolean | Tenant$territoriesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12394,6 +12497,7 @@ export namespace Prisma {
       discountRules: Prisma.$DiscountRulePayload<ExtArgs>[]
       skuSubstitutions: Prisma.$SkuSubstitutionPayload<ExtArgs>[]
       packagingLevels: Prisma.$PackagingLevelPayload<ExtArgs>[]
+      territories: Prisma.$TerritoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12881,6 +12985,7 @@ export namespace Prisma {
     discountRules<T extends Tenant$discountRulesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$discountRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscountRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     skuSubstitutions<T extends Tenant$skuSubstitutionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$skuSubstitutionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packagingLevels<T extends Tenant$packagingLevelsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$packagingLevelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagingLevelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    territories<T extends Tenant$territoriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$territoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15318,6 +15423,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PackagingLevelScalarFieldEnum | PackagingLevelScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.territories
+   */
+  export type Tenant$territoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    where?: TerritoryWhereInput
+    orderBy?: TerritoryOrderByWithRelationInput | TerritoryOrderByWithRelationInput[]
+    cursor?: TerritoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TerritoryScalarFieldEnum | TerritoryScalarFieldEnum[]
   }
 
   /**
@@ -60316,6 +60445,1077 @@ export namespace Prisma {
 
 
   /**
+   * Model Territory
+   */
+
+  export type AggregateTerritory = {
+    _count: TerritoryCountAggregateOutputType | null
+    _min: TerritoryMinAggregateOutputType | null
+    _max: TerritoryMaxAggregateOutputType | null
+  }
+
+  export type TerritoryMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    ownerUserId: string | null
+    createdAt: Date | null
+  }
+
+  export type TerritoryMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    ownerUserId: string | null
+    createdAt: Date | null
+  }
+
+  export type TerritoryCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    ownerUserId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TerritoryMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    ownerUserId?: true
+    createdAt?: true
+  }
+
+  export type TerritoryMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    ownerUserId?: true
+    createdAt?: true
+  }
+
+  export type TerritoryCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    ownerUserId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TerritoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Territory to aggregate.
+     */
+    where?: TerritoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Territories to fetch.
+     */
+    orderBy?: TerritoryOrderByWithRelationInput | TerritoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TerritoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Territories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Territories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Territories
+    **/
+    _count?: true | TerritoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TerritoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TerritoryMaxAggregateInputType
+  }
+
+  export type GetTerritoryAggregateType<T extends TerritoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateTerritory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTerritory[P]>
+      : GetScalarType<T[P], AggregateTerritory[P]>
+  }
+
+
+
+
+  export type TerritoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TerritoryWhereInput
+    orderBy?: TerritoryOrderByWithAggregationInput | TerritoryOrderByWithAggregationInput[]
+    by: TerritoryScalarFieldEnum[] | TerritoryScalarFieldEnum
+    having?: TerritoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TerritoryCountAggregateInputType | true
+    _min?: TerritoryMinAggregateInputType
+    _max?: TerritoryMaxAggregateInputType
+  }
+
+  export type TerritoryGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: string
+    ownerUserId: string | null
+    createdAt: Date
+    _count: TerritoryCountAggregateOutputType | null
+    _min: TerritoryMinAggregateOutputType | null
+    _max: TerritoryMaxAggregateOutputType | null
+  }
+
+  type GetTerritoryGroupByPayload<T extends TerritoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TerritoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TerritoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TerritoryGroupByOutputType[P]>
+            : GetScalarType<T[P], TerritoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TerritorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    ownerUserId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["territory"]>
+
+  export type TerritorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    ownerUserId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["territory"]>
+
+  export type TerritorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    ownerUserId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["territory"]>
+
+  export type TerritorySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    ownerUserId?: boolean
+    createdAt?: boolean
+  }
+
+  export type TerritoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "ownerUserId" | "createdAt", ExtArgs["result"]["territory"]>
+  export type TerritoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TerritoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TerritoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TerritoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Territory"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: string
+      ownerUserId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["territory"]>
+    composites: {}
+  }
+
+  type TerritoryGetPayload<S extends boolean | null | undefined | TerritoryDefaultArgs> = $Result.GetResult<Prisma.$TerritoryPayload, S>
+
+  type TerritoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TerritoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TerritoryCountAggregateInputType | true
+    }
+
+  export interface TerritoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Territory'], meta: { name: 'Territory' } }
+    /**
+     * Find zero or one Territory that matches the filter.
+     * @param {TerritoryFindUniqueArgs} args - Arguments to find a Territory
+     * @example
+     * // Get one Territory
+     * const territory = await prisma.territory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TerritoryFindUniqueArgs>(args: SelectSubset<T, TerritoryFindUniqueArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Territory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TerritoryFindUniqueOrThrowArgs} args - Arguments to find a Territory
+     * @example
+     * // Get one Territory
+     * const territory = await prisma.territory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TerritoryFindUniqueOrThrowArgs>(args: SelectSubset<T, TerritoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Territory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TerritoryFindFirstArgs} args - Arguments to find a Territory
+     * @example
+     * // Get one Territory
+     * const territory = await prisma.territory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TerritoryFindFirstArgs>(args?: SelectSubset<T, TerritoryFindFirstArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Territory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TerritoryFindFirstOrThrowArgs} args - Arguments to find a Territory
+     * @example
+     * // Get one Territory
+     * const territory = await prisma.territory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TerritoryFindFirstOrThrowArgs>(args?: SelectSubset<T, TerritoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Territories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TerritoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Territories
+     * const territories = await prisma.territory.findMany()
+     * 
+     * // Get first 10 Territories
+     * const territories = await prisma.territory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const territoryWithIdOnly = await prisma.territory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TerritoryFindManyArgs>(args?: SelectSubset<T, TerritoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Territory.
+     * @param {TerritoryCreateArgs} args - Arguments to create a Territory.
+     * @example
+     * // Create one Territory
+     * const Territory = await prisma.territory.create({
+     *   data: {
+     *     // ... data to create a Territory
+     *   }
+     * })
+     * 
+     */
+    create<T extends TerritoryCreateArgs>(args: SelectSubset<T, TerritoryCreateArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Territories.
+     * @param {TerritoryCreateManyArgs} args - Arguments to create many Territories.
+     * @example
+     * // Create many Territories
+     * const territory = await prisma.territory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TerritoryCreateManyArgs>(args?: SelectSubset<T, TerritoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Territories and returns the data saved in the database.
+     * @param {TerritoryCreateManyAndReturnArgs} args - Arguments to create many Territories.
+     * @example
+     * // Create many Territories
+     * const territory = await prisma.territory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Territories and only return the `id`
+     * const territoryWithIdOnly = await prisma.territory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TerritoryCreateManyAndReturnArgs>(args?: SelectSubset<T, TerritoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Territory.
+     * @param {TerritoryDeleteArgs} args - Arguments to delete one Territory.
+     * @example
+     * // Delete one Territory
+     * const Territory = await prisma.territory.delete({
+     *   where: {
+     *     // ... filter to delete one Territory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TerritoryDeleteArgs>(args: SelectSubset<T, TerritoryDeleteArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Territory.
+     * @param {TerritoryUpdateArgs} args - Arguments to update one Territory.
+     * @example
+     * // Update one Territory
+     * const territory = await prisma.territory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TerritoryUpdateArgs>(args: SelectSubset<T, TerritoryUpdateArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Territories.
+     * @param {TerritoryDeleteManyArgs} args - Arguments to filter Territories to delete.
+     * @example
+     * // Delete a few Territories
+     * const { count } = await prisma.territory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TerritoryDeleteManyArgs>(args?: SelectSubset<T, TerritoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Territories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TerritoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Territories
+     * const territory = await prisma.territory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TerritoryUpdateManyArgs>(args: SelectSubset<T, TerritoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Territories and returns the data updated in the database.
+     * @param {TerritoryUpdateManyAndReturnArgs} args - Arguments to update many Territories.
+     * @example
+     * // Update many Territories
+     * const territory = await prisma.territory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Territories and only return the `id`
+     * const territoryWithIdOnly = await prisma.territory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TerritoryUpdateManyAndReturnArgs>(args: SelectSubset<T, TerritoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Territory.
+     * @param {TerritoryUpsertArgs} args - Arguments to update or create a Territory.
+     * @example
+     * // Update or create a Territory
+     * const territory = await prisma.territory.upsert({
+     *   create: {
+     *     // ... data to create a Territory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Territory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TerritoryUpsertArgs>(args: SelectSubset<T, TerritoryUpsertArgs<ExtArgs>>): Prisma__TerritoryClient<$Result.GetResult<Prisma.$TerritoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Territories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TerritoryCountArgs} args - Arguments to filter Territories to count.
+     * @example
+     * // Count the number of Territories
+     * const count = await prisma.territory.count({
+     *   where: {
+     *     // ... the filter for the Territories we want to count
+     *   }
+     * })
+    **/
+    count<T extends TerritoryCountArgs>(
+      args?: Subset<T, TerritoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TerritoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Territory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TerritoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TerritoryAggregateArgs>(args: Subset<T, TerritoryAggregateArgs>): Prisma.PrismaPromise<GetTerritoryAggregateType<T>>
+
+    /**
+     * Group by Territory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TerritoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TerritoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TerritoryGroupByArgs['orderBy'] }
+        : { orderBy?: TerritoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TerritoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTerritoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Territory model
+   */
+  readonly fields: TerritoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Territory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TerritoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Territory model
+   */
+  interface TerritoryFieldRefs {
+    readonly id: FieldRef<"Territory", 'String'>
+    readonly tenantId: FieldRef<"Territory", 'String'>
+    readonly code: FieldRef<"Territory", 'String'>
+    readonly name: FieldRef<"Territory", 'String'>
+    readonly ownerUserId: FieldRef<"Territory", 'String'>
+    readonly createdAt: FieldRef<"Territory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Territory findUnique
+   */
+  export type TerritoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Territory to fetch.
+     */
+    where: TerritoryWhereUniqueInput
+  }
+
+  /**
+   * Territory findUniqueOrThrow
+   */
+  export type TerritoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Territory to fetch.
+     */
+    where: TerritoryWhereUniqueInput
+  }
+
+  /**
+   * Territory findFirst
+   */
+  export type TerritoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Territory to fetch.
+     */
+    where?: TerritoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Territories to fetch.
+     */
+    orderBy?: TerritoryOrderByWithRelationInput | TerritoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Territories.
+     */
+    cursor?: TerritoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Territories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Territories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Territories.
+     */
+    distinct?: TerritoryScalarFieldEnum | TerritoryScalarFieldEnum[]
+  }
+
+  /**
+   * Territory findFirstOrThrow
+   */
+  export type TerritoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Territory to fetch.
+     */
+    where?: TerritoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Territories to fetch.
+     */
+    orderBy?: TerritoryOrderByWithRelationInput | TerritoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Territories.
+     */
+    cursor?: TerritoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Territories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Territories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Territories.
+     */
+    distinct?: TerritoryScalarFieldEnum | TerritoryScalarFieldEnum[]
+  }
+
+  /**
+   * Territory findMany
+   */
+  export type TerritoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Territories to fetch.
+     */
+    where?: TerritoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Territories to fetch.
+     */
+    orderBy?: TerritoryOrderByWithRelationInput | TerritoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Territories.
+     */
+    cursor?: TerritoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Territories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Territories.
+     */
+    skip?: number
+    distinct?: TerritoryScalarFieldEnum | TerritoryScalarFieldEnum[]
+  }
+
+  /**
+   * Territory create
+   */
+  export type TerritoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Territory.
+     */
+    data: XOR<TerritoryCreateInput, TerritoryUncheckedCreateInput>
+  }
+
+  /**
+   * Territory createMany
+   */
+  export type TerritoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Territories.
+     */
+    data: TerritoryCreateManyInput | TerritoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Territory createManyAndReturn
+   */
+  export type TerritoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many Territories.
+     */
+    data: TerritoryCreateManyInput | TerritoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Territory update
+   */
+  export type TerritoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Territory.
+     */
+    data: XOR<TerritoryUpdateInput, TerritoryUncheckedUpdateInput>
+    /**
+     * Choose, which Territory to update.
+     */
+    where: TerritoryWhereUniqueInput
+  }
+
+  /**
+   * Territory updateMany
+   */
+  export type TerritoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Territories.
+     */
+    data: XOR<TerritoryUpdateManyMutationInput, TerritoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Territories to update
+     */
+    where?: TerritoryWhereInput
+    /**
+     * Limit how many Territories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Territory updateManyAndReturn
+   */
+  export type TerritoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * The data used to update Territories.
+     */
+    data: XOR<TerritoryUpdateManyMutationInput, TerritoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Territories to update
+     */
+    where?: TerritoryWhereInput
+    /**
+     * Limit how many Territories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Territory upsert
+   */
+  export type TerritoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Territory to update in case it exists.
+     */
+    where: TerritoryWhereUniqueInput
+    /**
+     * In case the Territory found by the `where` argument doesn't exist, create a new Territory with this data.
+     */
+    create: XOR<TerritoryCreateInput, TerritoryUncheckedCreateInput>
+    /**
+     * In case the Territory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TerritoryUpdateInput, TerritoryUncheckedUpdateInput>
+  }
+
+  /**
+   * Territory delete
+   */
+  export type TerritoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+    /**
+     * Filter which Territory to delete.
+     */
+    where: TerritoryWhereUniqueInput
+  }
+
+  /**
+   * Territory deleteMany
+   */
+  export type TerritoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Territories to delete
+     */
+    where?: TerritoryWhereInput
+    /**
+     * Limit how many Territories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Territory without action
+   */
+  export type TerritoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Territory
+     */
+    select?: TerritorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Territory
+     */
+    omit?: TerritoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TerritoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model CrmAccount
    */
 
@@ -60346,6 +61546,7 @@ export namespace Prisma {
     creditLimit: Decimal | null
     creditHold: boolean | null
     paymentTermsDays: number | null
+    territoryId: string | null
     status: $Enums.CrmAccountStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -60360,6 +61561,7 @@ export namespace Prisma {
     creditLimit: Decimal | null
     creditHold: boolean | null
     paymentTermsDays: number | null
+    territoryId: string | null
     status: $Enums.CrmAccountStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -60375,6 +61577,7 @@ export namespace Prisma {
     creditHold: number
     paymentTermsDays: number
     tags: number
+    territoryId: number
     status: number
     createdAt: number
     updatedAt: number
@@ -60401,6 +61604,7 @@ export namespace Prisma {
     creditLimit?: true
     creditHold?: true
     paymentTermsDays?: true
+    territoryId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -60415,6 +61619,7 @@ export namespace Prisma {
     creditLimit?: true
     creditHold?: true
     paymentTermsDays?: true
+    territoryId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -60430,6 +61635,7 @@ export namespace Prisma {
     creditHold?: true
     paymentTermsDays?: true
     tags?: true
+    territoryId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -60532,6 +61738,7 @@ export namespace Prisma {
     creditHold: boolean
     paymentTermsDays: number | null
     tags: string[]
+    territoryId: string | null
     status: $Enums.CrmAccountStatus
     createdAt: Date
     updatedAt: Date
@@ -60566,6 +61773,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: boolean
     tags?: boolean
+    territoryId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -60582,6 +61790,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: boolean
     tags?: boolean
+    territoryId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -60598,6 +61807,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: boolean
     tags?: boolean
+    territoryId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -60614,12 +61824,13 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: boolean
     tags?: boolean
+    territoryId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CrmAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "partyId" | "accountNumber" | "ownerUserId" | "creditLimit" | "creditHold" | "paymentTermsDays" | "tags" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["crmAccount"]>
+  export type CrmAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "partyId" | "accountNumber" | "ownerUserId" | "creditLimit" | "creditHold" | "paymentTermsDays" | "tags" | "territoryId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["crmAccount"]>
   export type CrmAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -60648,6 +61859,10 @@ export namespace Prisma {
       creditHold: boolean
       paymentTermsDays: number | null
       tags: string[]
+      /**
+       * Sprint 042 (CRM-005): sales territory assignment.
+       */
+      territoryId: string | null
       status: $Enums.CrmAccountStatus
       createdAt: Date
       updatedAt: Date
@@ -61084,6 +62299,7 @@ export namespace Prisma {
     readonly creditHold: FieldRef<"CrmAccount", 'Boolean'>
     readonly paymentTermsDays: FieldRef<"CrmAccount", 'Int'>
     readonly tags: FieldRef<"CrmAccount", 'String[]'>
+    readonly territoryId: FieldRef<"CrmAccount", 'String'>
     readonly status: FieldRef<"CrmAccount", 'CrmAccountStatus'>
     readonly createdAt: FieldRef<"CrmAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"CrmAccount", 'DateTime'>
@@ -123188,6 +124404,18 @@ export namespace Prisma {
   export type WmsOrderLineScalarFieldEnum = (typeof WmsOrderLineScalarFieldEnum)[keyof typeof WmsOrderLineScalarFieldEnum]
 
 
+  export const TerritoryScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    ownerUserId: 'ownerUserId',
+    createdAt: 'createdAt'
+  };
+
+  export type TerritoryScalarFieldEnum = (typeof TerritoryScalarFieldEnum)[keyof typeof TerritoryScalarFieldEnum]
+
+
   export const CrmAccountScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -123198,6 +124426,7 @@ export namespace Prisma {
     creditHold: 'creditHold',
     paymentTermsDays: 'paymentTermsDays',
     tags: 'tags',
+    territoryId: 'territoryId',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -124905,6 +126134,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleListRelationFilter
     skuSubstitutions?: SkuSubstitutionListRelationFilter
     packagingLevels?: PackagingLevelListRelationFilter
+    territories?: TerritoryListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -124999,6 +126229,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleOrderByRelationAggregateInput
     skuSubstitutions?: SkuSubstitutionOrderByRelationAggregateInput
     packagingLevels?: PackagingLevelOrderByRelationAggregateInput
+    territories?: TerritoryOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -125096,6 +126327,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleListRelationFilter
     skuSubstitutions?: SkuSubstitutionListRelationFilter
     packagingLevels?: PackagingLevelListRelationFilter
+    territories?: TerritoryListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -128060,6 +129292,67 @@ export namespace Prisma {
     processedQty?: DecimalWithAggregatesFilter<"WmsOrderLine"> | Decimal | DecimalJsLike | number | string
   }
 
+  export type TerritoryWhereInput = {
+    AND?: TerritoryWhereInput | TerritoryWhereInput[]
+    OR?: TerritoryWhereInput[]
+    NOT?: TerritoryWhereInput | TerritoryWhereInput[]
+    id?: UuidFilter<"Territory"> | string
+    tenantId?: UuidFilter<"Territory"> | string
+    code?: StringFilter<"Territory"> | string
+    name?: StringFilter<"Territory"> | string
+    ownerUserId?: UuidNullableFilter<"Territory"> | string | null
+    createdAt?: DateTimeFilter<"Territory"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type TerritoryOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ownerUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type TerritoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: TerritoryTenantIdCodeCompoundUniqueInput
+    AND?: TerritoryWhereInput | TerritoryWhereInput[]
+    OR?: TerritoryWhereInput[]
+    NOT?: TerritoryWhereInput | TerritoryWhereInput[]
+    tenantId?: UuidFilter<"Territory"> | string
+    code?: StringFilter<"Territory"> | string
+    name?: StringFilter<"Territory"> | string
+    ownerUserId?: UuidNullableFilter<"Territory"> | string | null
+    createdAt?: DateTimeFilter<"Territory"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_code">
+
+  export type TerritoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ownerUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: TerritoryCountOrderByAggregateInput
+    _max?: TerritoryMaxOrderByAggregateInput
+    _min?: TerritoryMinOrderByAggregateInput
+  }
+
+  export type TerritoryScalarWhereWithAggregatesInput = {
+    AND?: TerritoryScalarWhereWithAggregatesInput | TerritoryScalarWhereWithAggregatesInput[]
+    OR?: TerritoryScalarWhereWithAggregatesInput[]
+    NOT?: TerritoryScalarWhereWithAggregatesInput | TerritoryScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Territory"> | string
+    tenantId?: UuidWithAggregatesFilter<"Territory"> | string
+    code?: StringWithAggregatesFilter<"Territory"> | string
+    name?: StringWithAggregatesFilter<"Territory"> | string
+    ownerUserId?: UuidNullableWithAggregatesFilter<"Territory"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Territory"> | Date | string
+  }
+
   export type CrmAccountWhereInput = {
     AND?: CrmAccountWhereInput | CrmAccountWhereInput[]
     OR?: CrmAccountWhereInput[]
@@ -128073,6 +129366,7 @@ export namespace Prisma {
     creditHold?: BoolFilter<"CrmAccount"> | boolean
     paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
+    territoryId?: UuidNullableFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -128089,6 +129383,7 @@ export namespace Prisma {
     creditHold?: SortOrder
     paymentTermsDays?: SortOrderInput | SortOrder
     tags?: SortOrder
+    territoryId?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -128110,6 +129405,7 @@ export namespace Prisma {
     creditHold?: BoolFilter<"CrmAccount"> | boolean
     paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
+    territoryId?: UuidNullableFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -128126,6 +129422,7 @@ export namespace Prisma {
     creditHold?: SortOrder
     paymentTermsDays?: SortOrderInput | SortOrder
     tags?: SortOrder
+    territoryId?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -128149,6 +129446,7 @@ export namespace Prisma {
     creditHold?: BoolWithAggregatesFilter<"CrmAccount"> | boolean
     paymentTermsDays?: IntNullableWithAggregatesFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
+    territoryId?: UuidNullableWithAggregatesFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusWithAggregatesFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeWithAggregatesFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CrmAccount"> | Date | string
@@ -132535,6 +133833,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -132629,6 +133928,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -132723,6 +134023,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -132817,6 +134118,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -135949,6 +137251,68 @@ export namespace Prisma {
     processedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
+  export type TerritoryCreateInput = {
+    id?: string
+    code: string
+    name: string
+    ownerUserId?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTerritoriesInput
+  }
+
+  export type TerritoryUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    ownerUserId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TerritoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTerritoriesNestedInput
+  }
+
+  export type TerritoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TerritoryCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    ownerUserId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TerritoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TerritoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CrmAccountCreateInput = {
     id?: string
     partyId: string
@@ -135958,6 +137322,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
+    territoryId?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -135974,6 +137339,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
+    territoryId?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -135988,6 +137354,7 @@ export namespace Prisma {
     creditHold?: BoolFieldUpdateOperationsInput | boolean
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
+    territoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -136004,6 +137371,7 @@ export namespace Prisma {
     creditHold?: BoolFieldUpdateOperationsInput | boolean
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
+    territoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -136019,6 +137387,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
+    territoryId?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -136033,6 +137402,7 @@ export namespace Prisma {
     creditHold?: BoolFieldUpdateOperationsInput | boolean
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
+    territoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -136048,6 +137418,7 @@ export namespace Prisma {
     creditHold?: BoolFieldUpdateOperationsInput | boolean
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
+    territoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -141194,6 +142565,12 @@ export namespace Prisma {
     none?: PackagingLevelWhereInput
   }
 
+  export type TerritoryListRelationFilter = {
+    every?: TerritoryWhereInput
+    some?: TerritoryWhereInput
+    none?: TerritoryWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -141527,6 +142904,10 @@ export namespace Prisma {
   }
 
   export type PackagingLevelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TerritoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -143950,6 +145331,38 @@ export namespace Prisma {
     processedQty?: SortOrder
   }
 
+  export type TerritoryTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type TerritoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ownerUserId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TerritoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ownerUserId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TerritoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ownerUserId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type DecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -143988,6 +145401,7 @@ export namespace Prisma {
     creditHold?: SortOrder
     paymentTermsDays?: SortOrder
     tags?: SortOrder
+    territoryId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -144007,6 +145421,7 @@ export namespace Prisma {
     creditLimit?: SortOrder
     creditHold?: SortOrder
     paymentTermsDays?: SortOrder
+    territoryId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -144021,6 +145436,7 @@ export namespace Prisma {
     creditLimit?: SortOrder
     creditHold?: SortOrder
     paymentTermsDays?: SortOrder
+    territoryId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -147680,6 +149096,13 @@ export namespace Prisma {
     connect?: PackagingLevelWhereUniqueInput | PackagingLevelWhereUniqueInput[]
   }
 
+  export type TerritoryCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TerritoryCreateWithoutTenantInput, TerritoryUncheckedCreateWithoutTenantInput> | TerritoryCreateWithoutTenantInput[] | TerritoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TerritoryCreateOrConnectWithoutTenantInput | TerritoryCreateOrConnectWithoutTenantInput[]
+    createMany?: TerritoryCreateManyTenantInputEnvelope
+    connect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -148266,6 +149689,13 @@ export namespace Prisma {
     connectOrCreate?: PackagingLevelCreateOrConnectWithoutTenantInput | PackagingLevelCreateOrConnectWithoutTenantInput[]
     createMany?: PackagingLevelCreateManyTenantInputEnvelope
     connect?: PackagingLevelWhereUniqueInput | PackagingLevelWhereUniqueInput[]
+  }
+
+  export type TerritoryUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TerritoryCreateWithoutTenantInput, TerritoryUncheckedCreateWithoutTenantInput> | TerritoryCreateWithoutTenantInput[] | TerritoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TerritoryCreateOrConnectWithoutTenantInput | TerritoryCreateOrConnectWithoutTenantInput[]
+    createMany?: TerritoryCreateManyTenantInputEnvelope
+    connect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -149464,6 +150894,20 @@ export namespace Prisma {
     deleteMany?: PackagingLevelScalarWhereInput | PackagingLevelScalarWhereInput[]
   }
 
+  export type TerritoryUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TerritoryCreateWithoutTenantInput, TerritoryUncheckedCreateWithoutTenantInput> | TerritoryCreateWithoutTenantInput[] | TerritoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TerritoryCreateOrConnectWithoutTenantInput | TerritoryCreateOrConnectWithoutTenantInput[]
+    upsert?: TerritoryUpsertWithWhereUniqueWithoutTenantInput | TerritoryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TerritoryCreateManyTenantInputEnvelope
+    set?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    disconnect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    delete?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    connect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    update?: TerritoryUpdateWithWhereUniqueWithoutTenantInput | TerritoryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TerritoryUpdateManyWithWhereWithoutTenantInput | TerritoryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TerritoryScalarWhereInput | TerritoryScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -150638,6 +152082,20 @@ export namespace Prisma {
     update?: PackagingLevelUpdateWithWhereUniqueWithoutTenantInput | PackagingLevelUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: PackagingLevelUpdateManyWithWhereWithoutTenantInput | PackagingLevelUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: PackagingLevelScalarWhereInput | PackagingLevelScalarWhereInput[]
+  }
+
+  export type TerritoryUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TerritoryCreateWithoutTenantInput, TerritoryUncheckedCreateWithoutTenantInput> | TerritoryCreateWithoutTenantInput[] | TerritoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TerritoryCreateOrConnectWithoutTenantInput | TerritoryCreateOrConnectWithoutTenantInput[]
+    upsert?: TerritoryUpsertWithWhereUniqueWithoutTenantInput | TerritoryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TerritoryCreateManyTenantInputEnvelope
+    set?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    disconnect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    delete?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    connect?: TerritoryWhereUniqueInput | TerritoryWhereUniqueInput[]
+    update?: TerritoryUpdateWithWhereUniqueWithoutTenantInput | TerritoryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TerritoryUpdateManyWithWhereWithoutTenantInput | TerritoryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TerritoryScalarWhereInput | TerritoryScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -152327,6 +153785,20 @@ export namespace Prisma {
     upsert?: WmsOrderUpsertWithoutLinesInput
     connect?: WmsOrderWhereUniqueInput
     update?: XOR<XOR<WmsOrderUpdateToOneWithWhereWithoutLinesInput, WmsOrderUpdateWithoutLinesInput>, WmsOrderUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutTerritoriesInput = {
+    create?: XOR<TenantCreateWithoutTerritoriesInput, TenantUncheckedCreateWithoutTerritoriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTerritoriesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutTerritoriesNestedInput = {
+    create?: XOR<TenantCreateWithoutTerritoriesInput, TenantUncheckedCreateWithoutTerritoriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTerritoriesInput
+    upsert?: TenantUpsertWithoutTerritoriesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTerritoriesInput, TenantUpdateWithoutTerritoriesInput>, TenantUncheckedUpdateWithoutTerritoriesInput>
   }
 
   export type CrmAccountCreatetagsInput = {
@@ -156388,6 +157860,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
+    territoryId?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -156402,6 +157875,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
+    territoryId?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -158219,6 +159693,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TerritoryCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    ownerUserId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TerritoryUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    ownerUserId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TerritoryCreateOrConnectWithoutTenantInput = {
+    where: TerritoryWhereUniqueInput
+    create: XOR<TerritoryCreateWithoutTenantInput, TerritoryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TerritoryCreateManyTenantInputEnvelope = {
+    data: TerritoryCreateManyTenantInput | TerritoryCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -159128,6 +160628,7 @@ export namespace Prisma {
     creditHold?: BoolFilter<"CrmAccount"> | boolean
     paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
+    territoryId?: UuidNullableFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -160825,6 +162326,34 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PackagingLevel"> | Date | string
   }
 
+  export type TerritoryUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TerritoryWhereUniqueInput
+    update: XOR<TerritoryUpdateWithoutTenantInput, TerritoryUncheckedUpdateWithoutTenantInput>
+    create: XOR<TerritoryCreateWithoutTenantInput, TerritoryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TerritoryUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TerritoryWhereUniqueInput
+    data: XOR<TerritoryUpdateWithoutTenantInput, TerritoryUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TerritoryUpdateManyWithWhereWithoutTenantInput = {
+    where: TerritoryScalarWhereInput
+    data: XOR<TerritoryUpdateManyMutationInput, TerritoryUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TerritoryScalarWhereInput = {
+    AND?: TerritoryScalarWhereInput | TerritoryScalarWhereInput[]
+    OR?: TerritoryScalarWhereInput[]
+    NOT?: TerritoryScalarWhereInput | TerritoryScalarWhereInput[]
+    id?: UuidFilter<"Territory"> | string
+    tenantId?: UuidFilter<"Territory"> | string
+    code?: StringFilter<"Territory"> | string
+    name?: StringFilter<"Territory"> | string
+    ownerUserId?: UuidNullableFilter<"Territory"> | string | null
+    createdAt?: DateTimeFilter<"Territory"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -160916,6 +162445,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -161009,6 +162539,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -161118,6 +162649,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -161211,6 +162743,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -161304,6 +162837,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -161397,6 +162931,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -161540,6 +163075,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -161633,6 +163169,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -161742,6 +163279,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -161835,6 +163373,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -162082,6 +163621,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -162175,6 +163715,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -162380,6 +163921,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -162473,6 +164015,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -162611,6 +164154,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -162704,6 +164248,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -162832,6 +164377,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -162925,6 +164471,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -163063,6 +164610,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -163156,6 +164704,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -163284,6 +164833,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -163377,6 +164927,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -163541,6 +165092,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -163634,6 +165186,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -163776,6 +165329,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -163869,6 +165423,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -164007,6 +165562,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -164100,6 +165656,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -164228,6 +165785,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -164321,6 +165879,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -164480,6 +166039,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -164573,6 +166133,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -164764,6 +166325,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -164857,6 +166419,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -165020,6 +166583,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -165113,6 +166677,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -165272,6 +166837,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -165365,6 +166931,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -165474,6 +167041,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -165567,6 +167135,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -165660,6 +167229,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -165753,6 +167323,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -165862,6 +167433,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -165955,6 +167527,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -166048,6 +167621,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -166141,6 +167715,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -166250,6 +167825,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -166343,6 +167919,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -166436,6 +168013,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -166529,6 +168107,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -166638,6 +168217,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -166731,6 +168311,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -166824,6 +168405,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -166917,6 +168499,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -167026,6 +168609,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -167119,6 +168703,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -167212,6 +168797,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -167305,6 +168891,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -167414,6 +169001,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -167507,6 +169095,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -167600,6 +169189,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -167693,6 +169283,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -167802,6 +169393,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -167895,6 +169487,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -167988,6 +169581,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -168081,6 +169675,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -168252,6 +169847,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -168345,6 +169941,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -168696,6 +170293,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -168789,6 +170387,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -168926,6 +170525,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -169019,6 +170619,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -169185,6 +170786,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -169278,6 +170880,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -169387,6 +170990,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -169480,6 +171084,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -169573,6 +171178,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -169666,6 +171272,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -169775,6 +171382,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -169868,6 +171476,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -169961,6 +171570,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -170054,6 +171664,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -170189,6 +171800,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -170282,6 +171894,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -170447,6 +172060,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -170540,6 +172154,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -170750,6 +172365,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -170843,6 +172459,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -171097,6 +172714,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -171190,6 +172808,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -171343,6 +172962,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -171436,6 +173056,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -171955,6 +173576,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -172048,6 +173670,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -172179,6 +173802,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -172272,6 +173896,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -172435,6 +174060,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -172528,6 +174154,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -172637,6 +174264,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -172730,6 +174358,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -172823,6 +174452,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -172916,6 +174546,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -173025,6 +174656,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -173118,6 +174750,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -173211,6 +174844,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -173304,6 +174938,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -173413,6 +175048,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -173506,6 +175142,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -173599,6 +175236,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -173692,6 +175330,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -173801,6 +175440,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -173894,6 +175534,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -173987,6 +175628,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -174080,6 +175722,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -174215,6 +175858,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -174308,6 +175952,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -174417,6 +176062,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -174510,6 +176156,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -174652,6 +176299,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -174745,6 +176393,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -174784,6 +176433,398 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TenantCreateWithoutTerritoriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTerritoriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTerritoriesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTerritoriesInput, TenantUncheckedCreateWithoutTerritoriesInput>
+  }
+
+  export type TenantUpsertWithoutTerritoriesInput = {
+    update: XOR<TenantUpdateWithoutTerritoriesInput, TenantUncheckedUpdateWithoutTerritoriesInput>
+    create: XOR<TenantCreateWithoutTerritoriesInput, TenantUncheckedCreateWithoutTerritoriesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTerritoriesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTerritoriesInput, TenantUncheckedUpdateWithoutTerritoriesInput>
+  }
+
+  export type TenantUpdateWithoutTerritoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTerritoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmAccountsInput = {
@@ -174877,6 +176918,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -174970,6 +177012,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -175079,6 +177122,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -175172,6 +177216,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -175265,6 +177310,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -175358,6 +177404,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -175467,6 +177514,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -175560,6 +177608,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -175653,6 +177702,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -175746,6 +177796,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -175855,6 +177906,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -175948,6 +178000,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -176041,6 +178094,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -176134,6 +178188,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -176243,6 +178298,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -176336,6 +178392,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -176429,6 +178486,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -176522,6 +178580,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -176657,6 +178716,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -176750,6 +178810,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -176859,6 +178920,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -176952,6 +179014,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -177092,6 +179155,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -177185,6 +179249,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -177315,6 +179380,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -177408,6 +179474,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -177551,6 +179618,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -177644,6 +179712,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -177753,6 +179822,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -177846,6 +179916,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -177994,6 +180065,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -178087,6 +180159,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -178225,6 +180298,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -178318,6 +180392,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -178427,6 +180502,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -178520,6 +180596,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -178613,6 +180690,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -178706,6 +180784,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -178815,6 +180894,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -178908,6 +180988,7 @@ export namespace Prisma {
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -179001,6 +181082,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -179094,6 +181176,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -179250,6 +181333,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -179343,6 +181427,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -179489,6 +181574,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -179582,6 +181668,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -179725,6 +181812,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -179818,6 +181906,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -179927,6 +182016,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -180020,6 +182110,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -180166,6 +182257,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -180259,6 +182351,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -180395,6 +182488,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -180488,6 +182582,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -180597,6 +182692,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -180690,6 +182786,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -180783,6 +182880,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -180876,6 +182974,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -180985,6 +183084,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -181078,6 +183178,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -181171,6 +183272,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -181264,6 +183366,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -181403,6 +183506,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -181496,6 +183600,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -181605,6 +183710,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -181698,6 +183804,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -181840,6 +183947,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -181933,6 +184041,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -182065,6 +184174,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -182158,6 +184268,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -182299,6 +184410,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -182392,6 +184504,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -182501,6 +184614,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -182594,6 +184708,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -182740,6 +184855,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -182833,6 +184949,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -182969,6 +185086,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -183062,6 +185180,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -183201,6 +185320,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -183294,6 +185414,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -183403,6 +185524,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -183496,6 +185618,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -183636,6 +185759,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -183729,6 +185853,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -183859,6 +185984,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -183952,6 +186078,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -184093,6 +186220,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -184186,6 +186314,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -184295,6 +186424,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -184388,6 +186518,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -184524,6 +186655,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -184617,6 +186749,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -184743,6 +186876,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -184836,6 +186970,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -184945,6 +187080,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -185038,6 +187174,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -185131,6 +187268,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -185224,6 +187362,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -185333,6 +187472,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -185426,6 +187566,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -185519,6 +187660,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -185612,6 +187754,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -185751,6 +187894,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -185844,6 +187988,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -185953,6 +188098,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -186046,6 +188192,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -186180,6 +188327,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -186273,6 +188421,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -186397,6 +188546,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -186490,6 +188640,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -186631,6 +188782,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -186724,6 +188876,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -186833,6 +188986,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -186926,6 +189080,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -187078,6 +189233,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -187171,6 +189327,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -187313,6 +189470,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -187406,6 +189564,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -187541,6 +189700,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -187634,6 +189794,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -187743,6 +189904,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -187836,6 +189998,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -187972,6 +190135,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -188065,6 +190229,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -188191,6 +190356,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -188284,6 +190450,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -188423,6 +190590,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -188516,6 +190684,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -188625,6 +190794,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -188718,6 +190888,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -188862,6 +191033,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -188955,6 +191127,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -189089,6 +191262,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -189182,6 +191356,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -189291,6 +191466,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -189384,6 +191560,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -189477,6 +191654,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -189570,6 +191748,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -189711,6 +191890,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -189804,6 +191984,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -189913,6 +192094,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -190006,6 +192188,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -190158,6 +192341,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -190251,6 +192435,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -190393,6 +192578,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -190486,6 +192672,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -190595,6 +192782,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -190688,6 +192876,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -190781,6 +192970,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -190874,6 +193064,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -190983,6 +193174,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -191076,6 +193268,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -191169,6 +193362,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -191262,6 +193456,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -191388,6 +193583,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -191481,6 +193677,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -191597,6 +193794,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -191690,6 +193888,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -191830,6 +194029,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -191923,6 +194123,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -192053,6 +194254,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -192146,6 +194348,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -192255,6 +194458,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -192348,6 +194552,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -192441,6 +194646,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -192534,6 +194740,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -192671,6 +194878,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -192764,6 +194972,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -192873,6 +195082,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -192966,6 +195176,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -193098,6 +195309,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -193191,6 +195403,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -193313,6 +195526,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -193406,6 +195620,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -193553,6 +195768,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -193646,6 +195862,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -193755,6 +195972,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -193848,6 +196066,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -193984,6 +196203,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -194077,6 +196297,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -194203,6 +196424,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -194296,6 +196518,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -194405,6 +196628,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -194498,6 +196722,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -194591,6 +196816,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -194684,6 +196910,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -194793,6 +197020,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -194886,6 +197114,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -194979,6 +197208,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -195072,6 +197302,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -195232,6 +197463,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -195325,6 +197557,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -195463,6 +197696,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -195556,6 +197790,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -195693,6 +197928,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -195786,6 +198022,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -195895,6 +198132,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -195988,6 +198226,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -196132,6 +198371,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -196225,6 +198465,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -196359,6 +198600,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -196452,6 +198694,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -196587,6 +198830,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -196680,6 +198924,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -196789,6 +199034,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -196882,6 +199128,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -197024,6 +199271,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -197117,6 +199365,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -197249,6 +199498,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -197342,6 +199592,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -197483,6 +199734,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -197576,6 +199828,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -197685,6 +199938,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -197778,6 +200032,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
     skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -197910,6 +200165,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -198003,6 +200259,7 @@ export namespace Prisma {
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
     skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -198343,6 +200600,7 @@ export namespace Prisma {
     creditHold?: boolean
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
+    territoryId?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -198957,6 +201215,14 @@ export namespace Prisma {
     name: string
     unitsPerPack: Decimal | DecimalJsLike | number | string
     barcodeValue?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TerritoryCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: string
+    ownerUserId?: string | null
     createdAt?: Date | string
   }
 
@@ -199903,6 +202169,7 @@ export namespace Prisma {
     creditHold?: BoolFieldUpdateOperationsInput | boolean
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
+    territoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -199917,6 +202184,7 @@ export namespace Prisma {
     creditHold?: BoolFieldUpdateOperationsInput | boolean
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
+    territoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -199931,6 +202199,7 @@ export namespace Prisma {
     creditHold?: BoolFieldUpdateOperationsInput | boolean
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
+    territoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -201807,6 +204076,30 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     unitsPerPack?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     barcodeValue?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TerritoryUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TerritoryUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TerritoryUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
