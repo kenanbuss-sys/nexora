@@ -11,3 +11,4 @@ export {
   type SkuInfoGate,
   type StockGate,
 } from './order.service';
+export { ReturnsService, type ReturnLineView, type ReturnView } from './returns.service';

@@ -138,6 +138,7 @@ const BASELINE = [
   'analytics.read',
   'portal.manage',
   'finance.manage',
+  'order.return',
   'collab.use',
   'integration.read',
   'integration.manage',

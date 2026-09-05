@@ -89,7 +89,7 @@ export interface StockGate {
     input: {
       warehouseId: string;
       skuId: string;
-      movementType: 'ISSUE';
+      movementType: 'ISSUE' | 'RECEIPT';
       quantity: number;
       idempotencyKey: string;
       reason?: string | undefined;

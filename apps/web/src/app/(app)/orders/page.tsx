@@ -28,6 +28,15 @@ interface OrderView {
   lines: OrderLineView[];
 }
 
+interface ReturnView {
+  id: string;
+  rmaNumber: string;
+  orderId: string;
+  status: 'REQUESTED' | 'APPROVED' | 'REJECTED' | 'RECEIVED' | 'CLOSED';
+  reason: string;
+  lines: Array<{ id: string; description: string; quantity: string }>;
+}
+
 interface OrderEventView {
   id: string;
   eventType: string;
@@ -93,6 +102,7 @@ export default function OrdersPage() {
   const [holdReason, setHoldReason] = useState('');
   const [timeline, setTimeline] = useState<Record<string, OrderEventView[]>>({});
   const [discussion, setDiscussion] = useState<Record<string, boolean>>({});
+  const [returns, setReturns] = useState<ReturnView[]>([]);
 
   const load = useCallback(() => {
     api<{ orders: OrderView[] }>('GET', '/api/v1/orders')
@@ -106,6 +116,9 @@ export default function OrdersPage() {
         .then((r) => setQuotes(r.quotes))
         .catch(() => setQuotes([]));
     }
+    api<{ returns: ReturnView[] }>('GET', '/api/v1/returns')
+      .then((r) => setReturns(r.returns))
+      .catch(() => setReturns([]));
     // eslint-disable-next-line
   }, []);
 
@@ -595,6 +608,31 @@ export default function OrdersPage() {
                     Delivery note PDF
                   </button>
                 ) : null}
+                {o.status === 'FULFILLED' && can('order.return') ? (
+                  <button
+                    className="btn btn-sm"
+                    disabled={busy}
+                    onClick={() => {
+                      const reason = window.prompt('Return reason (RMA)');
+                      if (!reason) return;
+                      void run(
+                        () =>
+                          api('POST', '/api/v1/returns', {
+                            orderId: o.id,
+                            reason,
+                            lines: o.lines.map((l) => ({
+                              orderLineId: l.id,
+                              quantity: Number(l.quantity),
+                            })),
+                          }),
+                        'Return requested (RMA created).',
+                      );
+                    }}
+                    type="button"
+                  >
+                    Request return
+                  </button>
+                ) : null}
                 <button className="btn btn-sm" onClick={() => toggleTimeline(o.id)} type="button">
                   {timeline[o.id] ? 'Hide history' : 'History'}
                 </button>
@@ -622,6 +660,89 @@ export default function OrdersPage() {
               {discussion[o.id] ? <CollabPanel entityType="sales_order" entityId={o.id} /> : null}
             </div>
           ))}
+
+          {returns.length > 0 ? (
+            <div className="card" style={{ marginTop: 12 }}>
+              <h2>Returns (RMA)</h2>
+              {returns.map((r) => (
+                <div
+                  key={r.id}
+                  className="spread"
+                  style={{ padding: '8px 0', borderBottom: '1px solid var(--color-border)' }}
+                >
+                  <div>
+                    <strong className="mono">{r.rmaNumber}</strong>{' '}
+                    <span className="muted" style={{ fontSize: 12 }}>
+                      {r.reason}
+                    </span>
+                    <div className="muted" style={{ fontSize: 12 }}>
+                      {r.lines.map((l) => `${l.description} ×${l.quantity}`).join(', ')}
+                    </div>
+                  </div>
+                  <span className="row" style={{ gap: 6 }}>
+                    <span
+                      className={`badge ${
+                        r.status === 'CLOSED'
+                          ? 'badge-ok'
+                          : r.status === 'REJECTED'
+                            ? 'badge-danger'
+                            : 'badge-warn'
+                      }`}
+                    >
+                      {r.status}
+                    </span>
+                    {r.status === 'REQUESTED' && can('order.return') ? (
+                      <>
+                        <button
+                          className="btn btn-sm btn-primary"
+                          disabled={busy}
+                          onClick={() =>
+                            run(
+                              () =>
+                                api('POST', `/api/v1/returns/${r.id}/decide`, { approve: true }),
+                              'Return approved.',
+                            )
+                          }
+                          type="button"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="btn btn-sm"
+                          disabled={busy}
+                          onClick={() =>
+                            run(
+                              () =>
+                                api('POST', `/api/v1/returns/${r.id}/decide`, { approve: false }),
+                              'Return rejected.',
+                            )
+                          }
+                          type="button"
+                        >
+                          Reject
+                        </button>
+                      </>
+                    ) : null}
+                    {r.status === 'APPROVED' && can('order.return') ? (
+                      <button
+                        className="btn btn-sm btn-primary"
+                        disabled={busy}
+                        onClick={() =>
+                          run(
+                            () => api('POST', `/api/v1/returns/${r.id}/receive`),
+                            'Goods received back into stock.',
+                          )
+                        }
+                        type="button"
+                      >
+                        Receive goods
+                      </button>
+                    ) : null}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </main>

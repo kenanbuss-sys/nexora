@@ -273,6 +273,15 @@ export const BS: Record<string, string> = {
 
   // Misc
   Language: 'Jezik',
+  'Request return': 'Zahtjev za povrat',
+  'Returns (RMA)': 'Povrati (RMA)',
+  Approve: 'Odobri',
+  Reject: 'Odbij',
+  'Receive goods': 'Zaprimi robu',
+  REQUESTED: 'ZAHTIJEVANO',
+  APPROVED: 'ODOBRENO',
+  REJECTED: 'ODBIJENO',
+  CLOSED: 'ZATVORENO',
   'Revenue (invoiced)': 'Prihod (fakturisano)',
   'Open receivables': 'Otvorena potraživanja',
   'Open orders': 'Otvorene narudžbe',

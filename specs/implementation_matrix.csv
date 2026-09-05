@@ -95,7 +95,7 @@ COM-007,COM,Click & collect,P1,PLANNED,R1,,,
 COM-008,COM,Ship from store,P1,PLANNED,R1,,,
 COM-009,COM,Endless aisle,P1,PLANNED,R1,,,
 COM-010,COM,Channel availability,P1,PLANNED,R1,,,
-COM-011,COM,Returns/exchanges,P1,PLANNED,R1,,,
+COM-011,COM,Returns/exchanges,P1,DONE,R1,,,Returns/exchanges via governed RMA flow (Sprint 028)
 COM-012,COM,Vouchers,P1,PLANNED,R1,,,
 COM-013,COM,Loyalty,P1,PLANNED,R1,,,
 COM-014,COM,Abandoned-order hooks,P1,PLANNED,R1,,,
@@ -110,7 +110,7 @@ OMS-008,OMS,Holds,P1,DONE,R1,,,
 OMS-009,OMS,Order amendments,P1,DONE,R1,,,Order amendments with reservation swap and credit gate (Sprint 018)
 OMS-010,OMS,Cancellation,P1,DONE,R1,,,
 OMS-011,OMS,Fulfillment orchestration,P1,DONE,R1,,,
-OMS-012,OMS,Returns orchestration,P1,PLANNED,R1,,,
+OMS-012,OMS,Returns orchestration,P1,DONE,R1,,,RMA lifecycle with idempotent stock re-entry (Sprint 028)
 OMS-013,OMS,Status timeline,P1,DONE,R1,,,
 OMS-014,OMS,SLA/promise monitoring,P1,PLANNED,R1,,,
 B2B-001,B2B,Company accounts,P1,DONE,R3,,,

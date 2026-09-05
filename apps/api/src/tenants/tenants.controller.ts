@@ -95,6 +95,7 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'analytics.read',
   'portal.manage',
   'finance.manage',
+  'order.return',
   'collab.use',
   'integration.read',
   'integration.manage',

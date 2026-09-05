@@ -16,7 +16,7 @@ import { PricingService, QuoteService } from '@nexora/domain-cpq';
 import { CrmService, Customer360Service } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
-import { OrderService } from '@nexora/domain-oms';
+import { ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ProcurementService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
@@ -64,6 +64,7 @@ import {
 } from './cpq/cpq.controller';
 import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
 import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
+import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
 import {
   BomsController,
   ENGINEERING_SERVICE,
@@ -202,6 +203,7 @@ export const REDIS = 'REDIS';
     PlatformUsageController,
     PdfController,
     MerchandisingController,
+    ReturnsController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -535,6 +537,16 @@ export const REDIS = 'REDIS';
       provide: MERCHANDISING_SERVICE,
       useFactory: (prisma: PrismaClient) => new MerchandisingService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: RETURNS_SERVICE,
+      useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
+        new ReturnsService(prisma, {
+          reserveStock: (input, ctx) => inventory.reserveStock(input, ctx),
+          releaseReservation: (id, ctx) => inventory.releaseReservation(id, ctx),
+          postMovement: (input, ctx) => inventory.postMovement(input, ctx),
+        }),
+      inject: [PRISMA, INVENTORY_SERVICE],
     },
     {
       provide: HEALTH_SERVICE,
