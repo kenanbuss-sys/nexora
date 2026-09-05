@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
-import type { PricingService, QuoteService } from '@nexora/domain-cpq';
+import type { DiscountRuleService, PricingService, QuoteService } from '@nexora/domain-cpq';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,6 +8,7 @@ import { parseBody } from '../common/validate';
 
 export const PRICING_SERVICE = 'PRICING_SERVICE';
 export const QUOTE_SERVICE = 'QUOTE_SERVICE';
+export const DISCOUNT_SERVICE = 'DISCOUNT_SERVICE';
 
 const createPriceListSchema = z.object({
   code: z.string().min(1).max(64),
@@ -25,6 +26,17 @@ const createQuoteSchema = z.object({
   opportunityId: z.string().uuid().optional(),
   validUntil: z.string().datetime().optional(),
 });
+const createDiscountRuleSchema = z.object({
+  name: z.string().min(1).max(200),
+  percentage: z.number().gt(0).max(100),
+  accountId: z.string().uuid().optional(),
+  skuId: z.string().uuid().optional(),
+  minQty: z.number().positive().optional(),
+  validFrom: z.string().datetime().optional(),
+  validTo: z.string().datetime().optional(),
+});
+const setActiveSchema = z.object({ active: z.boolean() });
+
 const addLineSchema = z.object({
   skuId: z.string().uuid(),
   quantity: z.number().positive(),
@@ -151,5 +163,41 @@ export class QuotesController {
   @RequirePermission('quote.create')
   async newVersion(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return this.quotes.newVersion(id, ctx);
+  }
+}
+
+/** Rule-based automatic discounts (CPQ). */
+@Controller('api/v1/discount-rules')
+export class DiscountRulesController {
+  constructor(@Inject(DISCOUNT_SERVICE) private readonly discounts: DiscountRuleService) {}
+
+  @Get()
+  @RequirePermission('pricing.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { rules: await this.discounts.listRules(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('pricing.manage')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(createDiscountRuleSchema, body);
+    return this.discounts.createRule(
+      {
+        name: input.name,
+        percentage: input.percentage,
+        accountId: input.accountId,
+        skuId: input.skuId,
+        minQty: input.minQty,
+        validFrom: input.validFrom ? new Date(input.validFrom) : undefined,
+        validTo: input.validTo ? new Date(input.validTo) : undefined,
+      },
+      ctx,
+    );
+  }
+
+  @Put(':id/active')
+  @RequirePermission('pricing.manage')
+  async setActive(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.discounts.setRuleActive(id, parseBody(setActiveSchema, body).active, ctx);
   }
 }

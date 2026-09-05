@@ -3,6 +3,11 @@
  */
 export { PricingService, type PriceEntryView, type PriceListView } from './pricing.service';
 export {
+  DiscountRuleService,
+  type AppliedDiscount,
+  type DiscountRuleView,
+} from './discount.service';
+export {
   DISCOUNT_APPROVAL_THRESHOLD_PCT,
   QuoteService,
   type AccountGate,

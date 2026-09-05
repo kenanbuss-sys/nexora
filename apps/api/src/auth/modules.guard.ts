@@ -23,6 +23,7 @@ export const MODULE_ROUTE_MAP: Array<[string, string]> = [
   ['crm', 'crm'],
   ['quotes', 'sales'],
   ['price-lists', 'sales'],
+  ['discount-rules', 'sales'],
   ['orders', 'sales'],
   ['returns', 'sales'],
   ['requisitions', 'procurement'],

@@ -54,6 +54,16 @@ const QUOTE_BADGE: Record<QuoteView['status'], string> = {
   EXPIRED: '',
 };
 
+interface DiscountRuleView {
+  id: string;
+  name: string;
+  active: boolean;
+  accountId: string | null;
+  skuId: string | null;
+  minQty: string;
+  percentage: string;
+}
+
 function num(v: string): number {
   return Number(v);
 }
@@ -68,6 +78,11 @@ export default function QuotesPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  const [rules, setRules] = useState<DiscountRuleView[]>([]);
+  const [ruleName, setRuleName] = useState('');
+  const [rulePct, setRulePct] = useState('');
+  const [ruleAccount, setRuleAccount] = useState('');
+  const [ruleSku, setRuleSku] = useState('');
   const [plCode, setPlCode] = useState('');
   const [plName, setPlName] = useState('');
   const [plCurrency, setPlCurrency] = useState('EUR');
@@ -80,7 +95,7 @@ export default function QuotesPage() {
   const [lineQuote, setLineQuote] = useState('');
   const [lineSku, setLineSku] = useState('');
   const [lineQty, setLineQty] = useState('1');
-  const [lineDiscount, setLineDiscount] = useState('0');
+  const [lineDiscount, setLineDiscount] = useState('');
 
   const load = useCallback(() => {
     if (can('pricing.read')) {
@@ -99,6 +114,9 @@ export default function QuotesPage() {
 
   useEffect(() => {
     load();
+    api<{ rules: DiscountRuleView[] }>('GET', '/api/v1/discount-rules')
+      .then((r) => setRules(r.rules))
+      .catch(() => setRules([]));
     api<{ accounts: AccountView[] }>('GET', '/api/v1/crm/accounts')
       .then((r) => setAccounts(r.accounts))
       .catch(() => undefined);
@@ -304,6 +322,120 @@ export default function QuotesPage() {
             </div>
           ) : null}
 
+          {can('pricing.read') ? (
+            <div className="card">
+              <h2>Discount rules</h2>
+              <p className="muted">
+                Automatic discounts — the best matching rule applies when a quote line has no
+                explicit discount.
+              </p>
+              {rules.length === 0 ? <div className="empty">No rules yet.</div> : null}
+              {rules.map((r) => (
+                <div key={r.id} className="row spread" style={{ marginBottom: 6 }}>
+                  <span>
+                    <strong>{r.name}</strong>{' '}
+                    <span className="muted" style={{ fontSize: 12 }}>
+                      {r.percentage}% · min {r.minQty}
+                      {r.accountId ? ' · account' : ''}
+                      {r.skuId ? ' · SKU' : ''}
+                    </span>
+                  </span>
+                  {can('pricing.manage') ? (
+                    <button
+                      className="btn btn-sm"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          () =>
+                            api('PUT', `/api/v1/discount-rules/${r.id}/active`, {
+                              active: !r.active,
+                            }),
+                          r.active ? 'Rule deactivated.' : 'Rule activated.',
+                        )
+                      }
+                      type="button"
+                    >
+                      {r.active ? 'Deactivate' : 'Activate'}
+                    </button>
+                  ) : (
+                    <span className={`badge ${r.active ? 'badge-ok' : ''}`}>
+                      {r.active ? 'active' : 'inactive'}
+                    </span>
+                  )}
+                </div>
+              ))}
+              {can('pricing.manage') ? (
+                <form
+                  className="row"
+                  style={{ marginTop: 10, flexWrap: 'wrap' }}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void run(
+                      () =>
+                        api('POST', '/api/v1/discount-rules', {
+                          name: ruleName,
+                          percentage: Number(rulePct),
+                          ...(ruleAccount ? { accountId: ruleAccount } : {}),
+                          ...(ruleSku ? { skuId: ruleSku } : {}),
+                        }),
+                      'Discount rule created.',
+                    );
+                  }}
+                >
+                  <input
+                    className="input"
+                    style={{ maxWidth: 150 }}
+                    placeholder="Name"
+                    value={ruleName}
+                    onChange={(e) => setRuleName(e.target.value)}
+                    required
+                  />
+                  <input
+                    className="input"
+                    style={{ maxWidth: 70 }}
+                    type="number"
+                    min="0.01"
+                    max="100"
+                    step="any"
+                    placeholder="%"
+                    value={rulePct}
+                    onChange={(e) => setRulePct(e.target.value)}
+                    required
+                  />
+                  <select
+                    className="select"
+                    style={{ maxWidth: 160 }}
+                    value={ruleAccount}
+                    onChange={(e) => setRuleAccount(e.target.value)}
+                  >
+                    <option value="">Every customer</option>
+                    {accounts.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.accountNumber}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className="select"
+                    style={{ maxWidth: 140 }}
+                    value={ruleSku}
+                    onChange={(e) => setRuleSku(e.target.value)}
+                  >
+                    <option value="">Every SKU</option>
+                    {skus.map((sk) => (
+                      <option key={sk.id} value={sk.id}>
+                        {sk.code}
+                      </option>
+                    ))}
+                  </select>
+                  <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                    Add rule
+                  </button>
+                </form>
+              ) : null}
+            </div>
+          ) : null}
+
           {can('quote.create') ? (
             <form
               className="card"
@@ -467,8 +599,9 @@ export default function QuotesPage() {
                         min="0"
                         max="100"
                         step="any"
-                        title="Discount %"
-                        value={lineQuote === q.id ? lineDiscount : '0'}
+                        title="Discount % (empty = automatic rules)"
+                        placeholder="auto"
+                        value={lineQuote === q.id ? lineDiscount : ''}
                         onChange={(e) => {
                           setLineQuote(q.id);
                           setLineDiscount(e.target.value);
@@ -483,7 +616,10 @@ export default function QuotesPage() {
                               api('POST', `/api/v1/quotes/${q.id}/lines`, {
                                 skuId: lineSku,
                                 quantity: Number(lineQty),
-                                discountPct: Number(lineDiscount),
+                                // Empty = let discount rules decide; a number overrides.
+                                ...(lineQuote === q.id && lineDiscount.trim() !== ''
+                                  ? { discountPct: Number(lineDiscount) }
+                                  : {}),
                               }),
                             null,
                           )

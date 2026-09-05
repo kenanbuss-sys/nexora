@@ -74,6 +74,16 @@ export interface SkuInfoGate {
   ): Promise<{ exists: boolean; active: boolean; code: string; name: string } | null>;
 }
 
+/** Rule-based default discounts (same domain, separate service). */
+export interface DiscountGate {
+  bestDiscount(
+    tenantId: string,
+    accountId: string,
+    skuId: string,
+    quantity: number,
+  ): Promise<{ ruleId: string; ruleName: string; percentage: number } | null>;
+}
+
 function toView(quote: {
   id: string;
   quoteNumber: string;
@@ -133,6 +143,7 @@ export class QuoteService {
     private readonly accounts: AccountGate,
     private readonly approvals: ApprovalGate,
     private readonly skus: SkuInfoGate,
+    private readonly discounts?: DiscountGate,
   ) {}
 
   async listQuotes(
@@ -229,14 +240,24 @@ export class QuoteService {
     if (!(input.quantity > 0)) {
       throw new DomainError('VALIDATION_FAILED', 'Quantity must be positive');
     }
-    const discountPct = input.discountPct ?? 0;
-    if (discountPct < 0 || discountPct > 100) {
+    if (input.discountPct !== undefined && (input.discountPct < 0 || input.discountPct > 100)) {
       throw new DomainError('VALIDATION_FAILED', 'Discount must be between 0 and 100');
     }
     const quote = await this.prisma.quote.findFirst({
       where: { id: input.quoteId, tenantId: ctx.tenantId },
     });
     if (!quote) throw notFound('Quote', input.quoteId);
+    // Rule-based default: an explicit discount overrides matching rules.
+    let discountPct = input.discountPct ?? 0;
+    if (input.discountPct === undefined && this.discounts) {
+      const applied = await this.discounts.bestDiscount(
+        ctx.tenantId,
+        quote.accountId,
+        input.skuId,
+        input.quantity,
+      );
+      if (applied) discountPct = applied.percentage;
+    }
     if (quote.status !== 'DRAFT') {
       throw new DomainError('INVALID_STATE', 'Lines can only change while the quote is a draft');
     }

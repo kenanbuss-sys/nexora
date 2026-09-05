@@ -73,7 +73,7 @@ PIM-015,PIM,Bundles/kits,P1,PLANNED,R1,,,
 PIM-016,PIM,Lifecycle status,P1,Implemented (Sprint 003),R1,,,Product/SKU lifecycle statuses with guards
 CPQ-001,CPQ,Price lists,Implemented (Sprint 006),PLANNED,R1,,,"Versionable price lists, DRAFT->ACTIVE publish"
 CPQ-002,CPQ,Quantity breaks,Implemented (Sprint 006),PLANNED,R1,,,Quantity breaks via minQty entries
-CPQ-003,CPQ,Discount rules,P1,PLANNED,R1,,,
+CPQ-003,CPQ,Discount rules,P1,DONE,R1,,,"Rule-based automatic discounts: account/SKU scoping, qty floor, validity window, specificity-then-percentage resolution on quote lines, explicit override; Quotes UI (Sprint 039)"
 CPQ-004,CPQ,Margin floors,Implemented (Sprint 006),PLANNED,R1,,,Margin floor: discounts >20% require approval
 CPQ-005,CPQ,Discount approvals,Implemented (Sprint 006),PLANNED,R1,,,Approvals through WF service (SoD enforced)
 CPQ-006,CPQ,Promotions,P1,PLANNED,R1,,,

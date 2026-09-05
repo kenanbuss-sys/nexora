@@ -13,7 +13,7 @@ import {
   TenantService,
 } from '@nexora/domain-core';
 import { PdfService, DocumentTemplateService } from '@nexora/domain-doc';
-import { PricingService, QuoteService } from '@nexora/domain-cpq';
+import { DiscountRuleService, PricingService, QuoteService } from '@nexora/domain-cpq';
 import { CrmService, Customer360Service } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
 import { PartyService } from '@nexora/domain-mdm';
@@ -67,6 +67,8 @@ import {
   CrmOpportunitiesController,
 } from './crm/crm.controller';
 import {
+  DISCOUNT_SERVICE,
+  DiscountRulesController,
   PRICING_SERVICE,
   PriceListsController,
   QUOTE_SERVICE,
@@ -199,6 +201,7 @@ export const REDIS = 'REDIS';
     CrmActivitiesController,
     PriceListsController,
     QuotesController,
+    DiscountRulesController,
     OrdersController,
     SuppliersController,
     RequisitionsController,
@@ -395,6 +398,7 @@ export const REDIS = 'REDIS';
         crm: CrmService,
         approvals: ApprovalService,
         catalog: CatalogService,
+        discounts: DiscountRuleService,
       ) =>
         new QuoteService(
           prisma,
@@ -405,8 +409,21 @@ export const REDIS = 'REDIS';
             getApprovalStatus: (t, id) => approvals.getApprovalStatus(t, id),
           },
           { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) },
+          { bestDiscount: (t, a, sk, q) => discounts.bestDiscount(t, a, sk, q) },
         ),
-      inject: [PRISMA, PRICING_SERVICE, CRM_SERVICE, APPROVAL_SERVICE, CATALOG_SERVICE],
+      inject: [
+        PRISMA,
+        PRICING_SERVICE,
+        CRM_SERVICE,
+        APPROVAL_SERVICE,
+        CATALOG_SERVICE,
+        DISCOUNT_SERVICE,
+      ],
+    },
+    {
+      provide: DISCOUNT_SERVICE,
+      useFactory: (prisma: PrismaClient) => new DiscountRuleService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: ORDER_SERVICE,

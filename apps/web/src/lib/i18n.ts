@@ -410,6 +410,18 @@ export const BS: Record<string, string> = {
   'Publish approval policy': 'Objavi politiku odobrenja',
   'Approval policy published.': 'Politika odobrenja objavljena.',
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
+  'Discount rules': 'Pravila popusta',
+  'Automatic discounts — the best matching rule applies when a quote line has no explicit discount.':
+    'Automatski popusti — najbolje pravilo se primjenjuje kad stavka ponude nema izričit popust.',
+  'No rules yet.': 'Još nema pravila.',
+  'Every customer': 'Svaki kupac',
+  'Every SKU': 'Svaki artikal',
+  'Add rule': 'Dodaj pravilo',
+  'Discount rule created.': 'Pravilo popusta kreirano.',
+  'Rule activated.': 'Pravilo aktivirano.',
+  'Rule deactivated.': 'Pravilo deaktivirano.',
+  Deactivate: 'Deaktiviraj',
+  inactive: 'neaktivno',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
