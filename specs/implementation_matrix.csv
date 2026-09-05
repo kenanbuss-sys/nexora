@@ -26,7 +26,7 @@ IAM-004,IAM,Field-level permissions,P0,PLANNED,R0,,,
 IAM-005,IAM,Record-level access,P0,PLANNED,R0,,,
 IAM-006,IAM,MFA,P0,PLANNED,R0,,,
 IAM-007,IAM,SSO/OIDC/SAML,P0,PLANNED,R0,,,
-IAM-008,IAM,Session management,P0,PLANNED,R0,,,
+IAM-008,IAM,Session management,P0,DONE,R0,,,"Local password auth: scrypt hashes, admin set/reset, self-service change, 5-attempt lockout, security events, public login issuing bearer tokens (Sprint 034)"
 IAM-009,IAM,Service accounts,P0,DONE,R0,,,API-key service accounts with explicit allowlists (Sprint 021)
 IAM-010,IAM,Approval authority matrix,P0,PLANNED,R0,,,
 IAM-011,IAM,Segregation of duties,P0,PLANNED,R0,,,

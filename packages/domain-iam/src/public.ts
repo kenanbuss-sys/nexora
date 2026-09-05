@@ -16,3 +16,9 @@ export {
   type ResolvedApiKey,
   type SecurityEventView,
 } from './service-account.service';
+export {
+  CredentialService,
+  hashPassword,
+  verifyPassword,
+  type LoginResult,
+} from './credential.service';

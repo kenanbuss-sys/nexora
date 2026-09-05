@@ -56,6 +56,23 @@ console.log(tenant.conflict ? '- tenant already exists' : '- tenant provisioned'
 
 const admin = sign({ tenantSlug: SLUG, subject: 'idp|admin' });
 
+// 1a) Give the demo admin a password (first provision only), so password
+// sign-in works out of the box: admin@demo.example / nexora-demo
+if (!tenant.conflict) {
+  try {
+    const users = await call('GET', '/api/v1/users', admin);
+    const adminUser = users.body.users.find((u) => u.email === `admin@${SLUG}.example`);
+    if (adminUser) {
+      await call('POST', `/api/v1/users/${adminUser.id}/password`, admin, {
+        password: 'nexora-demo',
+      });
+      console.log('- admin password set (nexora-demo)');
+    }
+  } catch (e) {
+    console.log(`- (password seed skipped: ${e.message})`);
+  }
+}
+
 // 1b) Refresh the tenant-admin role to the current permission baseline, so a
 // tenant seeded before a new module still sees it (idempotent).
 const BASELINE = [

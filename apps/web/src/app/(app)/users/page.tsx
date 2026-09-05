@@ -123,6 +123,7 @@ export default function UsersPage() {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Status</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -132,6 +133,24 @@ export default function UsersPage() {
                       <td>{u.email}</td>
                       <td>
                         <span className={`badge ${USER_BADGE[u.status]}`}>{u.status}</span>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-sm"
+                          disabled={busy}
+                          onClick={() => {
+                            const password = window.prompt(
+                              `New password for ${u.email} (min 8 characters):`,
+                            );
+                            if (!password) return;
+                            void run(
+                              () => api('POST', `/api/v1/users/${u.id}/password`, { password }),
+                              'Password set — the user must change it at first sign-in.',
+                            );
+                          }}
+                        >
+                          Set password
+                        </button>
                       </td>
                     </tr>
                   ))}

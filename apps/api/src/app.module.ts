@@ -32,7 +32,12 @@ import { MerchandisingService, CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { CountService, InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
-import { ServiceAccountService, RoleService, UserService } from '@nexora/domain-iam';
+import {
+  CredentialService,
+  ServiceAccountService,
+  RoleService,
+  UserService,
+} from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
 import { DevIdentityAdapter } from '@nexora/tenancy';
 import Redis from 'ioredis';
@@ -68,6 +73,13 @@ import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
 import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
 import { COUNT_SERVICE, CountsController } from './wms/counts.controller';
 import { DataController, IMPORT_EXPORT_SERVICE } from './data/data.controller';
+import {
+  CREDENTIAL_SERVICE,
+  LocalAuthController,
+  TOKEN_SIGNER,
+  UserPasswordController,
+  type TokenSigner,
+} from './iam/local-auth.controller';
 import { SHOPFLOOR_SERVICE, ShopFloorController } from './mes/shopfloor.controller';
 import {
   BomsController,
@@ -211,6 +223,8 @@ export const REDIS = 'REDIS';
     CountsController,
     ShopFloorController,
     DataController,
+    LocalAuthController,
+    UserPasswordController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -565,6 +579,19 @@ export const REDIS = 'REDIS';
       provide: SHOPFLOOR_SERVICE,
       useFactory: (prisma: PrismaClient) => new ShopFloorService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: CREDENTIAL_SERVICE,
+      useFactory: (prisma: PrismaClient) => new CredentialService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: TOKEN_SIGNER,
+      useFactory: (env: Env): TokenSigner => {
+        const adapter = new DevIdentityAdapter(env.DEV_AUTH_SECRET);
+        return { sign: (claims) => adapter.signToken(claims) };
+      },
+      inject: [ENV],
     },
     {
       provide: IMPORT_EXPORT_SERVICE,

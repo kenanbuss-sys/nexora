@@ -360,6 +360,14 @@ export const BS: Record<string, string> = {
   CREATED: 'KREIRAN',
   SKIPPED: 'PRESKOČEN',
   ERROR: 'GREŠKA',
+  'Sign in with password': 'Prijava lozinkom',
+  Password: 'Lozinka',
+  'Set password': 'Postavi lozinku',
+  'Password set — the user must change it at first sign-in.':
+    'Lozinka postavljena — korisnik je mora promijeniti pri prvoj prijavi.',
+  'Invalid e-mail or password': 'Pogrešan e-mail ili lozinka',
+  'Account is locked — try again in a few minutes':
+    'Nalog je zaključan — pokušaj ponovo za nekoliko minuta',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

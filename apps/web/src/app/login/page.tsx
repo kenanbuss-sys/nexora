@@ -41,6 +41,52 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [remembered, setRemembered] = useState(false);
+  const [pwTenant, setPwTenant] = useState('demo');
+  const [pwEmail, setPwEmail] = useState('');
+  const [pwPassword, setPwPassword] = useState('');
+
+  async function signInWithPassword() {
+    setError(null);
+    setBusy(true);
+    try {
+      const response = await fetch('/backend/api/v1/auth/login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ tenantSlug: pwTenant, email: pwEmail, password: pwPassword }),
+      });
+      const data = (await response.json()) as {
+        token?: string;
+        subject?: string;
+        email?: string;
+        mustChangePassword?: boolean;
+        message?: string;
+      };
+      if (!response.ok || !data.token || !data.subject) {
+        setError(data.message ?? 'Sign-in failed');
+        return;
+      }
+      try {
+        window.localStorage.setItem(
+          REMEMBER_KEY,
+          JSON.stringify({ tenantSlug: pwTenant, subject: data.subject, email: data.email }),
+        );
+      } catch {
+        // Remembering is a convenience, never a requirement.
+      }
+      setSession({
+        token: data.token,
+        tenantSlug: pwTenant,
+        subject: data.subject,
+        ...(data.email ? { email: data.email } : {}),
+        platformAdmin: false,
+      });
+      router.push('/');
+    } catch {
+      setError('Could not reach the sign-in service');
+    } finally {
+      setBusy(false);
+    }
+  }
 
   // Prefill the last successful sign-in so nothing needs remembering.
   useEffect(() => {
@@ -185,6 +231,58 @@ export default function LoginPage() {
               </div>
             ) : null}
           </div>
+
+          <details className="card" style={{ boxShadow: 'var(--shadow-lg)', marginBottom: 12 }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 650 }}>Sign in with password</summary>
+            <form
+              style={{ marginTop: 10 }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void signInWithPassword();
+              }}
+            >
+              <label className="label" htmlFor="pw-tenant">
+                Tenant
+              </label>
+              <input
+                id="pw-tenant"
+                className="input"
+                value={pwTenant}
+                onChange={(e) => setPwTenant(e.target.value)}
+                required
+              />
+              <label className="label" htmlFor="pw-email">
+                Email
+              </label>
+              <input
+                id="pw-email"
+                className="input"
+                type="email"
+                value={pwEmail}
+                onChange={(e) => setPwEmail(e.target.value)}
+                required
+              />
+              <label className="label" htmlFor="pw-password">
+                Password
+              </label>
+              <input
+                id="pw-password"
+                className="input"
+                type="password"
+                value={pwPassword}
+                onChange={(e) => setPwPassword(e.target.value)}
+                required
+              />
+              <button
+                className="btn btn-primary"
+                style={{ width: '100%', marginTop: 12 }}
+                disabled={busy}
+                type="submit"
+              >
+                {busy ? 'Signing in…' : 'Sign in'}
+              </button>
+            </form>
+          </details>
 
           <details className="card" style={{ boxShadow: 'var(--shadow-lg)' }}>
             <summary style={{ cursor: 'pointer', fontWeight: 650 }}>
