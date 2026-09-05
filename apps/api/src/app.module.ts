@@ -31,11 +31,11 @@ import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
-import { RoleService, UserService } from '@nexora/domain-iam';
+import { ServiceAccountService, RoleService, UserService } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
 import { DevIdentityAdapter } from '@nexora/tenancy';
 import Redis from 'ioredis';
-import { AuthGuard, IDENTITY_PORT, PRISMA } from './auth/auth.guard';
+import { SERVICE_ACCOUNT_SERVICE, AuthGuard, IDENTITY_PORT, PRISMA } from './auth/auth.guard';
 import { PermissionsGuard, ROLE_SERVICE } from './auth/permissions.guard';
 import { CanonicalErrorFilter } from './common/domain-error.filter';
 import { HEALTH_SERVICE, HealthController } from './health/health.controller';
@@ -94,6 +94,11 @@ import {
   SearchController,
 } from './collab/collab.controller';
 import { INTEGRATION_SERVICE, IntegrationsController } from './int/int.controller';
+import {
+  PlatformUsageController,
+  ServiceAccountsController,
+  TenantExportController,
+} from './iam/service-accounts.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -189,6 +194,9 @@ export const REDIS = 'REDIS';
     AttachmentsController,
     SearchController,
     IntegrationsController,
+    ServiceAccountsController,
+    TenantExportController,
+    PlatformUsageController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -506,6 +514,11 @@ export const REDIS = 'REDIS';
     {
       provide: INTEGRATION_SERVICE,
       useFactory: (prisma: PrismaClient) => new IntegrationService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: SERVICE_ACCOUNT_SERVICE,
+      useFactory: (prisma: PrismaClient) => new ServiceAccountService(prisma),
       inject: [PRISMA],
     },
     {

@@ -18,6 +18,23 @@ interface RoleView {
   permissions: string[];
 }
 
+interface ApiKeyView {
+  id: string;
+  name: string;
+  prefix: string;
+  permissions: string[];
+  active: boolean;
+  lastUsedAt: string | null;
+}
+
+interface SecurityEventView {
+  id: string;
+  eventType: string;
+  subject: string | null;
+  detail: string | null;
+  createdAt: string;
+}
+
 const USER_BADGE: Record<UserView['status'], string> = {
   ACTIVE: 'badge-ok',
   INVITED: 'badge-warn',
@@ -39,6 +56,11 @@ export default function UsersPage() {
   const [assignRole, setAssignRole] = useState('');
   const [roleName, setRoleName] = useState('');
   const [rolePermissions, setRolePermissions] = useState('');
+  const [apiKeys, setApiKeys] = useState<ApiKeyView[]>([]);
+  const [securityEvents, setSecurityEvents] = useState<SecurityEventView[]>([]);
+  const [keyName, setKeyName] = useState('');
+  const [keyPermissions, setKeyPermissions] = useState('order.read, inventory.read');
+  const [keyOnce, setKeyOnce] = useState<string | null>(null);
 
   const load = useCallback(() => {
     api<{ users: UserView[] }>('GET', '/api/v1/users')
@@ -51,6 +73,14 @@ export default function UsersPage() {
       api<{ roles: RoleView[] }>('GET', '/api/v1/roles')
         .then((r) => setRoles(r.roles))
         .catch(() => setRoles([]));
+    }
+    if (can('iam.user.manage')) {
+      api<{ apiKeys: ApiKeyView[] }>('GET', '/api/v1/iam/api-keys')
+        .then((r) => setApiKeys(r.apiKeys))
+        .catch(() => setApiKeys([]));
+      api<{ events: SecurityEventView[] }>('GET', '/api/v1/iam/security-events')
+        .then((r) => setSecurityEvents(r.events))
+        .catch(() => setSecurityEvents([]));
     }
   }, []);
 
@@ -289,6 +319,150 @@ export default function UsersPage() {
           ) : null}
         </div>
       </div>
+      {can('iam.user.manage') ? (
+        <div className="grid-2" style={{ marginTop: 16 }}>
+          <div className="card">
+            <h2>API keys (service accounts)</h2>
+            <p className="muted" style={{ marginTop: 0, fontSize: 13 }}>
+              Machine access with an explicit permission allowlist. Callers send the key in the{' '}
+              <span className="mono">x-api-key</span> header.
+            </p>
+            {keyOnce ? (
+              <div className="alert alert-ok">
+                Key (shown once — store it now): <span className="mono">{keyOnce}</span>
+              </div>
+            ) : null}
+            {apiKeys.length === 0 ? <div className="empty">No API keys yet.</div> : null}
+            {apiKeys.map((k) => (
+              <div key={k.id} className="spread" style={{ padding: '6px 0' }}>
+                <div>
+                  <strong>{k.name}</strong>{' '}
+                  <span className="mono muted" style={{ fontSize: 12 }}>
+                    {k.prefix}…
+                  </span>
+                  <div className="muted" style={{ fontSize: 11 }}>
+                    {k.permissions.join(', ')}
+                    {k.lastUsedAt
+                      ? ` · last used ${new Date(k.lastUsedAt).toLocaleString()}`
+                      : ' · never used'}
+                  </div>
+                </div>
+                <span>
+                  <span className={`badge ${k.active ? 'badge-ok' : 'badge-danger'}`}>
+                    {k.active ? 'ACTIVE' : 'REVOKED'}
+                  </span>{' '}
+                  {k.active ? (
+                    <button
+                      className="btn btn-sm"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          () => api('POST', `/api/v1/iam/api-keys/${k.id}/revoke`),
+                          'API key revoked.',
+                        )
+                      }
+                      type="button"
+                    >
+                      Revoke
+                    </button>
+                  ) : null}
+                </span>
+              </div>
+            ))}
+            <form
+              className="row"
+              style={{ marginTop: 10 }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void run(async () => {
+                  const created = await api<{ key: string }>('POST', '/api/v1/iam/api-keys', {
+                    name: keyName,
+                    permissions: keyPermissions
+                      .split(',')
+                      .map((x) => x.trim())
+                      .filter(Boolean),
+                  });
+                  setKeyOnce(created.key);
+                  setKeyName('');
+                }, 'API key created.');
+              }}
+            >
+              <input
+                className="input"
+                style={{ maxWidth: 150 }}
+                placeholder="Key name"
+                value={keyName}
+                onChange={(e) => setKeyName(e.target.value)}
+                required
+              />
+              <input
+                className="input mono"
+                placeholder="permissions, comma-separated"
+                value={keyPermissions}
+                onChange={(e) => setKeyPermissions(e.target.value)}
+                required
+              />
+              <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                Create key
+              </button>
+            </form>
+          </div>
+
+          <div className="card">
+            <h2>Security log</h2>
+            {securityEvents.length === 0 ? (
+              <div className="empty">No security events yet.</div>
+            ) : (
+              <table className="table">
+                <tbody>
+                  {securityEvents.slice(0, 20).map((ev) => (
+                    <tr key={ev.id}>
+                      <td>
+                        <span className="mono" style={{ fontSize: 12 }}>
+                          {ev.eventType}
+                        </span>
+                        {ev.detail ? (
+                          <div className="muted" style={{ fontSize: 11 }}>
+                            {ev.detail}
+                          </div>
+                        ) : null}
+                      </td>
+                      <td className="muted" style={{ fontSize: 12, textAlign: 'right' }}>
+                        {new Date(ev.createdAt).toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <button
+              className="btn btn-sm"
+              style={{ marginTop: 8 }}
+              onClick={() => {
+                void (async () => {
+                  try {
+                    const data = await api<Record<string, unknown>>('GET', '/api/v1/tenant/export');
+                    const url = URL.createObjectURL(
+                      new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }),
+                    );
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'nexora-tenant-export.json';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    setNotice('Tenant data exported.');
+                  } catch (e: unknown) {
+                    setError(errorText(e));
+                  }
+                })();
+              }}
+              type="button"
+            >
+              Export tenant data (JSON)
+            </button>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

@@ -1,9 +1,9 @@
 import type { CanActivate, ExecutionContext } from '@nestjs/common';
 import { ForbiddenException, Inject, Injectable, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import type { RoleService } from '@nexora/domain-iam';
+import type { RoleService, ServiceAccountService } from '@nexora/domain-iam';
 import type { AuthenticatedRequest } from './auth.guard';
-import { IS_PUBLIC } from './auth.guard';
+import { IS_PUBLIC, SERVICE_ACCOUNT_SERVICE } from './auth.guard';
 
 export const ROLE_SERVICE = 'ROLE_SERVICE';
 
@@ -25,6 +25,7 @@ export class PermissionsGuard implements CanActivate {
   constructor(
     @Inject(Reflector) private readonly reflector: Reflector,
     @Inject(ROLE_SERVICE) private readonly roles: RoleService,
+    @Inject(SERVICE_ACCOUNT_SERVICE) private readonly serviceAccounts: ServiceAccountService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -59,6 +60,23 @@ export class PermissionsGuard implements CanActivate {
     if (ctx.tenantStatus !== 'ACTIVE') {
       throw new ForbiddenException({ code: 'TENANT_SUSPENDED', message: 'Tenant is suspended' });
     }
+
+    // API-key sessions authorize against the key's explicit allowlist.
+    if (request.apiKeyPermissions) {
+      if (request.apiKeyPermissions.includes(permissionKey)) return true;
+      await this.serviceAccounts.logSecurityEvent(
+        ctx.tenantId,
+        'permission.denied',
+        'api-key',
+        `missing ${permissionKey}`,
+      );
+      throw new ForbiddenException({
+        code: 'FORBIDDEN',
+        message: 'API key lacks this permission',
+        details: { permission: permissionKey },
+      });
+    }
+
     if (!ctx.userId) {
       throw new ForbiddenException({ code: 'FORBIDDEN', message: 'No linked user in tenant' });
     }
@@ -67,6 +85,12 @@ export class PermissionsGuard implements CanActivate {
     }
     const allowed = await this.roles.authorize(ctx, permissionKey);
     if (!allowed) {
+      await this.serviceAccounts.logSecurityEvent(
+        ctx.tenantId,
+        'permission.denied',
+        ctx.userId,
+        `missing ${permissionKey}`,
+      );
       throw new ForbiddenException({
         code: 'FORBIDDEN',
         message: 'Missing permission',

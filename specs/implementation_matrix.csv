@@ -27,11 +27,11 @@ IAM-005,IAM,Record-level access,P0,PLANNED,R0,,,
 IAM-006,IAM,MFA,P0,PLANNED,R0,,,
 IAM-007,IAM,SSO/OIDC/SAML,P0,PLANNED,R0,,,
 IAM-008,IAM,Session management,P0,PLANNED,R0,,,
-IAM-009,IAM,Service accounts,P0,PLANNED,R0,,,
+IAM-009,IAM,Service accounts,P0,DONE,R0,,,API-key service accounts with explicit allowlists (Sprint 021)
 IAM-010,IAM,Approval authority matrix,P0,PLANNED,R0,,,
 IAM-011,IAM,Segregation of duties,P0,PLANNED,R0,,,
 IAM-012,IAM,Step-up authentication,P0,PLANNED,R0,,,
-IAM-013,IAM,Security event logging,P0,PLANNED,R0,,,
+IAM-013,IAM,Security event logging,P0,DONE,R0,,,"Security event log: key lifecycle, denials (Sprint 021)"
 IAM-014,IAM,Break-glass access,P0,PLANNED,R0,,,
 MDM-001,MDM,Party master,P0,Implemented (Sprint 003),R1,,,"Canonical Party CRUD, search, redirects"
 MDM-002,MDM,Product master governance,P0,PLANNED,R1,,,
@@ -447,10 +447,10 @@ OPS-010,OPS,Device monitoring,P0,PLANNED,R0,,,
 OPS-011,OPS,Backups,P0,PLANNED,R0,,,
 OPS-012,OPS,PITR,P0,PLANNED,R0,,,
 OPS-013,OPS,Disaster recovery,P0,PLANNED,R0,,,
-OPS-014,OPS,Usage analytics,P0,PLANNED,R0,,,
+OPS-014,OPS,Usage analytics,P0,DONE,R0,,,"Per-tenant usage analytics, operator-only (Sprint 021)"
 OPS-015,OPS,Support portal,P0,PLANNED,R0,,,
 OPS-016,OPS,Status-page hooks,P0,PLANNED,R0,,,
-OPS-017,OPS,Tenant data export/offboarding,P0,PLANNED,R0,,,
+OPS-017,OPS,Tenant data export/offboarding,P0,DONE,R0,,,Audited tenant JSON export (Sprint 021)
 OPS-018,OPS,Cost observability,P0,PLANNED,R0,,,
 GRC-001,GRC,Policies,P3,PLANNED,R4+,,,
 GRC-002,GRC,Risk register,P3,PLANNED,R4+,,,

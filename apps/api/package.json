@@ -45,7 +45,8 @@
     "@nexora/domain-bi": "workspace:*",
     "@nexora/domain-b2b": "workspace:*",
     "@nexora/domain-collab": "workspace:*",
-    "@nexora/domain-int": "workspace:*"
+    "@nexora/domain-int": "workspace:*",
+    "@nexora/audit": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

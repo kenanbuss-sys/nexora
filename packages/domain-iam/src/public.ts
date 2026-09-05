@@ -10,3 +10,9 @@ export {
   type PermissionScopeType,
   type ScopeRef,
 } from './permissions';
+export {
+  ServiceAccountService,
+  type ApiKeyView,
+  type ResolvedApiKey,
+  type SecurityEventView,
+} from './service-account.service';

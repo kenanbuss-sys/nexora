@@ -1,12 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 
 interface ProvisionResult {
   tenant: { id: string; slug: string; name: string };
   adminUserId?: string;
+}
+
+interface UsageRow {
+  tenantId: string;
+  slug: string;
+  name: string;
+  status: string;
+  users: number;
+  orders: number;
+  invoices: number;
+  workOrders: number;
+  events: number;
+  attachmentBytes: number;
 }
 
 export default function PlatformPage() {
@@ -19,6 +32,15 @@ export default function PlatformPage() {
   const [result, setResult] = useState<ProvisionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [usage, setUsage] = useState<UsageRow[]>([]);
+
+  useEffect(() => {
+    if (!session.platformAdmin) return;
+    api<{ tenants: UsageRow[] }>('GET', '/api/v1/platform/usage')
+      .then((r) => setUsage(r.tenants))
+      .catch(() => setUsage([]));
+    // eslint-disable-next-line
+  }, []);
 
   if (!session.platformAdmin) {
     return (
@@ -132,6 +154,48 @@ export default function PlatformPage() {
               <p className="muted">No initial administrator was created.</p>
             )}
           </div>
+        ) : null}
+      </div>
+
+      <div className="card" style={{ marginTop: 16 }}>
+        <h2>Tenant usage (OPS-014)</h2>
+        {usage.length === 0 ? <div className="empty">No tenants yet.</div> : null}
+        {usage.length > 0 ? (
+          <table className="table">
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'left' }}>Tenant</th>
+                <th>Users</th>
+                <th>Orders</th>
+                <th>Invoices</th>
+                <th>Work orders</th>
+                <th>Events</th>
+                <th>Attachments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usage.map((u) => (
+                <tr key={u.tenantId}>
+                  <td>
+                    <span className="mono">{u.slug}</span> {u.name}{' '}
+                    <span
+                      className={`badge ${u.status === 'ACTIVE' ? 'badge-ok' : 'badge-danger'}`}
+                    >
+                      {u.status}
+                    </span>
+                  </td>
+                  <td style={{ textAlign: 'center' }}>{u.users}</td>
+                  <td style={{ textAlign: 'center' }}>{u.orders}</td>
+                  <td style={{ textAlign: 'center' }}>{u.invoices}</td>
+                  <td style={{ textAlign: 'center' }}>{u.workOrders}</td>
+                  <td style={{ textAlign: 'center' }}>{u.events}</td>
+                  <td style={{ textAlign: 'center' }}>
+                    {(u.attachmentBytes / 1024).toFixed(1)} KB
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : null}
       </div>
     </main>
