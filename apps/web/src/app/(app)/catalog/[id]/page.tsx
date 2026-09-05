@@ -192,6 +192,20 @@ export default function ProductDetailPage() {
                 Publish product
               </button>
             ) : null}
+            {product.status !== 'ARCHIVED' && can('product.publish') ? (
+              <button
+                className="btn"
+                style={{ marginLeft: 8 }}
+                disabled={busy}
+                title="All SKUs must be discontinued first"
+                onClick={() =>
+                  run(() => api('POST', `/api/v1/products/${product.id}/archive`), 'Archived.')
+                }
+                type="button"
+              >
+                Archive product
+              </button>
+            ) : null}
           </div>
 
           <div className="card" style={{ marginTop: 16 }}>

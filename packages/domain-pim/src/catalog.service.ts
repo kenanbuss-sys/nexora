@@ -86,6 +86,9 @@ export class CatalogService {
       if (product.status === 'PUBLISHED') {
         throw new DomainError('INVALID_STATE', 'Product is already published');
       }
+      if (product.status === 'ARCHIVED') {
+        throw new DomainError('INVALID_STATE', 'An archived product cannot be published');
+      }
       const updated = await tx.product.update({
         where: { id: product.id },
         data: { status: 'PUBLISHED' },
@@ -100,6 +103,47 @@ export class CatalogService {
         source: 'api',
         previousValues: { status: product.status },
         newValues: { status: 'PUBLISHED' },
+      });
+      return { id: updated.id, code: updated.code, name: updated.name, status: updated.status };
+    });
+  }
+
+  /**
+   * Lifecycle end state (PIM-016): archiving demands every SKU already
+   * discontinued — the blocked action explains itself. Archived products
+   * accept no new SKUs and cannot be re-published.
+   */
+  async archiveProduct(productId: string, ctx: RequestContext): Promise<ProductView> {
+    return this.prisma.$transaction(async (tx) => {
+      const product = await tx.product.findFirst({
+        where: { id: productId, tenantId: ctx.tenantId },
+        include: { skus: true },
+      });
+      if (!product) throw notFound('Product', productId);
+      if (product.status === 'ARCHIVED') {
+        throw new DomainError('INVALID_STATE', 'Product is already archived');
+      }
+      const live = product.skus.filter((sku) => sku.status !== 'DISCONTINUED');
+      if (live.length > 0) {
+        throw new DomainError(
+          'INVALID_STATE',
+          `Discontinue the remaining SKUs first (${live.map((sku) => sku.code).join(', ')})`,
+        );
+      }
+      const updated = await tx.product.update({
+        where: { id: product.id },
+        data: { status: 'ARCHIVED' },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'product.archive',
+        objectType: 'Product',
+        objectId: product.id,
+        source: 'api',
+        previousValues: { status: product.status },
+        newValues: { status: 'ARCHIVED' },
       });
       return { id: updated.id, code: updated.code, name: updated.name, status: updated.status };
     });
@@ -160,6 +204,9 @@ export class CatalogService {
         where: { id: input.productId, tenantId: ctx.tenantId },
       });
       if (!product) throw notFound('Product', input.productId);
+      if (product.status === 'ARCHIVED') {
+        throw new DomainError('INVALID_STATE', 'An archived product cannot take new SKUs');
+      }
       const existing = await tx.sku.findUnique({
         where: { tenantId_code: { tenantId: ctx.tenantId, code: input.code } },
       });

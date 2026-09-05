@@ -64,6 +64,12 @@ export class ProductsController {
     return this.catalog.createProduct(parseBody(createProductSchema, body), ctx);
   }
 
+  @Post(':id/archive')
+  @RequirePermission('product.publish')
+  async archive(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.catalog.archiveProduct(id, ctx);
+  }
+
   @Post(':id/publish')
   @RequirePermission('product.publish')
   async publish(@Param('id') id: string, @Ctx() ctx: RequestContext) {

@@ -499,6 +499,9 @@ export const BS: Record<string, string> = {
   'Logistics saved.': 'Logistika sačuvana.',
   'This action requires a fresh password confirmation':
     'Ova akcija zahtijeva svježu potvrdu lozinke',
+  'Archive product': 'Arhiviraj proizvod',
+  'Archived.': 'Arhivirano.',
+  'All SKUs must be discontinued first': 'Svi artikli prvo moraju biti povučeni iz prodaje',
   'Enter the 6-digit code from your authenticator app.':
     'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };
