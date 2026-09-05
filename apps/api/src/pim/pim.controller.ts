@@ -21,6 +21,12 @@ const createProductSchema = z.object({
   name: z.string().min(1).max(300),
   description: z.string().max(2000).optional(),
 });
+const logisticsSchema = z.object({
+  weightKg: z.number().positive().nullable().optional(),
+  lengthCm: z.number().positive().nullable().optional(),
+  widthCm: z.number().positive().nullable().optional(),
+  heightCm: z.number().positive().nullable().optional(),
+});
 const addPackagingSchema = z.object({
   name: z.string().min(1).max(100),
   unitsPerPack: z.number().gt(1),
@@ -122,6 +128,13 @@ export class SkusController {
   async removeSubstitution(@Param('subId') subId: string, @Ctx() ctx: RequestContext) {
     await this.substitutions.removeSubstitution(subId, ctx);
     return { removed: true };
+  }
+
+  @Post(':id/logistics')
+  @RequirePermission('product.manage')
+  async setLogistics(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.catalog.setLogistics(id, parseBody(logisticsSchema, body), ctx);
+    return { set: true };
   }
 
   @Get(':id/packaging')

@@ -820,4 +820,54 @@ export class OrderService {
       });
     });
   }
+
+  /**
+   * Logistics summary (PIM-009 consumer): total weight and volume of an
+   * order from SKU master data; lines whose SKUs lack data are counted
+   * rather than silently treated as zero.
+   */
+  async logisticsSummary(
+    orderId: string,
+    ctx: RequestContext,
+  ): Promise<{ totalWeightKg: string; totalVolumeM3: string; linesMissingData: number }> {
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('SalesOrder', orderId);
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: order.lines.map((l) => l.skuId) } },
+    });
+    const skuById = new Map(skus.map((s) => [s.id, s]));
+    let weight = 0;
+    let volume = 0;
+    let missing = 0;
+    for (const line of order.lines) {
+      const sku = skuById.get(line.skuId);
+      const quantity = Number(line.quantity);
+      const hasWeight = sku?.weightKg !== null && sku?.weightKg !== undefined;
+      const hasDims =
+        sku?.lengthCm !== null &&
+        sku?.lengthCm !== undefined &&
+        sku?.widthCm !== null &&
+        sku?.widthCm !== undefined &&
+        sku?.heightCm !== null &&
+        sku?.heightCm !== undefined;
+      if (!hasWeight && !hasDims) {
+        missing += 1;
+        continue;
+      }
+      if (hasWeight) weight += Number(sku!.weightKg) * quantity;
+      if (hasDims) {
+        volume +=
+          ((Number(sku!.lengthCm) * Number(sku!.widthCm) * Number(sku!.heightCm)) / 1_000_000) *
+          quantity;
+      }
+    }
+    return {
+      totalWeightKg: weight.toFixed(3),
+      totalVolumeM3: volume.toFixed(3),
+      linesMissingData: missing,
+    };
+  }
 }

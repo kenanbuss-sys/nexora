@@ -493,6 +493,10 @@ export const BS: Record<string, string> = {
   revoked: 'povučena',
   'Consent recorded.': 'Privola zabilježena.',
   'Revocation recorded.': 'Povlačenje zabilježeno.',
+  Logistics: 'Logistika',
+  'Weight and dimensions per base unit — order totals derive from this.':
+    'Težina i dimenzije po osnovnoj jedinici — zbir po narudžbi se računa iz ovoga.',
+  'Logistics saved.': 'Logistika sačuvana.',
   'Enter the 6-digit code from your authenticator app.':
     'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };

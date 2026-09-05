@@ -53,6 +53,11 @@ export default function ProductDetailPage() {
   const [barcodeValue, setBarcodeValue] = useState('');
   const [categories, setCategories] = useState<CategoryView[]>([]);
   const [images, setImages] = useState<Array<{ id: string; fileName: string; src: string }>>([]);
+  const [logSku, setLogSku] = useState('');
+  const [logWeight, setLogWeight] = useState('');
+  const [logL, setLogL] = useState('');
+  const [logW, setLogW] = useState('');
+  const [logH, setLogH] = useState('');
   const [packSku, setPackSku] = useState('');
   const [packName, setPackName] = useState('');
   const [packUnits, setPackUnits] = useState('');
@@ -417,6 +422,89 @@ export default function ProductDetailPage() {
                     e.target.value = '';
                   }}
                 />
+              </div>
+            </div>
+          ) : null}
+
+          {can('product.manage') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Logistics</h2>
+              <p className="muted">
+                Weight and dimensions per base unit — order totals derive from this.
+              </p>
+              <div className="row" style={{ flexWrap: 'wrap' }}>
+                <select
+                  className="select"
+                  style={{ maxWidth: 150 }}
+                  value={logSku}
+                  onChange={(e) => setLogSku(e.target.value)}
+                >
+                  <option value="">SKU…</option>
+                  {product.skus.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.code}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="input"
+                  style={{ maxWidth: 90 }}
+                  type="number"
+                  step="any"
+                  min="0"
+                  placeholder="kg"
+                  value={logWeight}
+                  onChange={(e) => setLogWeight(e.target.value)}
+                />
+                <input
+                  className="input"
+                  style={{ maxWidth: 80 }}
+                  type="number"
+                  step="any"
+                  min="0"
+                  placeholder="L cm"
+                  value={logL}
+                  onChange={(e) => setLogL(e.target.value)}
+                />
+                <input
+                  className="input"
+                  style={{ maxWidth: 80 }}
+                  type="number"
+                  step="any"
+                  min="0"
+                  placeholder="W cm"
+                  value={logW}
+                  onChange={(e) => setLogW(e.target.value)}
+                />
+                <input
+                  className="input"
+                  style={{ maxWidth: 80 }}
+                  type="number"
+                  step="any"
+                  min="0"
+                  placeholder="H cm"
+                  value={logH}
+                  onChange={(e) => setLogH(e.target.value)}
+                />
+                <button
+                  className="btn btn-sm btn-primary"
+                  disabled={busy || !logSku}
+                  type="button"
+                  onClick={() =>
+                    run(
+                      () =>
+                        api('POST', `/api/v1/skus/${logSku}/logistics`, {
+                          ...(logWeight ? { weightKg: Number(logWeight) } : {}),
+                          ...(logL ? { lengthCm: Number(logL) } : {}),
+                          ...(logW ? { widthCm: Number(logW) } : {}),
+                          ...(logH ? { heightCm: Number(logH) } : {}),
+                        }),
+                      'Logistics saved.',
+                    )
+                  }
+                >
+                  Save
+                </button>
               </div>
             </div>
           ) : null}

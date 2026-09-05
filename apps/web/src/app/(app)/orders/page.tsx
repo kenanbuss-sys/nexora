@@ -85,6 +85,9 @@ export default function OrdersPage() {
   const [warehouses, setWarehouses] = useState<WarehouseView[]>([]);
   const [quotes, setQuotes] = useState<QuoteOption[]>([]);
   const [skus, setSkus] = useState<SkuOption[]>([]);
+  const [logistics, setLogistics] = useState<
+    Record<string, { totalWeightKg: string; totalVolumeM3: string; linesMissingData: number }>
+  >({});
   const [alternatives, setAlternatives] = useState<
     Record<string, Array<{ substituteCode: string; available: string }>>
   >({});
@@ -698,6 +701,31 @@ export default function OrdersPage() {
                 </div>
               ) : null}
 
+              <div className="row" style={{ marginTop: 6 }}>
+                <button
+                  className="btn btn-sm"
+                  type="button"
+                  onClick={() => {
+                    api<{
+                      totalWeightKg: string;
+                      totalVolumeM3: string;
+                      linesMissingData: number;
+                    }>('GET', `/api/v1/orders/${o.id}/logistics`)
+                      .then((r) => setLogistics((prev) => ({ ...prev, [o.id]: r })))
+                      .catch(() => undefined);
+                  }}
+                >
+                  Logistics
+                </button>
+                {logistics[o.id] ? (
+                  <span className="muted mono" style={{ fontSize: 12 }}>
+                    {logistics[o.id]!.totalWeightKg} kg · {logistics[o.id]!.totalVolumeM3} m³
+                    {logistics[o.id]!.linesMissingData > 0
+                      ? ` · ${logistics[o.id]!.linesMissingData} lines w/o data`
+                      : ''}
+                  </span>
+                ) : null}
+              </div>
               {discussion[o.id] ? <CollabPanel entityType="sales_order" entityId={o.id} /> : null}
             </div>
           ))}

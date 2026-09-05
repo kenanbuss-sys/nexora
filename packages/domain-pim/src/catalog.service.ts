@@ -436,6 +436,51 @@ export class CatalogService {
     });
   }
 
+  /** Logistics data (PIM-009): weight and dimensions per base unit. */
+  async setLogistics(
+    skuId: string,
+    input: {
+      weightKg?: number | null | undefined;
+      lengthCm?: number | null | undefined;
+      widthCm?: number | null | undefined;
+      heightCm?: number | null | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<void> {
+    for (const [key, value] of Object.entries(input)) {
+      if (value !== null && value !== undefined && !(value > 0)) {
+        throw new DomainError('VALIDATION_FAILED', `${key} must be positive when set`);
+      }
+    }
+    await this.prisma.$transaction(async (tx) => {
+      const updated = await tx.sku.updateMany({
+        where: { id: skuId, tenantId: ctx.tenantId },
+        data: {
+          weightKg: input.weightKg ?? null,
+          lengthCm: input.lengthCm ?? null,
+          widthCm: input.widthCm ?? null,
+          heightCm: input.heightCm ?? null,
+        },
+      });
+      if (updated.count === 0) throw notFound('Sku', skuId);
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'pim.sku.logistics',
+        objectType: 'Sku',
+        objectId: skuId,
+        source: 'api',
+        newValues: {
+          weightKg: input.weightKg ?? null,
+          lengthCm: input.lengthCm ?? null,
+          widthCm: input.widthCm ?? null,
+          heightCm: input.heightCm ?? null,
+        },
+      });
+    });
+  }
+
   async getUomConversions(
     skuId: string,
     ctx: RequestContext,
