@@ -472,6 +472,11 @@ export type ApiKey = $Result.DefaultSelection<Prisma.$ApiKeyPayload>
  * Append-only security event log (IAM-013).
  */
 export type SecurityEvent = $Result.DefaultSelection<Prisma.$SecurityEventPayload>
+/**
+ * Model ProductCategory
+ * 
+ */
+export type ProductCategory = $Result.DefaultSelection<Prisma.$ProductCategoryPayload>
 
 /**
  * Enums
@@ -2006,6 +2011,16 @@ export class PrismaClient<
     * ```
     */
   get securityEvent(): Prisma.SecurityEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.productCategory`: Exposes CRUD operations for the **ProductCategory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProductCategories
+    * const productCategories = await prisma.productCategory.findMany()
+    * ```
+    */
+  get productCategory(): Prisma.ProductCategoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2530,7 +2545,8 @@ export namespace Prisma {
     WebhookSubscription: 'WebhookSubscription',
     WebhookDelivery: 'WebhookDelivery',
     ApiKey: 'ApiKey',
-    SecurityEvent: 'SecurityEvent'
+    SecurityEvent: 'SecurityEvent',
+    ProductCategory: 'ProductCategory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2549,7 +2565,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -8769,6 +8785,80 @@ export namespace Prisma {
           }
         }
       }
+      ProductCategory: {
+        payload: Prisma.$ProductCategoryPayload<ExtArgs>
+        fields: Prisma.ProductCategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProductCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProductCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.ProductCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProductCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>
+          }
+          findMany: {
+            args: Prisma.ProductCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>[]
+          }
+          create: {
+            args: Prisma.ProductCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>
+          }
+          createMany: {
+            args: Prisma.ProductCategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProductCategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.ProductCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>
+          }
+          update: {
+            args: Prisma.ProductCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProductCategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProductCategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProductCategoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProductCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.ProductCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProductCategory>
+          }
+          groupBy: {
+            args: Prisma.ProductCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProductCategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProductCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<ProductCategoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -8949,6 +9039,7 @@ export namespace Prisma {
     webhookDelivery?: WebhookDeliveryOmit
     apiKey?: ApiKeyOmit
     securityEvent?: SecurityEventOmit
+    productCategory?: ProductCategoryOmit
   }
 
   /* Types for Logging */
@@ -9102,6 +9193,7 @@ export namespace Prisma {
     webhookDeliveries: number
     apiKeys: number
     securityEvents: number
+    productCategories: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9178,6 +9270,7 @@ export namespace Prisma {
     webhookDeliveries?: boolean | TenantCountOutputTypeCountWebhookDeliveriesArgs
     apiKeys?: boolean | TenantCountOutputTypeCountApiKeysArgs
     securityEvents?: boolean | TenantCountOutputTypeCountSecurityEventsArgs
+    productCategories?: boolean | TenantCountOutputTypeCountProductCategoriesArgs
   }
 
   // Custom InputTypes
@@ -9700,6 +9793,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountSecurityEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SecurityEventWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountProductCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductCategoryWhereInput
   }
 
 
@@ -10595,6 +10695,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type ProductCategoryCountOutputType
+   */
+
+  export type ProductCategoryCountOutputType = {
+    children: number
+  }
+
+  export type ProductCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | ProductCategoryCountOutputTypeCountChildrenArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProductCategoryCountOutputType without action
+   */
+  export type ProductCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategoryCountOutputType
+     */
+    select?: ProductCategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProductCategoryCountOutputType without action
+   */
+  export type ProductCategoryCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductCategoryWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -10885,6 +11016,7 @@ export namespace Prisma {
     webhookDeliveries?: boolean | Tenant$webhookDeliveriesArgs<ExtArgs>
     apiKeys?: boolean | Tenant$apiKeysArgs<ExtArgs>
     securityEvents?: boolean | Tenant$securityEventsArgs<ExtArgs>
+    productCategories?: boolean | Tenant$productCategoriesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -10993,6 +11125,7 @@ export namespace Prisma {
     webhookDeliveries?: boolean | Tenant$webhookDeliveriesArgs<ExtArgs>
     apiKeys?: boolean | Tenant$apiKeysArgs<ExtArgs>
     securityEvents?: boolean | Tenant$securityEventsArgs<ExtArgs>
+    productCategories?: boolean | Tenant$productCategoriesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11074,6 +11207,7 @@ export namespace Prisma {
       webhookDeliveries: Prisma.$WebhookDeliveryPayload<ExtArgs>[]
       apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
       securityEvents: Prisma.$SecurityEventPayload<ExtArgs>[]
+      productCategories: Prisma.$ProductCategoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11550,6 +11684,7 @@ export namespace Prisma {
     webhookDeliveries<T extends Tenant$webhookDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$webhookDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     apiKeys<T extends Tenant$apiKeysArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     securityEvents<T extends Tenant$securityEventsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$securityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecurityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    productCategories<T extends Tenant$productCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$productCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13723,6 +13858,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SecurityEventScalarFieldEnum | SecurityEventScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.productCategories
+   */
+  export type Tenant$productCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    where?: ProductCategoryWhereInput
+    orderBy?: ProductCategoryOrderByWithRelationInput | ProductCategoryOrderByWithRelationInput[]
+    cursor?: ProductCategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductCategoryScalarFieldEnum | ProductCategoryScalarFieldEnum[]
   }
 
   /**
@@ -43895,6 +44054,7 @@ export namespace Prisma {
     code: string | null
     name: string | null
     description: string | null
+    categoryId: string | null
     status: $Enums.ProductStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -43906,6 +44066,7 @@ export namespace Prisma {
     code: string | null
     name: string | null
     description: string | null
+    categoryId: string | null
     status: $Enums.ProductStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -43917,6 +44078,9 @@ export namespace Prisma {
     code: number
     name: number
     description: number
+    categoryId: number
+    variantAxes: number
+    attributes: number
     status: number
     createdAt: number
     updatedAt: number
@@ -43930,6 +44094,7 @@ export namespace Prisma {
     code?: true
     name?: true
     description?: true
+    categoryId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -43941,6 +44106,7 @@ export namespace Prisma {
     code?: true
     name?: true
     description?: true
+    categoryId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -43952,6 +44118,9 @@ export namespace Prisma {
     code?: true
     name?: true
     description?: true
+    categoryId?: true
+    variantAxes?: true
+    attributes?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -44036,6 +44205,9 @@ export namespace Prisma {
     code: string
     name: string
     description: string | null
+    categoryId: string | null
+    variantAxes: string[]
+    attributes: JsonValue | null
     status: $Enums.ProductStatus
     createdAt: Date
     updatedAt: Date
@@ -44064,6 +44236,9 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     description?: boolean
+    categoryId?: boolean
+    variantAxes?: boolean
+    attributes?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -44078,6 +44253,9 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     description?: boolean
+    categoryId?: boolean
+    variantAxes?: boolean
+    attributes?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -44090,6 +44268,9 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     description?: boolean
+    categoryId?: boolean
+    variantAxes?: boolean
+    attributes?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -44102,12 +44283,15 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     description?: boolean
+    categoryId?: boolean
+    variantAxes?: boolean
+    attributes?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "description" | "categoryId" | "variantAxes" | "attributes" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     skus?: boolean | Product$skusArgs<ExtArgs>
@@ -44132,6 +44316,12 @@ export namespace Prisma {
       code: string
       name: string
       description: string | null
+      /**
+       * Sprint 025 (PIM-004/002/003): merchandising structure.
+       */
+      categoryId: string | null
+      variantAxes: string[]
+      attributes: Prisma.JsonValue | null
       status: $Enums.ProductStatus
       createdAt: Date
       updatedAt: Date
@@ -44565,6 +44755,9 @@ export namespace Prisma {
     readonly code: FieldRef<"Product", 'String'>
     readonly name: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
+    readonly categoryId: FieldRef<"Product", 'String'>
+    readonly variantAxes: FieldRef<"Product", 'String[]'>
+    readonly attributes: FieldRef<"Product", 'Json'>
     readonly status: FieldRef<"Product", 'ProductStatus'>
     readonly createdAt: FieldRef<"Product", 'DateTime'>
     readonly updatedAt: FieldRef<"Product", 'DateTime'>
@@ -45063,6 +45256,7 @@ export namespace Prisma {
     baseUom: number
     lotTracked: number
     shelfLifeDays: number
+    variantValues: number
     status: number
     createdAt: number
     updatedAt: number
@@ -45115,6 +45309,7 @@ export namespace Prisma {
     baseUom?: true
     lotTracked?: true
     shelfLifeDays?: true
+    variantValues?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -45216,6 +45411,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked: boolean
     shelfLifeDays: number | null
+    variantValues: JsonValue | null
     status: $Enums.SkuStatus
     createdAt: Date
     updatedAt: Date
@@ -45249,6 +45445,7 @@ export namespace Prisma {
     baseUom?: boolean
     lotTracked?: boolean
     shelfLifeDays?: boolean
+    variantValues?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -45267,6 +45464,7 @@ export namespace Prisma {
     baseUom?: boolean
     lotTracked?: boolean
     shelfLifeDays?: boolean
+    variantValues?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -45282,6 +45480,7 @@ export namespace Prisma {
     baseUom?: boolean
     lotTracked?: boolean
     shelfLifeDays?: boolean
+    variantValues?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -45297,12 +45496,13 @@ export namespace Prisma {
     baseUom?: boolean
     lotTracked?: boolean
     shelfLifeDays?: boolean
+    variantValues?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
+  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "variantValues" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
   export type SkuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     barcodes?: boolean | Sku$barcodesArgs<ExtArgs>
@@ -45339,6 +45539,10 @@ export namespace Prisma {
        */
       lotTracked: boolean
       shelfLifeDays: number | null
+      /**
+       * Sprint 025 (PIM-002): variant coordinates, e.g. {"color":"red"}.
+       */
+      variantValues: Prisma.JsonValue | null
       status: $Enums.SkuStatus
       createdAt: Date
       updatedAt: Date
@@ -45776,6 +45980,7 @@ export namespace Prisma {
     readonly baseUom: FieldRef<"Sku", 'String'>
     readonly lotTracked: FieldRef<"Sku", 'Boolean'>
     readonly shelfLifeDays: FieldRef<"Sku", 'Int'>
+    readonly variantValues: FieldRef<"Sku", 'Json'>
     readonly status: FieldRef<"Sku", 'SkuStatus'>
     readonly createdAt: FieldRef<"Sku", 'DateTime'>
     readonly updatedAt: FieldRef<"Sku", 'DateTime'>
@@ -108351,6 +108556,1134 @@ export namespace Prisma {
 
 
   /**
+   * Model ProductCategory
+   */
+
+  export type AggregateProductCategory = {
+    _count: ProductCategoryCountAggregateOutputType | null
+    _min: ProductCategoryMinAggregateOutputType | null
+    _max: ProductCategoryMaxAggregateOutputType | null
+  }
+
+  export type ProductCategoryMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    parentId: string | null
+    createdAt: Date | null
+  }
+
+  export type ProductCategoryMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    parentId: string | null
+    createdAt: Date | null
+  }
+
+  export type ProductCategoryCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    parentId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ProductCategoryMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    parentId?: true
+    createdAt?: true
+  }
+
+  export type ProductCategoryMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    parentId?: true
+    createdAt?: true
+  }
+
+  export type ProductCategoryCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    parentId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ProductCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProductCategory to aggregate.
+     */
+    where?: ProductCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCategories to fetch.
+     */
+    orderBy?: ProductCategoryOrderByWithRelationInput | ProductCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProductCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProductCategories
+    **/
+    _count?: true | ProductCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProductCategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProductCategoryMaxAggregateInputType
+  }
+
+  export type GetProductCategoryAggregateType<T extends ProductCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateProductCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProductCategory[P]>
+      : GetScalarType<T[P], AggregateProductCategory[P]>
+  }
+
+
+
+
+  export type ProductCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductCategoryWhereInput
+    orderBy?: ProductCategoryOrderByWithAggregationInput | ProductCategoryOrderByWithAggregationInput[]
+    by: ProductCategoryScalarFieldEnum[] | ProductCategoryScalarFieldEnum
+    having?: ProductCategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProductCategoryCountAggregateInputType | true
+    _min?: ProductCategoryMinAggregateInputType
+    _max?: ProductCategoryMaxAggregateInputType
+  }
+
+  export type ProductCategoryGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: string
+    parentId: string | null
+    createdAt: Date
+    _count: ProductCategoryCountAggregateOutputType | null
+    _min: ProductCategoryMinAggregateOutputType | null
+    _max: ProductCategoryMaxAggregateOutputType | null
+  }
+
+  type GetProductCategoryGroupByPayload<T extends ProductCategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProductCategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProductCategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProductCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], ProductCategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProductCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | ProductCategory$parentArgs<ExtArgs>
+    children?: boolean | ProductCategory$childrenArgs<ExtArgs>
+    _count?: boolean | ProductCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["productCategory"]>
+
+  export type ProductCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | ProductCategory$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["productCategory"]>
+
+  export type ProductCategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | ProductCategory$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["productCategory"]>
+
+  export type ProductCategorySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ProductCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "parentId" | "createdAt", ExtArgs["result"]["productCategory"]>
+  export type ProductCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | ProductCategory$parentArgs<ExtArgs>
+    children?: boolean | ProductCategory$childrenArgs<ExtArgs>
+    _count?: boolean | ProductCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProductCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | ProductCategory$parentArgs<ExtArgs>
+  }
+  export type ProductCategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parent?: boolean | ProductCategory$parentArgs<ExtArgs>
+  }
+
+  export type $ProductCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProductCategory"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      parent: Prisma.$ProductCategoryPayload<ExtArgs> | null
+      children: Prisma.$ProductCategoryPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: string
+      parentId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["productCategory"]>
+    composites: {}
+  }
+
+  type ProductCategoryGetPayload<S extends boolean | null | undefined | ProductCategoryDefaultArgs> = $Result.GetResult<Prisma.$ProductCategoryPayload, S>
+
+  type ProductCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProductCategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProductCategoryCountAggregateInputType | true
+    }
+
+  export interface ProductCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProductCategory'], meta: { name: 'ProductCategory' } }
+    /**
+     * Find zero or one ProductCategory that matches the filter.
+     * @param {ProductCategoryFindUniqueArgs} args - Arguments to find a ProductCategory
+     * @example
+     * // Get one ProductCategory
+     * const productCategory = await prisma.productCategory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProductCategoryFindUniqueArgs>(args: SelectSubset<T, ProductCategoryFindUniqueArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProductCategory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProductCategoryFindUniqueOrThrowArgs} args - Arguments to find a ProductCategory
+     * @example
+     * // Get one ProductCategory
+     * const productCategory = await prisma.productCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProductCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, ProductCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProductCategory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCategoryFindFirstArgs} args - Arguments to find a ProductCategory
+     * @example
+     * // Get one ProductCategory
+     * const productCategory = await prisma.productCategory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProductCategoryFindFirstArgs>(args?: SelectSubset<T, ProductCategoryFindFirstArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProductCategory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCategoryFindFirstOrThrowArgs} args - Arguments to find a ProductCategory
+     * @example
+     * // Get one ProductCategory
+     * const productCategory = await prisma.productCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProductCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, ProductCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProductCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProductCategories
+     * const productCategories = await prisma.productCategory.findMany()
+     * 
+     * // Get first 10 ProductCategories
+     * const productCategories = await prisma.productCategory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const productCategoryWithIdOnly = await prisma.productCategory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProductCategoryFindManyArgs>(args?: SelectSubset<T, ProductCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProductCategory.
+     * @param {ProductCategoryCreateArgs} args - Arguments to create a ProductCategory.
+     * @example
+     * // Create one ProductCategory
+     * const ProductCategory = await prisma.productCategory.create({
+     *   data: {
+     *     // ... data to create a ProductCategory
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProductCategoryCreateArgs>(args: SelectSubset<T, ProductCategoryCreateArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProductCategories.
+     * @param {ProductCategoryCreateManyArgs} args - Arguments to create many ProductCategories.
+     * @example
+     * // Create many ProductCategories
+     * const productCategory = await prisma.productCategory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProductCategoryCreateManyArgs>(args?: SelectSubset<T, ProductCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProductCategories and returns the data saved in the database.
+     * @param {ProductCategoryCreateManyAndReturnArgs} args - Arguments to create many ProductCategories.
+     * @example
+     * // Create many ProductCategories
+     * const productCategory = await prisma.productCategory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProductCategories and only return the `id`
+     * const productCategoryWithIdOnly = await prisma.productCategory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProductCategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, ProductCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProductCategory.
+     * @param {ProductCategoryDeleteArgs} args - Arguments to delete one ProductCategory.
+     * @example
+     * // Delete one ProductCategory
+     * const ProductCategory = await prisma.productCategory.delete({
+     *   where: {
+     *     // ... filter to delete one ProductCategory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProductCategoryDeleteArgs>(args: SelectSubset<T, ProductCategoryDeleteArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProductCategory.
+     * @param {ProductCategoryUpdateArgs} args - Arguments to update one ProductCategory.
+     * @example
+     * // Update one ProductCategory
+     * const productCategory = await prisma.productCategory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProductCategoryUpdateArgs>(args: SelectSubset<T, ProductCategoryUpdateArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProductCategories.
+     * @param {ProductCategoryDeleteManyArgs} args - Arguments to filter ProductCategories to delete.
+     * @example
+     * // Delete a few ProductCategories
+     * const { count } = await prisma.productCategory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProductCategoryDeleteManyArgs>(args?: SelectSubset<T, ProductCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProductCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProductCategories
+     * const productCategory = await prisma.productCategory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProductCategoryUpdateManyArgs>(args: SelectSubset<T, ProductCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProductCategories and returns the data updated in the database.
+     * @param {ProductCategoryUpdateManyAndReturnArgs} args - Arguments to update many ProductCategories.
+     * @example
+     * // Update many ProductCategories
+     * const productCategory = await prisma.productCategory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProductCategories and only return the `id`
+     * const productCategoryWithIdOnly = await prisma.productCategory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProductCategoryUpdateManyAndReturnArgs>(args: SelectSubset<T, ProductCategoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProductCategory.
+     * @param {ProductCategoryUpsertArgs} args - Arguments to update or create a ProductCategory.
+     * @example
+     * // Update or create a ProductCategory
+     * const productCategory = await prisma.productCategory.upsert({
+     *   create: {
+     *     // ... data to create a ProductCategory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProductCategory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProductCategoryUpsertArgs>(args: SelectSubset<T, ProductCategoryUpsertArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProductCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCategoryCountArgs} args - Arguments to filter ProductCategories to count.
+     * @example
+     * // Count the number of ProductCategories
+     * const count = await prisma.productCategory.count({
+     *   where: {
+     *     // ... the filter for the ProductCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProductCategoryCountArgs>(
+      args?: Subset<T, ProductCategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProductCategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProductCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProductCategoryAggregateArgs>(args: Subset<T, ProductCategoryAggregateArgs>): Prisma.PrismaPromise<GetProductCategoryAggregateType<T>>
+
+    /**
+     * Group by ProductCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProductCategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProductCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: ProductCategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProductCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProductCategory model
+   */
+  readonly fields: ProductCategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProductCategory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProductCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parent<T extends ProductCategory$parentArgs<ExtArgs> = {}>(args?: Subset<T, ProductCategory$parentArgs<ExtArgs>>): Prisma__ProductCategoryClient<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends ProductCategory$childrenArgs<ExtArgs> = {}>(args?: Subset<T, ProductCategory$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProductCategory model
+   */
+  interface ProductCategoryFieldRefs {
+    readonly id: FieldRef<"ProductCategory", 'String'>
+    readonly tenantId: FieldRef<"ProductCategory", 'String'>
+    readonly code: FieldRef<"ProductCategory", 'String'>
+    readonly name: FieldRef<"ProductCategory", 'String'>
+    readonly parentId: FieldRef<"ProductCategory", 'String'>
+    readonly createdAt: FieldRef<"ProductCategory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProductCategory findUnique
+   */
+  export type ProductCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCategory to fetch.
+     */
+    where: ProductCategoryWhereUniqueInput
+  }
+
+  /**
+   * ProductCategory findUniqueOrThrow
+   */
+  export type ProductCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCategory to fetch.
+     */
+    where: ProductCategoryWhereUniqueInput
+  }
+
+  /**
+   * ProductCategory findFirst
+   */
+  export type ProductCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCategory to fetch.
+     */
+    where?: ProductCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCategories to fetch.
+     */
+    orderBy?: ProductCategoryOrderByWithRelationInput | ProductCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProductCategories.
+     */
+    cursor?: ProductCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductCategories.
+     */
+    distinct?: ProductCategoryScalarFieldEnum | ProductCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * ProductCategory findFirstOrThrow
+   */
+  export type ProductCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCategory to fetch.
+     */
+    where?: ProductCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCategories to fetch.
+     */
+    orderBy?: ProductCategoryOrderByWithRelationInput | ProductCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProductCategories.
+     */
+    cursor?: ProductCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductCategories.
+     */
+    distinct?: ProductCategoryScalarFieldEnum | ProductCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * ProductCategory findMany
+   */
+  export type ProductCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCategories to fetch.
+     */
+    where?: ProductCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCategories to fetch.
+     */
+    orderBy?: ProductCategoryOrderByWithRelationInput | ProductCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProductCategories.
+     */
+    cursor?: ProductCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCategories.
+     */
+    skip?: number
+    distinct?: ProductCategoryScalarFieldEnum | ProductCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * ProductCategory create
+   */
+  export type ProductCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProductCategory.
+     */
+    data: XOR<ProductCategoryCreateInput, ProductCategoryUncheckedCreateInput>
+  }
+
+  /**
+   * ProductCategory createMany
+   */
+  export type ProductCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProductCategories.
+     */
+    data: ProductCategoryCreateManyInput | ProductCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProductCategory createManyAndReturn
+   */
+  export type ProductCategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProductCategories.
+     */
+    data: ProductCategoryCreateManyInput | ProductCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProductCategory update
+   */
+  export type ProductCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProductCategory.
+     */
+    data: XOR<ProductCategoryUpdateInput, ProductCategoryUncheckedUpdateInput>
+    /**
+     * Choose, which ProductCategory to update.
+     */
+    where: ProductCategoryWhereUniqueInput
+  }
+
+  /**
+   * ProductCategory updateMany
+   */
+  export type ProductCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProductCategories.
+     */
+    data: XOR<ProductCategoryUpdateManyMutationInput, ProductCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which ProductCategories to update
+     */
+    where?: ProductCategoryWhereInput
+    /**
+     * Limit how many ProductCategories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProductCategory updateManyAndReturn
+   */
+  export type ProductCategoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * The data used to update ProductCategories.
+     */
+    data: XOR<ProductCategoryUpdateManyMutationInput, ProductCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which ProductCategories to update
+     */
+    where?: ProductCategoryWhereInput
+    /**
+     * Limit how many ProductCategories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProductCategory upsert
+   */
+  export type ProductCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProductCategory to update in case it exists.
+     */
+    where: ProductCategoryWhereUniqueInput
+    /**
+     * In case the ProductCategory found by the `where` argument doesn't exist, create a new ProductCategory with this data.
+     */
+    create: XOR<ProductCategoryCreateInput, ProductCategoryUncheckedCreateInput>
+    /**
+     * In case the ProductCategory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProductCategoryUpdateInput, ProductCategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * ProductCategory delete
+   */
+  export type ProductCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    /**
+     * Filter which ProductCategory to delete.
+     */
+    where: ProductCategoryWhereUniqueInput
+  }
+
+  /**
+   * ProductCategory deleteMany
+   */
+  export type ProductCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProductCategories to delete
+     */
+    where?: ProductCategoryWhereInput
+    /**
+     * Limit how many ProductCategories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProductCategory.parent
+   */
+  export type ProductCategory$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    where?: ProductCategoryWhereInput
+  }
+
+  /**
+   * ProductCategory.children
+   */
+  export type ProductCategory$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+    where?: ProductCategoryWhereInput
+    orderBy?: ProductCategoryOrderByWithRelationInput | ProductCategoryOrderByWithRelationInput[]
+    cursor?: ProductCategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductCategoryScalarFieldEnum | ProductCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * ProductCategory without action
+   */
+  export type ProductCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCategory
+     */
+    select?: ProductCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCategory
+     */
+    omit?: ProductCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -108748,6 +110081,9 @@ export namespace Prisma {
     code: 'code',
     name: 'name',
     description: 'description',
+    categoryId: 'categoryId',
+    variantAxes: 'variantAxes',
+    attributes: 'attributes',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -108765,6 +110101,7 @@ export namespace Prisma {
     baseUom: 'baseUom',
     lotTracked: 'lotTracked',
     shelfLifeDays: 'shelfLifeDays',
+    variantValues: 'variantValues',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -109604,6 +110941,18 @@ export namespace Prisma {
   export type SecurityEventScalarFieldEnum = (typeof SecurityEventScalarFieldEnum)[keyof typeof SecurityEventScalarFieldEnum]
 
 
+  export const ProductCategoryScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    parentId: 'parentId',
+    createdAt: 'createdAt'
+  };
+
+  export type ProductCategoryScalarFieldEnum = (typeof ProductCategoryScalarFieldEnum)[keyof typeof ProductCategoryScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -110437,6 +111786,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
     securityEvents?: SecurityEventListRelationFilter
+    productCategories?: ProductCategoryListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -110520,6 +111870,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryOrderByRelationAggregateInput
     apiKeys?: ApiKeyOrderByRelationAggregateInput
     securityEvents?: SecurityEventOrderByRelationAggregateInput
+    productCategories?: ProductCategoryOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -110606,6 +111957,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
     securityEvents?: SecurityEventListRelationFilter
+    productCategories?: ProductCategoryListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -112566,6 +113918,9 @@ export namespace Prisma {
     code?: StringFilter<"Product"> | string
     name?: StringFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
+    categoryId?: UuidNullableFilter<"Product"> | string | null
+    variantAxes?: StringNullableListFilter<"Product">
+    attributes?: JsonNullableFilter<"Product">
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
@@ -112579,6 +113934,9 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
+    variantAxes?: SortOrder
+    attributes?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -112596,6 +113954,9 @@ export namespace Prisma {
     code?: StringFilter<"Product"> | string
     name?: StringFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
+    categoryId?: UuidNullableFilter<"Product"> | string | null
+    variantAxes?: StringNullableListFilter<"Product">
+    attributes?: JsonNullableFilter<"Product">
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
@@ -112609,6 +113970,9 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
+    variantAxes?: SortOrder
+    attributes?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -112626,6 +113990,9 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"Product"> | string
     name?: StringWithAggregatesFilter<"Product"> | string
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
+    categoryId?: UuidNullableWithAggregatesFilter<"Product"> | string | null
+    variantAxes?: StringNullableListFilter<"Product">
+    attributes?: JsonNullableWithAggregatesFilter<"Product">
     status?: EnumProductStatusWithAggregatesFilter<"Product"> | $Enums.ProductStatus
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
@@ -112643,6 +114010,7 @@ export namespace Prisma {
     baseUom?: StringFilter<"Sku"> | string
     lotTracked?: BoolFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
+    variantValues?: JsonNullableFilter<"Sku">
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -112660,6 +114028,7 @@ export namespace Prisma {
     baseUom?: SortOrder
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrderInput | SortOrder
+    variantValues?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -112681,6 +114050,7 @@ export namespace Prisma {
     baseUom?: StringFilter<"Sku"> | string
     lotTracked?: BoolFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
+    variantValues?: JsonNullableFilter<"Sku">
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -112698,6 +114068,7 @@ export namespace Prisma {
     baseUom?: SortOrder
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrderInput | SortOrder
+    variantValues?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -112720,6 +114091,7 @@ export namespace Prisma {
     baseUom?: StringWithAggregatesFilter<"Sku"> | string
     lotTracked?: BoolWithAggregatesFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableWithAggregatesFilter<"Sku"> | number | null
+    variantValues?: JsonNullableWithAggregatesFilter<"Sku">
     status?: EnumSkuStatusWithAggregatesFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
@@ -117085,6 +118457,73 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"SecurityEvent"> | Date | string
   }
 
+  export type ProductCategoryWhereInput = {
+    AND?: ProductCategoryWhereInput | ProductCategoryWhereInput[]
+    OR?: ProductCategoryWhereInput[]
+    NOT?: ProductCategoryWhereInput | ProductCategoryWhereInput[]
+    id?: UuidFilter<"ProductCategory"> | string
+    tenantId?: UuidFilter<"ProductCategory"> | string
+    code?: StringFilter<"ProductCategory"> | string
+    name?: StringFilter<"ProductCategory"> | string
+    parentId?: UuidNullableFilter<"ProductCategory"> | string | null
+    createdAt?: DateTimeFilter<"ProductCategory"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    parent?: XOR<ProductCategoryNullableScalarRelationFilter, ProductCategoryWhereInput> | null
+    children?: ProductCategoryListRelationFilter
+  }
+
+  export type ProductCategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    parent?: ProductCategoryOrderByWithRelationInput
+    children?: ProductCategoryOrderByRelationAggregateInput
+  }
+
+  export type ProductCategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: ProductCategoryTenantIdCodeCompoundUniqueInput
+    AND?: ProductCategoryWhereInput | ProductCategoryWhereInput[]
+    OR?: ProductCategoryWhereInput[]
+    NOT?: ProductCategoryWhereInput | ProductCategoryWhereInput[]
+    tenantId?: UuidFilter<"ProductCategory"> | string
+    code?: StringFilter<"ProductCategory"> | string
+    name?: StringFilter<"ProductCategory"> | string
+    parentId?: UuidNullableFilter<"ProductCategory"> | string | null
+    createdAt?: DateTimeFilter<"ProductCategory"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    parent?: XOR<ProductCategoryNullableScalarRelationFilter, ProductCategoryWhereInput> | null
+    children?: ProductCategoryListRelationFilter
+  }, "id" | "tenantId_code">
+
+  export type ProductCategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ProductCategoryCountOrderByAggregateInput
+    _max?: ProductCategoryMaxOrderByAggregateInput
+    _min?: ProductCategoryMinOrderByAggregateInput
+  }
+
+  export type ProductCategoryScalarWhereWithAggregatesInput = {
+    AND?: ProductCategoryScalarWhereWithAggregatesInput | ProductCategoryScalarWhereWithAggregatesInput[]
+    OR?: ProductCategoryScalarWhereWithAggregatesInput[]
+    NOT?: ProductCategoryScalarWhereWithAggregatesInput | ProductCategoryScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"ProductCategory"> | string
+    tenantId?: UuidWithAggregatesFilter<"ProductCategory"> | string
+    code?: StringWithAggregatesFilter<"ProductCategory"> | string
+    name?: StringWithAggregatesFilter<"ProductCategory"> | string
+    parentId?: UuidNullableWithAggregatesFilter<"ProductCategory"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ProductCategory"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -117166,6 +118605,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -117249,6 +118689,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -117332,6 +118773,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -117415,6 +118857,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -119461,6 +120904,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119474,6 +120920,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119485,6 +120934,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119498,6 +120950,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119510,6 +120965,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119520,6 +120978,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119531,6 +120992,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119544,6 +121008,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119561,6 +121026,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119576,6 +121042,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119593,6 +121060,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119609,6 +121077,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119622,6 +121091,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119636,6 +121106,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -124322,6 +125793,71 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProductCategoryCreateInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutProductCategoriesInput
+    parent?: ProductCategoryCreateNestedOneWithoutChildrenInput
+    children?: ProductCategoryCreateNestedManyWithoutParentInput
+  }
+
+  export type ProductCategoryUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+    children?: ProductCategoryUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type ProductCategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutProductCategoriesNestedInput
+    parent?: ProductCategoryUpdateOneWithoutChildrenNestedInput
+    children?: ProductCategoryUpdateManyWithoutParentNestedInput
+  }
+
+  export type ProductCategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ProductCategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type ProductCategoryCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ProductCategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductCategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -124816,6 +126352,12 @@ export namespace Prisma {
     none?: SecurityEventWhereInput
   }
 
+  export type ProductCategoryListRelationFilter = {
+    every?: ProductCategoryWhereInput
+    some?: ProductCategoryWhereInput
+    none?: ProductCategoryWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -125105,6 +126647,10 @@ export namespace Prisma {
   }
 
   export type SecurityEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProductCategoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -126699,6 +128245,14 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type EnumProductStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ProductStatus | EnumProductStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
@@ -126727,6 +128281,9 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    categoryId?: SortOrder
+    variantAxes?: SortOrder
+    attributes?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -126738,6 +128295,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    categoryId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -126749,6 +128307,7 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    categoryId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -126821,6 +128380,7 @@ export namespace Prisma {
     baseUom?: SortOrder
     lotTracked?: SortOrder
     shelfLifeDays?: SortOrder
+    variantValues?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -127474,14 +129034,6 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
   }
 
   export type EnumCrmAccountStatusFilter<$PrismaModel = never> = {
@@ -130111,6 +131663,43 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type ProductCategoryNullableScalarRelationFilter = {
+    is?: ProductCategoryWhereInput | null
+    isNot?: ProductCategoryWhereInput | null
+  }
+
+  export type ProductCategoryTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type ProductCategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProductCategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProductCategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -130622,6 +132211,13 @@ export namespace Prisma {
     connect?: SecurityEventWhereUniqueInput | SecurityEventWhereUniqueInput[]
   }
 
+  export type ProductCategoryCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ProductCategoryCreateWithoutTenantInput, ProductCategoryUncheckedCreateWithoutTenantInput> | ProductCategoryCreateWithoutTenantInput[] | ProductCategoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutTenantInput | ProductCategoryCreateOrConnectWithoutTenantInput[]
+    createMany?: ProductCategoryCreateManyTenantInputEnvelope
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -131131,6 +132727,13 @@ export namespace Prisma {
     connectOrCreate?: SecurityEventCreateOrConnectWithoutTenantInput | SecurityEventCreateOrConnectWithoutTenantInput[]
     createMany?: SecurityEventCreateManyTenantInputEnvelope
     connect?: SecurityEventWhereUniqueInput | SecurityEventWhereUniqueInput[]
+  }
+
+  export type ProductCategoryUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ProductCategoryCreateWithoutTenantInput, ProductCategoryUncheckedCreateWithoutTenantInput> | ProductCategoryCreateWithoutTenantInput[] | ProductCategoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutTenantInput | ProductCategoryCreateOrConnectWithoutTenantInput[]
+    createMany?: ProductCategoryCreateManyTenantInputEnvelope
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -132175,6 +133778,20 @@ export namespace Prisma {
     deleteMany?: SecurityEventScalarWhereInput | SecurityEventScalarWhereInput[]
   }
 
+  export type ProductCategoryUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ProductCategoryCreateWithoutTenantInput, ProductCategoryUncheckedCreateWithoutTenantInput> | ProductCategoryCreateWithoutTenantInput[] | ProductCategoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutTenantInput | ProductCategoryCreateOrConnectWithoutTenantInput[]
+    upsert?: ProductCategoryUpsertWithWhereUniqueWithoutTenantInput | ProductCategoryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ProductCategoryCreateManyTenantInputEnvelope
+    set?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    disconnect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    delete?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    update?: ProductCategoryUpdateWithWhereUniqueWithoutTenantInput | ProductCategoryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ProductCategoryUpdateManyWithWhereWithoutTenantInput | ProductCategoryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ProductCategoryScalarWhereInput | ProductCategoryScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -133195,6 +134812,20 @@ export namespace Prisma {
     update?: SecurityEventUpdateWithWhereUniqueWithoutTenantInput | SecurityEventUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: SecurityEventUpdateManyWithWhereWithoutTenantInput | SecurityEventUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: SecurityEventScalarWhereInput | SecurityEventScalarWhereInput[]
+  }
+
+  export type ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ProductCategoryCreateWithoutTenantInput, ProductCategoryUncheckedCreateWithoutTenantInput> | ProductCategoryCreateWithoutTenantInput[] | ProductCategoryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutTenantInput | ProductCategoryCreateOrConnectWithoutTenantInput[]
+    upsert?: ProductCategoryUpsertWithWhereUniqueWithoutTenantInput | ProductCategoryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ProductCategoryCreateManyTenantInputEnvelope
+    set?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    disconnect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    delete?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    update?: ProductCategoryUpdateWithWhereUniqueWithoutTenantInput | ProductCategoryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ProductCategoryUpdateManyWithWhereWithoutTenantInput | ProductCategoryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ProductCategoryScalarWhereInput | ProductCategoryScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -134331,6 +135962,10 @@ export namespace Prisma {
     update?: XOR<XOR<PartyUpdateToOneWithWhereWithoutExternalIdentitiesInput, PartyUpdateWithoutExternalIdentitiesInput>, PartyUncheckedUpdateWithoutExternalIdentitiesInput>
   }
 
+  export type ProductCreatevariantAxesInput = {
+    set: string[]
+  }
+
   export type TenantCreateNestedOneWithoutProductsInput = {
     create?: XOR<TenantCreateWithoutProductsInput, TenantUncheckedCreateWithoutProductsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutProductsInput
@@ -134349,6 +135984,11 @@ export namespace Prisma {
     connectOrCreate?: SkuCreateOrConnectWithoutProductInput | SkuCreateOrConnectWithoutProductInput[]
     createMany?: SkuCreateManyProductInputEnvelope
     connect?: SkuWhereUniqueInput | SkuWhereUniqueInput[]
+  }
+
+  export type ProductUpdatevariantAxesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type EnumProductStatusFieldUpdateOperationsInput = {
@@ -136363,6 +138003,78 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSecurityEventsInput, TenantUpdateWithoutSecurityEventsInput>, TenantUncheckedUpdateWithoutSecurityEventsInput>
   }
 
+  export type TenantCreateNestedOneWithoutProductCategoriesInput = {
+    create?: XOR<TenantCreateWithoutProductCategoriesInput, TenantUncheckedCreateWithoutProductCategoriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutProductCategoriesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type ProductCategoryCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<ProductCategoryCreateWithoutChildrenInput, ProductCategoryUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutChildrenInput
+    connect?: ProductCategoryWhereUniqueInput
+  }
+
+  export type ProductCategoryCreateNestedManyWithoutParentInput = {
+    create?: XOR<ProductCategoryCreateWithoutParentInput, ProductCategoryUncheckedCreateWithoutParentInput> | ProductCategoryCreateWithoutParentInput[] | ProductCategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutParentInput | ProductCategoryCreateOrConnectWithoutParentInput[]
+    createMany?: ProductCategoryCreateManyParentInputEnvelope
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+  }
+
+  export type ProductCategoryUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<ProductCategoryCreateWithoutParentInput, ProductCategoryUncheckedCreateWithoutParentInput> | ProductCategoryCreateWithoutParentInput[] | ProductCategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutParentInput | ProductCategoryCreateOrConnectWithoutParentInput[]
+    createMany?: ProductCategoryCreateManyParentInputEnvelope
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutProductCategoriesNestedInput = {
+    create?: XOR<TenantCreateWithoutProductCategoriesInput, TenantUncheckedCreateWithoutProductCategoriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutProductCategoriesInput
+    upsert?: TenantUpsertWithoutProductCategoriesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutProductCategoriesInput, TenantUpdateWithoutProductCategoriesInput>, TenantUncheckedUpdateWithoutProductCategoriesInput>
+  }
+
+  export type ProductCategoryUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<ProductCategoryCreateWithoutChildrenInput, ProductCategoryUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutChildrenInput
+    upsert?: ProductCategoryUpsertWithoutChildrenInput
+    disconnect?: ProductCategoryWhereInput | boolean
+    delete?: ProductCategoryWhereInput | boolean
+    connect?: ProductCategoryWhereUniqueInput
+    update?: XOR<XOR<ProductCategoryUpdateToOneWithWhereWithoutChildrenInput, ProductCategoryUpdateWithoutChildrenInput>, ProductCategoryUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type ProductCategoryUpdateManyWithoutParentNestedInput = {
+    create?: XOR<ProductCategoryCreateWithoutParentInput, ProductCategoryUncheckedCreateWithoutParentInput> | ProductCategoryCreateWithoutParentInput[] | ProductCategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutParentInput | ProductCategoryCreateOrConnectWithoutParentInput[]
+    upsert?: ProductCategoryUpsertWithWhereUniqueWithoutParentInput | ProductCategoryUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: ProductCategoryCreateManyParentInputEnvelope
+    set?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    disconnect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    delete?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    update?: ProductCategoryUpdateWithWhereUniqueWithoutParentInput | ProductCategoryUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: ProductCategoryUpdateManyWithWhereWithoutParentInput | ProductCategoryUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: ProductCategoryScalarWhereInput | ProductCategoryScalarWhereInput[]
+  }
+
+  export type ProductCategoryUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<ProductCategoryCreateWithoutParentInput, ProductCategoryUncheckedCreateWithoutParentInput> | ProductCategoryCreateWithoutParentInput[] | ProductCategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ProductCategoryCreateOrConnectWithoutParentInput | ProductCategoryCreateOrConnectWithoutParentInput[]
+    upsert?: ProductCategoryUpsertWithWhereUniqueWithoutParentInput | ProductCategoryUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: ProductCategoryCreateManyParentInputEnvelope
+    set?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    disconnect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    delete?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    connect?: ProductCategoryWhereUniqueInput | ProductCategoryWhereUniqueInput[]
+    update?: ProductCategoryUpdateWithWhereUniqueWithoutParentInput | ProductCategoryUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: ProductCategoryUpdateManyWithWhereWithoutParentInput | ProductCategoryUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: ProductCategoryScalarWhereInput | ProductCategoryScalarWhereInput[]
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -138111,6 +139823,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -138122,6 +139837,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -139868,6 +141586,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProductCategoryCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    parent?: ProductCategoryCreateNestedOneWithoutChildrenInput
+    children?: ProductCategoryCreateNestedManyWithoutParentInput
+  }
+
+  export type ProductCategoryUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+    children?: ProductCategoryUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type ProductCategoryCreateOrConnectWithoutTenantInput = {
+    where: ProductCategoryWhereUniqueInput
+    create: XOR<ProductCategoryCreateWithoutTenantInput, ProductCategoryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ProductCategoryCreateManyTenantInputEnvelope = {
+    data: ProductCategoryCreateManyTenantInput | ProductCategoryCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -140519,6 +142265,9 @@ export namespace Prisma {
     code?: StringFilter<"Product"> | string
     name?: StringFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
+    categoryId?: UuidNullableFilter<"Product"> | string | null
+    variantAxes?: StringNullableListFilter<"Product">
+    attributes?: JsonNullableFilter<"Product">
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
@@ -142137,6 +143886,34 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"SecurityEvent"> | Date | string
   }
 
+  export type ProductCategoryUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ProductCategoryWhereUniqueInput
+    update: XOR<ProductCategoryUpdateWithoutTenantInput, ProductCategoryUncheckedUpdateWithoutTenantInput>
+    create: XOR<ProductCategoryCreateWithoutTenantInput, ProductCategoryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ProductCategoryUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ProductCategoryWhereUniqueInput
+    data: XOR<ProductCategoryUpdateWithoutTenantInput, ProductCategoryUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ProductCategoryUpdateManyWithWhereWithoutTenantInput = {
+    where: ProductCategoryScalarWhereInput
+    data: XOR<ProductCategoryUpdateManyMutationInput, ProductCategoryUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ProductCategoryScalarWhereInput = {
+    AND?: ProductCategoryScalarWhereInput | ProductCategoryScalarWhereInput[]
+    OR?: ProductCategoryScalarWhereInput[]
+    NOT?: ProductCategoryScalarWhereInput | ProductCategoryScalarWhereInput[]
+    id?: UuidFilter<"ProductCategory"> | string
+    tenantId?: UuidFilter<"ProductCategory"> | string
+    code?: StringFilter<"ProductCategory"> | string
+    name?: StringFilter<"ProductCategory"> | string
+    parentId?: UuidNullableFilter<"ProductCategory"> | string | null
+    createdAt?: DateTimeFilter<"ProductCategory"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -142217,6 +143994,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -142299,6 +144077,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -142397,6 +144176,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -142479,6 +144259,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -142561,6 +144342,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -142643,6 +144425,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -142775,6 +144558,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -142857,6 +144641,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -142955,6 +144740,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -143037,6 +144823,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -143273,6 +145060,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -143355,6 +145143,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -143549,6 +145338,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -143631,6 +145421,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -143758,6 +145549,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -143840,6 +145632,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -143957,6 +145750,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -144039,6 +145833,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -144166,6 +145961,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -144248,6 +146044,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -144365,6 +146162,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -144447,6 +146245,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -144573,6 +146372,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -144655,6 +146455,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -144753,6 +146554,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -144835,6 +146637,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -144983,6 +146786,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -145065,6 +146869,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -145245,6 +147050,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -145327,6 +147133,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -145477,6 +147284,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -145559,6 +147367,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -145705,6 +147514,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -145787,6 +147597,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -145885,6 +147696,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -145967,6 +147779,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -146049,6 +147862,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -146131,6 +147945,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -146229,6 +148044,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -146311,6 +148127,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -146393,6 +148210,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -146475,6 +148293,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -146573,6 +148392,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -146655,6 +148475,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -146737,6 +148558,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -146819,6 +148641,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -146917,6 +148740,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -146999,6 +148823,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -147081,6 +148906,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -147163,6 +148989,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -147261,6 +149088,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -147343,6 +149171,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -147425,6 +149254,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -147507,6 +149337,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -147605,6 +149436,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -147687,6 +149519,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -147769,6 +149602,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -147851,6 +149685,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -147949,6 +149784,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -148031,6 +149867,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -148113,6 +149950,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -148195,6 +150033,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -148355,6 +150194,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -148437,6 +150277,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -148777,6 +150618,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -148859,6 +150701,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -148985,6 +150828,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -149067,6 +150911,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -149222,6 +151067,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -149304,6 +151150,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -149402,6 +151249,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -149484,6 +151332,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -149566,6 +151415,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -149648,6 +151498,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -149746,6 +151597,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -149828,6 +151680,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -149910,6 +151763,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -149992,6 +151846,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -150116,6 +151971,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -150198,6 +152054,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -150352,6 +152209,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -150434,6 +152292,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -150633,6 +152492,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -150715,6 +152575,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -150958,6 +152819,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -151040,6 +152902,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -151055,6 +152918,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151070,6 +152934,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151178,6 +153043,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -151260,6 +153126,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -151290,6 +153157,7 @@ export namespace Prisma {
     baseUom?: StringFilter<"Sku"> | string
     lotTracked?: BoolFilter<"Sku"> | boolean
     shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
+    variantValues?: JsonNullableFilter<"Sku">
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -151300,6 +153168,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151312,6 +153183,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151390,6 +153264,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151402,6 +153279,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151471,6 +153351,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151487,6 +153368,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151517,6 +153399,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151533,6 +153416,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151547,6 +153431,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151563,6 +153448,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151593,6 +153479,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151609,6 +153496,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151695,6 +153583,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -151777,6 +153666,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -151897,6 +153787,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -151979,6 +153870,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -152131,6 +154023,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -152213,6 +154106,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -152311,6 +154205,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -152393,6 +154288,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -152475,6 +154371,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -152557,6 +154454,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -152655,6 +154553,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -152737,6 +154636,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -152819,6 +154719,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -152901,6 +154802,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -152999,6 +154901,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -153081,6 +154984,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -153163,6 +155067,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -153245,6 +155150,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -153343,6 +155249,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -153425,6 +155332,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -153507,6 +155415,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -153589,6 +155498,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -153713,6 +155623,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -153795,6 +155706,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -153893,6 +155805,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -153975,6 +155888,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -154106,6 +156020,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -154188,6 +156103,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -154309,6 +156225,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -154391,6 +156308,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -154489,6 +156407,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -154571,6 +156490,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -154653,6 +156573,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -154735,6 +156656,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -154833,6 +156755,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -154915,6 +156838,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -154997,6 +156921,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -155079,6 +157004,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -155177,6 +157103,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -155259,6 +157186,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -155341,6 +157269,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -155423,6 +157352,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -155521,6 +157451,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -155603,6 +157534,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -155685,6 +157617,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -155767,6 +157700,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -155891,6 +157825,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -155973,6 +157908,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -156071,6 +158007,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -156153,6 +158090,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -156282,6 +158220,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -156364,6 +158303,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -156483,6 +158423,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -156565,6 +158506,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -156697,6 +158639,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -156779,6 +158722,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -156877,6 +158821,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -156959,6 +158904,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -157104,6 +159050,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -157186,6 +159133,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -157321,6 +159269,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -157403,6 +159352,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -157535,6 +159485,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -157617,6 +159568,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -157715,6 +159667,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -157797,6 +159750,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -157932,6 +159886,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -158014,6 +159969,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -158139,6 +160095,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -158221,6 +160178,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -158319,6 +160277,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -158401,6 +160360,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -158483,6 +160443,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -158565,6 +160526,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -158663,6 +160625,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -158745,6 +160708,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -158827,6 +160791,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -158909,6 +160874,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -159037,6 +161003,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -159119,6 +161086,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -159217,6 +161185,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -159299,6 +161268,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -159430,6 +161400,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -159512,6 +161483,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -159633,6 +161605,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -159715,6 +161688,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -159845,6 +161819,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -159927,6 +161902,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -160025,6 +162001,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -160107,6 +162084,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -160242,6 +162220,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -160324,6 +162303,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -160449,6 +162429,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -160531,6 +162512,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -160659,6 +162641,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -160741,6 +162724,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -160839,6 +162823,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -160921,6 +162906,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -161050,6 +163036,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -161132,6 +163119,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -161251,6 +163239,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -161333,6 +163322,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -161463,6 +163453,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -161545,6 +163536,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -161643,6 +163635,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -161725,6 +163718,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -161850,6 +163844,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -161932,6 +163927,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -162047,6 +164043,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -162129,6 +164126,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -162227,6 +164225,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -162309,6 +164308,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -162391,6 +164391,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -162473,6 +164474,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -162571,6 +164573,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -162653,6 +164656,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -162735,6 +164739,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -162817,6 +164822,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -162945,6 +164951,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -163027,6 +165034,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -163125,6 +165133,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -163207,6 +165216,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -163330,6 +165340,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -163412,6 +165423,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -163525,6 +165537,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -163607,6 +165620,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -163737,6 +165751,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -163819,6 +165834,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -163917,6 +165933,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -163999,6 +166016,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -164140,6 +166158,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -164222,6 +166241,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -164353,6 +166373,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -164435,6 +166456,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -164559,6 +166581,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -164641,6 +166664,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -164739,6 +166763,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -164821,6 +166846,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -164946,6 +166972,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -165028,6 +167055,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -165143,6 +167171,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -165225,6 +167254,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -165353,6 +167383,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -165435,6 +167466,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -165533,6 +167565,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -165615,6 +167648,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -165748,6 +167782,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -165830,6 +167865,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -165953,6 +167989,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -166035,6 +168072,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -166133,6 +168171,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -166215,6 +168254,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -166297,6 +168337,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -166379,6 +168420,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -166509,6 +168551,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -166591,6 +168634,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -166689,6 +168733,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -166771,6 +168816,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -166912,6 +168958,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -166994,6 +169041,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -167125,6 +169173,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -167207,6 +169256,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -167305,6 +169355,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -167387,6 +169438,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -167469,6 +169521,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -167551,6 +169604,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -167649,6 +169703,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -167731,6 +169786,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -167813,6 +169869,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -167895,6 +169952,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -168010,6 +170068,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -168092,6 +170151,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -168197,6 +170257,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -168279,6 +170340,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -168408,6 +170470,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -168490,6 +170553,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -168609,6 +170673,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -168691,6 +170756,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -168789,6 +170855,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -168871,6 +170938,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -168953,6 +171021,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -169035,6 +171104,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -169161,6 +171231,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -169243,6 +171314,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -169341,6 +171413,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -169423,6 +171496,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -169544,6 +171618,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -169626,6 +171701,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -169737,6 +171813,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -169819,6 +171896,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -169955,6 +172033,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -170037,6 +172116,7 @@ export namespace Prisma {
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -170135,6 +172215,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -170217,6 +172298,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -170342,6 +172424,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -170424,6 +172507,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -170539,6 +172623,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -170621,6 +172706,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -170719,6 +172805,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -170801,6 +172888,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -170883,6 +172971,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
     webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -170965,6 +173054,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
     webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -171063,6 +173153,7 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
     webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -171145,6 +173236,451 @@ export namespace Prisma {
     webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
     webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutProductCategoriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutProductCategoriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutProductCategoriesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutProductCategoriesInput, TenantUncheckedCreateWithoutProductCategoriesInput>
+  }
+
+  export type ProductCategoryCreateWithoutChildrenInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutProductCategoriesInput
+    parent?: ProductCategoryCreateNestedOneWithoutChildrenInput
+  }
+
+  export type ProductCategoryUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ProductCategoryCreateOrConnectWithoutChildrenInput = {
+    where: ProductCategoryWhereUniqueInput
+    create: XOR<ProductCategoryCreateWithoutChildrenInput, ProductCategoryUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type ProductCategoryCreateWithoutParentInput = {
+    id?: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutProductCategoriesInput
+    children?: ProductCategoryCreateNestedManyWithoutParentInput
+  }
+
+  export type ProductCategoryUncheckedCreateWithoutParentInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    createdAt?: Date | string
+    children?: ProductCategoryUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type ProductCategoryCreateOrConnectWithoutParentInput = {
+    where: ProductCategoryWhereUniqueInput
+    create: XOR<ProductCategoryCreateWithoutParentInput, ProductCategoryUncheckedCreateWithoutParentInput>
+  }
+
+  export type ProductCategoryCreateManyParentInputEnvelope = {
+    data: ProductCategoryCreateManyParentInput | ProductCategoryCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutProductCategoriesInput = {
+    update: XOR<TenantUpdateWithoutProductCategoriesInput, TenantUncheckedUpdateWithoutProductCategoriesInput>
+    create: XOR<TenantCreateWithoutProductCategoriesInput, TenantUncheckedCreateWithoutProductCategoriesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutProductCategoriesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutProductCategoriesInput, TenantUncheckedUpdateWithoutProductCategoriesInput>
+  }
+
+  export type TenantUpdateWithoutProductCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ProductCategoryUpsertWithoutChildrenInput = {
+    update: XOR<ProductCategoryUpdateWithoutChildrenInput, ProductCategoryUncheckedUpdateWithoutChildrenInput>
+    create: XOR<ProductCategoryCreateWithoutChildrenInput, ProductCategoryUncheckedCreateWithoutChildrenInput>
+    where?: ProductCategoryWhereInput
+  }
+
+  export type ProductCategoryUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: ProductCategoryWhereInput
+    data: XOR<ProductCategoryUpdateWithoutChildrenInput, ProductCategoryUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type ProductCategoryUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutProductCategoriesNestedInput
+    parent?: ProductCategoryUpdateOneWithoutChildrenNestedInput
+  }
+
+  export type ProductCategoryUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductCategoryUpsertWithWhereUniqueWithoutParentInput = {
+    where: ProductCategoryWhereUniqueInput
+    update: XOR<ProductCategoryUpdateWithoutParentInput, ProductCategoryUncheckedUpdateWithoutParentInput>
+    create: XOR<ProductCategoryCreateWithoutParentInput, ProductCategoryUncheckedCreateWithoutParentInput>
+  }
+
+  export type ProductCategoryUpdateWithWhereUniqueWithoutParentInput = {
+    where: ProductCategoryWhereUniqueInput
+    data: XOR<ProductCategoryUpdateWithoutParentInput, ProductCategoryUncheckedUpdateWithoutParentInput>
+  }
+
+  export type ProductCategoryUpdateManyWithWhereWithoutParentInput = {
+    where: ProductCategoryScalarWhereInput
+    data: XOR<ProductCategoryUpdateManyMutationInput, ProductCategoryUncheckedUpdateManyWithoutParentInput>
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -171358,6 +173894,9 @@ export namespace Prisma {
     code: string
     name: string
     description?: string | null
+    categoryId?: string | null
+    variantAxes?: ProductCreatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -171953,6 +174492,14 @@ export namespace Prisma {
     eventType: string
     subject?: string | null
     detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ProductCategoryCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: string
+    parentId?: string | null
     createdAt?: Date | string
   }
 
@@ -172605,6 +175152,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -172616,6 +175166,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -172627,6 +175180,9 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    variantAxes?: ProductUpdatevariantAxesInput | string[]
+    attributes?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -174445,6 +177001,32 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProductCategoryUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: ProductCategoryUpdateOneWithoutChildrenNestedInput
+    children?: ProductCategoryUpdateManyWithoutParentNestedInput
+  }
+
+  export type ProductCategoryUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ProductCategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type ProductCategoryUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -174983,6 +177565,7 @@ export namespace Prisma {
     baseUom: string
     lotTracked?: boolean
     shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174996,6 +177579,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -175011,6 +177595,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -175026,6 +177611,7 @@ export namespace Prisma {
     baseUom?: StringFieldUpdateOperationsInput | string
     lotTracked?: BoolFieldUpdateOperationsInput | boolean
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -175736,6 +178322,40 @@ export namespace Prisma {
     nextAttemptAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductCategoryCreateManyParentInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ProductCategoryUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutProductCategoriesNestedInput
+    children?: ProductCategoryUpdateManyWithoutParentNestedInput
+  }
+
+  export type ProductCategoryUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ProductCategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type ProductCategoryUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -113,6 +113,7 @@ model Tenant {
   webhookDeliveries     WebhookDelivery[]
   apiKeys               ApiKey[]
   securityEvents        SecurityEvent[]
+  productCategories     ProductCategory[]
 
   @@map("tenant")
 }
@@ -691,6 +692,10 @@ model Product {
   code        String
   name        String
   description String?
+  /// Sprint 025 (PIM-004/002/003): merchandising structure.
+  categoryId  String?       @map("category_id") @db.Uuid
+  variantAxes String[]      @default([]) @map("variant_axes")
+  attributes  Json?
   status      ProductStatus @default(DRAFT)
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
@@ -714,6 +719,8 @@ model Sku {
   /// lot on every inbound movement; shelf life derives expiry.
   lotTracked    Boolean   @default(false) @map("lot_tracked")
   shelfLifeDays Int?      @map("shelf_life_days")
+  /// Sprint 025 (PIM-002): variant coordinates, e.g. {"color":"red"}.
+  variantValues Json?     @map("variant_values")
   status        SkuStatus @default(DRAFT)
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
@@ -2072,4 +2079,25 @@ model SecurityEvent {
 
   @@index([tenantId, createdAt])
   @@map("security_event")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 025 — PIM depth: category tree (PIM-004); variants and typed
+// attributes live on Product/Sku (PIM-002/003).
+// ---------------------------------------------------------------------------
+
+model ProductCategory {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  code      String
+  name      String
+  parentId  String?  @map("parent_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant   Tenant            @relation(fields: [tenantId], references: [id])
+  parent   ProductCategory?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children ProductCategory[] @relation("CategoryTree")
+
+  @@unique([tenantId, code])
+  @@map("product_category")
 }

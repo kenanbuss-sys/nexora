@@ -421,6 +421,9 @@ exports.Prisma.ProductScalarFieldEnum = {
   code: 'code',
   name: 'name',
   description: 'description',
+  categoryId: 'categoryId',
+  variantAxes: 'variantAxes',
+  attributes: 'attributes',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -435,6 +438,7 @@ exports.Prisma.SkuScalarFieldEnum = {
   baseUom: 'baseUom',
   lotTracked: 'lotTracked',
   shelfLifeDays: 'shelfLifeDays',
+  variantValues: 'variantValues',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1109,6 +1113,15 @@ exports.Prisma.SecurityEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ProductCategoryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  parentId: 'parentId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1499,7 +1512,8 @@ exports.Prisma.ModelName = {
   WebhookSubscription: 'WebhookSubscription',
   WebhookDelivery: 'WebhookDelivery',
   ApiKey: 'ApiKey',
-  SecurityEvent: 'SecurityEvent'
+  SecurityEvent: 'SecurityEvent',
+  ProductCategory: 'ProductCategory'
 };
 
 /**
