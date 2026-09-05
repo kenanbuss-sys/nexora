@@ -433,6 +433,8 @@ exports.Prisma.SkuScalarFieldEnum = {
   code: 'code',
   name: 'name',
   baseUom: 'baseUom',
+  lotTracked: 'lotTracked',
+  shelfLifeDays: 'shelfLifeDays',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -480,6 +482,8 @@ exports.Prisma.StockMovementScalarFieldEnum = {
   quantity: 'quantity',
   reason: 'reason',
   idempotencyKey: 'idempotencyKey',
+  lotNumber: 'lotNumber',
+  expiresAt: 'expiresAt',
   occurredAt: 'occurredAt',
   createdBy: 'createdBy'
 };

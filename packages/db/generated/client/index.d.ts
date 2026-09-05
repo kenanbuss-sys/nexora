@@ -45012,8 +45012,18 @@ export namespace Prisma {
 
   export type AggregateSku = {
     _count: SkuCountAggregateOutputType | null
+    _avg: SkuAvgAggregateOutputType | null
+    _sum: SkuSumAggregateOutputType | null
     _min: SkuMinAggregateOutputType | null
     _max: SkuMaxAggregateOutputType | null
+  }
+
+  export type SkuAvgAggregateOutputType = {
+    shelfLifeDays: number | null
+  }
+
+  export type SkuSumAggregateOutputType = {
+    shelfLifeDays: number | null
   }
 
   export type SkuMinAggregateOutputType = {
@@ -45023,6 +45033,8 @@ export namespace Prisma {
     code: string | null
     name: string | null
     baseUom: string | null
+    lotTracked: boolean | null
+    shelfLifeDays: number | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -45035,6 +45047,8 @@ export namespace Prisma {
     code: string | null
     name: string | null
     baseUom: string | null
+    lotTracked: boolean | null
+    shelfLifeDays: number | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -45047,12 +45061,22 @@ export namespace Prisma {
     code: number
     name: number
     baseUom: number
+    lotTracked: number
+    shelfLifeDays: number
     status: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type SkuAvgAggregateInputType = {
+    shelfLifeDays?: true
+  }
+
+  export type SkuSumAggregateInputType = {
+    shelfLifeDays?: true
+  }
 
   export type SkuMinAggregateInputType = {
     id?: true
@@ -45061,6 +45085,8 @@ export namespace Prisma {
     code?: true
     name?: true
     baseUom?: true
+    lotTracked?: true
+    shelfLifeDays?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -45073,6 +45099,8 @@ export namespace Prisma {
     code?: true
     name?: true
     baseUom?: true
+    lotTracked?: true
+    shelfLifeDays?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -45085,6 +45113,8 @@ export namespace Prisma {
     code?: true
     name?: true
     baseUom?: true
+    lotTracked?: true
+    shelfLifeDays?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -45129,6 +45159,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: SkuAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SkuSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: SkuMinAggregateInputType
@@ -45159,6 +45201,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SkuCountAggregateInputType | true
+    _avg?: SkuAvgAggregateInputType
+    _sum?: SkuSumAggregateInputType
     _min?: SkuMinAggregateInputType
     _max?: SkuMaxAggregateInputType
   }
@@ -45170,10 +45214,14 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked: boolean
+    shelfLifeDays: number | null
     status: $Enums.SkuStatus
     createdAt: Date
     updatedAt: Date
     _count: SkuCountAggregateOutputType | null
+    _avg: SkuAvgAggregateOutputType | null
+    _sum: SkuSumAggregateOutputType | null
     _min: SkuMinAggregateOutputType | null
     _max: SkuMaxAggregateOutputType | null
   }
@@ -45199,6 +45247,8 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     baseUom?: boolean
+    lotTracked?: boolean
+    shelfLifeDays?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -45215,6 +45265,8 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     baseUom?: boolean
+    lotTracked?: boolean
+    shelfLifeDays?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -45228,6 +45280,8 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     baseUom?: boolean
+    lotTracked?: boolean
+    shelfLifeDays?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -45241,12 +45295,14 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     baseUom?: boolean
+    lotTracked?: boolean
+    shelfLifeDays?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
+  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
   export type SkuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     barcodes?: boolean | Sku$barcodesArgs<ExtArgs>
@@ -45277,6 +45333,12 @@ export namespace Prisma {
        * Base unit of measure; cannot casually change once transactions exist.
        */
       baseUom: string
+      /**
+       * Sprint 022 (PIM-010/012): lot policy — lot-tracked SKUs demand a
+       * lot on every inbound movement; shelf life derives expiry.
+       */
+      lotTracked: boolean
+      shelfLifeDays: number | null
       status: $Enums.SkuStatus
       createdAt: Date
       updatedAt: Date
@@ -45712,6 +45774,8 @@ export namespace Prisma {
     readonly code: FieldRef<"Sku", 'String'>
     readonly name: FieldRef<"Sku", 'String'>
     readonly baseUom: FieldRef<"Sku", 'String'>
+    readonly lotTracked: FieldRef<"Sku", 'Boolean'>
+    readonly shelfLifeDays: FieldRef<"Sku", 'Int'>
     readonly status: FieldRef<"Sku", 'SkuStatus'>
     readonly createdAt: FieldRef<"Sku", 'DateTime'>
     readonly updatedAt: FieldRef<"Sku", 'DateTime'>
@@ -50503,6 +50567,8 @@ export namespace Prisma {
     quantity: Decimal | null
     reason: string | null
     idempotencyKey: string | null
+    lotNumber: string | null
+    expiresAt: Date | null
     occurredAt: Date | null
     createdBy: string | null
   }
@@ -50517,6 +50583,8 @@ export namespace Prisma {
     quantity: Decimal | null
     reason: string | null
     idempotencyKey: string | null
+    lotNumber: string | null
+    expiresAt: Date | null
     occurredAt: Date | null
     createdBy: string | null
   }
@@ -50531,6 +50599,8 @@ export namespace Prisma {
     quantity: number
     reason: number
     idempotencyKey: number
+    lotNumber: number
+    expiresAt: number
     occurredAt: number
     createdBy: number
     _all: number
@@ -50555,6 +50625,8 @@ export namespace Prisma {
     quantity?: true
     reason?: true
     idempotencyKey?: true
+    lotNumber?: true
+    expiresAt?: true
     occurredAt?: true
     createdBy?: true
   }
@@ -50569,6 +50641,8 @@ export namespace Prisma {
     quantity?: true
     reason?: true
     idempotencyKey?: true
+    lotNumber?: true
+    expiresAt?: true
     occurredAt?: true
     createdBy?: true
   }
@@ -50583,6 +50657,8 @@ export namespace Prisma {
     quantity?: true
     reason?: true
     idempotencyKey?: true
+    lotNumber?: true
+    expiresAt?: true
     occurredAt?: true
     createdBy?: true
     _all?: true
@@ -50684,6 +50760,8 @@ export namespace Prisma {
     quantity: Decimal
     reason: string | null
     idempotencyKey: string
+    lotNumber: string | null
+    expiresAt: Date | null
     occurredAt: Date
     createdBy: string | null
     _count: StockMovementCountAggregateOutputType | null
@@ -50717,6 +50795,8 @@ export namespace Prisma {
     quantity?: boolean
     reason?: boolean
     idempotencyKey?: boolean
+    lotNumber?: boolean
+    expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -50732,6 +50812,8 @@ export namespace Prisma {
     quantity?: boolean
     reason?: boolean
     idempotencyKey?: boolean
+    lotNumber?: boolean
+    expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -50747,6 +50829,8 @@ export namespace Prisma {
     quantity?: boolean
     reason?: boolean
     idempotencyKey?: boolean
+    lotNumber?: boolean
+    expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -50762,11 +50846,13 @@ export namespace Prisma {
     quantity?: boolean
     reason?: boolean
     idempotencyKey?: boolean
+    lotNumber?: boolean
+    expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
   }
 
-  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "warehouseId" | "locationId" | "skuId" | "movementType" | "quantity" | "reason" | "idempotencyKey" | "occurredAt" | "createdBy", ExtArgs["result"]["stockMovement"]>
+  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "warehouseId" | "locationId" | "skuId" | "movementType" | "quantity" | "reason" | "idempotencyKey" | "lotNumber" | "expiresAt" | "occurredAt" | "createdBy", ExtArgs["result"]["stockMovement"]>
   export type StockMovementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -50798,6 +50884,11 @@ export namespace Prisma {
        * Business idempotency key: duplicate submissions produce one stock effect.
        */
       idempotencyKey: string
+      /**
+       * Sprint 022 (WMS-017/019): lot dimension on the ledger.
+       */
+      lotNumber: string | null
+      expiresAt: Date | null
       occurredAt: Date
       createdBy: string | null
     }, ExtArgs["result"]["stockMovement"]>
@@ -51233,6 +51324,8 @@ export namespace Prisma {
     readonly quantity: FieldRef<"StockMovement", 'Decimal'>
     readonly reason: FieldRef<"StockMovement", 'String'>
     readonly idempotencyKey: FieldRef<"StockMovement", 'String'>
+    readonly lotNumber: FieldRef<"StockMovement", 'String'>
+    readonly expiresAt: FieldRef<"StockMovement", 'DateTime'>
     readonly occurredAt: FieldRef<"StockMovement", 'DateTime'>
     readonly createdBy: FieldRef<"StockMovement", 'String'>
   }
@@ -108670,6 +108763,8 @@ export namespace Prisma {
     code: 'code',
     name: 'name',
     baseUom: 'baseUom',
+    lotTracked: 'lotTracked',
+    shelfLifeDays: 'shelfLifeDays',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -108732,6 +108827,8 @@ export namespace Prisma {
     quantity: 'quantity',
     reason: 'reason',
     idempotencyKey: 'idempotencyKey',
+    lotNumber: 'lotNumber',
+    expiresAt: 'expiresAt',
     occurredAt: 'occurredAt',
     createdBy: 'createdBy'
   };
@@ -112544,6 +112641,8 @@ export namespace Prisma {
     code?: StringFilter<"Sku"> | string
     name?: StringFilter<"Sku"> | string
     baseUom?: StringFilter<"Sku"> | string
+    lotTracked?: BoolFilter<"Sku"> | boolean
+    shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -112559,6 +112658,8 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     baseUom?: SortOrder
+    lotTracked?: SortOrder
+    shelfLifeDays?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -112578,6 +112679,8 @@ export namespace Prisma {
     code?: StringFilter<"Sku"> | string
     name?: StringFilter<"Sku"> | string
     baseUom?: StringFilter<"Sku"> | string
+    lotTracked?: BoolFilter<"Sku"> | boolean
+    shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -112593,12 +112696,16 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     baseUom?: SortOrder
+    lotTracked?: SortOrder
+    shelfLifeDays?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SkuCountOrderByAggregateInput
+    _avg?: SkuAvgOrderByAggregateInput
     _max?: SkuMaxOrderByAggregateInput
     _min?: SkuMinOrderByAggregateInput
+    _sum?: SkuSumOrderByAggregateInput
   }
 
   export type SkuScalarWhereWithAggregatesInput = {
@@ -112611,6 +112718,8 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"Sku"> | string
     name?: StringWithAggregatesFilter<"Sku"> | string
     baseUom?: StringWithAggregatesFilter<"Sku"> | string
+    lotTracked?: BoolWithAggregatesFilter<"Sku"> | boolean
+    shelfLifeDays?: IntNullableWithAggregatesFilter<"Sku"> | number | null
     status?: EnumSkuStatusWithAggregatesFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
@@ -112858,6 +112967,8 @@ export namespace Prisma {
     quantity?: DecimalFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string
     reason?: StringNullableFilter<"StockMovement"> | string | null
     idempotencyKey?: StringFilter<"StockMovement"> | string
+    lotNumber?: StringNullableFilter<"StockMovement"> | string | null
+    expiresAt?: DateTimeNullableFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableFilter<"StockMovement"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -112873,6 +112984,8 @@ export namespace Prisma {
     quantity?: SortOrder
     reason?: SortOrderInput | SortOrder
     idempotencyKey?: SortOrder
+    lotNumber?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -112892,6 +113005,8 @@ export namespace Prisma {
     quantity?: DecimalFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string
     reason?: StringNullableFilter<"StockMovement"> | string | null
     idempotencyKey?: StringFilter<"StockMovement"> | string
+    lotNumber?: StringNullableFilter<"StockMovement"> | string | null
+    expiresAt?: DateTimeNullableFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableFilter<"StockMovement"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -112907,6 +113022,8 @@ export namespace Prisma {
     quantity?: SortOrder
     reason?: SortOrderInput | SortOrder
     idempotencyKey?: SortOrder
+    lotNumber?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     _count?: StockMovementCountOrderByAggregateInput
@@ -112929,6 +113046,8 @@ export namespace Prisma {
     quantity?: DecimalWithAggregatesFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string
     reason?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
     idempotencyKey?: StringWithAggregatesFilter<"StockMovement"> | string
+    lotNumber?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeWithAggregatesFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
   }
@@ -119423,6 +119542,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119438,6 +119559,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119451,6 +119574,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119466,6 +119591,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119480,6 +119607,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -119491,6 +119620,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119503,6 +119634,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -119741,6 +119874,8 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     reason?: string | null
     idempotencyKey: string
+    lotNumber?: string | null
+    expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
     tenant: TenantCreateNestedOneWithoutStockMovementsInput
@@ -119756,6 +119891,8 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     reason?: string | null
     idempotencyKey: string
+    lotNumber?: string | null
+    expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
   }
@@ -119769,6 +119906,8 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     idempotencyKey?: StringFieldUpdateOperationsInput | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutStockMovementsNestedInput
@@ -119784,6 +119923,8 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     idempotencyKey?: StringFieldUpdateOperationsInput | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -119798,6 +119939,8 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     reason?: string | null
     idempotencyKey: string
+    lotNumber?: string | null
+    expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
   }
@@ -119811,6 +119954,8 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     idempotencyKey?: StringFieldUpdateOperationsInput | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -119825,6 +119970,8 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     idempotencyKey?: StringFieldUpdateOperationsInput | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -126617,6 +126764,17 @@ export namespace Prisma {
     _max?: NestedEnumProductStatusFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type EnumSkuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -126661,9 +126819,15 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     baseUom?: SortOrder
+    lotTracked?: SortOrder
+    shelfLifeDays?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type SkuAvgOrderByAggregateInput = {
+    shelfLifeDays?: SortOrder
   }
 
   export type SkuMaxOrderByAggregateInput = {
@@ -126673,6 +126837,8 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     baseUom?: SortOrder
+    lotTracked?: SortOrder
+    shelfLifeDays?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -126685,9 +126851,31 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     baseUom?: SortOrder
+    lotTracked?: SortOrder
+    shelfLifeDays?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type SkuSumOrderByAggregateInput = {
+    shelfLifeDays?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -126894,6 +127082,8 @@ export namespace Prisma {
     quantity?: SortOrder
     reason?: SortOrder
     idempotencyKey?: SortOrder
+    lotNumber?: SortOrder
+    expiresAt?: SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrder
   }
@@ -126912,6 +127102,8 @@ export namespace Prisma {
     quantity?: SortOrder
     reason?: SortOrder
     idempotencyKey?: SortOrder
+    lotNumber?: SortOrder
+    expiresAt?: SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrder
   }
@@ -126926,6 +127118,8 @@ export namespace Prisma {
     quantity?: SortOrder
     reason?: SortOrder
     idempotencyKey?: SortOrder
+    lotNumber?: SortOrder
+    expiresAt?: SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrder
   }
@@ -127282,17 +127476,6 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -127385,22 +127568,6 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumCrmAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -134258,6 +134425,14 @@ export namespace Prisma {
     connect?: UomConversionWhereUniqueInput | UomConversionWhereUniqueInput[]
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumSkuStatusFieldUpdateOperationsInput = {
     set?: $Enums.SkuStatus
   }
@@ -134616,14 +134791,6 @@ export namespace Prisma {
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
     divide?: Decimal | DecimalJsLike | number | string
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type CrmAccountUpdatetagsInput = {
@@ -136677,6 +136844,33 @@ export namespace Prisma {
     not?: NestedEnumSkuStatusFilter<$PrismaModel> | $Enums.SkuStatus
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -136865,33 +137059,6 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumCrmAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -138004,6 +138171,8 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     reason?: string | null
     idempotencyKey: string
+    lotNumber?: string | null
+    expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
   }
@@ -138017,6 +138186,8 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     reason?: string | null
     idempotencyKey: string
+    lotNumber?: string | null
+    expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
   }
@@ -140408,6 +140579,8 @@ export namespace Prisma {
     quantity?: DecimalFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string
     reason?: StringNullableFilter<"StockMovement"> | string | null
     idempotencyKey?: StringFilter<"StockMovement"> | string
+    lotNumber?: StringNullableFilter<"StockMovement"> | string | null
+    expiresAt?: DateTimeNullableFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableFilter<"StockMovement"> | string | null
   }
@@ -150880,6 +151053,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -150893,6 +151068,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151111,6 +151288,8 @@ export namespace Prisma {
     code?: StringFilter<"Sku"> | string
     name?: StringFilter<"Sku"> | string
     baseUom?: StringFilter<"Sku"> | string
+    lotTracked?: BoolFilter<"Sku"> | boolean
+    shelfLifeDays?: IntNullableFilter<"Sku"> | number | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -151290,6 +151469,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151304,6 +151485,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151332,6 +151515,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151346,6 +151531,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151358,6 +151545,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151372,6 +151561,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -151400,6 +151591,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151414,6 +151607,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -171183,6 +171378,8 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     reason?: string | null
     idempotencyKey: string
+    lotNumber?: string | null
+    expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
   }
@@ -172464,6 +172661,8 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     idempotencyKey?: StringFieldUpdateOperationsInput | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -172477,6 +172676,8 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     idempotencyKey?: StringFieldUpdateOperationsInput | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -172490,6 +172691,8 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     idempotencyKey?: StringFieldUpdateOperationsInput | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -174778,6 +174981,8 @@ export namespace Prisma {
     code: string
     name: string
     baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174789,6 +174994,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -174802,6 +175009,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -174815,6 +175024,8 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
