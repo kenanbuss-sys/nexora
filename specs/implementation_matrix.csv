@@ -214,7 +214,7 @@ MES-014,MES,Downtime,P1,PLANNED,R2,,,
 MES-015,MES,Setup/changeover,P1,PLANNED,R2,,,
 MES-016,MES,Digital work instructions,P1,PLANNED,R2,,,
 MES-017,MES,Production labels,P1,PLANNED,R2,,,
-MES-018,MES,Shop-floor kiosk,P1,PLANNED,R2,,,
+MES-018,MES,Shop-floor kiosk,P1,DONE,R2,,,Shop-floor kiosk: large-type execution screen (Sprint 024)
 MES-019,MES,Mobile production,P1,PLANNED,R2,,,
 MES-020,MES,Genealogy,P1,PLANNED,R2,,,
 MES-021,MES,OEE inputs,P1,PLANNED,R2,,,

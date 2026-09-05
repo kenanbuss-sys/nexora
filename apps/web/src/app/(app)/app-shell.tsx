@@ -56,6 +56,7 @@ const ICONS: Record<string, string> = {
   integrations:
     'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71',
   finance: 'M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6',
+  kiosk: 'M2 3h20v14H2zM8 21h8M12 17v4',
   analytics: 'M18 20V10M12 20V4M6 20v-6',
   portal: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8',
 };
@@ -179,6 +180,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/planning', label: 'Planning', icon: 'planning', permission: 'plan.read' },
   { href: '/production', label: 'Production', icon: 'production', permission: 'production.read' },
   { href: '/quality', label: 'Quality', icon: 'quality', permission: 'qc.read' },
+  { href: '/kiosk', label: 'Shop floor', icon: 'kiosk', permission: 'production.execute' },
   { href: '/finance', label: 'Finance', icon: 'finance', permission: 'finance.read' },
   { href: '/analytics', label: 'Analytics', icon: 'analytics', permission: 'analytics.read' },
   {

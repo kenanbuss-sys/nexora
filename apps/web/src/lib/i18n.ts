@@ -273,6 +273,19 @@ export const BS: Record<string, string> = {
 
   // Misc
   Language: 'Jezik',
+  'Shop floor': 'Pogon',
+  'All work orders': 'Svi radni nalozi',
+  '← All work orders': '← Svi radni nalozi',
+  'No released work orders. Enjoy the quiet.': 'Nema puštenih radnih naloga. Uživaj u miru.',
+  'Finish work order': 'Završi radni nalog',
+  'Good quantity': 'Dobra količina',
+  Scrap: 'Škart',
+  waiting: 'čeka',
+  'IN PROGRESS': 'U TOKU',
+  RELEASED: 'PUŠTEN',
+  PAUSED: 'PAUZIRAN',
+  COMPLETED: 'ZAVRŠEN',
+  PLANNED: 'PLANIRAN',
   'Signing secret (shown once — store it now):': 'Tajna za potpis (samo jednom — sačuvaj je):',
   'Key (shown once — store it now):': 'Ključ (samo jednom — sačuvaj ga):',
 };
