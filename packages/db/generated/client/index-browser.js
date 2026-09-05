@@ -671,6 +671,21 @@ exports.Prisma.QuoteScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DiscountRuleScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  active: 'active',
+  accountId: 'accountId',
+  skuId: 'skuId',
+  minQty: 'minQty',
+  percentage: 'percentage',
+  validFrom: 'validFrom',
+  validTo: 'validTo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.QuoteLineScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1580,6 +1595,7 @@ exports.Prisma.ModelName = {
   PriceList: 'PriceList',
   PriceListEntry: 'PriceListEntry',
   Quote: 'Quote',
+  DiscountRule: 'DiscountRule',
   QuoteLine: 'QuoteLine',
   SalesOrder: 'SalesOrder',
   SalesOrderLine: 'SalesOrderLine',

@@ -121,6 +121,7 @@ model Tenant {
   workCenters           WorkCenter[]
   downtimeEvents        DowntimeEvent[]
   userCredentials       UserCredential[]
+  discountRules         DiscountRule[]
 
   @@map("tenant")
 }
@@ -1200,6 +1201,32 @@ model Quote {
   @@index([tenantId, accountId])
   @@index([tenantId, status])
   @@map("quote")
+}
+
+/// Rule-based automatic discounts (CPQ): the best matching active rule
+/// (most specific, then highest percentage) sets the default discount on
+/// a quote line; an explicitly passed discount overrides it, and the
+/// margin-floor approval applies either way.
+model DiscountRule {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String    @map("tenant_id") @db.Uuid
+  name       String
+  active     Boolean   @default(true)
+  /// Optional CRM account scope; null = every customer.
+  accountId  String?   @map("account_id") @db.Uuid
+  /// Optional SKU scope; null = every SKU.
+  skuId      String?   @map("sku_id") @db.Uuid
+  minQty     Decimal   @default(1) @map("min_qty") @db.Decimal(18, 6)
+  percentage Decimal   @db.Decimal(5, 2)
+  validFrom  DateTime? @map("valid_from")
+  validTo    DateTime? @map("valid_to")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, active])
+  @@map("discount_rule")
 }
 
 model QuoteLine {
