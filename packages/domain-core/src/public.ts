@@ -2,7 +2,13 @@
  * @nexora/domain-core public application interface.
  * Other domains and apps import ONLY from here.
  */
-export { TenantService, type CreateTenantInput, type TenantView } from './tenant.service';
+export {
+  TenantService,
+  type BrandingView,
+  type ConfigurationVersionView,
+  type CreateTenantInput,
+  type TenantView,
+} from './tenant.service';
 export {
   OrganizationService,
   type OrganizationTree,

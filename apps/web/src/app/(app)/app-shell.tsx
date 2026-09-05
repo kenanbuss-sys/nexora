@@ -60,6 +60,8 @@ const ICONS: Record<string, string> = {
   analytics: 'M18 20V10M12 20V4M6 20v-6',
   portal: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8',
   data: 'M12 8c4.97 0 9-1.34 9-3s-4.03-3-9-3-9 1.34-9 3 4.03 3 9 3zM21 5v7c0 1.66-4.03 3-9 3s-9-1.34-9-3V5M21 12v7c0 1.66-4.03 3-9 3s-9-1.34-9-3v-7',
+  settings:
+    'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h.01a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h.01a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.01a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z',
 };
 
 interface SearchHit {
@@ -197,6 +199,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/operations', label: 'Operations', icon: 'operations', permission: 'inventory.read' },
   { href: '/devices', label: 'Devices', icon: 'devices', permission: 'device.read' },
   { href: '/data', label: 'Import/export', icon: 'data', permission: 'product.read' },
+  { href: '/settings', label: 'Settings', icon: 'settings', permission: 'configuration.read' },
   { href: '/users', label: 'Users & roles', icon: 'users', permission: 'iam.user.manage' },
 ];
 
@@ -205,6 +208,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [session, setSessionState] = useState<Session | null>(null);
   const [grants, setGrants] = useState<Grant[] | null>(null);
+  const [brandName, setBrandName] = useState<string | null>(null);
 
   useEffect(() => {
     const s = getSession();
@@ -216,6 +220,25 @@ export function AppShell({ children }: { children: ReactNode }) {
     api<{ grants: Grant[] }>('GET', '/api/v1/me/permissions')
       .then((r) => setGrants(r.grants))
       .catch(() => setGrants([]));
+    // White-label branding: apply the tenant's published look (CORE-003).
+    api<{ name: string | null; accentColor: string | null; accentColor2: string | null }>(
+      'GET',
+      '/api/v1/tenant/branding',
+    )
+      .then((branding) => {
+        if (branding.name) setBrandName(branding.name);
+        const root = document.documentElement;
+        if (branding.accentColor) {
+          root.style.setProperty('--color-accent', branding.accentColor);
+          root.style.setProperty('--color-accent-hover', branding.accentColor);
+        }
+        if (branding.accentColor2) {
+          root.style.setProperty('--color-accent-2', branding.accentColor2);
+        }
+      })
+      .catch(() => {
+        // Platform operators and unbranded tenants keep the default look.
+      });
   }, [router]);
 
   if (!session || grants === null) {
@@ -244,7 +267,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <AppContext.Provider value={{ session, grants, can }}>
       <div className="shell">
         <aside className="sidebar">
-          <div className="sidebar-brand">NexoraOS</div>
+          <div className="sidebar-brand">{brandName ?? 'NexoraOS'}</div>
           {can('search.read') ? <GlobalSearch /> : null}
           {nav.map((item) => (
             <Link

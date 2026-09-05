@@ -164,4 +164,51 @@ export class TenantService {
     if (!latest) return { version: 0, config: {} };
     return { version: latest.version, config: latest.config };
   }
+
+  /**
+   * White-label branding for every signed-in user of the tenant (CORE-003):
+   * the sanitized `branding` subset of the effective configuration. Values
+   * that fail validation are dropped rather than rendered.
+   */
+  async getBranding(tenantId: string): Promise<BrandingView> {
+    const { config } = await this.getEffectiveConfiguration(tenantId);
+    const branding = (config as { branding?: Record<string, unknown> })?.branding ?? {};
+    const color = (value: unknown): string | null =>
+      typeof value === 'string' && /^#[0-9a-fA-F]{6}$/.test(value) ? value : null;
+    const name =
+      typeof branding.name === 'string' && branding.name.trim().length > 0
+        ? branding.name.trim().slice(0, 60)
+        : null;
+    return {
+      name,
+      accentColor: color(branding.accentColor),
+      accentColor2: color(branding.accentColor2),
+    };
+  }
+
+  /** Published configuration history, newest first. Permission: configuration.read. */
+  async listConfigurationVersions(ctx: RequestContext): Promise<ConfigurationVersionView[]> {
+    const versions = await this.prisma.tenantConfigurationVersion.findMany({
+      where: { tenantId: ctx.tenantId },
+      orderBy: { version: 'desc' },
+      take: 20,
+    });
+    return versions.map((v) => ({
+      version: v.version,
+      publishedAt: v.publishedAt.toISOString(),
+      publishedBy: v.publishedBy,
+    }));
+  }
+}
+
+export interface BrandingView {
+  name: string | null;
+  accentColor: string | null;
+  accentColor2: string | null;
+}
+
+export interface ConfigurationVersionView {
+  version: number;
+  publishedAt: string;
+  publishedBy: string | null;
 }

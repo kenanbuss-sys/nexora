@@ -185,6 +185,18 @@ export class TenantController {
     return this.tenants.getEffectiveConfiguration(ctx.tenantId);
   }
 
+  /** Sanitized branding for every signed-in user (no extra permission). */
+  @Get('branding')
+  async getBranding(@Ctx() ctx: RequestContext) {
+    return this.tenants.getBranding(ctx.tenantId);
+  }
+
+  @Get('configuration/history')
+  @RequirePermission('configuration.read')
+  async configurationHistory(@Ctx() ctx: RequestContext) {
+    return { versions: await this.tenants.listConfigurationVersions(ctx) };
+  }
+
   @Post('configuration')
   @RequirePermission('configuration.publish')
   async publishConfiguration(@Body() body: unknown, @Ctx() ctx: RequestContext) {

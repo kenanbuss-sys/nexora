@@ -368,6 +368,21 @@ export const BS: Record<string, string> = {
   'Invalid e-mail or password': 'Pogrešan e-mail ili lozinka',
   'Account is locked — try again in a few minutes':
     'Nalog je zaključan — pokušaj ponovo za nekoliko minuta',
+  Settings: 'Postavke',
+  'White-label branding for this workspace — the name and colors every user sees. Changes are published as immutable configuration versions.':
+    'White-label brendiranje ovog radnog prostora — naziv i boje koje vidi svaki korisnik. Promjene se objavljuju kao nepromjenjive verzije konfiguracije.',
+  Branding: 'Brendiranje',
+  'Workspace name': 'Naziv radnog prostora',
+  'Accent color': 'Glavna boja',
+  'Second accent (gradients)': 'Druga boja (gradijenti)',
+  'Publish branding': 'Objavi brendiranje',
+  'Publishing…': 'Objavljujem…',
+  'Branding published — refresh to see it everywhere.':
+    'Brendiranje objavljeno — osvježi stranicu da ga vidiš svugdje.',
+  'Configuration history': 'Historija konfiguracije',
+  'No published versions yet.': 'Još nema objavljenih verzija.',
+  Version: 'Verzija',
+  Published: 'Objavljeno',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
