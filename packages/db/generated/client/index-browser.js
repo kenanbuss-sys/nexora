@@ -689,7 +689,8 @@ exports.Prisma.SalesOrderLineScalarFieldEnum = {
   quantity: 'quantity',
   unitPrice: 'unitPrice',
   lineTotal: 'lineTotal',
-  reservationId: 'reservationId'
+  reservationId: 'reservationId',
+  backordered: 'backordered'
 };
 
 exports.Prisma.OrderEventScalarFieldEnum = {

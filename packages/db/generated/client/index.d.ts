@@ -67199,6 +67199,7 @@ export namespace Prisma {
     unitPrice: Decimal | null
     lineTotal: Decimal | null
     reservationId: string | null
+    backordered: boolean | null
   }
 
   export type SalesOrderLineMaxAggregateOutputType = {
@@ -67211,6 +67212,7 @@ export namespace Prisma {
     unitPrice: Decimal | null
     lineTotal: Decimal | null
     reservationId: string | null
+    backordered: boolean | null
   }
 
   export type SalesOrderLineCountAggregateOutputType = {
@@ -67223,6 +67225,7 @@ export namespace Prisma {
     unitPrice: number
     lineTotal: number
     reservationId: number
+    backordered: number
     _all: number
   }
 
@@ -67249,6 +67252,7 @@ export namespace Prisma {
     unitPrice?: true
     lineTotal?: true
     reservationId?: true
+    backordered?: true
   }
 
   export type SalesOrderLineMaxAggregateInputType = {
@@ -67261,6 +67265,7 @@ export namespace Prisma {
     unitPrice?: true
     lineTotal?: true
     reservationId?: true
+    backordered?: true
   }
 
   export type SalesOrderLineCountAggregateInputType = {
@@ -67273,6 +67278,7 @@ export namespace Prisma {
     unitPrice?: true
     lineTotal?: true
     reservationId?: true
+    backordered?: true
     _all?: true
   }
 
@@ -67372,6 +67378,7 @@ export namespace Prisma {
     unitPrice: Decimal
     lineTotal: Decimal
     reservationId: string | null
+    backordered: boolean
     _count: SalesOrderLineCountAggregateOutputType | null
     _avg: SalesOrderLineAvgAggregateOutputType | null
     _sum: SalesOrderLineSumAggregateOutputType | null
@@ -67403,6 +67410,7 @@ export namespace Prisma {
     unitPrice?: boolean
     lineTotal?: boolean
     reservationId?: boolean
+    backordered?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -67417,6 +67425,7 @@ export namespace Prisma {
     unitPrice?: boolean
     lineTotal?: boolean
     reservationId?: boolean
+    backordered?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -67431,6 +67440,7 @@ export namespace Prisma {
     unitPrice?: boolean
     lineTotal?: boolean
     reservationId?: boolean
+    backordered?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -67445,9 +67455,10 @@ export namespace Prisma {
     unitPrice?: boolean
     lineTotal?: boolean
     reservationId?: boolean
+    backordered?: boolean
   }
 
-  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId", ExtArgs["result"]["salesOrderLine"]>
+  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId" | "backordered", ExtArgs["result"]["salesOrderLine"]>
   export type SalesOrderLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -67477,6 +67488,10 @@ export namespace Prisma {
       unitPrice: Prisma.Decimal
       lineTotal: Prisma.Decimal
       reservationId: string | null
+      /**
+       * Sprint 018 (OMS-006): confirmed without stock; released later.
+       */
+      backordered: boolean
     }, ExtArgs["result"]["salesOrderLine"]>
     composites: {}
   }
@@ -67911,6 +67926,7 @@ export namespace Prisma {
     readonly unitPrice: FieldRef<"SalesOrderLine", 'Decimal'>
     readonly lineTotal: FieldRef<"SalesOrderLine", 'Decimal'>
     readonly reservationId: FieldRef<"SalesOrderLine", 'String'>
+    readonly backordered: FieldRef<"SalesOrderLine", 'Boolean'>
   }
     
 
@@ -101355,7 +101371,8 @@ export namespace Prisma {
     quantity: 'quantity',
     unitPrice: 'unitPrice',
     lineTotal: 'lineTotal',
-    reservationId: 'reservationId'
+    reservationId: 'reservationId',
+    backordered: 'backordered'
   };
 
   export type SalesOrderLineScalarFieldEnum = (typeof SalesOrderLineScalarFieldEnum)[keyof typeof SalesOrderLineScalarFieldEnum]
@@ -106431,6 +106448,7 @@ export namespace Prisma {
     unitPrice?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
+    backordered?: BoolFilter<"SalesOrderLine"> | boolean
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
   }
@@ -106445,6 +106463,7 @@ export namespace Prisma {
     unitPrice?: SortOrder
     lineTotal?: SortOrder
     reservationId?: SortOrderInput | SortOrder
+    backordered?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     order?: SalesOrderOrderByWithRelationInput
   }
@@ -106462,6 +106481,7 @@ export namespace Prisma {
     unitPrice?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
+    backordered?: BoolFilter<"SalesOrderLine"> | boolean
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
   }, "id">
@@ -106476,6 +106496,7 @@ export namespace Prisma {
     unitPrice?: SortOrder
     lineTotal?: SortOrder
     reservationId?: SortOrderInput | SortOrder
+    backordered?: SortOrder
     _count?: SalesOrderLineCountOrderByAggregateInput
     _avg?: SalesOrderLineAvgOrderByAggregateInput
     _max?: SalesOrderLineMaxOrderByAggregateInput
@@ -106496,6 +106517,7 @@ export namespace Prisma {
     unitPrice?: DecimalWithAggregatesFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalWithAggregatesFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableWithAggregatesFilter<"SalesOrderLine"> | string | null
+    backordered?: BoolWithAggregatesFilter<"SalesOrderLine"> | boolean
   }
 
   export type OrderEventWhereInput = {
@@ -112978,6 +113000,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
     order: SalesOrderCreateNestedOneWithoutLinesInput
   }
@@ -112992,6 +113015,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
   }
 
   export type SalesOrderLineUpdateInput = {
@@ -113002,6 +113026,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
   }
@@ -113016,6 +113041,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SalesOrderLineCreateManyInput = {
@@ -113028,6 +113054,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
   }
 
   export type SalesOrderLineUpdateManyMutationInput = {
@@ -113038,6 +113065,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SalesOrderLineUncheckedUpdateManyInput = {
@@ -113050,6 +113078,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OrderEventCreateInput = {
@@ -119194,6 +119223,7 @@ export namespace Prisma {
     unitPrice?: SortOrder
     lineTotal?: SortOrder
     reservationId?: SortOrder
+    backordered?: SortOrder
   }
 
   export type SalesOrderLineAvgOrderByAggregateInput = {
@@ -119212,6 +119242,7 @@ export namespace Prisma {
     unitPrice?: SortOrder
     lineTotal?: SortOrder
     reservationId?: SortOrder
+    backordered?: SortOrder
   }
 
   export type SalesOrderLineMinOrderByAggregateInput = {
@@ -119224,6 +119255,7 @@ export namespace Prisma {
     unitPrice?: SortOrder
     lineTotal?: SortOrder
     reservationId?: SortOrder
+    backordered?: SortOrder
   }
 
   export type SalesOrderLineSumOrderByAggregateInput = {
@@ -129014,6 +129046,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
     order: SalesOrderCreateNestedOneWithoutLinesInput
   }
 
@@ -129026,6 +129059,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
   }
 
   export type SalesOrderLineCreateOrConnectWithoutTenantInput = {
@@ -131176,6 +131210,7 @@ export namespace Prisma {
     unitPrice?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
+    backordered?: BoolFilter<"SalesOrderLine"> | boolean
   }
 
   export type OrderEventUpsertWithWhereUniqueWithoutTenantInput = {
@@ -146413,6 +146448,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
   }
 
@@ -146425,6 +146461,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
   }
 
   export type SalesOrderLineCreateOrConnectWithoutOrderInput = {
@@ -157580,6 +157617,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
   }
 
   export type OrderEventCreateManyTenantInput = {
@@ -159195,6 +159233,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
   }
 
@@ -159207,6 +159246,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SalesOrderLineUncheckedUpdateManyWithoutTenantInput = {
@@ -159218,6 +159258,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OrderEventUpdateWithoutTenantInput = {
@@ -160975,6 +161016,7 @@ export namespace Prisma {
     unitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
+    backordered?: boolean
   }
 
   export type SalesOrderLineUpdateWithoutOrderInput = {
@@ -160985,6 +161027,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
   }
 
@@ -160997,6 +161040,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SalesOrderLineUncheckedUpdateManyWithoutOrderInput = {
@@ -161008,6 +161052,7 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
+    backordered?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PurchaseRequisitionLineCreateManyRequisitionInput = {
