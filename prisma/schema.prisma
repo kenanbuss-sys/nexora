@@ -111,6 +111,8 @@ model Tenant {
   budgets               Budget[]
   webhookSubscriptions  WebhookSubscription[]
   webhookDeliveries     WebhookDelivery[]
+  apiKeys               ApiKey[]
+  securityEvents        SecurityEvent[]
 
   @@map("tenant")
 }
@@ -2020,4 +2022,46 @@ model WebhookDelivery {
   @@unique([subscriptionId, outboxEventId])
   @@index([tenantId, status, nextAttemptAt])
   @@map("webhook_delivery")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 021 — Platform ops & security: service accounts / API keys
+// (IAM-009) and the security event log (IAM-013). Usage analytics and
+// tenant export are read models.
+// ---------------------------------------------------------------------------
+
+/// Service account key (IAM-009). Only a SHA-256 hash is stored; the
+/// full key is shown once at creation. Permissions are an explicit
+/// allowlist — narrower than any human role.
+model ApiKey {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  name        String
+  prefix      String
+  keyHash     String    @unique @map("key_hash")
+  permissions String[]
+  active      Boolean   @default(true)
+  lastUsedAt  DateTime? @map("last_used_at")
+  createdBy   String?   @map("created_by")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, name])
+  @@map("api_key")
+}
+
+/// Append-only security event log (IAM-013).
+model SecurityEvent {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String?  @map("tenant_id") @db.Uuid
+  eventType String   @map("event_type")
+  subject   String?
+  detail    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, createdAt])
+  @@map("security_event")
 }
