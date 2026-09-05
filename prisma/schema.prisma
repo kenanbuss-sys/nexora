@@ -127,6 +127,7 @@ model Tenant {
   territories           Territory[]
   salesTeams            SalesTeam[]
   salesTeamMembers      SalesTeamMember[]
+  exchangeRates         ExchangeRate[]
 
   @@map("tenant")
 }
@@ -2103,6 +2104,25 @@ model NumberSequence {
 // (FIN-008) and the invoice cost-center link that ties actual spend to
 // them. Aging and cash flow are read models over invoices/payments.
 // ---------------------------------------------------------------------------
+
+/// Effective-dated exchange rates (FIN reference data): the rate in
+/// force is the newest row with validFrom on or before the asked date.
+/// Rows are immutable — corrections are new rows, history stays.
+model ExchangeRate {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  baseCurrency  String   @map("base_currency") @db.Char(3)
+  quoteCurrency String   @map("quote_currency") @db.Char(3)
+  rate          Decimal  @db.Decimal(18, 8)
+  validFrom     DateTime @map("valid_from")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, baseCurrency, quoteCurrency, validFrom])
+  @@index([tenantId, baseCurrency, quoteCurrency])
+  @@map("exchange_rate")
+}
 
 model CostCenter {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
