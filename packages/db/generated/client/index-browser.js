@@ -671,6 +671,16 @@ exports.Prisma.QuoteScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PackagingLevelScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  name: 'name',
+  unitsPerPack: 'unitsPerPack',
+  barcodeValue: 'barcodeValue',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SkuSubstitutionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1605,6 +1615,7 @@ exports.Prisma.ModelName = {
   PriceList: 'PriceList',
   PriceListEntry: 'PriceListEntry',
   Quote: 'Quote',
+  PackagingLevel: 'PackagingLevel',
   SkuSubstitution: 'SkuSubstitution',
   DiscountRule: 'DiscountRule',
   QuoteLine: 'QuoteLine',
