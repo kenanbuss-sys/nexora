@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { FinanceService, TreasuryService } from '@nexora/domain-fin';
+import type { ExchangeRateService, FinanceService, TreasuryService } from '@nexora/domain-fin';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,6 +8,7 @@ import { parseBody } from '../common/validate';
 
 export const FINANCE_SERVICE = 'FINANCE_SERVICE';
 export const TREASURY_SERVICE = 'TREASURY_SERVICE';
+export const EXCHANGE_RATE_SERVICE = 'EXCHANGE_RATE_SERVICE';
 
 const customerInvoiceSchema = z.object({
   orderId: z.string().uuid(),
@@ -135,5 +136,59 @@ export class TreasuryController {
   @RequirePermission('finance.read')
   async cashflow(@Query('months') months: string | undefined, @Ctx() ctx: RequestContext) {
     return { rows: await this.treasury.cashflow(months ? Number(months) : 6, ctx) };
+  }
+}
+
+const setRateSchema = z.object({
+  baseCurrency: z.string().length(3),
+  quoteCurrency: z.string().length(3),
+  rate: z.number().positive(),
+  validFrom: z.string().datetime().optional(),
+});
+
+/** Effective-dated exchange rates (FIN reference data). */
+@Controller('api/v1/finance/exchange-rates')
+export class ExchangeRatesController {
+  constructor(@Inject(EXCHANGE_RATE_SERVICE) private readonly rates: ExchangeRateService) {}
+
+  @Get()
+  @RequirePermission('finance.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { rates: await this.rates.listRates(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('finance.manage')
+  async set(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(setRateSchema, body);
+    return this.rates.setRate(
+      {
+        baseCurrency: input.baseCurrency,
+        quoteCurrency: input.quoteCurrency,
+        rate: input.rate,
+        validFrom: input.validFrom ? new Date(input.validFrom) : undefined,
+      },
+      ctx,
+    );
+  }
+
+  @Get('convert')
+  @RequirePermission('finance.read')
+  async convert(
+    @Query('from') from: string,
+    @Query('to') to: string,
+    @Query('amount') amount: string,
+    @Ctx() ctx: RequestContext,
+    @Query('on') on?: string,
+  ) {
+    return this.rates.convert(
+      {
+        from: from ?? '',
+        to: to ?? '',
+        amount: Number(amount),
+        on: on ? new Date(on) : undefined,
+      },
+      ctx,
+    );
   }
 }

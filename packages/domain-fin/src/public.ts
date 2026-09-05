@@ -15,3 +15,4 @@ export {
   type CashflowRow,
   type CostCenterView,
 } from './treasury.service';
+export { ExchangeRateService, type ExchangeRateView } from './rates.service';

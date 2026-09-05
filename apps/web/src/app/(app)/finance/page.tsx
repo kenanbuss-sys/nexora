@@ -104,6 +104,22 @@ export default function FinancePage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  const loadRates = useCallback(() => {
+    api<{
+      rates: Array<{
+        id: string;
+        baseCurrency: string;
+        quoteCurrency: string;
+        rate: string;
+        validFrom: string;
+      }>;
+    }>('GET', '/api/v1/finance/exchange-rates')
+      .then((r) => setRates(r.rates))
+      .catch(() => setRates([]));
+  }, []);
+
+  useEffect(loadRates, [loadRates]);
+
   const [invoiceOrder, setInvoiceOrder] = useState('');
   const [invoicePo, setInvoicePo] = useState('');
   const [payInvoice, setPayInvoice] = useState('');
@@ -114,6 +130,20 @@ export default function FinancePage() {
   const [costCenters, setCostCenters] = useState<CostCenterView[]>([]);
   const [budgetRows, setBudgetRows] = useState<BudgetRow[]>([]);
   const [budgetPeriod, setBudgetPeriod] = useState(new Date().toISOString().slice(0, 7));
+  const [rates, setRates] = useState<
+    Array<{
+      id: string;
+      baseCurrency: string;
+      quoteCurrency: string;
+      rate: string;
+      validFrom: string;
+    }>
+  >([]);
+  const [rateBase, setRateBase] = useState('EUR');
+  const [rateQuote, setRateQuote] = useState('BAM');
+  const [rateValue, setRateValue] = useState('');
+  const [convAmount, setConvAmount] = useState('100');
+  const [convResult, setConvResult] = useState<string | null>(null);
   const [ccCode, setCcCode] = useState('');
   const [ccName, setCcName] = useState('');
   const [budgetCc, setBudgetCc] = useState('');
@@ -510,6 +540,109 @@ export default function FinancePage() {
               </tbody>
             </table>
           ) : null}
+        </div>
+      </div>
+
+      <div className="card">
+        <h2>Exchange rates</h2>
+        {rates.length === 0 ? <div className="empty">No rates maintained yet.</div> : null}
+        {rates.length > 0 ? (
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Pair</th>
+                <th>Rate</th>
+                <th>Valid from</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rates.slice(0, 8).map((r) => (
+                <tr key={r.id}>
+                  <td className="mono">
+                    {r.baseCurrency}/{r.quoteCurrency}
+                  </td>
+                  <td className="mono">{r.rate}</td>
+                  <td>{new Date(r.validFrom).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : null}
+        {can('finance.manage') ? (
+          <div className="row" style={{ marginTop: 8, flexWrap: 'wrap' }}>
+            <input
+              className="input mono"
+              style={{ maxWidth: 60 }}
+              maxLength={3}
+              value={rateBase}
+              onChange={(e) => setRateBase(e.target.value.toUpperCase())}
+            />
+            <span className="muted">→</span>
+            <input
+              className="input mono"
+              style={{ maxWidth: 60 }}
+              maxLength={3}
+              value={rateQuote}
+              onChange={(e) => setRateQuote(e.target.value.toUpperCase())}
+            />
+            <input
+              className="input mono"
+              style={{ maxWidth: 110 }}
+              type="number"
+              step="any"
+              min="0"
+              placeholder="Rate"
+              value={rateValue}
+              onChange={(e) => setRateValue(e.target.value)}
+            />
+            <button
+              className="btn btn-sm btn-primary"
+              disabled={busy || !rateValue}
+              type="button"
+              onClick={() =>
+                void run(async () => {
+                  await api('POST', '/api/v1/finance/exchange-rates', {
+                    baseCurrency: rateBase,
+                    quoteCurrency: rateQuote,
+                    rate: Number(rateValue),
+                  });
+                  setRateValue('');
+                  loadRates();
+                }, 'Rate saved.')
+              }
+            >
+              Save rate
+            </button>
+          </div>
+        ) : null}
+        <div className="row" style={{ marginTop: 8 }}>
+          <input
+            className="input mono"
+            style={{ maxWidth: 100 }}
+            type="number"
+            step="any"
+            value={convAmount}
+            onChange={(e) => setConvAmount(e.target.value)}
+          />
+          <button
+            className="btn btn-sm"
+            disabled={busy}
+            type="button"
+            onClick={() => {
+              setConvResult(null);
+              api<{ converted: string; rate: number }>(
+                'GET',
+                `/api/v1/finance/exchange-rates/convert?from=${rateBase}&to=${rateQuote}&amount=${convAmount}`,
+              )
+                .then((r) =>
+                  setConvResult(`${convAmount} ${rateBase} = ${r.converted} ${rateQuote}`),
+                )
+                .catch((e) => setConvResult(errorText(e)));
+            }}
+          >
+            Convert
+          </button>
+          {convResult ? <span className="mono">{convResult}</span> : null}
         </div>
       </div>
 

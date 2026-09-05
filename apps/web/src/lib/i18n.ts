@@ -479,6 +479,13 @@ export const BS: Record<string, string> = {
   'Team created.': 'Tim kreiran.',
   'Member added.': 'Član dodan.',
   'Member removed.': 'Član uklonjen.',
+  'Exchange rates': 'Kursna lista',
+  'No rates maintained yet.': 'Još nema unesenih kurseva.',
+  'Save rate': 'Sačuvaj kurs',
+  'Rate saved.': 'Kurs sačuvan.',
+  Pair: 'Par',
+  Rate: 'Kurs',
+  'Valid from': 'Vrijedi od',
   'Enter the 6-digit code from your authenticator app.':
     'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };
