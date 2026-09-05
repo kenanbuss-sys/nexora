@@ -73,3 +73,26 @@ export class ConfigController {
     return this.configuration.defineCustomField(parseBody(customFieldSchema, body), ctx);
   }
 }
+
+const LOCALE_RE = /^[a-z]{2}(-[A-Z]{2})?$/;
+
+/**
+ * Tenant vocabulary for every signed-in user (CORE-004): the terminology
+ * dictionary applied at display time, readable without extra permissions
+ * (like branding — hidden UI is not authorization, but vocabulary is not
+ * a secret either).
+ */
+@Controller('api/v1/tenant')
+export class VocabularyController {
+  constructor(
+    @Inject(CONFIGURATION_SERVICE) private readonly configuration: ConfigurationService,
+  ) {}
+
+  @Get('vocabulary/:locale')
+  async vocabulary(@Param('locale') locale: string, @Ctx() ctx: RequestContext) {
+    if (!LOCALE_RE.test(locale)) {
+      return { entries: {} };
+    }
+    return { entries: await this.configuration.getTerminology(locale, ctx) };
+  }
+}

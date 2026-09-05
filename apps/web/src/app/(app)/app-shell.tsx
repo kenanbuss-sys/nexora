@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { api } from '../../lib/api';
+import { getLanguage } from '../../lib/i18n';
 import { clearSession, getSession, type Session } from '../../lib/session';
 
 interface Grant {
@@ -209,6 +210,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [session, setSessionState] = useState<Session | null>(null);
   const [grants, setGrants] = useState<Grant[] | null>(null);
   const [brandName, setBrandName] = useState<string | null>(null);
+  const [vocabulary, setVocabulary] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const s = getSession();
@@ -239,6 +241,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       .catch(() => {
         // Platform operators and unbranded tenants keep the default look.
       });
+    // Terminology dictionary: tenant-specific vocabulary (CORE-004).
+    api<{ entries: Record<string, string> }>('GET', `/api/v1/tenant/vocabulary/${getLanguage()}`)
+      .then((r) => setVocabulary(r.entries))
+      .catch(() => setVocabulary({}));
   }, [router]);
 
   if (!session || grants === null) {
@@ -276,7 +282,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               className={`nav-item ${pathname === item.href ? 'active' : ''}`}
             >
               <NavIcon name={item.icon} />
-              {item.label}
+              {vocabulary[`nav.${item.href === '/' ? 'dashboard' : item.href.slice(1)}`] ??
+                item.label}
             </Link>
           ))}
           {session.platformAdmin ? (

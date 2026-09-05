@@ -24,6 +24,22 @@ interface VersionRow {
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
 
+/** Navigation terms a tenant can rename (terminology dictionary keys). */
+const NAV_TERMS: Array<{ key: string; label: string }> = [
+  { key: 'nav.dashboard', label: 'Dashboard' },
+  { key: 'nav.crm', label: 'Sales' },
+  { key: 'nav.quotes', label: 'Quotes' },
+  { key: 'nav.orders', label: 'Orders' },
+  { key: 'nav.procurement', label: 'Procurement' },
+  { key: 'nav.production', label: 'Production' },
+  { key: 'nav.quality', label: 'Quality' },
+  { key: 'nav.finance', label: 'Finance' },
+  { key: 'nav.inventory', label: 'Inventory' },
+  { key: 'nav.catalog', label: 'Catalog' },
+  { key: 'nav.operations', label: 'Operations' },
+  { key: 'nav.parties', label: 'Parties' },
+];
+
 export default function SettingsPage() {
   const { can } = useApp();
   const [config, setConfig] = useState<EffectiveConfig | null>(null);
@@ -34,6 +50,38 @@ export default function SettingsPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [termLocale, setTermLocale] = useState<'en' | 'bs'>('en');
+  const [terms, setTerms] = useState<Record<string, string>>({});
+
+  const loadTerms = useCallback((locale: 'en' | 'bs') => {
+    api<Record<string, string>>('GET', `/api/v1/configuration/terminology/${locale}`)
+      .then((entries) => setTerms(entries))
+      .catch(() => setTerms({}));
+  }, []);
+
+  useEffect(() => loadTerms(termLocale), [loadTerms, termLocale]);
+
+  async function saveTerms() {
+    const entries: Record<string, string> = {};
+    for (const [key, value] of Object.entries(terms)) {
+      if (value.trim()) entries[key] = value.trim();
+    }
+    if (Object.keys(entries).length === 0) {
+      setError('Enter at least one term to save');
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    try {
+      await api('PUT', `/api/v1/configuration/terminology/${termLocale}`, { entries });
+      setNotice('Terminology saved — refresh to see it in the navigation.');
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   const load = useCallback(() => {
     api<EffectiveConfig>('GET', '/api/v1/tenant/configuration')
@@ -160,6 +208,47 @@ export default function SettingsPage() {
           ) : (
             <p className="muted">Publishing needs the configuration.publish permission.</p>
           )}
+        </div>
+
+        <div className="card">
+          <h2>Terminology</h2>
+          <p className="muted">
+            Rename navigation terms to match how this company speaks — per language.
+          </p>
+          <div className="row" style={{ marginBottom: 10 }}>
+            <select
+              className="select"
+              value={termLocale}
+              onChange={(e) => setTermLocale(e.target.value as 'en' | 'bs')}
+            >
+              <option value="en">English</option>
+              <option value="bs">Bosanski</option>
+            </select>
+          </div>
+          {NAV_TERMS.map((t) => (
+            <div className="row" key={t.key} style={{ marginBottom: 6 }}>
+              <span className="muted" style={{ width: 110, fontSize: 13 }}>
+                {t.label}
+              </span>
+              <input
+                className="input"
+                style={{ maxWidth: 200 }}
+                placeholder={t.label}
+                value={terms[t.key] ?? ''}
+                onChange={(e) => setTerms({ ...terms, [t.key]: e.target.value })}
+              />
+            </div>
+          ))}
+          {can('configuration.publish') ? (
+            <button
+              className="btn btn-primary"
+              style={{ marginTop: 8 }}
+              disabled={busy}
+              onClick={() => void saveTerms()}
+            >
+              {busy ? 'Saving…' : 'Save terminology'}
+            </button>
+          ) : null}
         </div>
 
         <div className="card">

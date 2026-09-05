@@ -383,6 +383,14 @@ export const BS: Record<string, string> = {
   'No published versions yet.': 'Još nema objavljenih verzija.',
   Version: 'Verzija',
   Published: 'Objavljeno',
+  Terminology: 'Terminologija',
+  'Rename navigation terms to match how this company speaks — per language.':
+    'Preimenuj stavke navigacije prema rječniku ove firme — po jeziku.',
+  'Save terminology': 'Sačuvaj terminologiju',
+  'Saving…': 'Čuvam…',
+  'Terminology saved — refresh to see it in the navigation.':
+    'Terminologija sačuvana — osvježi stranicu da je vidiš u navigaciji.',
+  'Enter at least one term to save': 'Unesi bar jedan pojam za čuvanje',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

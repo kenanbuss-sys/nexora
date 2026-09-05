@@ -46,7 +46,11 @@ import { PermissionsGuard, ROLE_SERVICE } from './auth/permissions.guard';
 import { CanonicalErrorFilter } from './common/domain-error.filter';
 import { HEALTH_SERVICE, HealthController } from './health/health.controller';
 import { HealthService } from './health/health.service';
-import { CONFIGURATION_SERVICE, ConfigController } from './config/config.controller';
+import {
+  CONFIGURATION_SERVICE,
+  ConfigController,
+  VocabularyController,
+} from './config/config.controller';
 import { PartiesController, PARTY_SERVICE } from './mdm/mdm.controller';
 import {
   DEVICE_SERVICE,
@@ -171,6 +175,7 @@ export const REDIS = 'REDIS';
     RolesController,
     MeController,
     ConfigController,
+    VocabularyController,
     TasksController,
     InboxController,
     NotificationsController,
