@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 import { CollabPanel } from '../collab-panel';
+import { downloadDocument } from '../../../lib/download';
 
 interface OrderLineView {
   id: string;
@@ -581,6 +582,19 @@ export default function OrdersPage() {
                   </button>
                 ) : null}
 
+                {o.status === 'FULFILLED' ? (
+                  <button
+                    className="btn btn-sm"
+                    onClick={() => {
+                      downloadDocument(`/api/v1/documents/delivery-note/${o.id}/pdf`).catch(
+                        (e: unknown) => setError(errorText(e)),
+                      );
+                    }}
+                    type="button"
+                  >
+                    Delivery note PDF
+                  </button>
+                ) : null}
                 <button className="btn btn-sm" onClick={() => toggleTimeline(o.id)} type="button">
                   {timeline[o.id] ? 'Hide history' : 'History'}
                 </button>

@@ -11,7 +11,7 @@ import {
   TaskService,
   TenantService,
 } from '@nexora/domain-core';
-import { DocumentTemplateService } from '@nexora/domain-doc';
+import { PdfService, DocumentTemplateService } from '@nexora/domain-doc';
 import { PricingService, QuoteService } from '@nexora/domain-cpq';
 import { CrmService, Customer360Service } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
@@ -94,6 +94,7 @@ import {
   SearchController,
 } from './collab/collab.controller';
 import { INTEGRATION_SERVICE, IntegrationsController } from './int/int.controller';
+import { PDF_SERVICE, PdfController } from './documents/pdf.controller';
 import {
   PlatformUsageController,
   ServiceAccountsController,
@@ -197,6 +198,7 @@ export const REDIS = 'REDIS';
     ServiceAccountsController,
     TenantExportController,
     PlatformUsageController,
+    PdfController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -519,6 +521,11 @@ export const REDIS = 'REDIS';
     {
       provide: SERVICE_ACCOUNT_SERVICE,
       useFactory: (prisma: PrismaClient) => new ServiceAccountService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: PDF_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PdfService(prisma),
       inject: [PRISMA],
     },
     {

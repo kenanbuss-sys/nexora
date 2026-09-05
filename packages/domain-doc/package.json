@@ -14,10 +14,12 @@
     "@nexora/audit": "workspace:*",
     "@nexora/db": "workspace:*",
     "@nexora/kernel": "workspace:*",
-    "@nexora/tenancy": "workspace:*"
+    "@nexora/tenancy": "workspace:*",
+    "pdfkit": "^0.20.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "@types/pdfkit": "^0.17.6",
     "typescript": "^5.9.0",
     "vitest": "^4.1.0"
   }

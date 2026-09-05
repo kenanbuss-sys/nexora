@@ -3,7 +3,7 @@ CORE-001,CORE,Tenant management,P0,Implemented (Sprint 001),R0,,,"Tenant lifecyc
 CORE-002,CORE,Organization hierarchy,P0,Implemented (Sprint 001),R0,,,LegalEntity/BusinessUnit/Branch/Factory tree + API
 CORE-003,CORE,White-label branding,P0,Partially implemented (Sprint 001),R0,,,Versioned brand config publish/retrieve (retrieval part)
 CORE-004,CORE,Terminology dictionary,P0,Implemented (Sprint 002),R0,,,Terminology entries per locale + API
-CORE-005,CORE,Localization,P0,PLANNED,R0,,,
+CORE-005,CORE,Localization,P0,DONE,R0,,,UI language layer EN/BS with remembered preference (Sprint 023)
 CORE-006,CORE,Feature flags & licensing,P0,Partially implemented (Sprint 002),R0,,,Module activation flags (licensing later)
 CORE-007,CORE,Configuration versioning,P0,Partially implemented (Sprint 001),R0,,,TenantConfigurationVersion (foundation)
 CORE-008,CORE,Global numbering,P0,DONE,R0,,,Number sequences: atomic per-tenant draws (Sprint 016)
@@ -326,9 +326,9 @@ HCM-010,HCM,Onboarding/offboarding,P2,PLANNED,R4+,,,
 HCM-011,HCM,Safety/EHS hooks,P2,PLANNED,R4+,,,
 HCM-012,HCM,Payroll integration,P2,PLANNED,R4+,,,
 DOC-001,DOC,Document templates,P1,Partially implemented (Sprint 002),R0/R1,,,Template storage (rendering later)
-DOC-002,DOC,PDF generation,P1,PLANNED,R0/R1,,,
+DOC-002,DOC,PDF generation,P1,DONE,R0/R1,,,"Server-side PDF: quote, invoice, delivery note (Sprint 023)"
 DOC-003,DOC,Template versioning,P1,Partially implemented (Sprint 002),R0/R1,,,Immutable template versions
-DOC-004,DOC,Document numbering,P1,PLANNED,R0/R1,,,
+DOC-004,DOC,Document numbering,P1,DONE,R0/R1,,,Documents carry governed record numbers (Sprint 023)
 DOC-005,DOC,Document lifecycle,P1,PLANNED,R0/R1,,,
 DOC-006,DOC,Electronic-signature adapter,P1,PLANNED,R0/R1,,,
 DOC-007,DOC,Contract repository,P1,PLANNED,R0/R1,,,

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
+import { downloadDocument } from '../../../lib/download';
 import { useApp } from '../app-shell';
 
 interface PriceListView {
@@ -389,7 +390,21 @@ export default function QuotesPage() {
                     {accountName(q.accountId)} · {q.total} {q.currency}
                   </div>
                 </div>
-                <span className={`badge ${QUOTE_BADGE[q.status]}`}>{q.status}</span>
+                <span>
+                  <button
+                    className="btn btn-sm"
+                    style={{ marginRight: 6 }}
+                    onClick={() => {
+                      downloadDocument(`/api/v1/documents/quote/${q.id}/pdf`).catch((e: unknown) =>
+                        setError(errorText(e)),
+                      );
+                    }}
+                    type="button"
+                  >
+                    PDF
+                  </button>
+                  <span className={`badge ${QUOTE_BADGE[q.status]}`}>{q.status}</span>
+                </span>
               </div>
 
               {q.lines.length > 0 ? (

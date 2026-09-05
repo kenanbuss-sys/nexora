@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
+import { downloadDocument } from '../../../lib/download';
 import { useApp } from '../app-shell';
 
 interface InvoiceView {
@@ -354,8 +355,24 @@ export default function FinancePage() {
                     {i.paidAmount} / {i.total} {i.currency} paid
                   </div>
                 </div>
-                <span className={`badge ${INVOICE_BADGE[i.status]}`}>
-                  {i.status.replace('_', ' ')}
+                <span>
+                  {i.invoiceType === 'CUSTOMER' ? (
+                    <button
+                      className="btn btn-sm"
+                      style={{ marginRight: 6 }}
+                      onClick={() => {
+                        downloadDocument(`/api/v1/documents/invoice/${i.id}/pdf`).catch(
+                          (e: unknown) => setError(errorText(e)),
+                        );
+                      }}
+                      type="button"
+                    >
+                      PDF
+                    </button>
+                  ) : null}
+                  <span className={`badge ${INVOICE_BADGE[i.status]}`}>
+                    {i.status.replace('_', ' ')}
+                  </span>
                 </span>
               </div>
               {i.invoiceType === 'SUPPLIER' && can('finance.manage') && costCenters.length > 0 ? (

@@ -1,0 +1,269 @@
+import PDFDocument from 'pdfkit';
+import type { PrismaClient } from '@nexora/db';
+import { DomainError, notFound } from '@nexora/kernel';
+import type { RequestContext } from '@nexora/tenancy';
+
+/**
+ * Business document rendering (DOC-002): server-side PDF generation for
+ * quotes, invoices and delivery notes. Documents carry the tenant's own
+ * name (white-label — no platform branding baked in), the record's
+ * governed number (DOC-004) and line detail from the transactional
+ * truth. Rendering is read-only over the owning domains' records.
+ */
+
+export interface RenderedDocument {
+  fileName: string;
+  contentType: 'application/pdf';
+  dataBase64: string;
+}
+
+interface DocLine {
+  description: string;
+  quantity: string;
+  unitPrice: string;
+  lineTotal: string;
+}
+
+interface DocModel {
+  kind: string;
+  title: string;
+  number: string;
+  fileName: string;
+  partyLabel: string;
+  partyName: string;
+  issuedAt: Date;
+  currency: string;
+  total: string;
+  meta: Array<[string, string]>;
+  lines: DocLine[];
+  footNote?: string | undefined;
+}
+
+const ACCENT = '#1d4ed8';
+const INK = '#111827';
+const MUTED = '#6b7280';
+
+export class PdfService {
+  constructor(private readonly prisma: PrismaClient) {}
+
+  private async tenantName(tenantId: string): Promise<string> {
+    const tenant = await this.prisma.tenant.findUnique({ where: { id: tenantId } });
+    return tenant?.name ?? 'NexoraOS';
+  }
+
+  private render(companyName: string, model: DocModel): Promise<RenderedDocument> {
+    return new Promise((resolve, reject) => {
+      const doc = new PDFDocument({ size: 'A4', margin: 50 });
+      const chunks: Buffer[] = [];
+      doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+      doc.on('error', reject);
+      doc.on('end', () =>
+        resolve({
+          fileName: model.fileName,
+          contentType: 'application/pdf',
+          dataBase64: Buffer.concat(chunks).toString('base64'),
+        }),
+      );
+
+      const pageWidth = doc.page.width - 100;
+
+      // Header band.
+      doc.rect(0, 0, doc.page.width, 90).fill(ACCENT);
+      doc.fill('#ffffff').font('Helvetica-Bold').fontSize(20).text(companyName, 50, 28);
+      doc
+        .font('Helvetica')
+        .fontSize(10)
+        .text(model.title.toUpperCase(), 50, 56, { characterSpacing: 2 });
+      doc
+        .font('Helvetica-Bold')
+        .fontSize(16)
+        .text(model.number, 50, 28, { width: pageWidth, align: 'right' });
+      doc.font('Helvetica').fontSize(10).text(model.issuedAt.toISOString().slice(0, 10), 50, 56, {
+        width: pageWidth,
+        align: 'right',
+      });
+
+      // Party + meta.
+      let y = 120;
+      doc.fill(MUTED).fontSize(9).text(model.partyLabel.toUpperCase(), 50, y);
+      doc
+        .fill(INK)
+        .font('Helvetica-Bold')
+        .fontSize(13)
+        .text(model.partyName, 50, y + 13);
+      doc.font('Helvetica').fontSize(10);
+      let metaY = y;
+      for (const [label, value] of model.meta) {
+        doc.fill(MUTED).text(`${label}:`, 330, metaY, { width: 110 });
+        doc.fill(INK).text(value, 440, metaY, { width: 105, align: 'right' });
+        metaY += 15;
+      }
+
+      // Lines table.
+      y = Math.max(y + 60, metaY + 20);
+      doc.rect(50, y, pageWidth, 22).fill('#eef2ff');
+      doc.fill(ACCENT).font('Helvetica-Bold').fontSize(9);
+      doc.text('DESCRIPTION', 58, y + 7, { width: 250 });
+      doc.text('QTY', 320, y + 7, { width: 60, align: 'right' });
+      doc.text('UNIT PRICE', 385, y + 7, { width: 75, align: 'right' });
+      doc.text('TOTAL', 465, y + 7, { width: 80, align: 'right' });
+      y += 22;
+      doc.font('Helvetica').fontSize(10);
+      for (const line of model.lines) {
+        doc.fill(INK).text(line.description, 58, y + 7, { width: 250 });
+        doc.text(line.quantity, 320, y + 7, { width: 60, align: 'right' });
+        doc.text(line.unitPrice, 385, y + 7, { width: 75, align: 'right' });
+        doc.text(line.lineTotal, 465, y + 7, { width: 80, align: 'right' });
+        const rowHeight = Math.max(22, doc.heightOfString(line.description, { width: 250 }) + 10);
+        y += rowHeight;
+        doc
+          .moveTo(50, y)
+          .lineTo(50 + pageWidth, y)
+          .strokeColor('#e5e7eb')
+          .stroke();
+        if (y > doc.page.height - 160) {
+          doc.addPage();
+          y = 50;
+        }
+      }
+
+      // Total.
+      y += 12;
+      doc.rect(330, y, 215, 30).fill(ACCENT);
+      doc.fill('#ffffff').font('Helvetica-Bold').fontSize(12);
+      doc.text('TOTAL', 342, y + 9);
+      doc.text(`${model.total} ${model.currency}`, 380, y + 9, { width: 155, align: 'right' });
+
+      if (model.footNote) {
+        doc
+          .fill(MUTED)
+          .font('Helvetica')
+          .fontSize(9)
+          .text(model.footNote, 50, y + 50, { width: pageWidth });
+      }
+      doc
+        .fill(MUTED)
+        .fontSize(8)
+        .text(
+          `Generated by ${companyName} · ${new Date().toISOString().slice(0, 16).replace('T', ' ')} UTC`,
+          50,
+          doc.page.height - 60,
+          { width: pageWidth, align: 'center' },
+        );
+      doc.end();
+    });
+  }
+
+  /** Quote PDF (DOC-002). */
+  async renderQuote(quoteId: string, ctx: RequestContext): Promise<RenderedDocument> {
+    const quote = await this.prisma.quote.findFirst({
+      where: { id: quoteId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!quote) throw notFound('Quote', quoteId);
+    const party = await this.partyOfAccount(quote.accountId, ctx.tenantId);
+    return this.render(await this.tenantName(ctx.tenantId), {
+      kind: 'quote',
+      title: 'Quotation',
+      number: `${quote.quoteNumber} v${quote.version}`,
+      fileName: `${quote.quoteNumber}.pdf`,
+      partyLabel: 'Prepared for',
+      partyName: party,
+      issuedAt: quote.createdAt,
+      currency: quote.currency,
+      total: Number(quote.total).toFixed(2),
+      meta: [
+        ['Status', quote.status],
+        ['Valid until', quote.validUntil ? quote.validUntil.toISOString().slice(0, 10) : '—'],
+      ],
+      lines: quote.lines.map((l) => ({
+        description: l.description,
+        quantity: Number(l.quantity).toString(),
+        unitPrice: Number(l.netUnitPrice).toFixed(2),
+        lineTotal: Number(l.lineTotal).toFixed(2),
+      })),
+      footNote: 'This quotation is not an invoice. Prices are valid until the stated date.',
+    });
+  }
+
+  /** Invoice PDF (DOC-002). */
+  async renderInvoice(invoiceId: string, ctx: RequestContext): Promise<RenderedDocument> {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id: invoiceId, tenantId: ctx.tenantId },
+    });
+    if (!invoice) throw notFound('Invoice', invoiceId);
+    if (invoice.invoiceType !== 'CUSTOMER') {
+      throw new DomainError('VALIDATION_FAILED', 'Only customer invoices render as documents');
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: invoice.orderRefId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    const party = await this.partyOfAccount(invoice.partyRefId, ctx.tenantId);
+    const open = (Number(invoice.total) - Number(invoice.paidAmount)).toFixed(2);
+    return this.render(await this.tenantName(ctx.tenantId), {
+      kind: 'invoice',
+      title: 'Invoice',
+      number: invoice.invoiceNumber,
+      fileName: `${invoice.invoiceNumber}.pdf`,
+      partyLabel: 'Bill to',
+      partyName: party,
+      issuedAt: invoice.issuedAt,
+      currency: invoice.currency,
+      total: Number(invoice.total).toFixed(2),
+      meta: [
+        ['Due date', invoice.dueAt ? invoice.dueAt.toISOString().slice(0, 10) : '—'],
+        ['Order', order?.orderNumber ?? '—'],
+        ['Paid', Number(invoice.paidAmount).toFixed(2)],
+        ['Open', open],
+      ],
+      lines: (order?.lines ?? []).map((l) => ({
+        description: l.description,
+        quantity: Number(l.quantity).toString(),
+        unitPrice: Number(l.unitPrice).toFixed(2),
+        lineTotal: Number(l.lineTotal).toFixed(2),
+      })),
+      footNote: 'Please quote the invoice number with your payment.',
+    });
+  }
+
+  /** Delivery note PDF (DOC-002) for a fulfilled order. */
+  async renderDeliveryNote(orderId: string, ctx: RequestContext): Promise<RenderedDocument> {
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('SalesOrder', orderId);
+    const party = await this.partyOfAccount(order.accountId, ctx.tenantId);
+    return this.render(await this.tenantName(ctx.tenantId), {
+      kind: 'delivery_note',
+      title: 'Delivery note',
+      number: order.orderNumber,
+      fileName: `delivery-${order.orderNumber}.pdf`,
+      partyLabel: 'Deliver to',
+      partyName: party,
+      issuedAt: new Date(),
+      currency: order.currency,
+      total: Number(order.total).toFixed(2),
+      meta: [['Order status', order.status]],
+      lines: order.lines.map((l) => ({
+        description: l.description,
+        quantity: Number(l.quantity).toString(),
+        unitPrice: Number(l.unitPrice).toFixed(2),
+        lineTotal: Number(l.lineTotal).toFixed(2),
+      })),
+      footNote: 'Received in good order: ______________________    Date: ____________',
+    });
+  }
+
+  private async partyOfAccount(accountId: string, tenantId: string): Promise<string> {
+    const account = await this.prisma.crmAccount.findFirst({
+      where: { id: accountId, tenantId },
+    });
+    if (!account) return '(unknown)';
+    const party = await this.prisma.party.findFirst({
+      where: { id: account.partyId, tenantId },
+    });
+    return party?.name ?? account.accountNumber;
+  }
+}
