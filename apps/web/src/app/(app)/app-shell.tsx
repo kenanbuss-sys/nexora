@@ -53,6 +53,11 @@ const ICONS: Record<string, string> = {
   production:
     'M12 20.5a8.5 8.5 0 100-17 8.5 8.5 0 000 17zM12 6v2M12 16v2M6 12h2M16 12h2M8.5 8.5l1.4 1.4M14.1 14.1l1.4 1.4M8.5 15.5l1.4-1.4M14.1 9.9l1.4-1.4',
   quality: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
+  integrations:
+    'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71',
+  finance: 'M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6',
+  analytics: 'M18 20V10M12 20V4M6 20v-6',
+  portal: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8',
 };
 
 interface SearchHit {
@@ -176,6 +181,12 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/quality', label: 'Quality', icon: 'quality', permission: 'qc.read' },
   { href: '/finance', label: 'Finance', icon: 'finance', permission: 'finance.read' },
   { href: '/analytics', label: 'Analytics', icon: 'analytics', permission: 'analytics.read' },
+  {
+    href: '/integrations',
+    label: 'Integrations',
+    icon: 'integrations',
+    permission: 'integration.read',
+  },
   { href: '/portal', label: 'Portal', icon: 'portal', permission: 'portal.manage' },
   { href: '/parties', label: 'Parties', icon: 'parties', permission: 'mdm.read' },
   { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },

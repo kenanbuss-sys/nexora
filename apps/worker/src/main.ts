@@ -6,6 +6,7 @@ import {
   startTelemetry,
 } from '@nexora/observability';
 import { Queue, Worker } from 'bullmq';
+import { IntegrationService } from '@nexora/domain-int';
 import { dispatchPendingOutbox } from './outbox';
 import { createRuleEngineConsumer } from './rule-engine';
 
@@ -16,6 +17,7 @@ import { createRuleEngineConsumer } from './rule-engine';
  */
 const HEARTBEAT_QUEUE = 'system.heartbeat';
 const OUTBOX_QUEUE = 'system.outbox-dispatch';
+const WEBHOOK_QUEUE = 'system.webhook-dispatch';
 
 async function main(): Promise<void> {
   const env = loadEnv();
@@ -37,6 +39,27 @@ async function main(): Promise<void> {
         console.log(
           `[nexora-worker] heartbeat job=${job.id ?? 'n/a'} correlationId=${getOrCreateCorrelationId()}`,
         );
+      }),
+    { connection },
+  );
+
+  const integrations = new IntegrationService(prisma);
+  const webhookQueue = new Queue(WEBHOOK_QUEUE, { connection });
+  await webhookQueue.upsertJobScheduler('webhook-dispatch', { every: 15_000 });
+  const webhookWorker = new Worker(
+    WEBHOOK_QUEUE,
+    async () =>
+      runWithCorrelationId(undefined, async () => {
+        const tenants = await prisma.tenant.findMany({ select: { id: true } });
+        for (const tenant of tenants) {
+          const fanned = await integrations.fanOut(tenant.id);
+          const result = await integrations.dispatchDue(tenant.id);
+          if (fanned > 0 || result.delivered > 0 || result.failed > 0) {
+            console.log(
+              `[nexora-worker] webhooks tenant=${tenant.id} fanned=${fanned} delivered=${result.delivered} failed=${result.failed}`,
+            );
+          }
+        }
       }),
     { connection },
   );
@@ -70,8 +93,8 @@ async function main(): Promise<void> {
   }
 
   const shutdown = async (): Promise<void> => {
-    await Promise.all([heartbeatWorker.close(), outboxWorker.close()]);
-    await Promise.all([heartbeatQueue.close(), outboxQueue.close()]);
+    await Promise.all([heartbeatWorker.close(), outboxWorker.close(), webhookWorker.close()]);
+    await Promise.all([heartbeatQueue.close(), outboxQueue.close(), webhookQueue.close()]);
     await prisma.$disconnect();
     await stopTelemetry();
     process.exit(0);

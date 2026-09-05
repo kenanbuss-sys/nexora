@@ -26,6 +26,7 @@ import { FinanceService, TreasuryService } from '@nexora/domain-fin';
 import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
+import { IntegrationService } from '@nexora/domain-int';
 import { CatalogService } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
 import { InventoryService, WmsOrderService } from '@nexora/domain-wms';
@@ -92,6 +93,7 @@ import {
   SEARCH_SERVICE,
   SearchController,
 } from './collab/collab.controller';
+import { INTEGRATION_SERVICE, IntegrationsController } from './int/int.controller';
 import {
   PROCUREMENT_SERVICE,
   PurchaseOrdersController,
@@ -186,6 +188,7 @@ export const REDIS = 'REDIS';
     CommentsController,
     AttachmentsController,
     SearchController,
+    IntegrationsController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -498,6 +501,11 @@ export const REDIS = 'REDIS';
     {
       provide: SEARCH_SERVICE,
       useFactory: (prisma: PrismaClient) => new SearchService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: INTEGRATION_SERVICE,
+      useFactory: (prisma: PrismaClient) => new IntegrationService(prisma),
       inject: [PRISMA],
     },
     {

@@ -395,15 +395,15 @@ INT-004,INT,Bank/payment connectors,P0,PLANNED,R0,,,
 INT-005,INT,Courier connectors,P0,PLANNED,R0,,,
 INT-006,INT,Fiscal/eInvoice connectors,P0,PLANNED,R0,,,
 INT-007,INT,EDI,P0,PLANNED,R0,,,
-INT-008,INT,Webhooks,P0,PLANNED,R0,,,
+INT-008,INT,Webhooks,P0,DONE,R0,,,Outbound webhooks with HMAC signing (Sprint 020)
 INT-009,INT,Public API,P0,PLANNED,R0,,,
 INT-010,INT,Mapping engine,P0,PLANNED,R0,,,
-INT-011,INT,Idempotency,P0,PLANNED,R0,,,
-INT-012,INT,Retry policy,P0,PLANNED,R0,,,
-INT-013,INT,Dead-letter queue,P0,PLANNED,R0,,,
+INT-011,INT,Idempotency,P0,DONE,R0,,,"Exactly-once fan-out per (subscription, event) (Sprint 020)"
+INT-012,INT,Retry policy,P0,DONE,R0,,,Exponential backoff retries (Sprint 020)
+INT-013,INT,Dead-letter queue,P0,DONE,R0,,,Dead-letter after 5 attempts (Sprint 020)
 INT-014,INT,Reconciliation,P0,PLANNED,R0,,,
-INT-015,INT,Health monitoring,P0,PLANNED,R0,,,
-INT-016,INT,Run history,P0,PLANNED,R0,,,
+INT-015,INT,Health monitoring,P0,DONE,R0,,,Per-subscription delivery health (Sprint 020)
+INT-016,INT,Run history,P0,DONE,R0,,,Full delivery run history (Sprint 020)
 INT-017,INT,Secrets management,P0,PLANNED,R0,,,
 INT-018,INT,Rate-limit handling,P0,PLANNED,R0,,,
 INT-019,INT,Versioned mappings,P0,PLANNED,R0,,,

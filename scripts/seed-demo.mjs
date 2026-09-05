@@ -139,6 +139,8 @@ const BASELINE = [
   'portal.manage',
   'finance.manage',
   'collab.use',
+  'integration.read',
+  'integration.manage',
   'search.read',
 ];
 try {

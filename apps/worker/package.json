@@ -13,6 +13,7 @@
   "dependencies": {
     "@nexora/config": "workspace:*",
     "@nexora/db": "workspace:*",
+    "@nexora/domain-int": "workspace:*",
     "@nexora/observability": "workspace:*",
     "bullmq": "^6.3.0",
     "ioredis": "^5.9.0",
