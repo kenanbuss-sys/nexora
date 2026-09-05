@@ -1,0 +1,7 @@
+.git
+node_modules
+**/node_modules
+**/dist
+apps/web/.next
+deploy/.env
+*.bundle

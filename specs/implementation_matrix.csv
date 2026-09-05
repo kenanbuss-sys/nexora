@@ -435,16 +435,16 @@ WF-010,WF,Audit/explanation,P0,Partially implemented (Sprint 002),R0,,,Workflow/
 WF-011,WF,Reusable templates,P0,PLANNED,R0,,,
 WF-012,WF,Override governance,P0,PLANNED,R0,,,
 OPS-001,OPS,Platform admin,P0,PLANNED,R0,,,
-OPS-002,OPS,Tenant provisioning,P0,PLANNED,R0,,,
-OPS-003,OPS,Environment management,P0,PLANNED,R0,,,
+OPS-002,OPS,Tenant provisioning,P0,DONE,R0,,,Self-hosted Docker stack: one-command provisioning (Sprint 026)
+OPS-003,OPS,Environment management,P0,DONE,R0,,,Compose environments with env-file config (Sprint 026)
 OPS-004,OPS,Release management,P0,PLANNED,R0,,,
 OPS-005,OPS,Tenant rollout,P0,PLANNED,R0,,,
-OPS-006,OPS,Database migrations,P0,PLANNED,R0,,,
+OPS-006,OPS,Database migrations,P0,DONE,R0,,,Auto-applied tracked SQL migrations on deploy (Sprint 026)
 OPS-007,OPS,Observability,P0,PLANNED,R0,,,
 OPS-008,OPS,Error tracking,P0,PLANNED,R0,,,
 OPS-009,OPS,Integration monitoring,P0,PLANNED,R0,,,
 OPS-010,OPS,Device monitoring,P0,PLANNED,R0,,,
-OPS-011,OPS,Backups,P0,PLANNED,R0,,,
+OPS-011,OPS,Backups,P0,DONE,R0,,,Documented volume/pg_dump backup procedure (Sprint 026)
 OPS-012,OPS,PITR,P0,PLANNED,R0,,,
 OPS-013,OPS,Disaster recovery,P0,PLANNED,R0,,,
 OPS-014,OPS,Usage analytics,P0,DONE,R0,,,"Per-tenant usage analytics, operator-only (Sprint 021)"

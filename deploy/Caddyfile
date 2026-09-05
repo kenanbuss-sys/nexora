@@ -1,0 +1,6 @@
+# Automatic HTTPS for the configured domain (e.g. nexora.xcall.ba).
+# Caddy obtains and renews the Let's Encrypt certificate by itself.
+{$DOMAIN} {
+	encode gzip
+	reverse_proxy web:3000
+}

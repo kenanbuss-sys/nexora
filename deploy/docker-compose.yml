@@ -1,0 +1,118 @@
+# NexoraOS — fully self-hosted stack (Sprint 026).
+# Everything runs on your own server: web, API, worker, PostgreSQL,
+# Redis and Caddy (automatic HTTPS). No public platforms involved.
+#
+#   cp deploy/env.example deploy/.env   # then edit it
+#   docker compose -f deploy/docker-compose.yml --env-file deploy/.env up -d --build
+
+name: nexora
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in deploy/.env}
+      POSTGRES_DB: enterprise_os
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U app -d enterprise_os']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    image: postgres:16-alpine
+    entrypoint: ['sh', '/migrate.sh']
+    environment:
+      PGHOST: db
+      PGUSER: app
+      PGPASSWORD: ${DB_PASSWORD}
+      PGDATABASE: enterprise_os
+    volumes:
+      - ../prisma/migrations:/migrations:ro
+      - ./migrate.sh:/migrate.sh:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: 'no'
+
+  api:
+    build:
+      context: ..
+      target: api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://app:${DB_PASSWORD}@db:5432/enterprise_os
+      REDIS_URL: redis://redis:6379
+      API_PORT: 3001
+      DEV_AUTH_SECRET: ${AUTH_SECRET:?set AUTH_SECRET in deploy/.env}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ..
+      target: worker
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://app:${DB_PASSWORD}@db:5432/enterprise_os
+      REDIS_URL: redis://redis:6379
+      DEV_AUTH_SECRET: ${AUTH_SECRET}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ..
+      target: web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      API_URL: http://api:3001
+      DEV_AUTH_SECRET: ${AUTH_SECRET}
+    depends_on:
+      - api
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in deploy/.env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  db_data:
+  redis_data:
+  caddy_data:
+  caddy_config:
