@@ -264,6 +264,13 @@ export type PriceListEntry = $Result.DefaultSelection<Prisma.$PriceListEntryPayl
  */
 export type Quote = $Result.DefaultSelection<Prisma.$QuotePayload>
 /**
+ * Model SkuSubstitution
+ * SKU substitutions (PIM): governed alternatives offered when the
+ * primary SKU cannot be served (e.g. backorders). Directed edges with
+ * a priority; availability is read live from the WMS ledger.
+ */
+export type SkuSubstitution = $Result.DefaultSelection<Prisma.$SkuSubstitutionPayload>
+/**
  * Model DiscountRule
  * Rule-based automatic discounts (CPQ): the best matching active rule
  * (most specific, then highest percentage) sets the default discount on
@@ -1742,6 +1749,16 @@ export class PrismaClient<
   get quote(): Prisma.QuoteDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.skuSubstitution`: Exposes CRUD operations for the **SkuSubstitution** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SkuSubstitutions
+    * const skuSubstitutions = await prisma.skuSubstitution.findMany()
+    * ```
+    */
+  get skuSubstitution(): Prisma.SkuSubstitutionDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.discountRule`: Exposes CRUD operations for the **DiscountRule** model.
     * Example usage:
     * ```ts
@@ -2679,6 +2696,7 @@ export namespace Prisma {
     PriceList: 'PriceList',
     PriceListEntry: 'PriceListEntry',
     Quote: 'Quote',
+    SkuSubstitution: 'SkuSubstitution',
     DiscountRule: 'DiscountRule',
     QuoteLine: 'QuoteLine',
     SalesOrder: 'SalesOrder',
@@ -2742,7 +2760,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6298,6 +6316,80 @@ export namespace Prisma {
           }
         }
       }
+      SkuSubstitution: {
+        payload: Prisma.$SkuSubstitutionPayload<ExtArgs>
+        fields: Prisma.SkuSubstitutionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SkuSubstitutionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SkuSubstitutionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>
+          }
+          findFirst: {
+            args: Prisma.SkuSubstitutionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SkuSubstitutionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>
+          }
+          findMany: {
+            args: Prisma.SkuSubstitutionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>[]
+          }
+          create: {
+            args: Prisma.SkuSubstitutionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>
+          }
+          createMany: {
+            args: Prisma.SkuSubstitutionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SkuSubstitutionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>[]
+          }
+          delete: {
+            args: Prisma.SkuSubstitutionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>
+          }
+          update: {
+            args: Prisma.SkuSubstitutionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>
+          }
+          deleteMany: {
+            args: Prisma.SkuSubstitutionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SkuSubstitutionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SkuSubstitutionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>[]
+          }
+          upsert: {
+            args: Prisma.SkuSubstitutionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuSubstitutionPayload>
+          }
+          aggregate: {
+            args: Prisma.SkuSubstitutionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSkuSubstitution>
+          }
+          groupBy: {
+            args: Prisma.SkuSubstitutionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SkuSubstitutionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SkuSubstitutionCountArgs<ExtArgs>
+            result: $Utils.Optional<SkuSubstitutionCountAggregateOutputType> | number
+          }
+        }
+      }
       DiscountRule: {
         payload: Prisma.$DiscountRulePayload<ExtArgs>
         fields: Prisma.DiscountRuleFieldRefs
@@ -9772,6 +9864,7 @@ export namespace Prisma {
     priceList?: PriceListOmit
     priceListEntry?: PriceListEntryOmit
     quote?: QuoteOmit
+    skuSubstitution?: SkuSubstitutionOmit
     discountRule?: DiscountRuleOmit
     quoteLine?: QuoteLineOmit
     salesOrder?: SalesOrderOmit
@@ -9979,6 +10072,7 @@ export namespace Prisma {
     downtimeEvents: number
     userCredentials: number
     discountRules: number
+    skuSubstitutions: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10064,6 +10158,7 @@ export namespace Prisma {
     downtimeEvents?: boolean | TenantCountOutputTypeCountDowntimeEventsArgs
     userCredentials?: boolean | TenantCountOutputTypeCountUserCredentialsArgs
     discountRules?: boolean | TenantCountOutputTypeCountDiscountRulesArgs
+    skuSubstitutions?: boolean | TenantCountOutputTypeCountSkuSubstitutionsArgs
   }
 
   // Custom InputTypes
@@ -10649,6 +10744,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountDiscountRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DiscountRuleWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSkuSubstitutionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SkuSubstitutionWhereInput
   }
 
 
@@ -11967,6 +12069,7 @@ export namespace Prisma {
     downtimeEvents?: boolean | Tenant$downtimeEventsArgs<ExtArgs>
     userCredentials?: boolean | Tenant$userCredentialsArgs<ExtArgs>
     discountRules?: boolean | Tenant$discountRulesArgs<ExtArgs>
+    skuSubstitutions?: boolean | Tenant$skuSubstitutionsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -12084,6 +12187,7 @@ export namespace Prisma {
     downtimeEvents?: boolean | Tenant$downtimeEventsArgs<ExtArgs>
     userCredentials?: boolean | Tenant$userCredentialsArgs<ExtArgs>
     discountRules?: boolean | Tenant$discountRulesArgs<ExtArgs>
+    skuSubstitutions?: boolean | Tenant$skuSubstitutionsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12174,6 +12278,7 @@ export namespace Prisma {
       downtimeEvents: Prisma.$DowntimeEventPayload<ExtArgs>[]
       userCredentials: Prisma.$UserCredentialPayload<ExtArgs>[]
       discountRules: Prisma.$DiscountRulePayload<ExtArgs>[]
+      skuSubstitutions: Prisma.$SkuSubstitutionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12659,6 +12764,7 @@ export namespace Prisma {
     downtimeEvents<T extends Tenant$downtimeEventsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$downtimeEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DowntimeEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userCredentials<T extends Tenant$userCredentialsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$userCredentialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCredentialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discountRules<T extends Tenant$discountRulesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$discountRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscountRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    skuSubstitutions<T extends Tenant$skuSubstitutionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$skuSubstitutionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15048,6 +15154,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DiscountRuleScalarFieldEnum | DiscountRuleScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.skuSubstitutions
+   */
+  export type Tenant$skuSubstitutionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    where?: SkuSubstitutionWhereInput
+    orderBy?: SkuSubstitutionOrderByWithRelationInput | SkuSubstitutionOrderByWithRelationInput[]
+    cursor?: SkuSubstitutionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SkuSubstitutionScalarFieldEnum | SkuSubstitutionScalarFieldEnum[]
   }
 
   /**
@@ -68248,6 +68378,1124 @@ export namespace Prisma {
 
 
   /**
+   * Model SkuSubstitution
+   */
+
+  export type AggregateSkuSubstitution = {
+    _count: SkuSubstitutionCountAggregateOutputType | null
+    _avg: SkuSubstitutionAvgAggregateOutputType | null
+    _sum: SkuSubstitutionSumAggregateOutputType | null
+    _min: SkuSubstitutionMinAggregateOutputType | null
+    _max: SkuSubstitutionMaxAggregateOutputType | null
+  }
+
+  export type SkuSubstitutionAvgAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type SkuSubstitutionSumAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type SkuSubstitutionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    substituteSkuId: string | null
+    priority: number | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type SkuSubstitutionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    substituteSkuId: string | null
+    priority: number | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type SkuSubstitutionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    substituteSkuId: number
+    priority: number
+    note: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SkuSubstitutionAvgAggregateInputType = {
+    priority?: true
+  }
+
+  export type SkuSubstitutionSumAggregateInputType = {
+    priority?: true
+  }
+
+  export type SkuSubstitutionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    substituteSkuId?: true
+    priority?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type SkuSubstitutionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    substituteSkuId?: true
+    priority?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type SkuSubstitutionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    substituteSkuId?: true
+    priority?: true
+    note?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SkuSubstitutionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SkuSubstitution to aggregate.
+     */
+    where?: SkuSubstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuSubstitutions to fetch.
+     */
+    orderBy?: SkuSubstitutionOrderByWithRelationInput | SkuSubstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SkuSubstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuSubstitutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuSubstitutions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SkuSubstitutions
+    **/
+    _count?: true | SkuSubstitutionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SkuSubstitutionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SkuSubstitutionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SkuSubstitutionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SkuSubstitutionMaxAggregateInputType
+  }
+
+  export type GetSkuSubstitutionAggregateType<T extends SkuSubstitutionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSkuSubstitution]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSkuSubstitution[P]>
+      : GetScalarType<T[P], AggregateSkuSubstitution[P]>
+  }
+
+
+
+
+  export type SkuSubstitutionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SkuSubstitutionWhereInput
+    orderBy?: SkuSubstitutionOrderByWithAggregationInput | SkuSubstitutionOrderByWithAggregationInput[]
+    by: SkuSubstitutionScalarFieldEnum[] | SkuSubstitutionScalarFieldEnum
+    having?: SkuSubstitutionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SkuSubstitutionCountAggregateInputType | true
+    _avg?: SkuSubstitutionAvgAggregateInputType
+    _sum?: SkuSubstitutionSumAggregateInputType
+    _min?: SkuSubstitutionMinAggregateInputType
+    _max?: SkuSubstitutionMaxAggregateInputType
+  }
+
+  export type SkuSubstitutionGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    substituteSkuId: string
+    priority: number
+    note: string | null
+    createdAt: Date
+    _count: SkuSubstitutionCountAggregateOutputType | null
+    _avg: SkuSubstitutionAvgAggregateOutputType | null
+    _sum: SkuSubstitutionSumAggregateOutputType | null
+    _min: SkuSubstitutionMinAggregateOutputType | null
+    _max: SkuSubstitutionMaxAggregateOutputType | null
+  }
+
+  type GetSkuSubstitutionGroupByPayload<T extends SkuSubstitutionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SkuSubstitutionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SkuSubstitutionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SkuSubstitutionGroupByOutputType[P]>
+            : GetScalarType<T[P], SkuSubstitutionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SkuSubstitutionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    substituteSkuId?: boolean
+    priority?: boolean
+    note?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skuSubstitution"]>
+
+  export type SkuSubstitutionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    substituteSkuId?: boolean
+    priority?: boolean
+    note?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skuSubstitution"]>
+
+  export type SkuSubstitutionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    substituteSkuId?: boolean
+    priority?: boolean
+    note?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skuSubstitution"]>
+
+  export type SkuSubstitutionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    substituteSkuId?: boolean
+    priority?: boolean
+    note?: boolean
+    createdAt?: boolean
+  }
+
+  export type SkuSubstitutionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "substituteSkuId" | "priority" | "note" | "createdAt", ExtArgs["result"]["skuSubstitution"]>
+  export type SkuSubstitutionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SkuSubstitutionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SkuSubstitutionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $SkuSubstitutionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SkuSubstitution"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      substituteSkuId: string
+      priority: number
+      note: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["skuSubstitution"]>
+    composites: {}
+  }
+
+  type SkuSubstitutionGetPayload<S extends boolean | null | undefined | SkuSubstitutionDefaultArgs> = $Result.GetResult<Prisma.$SkuSubstitutionPayload, S>
+
+  type SkuSubstitutionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SkuSubstitutionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SkuSubstitutionCountAggregateInputType | true
+    }
+
+  export interface SkuSubstitutionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SkuSubstitution'], meta: { name: 'SkuSubstitution' } }
+    /**
+     * Find zero or one SkuSubstitution that matches the filter.
+     * @param {SkuSubstitutionFindUniqueArgs} args - Arguments to find a SkuSubstitution
+     * @example
+     * // Get one SkuSubstitution
+     * const skuSubstitution = await prisma.skuSubstitution.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SkuSubstitutionFindUniqueArgs>(args: SelectSubset<T, SkuSubstitutionFindUniqueArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SkuSubstitution that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SkuSubstitutionFindUniqueOrThrowArgs} args - Arguments to find a SkuSubstitution
+     * @example
+     * // Get one SkuSubstitution
+     * const skuSubstitution = await prisma.skuSubstitution.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SkuSubstitutionFindUniqueOrThrowArgs>(args: SelectSubset<T, SkuSubstitutionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SkuSubstitution that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuSubstitutionFindFirstArgs} args - Arguments to find a SkuSubstitution
+     * @example
+     * // Get one SkuSubstitution
+     * const skuSubstitution = await prisma.skuSubstitution.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SkuSubstitutionFindFirstArgs>(args?: SelectSubset<T, SkuSubstitutionFindFirstArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SkuSubstitution that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuSubstitutionFindFirstOrThrowArgs} args - Arguments to find a SkuSubstitution
+     * @example
+     * // Get one SkuSubstitution
+     * const skuSubstitution = await prisma.skuSubstitution.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SkuSubstitutionFindFirstOrThrowArgs>(args?: SelectSubset<T, SkuSubstitutionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SkuSubstitutions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuSubstitutionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SkuSubstitutions
+     * const skuSubstitutions = await prisma.skuSubstitution.findMany()
+     * 
+     * // Get first 10 SkuSubstitutions
+     * const skuSubstitutions = await prisma.skuSubstitution.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const skuSubstitutionWithIdOnly = await prisma.skuSubstitution.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SkuSubstitutionFindManyArgs>(args?: SelectSubset<T, SkuSubstitutionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SkuSubstitution.
+     * @param {SkuSubstitutionCreateArgs} args - Arguments to create a SkuSubstitution.
+     * @example
+     * // Create one SkuSubstitution
+     * const SkuSubstitution = await prisma.skuSubstitution.create({
+     *   data: {
+     *     // ... data to create a SkuSubstitution
+     *   }
+     * })
+     * 
+     */
+    create<T extends SkuSubstitutionCreateArgs>(args: SelectSubset<T, SkuSubstitutionCreateArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SkuSubstitutions.
+     * @param {SkuSubstitutionCreateManyArgs} args - Arguments to create many SkuSubstitutions.
+     * @example
+     * // Create many SkuSubstitutions
+     * const skuSubstitution = await prisma.skuSubstitution.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SkuSubstitutionCreateManyArgs>(args?: SelectSubset<T, SkuSubstitutionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SkuSubstitutions and returns the data saved in the database.
+     * @param {SkuSubstitutionCreateManyAndReturnArgs} args - Arguments to create many SkuSubstitutions.
+     * @example
+     * // Create many SkuSubstitutions
+     * const skuSubstitution = await prisma.skuSubstitution.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SkuSubstitutions and only return the `id`
+     * const skuSubstitutionWithIdOnly = await prisma.skuSubstitution.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SkuSubstitutionCreateManyAndReturnArgs>(args?: SelectSubset<T, SkuSubstitutionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SkuSubstitution.
+     * @param {SkuSubstitutionDeleteArgs} args - Arguments to delete one SkuSubstitution.
+     * @example
+     * // Delete one SkuSubstitution
+     * const SkuSubstitution = await prisma.skuSubstitution.delete({
+     *   where: {
+     *     // ... filter to delete one SkuSubstitution
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SkuSubstitutionDeleteArgs>(args: SelectSubset<T, SkuSubstitutionDeleteArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SkuSubstitution.
+     * @param {SkuSubstitutionUpdateArgs} args - Arguments to update one SkuSubstitution.
+     * @example
+     * // Update one SkuSubstitution
+     * const skuSubstitution = await prisma.skuSubstitution.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SkuSubstitutionUpdateArgs>(args: SelectSubset<T, SkuSubstitutionUpdateArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SkuSubstitutions.
+     * @param {SkuSubstitutionDeleteManyArgs} args - Arguments to filter SkuSubstitutions to delete.
+     * @example
+     * // Delete a few SkuSubstitutions
+     * const { count } = await prisma.skuSubstitution.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SkuSubstitutionDeleteManyArgs>(args?: SelectSubset<T, SkuSubstitutionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SkuSubstitutions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuSubstitutionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SkuSubstitutions
+     * const skuSubstitution = await prisma.skuSubstitution.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SkuSubstitutionUpdateManyArgs>(args: SelectSubset<T, SkuSubstitutionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SkuSubstitutions and returns the data updated in the database.
+     * @param {SkuSubstitutionUpdateManyAndReturnArgs} args - Arguments to update many SkuSubstitutions.
+     * @example
+     * // Update many SkuSubstitutions
+     * const skuSubstitution = await prisma.skuSubstitution.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SkuSubstitutions and only return the `id`
+     * const skuSubstitutionWithIdOnly = await prisma.skuSubstitution.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SkuSubstitutionUpdateManyAndReturnArgs>(args: SelectSubset<T, SkuSubstitutionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SkuSubstitution.
+     * @param {SkuSubstitutionUpsertArgs} args - Arguments to update or create a SkuSubstitution.
+     * @example
+     * // Update or create a SkuSubstitution
+     * const skuSubstitution = await prisma.skuSubstitution.upsert({
+     *   create: {
+     *     // ... data to create a SkuSubstitution
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SkuSubstitution we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SkuSubstitutionUpsertArgs>(args: SelectSubset<T, SkuSubstitutionUpsertArgs<ExtArgs>>): Prisma__SkuSubstitutionClient<$Result.GetResult<Prisma.$SkuSubstitutionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SkuSubstitutions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuSubstitutionCountArgs} args - Arguments to filter SkuSubstitutions to count.
+     * @example
+     * // Count the number of SkuSubstitutions
+     * const count = await prisma.skuSubstitution.count({
+     *   where: {
+     *     // ... the filter for the SkuSubstitutions we want to count
+     *   }
+     * })
+    **/
+    count<T extends SkuSubstitutionCountArgs>(
+      args?: Subset<T, SkuSubstitutionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SkuSubstitutionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SkuSubstitution.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuSubstitutionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SkuSubstitutionAggregateArgs>(args: Subset<T, SkuSubstitutionAggregateArgs>): Prisma.PrismaPromise<GetSkuSubstitutionAggregateType<T>>
+
+    /**
+     * Group by SkuSubstitution.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuSubstitutionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SkuSubstitutionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SkuSubstitutionGroupByArgs['orderBy'] }
+        : { orderBy?: SkuSubstitutionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SkuSubstitutionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSkuSubstitutionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SkuSubstitution model
+   */
+  readonly fields: SkuSubstitutionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SkuSubstitution.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SkuSubstitutionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SkuSubstitution model
+   */
+  interface SkuSubstitutionFieldRefs {
+    readonly id: FieldRef<"SkuSubstitution", 'String'>
+    readonly tenantId: FieldRef<"SkuSubstitution", 'String'>
+    readonly skuId: FieldRef<"SkuSubstitution", 'String'>
+    readonly substituteSkuId: FieldRef<"SkuSubstitution", 'String'>
+    readonly priority: FieldRef<"SkuSubstitution", 'Int'>
+    readonly note: FieldRef<"SkuSubstitution", 'String'>
+    readonly createdAt: FieldRef<"SkuSubstitution", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SkuSubstitution findUnique
+   */
+  export type SkuSubstitutionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuSubstitution to fetch.
+     */
+    where: SkuSubstitutionWhereUniqueInput
+  }
+
+  /**
+   * SkuSubstitution findUniqueOrThrow
+   */
+  export type SkuSubstitutionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuSubstitution to fetch.
+     */
+    where: SkuSubstitutionWhereUniqueInput
+  }
+
+  /**
+   * SkuSubstitution findFirst
+   */
+  export type SkuSubstitutionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuSubstitution to fetch.
+     */
+    where?: SkuSubstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuSubstitutions to fetch.
+     */
+    orderBy?: SkuSubstitutionOrderByWithRelationInput | SkuSubstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SkuSubstitutions.
+     */
+    cursor?: SkuSubstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuSubstitutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuSubstitutions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SkuSubstitutions.
+     */
+    distinct?: SkuSubstitutionScalarFieldEnum | SkuSubstitutionScalarFieldEnum[]
+  }
+
+  /**
+   * SkuSubstitution findFirstOrThrow
+   */
+  export type SkuSubstitutionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuSubstitution to fetch.
+     */
+    where?: SkuSubstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuSubstitutions to fetch.
+     */
+    orderBy?: SkuSubstitutionOrderByWithRelationInput | SkuSubstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SkuSubstitutions.
+     */
+    cursor?: SkuSubstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuSubstitutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuSubstitutions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SkuSubstitutions.
+     */
+    distinct?: SkuSubstitutionScalarFieldEnum | SkuSubstitutionScalarFieldEnum[]
+  }
+
+  /**
+   * SkuSubstitution findMany
+   */
+  export type SkuSubstitutionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuSubstitutions to fetch.
+     */
+    where?: SkuSubstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuSubstitutions to fetch.
+     */
+    orderBy?: SkuSubstitutionOrderByWithRelationInput | SkuSubstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SkuSubstitutions.
+     */
+    cursor?: SkuSubstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuSubstitutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuSubstitutions.
+     */
+    skip?: number
+    distinct?: SkuSubstitutionScalarFieldEnum | SkuSubstitutionScalarFieldEnum[]
+  }
+
+  /**
+   * SkuSubstitution create
+   */
+  export type SkuSubstitutionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SkuSubstitution.
+     */
+    data: XOR<SkuSubstitutionCreateInput, SkuSubstitutionUncheckedCreateInput>
+  }
+
+  /**
+   * SkuSubstitution createMany
+   */
+  export type SkuSubstitutionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SkuSubstitutions.
+     */
+    data: SkuSubstitutionCreateManyInput | SkuSubstitutionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SkuSubstitution createManyAndReturn
+   */
+  export type SkuSubstitutionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * The data used to create many SkuSubstitutions.
+     */
+    data: SkuSubstitutionCreateManyInput | SkuSubstitutionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SkuSubstitution update
+   */
+  export type SkuSubstitutionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SkuSubstitution.
+     */
+    data: XOR<SkuSubstitutionUpdateInput, SkuSubstitutionUncheckedUpdateInput>
+    /**
+     * Choose, which SkuSubstitution to update.
+     */
+    where: SkuSubstitutionWhereUniqueInput
+  }
+
+  /**
+   * SkuSubstitution updateMany
+   */
+  export type SkuSubstitutionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SkuSubstitutions.
+     */
+    data: XOR<SkuSubstitutionUpdateManyMutationInput, SkuSubstitutionUncheckedUpdateManyInput>
+    /**
+     * Filter which SkuSubstitutions to update
+     */
+    where?: SkuSubstitutionWhereInput
+    /**
+     * Limit how many SkuSubstitutions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SkuSubstitution updateManyAndReturn
+   */
+  export type SkuSubstitutionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * The data used to update SkuSubstitutions.
+     */
+    data: XOR<SkuSubstitutionUpdateManyMutationInput, SkuSubstitutionUncheckedUpdateManyInput>
+    /**
+     * Filter which SkuSubstitutions to update
+     */
+    where?: SkuSubstitutionWhereInput
+    /**
+     * Limit how many SkuSubstitutions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SkuSubstitution upsert
+   */
+  export type SkuSubstitutionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SkuSubstitution to update in case it exists.
+     */
+    where: SkuSubstitutionWhereUniqueInput
+    /**
+     * In case the SkuSubstitution found by the `where` argument doesn't exist, create a new SkuSubstitution with this data.
+     */
+    create: XOR<SkuSubstitutionCreateInput, SkuSubstitutionUncheckedCreateInput>
+    /**
+     * In case the SkuSubstitution was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SkuSubstitutionUpdateInput, SkuSubstitutionUncheckedUpdateInput>
+  }
+
+  /**
+   * SkuSubstitution delete
+   */
+  export type SkuSubstitutionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+    /**
+     * Filter which SkuSubstitution to delete.
+     */
+    where: SkuSubstitutionWhereUniqueInput
+  }
+
+  /**
+   * SkuSubstitution deleteMany
+   */
+  export type SkuSubstitutionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SkuSubstitutions to delete
+     */
+    where?: SkuSubstitutionWhereInput
+    /**
+     * Limit how many SkuSubstitutions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SkuSubstitution without action
+   */
+  export type SkuSubstitutionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuSubstitution
+     */
+    select?: SkuSubstitutionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuSubstitution
+     */
+    omit?: SkuSubstitutionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuSubstitutionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model DiscountRule
    */
 
@@ -120769,6 +122017,19 @@ export namespace Prisma {
   export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
 
 
+  export const SkuSubstitutionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    substituteSkuId: 'substituteSkuId',
+    priority: 'priority',
+    note: 'note',
+    createdAt: 'createdAt'
+  };
+
+  export type SkuSubstitutionScalarFieldEnum = (typeof SkuSubstitutionScalarFieldEnum)[keyof typeof SkuSubstitutionScalarFieldEnum]
+
+
   export const DiscountRuleScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -122335,6 +123596,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventListRelationFilter
     userCredentials?: UserCredentialListRelationFilter
     discountRules?: DiscountRuleListRelationFilter
+    skuSubstitutions?: SkuSubstitutionListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -122427,6 +123689,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventOrderByRelationAggregateInput
     userCredentials?: UserCredentialOrderByRelationAggregateInput
     discountRules?: DiscountRuleOrderByRelationAggregateInput
+    skuSubstitutions?: SkuSubstitutionOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -122522,6 +123785,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventListRelationFilter
     userCredentials?: UserCredentialListRelationFilter
     discountRules?: DiscountRuleListRelationFilter
+    skuSubstitutions?: SkuSubstitutionListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -126118,6 +127382,74 @@ export namespace Prisma {
     createdBy?: StringNullableWithAggregatesFilter<"Quote"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
+  }
+
+  export type SkuSubstitutionWhereInput = {
+    AND?: SkuSubstitutionWhereInput | SkuSubstitutionWhereInput[]
+    OR?: SkuSubstitutionWhereInput[]
+    NOT?: SkuSubstitutionWhereInput | SkuSubstitutionWhereInput[]
+    id?: UuidFilter<"SkuSubstitution"> | string
+    tenantId?: UuidFilter<"SkuSubstitution"> | string
+    skuId?: UuidFilter<"SkuSubstitution"> | string
+    substituteSkuId?: UuidFilter<"SkuSubstitution"> | string
+    priority?: IntFilter<"SkuSubstitution"> | number
+    note?: StringNullableFilter<"SkuSubstitution"> | string | null
+    createdAt?: DateTimeFilter<"SkuSubstitution"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type SkuSubstitutionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    substituteSkuId?: SortOrder
+    priority?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type SkuSubstitutionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId_substituteSkuId?: SkuSubstitutionTenantIdSkuIdSubstituteSkuIdCompoundUniqueInput
+    AND?: SkuSubstitutionWhereInput | SkuSubstitutionWhereInput[]
+    OR?: SkuSubstitutionWhereInput[]
+    NOT?: SkuSubstitutionWhereInput | SkuSubstitutionWhereInput[]
+    tenantId?: UuidFilter<"SkuSubstitution"> | string
+    skuId?: UuidFilter<"SkuSubstitution"> | string
+    substituteSkuId?: UuidFilter<"SkuSubstitution"> | string
+    priority?: IntFilter<"SkuSubstitution"> | number
+    note?: StringNullableFilter<"SkuSubstitution"> | string | null
+    createdAt?: DateTimeFilter<"SkuSubstitution"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_skuId_substituteSkuId">
+
+  export type SkuSubstitutionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    substituteSkuId?: SortOrder
+    priority?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SkuSubstitutionCountOrderByAggregateInput
+    _avg?: SkuSubstitutionAvgOrderByAggregateInput
+    _max?: SkuSubstitutionMaxOrderByAggregateInput
+    _min?: SkuSubstitutionMinOrderByAggregateInput
+    _sum?: SkuSubstitutionSumOrderByAggregateInput
+  }
+
+  export type SkuSubstitutionScalarWhereWithAggregatesInput = {
+    AND?: SkuSubstitutionScalarWhereWithAggregatesInput | SkuSubstitutionScalarWhereWithAggregatesInput[]
+    OR?: SkuSubstitutionScalarWhereWithAggregatesInput[]
+    NOT?: SkuSubstitutionScalarWhereWithAggregatesInput | SkuSubstitutionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SkuSubstitution"> | string
+    tenantId?: UuidWithAggregatesFilter<"SkuSubstitution"> | string
+    skuId?: UuidWithAggregatesFilter<"SkuSubstitution"> | string
+    substituteSkuId?: UuidWithAggregatesFilter<"SkuSubstitution"> | string
+    priority?: IntWithAggregatesFilter<"SkuSubstitution"> | number
+    note?: StringNullableWithAggregatesFilter<"SkuSubstitution"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SkuSubstitution"> | Date | string
   }
 
   export type DiscountRuleWhereInput = {
@@ -129816,6 +131148,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -129908,6 +131241,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -130000,6 +131334,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -130092,6 +131427,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -133932,6 +135268,75 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuSubstitutionCreateInput = {
+    id?: string
+    skuId: string
+    substituteSkuId: string
+    priority?: number
+    note?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSkuSubstitutionsInput
+  }
+
+  export type SkuSubstitutionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    substituteSkuId: string
+    priority?: number
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SkuSubstitutionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    substituteSkuId?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSkuSubstitutionsNestedInput
+  }
+
+  export type SkuSubstitutionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    substituteSkuId?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuSubstitutionCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    substituteSkuId: string
+    priority?: number
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SkuSubstitutionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    substituteSkuId?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuSubstitutionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    substituteSkuId?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DiscountRuleCreateInput = {
@@ -138316,6 +139721,12 @@ export namespace Prisma {
     none?: DiscountRuleWhereInput
   }
 
+  export type SkuSubstitutionListRelationFilter = {
+    every?: SkuSubstitutionWhereInput
+    some?: SkuSubstitutionWhereInput
+    none?: SkuSubstitutionWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -138641,6 +140052,10 @@ export namespace Prisma {
   }
 
   export type DiscountRuleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SkuSubstitutionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -141570,6 +142985,50 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumQuoteStatusFilter<$PrismaModel>
     _max?: NestedEnumQuoteStatusFilter<$PrismaModel>
+  }
+
+  export type SkuSubstitutionTenantIdSkuIdSubstituteSkuIdCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+    substituteSkuId: string
+  }
+
+  export type SkuSubstitutionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    substituteSkuId?: SortOrder
+    priority?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SkuSubstitutionAvgOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type SkuSubstitutionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    substituteSkuId?: SortOrder
+    priority?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SkuSubstitutionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    substituteSkuId?: SortOrder
+    priority?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SkuSubstitutionSumOrderByAggregateInput = {
+    priority?: SortOrder
   }
 
   export type DiscountRuleCountOrderByAggregateInput = {
@@ -144687,6 +146146,13 @@ export namespace Prisma {
     connect?: DiscountRuleWhereUniqueInput | DiscountRuleWhereUniqueInput[]
   }
 
+  export type SkuSubstitutionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SkuSubstitutionCreateWithoutTenantInput, SkuSubstitutionUncheckedCreateWithoutTenantInput> | SkuSubstitutionCreateWithoutTenantInput[] | SkuSubstitutionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuSubstitutionCreateOrConnectWithoutTenantInput | SkuSubstitutionCreateOrConnectWithoutTenantInput[]
+    createMany?: SkuSubstitutionCreateManyTenantInputEnvelope
+    connect?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -145259,6 +146725,13 @@ export namespace Prisma {
     connectOrCreate?: DiscountRuleCreateOrConnectWithoutTenantInput | DiscountRuleCreateOrConnectWithoutTenantInput[]
     createMany?: DiscountRuleCreateManyTenantInputEnvelope
     connect?: DiscountRuleWhereUniqueInput | DiscountRuleWhereUniqueInput[]
+  }
+
+  export type SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SkuSubstitutionCreateWithoutTenantInput, SkuSubstitutionUncheckedCreateWithoutTenantInput> | SkuSubstitutionCreateWithoutTenantInput[] | SkuSubstitutionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuSubstitutionCreateOrConnectWithoutTenantInput | SkuSubstitutionCreateOrConnectWithoutTenantInput[]
+    createMany?: SkuSubstitutionCreateManyTenantInputEnvelope
+    connect?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -146429,6 +147902,20 @@ export namespace Prisma {
     deleteMany?: DiscountRuleScalarWhereInput | DiscountRuleScalarWhereInput[]
   }
 
+  export type SkuSubstitutionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SkuSubstitutionCreateWithoutTenantInput, SkuSubstitutionUncheckedCreateWithoutTenantInput> | SkuSubstitutionCreateWithoutTenantInput[] | SkuSubstitutionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuSubstitutionCreateOrConnectWithoutTenantInput | SkuSubstitutionCreateOrConnectWithoutTenantInput[]
+    upsert?: SkuSubstitutionUpsertWithWhereUniqueWithoutTenantInput | SkuSubstitutionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SkuSubstitutionCreateManyTenantInputEnvelope
+    set?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    disconnect?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    delete?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    connect?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    update?: SkuSubstitutionUpdateWithWhereUniqueWithoutTenantInput | SkuSubstitutionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SkuSubstitutionUpdateManyWithWhereWithoutTenantInput | SkuSubstitutionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SkuSubstitutionScalarWhereInput | SkuSubstitutionScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -147575,6 +149062,20 @@ export namespace Prisma {
     update?: DiscountRuleUpdateWithWhereUniqueWithoutTenantInput | DiscountRuleUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: DiscountRuleUpdateManyWithWhereWithoutTenantInput | DiscountRuleUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: DiscountRuleScalarWhereInput | DiscountRuleScalarWhereInput[]
+  }
+
+  export type SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SkuSubstitutionCreateWithoutTenantInput, SkuSubstitutionUncheckedCreateWithoutTenantInput> | SkuSubstitutionCreateWithoutTenantInput[] | SkuSubstitutionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuSubstitutionCreateOrConnectWithoutTenantInput | SkuSubstitutionCreateOrConnectWithoutTenantInput[]
+    upsert?: SkuSubstitutionUpsertWithWhereUniqueWithoutTenantInput | SkuSubstitutionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SkuSubstitutionCreateManyTenantInputEnvelope
+    set?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    disconnect?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    delete?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    connect?: SkuSubstitutionWhereUniqueInput | SkuSubstitutionWhereUniqueInput[]
+    update?: SkuSubstitutionUpdateWithWhereUniqueWithoutTenantInput | SkuSubstitutionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SkuSubstitutionUpdateManyWithWhereWithoutTenantInput | SkuSubstitutionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SkuSubstitutionScalarWhereInput | SkuSubstitutionScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -149459,6 +150960,20 @@ export namespace Prisma {
     update?: QuoteLineUpdateWithWhereUniqueWithoutQuoteInput | QuoteLineUpdateWithWhereUniqueWithoutQuoteInput[]
     updateMany?: QuoteLineUpdateManyWithWhereWithoutQuoteInput | QuoteLineUpdateManyWithWhereWithoutQuoteInput[]
     deleteMany?: QuoteLineScalarWhereInput | QuoteLineScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutSkuSubstitutionsInput = {
+    create?: XOR<TenantCreateWithoutSkuSubstitutionsInput, TenantUncheckedCreateWithoutSkuSubstitutionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSkuSubstitutionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSkuSubstitutionsNestedInput = {
+    create?: XOR<TenantCreateWithoutSkuSubstitutionsInput, TenantUncheckedCreateWithoutSkuSubstitutionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSkuSubstitutionsInput
+    upsert?: TenantUpsertWithoutSkuSubstitutionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSkuSubstitutionsInput, TenantUpdateWithoutSkuSubstitutionsInput>, TenantUncheckedUpdateWithoutSkuSubstitutionsInput>
   }
 
   export type TenantCreateNestedOneWithoutDiscountRulesInput = {
@@ -155016,6 +156531,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SkuSubstitutionCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    substituteSkuId: string
+    priority?: number
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SkuSubstitutionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    substituteSkuId: string
+    priority?: number
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SkuSubstitutionCreateOrConnectWithoutTenantInput = {
+    where: SkuSubstitutionWhereUniqueInput
+    create: XOR<SkuSubstitutionCreateWithoutTenantInput, SkuSubstitutionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SkuSubstitutionCreateManyTenantInputEnvelope = {
+    data: SkuSubstitutionCreateManyTenantInput | SkuSubstitutionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -157564,6 +159107,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"DiscountRule"> | Date | string
   }
 
+  export type SkuSubstitutionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SkuSubstitutionWhereUniqueInput
+    update: XOR<SkuSubstitutionUpdateWithoutTenantInput, SkuSubstitutionUncheckedUpdateWithoutTenantInput>
+    create: XOR<SkuSubstitutionCreateWithoutTenantInput, SkuSubstitutionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SkuSubstitutionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SkuSubstitutionWhereUniqueInput
+    data: XOR<SkuSubstitutionUpdateWithoutTenantInput, SkuSubstitutionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SkuSubstitutionUpdateManyWithWhereWithoutTenantInput = {
+    where: SkuSubstitutionScalarWhereInput
+    data: XOR<SkuSubstitutionUpdateManyMutationInput, SkuSubstitutionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SkuSubstitutionScalarWhereInput = {
+    AND?: SkuSubstitutionScalarWhereInput | SkuSubstitutionScalarWhereInput[]
+    OR?: SkuSubstitutionScalarWhereInput[]
+    NOT?: SkuSubstitutionScalarWhereInput | SkuSubstitutionScalarWhereInput[]
+    id?: UuidFilter<"SkuSubstitution"> | string
+    tenantId?: UuidFilter<"SkuSubstitution"> | string
+    skuId?: UuidFilter<"SkuSubstitution"> | string
+    substituteSkuId?: UuidFilter<"SkuSubstitution"> | string
+    priority?: IntFilter<"SkuSubstitution"> | number
+    note?: StringNullableFilter<"SkuSubstitution"> | string | null
+    createdAt?: DateTimeFilter<"SkuSubstitution"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -157653,6 +159225,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -157744,6 +159317,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -157851,6 +159425,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -157942,6 +159517,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -158033,6 +159609,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -158124,6 +159701,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -158265,6 +159843,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -158356,6 +159935,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -158463,6 +160043,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -158554,6 +160135,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -158799,6 +160381,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -158890,6 +160473,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -159093,6 +160677,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -159184,6 +160769,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -159320,6 +160906,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -159411,6 +160998,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -159537,6 +161125,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -159628,6 +161217,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -159764,6 +161354,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -159855,6 +161446,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -159981,6 +161573,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -160072,6 +161665,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -160234,6 +161828,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -160325,6 +161920,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -160465,6 +162061,7 @@ export namespace Prisma {
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -160556,6 +162153,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -160692,6 +162290,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -160783,6 +162382,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -160909,6 +162509,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -161000,6 +162601,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -161157,6 +162759,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -161248,6 +162851,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -161437,6 +163041,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -161528,6 +163133,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -161689,6 +163295,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -161780,6 +163387,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -161937,6 +163545,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -162028,6 +163637,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -162135,6 +163745,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -162226,6 +163837,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -162317,6 +163929,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -162408,6 +164021,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -162515,6 +164129,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -162606,6 +164221,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -162697,6 +164313,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -162788,6 +164405,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -162895,6 +164513,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -162986,6 +164605,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -163077,6 +164697,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -163168,6 +164789,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -163275,6 +164897,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -163366,6 +164989,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -163457,6 +165081,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -163548,6 +165173,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -163655,6 +165281,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -163746,6 +165373,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -163837,6 +165465,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -163928,6 +165557,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -164035,6 +165665,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -164126,6 +165757,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -164217,6 +165849,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -164308,6 +165941,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -164415,6 +166049,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -164506,6 +166141,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -164597,6 +166233,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -164688,6 +166325,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -164857,6 +166495,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -164948,6 +166587,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -165297,6 +166937,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -165388,6 +167029,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -165523,6 +167165,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -165614,6 +167257,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -165778,6 +167422,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -165869,6 +167514,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -165976,6 +167622,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -166067,6 +167714,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -166158,6 +167806,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -166249,6 +167898,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -166356,6 +168006,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -166447,6 +168098,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -166538,6 +168190,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -166629,6 +168282,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -166762,6 +168416,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -166853,6 +168508,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -167016,6 +168672,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -167107,6 +168764,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -167315,6 +168973,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -167406,6 +169065,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -167658,6 +169318,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -167749,6 +169410,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -167898,6 +169560,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -167989,6 +169652,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -168454,6 +170118,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -168545,6 +170210,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -168674,6 +170340,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -168765,6 +170432,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -168926,6 +170594,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -169017,6 +170686,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -169124,6 +170794,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -169215,6 +170886,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -169306,6 +170978,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -169397,6 +171070,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -169504,6 +171178,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -169595,6 +171270,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -169686,6 +171362,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -169777,6 +171454,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -169884,6 +171562,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -169975,6 +171654,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -170066,6 +171746,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -170157,6 +171838,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -170264,6 +171946,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -170355,6 +172038,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -170446,6 +172130,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -170537,6 +172222,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -170670,6 +172356,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -170761,6 +172448,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -170868,6 +172556,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -170959,6 +172648,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -171099,6 +172789,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -171190,6 +172881,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -171320,6 +173012,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -171411,6 +173104,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -171518,6 +173212,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -171609,6 +173304,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -171700,6 +173396,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -171791,6 +173488,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -171898,6 +173596,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -171989,6 +173688,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -172080,6 +173780,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -172171,6 +173872,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -172278,6 +173980,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -172369,6 +174072,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -172460,6 +174164,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -172551,6 +174256,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -172658,6 +174364,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -172749,6 +174456,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -172840,6 +174548,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -172931,6 +174640,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -173064,6 +174774,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -173155,6 +174866,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -173262,6 +174974,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -173353,6 +175066,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -173491,6 +175205,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -173582,6 +175297,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -173710,6 +175426,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -173801,6 +175518,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -173942,6 +175660,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -174033,6 +175752,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -174049,6 +175769,390 @@ export namespace Prisma {
   export type QuoteLineUpdateManyWithWhereWithoutQuoteInput = {
     where: QuoteLineScalarWhereInput
     data: XOR<QuoteLineUpdateManyMutationInput, QuoteLineUncheckedUpdateManyWithoutQuoteInput>
+  }
+
+  export type TenantCreateWithoutSkuSubstitutionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSkuSubstitutionsInput, TenantUncheckedCreateWithoutSkuSubstitutionsInput>
+  }
+
+  export type TenantUpsertWithoutSkuSubstitutionsInput = {
+    update: XOR<TenantUpdateWithoutSkuSubstitutionsInput, TenantUncheckedUpdateWithoutSkuSubstitutionsInput>
+    create: XOR<TenantCreateWithoutSkuSubstitutionsInput, TenantUncheckedCreateWithoutSkuSubstitutionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSkuSubstitutionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSkuSubstitutionsInput, TenantUncheckedUpdateWithoutSkuSubstitutionsInput>
+  }
+
+  export type TenantUpdateWithoutSkuSubstitutionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -174140,6 +176244,7 @@ export namespace Prisma {
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -174231,6 +176336,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -174338,6 +176444,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -174429,6 +176536,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -174520,6 +176628,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -174611,6 +176720,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -174765,6 +176875,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -174856,6 +176967,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -175000,6 +177112,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -175091,6 +177204,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -175232,6 +177346,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -175323,6 +177438,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -175430,6 +177546,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -175521,6 +177638,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -175665,6 +177783,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -175756,6 +177875,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -175890,6 +178010,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -175981,6 +178102,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -176088,6 +178210,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -176179,6 +178302,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -176270,6 +178394,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -176361,6 +178486,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -176468,6 +178594,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -176559,6 +178686,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -176650,6 +178778,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -176741,6 +178870,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -176878,6 +179008,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -176969,6 +179100,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -177076,6 +179208,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -177167,6 +179300,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -177307,6 +179441,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -177398,6 +179533,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -177528,6 +179664,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -177619,6 +179756,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -177758,6 +179896,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -177849,6 +179988,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -177956,6 +180096,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -178047,6 +180188,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -178191,6 +180333,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -178282,6 +180425,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -178416,6 +180560,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -178507,6 +180652,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -178644,6 +180790,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -178735,6 +180882,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -178842,6 +180990,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -178933,6 +181082,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -179071,6 +181221,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -179162,6 +181313,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -179290,6 +181442,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -179381,6 +181534,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -179520,6 +181674,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -179611,6 +181766,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -179718,6 +181874,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -179809,6 +181966,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -179943,6 +182101,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -180034,6 +182193,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -180158,6 +182318,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -180249,6 +182410,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -180356,6 +182518,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -180447,6 +182610,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -180538,6 +182702,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -180629,6 +182794,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -180736,6 +182902,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -180827,6 +182994,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -180918,6 +183086,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -181009,6 +183178,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -181146,6 +183316,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -181237,6 +183408,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -181344,6 +183516,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -181435,6 +183608,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -181567,6 +183741,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -181658,6 +183833,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -181780,6 +183956,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -181871,6 +184048,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -182010,6 +184188,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -182101,6 +184280,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -182208,6 +184388,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -182299,6 +184480,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -182449,6 +184631,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -182540,6 +184723,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -182680,6 +184864,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -182771,6 +184956,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -182904,6 +185090,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -182995,6 +185182,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -183102,6 +185290,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -183193,6 +185382,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -183327,6 +185517,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -183418,6 +185609,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -183542,6 +185734,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -183633,6 +185826,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -183770,6 +185964,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -183861,6 +186056,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -183968,6 +186164,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -184059,6 +186256,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -184201,6 +186399,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -184292,6 +186491,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -184424,6 +186624,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -184515,6 +186716,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -184622,6 +186824,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -184713,6 +186916,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -184804,6 +187008,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -184895,6 +187100,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -185034,6 +187240,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -185125,6 +187332,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -185232,6 +187440,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -185323,6 +187532,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -185473,6 +187683,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -185564,6 +187775,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -185704,6 +187916,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -185795,6 +188008,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -185902,6 +188116,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -185993,6 +188208,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -186084,6 +188300,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -186175,6 +188392,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -186282,6 +188500,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -186373,6 +188592,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -186464,6 +188684,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -186555,6 +188776,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -186679,6 +188901,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -186770,6 +188993,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -186884,6 +189108,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -186975,6 +189200,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -187113,6 +189339,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -187204,6 +189431,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -187332,6 +189560,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -187423,6 +189652,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -187530,6 +189760,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -187621,6 +189852,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -187712,6 +189944,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -187803,6 +190036,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -187938,6 +190172,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -188029,6 +190264,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -188136,6 +190372,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -188227,6 +190464,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -188357,6 +190595,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -188448,6 +190687,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -188568,6 +190808,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -188659,6 +190900,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -188804,6 +191046,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -188895,6 +191138,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -189002,6 +191246,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -189093,6 +191338,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -189227,6 +191473,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -189318,6 +191565,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -189442,6 +191690,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -189533,6 +191782,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -189640,6 +191890,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -189731,6 +191982,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -189822,6 +192074,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -189913,6 +192166,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -190020,6 +192274,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -190111,6 +192366,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -190202,6 +192458,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -190293,6 +192550,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -190451,6 +192709,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -190542,6 +192801,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -190678,6 +192938,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -190769,6 +193030,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -190904,6 +193166,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -190995,6 +193258,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -191102,6 +193366,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -191193,6 +193458,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -191335,6 +193601,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -191426,6 +193693,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -191558,6 +193826,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -191649,6 +193918,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -191782,6 +194052,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -191873,6 +194144,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -191980,6 +194252,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -192071,6 +194344,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -192211,6 +194485,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -192302,6 +194577,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -192432,6 +194708,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -192523,6 +194800,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -192662,6 +194940,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -192753,6 +195032,7 @@ export namespace Prisma {
     downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -192860,6 +195140,7 @@ export namespace Prisma {
     workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -192951,6 +195232,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
     userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
     discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -193081,6 +195363,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -193172,6 +195455,7 @@ export namespace Prisma {
     workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
     userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
     discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -194109,6 +196393,15 @@ export namespace Prisma {
     validTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type SkuSubstitutionCreateManyTenantInput = {
+    id?: string
+    skuId: string
+    substituteSkuId: string
+    priority?: number
+    note?: string | null
+    createdAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -196905,6 +199198,33 @@ export namespace Prisma {
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuSubstitutionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    substituteSkuId?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuSubstitutionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    substituteSkuId?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuSubstitutionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    substituteSkuId?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessUnitCreateManyLegalEntityInput = {

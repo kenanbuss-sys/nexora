@@ -122,6 +122,7 @@ model Tenant {
   downtimeEvents        DowntimeEvent[]
   userCredentials       UserCredential[]
   discountRules         DiscountRule[]
+  skuSubstitutions      SkuSubstitution[]
 
   @@map("tenant")
 }
@@ -1201,6 +1202,25 @@ model Quote {
   @@index([tenantId, accountId])
   @@index([tenantId, status])
   @@map("quote")
+}
+
+/// SKU substitutions (PIM): governed alternatives offered when the
+/// primary SKU cannot be served (e.g. backorders). Directed edges with
+/// a priority; availability is read live from the WMS ledger.
+model SkuSubstitution {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String   @map("tenant_id") @db.Uuid
+  skuId           String   @map("sku_id") @db.Uuid
+  substituteSkuId String   @map("substitute_sku_id") @db.Uuid
+  priority        Int      @default(1)
+  note            String?
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, skuId, substituteSkuId])
+  @@index([tenantId, skuId])
+  @@map("sku_substitution")
 }
 
 /// Rule-based automatic discounts (CPQ): the best matching active rule

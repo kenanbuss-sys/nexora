@@ -671,6 +671,16 @@ exports.Prisma.QuoteScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SkuSubstitutionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  substituteSkuId: 'substituteSkuId',
+  priority: 'priority',
+  note: 'note',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.DiscountRuleScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1595,6 +1605,7 @@ exports.Prisma.ModelName = {
   PriceList: 'PriceList',
   PriceListEntry: 'PriceListEntry',
   Quote: 'Quote',
+  SkuSubstitution: 'SkuSubstitution',
   DiscountRule: 'DiscountRule',
   QuoteLine: 'QuoteLine',
   SalesOrder: 'SalesOrder',
