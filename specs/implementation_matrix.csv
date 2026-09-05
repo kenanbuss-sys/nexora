@@ -24,7 +24,7 @@ IAM-002,IAM,RBAC,P0,Implemented (Sprint 001),R0,,,"Roles, role permissions, tena
 IAM-003,IAM,Scoped permissions,P0,Implemented (Sprint 001),R0,,,"Org-scoped role assignments, default-deny evaluation"
 IAM-004,IAM,Field-level permissions,P0,PLANNED,R0,,,
 IAM-005,IAM,Record-level access,P0,PLANNED,R0,,,
-IAM-006,IAM,MFA,P0,PLANNED,R0,,,
+IAM-006,IAM,MFA,P0,DONE,R0,,,"TOTP 2FA: self-service enroll/confirm-to-arm/disable (password-verified), MFA-gated login with ±1 step drift, security events + audit; Users/login UI (Sprint 044)"
 IAM-007,IAM,SSO/OIDC/SAML,P0,PLANNED,R0,,,
 IAM-008,IAM,Session management,P0,DONE,R0,,,"Local password auth: scrypt hashes, admin set/reset, self-service change, 5-attempt lockout, security events, public login issuing bearer tokens (Sprint 034)"
 IAM-009,IAM,Service accounts,P0,DONE,R0,,,API-key service accounts with explicit allowlists (Sprint 021)

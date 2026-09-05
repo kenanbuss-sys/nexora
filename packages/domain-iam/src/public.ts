@@ -19,6 +19,8 @@ export {
 export {
   CredentialService,
   hashPassword,
+  totpCode,
   verifyPassword,
+  verifyTotp,
   type LoginResult,
 } from './credential.service';

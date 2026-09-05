@@ -44,6 +44,8 @@ export default function LoginPage() {
   const [pwTenant, setPwTenant] = useState('demo');
   const [pwEmail, setPwEmail] = useState('');
   const [pwPassword, setPwPassword] = useState('');
+  const [pwOtp, setPwOtp] = useState('');
+  const [otpNeeded, setOtpNeeded] = useState(false);
 
   async function signInWithPassword() {
     setError(null);
@@ -52,7 +54,12 @@ export default function LoginPage() {
       const response = await fetch('/backend/api/v1/auth/login', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ tenantSlug: pwTenant, email: pwEmail, password: pwPassword }),
+        body: JSON.stringify({
+          tenantSlug: pwTenant,
+          email: pwEmail,
+          password: pwPassword,
+          ...(pwOtp.trim() ? { otp: pwOtp.trim() } : {}),
+        }),
       });
       const data = (await response.json()) as {
         token?: string;
@@ -62,7 +69,12 @@ export default function LoginPage() {
         message?: string;
       };
       if (!response.ok || !data.token || !data.subject) {
-        setError(data.message ?? 'Sign-in failed');
+        if (data.message === 'MFA code required') {
+          setOtpNeeded(true);
+          setError('Enter the 6-digit code from your authenticator app.');
+        } else {
+          setError(data.message ?? 'Sign-in failed');
+        }
         return;
       }
       try {
@@ -273,6 +285,21 @@ export default function LoginPage() {
                 onChange={(e) => setPwPassword(e.target.value)}
                 required
               />
+              {otpNeeded ? (
+                <>
+                  <label className="label" htmlFor="pw-otp">
+                    MFA code
+                  </label>
+                  <input
+                    id="pw-otp"
+                    className="input mono"
+                    inputMode="numeric"
+                    placeholder="123456"
+                    value={pwOtp}
+                    onChange={(e) => setPwOtp(e.target.value)}
+                  />
+                </>
+              ) : null}
               <button
                 className="btn btn-primary"
                 style={{ width: '100%', marginTop: 12 }}

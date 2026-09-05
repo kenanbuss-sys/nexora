@@ -451,6 +451,25 @@ export const BS: Record<string, string> = {
   'Active SKUs without a barcode': 'Aktivni artikli bez barkoda',
   'Products without a SKU': 'Proizvodi bez artikla',
   'Active suppliers without a lead time': 'Aktivni dobavljači bez roka isporuke',
+  'Two-factor authentication': 'Dvofaktorska autentikacija',
+  'MFA enabled': 'MFA uključen',
+  'Sign-in requires your authenticator code.': 'Prijava zahtijeva kod iz authenticator aplikacije.',
+  'Disable MFA': 'Isključi MFA',
+  'Enable MFA': 'Uključi MFA',
+  'MFA disabled.': 'MFA isključen.',
+  'Add this secret to your authenticator app, then confirm with a code:':
+    'Dodaj ovu tajnu u authenticator aplikaciju, pa potvrdi kodom:',
+  'Confirm code': 'Potvrdi kod',
+  'MFA enabled — sign-in now requires your code.':
+    'MFA uključen — prijava sada zahtijeva tvoj kod.',
+  'Protect your password sign-in with a 6-digit code from an authenticator app.':
+    'Zaštiti prijavu lozinkom 6-cifrenim kodom iz authenticator aplikacije.',
+  'Enrollment started — add the secret to your app.':
+    'Upis pokrenut — dodaj tajnu u svoju aplikaciju.',
+  'Current password': 'Trenutna lozinka',
+  'MFA code': 'MFA kod',
+  'Enter the 6-digit code from your authenticator app.':
+    'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };
 
 const BS_REGEX: Array<[RegExp, (m: RegExpMatchArray) => string]> = [

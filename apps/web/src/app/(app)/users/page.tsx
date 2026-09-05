@@ -48,6 +48,10 @@ export default function UsersPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [mfa, setMfa] = useState<{ hasPassword: boolean; mfaEnabled: boolean } | null>(null);
+  const [mfaSecret, setMfaSecret] = useState<{ secret: string; otpauthUri: string } | null>(null);
+  const [mfaCode, setMfaCode] = useState('');
+  const [mfaPassword, setMfaPassword] = useState('');
 
   const [email, setEmail] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -85,6 +89,12 @@ export default function UsersPage() {
   }, []);
 
   useEffect(load, [load]);
+
+  useEffect(() => {
+    api<{ hasPassword: boolean; mfaEnabled: boolean }>('GET', '/api/v1/auth/mfa')
+      .then(setMfa)
+      .catch(() => setMfa(null));
+  }, []);
 
   async function run(fn: () => Promise<unknown>, successText: string) {
     setBusy(true);
@@ -480,6 +490,102 @@ export default function UsersPage() {
               Export tenant data (JSON)
             </button>
           </div>
+        </div>
+      ) : null}
+
+      {mfa?.hasPassword ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Two-factor authentication</h2>
+          {mfa.mfaEnabled ? (
+            <>
+              <p>
+                <span className="badge badge-ok">MFA enabled</span>{' '}
+                <span className="muted">Sign-in requires your authenticator code.</span>
+              </p>
+              <div className="row">
+                <input
+                  className="input"
+                  style={{ maxWidth: 180 }}
+                  type="password"
+                  placeholder="Current password"
+                  value={mfaPassword}
+                  onChange={(e) => setMfaPassword(e.target.value)}
+                />
+                <button
+                  className="btn btn-sm"
+                  disabled={busy || !mfaPassword}
+                  onClick={() =>
+                    void run(async () => {
+                      await api('POST', '/api/v1/auth/mfa/disable', {
+                        currentPassword: mfaPassword,
+                      });
+                      setMfaPassword('');
+                      setMfa({ hasPassword: true, mfaEnabled: false });
+                    }, 'MFA disabled.')
+                  }
+                >
+                  Disable MFA
+                </button>
+              </div>
+            </>
+          ) : mfaSecret ? (
+            <>
+              <p className="muted">
+                Add this secret to your authenticator app, then confirm with a code:
+              </p>
+              <p className="mono" style={{ wordBreak: 'break-all', fontSize: 13 }}>
+                {mfaSecret.secret}
+              </p>
+              <p className="mono muted" style={{ wordBreak: 'break-all', fontSize: 11 }}>
+                {mfaSecret.otpauthUri}
+              </p>
+              <div className="row">
+                <input
+                  className="input mono"
+                  style={{ maxWidth: 120 }}
+                  inputMode="numeric"
+                  placeholder="123456"
+                  value={mfaCode}
+                  onChange={(e) => setMfaCode(e.target.value)}
+                />
+                <button
+                  className="btn btn-sm btn-primary"
+                  disabled={busy || mfaCode.trim().length < 6}
+                  onClick={() =>
+                    void run(async () => {
+                      await api('POST', '/api/v1/auth/mfa/confirm', { code: mfaCode.trim() });
+                      setMfaSecret(null);
+                      setMfaCode('');
+                      setMfa({ hasPassword: true, mfaEnabled: true });
+                    }, 'MFA enabled — sign-in now requires your code.')
+                  }
+                >
+                  Confirm code
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="muted">
+                Protect your password sign-in with a 6-digit code from an authenticator app.
+              </p>
+              <button
+                className="btn btn-sm btn-primary"
+                disabled={busy}
+                onClick={() =>
+                  void run(async () => {
+                    const secret = await api<{ secret: string; otpauthUri: string }>(
+                      'POST',
+                      '/api/v1/auth/mfa/enroll',
+                    );
+                    setMfaSecret(secret);
+                  }, 'Enrollment started — add the secret to your app.')
+                }
+              >
+                Enable MFA
+              </button>
+            </>
+          )}
         </div>
       ) : null}
     </main>

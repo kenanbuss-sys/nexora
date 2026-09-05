@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import type { CredentialService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -19,7 +19,10 @@ const loginSchema = z.object({
   tenantSlug: z.string().min(1).max(100),
   email: z.string().email(),
   password: z.string().min(1).max(200),
+  otp: z.string().min(6).max(8).optional(),
 });
+const confirmMfaSchema = z.object({ code: z.string().min(6).max(8) });
+const disableMfaSchema = z.object({ currentPassword: z.string().min(1).max(200) });
 const changePasswordSchema = z.object({
   currentPassword: z.string().min(1).max(200),
   newPassword: z.string().min(1).max(200),
@@ -38,7 +41,12 @@ export class LocalAuthController {
   @Post('login')
   async login(@Body() body: unknown) {
     const input = parseBody(loginSchema, body);
-    const result = await this.credentials.login(input.tenantSlug, input.email, input.password);
+    const result = await this.credentials.login(
+      input.tenantSlug,
+      input.email,
+      input.password,
+      input.otp,
+    );
     const token = this.signer.sign({
       tenantSlug: input.tenantSlug,
       subject: result.subject,
@@ -59,6 +67,30 @@ export class LocalAuthController {
     const input = parseBody(changePasswordSchema, body);
     await this.credentials.changePassword(input.currentPassword, input.newPassword, ctx);
     return { changed: true };
+  }
+
+  // ------------------------------------------------------------- MFA (TOTP)
+
+  @Get('mfa')
+  async mfaStatus(@Ctx() ctx: RequestContext) {
+    return this.credentials.mfaStatus(ctx);
+  }
+
+  @Post('mfa/enroll')
+  async enrollMfa(@Ctx() ctx: RequestContext) {
+    return this.credentials.startMfaEnrollment(ctx, ctx.tenantSlug);
+  }
+
+  @Post('mfa/confirm')
+  async confirmMfa(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.credentials.confirmMfa(parseBody(confirmMfaSchema, body).code, ctx);
+    return { enabled: true };
+  }
+
+  @Post('mfa/disable')
+  async disableMfa(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    await this.credentials.disableMfa(parseBody(disableMfaSchema, body).currentPassword, ctx);
+    return { enabled: false };
   }
 }
 
