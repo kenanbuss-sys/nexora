@@ -25,6 +25,7 @@ export const COLLAB_ENTITY_TYPES = [
   'crm_account',
   'ncr',
   'sku',
+  'product',
 ] as const;
 export type CollabEntityType = (typeof COLLAB_ENTITY_TYPES)[number];
 

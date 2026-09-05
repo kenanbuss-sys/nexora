@@ -468,6 +468,12 @@ export const BS: Record<string, string> = {
     'Upis pokrenut — dodaj tajnu u svoju aplikaciju.',
   'Current password': 'Trenutna lozinka',
   'MFA code': 'MFA kod',
+  Media: 'Mediji',
+  'Product photos — shown here and stored with the product.':
+    'Fotografije proizvoda — prikazane ovdje i sačuvane uz proizvod.',
+  'No photos yet.': 'Još nema fotografija.',
+  'Image uploaded.': 'Slika učitana.',
+  'Only image files can be product media': 'Samo slike mogu biti mediji proizvoda',
   'Enter the 6-digit code from your authenticator app.':
     'Unesi 6-cifreni kod iz authenticator aplikacije.',
 };

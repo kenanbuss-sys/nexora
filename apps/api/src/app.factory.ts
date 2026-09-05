@@ -13,7 +13,9 @@ import { AppModule } from './app.module';
  * Used by main.ts and by integration tests (via app.inject).
  */
 export async function createApiApp(): Promise<NestFastifyApplication> {
-  const adapter = new FastifyAdapter();
+  // 8MB body limit: attachment uploads are base64 (~1.33×) of the 5MB
+  // domain cap; the domain still enforces its own limit.
+  const adapter = new FastifyAdapter({ bodyLimit: 8 * 1024 * 1024 });
 
   // Correlation ID: accept a sane inbound header or mint a fresh UUID, expose
   // it on the async context for the whole request, and echo it in the response.

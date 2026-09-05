@@ -62,7 +62,7 @@ PIM-004,PIM,Categories,P1,DONE,R1,,,Category tree with product counts (Sprint 02
 PIM-005,PIM,Barcode/GTIN,P1,Partially implemented (Sprint 003),R1,,,Tenant-scoped barcode uniqueness + scan lookup
 PIM-006,PIM,Packaging hierarchy,P1,DONE,R1,,,"Pack levels per SKU with base-unit multiplier and scannable pack barcodes (shared namespace with unit barcodes, pack-aware lookup); catalog UI (Sprint 041)"
 PIM-007,PIM,Units of measure,P1,Partially implemented (Sprint 003),R1,,,Base UOM + per-SKU conversion factors
-PIM-008,PIM,Media,P1,PLANNED,R1,,,
+PIM-008,PIM,Media,P1,DONE,R1,,,"Product photos via the collab attachment interface (product entity type, 5MB domain cap, 8MB transport limit); Media card with inline gallery + upload (Sprint 045)"
 PIM-009,PIM,Channel content,P1,PLANNED,R1,,,
 PIM-010,PIM,Lot policy,P1,DONE,R1,,,"Lot policy per SKU, audited (Sprint 022)"
 PIM-011,PIM,Serial policy,P1,PLANNED,R1,,,

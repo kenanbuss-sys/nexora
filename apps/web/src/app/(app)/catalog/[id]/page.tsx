@@ -52,6 +52,7 @@ export default function ProductDetailPage() {
   const [barcodeSku, setBarcodeSku] = useState('');
   const [barcodeValue, setBarcodeValue] = useState('');
   const [categories, setCategories] = useState<CategoryView[]>([]);
+  const [images, setImages] = useState<Array<{ id: string; fileName: string; src: string }>>([]);
   const [packSku, setPackSku] = useState('');
   const [packName, setPackName] = useState('');
   const [packUnits, setPackUnits] = useState('');
@@ -64,6 +65,56 @@ export default function ProductDetailPage() {
   const [subs, setSubs] = useState<Array<{ id: string; substituteCode: string; priority: number }>>(
     [],
   );
+  const loadImages = useCallback(() => {
+    api<{
+      attachments: Array<{ id: string; fileName: string; contentType: string }>;
+    }>('GET', `/api/v1/attachments?entityType=product&entityId=${productId}`)
+      .then(async (r) => {
+        const pictures = r.attachments.filter((a) => a.contentType.startsWith('image/'));
+        const loaded = await Promise.all(
+          pictures.slice(0, 8).map(async (a) => {
+            const file = await api<{ contentType: string; dataBase64: string }>(
+              'GET',
+              `/api/v1/attachments/${a.id}/download`,
+            );
+            return {
+              id: a.id,
+              fileName: a.fileName,
+              src: `data:${file.contentType};base64,${file.dataBase64}`,
+            };
+          }),
+        );
+        setImages(loaded);
+      })
+      .catch(() => setImages([]));
+  }, [productId]);
+
+  useEffect(loadImages, [loadImages]);
+
+  async function uploadImage(file: File | undefined) {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setError('Only image files can be product media');
+      return;
+    }
+    const buffer = await file.arrayBuffer();
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    }
+    await run(async () => {
+      await api('POST', '/api/v1/attachments', {
+        entityType: 'product',
+        entityId: productId,
+        fileName: file.name,
+        contentType: file.type,
+        dataBase64: btoa(binary),
+      });
+      loadImages();
+    }, 'Image uploaded.');
+  }
+
   const [axis1, setAxis1] = useState('color');
   const [values1, setValues1] = useState('');
   const [axis2, setAxis2] = useState('size');
@@ -328,6 +379,47 @@ export default function ProductDetailPage() {
               </form>
             ) : null}
           </div>
+
+          {can('collab.use') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Media</h2>
+              <p className="muted">Product photos — shown here and stored with the product.</p>
+              {images.length > 0 ? (
+                <div className="row" style={{ flexWrap: 'wrap', gap: 10 }}>
+                  {images.map((img) => (
+                    // eslint-disable-next-line
+                    <img
+                      key={img.id}
+                      src={img.src}
+                      alt={img.fileName}
+                      title={img.fileName}
+                      style={{
+                        width: 110,
+                        height: 110,
+                        objectFit: 'cover',
+                        borderRadius: 10,
+                        border: '1px solid var(--color-border)',
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="empty">No photos yet.</div>
+              )}
+              <div className="row" style={{ marginTop: 10 }}>
+                <input
+                  className="input"
+                  type="file"
+                  accept="image/*"
+                  disabled={busy}
+                  onChange={(e) => {
+                    void uploadImage(e.target.files?.[0]);
+                    e.target.value = '';
+                  }}
+                />
+              </div>
+            </div>
+          ) : null}
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
