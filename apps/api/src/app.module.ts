@@ -20,7 +20,7 @@ import { ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ProcurementService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
-import { MesService } from '@nexora/domain-mes';
+import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { QualityService } from '@nexora/domain-qc';
 import { FinanceService, TreasuryService } from '@nexora/domain-fin';
 import { AnalyticsService } from '@nexora/domain-bi';
@@ -66,6 +66,7 @@ import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller'
 import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
 import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
 import { COUNT_SERVICE, CountsController } from './wms/counts.controller';
+import { SHOPFLOOR_SERVICE, ShopFloorController } from './mes/shopfloor.controller';
 import {
   BomsController,
   ENGINEERING_SERVICE,
@@ -206,6 +207,7 @@ export const REDIS = 'REDIS';
     MerchandisingController,
     ReturnsController,
     CountsController,
+    ShopFloorController,
   ],
   providers: [
     { provide: ENV, useFactory: (): Env => loadEnv() },
@@ -555,6 +557,11 @@ export const REDIS = 'REDIS';
       useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
         new CountService(prisma, inventory),
       inject: [PRISMA, INVENTORY_SERVICE],
+    },
+    {
+      provide: SHOPFLOOR_SERVICE,
+      useFactory: (prisma: PrismaClient) => new ShopFloorService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: HEALTH_SERVICE,

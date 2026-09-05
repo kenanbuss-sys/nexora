@@ -12,6 +12,22 @@ interface WoOperationView {
   status: 'PENDING' | 'RUNNING' | 'DONE';
 }
 
+interface WorkCenterOption {
+  id: string;
+  code: string;
+  name: string;
+}
+
+interface OeeInputRow {
+  workCenterId: string;
+  workCenterCode: string;
+  workCenterName: string;
+  downtimeMinutes: number;
+  downtimeByCategory: Record<string, number>;
+  operationsCompleted: number;
+  avgOperationMinutes: string | null;
+}
+
 interface WorkOrderView {
   id: string;
   woNumber: string;
@@ -51,6 +67,14 @@ export default function ProductionPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [workCenters, setWorkCenters] = useState<WorkCenterOption[]>([]);
+  const [oee, setOee] = useState<OeeInputRow[]>([]);
+  const [dtCenter, setDtCenter] = useState('');
+  const [dtCategory, setDtCategory] = useState('BREAKDOWN');
+  const [dtMinutes, setDtMinutes] = useState('15');
+  const [dtReason, setDtReason] = useState('');
+  const [wcCode, setWcCode] = useState('');
+  const [wcName, setWcName] = useState('');
 
   const [newSku, setNewSku] = useState('');
   const [newWarehouse, setNewWarehouse] = useState('');
@@ -60,6 +84,12 @@ export default function ProductionPage() {
   const [scrapQty, setScrapQty] = useState('0');
 
   const load = useCallback(() => {
+    api<{ workCenters: WorkCenterOption[] }>('GET', '/api/v1/shopfloor/work-centers')
+      .then((r) => setWorkCenters(r.workCenters))
+      .catch(() => setWorkCenters([]));
+    api<{ rows: OeeInputRow[] }>('GET', '/api/v1/shopfloor/oee?days=30')
+      .then((r) => setOee(r.rows))
+      .catch(() => setOee([]));
     api<{ workOrders: WorkOrderView[] }>('GET', '/api/v1/work-orders')
       .then((r) => {
         setWorkOrders(r.workOrders);
@@ -377,6 +407,162 @@ export default function ProductionPage() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+      <div className="card" style={{ marginTop: 16 }}>
+        <h2>Work centers &amp; downtime</h2>
+        {oee.length > 0 ? (
+          <table className="table">
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'left' }}>Work center</th>
+                <th>Downtime (30d)</th>
+                <th>Top cause</th>
+                <th>Ops done</th>
+                <th>Avg op time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {oee.map((row) => {
+                const top = Object.entries(row.downtimeByCategory).sort((a, z) => z[1] - a[1])[0];
+                return (
+                  <tr key={row.workCenterId}>
+                    <td>
+                      <span className="mono">{row.workCenterCode}</span> {row.workCenterName}
+                    </td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span
+                        className={`badge ${
+                          row.downtimeMinutes === 0
+                            ? 'badge-ok'
+                            : row.downtimeMinutes < 120
+                              ? 'badge-warn'
+                              : 'badge-danger'
+                        }`}
+                      >
+                        {row.downtimeMinutes} min
+                      </span>
+                    </td>
+                    <td style={{ textAlign: 'center' }} className="muted">
+                      {top ? `${top[0]} (${top[1]}m)` : '—'}
+                    </td>
+                    <td style={{ textAlign: 'center' }}>{row.operationsCompleted}</td>
+                    <td style={{ textAlign: 'center' }} className="mono">
+                      {row.avgOperationMinutes !== null ? `${row.avgOperationMinutes} min` : '—'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <div className="empty">No work centers yet — create one below.</div>
+        )}
+
+        <div className="row" style={{ marginTop: 12, flexWrap: 'wrap' }}>
+          {can('production.manage') ? (
+            <>
+              <input
+                className="input mono"
+                style={{ maxWidth: 100 }}
+                placeholder="Code"
+                value={wcCode}
+                onChange={(e) => setWcCode(e.target.value)}
+              />
+              <input
+                className="input"
+                style={{ maxWidth: 170 }}
+                placeholder="Work center name"
+                value={wcName}
+                onChange={(e) => setWcName(e.target.value)}
+              />
+              <button
+                className="btn btn-sm"
+                disabled={busy || !wcCode || !wcName}
+                onClick={() =>
+                  run(
+                    () =>
+                      api('POST', '/api/v1/shopfloor/work-centers', {
+                        code: wcCode,
+                        name: wcName,
+                      }),
+                    'Work center created.',
+                  ).then(() => {
+                    setWcCode('');
+                    setWcName('');
+                  })
+                }
+                type="button"
+              >
+                Add work center
+              </button>
+            </>
+          ) : null}
+          {can('production.execute') && workCenters.length > 0 ? (
+            <>
+              <select
+                className="select"
+                style={{ maxWidth: 160 }}
+                value={dtCenter}
+                onChange={(e) => setDtCenter(e.target.value)}
+              >
+                <option value="">Work center…</option>
+                {workCenters.map((w) => (
+                  <option key={w.id} value={w.id}>
+                    {w.code}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="select"
+                style={{ maxWidth: 140 }}
+                value={dtCategory}
+                onChange={(e) => setDtCategory(e.target.value)}
+              >
+                {['BREAKDOWN', 'SETUP', 'MATERIAL', 'QUALITY', 'OTHER'].map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="input"
+                style={{ maxWidth: 80 }}
+                type="number"
+                min="1"
+                max="1440"
+                title="Minutes"
+                value={dtMinutes}
+                onChange={(e) => setDtMinutes(e.target.value)}
+              />
+              <input
+                className="input"
+                style={{ maxWidth: 200 }}
+                placeholder="Downtime reason"
+                value={dtReason}
+                onChange={(e) => setDtReason(e.target.value)}
+              />
+              <button
+                className="btn btn-sm btn-primary"
+                disabled={busy || !dtCenter || !dtReason.trim() || !dtMinutes}
+                onClick={() =>
+                  run(
+                    () =>
+                      api('POST', '/api/v1/shopfloor/downtime', {
+                        workCenterId: dtCenter,
+                        category: dtCategory,
+                        minutes: Number(dtMinutes),
+                        reason: dtReason,
+                      }),
+                    'Downtime logged.',
+                  ).then(() => setDtReason(''))
+                }
+                type="button"
+              >
+                Log downtime
+              </button>
+            </>
+          ) : null}
         </div>
       </div>
     </main>
