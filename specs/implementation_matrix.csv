@@ -84,7 +84,7 @@ CPQ-010,CPQ,Cost-aware pricing,P1,PLANNED,R1,,,
 CPQ-011,CPQ,Quote generation,Implemented (Sprint 006),PLANNED,R1,,,Quote lifecycle DRAFT->...->ACCEPTED with totals
 CPQ-012,CPQ,Quote versioning,Implemented (Sprint 006),PLANNED,R1,,,New version supersedes SENT/REJECTED/EXPIRED
 CPQ-013,CPQ,Promise-date calculation,P1,DONE,R1,,,Sprint 058: per-line promise dates from live availability + planning lead times; order promise = latest line.
-CPQ-014,CPQ,Contract pricing,P1,PLANNED,R1,,,
+CPQ-014,CPQ,Contract pricing,P1,DONE,R1,,,Sprint 061: contract lists with validity windows feed quote prices; auto-selected on quote creation.
 COM-001,COM,B2C channel integration,P1,PLANNED,R1,,,
 COM-002,COM,B2B commerce portal,P1,PLANNED,R1,,,
 COM-003,COM,POS,P1,PLANNED,R1,,,
@@ -116,7 +116,7 @@ OMS-014,OMS,SLA/promise monitoring,P1,PLANNED,R1,,,
 B2B-001,B2B,Company accounts,P1,DONE,R3,,,
 B2B-002,B2B,Customer roles,P1,DONE,R3,,,
 B2B-003,B2B,Entitled catalog,P1,PLANNED,R3,,,
-B2B-004,B2B,Customer prices,P1,PLANNED,R3,,,
+B2B-004,B2B,Customer prices,P1,DONE,R3,,,Sprint 061: customer-bound contract price lists resolve per account and are refused for other accounts.
 B2B-005,B2B,Self-service quotes,P1,DONE,R3,,,
 B2B-006,B2B,Self-service orders,P1,DONE,R3,,,
 B2B-007,B2B,Customer-side approvals,P1,PLANNED,R3,,,

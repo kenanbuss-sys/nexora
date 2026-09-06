@@ -15,6 +15,7 @@ export interface PriceListView {
   name: string;
   currency: string;
   status: PriceListStatus;
+  accountId: string | null;
 }
 
 export interface PriceEntryView {
@@ -39,11 +40,12 @@ export class PricingService {
       name: l.name,
       currency: l.currency,
       status: l.status,
+      accountId: l.accountId,
     }));
   }
 
   async createPriceList(
-    input: { code: string; name: string; currency: string },
+    input: { code: string; name: string; currency: string; accountId?: string | undefined },
     ctx: RequestContext,
   ): Promise<PriceListView> {
     return this.prisma.$transaction(async (tx) => {
@@ -57,6 +59,7 @@ export class PricingService {
           code: input.code,
           name: input.name,
           currency: input.currency.toUpperCase(),
+          accountId: input.accountId ?? null,
         },
       });
       await writeAudit(tx, {
@@ -67,7 +70,7 @@ export class PricingService {
         objectType: 'PriceList',
         objectId: list.id,
         source: 'api',
-        newValues: { code: list.code, currency: list.currency },
+        newValues: { code: list.code, currency: list.currency, accountId: list.accountId },
       });
       return {
         id: list.id,
@@ -75,8 +78,36 @@ export class PricingService {
         name: list.name,
         currency: list.currency,
         status: list.status,
+        accountId: list.accountId,
       };
     });
+  }
+
+  /**
+   * Contract pricing (B2B-004/CPQ-014): the newest ACTIVE price list
+   * bound to this account and valid right now, or null.
+   */
+  async contractListFor(accountId: string, ctx: RequestContext): Promise<PriceListView | null> {
+    const now = new Date();
+    const list = await this.prisma.priceList.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        accountId,
+        status: 'ACTIVE',
+        OR: [{ validFrom: null }, { validFrom: { lte: now } }],
+        AND: [{ OR: [{ validTo: null }, { validTo: { gte: now } }] }],
+      },
+      orderBy: [{ createdAt: 'desc' }],
+    });
+    if (!list) return null;
+    return {
+      id: list.id,
+      code: list.code,
+      name: list.name,
+      currency: list.currency,
+      status: list.status,
+      accountId: list.accountId,
+    };
   }
 
   async setPrice(
@@ -159,7 +190,14 @@ export class PricingService {
         where: { id: priceListId, tenantId: ctx.tenantId },
       });
       const l = list as NonNullable<typeof list>;
-      return { id: l.id, code: l.code, name: l.name, currency: l.currency, status: l.status };
+      return {
+        id: l.id,
+        code: l.code,
+        name: l.name,
+        currency: l.currency,
+        status: l.status,
+        accountId: l.accountId,
+      };
     });
   }
 

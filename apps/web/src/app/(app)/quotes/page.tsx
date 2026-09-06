@@ -98,6 +98,7 @@ export default function QuotesPage() {
   const [ruleAccount, setRuleAccount] = useState('');
   const [ruleSku, setRuleSku] = useState('');
   const [plCode, setPlCode] = useState('');
+  const [plAccount, setPlAccount] = useState('');
   const [plName, setPlName] = useState('');
   const [plCurrency, setPlCurrency] = useState('EUR');
   const [priceSku, setPriceSku] = useState('');
@@ -239,6 +240,7 @@ export default function QuotesPage() {
                             code: plCode,
                             name: plName,
                             currency: plCurrency,
+                            ...(plAccount ? { accountId: plAccount } : {}),
                           }),
                         'Price list created (draft).',
                       ).then(() => {
@@ -271,6 +273,20 @@ export default function QuotesPage() {
                       maxLength={3}
                       required
                     />
+                    <select
+                      className="select"
+                      style={{ maxWidth: 170 }}
+                      value={plAccount}
+                      onChange={(e) => setPlAccount(e.target.value)}
+                      title="Customer contract (optional)"
+                    >
+                      <option value="">General list</option>
+                      {accounts.map((a) => (
+                        <option key={a.id} value={a.id}>
+                          Contract: {a.accountNumber}
+                        </option>
+                      ))}
+                    </select>
                     <button className="btn btn-sm" disabled={busy} type="submit">
                       Add list
                     </button>
@@ -566,7 +582,20 @@ export default function QuotesPage() {
               <select
                 className="select"
                 value={quoteAccount}
-                onChange={(e) => setQuoteAccount(e.target.value)}
+                onChange={(e) => {
+                  const accountId = e.target.value;
+                  setQuoteAccount(accountId);
+                  if (accountId) {
+                    api<{ contract: { id: string } | null }>(
+                      'GET',
+                      `/api/v1/price-lists/contract/${accountId}`,
+                    )
+                      .then((r) => {
+                        if (r.contract) setQuotePriceList(r.contract.id);
+                      })
+                      .catch(() => undefined);
+                  }
+                }}
                 required
               >
                 <option value="">Select account…</option>

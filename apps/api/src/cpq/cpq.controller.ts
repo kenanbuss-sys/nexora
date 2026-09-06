@@ -20,6 +20,7 @@ const createPriceListSchema = z.object({
   code: z.string().min(1).max(64),
   name: z.string().min(1).max(200),
   currency: z.string().length(3),
+  accountId: z.string().uuid().optional(),
 });
 const setPriceSchema = z.object({
   skuId: z.string().uuid(),
@@ -63,6 +64,12 @@ export class PriceListsController {
   @RequirePermission('pricing.manage')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.pricing.createPriceList(parseBody(createPriceListSchema, body), ctx);
+  }
+
+  @Get('contract/:accountId')
+  @RequirePermission('pricing.read')
+  async contract(@Param('accountId') accountId: string, @Ctx() ctx: RequestContext) {
+    return { contract: await this.pricing.contractListFor(accountId, ctx) };
   }
 
   @Get(':id/entries')

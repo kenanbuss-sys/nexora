@@ -188,6 +188,14 @@ export class QuoteService {
       where: { id: input.priceListId, tenantId: ctx.tenantId, status: 'ACTIVE' },
     });
     if (!list) throw notFound('Active price list', input.priceListId);
+    // Contract pricing (B2B-004): a list bound to an account serves ONLY
+    // that account.
+    if (list.accountId && list.accountId !== input.accountId) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'This price list is a customer contract for a different account',
+      );
+    }
 
     return this.prisma.$transaction(async (tx) => {
       const count = await tx.quote.count({ where: { tenantId: ctx.tenantId } });
