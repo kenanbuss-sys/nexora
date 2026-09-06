@@ -23,6 +23,20 @@ export default function PartiesPage() {
   const { can } = useApp();
   const [query, setQuery] = useState('');
   const [parties, setParties] = useState<PartyView[] | null>(null);
+  const [contracts, setContracts] = useState<
+    Array<{
+      id: string;
+      contractNumber: string;
+      title: string;
+      partyName: string;
+      status: string;
+      endsAt: string | null;
+    }>
+  >([]);
+  const [renewals, setRenewals] = useState<Array<{ id: string; contractNumber: string }>>([]);
+  const [ctTitle, setCtTitle] = useState('');
+  const [ctParty, setCtParty] = useState('');
+  const [ctEnds, setCtEnds] = useState('');
   const [crList, setCrList] = useState<
     Array<{
       id: string;
@@ -40,6 +54,20 @@ export default function PartiesPage() {
     granted: boolean | null;
     recordedAt: string | null;
   }> | null>(null);
+
+  function loadContracts() {
+    api<{ contracts: typeof contracts }>('GET', '/api/v1/contracts')
+      .then((r) => setContracts(r.contracts))
+      .catch(() => setContracts([]));
+    api<{ renewals: typeof renewals }>('GET', '/api/v1/contracts/renewals')
+      .then((r) => setRenewals(r.renewals))
+      .catch(() => setRenewals([]));
+  }
+
+  useEffect(() => {
+    loadContracts();
+    // eslint-disable-next-line
+  }, []);
 
   function loadChangeRequests() {
     api<{ requests: typeof crList }>('GET', '/api/v1/mdm/change-requests')
@@ -350,6 +378,107 @@ export default function PartiesPage() {
               )}
             </div>
           ) : null}
+
+          <div className="card">
+            <h2>Contracts</h2>
+            <p className="muted">
+              Contract repository with lifecycle and renewal reminders derived from end dates.
+            </p>
+            {renewals.length > 0 ? (
+              <div className="alert alert-warn" style={{ marginBottom: 8 }}>
+                Renewal due: {renewals.map((r) => r.contractNumber).join(', ')}
+              </div>
+            ) : null}
+            {contracts.length === 0 ? <div className="empty">No contracts.</div> : null}
+            {contracts.slice(0, 8).map((c) => (
+              <div key={c.id} className="row spread" style={{ marginBottom: 6 }}>
+                <span>
+                  <strong className="mono">{c.contractNumber}</strong> {c.title}{' '}
+                  <span className="muted" style={{ fontSize: 12 }}>
+                    {c.partyName}
+                    {c.endsAt ? ` · until ${new Date(c.endsAt).toLocaleDateString()}` : ''}
+                  </span>
+                </span>
+                <span>
+                  <span
+                    className={`badge ${
+                      c.status === 'ACTIVE' ? 'badge-ok' : c.status === 'DRAFT' ? 'badge-warn' : ''
+                    }`}
+                  >
+                    {c.status}
+                  </span>{' '}
+                  {c.status === 'DRAFT' ? (
+                    <button
+                      className="btn btn-sm"
+                      disabled={busy}
+                      type="button"
+                      onClick={() =>
+                        run(async () => {
+                          await api('POST', `/api/v1/contracts/${c.id}/transition`, {
+                            status: 'ACTIVE',
+                          });
+                          loadContracts();
+                        }, 'Contract activated.')
+                      }
+                    >
+                      Activate
+                    </button>
+                  ) : null}
+                </span>
+              </div>
+            ))}
+            <form
+              className="row"
+              style={{ marginTop: 10, flexWrap: 'wrap' }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void run(async () => {
+                  await api('POST', '/api/v1/contracts', {
+                    title: ctTitle,
+                    partyId: ctParty,
+                    startsAt: new Date().toISOString(),
+                    ...(ctEnds ? { endsAt: new Date(ctEnds).toISOString() } : {}),
+                  });
+                  setCtTitle('');
+                  loadContracts();
+                }, 'Contract created (draft).');
+              }}
+            >
+              <input
+                className="input"
+                style={{ maxWidth: 180 }}
+                placeholder="Title"
+                value={ctTitle}
+                onChange={(e) => setCtTitle(e.target.value)}
+                required
+              />
+              <select
+                className="select"
+                style={{ maxWidth: 160 }}
+                value={ctParty}
+                onChange={(e) => setCtParty(e.target.value)}
+                required
+              >
+                <option value="">Party…</option>
+                {(parties ?? []).map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="input"
+                style={{ maxWidth: 150 }}
+                type="date"
+                title="End date (optional)"
+                value={ctEnds}
+                onChange={(e) => setCtEnds(e.target.value)}
+              />
+              <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                Add contract
+              </button>
+            </form>
+          </div>
 
           {can('mdm.read') ? (
             <div className="card">

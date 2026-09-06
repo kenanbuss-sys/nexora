@@ -12,7 +12,7 @@ import {
   TaskService,
   TenantService,
 } from '@nexora/domain-core';
-import { PdfService, DocumentTemplateService } from '@nexora/domain-doc';
+import { ContractService, PdfService, DocumentTemplateService } from '@nexora/domain-doc';
 import {
   DiscountRuleService,
   PricingService,
@@ -91,6 +91,7 @@ import {
   ScanEventsController,
   VERIFICATION_SERVICE,
 } from './dev/dev.controller';
+import { CONTRACT_SERVICE, ContractsController } from './documents/contracts.controller';
 import {
   ONBOARDING_SERVICE,
   OnboardingController,
@@ -261,6 +262,7 @@ export const REDIS = 'REDIS';
     LoyaltyController,
     SupportCasesController,
     OnboardingController,
+    ContractsController,
     CrmLeadsController,
     CrmOpportunitiesController,
     CrmActivitiesController,
@@ -508,6 +510,11 @@ export const REDIS = 'REDIS';
     {
       provide: SUPPORT_CASE_SERVICE,
       useFactory: (prisma: PrismaClient) => new SupportCaseService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: CONTRACT_SERVICE,
+      useFactory: (prisma: PrismaClient) => new ContractService(prisma),
       inject: [PRISMA],
     },
     {
