@@ -37,6 +37,12 @@ export class PlanningController {
     return { runs: await this.planning.listRuns(ctx) };
   }
 
+  @Get('replenishment')
+  @RequirePermission('plan.read')
+  async replenishment(@Ctx() ctx: RequestContext) {
+    return { rows: await this.planning.replenishmentReport(ctx) };
+  }
+
   @Post('runs')
   @RequirePermission('plan.manage')
   async run(@Ctx() ctx: RequestContext) {

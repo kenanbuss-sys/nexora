@@ -48,6 +48,13 @@ export default function PlanningPage() {
   const [safety, setSafety] = useState('0');
   const [lead, setLead] = useState('0');
   const [openRun, setOpenRun] = useState('');
+  const [replenishment, setReplenishment] = useState<Array<{
+    skuId: string;
+    code: string;
+    available: number;
+    reorderPoint: number;
+    suggestedQty: number;
+  }> | null>(null);
 
   const load = useCallback(() => {
     api<{ policies: PolicyView[] }>('GET', '/api/v1/planning/policies')
@@ -64,6 +71,9 @@ export default function PlanningPage() {
 
   useEffect(() => {
     load();
+    api<{ rows: NonNullable<typeof replenishment> }>('GET', '/api/v1/planning/replenishment')
+      .then((r) => setReplenishment(r.rows))
+      .catch(() => setReplenishment([]));
     api<{ products: Array<{ id: string }> }>('GET', '/api/v1/products/search')
       .then(async (r) => {
         const details = await Promise.all(
@@ -205,6 +215,27 @@ export default function PlanningPage() {
               </button>
             </div>
           ) : null}
+
+          <div className="card">
+            <h2>Replenishment</h2>
+            <p className="muted" style={{ marginTop: 0 }}>
+              SKUs at or below their reorder point, with a suggested order quantity.
+            </p>
+            {replenishment === null ? <div className="loading">Loading…</div> : null}
+            {replenishment && replenishment.length === 0 ? (
+              <div className="empty">Nothing below its reorder point.</div>
+            ) : null}
+            {(replenishment ?? []).slice(0, 12).map((row) => (
+              <div key={row.skuId} className="row spread" style={{ marginBottom: 4 }}>
+                <span className="mono" style={{ fontSize: 13 }}>
+                  {row.code}
+                </span>
+                <span className="muted" style={{ fontSize: 12 }}>
+                  avail {row.available} / ROP {row.reorderPoint} → order {row.suggestedQty}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="card">

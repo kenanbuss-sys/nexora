@@ -137,6 +137,74 @@ export class PlanningService {
 
   // ------------------------------------------------------------------- runs
 
+  /**
+   * Replenishment report (WMS-008): SKUs whose free availability sits
+   * at or below their reorder point, with a suggested order quantity
+   * that restores reorder point + safety stock. Derived live from the
+   * stock ledger and open reservations — nothing is stored.
+   */
+  async replenishmentReport(ctx: RequestContext): Promise<
+    Array<{
+      skuId: string;
+      code: string;
+      name: string;
+      available: number;
+      reorderPoint: number;
+      safetyStock: number;
+      suggestedQty: number;
+    }>
+  > {
+    const policies = await this.prisma.planningPolicy.findMany({
+      where: { tenantId: ctx.tenantId },
+      take: 500,
+    });
+    if (policies.length === 0) return [];
+    const skuIds = policies.map((p) => p.skuId);
+    const movements = await this.prisma.stockMovement.groupBy({
+      by: ['skuId', 'movementType'],
+      where: { tenantId: ctx.tenantId, skuId: { in: skuIds } },
+      _sum: { quantity: true },
+    });
+    const onHand = new Map<string, number>();
+    for (const m of movements) {
+      const inbound = ['RECEIPT', 'ADJUSTMENT_IN', 'TRANSFER_IN'].includes(m.movementType);
+      const qty = Number(m._sum.quantity ?? 0) * (inbound ? 1 : -1);
+      onHand.set(m.skuId, (onHand.get(m.skuId) ?? 0) + qty);
+    }
+    const reservations = await this.prisma.stockReservation.groupBy({
+      by: ['skuId'],
+      where: { tenantId: ctx.tenantId, skuId: { in: skuIds }, status: 'ACTIVE' },
+      _sum: { quantity: true },
+    });
+    const reserved = new Map(reservations.map((r) => [r.skuId, Number(r._sum.quantity ?? 0)]));
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: skuIds } },
+      select: { id: true, code: true, name: true },
+    });
+    const skuById = new Map(skus.map((s) => [s.id, s]));
+
+    const rows = [];
+    for (const policy of policies) {
+      const sku = skuById.get(policy.skuId);
+      if (!sku) continue;
+      const available = (onHand.get(policy.skuId) ?? 0) - (reserved.get(policy.skuId) ?? 0);
+      const reorderPoint = Number(policy.reorderPoint);
+      const safetyStock = Number(policy.safetyStock);
+      if (available > reorderPoint) continue;
+      rows.push({
+        skuId: policy.skuId,
+        code: sku.code,
+        name: sku.name,
+        available,
+        reorderPoint,
+        safetyStock,
+        suggestedQty: Math.max(1, Math.ceil(reorderPoint + safetyStock - available)),
+      });
+    }
+    rows.sort((a, b) => a.available - b.available);
+    return rows;
+  }
+
   /** Lead time for one SKU (PLAN policy), 0 when no policy exists. */
   async leadTimeFor(tenantId: string, skuId: string): Promise<number> {
     const policy = await this.prisma.planningPolicy.findFirst({
