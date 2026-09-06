@@ -129,6 +129,7 @@ model Tenant {
   salesTeamMembers      SalesTeamMember[]
   exchangeRates         ExchangeRate[]
   consentRecords        ConsentRecord[]
+  promotions            Promotion[]
 
   @@map("tenant")
 }
@@ -794,6 +795,8 @@ model Sku {
   lengthCm      Decimal?  @map("length_cm") @db.Decimal(10, 1)
   widthCm       Decimal?  @map("width_cm") @db.Decimal(10, 1)
   heightCm      Decimal?  @map("height_cm") @db.Decimal(10, 1)
+  /// Sprint 055 (PIM-011): serial tracking policy for this SKU.
+  serialPolicy  SerialPolicy @default(NONE) @map("serial_policy")
   status        SkuStatus @default(DRAFT)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
@@ -802,6 +805,9 @@ model Sku {
   barcodes        Barcode[]
   uomConversions  UomConversion[]
   packagingLevels PackagingLevel[]
+  bundleComponents BundleComponent[] @relation("BundleParent")
+  bundleUsedIn     BundleComponent[] @relation("BundleComponentSku")
+  serialNumbers    SerialNumber[]
 
   @@unique([tenantId, code])
   @@map("sku")
@@ -2458,4 +2464,97 @@ model DowntimeEvent {
 
   @@index([tenantId, workCenterId, occurredAt])
   @@map("downtime_event")
+}
+
+/// Sprint 053 (CPQ-006/COM-012): promotions and voucher codes. A
+/// promotion is a named percentage discount redeemable on sales orders
+/// by its code, bounded by validity window, minimum order total and a
+/// redemption budget.
+model Promotion {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String    @map("tenant_id") @db.Uuid
+  code           String
+  name           String
+  discountPct    Decimal   @map("discount_pct") @db.Decimal(5, 2)
+  minOrderTotal  Decimal?  @map("min_order_total") @db.Decimal(18, 2)
+  maxRedemptions Int?      @map("max_redemptions")
+  redemptions    Int       @default(0)
+  validFrom      DateTime? @map("valid_from")
+  validTo        DateTime? @map("valid_to")
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  tenant            Tenant                @relation(fields: [tenantId], references: [id])
+  redemptionRecords PromotionRedemption[]
+
+  @@unique([tenantId, code])
+  @@map("promotion")
+}
+
+/// One redemption of a promotion against one sales order — the unique
+/// constraint makes redemption idempotent per order.
+model PromotionRedemption {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  promotionId String   @map("promotion_id") @db.Uuid
+  orderId     String   @map("order_id") @db.Uuid
+  amountOff   Decimal  @map("amount_off") @db.Decimal(18, 2)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  promotion Promotion @relation(fields: [promotionId], references: [id])
+
+  @@unique([tenantId, promotionId, orderId])
+  @@index([tenantId, orderId])
+  @@map("promotion_redemption")
+}
+
+/// Sprint 054 (PIM-015): bundle/kit composition — a bundle SKU is sold
+/// as one line but is made of component SKUs in fixed quantities.
+model BundleComponent {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String   @map("tenant_id") @db.Uuid
+  bundleSkuId    String   @map("bundle_sku_id") @db.Uuid
+  componentSkuId String   @map("component_sku_id") @db.Uuid
+  quantity       Decimal  @db.Decimal(18, 6)
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  bundleSku    Sku @relation("BundleParent", fields: [bundleSkuId], references: [id])
+  componentSku Sku @relation("BundleComponentSku", fields: [componentSkuId], references: [id])
+
+  @@unique([tenantId, bundleSkuId, componentSkuId])
+  @@map("bundle_component")
+}
+
+/// Sprint 055 (PIM-011): how serial numbers are enforced for a SKU.
+enum SerialPolicy {
+  NONE
+  OPTIONAL
+  REQUIRED
+}
+
+enum SerialStatus {
+  IN_STOCK
+  SHIPPED
+  RETURNED
+  SCRAPPED
+}
+
+/// Serial-number registry (PIM-011/WMS-018): one row per physical unit
+/// of a serial-tracked SKU; state transitions are audited.
+model SerialNumber {
+  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String       @map("tenant_id") @db.Uuid
+  skuId     String       @map("sku_id") @db.Uuid
+  serial    String
+  status    SerialStatus @default(IN_STOCK)
+  note      String?
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  sku Sku @relation(fields: [skuId], references: [id])
+
+  @@unique([tenantId, skuId, serial])
+  @@index([tenantId, status])
+  @@map("serial_number")
 }
