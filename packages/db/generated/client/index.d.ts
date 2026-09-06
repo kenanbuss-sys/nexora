@@ -569,6 +569,32 @@ export type WorkCenter = $Result.DefaultSelection<Prisma.$WorkCenterPayload>
  * directly so shop-floor entry stays one step.
  */
 export type DowntimeEvent = $Result.DefaultSelection<Prisma.$DowntimeEventPayload>
+/**
+ * Model Promotion
+ * Sprint 053 (CPQ-006/COM-012): promotions and voucher codes. A
+ * promotion is a named percentage discount redeemable on sales orders
+ * by its code, bounded by validity window, minimum order total and a
+ * redemption budget.
+ */
+export type Promotion = $Result.DefaultSelection<Prisma.$PromotionPayload>
+/**
+ * Model PromotionRedemption
+ * One redemption of a promotion against one sales order — the unique
+ * constraint makes redemption idempotent per order.
+ */
+export type PromotionRedemption = $Result.DefaultSelection<Prisma.$PromotionRedemptionPayload>
+/**
+ * Model BundleComponent
+ * Sprint 054 (PIM-015): bundle/kit composition — a bundle SKU is sold
+ * as one line but is made of component SKUs in fixed quantities.
+ */
+export type BundleComponent = $Result.DefaultSelection<Prisma.$BundleComponentPayload>
+/**
+ * Model SerialNumber
+ * Serial-number registry (PIM-011/WMS-018): one row per physical unit
+ * of a serial-tracked SKU; state transitions are audited.
+ */
+export type SerialNumber = $Result.DefaultSelection<Prisma.$SerialNumberPayload>
 
 /**
  * Enums
@@ -1017,6 +1043,25 @@ export const DowntimeCategory: {
 
 export type DowntimeCategory = (typeof DowntimeCategory)[keyof typeof DowntimeCategory]
 
+
+export const SerialPolicy: {
+  NONE: 'NONE',
+  OPTIONAL: 'OPTIONAL',
+  REQUIRED: 'REQUIRED'
+};
+
+export type SerialPolicy = (typeof SerialPolicy)[keyof typeof SerialPolicy]
+
+
+export const SerialStatus: {
+  IN_STOCK: 'IN_STOCK',
+  SHIPPED: 'SHIPPED',
+  RETURNED: 'RETURNED',
+  SCRAPPED: 'SCRAPPED'
+};
+
+export type SerialStatus = (typeof SerialStatus)[keyof typeof SerialStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1202,6 +1247,14 @@ export const StockCountStatus: typeof $Enums.StockCountStatus
 export type DowntimeCategory = $Enums.DowntimeCategory
 
 export const DowntimeCategory: typeof $Enums.DowntimeCategory
+
+export type SerialPolicy = $Enums.SerialPolicy
+
+export const SerialPolicy: typeof $Enums.SerialPolicy
+
+export type SerialStatus = $Enums.SerialStatus
+
+export const SerialStatus: typeof $Enums.SerialStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2320,6 +2373,46 @@ export class PrismaClient<
     * ```
     */
   get downtimeEvent(): Prisma.DowntimeEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.promotion`: Exposes CRUD operations for the **Promotion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Promotions
+    * const promotions = await prisma.promotion.findMany()
+    * ```
+    */
+  get promotion(): Prisma.PromotionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.promotionRedemption`: Exposes CRUD operations for the **PromotionRedemption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PromotionRedemptions
+    * const promotionRedemptions = await prisma.promotionRedemption.findMany()
+    * ```
+    */
+  get promotionRedemption(): Prisma.PromotionRedemptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bundleComponent`: Exposes CRUD operations for the **BundleComponent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BundleComponents
+    * const bundleComponents = await prisma.bundleComponent.findMany()
+    * ```
+    */
+  get bundleComponent(): Prisma.BundleComponentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serialNumber`: Exposes CRUD operations for the **SerialNumber** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SerialNumbers
+    * const serialNumbers = await prisma.serialNumber.findMany()
+    * ```
+    */
+  get serialNumber(): Prisma.SerialNumberDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2860,7 +2953,11 @@ export namespace Prisma {
     StockCount: 'StockCount',
     StockCountLine: 'StockCountLine',
     WorkCenter: 'WorkCenter',
-    DowntimeEvent: 'DowntimeEvent'
+    DowntimeEvent: 'DowntimeEvent',
+    Promotion: 'Promotion',
+    PromotionRedemption: 'PromotionRedemption',
+    BundleComponent: 'BundleComponent',
+    SerialNumber: 'SerialNumber'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2879,7 +2976,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -10283,6 +10380,302 @@ export namespace Prisma {
           }
         }
       }
+      Promotion: {
+        payload: Prisma.$PromotionPayload<ExtArgs>
+        fields: Prisma.PromotionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PromotionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PromotionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>
+          }
+          findFirst: {
+            args: Prisma.PromotionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PromotionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>
+          }
+          findMany: {
+            args: Prisma.PromotionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>[]
+          }
+          create: {
+            args: Prisma.PromotionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>
+          }
+          createMany: {
+            args: Prisma.PromotionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PromotionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>[]
+          }
+          delete: {
+            args: Prisma.PromotionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>
+          }
+          update: {
+            args: Prisma.PromotionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PromotionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PromotionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PromotionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>[]
+          }
+          upsert: {
+            args: Prisma.PromotionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionPayload>
+          }
+          aggregate: {
+            args: Prisma.PromotionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePromotion>
+          }
+          groupBy: {
+            args: Prisma.PromotionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PromotionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PromotionCountArgs<ExtArgs>
+            result: $Utils.Optional<PromotionCountAggregateOutputType> | number
+          }
+        }
+      }
+      PromotionRedemption: {
+        payload: Prisma.$PromotionRedemptionPayload<ExtArgs>
+        fields: Prisma.PromotionRedemptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PromotionRedemptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PromotionRedemptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>
+          }
+          findFirst: {
+            args: Prisma.PromotionRedemptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PromotionRedemptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>
+          }
+          findMany: {
+            args: Prisma.PromotionRedemptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>[]
+          }
+          create: {
+            args: Prisma.PromotionRedemptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>
+          }
+          createMany: {
+            args: Prisma.PromotionRedemptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PromotionRedemptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>[]
+          }
+          delete: {
+            args: Prisma.PromotionRedemptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>
+          }
+          update: {
+            args: Prisma.PromotionRedemptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PromotionRedemptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PromotionRedemptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PromotionRedemptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.PromotionRedemptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromotionRedemptionPayload>
+          }
+          aggregate: {
+            args: Prisma.PromotionRedemptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePromotionRedemption>
+          }
+          groupBy: {
+            args: Prisma.PromotionRedemptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PromotionRedemptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PromotionRedemptionCountArgs<ExtArgs>
+            result: $Utils.Optional<PromotionRedemptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      BundleComponent: {
+        payload: Prisma.$BundleComponentPayload<ExtArgs>
+        fields: Prisma.BundleComponentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BundleComponentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BundleComponentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>
+          }
+          findFirst: {
+            args: Prisma.BundleComponentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BundleComponentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>
+          }
+          findMany: {
+            args: Prisma.BundleComponentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>[]
+          }
+          create: {
+            args: Prisma.BundleComponentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>
+          }
+          createMany: {
+            args: Prisma.BundleComponentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BundleComponentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>[]
+          }
+          delete: {
+            args: Prisma.BundleComponentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>
+          }
+          update: {
+            args: Prisma.BundleComponentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>
+          }
+          deleteMany: {
+            args: Prisma.BundleComponentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BundleComponentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BundleComponentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>[]
+          }
+          upsert: {
+            args: Prisma.BundleComponentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BundleComponentPayload>
+          }
+          aggregate: {
+            args: Prisma.BundleComponentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBundleComponent>
+          }
+          groupBy: {
+            args: Prisma.BundleComponentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BundleComponentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BundleComponentCountArgs<ExtArgs>
+            result: $Utils.Optional<BundleComponentCountAggregateOutputType> | number
+          }
+        }
+      }
+      SerialNumber: {
+        payload: Prisma.$SerialNumberPayload<ExtArgs>
+        fields: Prisma.SerialNumberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SerialNumberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SerialNumberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>
+          }
+          findFirst: {
+            args: Prisma.SerialNumberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SerialNumberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>
+          }
+          findMany: {
+            args: Prisma.SerialNumberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>[]
+          }
+          create: {
+            args: Prisma.SerialNumberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>
+          }
+          createMany: {
+            args: Prisma.SerialNumberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SerialNumberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>[]
+          }
+          delete: {
+            args: Prisma.SerialNumberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>
+          }
+          update: {
+            args: Prisma.SerialNumberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>
+          }
+          deleteMany: {
+            args: Prisma.SerialNumberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SerialNumberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SerialNumberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>[]
+          }
+          upsert: {
+            args: Prisma.SerialNumberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialNumberPayload>
+          }
+          aggregate: {
+            args: Prisma.SerialNumberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSerialNumber>
+          }
+          groupBy: {
+            args: Prisma.SerialNumberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SerialNumberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SerialNumberCountArgs<ExtArgs>
+            result: $Utils.Optional<SerialNumberCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -10479,6 +10872,10 @@ export namespace Prisma {
     stockCountLine?: StockCountLineOmit
     workCenter?: WorkCenterOmit
     downtimeEvent?: DowntimeEventOmit
+    promotion?: PromotionOmit
+    promotionRedemption?: PromotionRedemptionOmit
+    bundleComponent?: BundleComponentOmit
+    serialNumber?: SerialNumberOmit
   }
 
   /* Types for Logging */
@@ -10648,6 +11045,7 @@ export namespace Prisma {
     salesTeamMembers: number
     exchangeRates: number
     consentRecords: number
+    promotions: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10740,6 +11138,7 @@ export namespace Prisma {
     salesTeamMembers?: boolean | TenantCountOutputTypeCountSalesTeamMembersArgs
     exchangeRates?: boolean | TenantCountOutputTypeCountExchangeRatesArgs
     consentRecords?: boolean | TenantCountOutputTypeCountConsentRecordsArgs
+    promotions?: boolean | TenantCountOutputTypeCountPromotionsArgs
   }
 
   // Custom InputTypes
@@ -11376,6 +11775,13 @@ export namespace Prisma {
     where?: ConsentRecordWhereInput
   }
 
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPromotionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PromotionWhereInput
+  }
+
 
   /**
    * Count Type LegalEntityCountOutputType
@@ -11749,12 +12155,18 @@ export namespace Prisma {
     barcodes: number
     uomConversions: number
     packagingLevels: number
+    bundleComponents: number
+    bundleUsedIn: number
+    serialNumbers: number
   }
 
   export type SkuCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     barcodes?: boolean | SkuCountOutputTypeCountBarcodesArgs
     uomConversions?: boolean | SkuCountOutputTypeCountUomConversionsArgs
     packagingLevels?: boolean | SkuCountOutputTypeCountPackagingLevelsArgs
+    bundleComponents?: boolean | SkuCountOutputTypeCountBundleComponentsArgs
+    bundleUsedIn?: boolean | SkuCountOutputTypeCountBundleUsedInArgs
+    serialNumbers?: boolean | SkuCountOutputTypeCountSerialNumbersArgs
   }
 
   // Custom InputTypes
@@ -11787,6 +12199,27 @@ export namespace Prisma {
    */
   export type SkuCountOutputTypeCountPackagingLevelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PackagingLevelWhereInput
+  }
+
+  /**
+   * SkuCountOutputType without action
+   */
+  export type SkuCountOutputTypeCountBundleComponentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BundleComponentWhereInput
+  }
+
+  /**
+   * SkuCountOutputType without action
+   */
+  export type SkuCountOutputTypeCountBundleUsedInArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BundleComponentWhereInput
+  }
+
+  /**
+   * SkuCountOutputType without action
+   */
+  export type SkuCountOutputTypeCountSerialNumbersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SerialNumberWhereInput
   }
 
 
@@ -12442,6 +12875,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type PromotionCountOutputType
+   */
+
+  export type PromotionCountOutputType = {
+    redemptionRecords: number
+  }
+
+  export type PromotionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    redemptionRecords?: boolean | PromotionCountOutputTypeCountRedemptionRecordsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PromotionCountOutputType without action
+   */
+  export type PromotionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionCountOutputType
+     */
+    select?: PromotionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PromotionCountOutputType without action
+   */
+  export type PromotionCountOutputTypeCountRedemptionRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PromotionRedemptionWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -12748,6 +13212,7 @@ export namespace Prisma {
     salesTeamMembers?: boolean | Tenant$salesTeamMembersArgs<ExtArgs>
     exchangeRates?: boolean | Tenant$exchangeRatesArgs<ExtArgs>
     consentRecords?: boolean | Tenant$consentRecordsArgs<ExtArgs>
+    promotions?: boolean | Tenant$promotionsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -12872,6 +13337,7 @@ export namespace Prisma {
     salesTeamMembers?: boolean | Tenant$salesTeamMembersArgs<ExtArgs>
     exchangeRates?: boolean | Tenant$exchangeRatesArgs<ExtArgs>
     consentRecords?: boolean | Tenant$consentRecordsArgs<ExtArgs>
+    promotions?: boolean | Tenant$promotionsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12969,6 +13435,7 @@ export namespace Prisma {
       salesTeamMembers: Prisma.$SalesTeamMemberPayload<ExtArgs>[]
       exchangeRates: Prisma.$ExchangeRatePayload<ExtArgs>[]
       consentRecords: Prisma.$ConsentRecordPayload<ExtArgs>[]
+      promotions: Prisma.$PromotionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13461,6 +13928,7 @@ export namespace Prisma {
     salesTeamMembers<T extends Tenant$salesTeamMembersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$salesTeamMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesTeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     exchangeRates<T extends Tenant$exchangeRatesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$exchangeRatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExchangeRatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     consentRecords<T extends Tenant$consentRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$consentRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    promotions<T extends Tenant$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$promotionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16018,6 +16486,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConsentRecordScalarFieldEnum | ConsentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.promotions
+   */
+  export type Tenant$promotionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    where?: PromotionWhereInput
+    orderBy?: PromotionOrderByWithRelationInput | PromotionOrderByWithRelationInput[]
+    cursor?: PromotionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PromotionScalarFieldEnum | PromotionScalarFieldEnum[]
   }
 
   /**
@@ -49714,6 +50206,7 @@ export namespace Prisma {
     lengthCm: Decimal | null
     widthCm: Decimal | null
     heightCm: Decimal | null
+    serialPolicy: $Enums.SerialPolicy | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -49732,6 +50225,7 @@ export namespace Prisma {
     lengthCm: Decimal | null
     widthCm: Decimal | null
     heightCm: Decimal | null
+    serialPolicy: $Enums.SerialPolicy | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -49751,6 +50245,7 @@ export namespace Prisma {
     lengthCm: number
     widthCm: number
     heightCm: number
+    serialPolicy: number
     status: number
     createdAt: number
     updatedAt: number
@@ -49787,6 +50282,7 @@ export namespace Prisma {
     lengthCm?: true
     widthCm?: true
     heightCm?: true
+    serialPolicy?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -49805,6 +50301,7 @@ export namespace Prisma {
     lengthCm?: true
     widthCm?: true
     heightCm?: true
+    serialPolicy?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -49824,6 +50321,7 @@ export namespace Prisma {
     lengthCm?: true
     widthCm?: true
     heightCm?: true
+    serialPolicy?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -49930,6 +50428,7 @@ export namespace Prisma {
     lengthCm: Decimal | null
     widthCm: Decimal | null
     heightCm: Decimal | null
+    serialPolicy: $Enums.SerialPolicy
     status: $Enums.SkuStatus
     createdAt: Date
     updatedAt: Date
@@ -49968,6 +50467,7 @@ export namespace Prisma {
     lengthCm?: boolean
     widthCm?: boolean
     heightCm?: boolean
+    serialPolicy?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -49975,6 +50475,9 @@ export namespace Prisma {
     barcodes?: boolean | Sku$barcodesArgs<ExtArgs>
     uomConversions?: boolean | Sku$uomConversionsArgs<ExtArgs>
     packagingLevels?: boolean | Sku$packagingLevelsArgs<ExtArgs>
+    bundleComponents?: boolean | Sku$bundleComponentsArgs<ExtArgs>
+    bundleUsedIn?: boolean | Sku$bundleUsedInArgs<ExtArgs>
+    serialNumbers?: boolean | Sku$serialNumbersArgs<ExtArgs>
     _count?: boolean | SkuCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sku"]>
 
@@ -49992,6 +50495,7 @@ export namespace Prisma {
     lengthCm?: boolean
     widthCm?: boolean
     heightCm?: boolean
+    serialPolicy?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -50012,6 +50516,7 @@ export namespace Prisma {
     lengthCm?: boolean
     widthCm?: boolean
     heightCm?: boolean
+    serialPolicy?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -50032,17 +50537,21 @@ export namespace Prisma {
     lengthCm?: boolean
     widthCm?: boolean
     heightCm?: boolean
+    serialPolicy?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "variantValues" | "weightKg" | "lengthCm" | "widthCm" | "heightCm" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
+  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "variantValues" | "weightKg" | "lengthCm" | "widthCm" | "heightCm" | "serialPolicy" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
   export type SkuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     barcodes?: boolean | Sku$barcodesArgs<ExtArgs>
     uomConversions?: boolean | Sku$uomConversionsArgs<ExtArgs>
     packagingLevels?: boolean | Sku$packagingLevelsArgs<ExtArgs>
+    bundleComponents?: boolean | Sku$bundleComponentsArgs<ExtArgs>
+    bundleUsedIn?: boolean | Sku$bundleUsedInArgs<ExtArgs>
+    serialNumbers?: boolean | Sku$serialNumbersArgs<ExtArgs>
     _count?: boolean | SkuCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SkuIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -50059,6 +50568,9 @@ export namespace Prisma {
       barcodes: Prisma.$BarcodePayload<ExtArgs>[]
       uomConversions: Prisma.$UomConversionPayload<ExtArgs>[]
       packagingLevels: Prisma.$PackagingLevelPayload<ExtArgs>[]
+      bundleComponents: Prisma.$BundleComponentPayload<ExtArgs>[]
+      bundleUsedIn: Prisma.$BundleComponentPayload<ExtArgs>[]
+      serialNumbers: Prisma.$SerialNumberPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -50087,6 +50599,10 @@ export namespace Prisma {
       lengthCm: Prisma.Decimal | null
       widthCm: Prisma.Decimal | null
       heightCm: Prisma.Decimal | null
+      /**
+       * Sprint 055 (PIM-011): serial tracking policy for this SKU.
+       */
+      serialPolicy: $Enums.SerialPolicy
       status: $Enums.SkuStatus
       createdAt: Date
       updatedAt: Date
@@ -50488,6 +51004,9 @@ export namespace Prisma {
     barcodes<T extends Sku$barcodesArgs<ExtArgs> = {}>(args?: Subset<T, Sku$barcodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarcodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     uomConversions<T extends Sku$uomConversionsArgs<ExtArgs> = {}>(args?: Subset<T, Sku$uomConversionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UomConversionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packagingLevels<T extends Sku$packagingLevelsArgs<ExtArgs> = {}>(args?: Subset<T, Sku$packagingLevelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagingLevelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bundleComponents<T extends Sku$bundleComponentsArgs<ExtArgs> = {}>(args?: Subset<T, Sku$bundleComponentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bundleUsedIn<T extends Sku$bundleUsedInArgs<ExtArgs> = {}>(args?: Subset<T, Sku$bundleUsedInArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serialNumbers<T extends Sku$serialNumbersArgs<ExtArgs> = {}>(args?: Subset<T, Sku$serialNumbersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -50530,6 +51049,7 @@ export namespace Prisma {
     readonly lengthCm: FieldRef<"Sku", 'Decimal'>
     readonly widthCm: FieldRef<"Sku", 'Decimal'>
     readonly heightCm: FieldRef<"Sku", 'Decimal'>
+    readonly serialPolicy: FieldRef<"Sku", 'SerialPolicy'>
     readonly status: FieldRef<"Sku", 'SkuStatus'>
     readonly createdAt: FieldRef<"Sku", 'DateTime'>
     readonly updatedAt: FieldRef<"Sku", 'DateTime'>
@@ -50998,6 +51518,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PackagingLevelScalarFieldEnum | PackagingLevelScalarFieldEnum[]
+  }
+
+  /**
+   * Sku.bundleComponents
+   */
+  export type Sku$bundleComponentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    where?: BundleComponentWhereInput
+    orderBy?: BundleComponentOrderByWithRelationInput | BundleComponentOrderByWithRelationInput[]
+    cursor?: BundleComponentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BundleComponentScalarFieldEnum | BundleComponentScalarFieldEnum[]
+  }
+
+  /**
+   * Sku.bundleUsedIn
+   */
+  export type Sku$bundleUsedInArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    where?: BundleComponentWhereInput
+    orderBy?: BundleComponentOrderByWithRelationInput | BundleComponentOrderByWithRelationInput[]
+    cursor?: BundleComponentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BundleComponentScalarFieldEnum | BundleComponentScalarFieldEnum[]
+  }
+
+  /**
+   * Sku.serialNumbers
+   */
+  export type Sku$serialNumbersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    where?: SerialNumberWhereInput
+    orderBy?: SerialNumberOrderByWithRelationInput | SerialNumberOrderByWithRelationInput[]
+    cursor?: SerialNumberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SerialNumberScalarFieldEnum | SerialNumberScalarFieldEnum[]
   }
 
   /**
@@ -128913,6 +129505,4559 @@ export namespace Prisma {
 
 
   /**
+   * Model Promotion
+   */
+
+  export type AggregatePromotion = {
+    _count: PromotionCountAggregateOutputType | null
+    _avg: PromotionAvgAggregateOutputType | null
+    _sum: PromotionSumAggregateOutputType | null
+    _min: PromotionMinAggregateOutputType | null
+    _max: PromotionMaxAggregateOutputType | null
+  }
+
+  export type PromotionAvgAggregateOutputType = {
+    discountPct: Decimal | null
+    minOrderTotal: Decimal | null
+    maxRedemptions: number | null
+    redemptions: number | null
+  }
+
+  export type PromotionSumAggregateOutputType = {
+    discountPct: Decimal | null
+    minOrderTotal: Decimal | null
+    maxRedemptions: number | null
+    redemptions: number | null
+  }
+
+  export type PromotionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    discountPct: Decimal | null
+    minOrderTotal: Decimal | null
+    maxRedemptions: number | null
+    redemptions: number | null
+    validFrom: Date | null
+    validTo: Date | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PromotionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    name: string | null
+    discountPct: Decimal | null
+    minOrderTotal: Decimal | null
+    maxRedemptions: number | null
+    redemptions: number | null
+    validFrom: Date | null
+    validTo: Date | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PromotionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    name: number
+    discountPct: number
+    minOrderTotal: number
+    maxRedemptions: number
+    redemptions: number
+    validFrom: number
+    validTo: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PromotionAvgAggregateInputType = {
+    discountPct?: true
+    minOrderTotal?: true
+    maxRedemptions?: true
+    redemptions?: true
+  }
+
+  export type PromotionSumAggregateInputType = {
+    discountPct?: true
+    minOrderTotal?: true
+    maxRedemptions?: true
+    redemptions?: true
+  }
+
+  export type PromotionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    discountPct?: true
+    minOrderTotal?: true
+    maxRedemptions?: true
+    redemptions?: true
+    validFrom?: true
+    validTo?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PromotionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    discountPct?: true
+    minOrderTotal?: true
+    maxRedemptions?: true
+    redemptions?: true
+    validFrom?: true
+    validTo?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PromotionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    name?: true
+    discountPct?: true
+    minOrderTotal?: true
+    maxRedemptions?: true
+    redemptions?: true
+    validFrom?: true
+    validTo?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PromotionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Promotion to aggregate.
+     */
+    where?: PromotionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promotions to fetch.
+     */
+    orderBy?: PromotionOrderByWithRelationInput | PromotionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PromotionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promotions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promotions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Promotions
+    **/
+    _count?: true | PromotionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PromotionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PromotionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PromotionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PromotionMaxAggregateInputType
+  }
+
+  export type GetPromotionAggregateType<T extends PromotionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePromotion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePromotion[P]>
+      : GetScalarType<T[P], AggregatePromotion[P]>
+  }
+
+
+
+
+  export type PromotionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PromotionWhereInput
+    orderBy?: PromotionOrderByWithAggregationInput | PromotionOrderByWithAggregationInput[]
+    by: PromotionScalarFieldEnum[] | PromotionScalarFieldEnum
+    having?: PromotionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PromotionCountAggregateInputType | true
+    _avg?: PromotionAvgAggregateInputType
+    _sum?: PromotionSumAggregateInputType
+    _min?: PromotionMinAggregateInputType
+    _max?: PromotionMaxAggregateInputType
+  }
+
+  export type PromotionGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    name: string
+    discountPct: Decimal
+    minOrderTotal: Decimal | null
+    maxRedemptions: number | null
+    redemptions: number
+    validFrom: Date | null
+    validTo: Date | null
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PromotionCountAggregateOutputType | null
+    _avg: PromotionAvgAggregateOutputType | null
+    _sum: PromotionSumAggregateOutputType | null
+    _min: PromotionMinAggregateOutputType | null
+    _max: PromotionMaxAggregateOutputType | null
+  }
+
+  type GetPromotionGroupByPayload<T extends PromotionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PromotionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PromotionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PromotionGroupByOutputType[P]>
+            : GetScalarType<T[P], PromotionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PromotionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    discountPct?: boolean
+    minOrderTotal?: boolean
+    maxRedemptions?: boolean
+    redemptions?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    redemptionRecords?: boolean | Promotion$redemptionRecordsArgs<ExtArgs>
+    _count?: boolean | PromotionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["promotion"]>
+
+  export type PromotionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    discountPct?: boolean
+    minOrderTotal?: boolean
+    maxRedemptions?: boolean
+    redemptions?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["promotion"]>
+
+  export type PromotionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    discountPct?: boolean
+    minOrderTotal?: boolean
+    maxRedemptions?: boolean
+    redemptions?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["promotion"]>
+
+  export type PromotionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    name?: boolean
+    discountPct?: boolean
+    minOrderTotal?: boolean
+    maxRedemptions?: boolean
+    redemptions?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PromotionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "discountPct" | "minOrderTotal" | "maxRedemptions" | "redemptions" | "validFrom" | "validTo" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["promotion"]>
+  export type PromotionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    redemptionRecords?: boolean | Promotion$redemptionRecordsArgs<ExtArgs>
+    _count?: boolean | PromotionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PromotionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PromotionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $PromotionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Promotion"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      redemptionRecords: Prisma.$PromotionRedemptionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      name: string
+      discountPct: Prisma.Decimal
+      minOrderTotal: Prisma.Decimal | null
+      maxRedemptions: number | null
+      redemptions: number
+      validFrom: Date | null
+      validTo: Date | null
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["promotion"]>
+    composites: {}
+  }
+
+  type PromotionGetPayload<S extends boolean | null | undefined | PromotionDefaultArgs> = $Result.GetResult<Prisma.$PromotionPayload, S>
+
+  type PromotionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PromotionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PromotionCountAggregateInputType | true
+    }
+
+  export interface PromotionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Promotion'], meta: { name: 'Promotion' } }
+    /**
+     * Find zero or one Promotion that matches the filter.
+     * @param {PromotionFindUniqueArgs} args - Arguments to find a Promotion
+     * @example
+     * // Get one Promotion
+     * const promotion = await prisma.promotion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PromotionFindUniqueArgs>(args: SelectSubset<T, PromotionFindUniqueArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Promotion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PromotionFindUniqueOrThrowArgs} args - Arguments to find a Promotion
+     * @example
+     * // Get one Promotion
+     * const promotion = await prisma.promotion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PromotionFindUniqueOrThrowArgs>(args: SelectSubset<T, PromotionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Promotion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionFindFirstArgs} args - Arguments to find a Promotion
+     * @example
+     * // Get one Promotion
+     * const promotion = await prisma.promotion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PromotionFindFirstArgs>(args?: SelectSubset<T, PromotionFindFirstArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Promotion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionFindFirstOrThrowArgs} args - Arguments to find a Promotion
+     * @example
+     * // Get one Promotion
+     * const promotion = await prisma.promotion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PromotionFindFirstOrThrowArgs>(args?: SelectSubset<T, PromotionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Promotions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Promotions
+     * const promotions = await prisma.promotion.findMany()
+     * 
+     * // Get first 10 Promotions
+     * const promotions = await prisma.promotion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const promotionWithIdOnly = await prisma.promotion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PromotionFindManyArgs>(args?: SelectSubset<T, PromotionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Promotion.
+     * @param {PromotionCreateArgs} args - Arguments to create a Promotion.
+     * @example
+     * // Create one Promotion
+     * const Promotion = await prisma.promotion.create({
+     *   data: {
+     *     // ... data to create a Promotion
+     *   }
+     * })
+     * 
+     */
+    create<T extends PromotionCreateArgs>(args: SelectSubset<T, PromotionCreateArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Promotions.
+     * @param {PromotionCreateManyArgs} args - Arguments to create many Promotions.
+     * @example
+     * // Create many Promotions
+     * const promotion = await prisma.promotion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PromotionCreateManyArgs>(args?: SelectSubset<T, PromotionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Promotions and returns the data saved in the database.
+     * @param {PromotionCreateManyAndReturnArgs} args - Arguments to create many Promotions.
+     * @example
+     * // Create many Promotions
+     * const promotion = await prisma.promotion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Promotions and only return the `id`
+     * const promotionWithIdOnly = await prisma.promotion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PromotionCreateManyAndReturnArgs>(args?: SelectSubset<T, PromotionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Promotion.
+     * @param {PromotionDeleteArgs} args - Arguments to delete one Promotion.
+     * @example
+     * // Delete one Promotion
+     * const Promotion = await prisma.promotion.delete({
+     *   where: {
+     *     // ... filter to delete one Promotion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PromotionDeleteArgs>(args: SelectSubset<T, PromotionDeleteArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Promotion.
+     * @param {PromotionUpdateArgs} args - Arguments to update one Promotion.
+     * @example
+     * // Update one Promotion
+     * const promotion = await prisma.promotion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PromotionUpdateArgs>(args: SelectSubset<T, PromotionUpdateArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Promotions.
+     * @param {PromotionDeleteManyArgs} args - Arguments to filter Promotions to delete.
+     * @example
+     * // Delete a few Promotions
+     * const { count } = await prisma.promotion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PromotionDeleteManyArgs>(args?: SelectSubset<T, PromotionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Promotions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Promotions
+     * const promotion = await prisma.promotion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PromotionUpdateManyArgs>(args: SelectSubset<T, PromotionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Promotions and returns the data updated in the database.
+     * @param {PromotionUpdateManyAndReturnArgs} args - Arguments to update many Promotions.
+     * @example
+     * // Update many Promotions
+     * const promotion = await prisma.promotion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Promotions and only return the `id`
+     * const promotionWithIdOnly = await prisma.promotion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PromotionUpdateManyAndReturnArgs>(args: SelectSubset<T, PromotionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Promotion.
+     * @param {PromotionUpsertArgs} args - Arguments to update or create a Promotion.
+     * @example
+     * // Update or create a Promotion
+     * const promotion = await prisma.promotion.upsert({
+     *   create: {
+     *     // ... data to create a Promotion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Promotion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PromotionUpsertArgs>(args: SelectSubset<T, PromotionUpsertArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Promotions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionCountArgs} args - Arguments to filter Promotions to count.
+     * @example
+     * // Count the number of Promotions
+     * const count = await prisma.promotion.count({
+     *   where: {
+     *     // ... the filter for the Promotions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PromotionCountArgs>(
+      args?: Subset<T, PromotionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PromotionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Promotion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PromotionAggregateArgs>(args: Subset<T, PromotionAggregateArgs>): Prisma.PrismaPromise<GetPromotionAggregateType<T>>
+
+    /**
+     * Group by Promotion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PromotionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PromotionGroupByArgs['orderBy'] }
+        : { orderBy?: PromotionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PromotionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPromotionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Promotion model
+   */
+  readonly fields: PromotionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Promotion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PromotionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    redemptionRecords<T extends Promotion$redemptionRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Promotion$redemptionRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Promotion model
+   */
+  interface PromotionFieldRefs {
+    readonly id: FieldRef<"Promotion", 'String'>
+    readonly tenantId: FieldRef<"Promotion", 'String'>
+    readonly code: FieldRef<"Promotion", 'String'>
+    readonly name: FieldRef<"Promotion", 'String'>
+    readonly discountPct: FieldRef<"Promotion", 'Decimal'>
+    readonly minOrderTotal: FieldRef<"Promotion", 'Decimal'>
+    readonly maxRedemptions: FieldRef<"Promotion", 'Int'>
+    readonly redemptions: FieldRef<"Promotion", 'Int'>
+    readonly validFrom: FieldRef<"Promotion", 'DateTime'>
+    readonly validTo: FieldRef<"Promotion", 'DateTime'>
+    readonly active: FieldRef<"Promotion", 'Boolean'>
+    readonly createdAt: FieldRef<"Promotion", 'DateTime'>
+    readonly updatedAt: FieldRef<"Promotion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Promotion findUnique
+   */
+  export type PromotionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * Filter, which Promotion to fetch.
+     */
+    where: PromotionWhereUniqueInput
+  }
+
+  /**
+   * Promotion findUniqueOrThrow
+   */
+  export type PromotionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * Filter, which Promotion to fetch.
+     */
+    where: PromotionWhereUniqueInput
+  }
+
+  /**
+   * Promotion findFirst
+   */
+  export type PromotionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * Filter, which Promotion to fetch.
+     */
+    where?: PromotionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promotions to fetch.
+     */
+    orderBy?: PromotionOrderByWithRelationInput | PromotionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Promotions.
+     */
+    cursor?: PromotionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promotions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promotions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Promotions.
+     */
+    distinct?: PromotionScalarFieldEnum | PromotionScalarFieldEnum[]
+  }
+
+  /**
+   * Promotion findFirstOrThrow
+   */
+  export type PromotionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * Filter, which Promotion to fetch.
+     */
+    where?: PromotionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promotions to fetch.
+     */
+    orderBy?: PromotionOrderByWithRelationInput | PromotionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Promotions.
+     */
+    cursor?: PromotionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promotions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promotions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Promotions.
+     */
+    distinct?: PromotionScalarFieldEnum | PromotionScalarFieldEnum[]
+  }
+
+  /**
+   * Promotion findMany
+   */
+  export type PromotionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * Filter, which Promotions to fetch.
+     */
+    where?: PromotionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promotions to fetch.
+     */
+    orderBy?: PromotionOrderByWithRelationInput | PromotionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Promotions.
+     */
+    cursor?: PromotionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promotions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promotions.
+     */
+    skip?: number
+    distinct?: PromotionScalarFieldEnum | PromotionScalarFieldEnum[]
+  }
+
+  /**
+   * Promotion create
+   */
+  export type PromotionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Promotion.
+     */
+    data: XOR<PromotionCreateInput, PromotionUncheckedCreateInput>
+  }
+
+  /**
+   * Promotion createMany
+   */
+  export type PromotionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Promotions.
+     */
+    data: PromotionCreateManyInput | PromotionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Promotion createManyAndReturn
+   */
+  export type PromotionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Promotions.
+     */
+    data: PromotionCreateManyInput | PromotionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Promotion update
+   */
+  export type PromotionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Promotion.
+     */
+    data: XOR<PromotionUpdateInput, PromotionUncheckedUpdateInput>
+    /**
+     * Choose, which Promotion to update.
+     */
+    where: PromotionWhereUniqueInput
+  }
+
+  /**
+   * Promotion updateMany
+   */
+  export type PromotionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Promotions.
+     */
+    data: XOR<PromotionUpdateManyMutationInput, PromotionUncheckedUpdateManyInput>
+    /**
+     * Filter which Promotions to update
+     */
+    where?: PromotionWhereInput
+    /**
+     * Limit how many Promotions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Promotion updateManyAndReturn
+   */
+  export type PromotionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * The data used to update Promotions.
+     */
+    data: XOR<PromotionUpdateManyMutationInput, PromotionUncheckedUpdateManyInput>
+    /**
+     * Filter which Promotions to update
+     */
+    where?: PromotionWhereInput
+    /**
+     * Limit how many Promotions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Promotion upsert
+   */
+  export type PromotionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Promotion to update in case it exists.
+     */
+    where: PromotionWhereUniqueInput
+    /**
+     * In case the Promotion found by the `where` argument doesn't exist, create a new Promotion with this data.
+     */
+    create: XOR<PromotionCreateInput, PromotionUncheckedCreateInput>
+    /**
+     * In case the Promotion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PromotionUpdateInput, PromotionUncheckedUpdateInput>
+  }
+
+  /**
+   * Promotion delete
+   */
+  export type PromotionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+    /**
+     * Filter which Promotion to delete.
+     */
+    where: PromotionWhereUniqueInput
+  }
+
+  /**
+   * Promotion deleteMany
+   */
+  export type PromotionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Promotions to delete
+     */
+    where?: PromotionWhereInput
+    /**
+     * Limit how many Promotions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Promotion.redemptionRecords
+   */
+  export type Promotion$redemptionRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    where?: PromotionRedemptionWhereInput
+    orderBy?: PromotionRedemptionOrderByWithRelationInput | PromotionRedemptionOrderByWithRelationInput[]
+    cursor?: PromotionRedemptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PromotionRedemptionScalarFieldEnum | PromotionRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * Promotion without action
+   */
+  export type PromotionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promotion
+     */
+    select?: PromotionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promotion
+     */
+    omit?: PromotionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PromotionRedemption
+   */
+
+  export type AggregatePromotionRedemption = {
+    _count: PromotionRedemptionCountAggregateOutputType | null
+    _avg: PromotionRedemptionAvgAggregateOutputType | null
+    _sum: PromotionRedemptionSumAggregateOutputType | null
+    _min: PromotionRedemptionMinAggregateOutputType | null
+    _max: PromotionRedemptionMaxAggregateOutputType | null
+  }
+
+  export type PromotionRedemptionAvgAggregateOutputType = {
+    amountOff: Decimal | null
+  }
+
+  export type PromotionRedemptionSumAggregateOutputType = {
+    amountOff: Decimal | null
+  }
+
+  export type PromotionRedemptionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    promotionId: string | null
+    orderId: string | null
+    amountOff: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type PromotionRedemptionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    promotionId: string | null
+    orderId: string | null
+    amountOff: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type PromotionRedemptionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    promotionId: number
+    orderId: number
+    amountOff: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PromotionRedemptionAvgAggregateInputType = {
+    amountOff?: true
+  }
+
+  export type PromotionRedemptionSumAggregateInputType = {
+    amountOff?: true
+  }
+
+  export type PromotionRedemptionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    promotionId?: true
+    orderId?: true
+    amountOff?: true
+    createdAt?: true
+  }
+
+  export type PromotionRedemptionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    promotionId?: true
+    orderId?: true
+    amountOff?: true
+    createdAt?: true
+  }
+
+  export type PromotionRedemptionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    promotionId?: true
+    orderId?: true
+    amountOff?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PromotionRedemptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PromotionRedemption to aggregate.
+     */
+    where?: PromotionRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PromotionRedemptions to fetch.
+     */
+    orderBy?: PromotionRedemptionOrderByWithRelationInput | PromotionRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PromotionRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PromotionRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PromotionRedemptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PromotionRedemptions
+    **/
+    _count?: true | PromotionRedemptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PromotionRedemptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PromotionRedemptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PromotionRedemptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PromotionRedemptionMaxAggregateInputType
+  }
+
+  export type GetPromotionRedemptionAggregateType<T extends PromotionRedemptionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePromotionRedemption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePromotionRedemption[P]>
+      : GetScalarType<T[P], AggregatePromotionRedemption[P]>
+  }
+
+
+
+
+  export type PromotionRedemptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PromotionRedemptionWhereInput
+    orderBy?: PromotionRedemptionOrderByWithAggregationInput | PromotionRedemptionOrderByWithAggregationInput[]
+    by: PromotionRedemptionScalarFieldEnum[] | PromotionRedemptionScalarFieldEnum
+    having?: PromotionRedemptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PromotionRedemptionCountAggregateInputType | true
+    _avg?: PromotionRedemptionAvgAggregateInputType
+    _sum?: PromotionRedemptionSumAggregateInputType
+    _min?: PromotionRedemptionMinAggregateInputType
+    _max?: PromotionRedemptionMaxAggregateInputType
+  }
+
+  export type PromotionRedemptionGroupByOutputType = {
+    id: string
+    tenantId: string
+    promotionId: string
+    orderId: string
+    amountOff: Decimal
+    createdAt: Date
+    _count: PromotionRedemptionCountAggregateOutputType | null
+    _avg: PromotionRedemptionAvgAggregateOutputType | null
+    _sum: PromotionRedemptionSumAggregateOutputType | null
+    _min: PromotionRedemptionMinAggregateOutputType | null
+    _max: PromotionRedemptionMaxAggregateOutputType | null
+  }
+
+  type GetPromotionRedemptionGroupByPayload<T extends PromotionRedemptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PromotionRedemptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PromotionRedemptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PromotionRedemptionGroupByOutputType[P]>
+            : GetScalarType<T[P], PromotionRedemptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PromotionRedemptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    promotionId?: boolean
+    orderId?: boolean
+    amountOff?: boolean
+    createdAt?: boolean
+    promotion?: boolean | PromotionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["promotionRedemption"]>
+
+  export type PromotionRedemptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    promotionId?: boolean
+    orderId?: boolean
+    amountOff?: boolean
+    createdAt?: boolean
+    promotion?: boolean | PromotionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["promotionRedemption"]>
+
+  export type PromotionRedemptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    promotionId?: boolean
+    orderId?: boolean
+    amountOff?: boolean
+    createdAt?: boolean
+    promotion?: boolean | PromotionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["promotionRedemption"]>
+
+  export type PromotionRedemptionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    promotionId?: boolean
+    orderId?: boolean
+    amountOff?: boolean
+    createdAt?: boolean
+  }
+
+  export type PromotionRedemptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "promotionId" | "orderId" | "amountOff" | "createdAt", ExtArgs["result"]["promotionRedemption"]>
+  export type PromotionRedemptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    promotion?: boolean | PromotionDefaultArgs<ExtArgs>
+  }
+  export type PromotionRedemptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    promotion?: boolean | PromotionDefaultArgs<ExtArgs>
+  }
+  export type PromotionRedemptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    promotion?: boolean | PromotionDefaultArgs<ExtArgs>
+  }
+
+  export type $PromotionRedemptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PromotionRedemption"
+    objects: {
+      promotion: Prisma.$PromotionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      promotionId: string
+      orderId: string
+      amountOff: Prisma.Decimal
+      createdAt: Date
+    }, ExtArgs["result"]["promotionRedemption"]>
+    composites: {}
+  }
+
+  type PromotionRedemptionGetPayload<S extends boolean | null | undefined | PromotionRedemptionDefaultArgs> = $Result.GetResult<Prisma.$PromotionRedemptionPayload, S>
+
+  type PromotionRedemptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PromotionRedemptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PromotionRedemptionCountAggregateInputType | true
+    }
+
+  export interface PromotionRedemptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PromotionRedemption'], meta: { name: 'PromotionRedemption' } }
+    /**
+     * Find zero or one PromotionRedemption that matches the filter.
+     * @param {PromotionRedemptionFindUniqueArgs} args - Arguments to find a PromotionRedemption
+     * @example
+     * // Get one PromotionRedemption
+     * const promotionRedemption = await prisma.promotionRedemption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PromotionRedemptionFindUniqueArgs>(args: SelectSubset<T, PromotionRedemptionFindUniqueArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PromotionRedemption that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PromotionRedemptionFindUniqueOrThrowArgs} args - Arguments to find a PromotionRedemption
+     * @example
+     * // Get one PromotionRedemption
+     * const promotionRedemption = await prisma.promotionRedemption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PromotionRedemptionFindUniqueOrThrowArgs>(args: SelectSubset<T, PromotionRedemptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PromotionRedemption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionRedemptionFindFirstArgs} args - Arguments to find a PromotionRedemption
+     * @example
+     * // Get one PromotionRedemption
+     * const promotionRedemption = await prisma.promotionRedemption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PromotionRedemptionFindFirstArgs>(args?: SelectSubset<T, PromotionRedemptionFindFirstArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PromotionRedemption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionRedemptionFindFirstOrThrowArgs} args - Arguments to find a PromotionRedemption
+     * @example
+     * // Get one PromotionRedemption
+     * const promotionRedemption = await prisma.promotionRedemption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PromotionRedemptionFindFirstOrThrowArgs>(args?: SelectSubset<T, PromotionRedemptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PromotionRedemptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionRedemptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PromotionRedemptions
+     * const promotionRedemptions = await prisma.promotionRedemption.findMany()
+     * 
+     * // Get first 10 PromotionRedemptions
+     * const promotionRedemptions = await prisma.promotionRedemption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const promotionRedemptionWithIdOnly = await prisma.promotionRedemption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PromotionRedemptionFindManyArgs>(args?: SelectSubset<T, PromotionRedemptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PromotionRedemption.
+     * @param {PromotionRedemptionCreateArgs} args - Arguments to create a PromotionRedemption.
+     * @example
+     * // Create one PromotionRedemption
+     * const PromotionRedemption = await prisma.promotionRedemption.create({
+     *   data: {
+     *     // ... data to create a PromotionRedemption
+     *   }
+     * })
+     * 
+     */
+    create<T extends PromotionRedemptionCreateArgs>(args: SelectSubset<T, PromotionRedemptionCreateArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PromotionRedemptions.
+     * @param {PromotionRedemptionCreateManyArgs} args - Arguments to create many PromotionRedemptions.
+     * @example
+     * // Create many PromotionRedemptions
+     * const promotionRedemption = await prisma.promotionRedemption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PromotionRedemptionCreateManyArgs>(args?: SelectSubset<T, PromotionRedemptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PromotionRedemptions and returns the data saved in the database.
+     * @param {PromotionRedemptionCreateManyAndReturnArgs} args - Arguments to create many PromotionRedemptions.
+     * @example
+     * // Create many PromotionRedemptions
+     * const promotionRedemption = await prisma.promotionRedemption.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PromotionRedemptions and only return the `id`
+     * const promotionRedemptionWithIdOnly = await prisma.promotionRedemption.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PromotionRedemptionCreateManyAndReturnArgs>(args?: SelectSubset<T, PromotionRedemptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PromotionRedemption.
+     * @param {PromotionRedemptionDeleteArgs} args - Arguments to delete one PromotionRedemption.
+     * @example
+     * // Delete one PromotionRedemption
+     * const PromotionRedemption = await prisma.promotionRedemption.delete({
+     *   where: {
+     *     // ... filter to delete one PromotionRedemption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PromotionRedemptionDeleteArgs>(args: SelectSubset<T, PromotionRedemptionDeleteArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PromotionRedemption.
+     * @param {PromotionRedemptionUpdateArgs} args - Arguments to update one PromotionRedemption.
+     * @example
+     * // Update one PromotionRedemption
+     * const promotionRedemption = await prisma.promotionRedemption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PromotionRedemptionUpdateArgs>(args: SelectSubset<T, PromotionRedemptionUpdateArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PromotionRedemptions.
+     * @param {PromotionRedemptionDeleteManyArgs} args - Arguments to filter PromotionRedemptions to delete.
+     * @example
+     * // Delete a few PromotionRedemptions
+     * const { count } = await prisma.promotionRedemption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PromotionRedemptionDeleteManyArgs>(args?: SelectSubset<T, PromotionRedemptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PromotionRedemptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionRedemptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PromotionRedemptions
+     * const promotionRedemption = await prisma.promotionRedemption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PromotionRedemptionUpdateManyArgs>(args: SelectSubset<T, PromotionRedemptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PromotionRedemptions and returns the data updated in the database.
+     * @param {PromotionRedemptionUpdateManyAndReturnArgs} args - Arguments to update many PromotionRedemptions.
+     * @example
+     * // Update many PromotionRedemptions
+     * const promotionRedemption = await prisma.promotionRedemption.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PromotionRedemptions and only return the `id`
+     * const promotionRedemptionWithIdOnly = await prisma.promotionRedemption.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PromotionRedemptionUpdateManyAndReturnArgs>(args: SelectSubset<T, PromotionRedemptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PromotionRedemption.
+     * @param {PromotionRedemptionUpsertArgs} args - Arguments to update or create a PromotionRedemption.
+     * @example
+     * // Update or create a PromotionRedemption
+     * const promotionRedemption = await prisma.promotionRedemption.upsert({
+     *   create: {
+     *     // ... data to create a PromotionRedemption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PromotionRedemption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PromotionRedemptionUpsertArgs>(args: SelectSubset<T, PromotionRedemptionUpsertArgs<ExtArgs>>): Prisma__PromotionRedemptionClient<$Result.GetResult<Prisma.$PromotionRedemptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PromotionRedemptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionRedemptionCountArgs} args - Arguments to filter PromotionRedemptions to count.
+     * @example
+     * // Count the number of PromotionRedemptions
+     * const count = await prisma.promotionRedemption.count({
+     *   where: {
+     *     // ... the filter for the PromotionRedemptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PromotionRedemptionCountArgs>(
+      args?: Subset<T, PromotionRedemptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PromotionRedemptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PromotionRedemption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionRedemptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PromotionRedemptionAggregateArgs>(args: Subset<T, PromotionRedemptionAggregateArgs>): Prisma.PrismaPromise<GetPromotionRedemptionAggregateType<T>>
+
+    /**
+     * Group by PromotionRedemption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromotionRedemptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PromotionRedemptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PromotionRedemptionGroupByArgs['orderBy'] }
+        : { orderBy?: PromotionRedemptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PromotionRedemptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPromotionRedemptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PromotionRedemption model
+   */
+  readonly fields: PromotionRedemptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PromotionRedemption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PromotionRedemptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    promotion<T extends PromotionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PromotionDefaultArgs<ExtArgs>>): Prisma__PromotionClient<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PromotionRedemption model
+   */
+  interface PromotionRedemptionFieldRefs {
+    readonly id: FieldRef<"PromotionRedemption", 'String'>
+    readonly tenantId: FieldRef<"PromotionRedemption", 'String'>
+    readonly promotionId: FieldRef<"PromotionRedemption", 'String'>
+    readonly orderId: FieldRef<"PromotionRedemption", 'String'>
+    readonly amountOff: FieldRef<"PromotionRedemption", 'Decimal'>
+    readonly createdAt: FieldRef<"PromotionRedemption", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PromotionRedemption findUnique
+   */
+  export type PromotionRedemptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PromotionRedemption to fetch.
+     */
+    where: PromotionRedemptionWhereUniqueInput
+  }
+
+  /**
+   * PromotionRedemption findUniqueOrThrow
+   */
+  export type PromotionRedemptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PromotionRedemption to fetch.
+     */
+    where: PromotionRedemptionWhereUniqueInput
+  }
+
+  /**
+   * PromotionRedemption findFirst
+   */
+  export type PromotionRedemptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PromotionRedemption to fetch.
+     */
+    where?: PromotionRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PromotionRedemptions to fetch.
+     */
+    orderBy?: PromotionRedemptionOrderByWithRelationInput | PromotionRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PromotionRedemptions.
+     */
+    cursor?: PromotionRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PromotionRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PromotionRedemptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PromotionRedemptions.
+     */
+    distinct?: PromotionRedemptionScalarFieldEnum | PromotionRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * PromotionRedemption findFirstOrThrow
+   */
+  export type PromotionRedemptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PromotionRedemption to fetch.
+     */
+    where?: PromotionRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PromotionRedemptions to fetch.
+     */
+    orderBy?: PromotionRedemptionOrderByWithRelationInput | PromotionRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PromotionRedemptions.
+     */
+    cursor?: PromotionRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PromotionRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PromotionRedemptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PromotionRedemptions.
+     */
+    distinct?: PromotionRedemptionScalarFieldEnum | PromotionRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * PromotionRedemption findMany
+   */
+  export type PromotionRedemptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PromotionRedemptions to fetch.
+     */
+    where?: PromotionRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PromotionRedemptions to fetch.
+     */
+    orderBy?: PromotionRedemptionOrderByWithRelationInput | PromotionRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PromotionRedemptions.
+     */
+    cursor?: PromotionRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PromotionRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PromotionRedemptions.
+     */
+    skip?: number
+    distinct?: PromotionRedemptionScalarFieldEnum | PromotionRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * PromotionRedemption create
+   */
+  export type PromotionRedemptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PromotionRedemption.
+     */
+    data: XOR<PromotionRedemptionCreateInput, PromotionRedemptionUncheckedCreateInput>
+  }
+
+  /**
+   * PromotionRedemption createMany
+   */
+  export type PromotionRedemptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PromotionRedemptions.
+     */
+    data: PromotionRedemptionCreateManyInput | PromotionRedemptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PromotionRedemption createManyAndReturn
+   */
+  export type PromotionRedemptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many PromotionRedemptions.
+     */
+    data: PromotionRedemptionCreateManyInput | PromotionRedemptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PromotionRedemption update
+   */
+  export type PromotionRedemptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PromotionRedemption.
+     */
+    data: XOR<PromotionRedemptionUpdateInput, PromotionRedemptionUncheckedUpdateInput>
+    /**
+     * Choose, which PromotionRedemption to update.
+     */
+    where: PromotionRedemptionWhereUniqueInput
+  }
+
+  /**
+   * PromotionRedemption updateMany
+   */
+  export type PromotionRedemptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PromotionRedemptions.
+     */
+    data: XOR<PromotionRedemptionUpdateManyMutationInput, PromotionRedemptionUncheckedUpdateManyInput>
+    /**
+     * Filter which PromotionRedemptions to update
+     */
+    where?: PromotionRedemptionWhereInput
+    /**
+     * Limit how many PromotionRedemptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PromotionRedemption updateManyAndReturn
+   */
+  export type PromotionRedemptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * The data used to update PromotionRedemptions.
+     */
+    data: XOR<PromotionRedemptionUpdateManyMutationInput, PromotionRedemptionUncheckedUpdateManyInput>
+    /**
+     * Filter which PromotionRedemptions to update
+     */
+    where?: PromotionRedemptionWhereInput
+    /**
+     * Limit how many PromotionRedemptions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PromotionRedemption upsert
+   */
+  export type PromotionRedemptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PromotionRedemption to update in case it exists.
+     */
+    where: PromotionRedemptionWhereUniqueInput
+    /**
+     * In case the PromotionRedemption found by the `where` argument doesn't exist, create a new PromotionRedemption with this data.
+     */
+    create: XOR<PromotionRedemptionCreateInput, PromotionRedemptionUncheckedCreateInput>
+    /**
+     * In case the PromotionRedemption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PromotionRedemptionUpdateInput, PromotionRedemptionUncheckedUpdateInput>
+  }
+
+  /**
+   * PromotionRedemption delete
+   */
+  export type PromotionRedemptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter which PromotionRedemption to delete.
+     */
+    where: PromotionRedemptionWhereUniqueInput
+  }
+
+  /**
+   * PromotionRedemption deleteMany
+   */
+  export type PromotionRedemptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PromotionRedemptions to delete
+     */
+    where?: PromotionRedemptionWhereInput
+    /**
+     * Limit how many PromotionRedemptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PromotionRedemption without action
+   */
+  export type PromotionRedemptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromotionRedemption
+     */
+    select?: PromotionRedemptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromotionRedemption
+     */
+    omit?: PromotionRedemptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromotionRedemptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BundleComponent
+   */
+
+  export type AggregateBundleComponent = {
+    _count: BundleComponentCountAggregateOutputType | null
+    _avg: BundleComponentAvgAggregateOutputType | null
+    _sum: BundleComponentSumAggregateOutputType | null
+    _min: BundleComponentMinAggregateOutputType | null
+    _max: BundleComponentMaxAggregateOutputType | null
+  }
+
+  export type BundleComponentAvgAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type BundleComponentSumAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type BundleComponentMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    bundleSkuId: string | null
+    componentSkuId: string | null
+    quantity: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type BundleComponentMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    bundleSkuId: string | null
+    componentSkuId: string | null
+    quantity: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type BundleComponentCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    bundleSkuId: number
+    componentSkuId: number
+    quantity: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BundleComponentAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type BundleComponentSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type BundleComponentMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    bundleSkuId?: true
+    componentSkuId?: true
+    quantity?: true
+    createdAt?: true
+  }
+
+  export type BundleComponentMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    bundleSkuId?: true
+    componentSkuId?: true
+    quantity?: true
+    createdAt?: true
+  }
+
+  export type BundleComponentCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    bundleSkuId?: true
+    componentSkuId?: true
+    quantity?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BundleComponentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BundleComponent to aggregate.
+     */
+    where?: BundleComponentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BundleComponents to fetch.
+     */
+    orderBy?: BundleComponentOrderByWithRelationInput | BundleComponentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BundleComponentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BundleComponents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BundleComponents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BundleComponents
+    **/
+    _count?: true | BundleComponentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BundleComponentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BundleComponentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BundleComponentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BundleComponentMaxAggregateInputType
+  }
+
+  export type GetBundleComponentAggregateType<T extends BundleComponentAggregateArgs> = {
+        [P in keyof T & keyof AggregateBundleComponent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBundleComponent[P]>
+      : GetScalarType<T[P], AggregateBundleComponent[P]>
+  }
+
+
+
+
+  export type BundleComponentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BundleComponentWhereInput
+    orderBy?: BundleComponentOrderByWithAggregationInput | BundleComponentOrderByWithAggregationInput[]
+    by: BundleComponentScalarFieldEnum[] | BundleComponentScalarFieldEnum
+    having?: BundleComponentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BundleComponentCountAggregateInputType | true
+    _avg?: BundleComponentAvgAggregateInputType
+    _sum?: BundleComponentSumAggregateInputType
+    _min?: BundleComponentMinAggregateInputType
+    _max?: BundleComponentMaxAggregateInputType
+  }
+
+  export type BundleComponentGroupByOutputType = {
+    id: string
+    tenantId: string
+    bundleSkuId: string
+    componentSkuId: string
+    quantity: Decimal
+    createdAt: Date
+    _count: BundleComponentCountAggregateOutputType | null
+    _avg: BundleComponentAvgAggregateOutputType | null
+    _sum: BundleComponentSumAggregateOutputType | null
+    _min: BundleComponentMinAggregateOutputType | null
+    _max: BundleComponentMaxAggregateOutputType | null
+  }
+
+  type GetBundleComponentGroupByPayload<T extends BundleComponentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BundleComponentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BundleComponentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BundleComponentGroupByOutputType[P]>
+            : GetScalarType<T[P], BundleComponentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BundleComponentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    bundleSkuId?: boolean
+    componentSkuId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    bundleSku?: boolean | SkuDefaultArgs<ExtArgs>
+    componentSku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bundleComponent"]>
+
+  export type BundleComponentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    bundleSkuId?: boolean
+    componentSkuId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    bundleSku?: boolean | SkuDefaultArgs<ExtArgs>
+    componentSku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bundleComponent"]>
+
+  export type BundleComponentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    bundleSkuId?: boolean
+    componentSkuId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    bundleSku?: boolean | SkuDefaultArgs<ExtArgs>
+    componentSku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bundleComponent"]>
+
+  export type BundleComponentSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    bundleSkuId?: boolean
+    componentSkuId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+  }
+
+  export type BundleComponentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "bundleSkuId" | "componentSkuId" | "quantity" | "createdAt", ExtArgs["result"]["bundleComponent"]>
+  export type BundleComponentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bundleSku?: boolean | SkuDefaultArgs<ExtArgs>
+    componentSku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+  export type BundleComponentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bundleSku?: boolean | SkuDefaultArgs<ExtArgs>
+    componentSku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+  export type BundleComponentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bundleSku?: boolean | SkuDefaultArgs<ExtArgs>
+    componentSku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+
+  export type $BundleComponentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BundleComponent"
+    objects: {
+      bundleSku: Prisma.$SkuPayload<ExtArgs>
+      componentSku: Prisma.$SkuPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      bundleSkuId: string
+      componentSkuId: string
+      quantity: Prisma.Decimal
+      createdAt: Date
+    }, ExtArgs["result"]["bundleComponent"]>
+    composites: {}
+  }
+
+  type BundleComponentGetPayload<S extends boolean | null | undefined | BundleComponentDefaultArgs> = $Result.GetResult<Prisma.$BundleComponentPayload, S>
+
+  type BundleComponentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BundleComponentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BundleComponentCountAggregateInputType | true
+    }
+
+  export interface BundleComponentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BundleComponent'], meta: { name: 'BundleComponent' } }
+    /**
+     * Find zero or one BundleComponent that matches the filter.
+     * @param {BundleComponentFindUniqueArgs} args - Arguments to find a BundleComponent
+     * @example
+     * // Get one BundleComponent
+     * const bundleComponent = await prisma.bundleComponent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BundleComponentFindUniqueArgs>(args: SelectSubset<T, BundleComponentFindUniqueArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BundleComponent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BundleComponentFindUniqueOrThrowArgs} args - Arguments to find a BundleComponent
+     * @example
+     * // Get one BundleComponent
+     * const bundleComponent = await prisma.bundleComponent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BundleComponentFindUniqueOrThrowArgs>(args: SelectSubset<T, BundleComponentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BundleComponent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BundleComponentFindFirstArgs} args - Arguments to find a BundleComponent
+     * @example
+     * // Get one BundleComponent
+     * const bundleComponent = await prisma.bundleComponent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BundleComponentFindFirstArgs>(args?: SelectSubset<T, BundleComponentFindFirstArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BundleComponent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BundleComponentFindFirstOrThrowArgs} args - Arguments to find a BundleComponent
+     * @example
+     * // Get one BundleComponent
+     * const bundleComponent = await prisma.bundleComponent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BundleComponentFindFirstOrThrowArgs>(args?: SelectSubset<T, BundleComponentFindFirstOrThrowArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BundleComponents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BundleComponentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BundleComponents
+     * const bundleComponents = await prisma.bundleComponent.findMany()
+     * 
+     * // Get first 10 BundleComponents
+     * const bundleComponents = await prisma.bundleComponent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bundleComponentWithIdOnly = await prisma.bundleComponent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BundleComponentFindManyArgs>(args?: SelectSubset<T, BundleComponentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BundleComponent.
+     * @param {BundleComponentCreateArgs} args - Arguments to create a BundleComponent.
+     * @example
+     * // Create one BundleComponent
+     * const BundleComponent = await prisma.bundleComponent.create({
+     *   data: {
+     *     // ... data to create a BundleComponent
+     *   }
+     * })
+     * 
+     */
+    create<T extends BundleComponentCreateArgs>(args: SelectSubset<T, BundleComponentCreateArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BundleComponents.
+     * @param {BundleComponentCreateManyArgs} args - Arguments to create many BundleComponents.
+     * @example
+     * // Create many BundleComponents
+     * const bundleComponent = await prisma.bundleComponent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BundleComponentCreateManyArgs>(args?: SelectSubset<T, BundleComponentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BundleComponents and returns the data saved in the database.
+     * @param {BundleComponentCreateManyAndReturnArgs} args - Arguments to create many BundleComponents.
+     * @example
+     * // Create many BundleComponents
+     * const bundleComponent = await prisma.bundleComponent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BundleComponents and only return the `id`
+     * const bundleComponentWithIdOnly = await prisma.bundleComponent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BundleComponentCreateManyAndReturnArgs>(args?: SelectSubset<T, BundleComponentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BundleComponent.
+     * @param {BundleComponentDeleteArgs} args - Arguments to delete one BundleComponent.
+     * @example
+     * // Delete one BundleComponent
+     * const BundleComponent = await prisma.bundleComponent.delete({
+     *   where: {
+     *     // ... filter to delete one BundleComponent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BundleComponentDeleteArgs>(args: SelectSubset<T, BundleComponentDeleteArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BundleComponent.
+     * @param {BundleComponentUpdateArgs} args - Arguments to update one BundleComponent.
+     * @example
+     * // Update one BundleComponent
+     * const bundleComponent = await prisma.bundleComponent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BundleComponentUpdateArgs>(args: SelectSubset<T, BundleComponentUpdateArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BundleComponents.
+     * @param {BundleComponentDeleteManyArgs} args - Arguments to filter BundleComponents to delete.
+     * @example
+     * // Delete a few BundleComponents
+     * const { count } = await prisma.bundleComponent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BundleComponentDeleteManyArgs>(args?: SelectSubset<T, BundleComponentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BundleComponents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BundleComponentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BundleComponents
+     * const bundleComponent = await prisma.bundleComponent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BundleComponentUpdateManyArgs>(args: SelectSubset<T, BundleComponentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BundleComponents and returns the data updated in the database.
+     * @param {BundleComponentUpdateManyAndReturnArgs} args - Arguments to update many BundleComponents.
+     * @example
+     * // Update many BundleComponents
+     * const bundleComponent = await prisma.bundleComponent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BundleComponents and only return the `id`
+     * const bundleComponentWithIdOnly = await prisma.bundleComponent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BundleComponentUpdateManyAndReturnArgs>(args: SelectSubset<T, BundleComponentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BundleComponent.
+     * @param {BundleComponentUpsertArgs} args - Arguments to update or create a BundleComponent.
+     * @example
+     * // Update or create a BundleComponent
+     * const bundleComponent = await prisma.bundleComponent.upsert({
+     *   create: {
+     *     // ... data to create a BundleComponent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BundleComponent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BundleComponentUpsertArgs>(args: SelectSubset<T, BundleComponentUpsertArgs<ExtArgs>>): Prisma__BundleComponentClient<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BundleComponents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BundleComponentCountArgs} args - Arguments to filter BundleComponents to count.
+     * @example
+     * // Count the number of BundleComponents
+     * const count = await prisma.bundleComponent.count({
+     *   where: {
+     *     // ... the filter for the BundleComponents we want to count
+     *   }
+     * })
+    **/
+    count<T extends BundleComponentCountArgs>(
+      args?: Subset<T, BundleComponentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BundleComponentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BundleComponent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BundleComponentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BundleComponentAggregateArgs>(args: Subset<T, BundleComponentAggregateArgs>): Prisma.PrismaPromise<GetBundleComponentAggregateType<T>>
+
+    /**
+     * Group by BundleComponent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BundleComponentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BundleComponentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BundleComponentGroupByArgs['orderBy'] }
+        : { orderBy?: BundleComponentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BundleComponentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBundleComponentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BundleComponent model
+   */
+  readonly fields: BundleComponentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BundleComponent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BundleComponentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    bundleSku<T extends SkuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SkuDefaultArgs<ExtArgs>>): Prisma__SkuClient<$Result.GetResult<Prisma.$SkuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    componentSku<T extends SkuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SkuDefaultArgs<ExtArgs>>): Prisma__SkuClient<$Result.GetResult<Prisma.$SkuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BundleComponent model
+   */
+  interface BundleComponentFieldRefs {
+    readonly id: FieldRef<"BundleComponent", 'String'>
+    readonly tenantId: FieldRef<"BundleComponent", 'String'>
+    readonly bundleSkuId: FieldRef<"BundleComponent", 'String'>
+    readonly componentSkuId: FieldRef<"BundleComponent", 'String'>
+    readonly quantity: FieldRef<"BundleComponent", 'Decimal'>
+    readonly createdAt: FieldRef<"BundleComponent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BundleComponent findUnique
+   */
+  export type BundleComponentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * Filter, which BundleComponent to fetch.
+     */
+    where: BundleComponentWhereUniqueInput
+  }
+
+  /**
+   * BundleComponent findUniqueOrThrow
+   */
+  export type BundleComponentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * Filter, which BundleComponent to fetch.
+     */
+    where: BundleComponentWhereUniqueInput
+  }
+
+  /**
+   * BundleComponent findFirst
+   */
+  export type BundleComponentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * Filter, which BundleComponent to fetch.
+     */
+    where?: BundleComponentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BundleComponents to fetch.
+     */
+    orderBy?: BundleComponentOrderByWithRelationInput | BundleComponentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BundleComponents.
+     */
+    cursor?: BundleComponentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BundleComponents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BundleComponents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BundleComponents.
+     */
+    distinct?: BundleComponentScalarFieldEnum | BundleComponentScalarFieldEnum[]
+  }
+
+  /**
+   * BundleComponent findFirstOrThrow
+   */
+  export type BundleComponentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * Filter, which BundleComponent to fetch.
+     */
+    where?: BundleComponentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BundleComponents to fetch.
+     */
+    orderBy?: BundleComponentOrderByWithRelationInput | BundleComponentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BundleComponents.
+     */
+    cursor?: BundleComponentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BundleComponents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BundleComponents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BundleComponents.
+     */
+    distinct?: BundleComponentScalarFieldEnum | BundleComponentScalarFieldEnum[]
+  }
+
+  /**
+   * BundleComponent findMany
+   */
+  export type BundleComponentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * Filter, which BundleComponents to fetch.
+     */
+    where?: BundleComponentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BundleComponents to fetch.
+     */
+    orderBy?: BundleComponentOrderByWithRelationInput | BundleComponentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BundleComponents.
+     */
+    cursor?: BundleComponentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BundleComponents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BundleComponents.
+     */
+    skip?: number
+    distinct?: BundleComponentScalarFieldEnum | BundleComponentScalarFieldEnum[]
+  }
+
+  /**
+   * BundleComponent create
+   */
+  export type BundleComponentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BundleComponent.
+     */
+    data: XOR<BundleComponentCreateInput, BundleComponentUncheckedCreateInput>
+  }
+
+  /**
+   * BundleComponent createMany
+   */
+  export type BundleComponentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BundleComponents.
+     */
+    data: BundleComponentCreateManyInput | BundleComponentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BundleComponent createManyAndReturn
+   */
+  export type BundleComponentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * The data used to create many BundleComponents.
+     */
+    data: BundleComponentCreateManyInput | BundleComponentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BundleComponent update
+   */
+  export type BundleComponentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BundleComponent.
+     */
+    data: XOR<BundleComponentUpdateInput, BundleComponentUncheckedUpdateInput>
+    /**
+     * Choose, which BundleComponent to update.
+     */
+    where: BundleComponentWhereUniqueInput
+  }
+
+  /**
+   * BundleComponent updateMany
+   */
+  export type BundleComponentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BundleComponents.
+     */
+    data: XOR<BundleComponentUpdateManyMutationInput, BundleComponentUncheckedUpdateManyInput>
+    /**
+     * Filter which BundleComponents to update
+     */
+    where?: BundleComponentWhereInput
+    /**
+     * Limit how many BundleComponents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BundleComponent updateManyAndReturn
+   */
+  export type BundleComponentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * The data used to update BundleComponents.
+     */
+    data: XOR<BundleComponentUpdateManyMutationInput, BundleComponentUncheckedUpdateManyInput>
+    /**
+     * Filter which BundleComponents to update
+     */
+    where?: BundleComponentWhereInput
+    /**
+     * Limit how many BundleComponents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BundleComponent upsert
+   */
+  export type BundleComponentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BundleComponent to update in case it exists.
+     */
+    where: BundleComponentWhereUniqueInput
+    /**
+     * In case the BundleComponent found by the `where` argument doesn't exist, create a new BundleComponent with this data.
+     */
+    create: XOR<BundleComponentCreateInput, BundleComponentUncheckedCreateInput>
+    /**
+     * In case the BundleComponent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BundleComponentUpdateInput, BundleComponentUncheckedUpdateInput>
+  }
+
+  /**
+   * BundleComponent delete
+   */
+  export type BundleComponentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+    /**
+     * Filter which BundleComponent to delete.
+     */
+    where: BundleComponentWhereUniqueInput
+  }
+
+  /**
+   * BundleComponent deleteMany
+   */
+  export type BundleComponentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BundleComponents to delete
+     */
+    where?: BundleComponentWhereInput
+    /**
+     * Limit how many BundleComponents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BundleComponent without action
+   */
+  export type BundleComponentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BundleComponent
+     */
+    select?: BundleComponentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BundleComponent
+     */
+    omit?: BundleComponentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BundleComponentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SerialNumber
+   */
+
+  export type AggregateSerialNumber = {
+    _count: SerialNumberCountAggregateOutputType | null
+    _min: SerialNumberMinAggregateOutputType | null
+    _max: SerialNumberMaxAggregateOutputType | null
+  }
+
+  export type SerialNumberMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    serial: string | null
+    status: $Enums.SerialStatus | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SerialNumberMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    serial: string | null
+    status: $Enums.SerialStatus | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SerialNumberCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    serial: number
+    status: number
+    note: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SerialNumberMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    serial?: true
+    status?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SerialNumberMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    serial?: true
+    status?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SerialNumberCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    serial?: true
+    status?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SerialNumberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SerialNumber to aggregate.
+     */
+    where?: SerialNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialNumbers to fetch.
+     */
+    orderBy?: SerialNumberOrderByWithRelationInput | SerialNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SerialNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialNumbers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SerialNumbers
+    **/
+    _count?: true | SerialNumberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SerialNumberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SerialNumberMaxAggregateInputType
+  }
+
+  export type GetSerialNumberAggregateType<T extends SerialNumberAggregateArgs> = {
+        [P in keyof T & keyof AggregateSerialNumber]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSerialNumber[P]>
+      : GetScalarType<T[P], AggregateSerialNumber[P]>
+  }
+
+
+
+
+  export type SerialNumberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SerialNumberWhereInput
+    orderBy?: SerialNumberOrderByWithAggregationInput | SerialNumberOrderByWithAggregationInput[]
+    by: SerialNumberScalarFieldEnum[] | SerialNumberScalarFieldEnum
+    having?: SerialNumberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SerialNumberCountAggregateInputType | true
+    _min?: SerialNumberMinAggregateInputType
+    _max?: SerialNumberMaxAggregateInputType
+  }
+
+  export type SerialNumberGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    serial: string
+    status: $Enums.SerialStatus
+    note: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: SerialNumberCountAggregateOutputType | null
+    _min: SerialNumberMinAggregateOutputType | null
+    _max: SerialNumberMaxAggregateOutputType | null
+  }
+
+  type GetSerialNumberGroupByPayload<T extends SerialNumberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SerialNumberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SerialNumberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SerialNumberGroupByOutputType[P]>
+            : GetScalarType<T[P], SerialNumberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SerialNumberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    status?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialNumber"]>
+
+  export type SerialNumberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    status?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialNumber"]>
+
+  export type SerialNumberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    status?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialNumber"]>
+
+  export type SerialNumberSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    status?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SerialNumberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "serial" | "status" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["serialNumber"]>
+  export type SerialNumberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+  export type SerialNumberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+  export type SerialNumberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+
+  export type $SerialNumberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SerialNumber"
+    objects: {
+      sku: Prisma.$SkuPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      serial: string
+      status: $Enums.SerialStatus
+      note: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["serialNumber"]>
+    composites: {}
+  }
+
+  type SerialNumberGetPayload<S extends boolean | null | undefined | SerialNumberDefaultArgs> = $Result.GetResult<Prisma.$SerialNumberPayload, S>
+
+  type SerialNumberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SerialNumberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SerialNumberCountAggregateInputType | true
+    }
+
+  export interface SerialNumberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SerialNumber'], meta: { name: 'SerialNumber' } }
+    /**
+     * Find zero or one SerialNumber that matches the filter.
+     * @param {SerialNumberFindUniqueArgs} args - Arguments to find a SerialNumber
+     * @example
+     * // Get one SerialNumber
+     * const serialNumber = await prisma.serialNumber.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SerialNumberFindUniqueArgs>(args: SelectSubset<T, SerialNumberFindUniqueArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SerialNumber that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SerialNumberFindUniqueOrThrowArgs} args - Arguments to find a SerialNumber
+     * @example
+     * // Get one SerialNumber
+     * const serialNumber = await prisma.serialNumber.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SerialNumberFindUniqueOrThrowArgs>(args: SelectSubset<T, SerialNumberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SerialNumber that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialNumberFindFirstArgs} args - Arguments to find a SerialNumber
+     * @example
+     * // Get one SerialNumber
+     * const serialNumber = await prisma.serialNumber.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SerialNumberFindFirstArgs>(args?: SelectSubset<T, SerialNumberFindFirstArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SerialNumber that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialNumberFindFirstOrThrowArgs} args - Arguments to find a SerialNumber
+     * @example
+     * // Get one SerialNumber
+     * const serialNumber = await prisma.serialNumber.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SerialNumberFindFirstOrThrowArgs>(args?: SelectSubset<T, SerialNumberFindFirstOrThrowArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SerialNumbers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialNumberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SerialNumbers
+     * const serialNumbers = await prisma.serialNumber.findMany()
+     * 
+     * // Get first 10 SerialNumbers
+     * const serialNumbers = await prisma.serialNumber.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serialNumberWithIdOnly = await prisma.serialNumber.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SerialNumberFindManyArgs>(args?: SelectSubset<T, SerialNumberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SerialNumber.
+     * @param {SerialNumberCreateArgs} args - Arguments to create a SerialNumber.
+     * @example
+     * // Create one SerialNumber
+     * const SerialNumber = await prisma.serialNumber.create({
+     *   data: {
+     *     // ... data to create a SerialNumber
+     *   }
+     * })
+     * 
+     */
+    create<T extends SerialNumberCreateArgs>(args: SelectSubset<T, SerialNumberCreateArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SerialNumbers.
+     * @param {SerialNumberCreateManyArgs} args - Arguments to create many SerialNumbers.
+     * @example
+     * // Create many SerialNumbers
+     * const serialNumber = await prisma.serialNumber.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SerialNumberCreateManyArgs>(args?: SelectSubset<T, SerialNumberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SerialNumbers and returns the data saved in the database.
+     * @param {SerialNumberCreateManyAndReturnArgs} args - Arguments to create many SerialNumbers.
+     * @example
+     * // Create many SerialNumbers
+     * const serialNumber = await prisma.serialNumber.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SerialNumbers and only return the `id`
+     * const serialNumberWithIdOnly = await prisma.serialNumber.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SerialNumberCreateManyAndReturnArgs>(args?: SelectSubset<T, SerialNumberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SerialNumber.
+     * @param {SerialNumberDeleteArgs} args - Arguments to delete one SerialNumber.
+     * @example
+     * // Delete one SerialNumber
+     * const SerialNumber = await prisma.serialNumber.delete({
+     *   where: {
+     *     // ... filter to delete one SerialNumber
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SerialNumberDeleteArgs>(args: SelectSubset<T, SerialNumberDeleteArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SerialNumber.
+     * @param {SerialNumberUpdateArgs} args - Arguments to update one SerialNumber.
+     * @example
+     * // Update one SerialNumber
+     * const serialNumber = await prisma.serialNumber.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SerialNumberUpdateArgs>(args: SelectSubset<T, SerialNumberUpdateArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SerialNumbers.
+     * @param {SerialNumberDeleteManyArgs} args - Arguments to filter SerialNumbers to delete.
+     * @example
+     * // Delete a few SerialNumbers
+     * const { count } = await prisma.serialNumber.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SerialNumberDeleteManyArgs>(args?: SelectSubset<T, SerialNumberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SerialNumbers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialNumberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SerialNumbers
+     * const serialNumber = await prisma.serialNumber.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SerialNumberUpdateManyArgs>(args: SelectSubset<T, SerialNumberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SerialNumbers and returns the data updated in the database.
+     * @param {SerialNumberUpdateManyAndReturnArgs} args - Arguments to update many SerialNumbers.
+     * @example
+     * // Update many SerialNumbers
+     * const serialNumber = await prisma.serialNumber.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SerialNumbers and only return the `id`
+     * const serialNumberWithIdOnly = await prisma.serialNumber.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SerialNumberUpdateManyAndReturnArgs>(args: SelectSubset<T, SerialNumberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SerialNumber.
+     * @param {SerialNumberUpsertArgs} args - Arguments to update or create a SerialNumber.
+     * @example
+     * // Update or create a SerialNumber
+     * const serialNumber = await prisma.serialNumber.upsert({
+     *   create: {
+     *     // ... data to create a SerialNumber
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SerialNumber we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SerialNumberUpsertArgs>(args: SelectSubset<T, SerialNumberUpsertArgs<ExtArgs>>): Prisma__SerialNumberClient<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SerialNumbers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialNumberCountArgs} args - Arguments to filter SerialNumbers to count.
+     * @example
+     * // Count the number of SerialNumbers
+     * const count = await prisma.serialNumber.count({
+     *   where: {
+     *     // ... the filter for the SerialNumbers we want to count
+     *   }
+     * })
+    **/
+    count<T extends SerialNumberCountArgs>(
+      args?: Subset<T, SerialNumberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SerialNumberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SerialNumber.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialNumberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SerialNumberAggregateArgs>(args: Subset<T, SerialNumberAggregateArgs>): Prisma.PrismaPromise<GetSerialNumberAggregateType<T>>
+
+    /**
+     * Group by SerialNumber.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialNumberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SerialNumberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SerialNumberGroupByArgs['orderBy'] }
+        : { orderBy?: SerialNumberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SerialNumberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSerialNumberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SerialNumber model
+   */
+  readonly fields: SerialNumberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SerialNumber.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SerialNumberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    sku<T extends SkuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SkuDefaultArgs<ExtArgs>>): Prisma__SkuClient<$Result.GetResult<Prisma.$SkuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SerialNumber model
+   */
+  interface SerialNumberFieldRefs {
+    readonly id: FieldRef<"SerialNumber", 'String'>
+    readonly tenantId: FieldRef<"SerialNumber", 'String'>
+    readonly skuId: FieldRef<"SerialNumber", 'String'>
+    readonly serial: FieldRef<"SerialNumber", 'String'>
+    readonly status: FieldRef<"SerialNumber", 'SerialStatus'>
+    readonly note: FieldRef<"SerialNumber", 'String'>
+    readonly createdAt: FieldRef<"SerialNumber", 'DateTime'>
+    readonly updatedAt: FieldRef<"SerialNumber", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SerialNumber findUnique
+   */
+  export type SerialNumberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialNumber to fetch.
+     */
+    where: SerialNumberWhereUniqueInput
+  }
+
+  /**
+   * SerialNumber findUniqueOrThrow
+   */
+  export type SerialNumberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialNumber to fetch.
+     */
+    where: SerialNumberWhereUniqueInput
+  }
+
+  /**
+   * SerialNumber findFirst
+   */
+  export type SerialNumberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialNumber to fetch.
+     */
+    where?: SerialNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialNumbers to fetch.
+     */
+    orderBy?: SerialNumberOrderByWithRelationInput | SerialNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SerialNumbers.
+     */
+    cursor?: SerialNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialNumbers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SerialNumbers.
+     */
+    distinct?: SerialNumberScalarFieldEnum | SerialNumberScalarFieldEnum[]
+  }
+
+  /**
+   * SerialNumber findFirstOrThrow
+   */
+  export type SerialNumberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialNumber to fetch.
+     */
+    where?: SerialNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialNumbers to fetch.
+     */
+    orderBy?: SerialNumberOrderByWithRelationInput | SerialNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SerialNumbers.
+     */
+    cursor?: SerialNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialNumbers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SerialNumbers.
+     */
+    distinct?: SerialNumberScalarFieldEnum | SerialNumberScalarFieldEnum[]
+  }
+
+  /**
+   * SerialNumber findMany
+   */
+  export type SerialNumberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialNumbers to fetch.
+     */
+    where?: SerialNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialNumbers to fetch.
+     */
+    orderBy?: SerialNumberOrderByWithRelationInput | SerialNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SerialNumbers.
+     */
+    cursor?: SerialNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialNumbers.
+     */
+    skip?: number
+    distinct?: SerialNumberScalarFieldEnum | SerialNumberScalarFieldEnum[]
+  }
+
+  /**
+   * SerialNumber create
+   */
+  export type SerialNumberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SerialNumber.
+     */
+    data: XOR<SerialNumberCreateInput, SerialNumberUncheckedCreateInput>
+  }
+
+  /**
+   * SerialNumber createMany
+   */
+  export type SerialNumberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SerialNumbers.
+     */
+    data: SerialNumberCreateManyInput | SerialNumberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SerialNumber createManyAndReturn
+   */
+  export type SerialNumberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * The data used to create many SerialNumbers.
+     */
+    data: SerialNumberCreateManyInput | SerialNumberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SerialNumber update
+   */
+  export type SerialNumberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SerialNumber.
+     */
+    data: XOR<SerialNumberUpdateInput, SerialNumberUncheckedUpdateInput>
+    /**
+     * Choose, which SerialNumber to update.
+     */
+    where: SerialNumberWhereUniqueInput
+  }
+
+  /**
+   * SerialNumber updateMany
+   */
+  export type SerialNumberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SerialNumbers.
+     */
+    data: XOR<SerialNumberUpdateManyMutationInput, SerialNumberUncheckedUpdateManyInput>
+    /**
+     * Filter which SerialNumbers to update
+     */
+    where?: SerialNumberWhereInput
+    /**
+     * Limit how many SerialNumbers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SerialNumber updateManyAndReturn
+   */
+  export type SerialNumberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * The data used to update SerialNumbers.
+     */
+    data: XOR<SerialNumberUpdateManyMutationInput, SerialNumberUncheckedUpdateManyInput>
+    /**
+     * Filter which SerialNumbers to update
+     */
+    where?: SerialNumberWhereInput
+    /**
+     * Limit how many SerialNumbers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SerialNumber upsert
+   */
+  export type SerialNumberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SerialNumber to update in case it exists.
+     */
+    where: SerialNumberWhereUniqueInput
+    /**
+     * In case the SerialNumber found by the `where` argument doesn't exist, create a new SerialNumber with this data.
+     */
+    create: XOR<SerialNumberCreateInput, SerialNumberUncheckedCreateInput>
+    /**
+     * In case the SerialNumber was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SerialNumberUpdateInput, SerialNumberUncheckedUpdateInput>
+  }
+
+  /**
+   * SerialNumber delete
+   */
+  export type SerialNumberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+    /**
+     * Filter which SerialNumber to delete.
+     */
+    where: SerialNumberWhereUniqueInput
+  }
+
+  /**
+   * SerialNumber deleteMany
+   */
+  export type SerialNumberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SerialNumbers to delete
+     */
+    where?: SerialNumberWhereInput
+    /**
+     * Limit how many SerialNumbers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SerialNumber without action
+   */
+  export type SerialNumberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialNumber
+     */
+    select?: SerialNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialNumber
+     */
+    omit?: SerialNumberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialNumberInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -129366,6 +134511,7 @@ export namespace Prisma {
     lengthCm: 'lengthCm',
     widthCm: 'widthCm',
     heightCm: 'heightCm',
+    serialPolicy: 'serialPolicy',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -130397,6 +135543,63 @@ export namespace Prisma {
   export type DowntimeEventScalarFieldEnum = (typeof DowntimeEventScalarFieldEnum)[keyof typeof DowntimeEventScalarFieldEnum]
 
 
+  export const PromotionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    name: 'name',
+    discountPct: 'discountPct',
+    minOrderTotal: 'minOrderTotal',
+    maxRedemptions: 'maxRedemptions',
+    redemptions: 'redemptions',
+    validFrom: 'validFrom',
+    validTo: 'validTo',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PromotionScalarFieldEnum = (typeof PromotionScalarFieldEnum)[keyof typeof PromotionScalarFieldEnum]
+
+
+  export const PromotionRedemptionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    promotionId: 'promotionId',
+    orderId: 'orderId',
+    amountOff: 'amountOff',
+    createdAt: 'createdAt'
+  };
+
+  export type PromotionRedemptionScalarFieldEnum = (typeof PromotionRedemptionScalarFieldEnum)[keyof typeof PromotionRedemptionScalarFieldEnum]
+
+
+  export const BundleComponentScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    bundleSkuId: 'bundleSkuId',
+    componentSkuId: 'componentSkuId',
+    quantity: 'quantity',
+    createdAt: 'createdAt'
+  };
+
+  export type BundleComponentScalarFieldEnum = (typeof BundleComponentScalarFieldEnum)[keyof typeof BundleComponentScalarFieldEnum]
+
+
+  export const SerialNumberScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    serial: 'serial',
+    status: 'status',
+    note: 'note',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SerialNumberScalarFieldEnum = (typeof SerialNumberScalarFieldEnum)[keyof typeof SerialNumberScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -130706,6 +135909,20 @@ export namespace Prisma {
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SerialPolicy'
+   */
+  export type EnumSerialPolicyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SerialPolicy'>
+    
+
+
+  /**
+   * Reference to a field of type 'SerialPolicy[]'
+   */
+  export type ListEnumSerialPolicyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SerialPolicy[]'>
     
 
 
@@ -131186,6 +136403,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'SerialStatus'
+   */
+  export type EnumSerialStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SerialStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SerialStatus[]'
+   */
+  export type ListEnumSerialStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SerialStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -131302,6 +136533,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberListRelationFilter
     exchangeRates?: ExchangeRateListRelationFilter
     consentRecords?: ConsentRecordListRelationFilter
+    promotions?: PromotionListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -131401,6 +136633,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberOrderByRelationAggregateInput
     exchangeRates?: ExchangeRateOrderByRelationAggregateInput
     consentRecords?: ConsentRecordOrderByRelationAggregateInput
+    promotions?: PromotionOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -131503,6 +136736,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberListRelationFilter
     exchangeRates?: ExchangeRateListRelationFilter
     consentRecords?: ConsentRecordListRelationFilter
+    promotions?: PromotionListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -133729,6 +138963,7 @@ export namespace Prisma {
     lengthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFilter<"Sku"> | $Enums.SerialPolicy
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -133736,6 +138971,9 @@ export namespace Prisma {
     barcodes?: BarcodeListRelationFilter
     uomConversions?: UomConversionListRelationFilter
     packagingLevels?: PackagingLevelListRelationFilter
+    bundleComponents?: BundleComponentListRelationFilter
+    bundleUsedIn?: BundleComponentListRelationFilter
+    serialNumbers?: SerialNumberListRelationFilter
   }
 
   export type SkuOrderByWithRelationInput = {
@@ -133752,6 +138990,7 @@ export namespace Prisma {
     lengthCm?: SortOrderInput | SortOrder
     widthCm?: SortOrderInput | SortOrder
     heightCm?: SortOrderInput | SortOrder
+    serialPolicy?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -133759,6 +138998,9 @@ export namespace Prisma {
     barcodes?: BarcodeOrderByRelationAggregateInput
     uomConversions?: UomConversionOrderByRelationAggregateInput
     packagingLevels?: PackagingLevelOrderByRelationAggregateInput
+    bundleComponents?: BundleComponentOrderByRelationAggregateInput
+    bundleUsedIn?: BundleComponentOrderByRelationAggregateInput
+    serialNumbers?: SerialNumberOrderByRelationAggregateInput
   }
 
   export type SkuWhereUniqueInput = Prisma.AtLeast<{
@@ -133779,6 +139021,7 @@ export namespace Prisma {
     lengthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFilter<"Sku"> | $Enums.SerialPolicy
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -133786,6 +139029,9 @@ export namespace Prisma {
     barcodes?: BarcodeListRelationFilter
     uomConversions?: UomConversionListRelationFilter
     packagingLevels?: PackagingLevelListRelationFilter
+    bundleComponents?: BundleComponentListRelationFilter
+    bundleUsedIn?: BundleComponentListRelationFilter
+    serialNumbers?: SerialNumberListRelationFilter
   }, "id" | "tenantId_code">
 
   export type SkuOrderByWithAggregationInput = {
@@ -133802,6 +139048,7 @@ export namespace Prisma {
     lengthCm?: SortOrderInput | SortOrder
     widthCm?: SortOrderInput | SortOrder
     heightCm?: SortOrderInput | SortOrder
+    serialPolicy?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -133829,6 +139076,7 @@ export namespace Prisma {
     lengthCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     widthCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyWithAggregatesFilter<"Sku"> | $Enums.SerialPolicy
     status?: EnumSkuStatusWithAggregatesFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
@@ -139213,6 +144461,307 @@ export namespace Prisma {
     createdBy?: StringNullableWithAggregatesFilter<"DowntimeEvent"> | string | null
   }
 
+  export type PromotionWhereInput = {
+    AND?: PromotionWhereInput | PromotionWhereInput[]
+    OR?: PromotionWhereInput[]
+    NOT?: PromotionWhereInput | PromotionWhereInput[]
+    id?: UuidFilter<"Promotion"> | string
+    tenantId?: UuidFilter<"Promotion"> | string
+    code?: StringFilter<"Promotion"> | string
+    name?: StringFilter<"Promotion"> | string
+    discountPct?: DecimalFilter<"Promotion"> | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: DecimalNullableFilter<"Promotion"> | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: IntNullableFilter<"Promotion"> | number | null
+    redemptions?: IntFilter<"Promotion"> | number
+    validFrom?: DateTimeNullableFilter<"Promotion"> | Date | string | null
+    validTo?: DateTimeNullableFilter<"Promotion"> | Date | string | null
+    active?: BoolFilter<"Promotion"> | boolean
+    createdAt?: DateTimeFilter<"Promotion"> | Date | string
+    updatedAt?: DateTimeFilter<"Promotion"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    redemptionRecords?: PromotionRedemptionListRelationFilter
+  }
+
+  export type PromotionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    discountPct?: SortOrder
+    minOrderTotal?: SortOrderInput | SortOrder
+    maxRedemptions?: SortOrderInput | SortOrder
+    redemptions?: SortOrder
+    validFrom?: SortOrderInput | SortOrder
+    validTo?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    redemptionRecords?: PromotionRedemptionOrderByRelationAggregateInput
+  }
+
+  export type PromotionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: PromotionTenantIdCodeCompoundUniqueInput
+    AND?: PromotionWhereInput | PromotionWhereInput[]
+    OR?: PromotionWhereInput[]
+    NOT?: PromotionWhereInput | PromotionWhereInput[]
+    tenantId?: UuidFilter<"Promotion"> | string
+    code?: StringFilter<"Promotion"> | string
+    name?: StringFilter<"Promotion"> | string
+    discountPct?: DecimalFilter<"Promotion"> | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: DecimalNullableFilter<"Promotion"> | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: IntNullableFilter<"Promotion"> | number | null
+    redemptions?: IntFilter<"Promotion"> | number
+    validFrom?: DateTimeNullableFilter<"Promotion"> | Date | string | null
+    validTo?: DateTimeNullableFilter<"Promotion"> | Date | string | null
+    active?: BoolFilter<"Promotion"> | boolean
+    createdAt?: DateTimeFilter<"Promotion"> | Date | string
+    updatedAt?: DateTimeFilter<"Promotion"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    redemptionRecords?: PromotionRedemptionListRelationFilter
+  }, "id" | "tenantId_code">
+
+  export type PromotionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    discountPct?: SortOrder
+    minOrderTotal?: SortOrderInput | SortOrder
+    maxRedemptions?: SortOrderInput | SortOrder
+    redemptions?: SortOrder
+    validFrom?: SortOrderInput | SortOrder
+    validTo?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PromotionCountOrderByAggregateInput
+    _avg?: PromotionAvgOrderByAggregateInput
+    _max?: PromotionMaxOrderByAggregateInput
+    _min?: PromotionMinOrderByAggregateInput
+    _sum?: PromotionSumOrderByAggregateInput
+  }
+
+  export type PromotionScalarWhereWithAggregatesInput = {
+    AND?: PromotionScalarWhereWithAggregatesInput | PromotionScalarWhereWithAggregatesInput[]
+    OR?: PromotionScalarWhereWithAggregatesInput[]
+    NOT?: PromotionScalarWhereWithAggregatesInput | PromotionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Promotion"> | string
+    tenantId?: UuidWithAggregatesFilter<"Promotion"> | string
+    code?: StringWithAggregatesFilter<"Promotion"> | string
+    name?: StringWithAggregatesFilter<"Promotion"> | string
+    discountPct?: DecimalWithAggregatesFilter<"Promotion"> | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: DecimalNullableWithAggregatesFilter<"Promotion"> | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: IntNullableWithAggregatesFilter<"Promotion"> | number | null
+    redemptions?: IntWithAggregatesFilter<"Promotion"> | number
+    validFrom?: DateTimeNullableWithAggregatesFilter<"Promotion"> | Date | string | null
+    validTo?: DateTimeNullableWithAggregatesFilter<"Promotion"> | Date | string | null
+    active?: BoolWithAggregatesFilter<"Promotion"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Promotion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Promotion"> | Date | string
+  }
+
+  export type PromotionRedemptionWhereInput = {
+    AND?: PromotionRedemptionWhereInput | PromotionRedemptionWhereInput[]
+    OR?: PromotionRedemptionWhereInput[]
+    NOT?: PromotionRedemptionWhereInput | PromotionRedemptionWhereInput[]
+    id?: UuidFilter<"PromotionRedemption"> | string
+    tenantId?: UuidFilter<"PromotionRedemption"> | string
+    promotionId?: UuidFilter<"PromotionRedemption"> | string
+    orderId?: UuidFilter<"PromotionRedemption"> | string
+    amountOff?: DecimalFilter<"PromotionRedemption"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"PromotionRedemption"> | Date | string
+    promotion?: XOR<PromotionScalarRelationFilter, PromotionWhereInput>
+  }
+
+  export type PromotionRedemptionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    promotionId?: SortOrder
+    orderId?: SortOrder
+    amountOff?: SortOrder
+    createdAt?: SortOrder
+    promotion?: PromotionOrderByWithRelationInput
+  }
+
+  export type PromotionRedemptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_promotionId_orderId?: PromotionRedemptionTenantIdPromotionIdOrderIdCompoundUniqueInput
+    AND?: PromotionRedemptionWhereInput | PromotionRedemptionWhereInput[]
+    OR?: PromotionRedemptionWhereInput[]
+    NOT?: PromotionRedemptionWhereInput | PromotionRedemptionWhereInput[]
+    tenantId?: UuidFilter<"PromotionRedemption"> | string
+    promotionId?: UuidFilter<"PromotionRedemption"> | string
+    orderId?: UuidFilter<"PromotionRedemption"> | string
+    amountOff?: DecimalFilter<"PromotionRedemption"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"PromotionRedemption"> | Date | string
+    promotion?: XOR<PromotionScalarRelationFilter, PromotionWhereInput>
+  }, "id" | "tenantId_promotionId_orderId">
+
+  export type PromotionRedemptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    promotionId?: SortOrder
+    orderId?: SortOrder
+    amountOff?: SortOrder
+    createdAt?: SortOrder
+    _count?: PromotionRedemptionCountOrderByAggregateInput
+    _avg?: PromotionRedemptionAvgOrderByAggregateInput
+    _max?: PromotionRedemptionMaxOrderByAggregateInput
+    _min?: PromotionRedemptionMinOrderByAggregateInput
+    _sum?: PromotionRedemptionSumOrderByAggregateInput
+  }
+
+  export type PromotionRedemptionScalarWhereWithAggregatesInput = {
+    AND?: PromotionRedemptionScalarWhereWithAggregatesInput | PromotionRedemptionScalarWhereWithAggregatesInput[]
+    OR?: PromotionRedemptionScalarWhereWithAggregatesInput[]
+    NOT?: PromotionRedemptionScalarWhereWithAggregatesInput | PromotionRedemptionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PromotionRedemption"> | string
+    tenantId?: UuidWithAggregatesFilter<"PromotionRedemption"> | string
+    promotionId?: UuidWithAggregatesFilter<"PromotionRedemption"> | string
+    orderId?: UuidWithAggregatesFilter<"PromotionRedemption"> | string
+    amountOff?: DecimalWithAggregatesFilter<"PromotionRedemption"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter<"PromotionRedemption"> | Date | string
+  }
+
+  export type BundleComponentWhereInput = {
+    AND?: BundleComponentWhereInput | BundleComponentWhereInput[]
+    OR?: BundleComponentWhereInput[]
+    NOT?: BundleComponentWhereInput | BundleComponentWhereInput[]
+    id?: UuidFilter<"BundleComponent"> | string
+    tenantId?: UuidFilter<"BundleComponent"> | string
+    bundleSkuId?: UuidFilter<"BundleComponent"> | string
+    componentSkuId?: UuidFilter<"BundleComponent"> | string
+    quantity?: DecimalFilter<"BundleComponent"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"BundleComponent"> | Date | string
+    bundleSku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+    componentSku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+  }
+
+  export type BundleComponentOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bundleSkuId?: SortOrder
+    componentSkuId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    bundleSku?: SkuOrderByWithRelationInput
+    componentSku?: SkuOrderByWithRelationInput
+  }
+
+  export type BundleComponentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_bundleSkuId_componentSkuId?: BundleComponentTenantIdBundleSkuIdComponentSkuIdCompoundUniqueInput
+    AND?: BundleComponentWhereInput | BundleComponentWhereInput[]
+    OR?: BundleComponentWhereInput[]
+    NOT?: BundleComponentWhereInput | BundleComponentWhereInput[]
+    tenantId?: UuidFilter<"BundleComponent"> | string
+    bundleSkuId?: UuidFilter<"BundleComponent"> | string
+    componentSkuId?: UuidFilter<"BundleComponent"> | string
+    quantity?: DecimalFilter<"BundleComponent"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"BundleComponent"> | Date | string
+    bundleSku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+    componentSku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+  }, "id" | "tenantId_bundleSkuId_componentSkuId">
+
+  export type BundleComponentOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bundleSkuId?: SortOrder
+    componentSkuId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    _count?: BundleComponentCountOrderByAggregateInput
+    _avg?: BundleComponentAvgOrderByAggregateInput
+    _max?: BundleComponentMaxOrderByAggregateInput
+    _min?: BundleComponentMinOrderByAggregateInput
+    _sum?: BundleComponentSumOrderByAggregateInput
+  }
+
+  export type BundleComponentScalarWhereWithAggregatesInput = {
+    AND?: BundleComponentScalarWhereWithAggregatesInput | BundleComponentScalarWhereWithAggregatesInput[]
+    OR?: BundleComponentScalarWhereWithAggregatesInput[]
+    NOT?: BundleComponentScalarWhereWithAggregatesInput | BundleComponentScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"BundleComponent"> | string
+    tenantId?: UuidWithAggregatesFilter<"BundleComponent"> | string
+    bundleSkuId?: UuidWithAggregatesFilter<"BundleComponent"> | string
+    componentSkuId?: UuidWithAggregatesFilter<"BundleComponent"> | string
+    quantity?: DecimalWithAggregatesFilter<"BundleComponent"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter<"BundleComponent"> | Date | string
+  }
+
+  export type SerialNumberWhereInput = {
+    AND?: SerialNumberWhereInput | SerialNumberWhereInput[]
+    OR?: SerialNumberWhereInput[]
+    NOT?: SerialNumberWhereInput | SerialNumberWhereInput[]
+    id?: UuidFilter<"SerialNumber"> | string
+    tenantId?: UuidFilter<"SerialNumber"> | string
+    skuId?: UuidFilter<"SerialNumber"> | string
+    serial?: StringFilter<"SerialNumber"> | string
+    status?: EnumSerialStatusFilter<"SerialNumber"> | $Enums.SerialStatus
+    note?: StringNullableFilter<"SerialNumber"> | string | null
+    createdAt?: DateTimeFilter<"SerialNumber"> | Date | string
+    updatedAt?: DateTimeFilter<"SerialNumber"> | Date | string
+    sku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+  }
+
+  export type SerialNumberOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    sku?: SkuOrderByWithRelationInput
+  }
+
+  export type SerialNumberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId_serial?: SerialNumberTenantIdSkuIdSerialCompoundUniqueInput
+    AND?: SerialNumberWhereInput | SerialNumberWhereInput[]
+    OR?: SerialNumberWhereInput[]
+    NOT?: SerialNumberWhereInput | SerialNumberWhereInput[]
+    tenantId?: UuidFilter<"SerialNumber"> | string
+    skuId?: UuidFilter<"SerialNumber"> | string
+    serial?: StringFilter<"SerialNumber"> | string
+    status?: EnumSerialStatusFilter<"SerialNumber"> | $Enums.SerialStatus
+    note?: StringNullableFilter<"SerialNumber"> | string | null
+    createdAt?: DateTimeFilter<"SerialNumber"> | Date | string
+    updatedAt?: DateTimeFilter<"SerialNumber"> | Date | string
+    sku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+  }, "id" | "tenantId_skuId_serial">
+
+  export type SerialNumberOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SerialNumberCountOrderByAggregateInput
+    _max?: SerialNumberMaxOrderByAggregateInput
+    _min?: SerialNumberMinOrderByAggregateInput
+  }
+
+  export type SerialNumberScalarWhereWithAggregatesInput = {
+    AND?: SerialNumberScalarWhereWithAggregatesInput | SerialNumberScalarWhereWithAggregatesInput[]
+    OR?: SerialNumberScalarWhereWithAggregatesInput[]
+    NOT?: SerialNumberScalarWhereWithAggregatesInput | SerialNumberScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SerialNumber"> | string
+    tenantId?: UuidWithAggregatesFilter<"SerialNumber"> | string
+    skuId?: UuidWithAggregatesFilter<"SerialNumber"> | string
+    serial?: StringWithAggregatesFilter<"SerialNumber"> | string
+    status?: EnumSerialStatusWithAggregatesFilter<"SerialNumber"> | $Enums.SerialStatus
+    note?: StringNullableWithAggregatesFilter<"SerialNumber"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SerialNumber"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SerialNumber"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -139310,6 +144859,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -139409,6 +144959,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -139508,6 +145059,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -139607,6 +145159,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -141941,6 +147494,7 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -141948,6 +147502,9 @@ export namespace Prisma {
     barcodes?: BarcodeCreateNestedManyWithoutSkuInput
     uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateInput = {
@@ -141964,12 +147521,16 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
     uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUpdateInput = {
@@ -141985,6 +147546,7 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -141992,6 +147554,9 @@ export namespace Prisma {
     barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
     uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateInput = {
@@ -142008,12 +147573,16 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
     uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuCreateManyInput = {
@@ -142030,6 +147599,7 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -142048,6 +147618,7 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -142067,6 +147638,7 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -147803,6 +153375,320 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type PromotionCreateInput = {
+    id?: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPromotionsInput
+    redemptionRecords?: PromotionRedemptionCreateNestedManyWithoutPromotionInput
+  }
+
+  export type PromotionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    redemptionRecords?: PromotionRedemptionUncheckedCreateNestedManyWithoutPromotionInput
+  }
+
+  export type PromotionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPromotionsNestedInput
+    redemptionRecords?: PromotionRedemptionUpdateManyWithoutPromotionNestedInput
+  }
+
+  export type PromotionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    redemptionRecords?: PromotionRedemptionUncheckedUpdateManyWithoutPromotionNestedInput
+  }
+
+  export type PromotionCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PromotionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromotionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromotionRedemptionCreateInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    amountOff: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    promotion: PromotionCreateNestedOneWithoutRedemptionRecordsInput
+  }
+
+  export type PromotionRedemptionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    promotionId: string
+    orderId: string
+    amountOff: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type PromotionRedemptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    promotion?: PromotionUpdateOneRequiredWithoutRedemptionRecordsNestedInput
+  }
+
+  export type PromotionRedemptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    promotionId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromotionRedemptionCreateManyInput = {
+    id?: string
+    tenantId: string
+    promotionId: string
+    orderId: string
+    amountOff: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type PromotionRedemptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromotionRedemptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    promotionId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BundleComponentCreateInput = {
+    id?: string
+    tenantId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    bundleSku: SkuCreateNestedOneWithoutBundleComponentsInput
+    componentSku: SkuCreateNestedOneWithoutBundleUsedInInput
+  }
+
+  export type BundleComponentUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    bundleSkuId: string
+    componentSkuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type BundleComponentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bundleSku?: SkuUpdateOneRequiredWithoutBundleComponentsNestedInput
+    componentSku?: SkuUpdateOneRequiredWithoutBundleUsedInNestedInput
+  }
+
+  export type BundleComponentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    bundleSkuId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BundleComponentCreateManyInput = {
+    id?: string
+    tenantId: string
+    bundleSkuId: string
+    componentSkuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type BundleComponentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BundleComponentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    bundleSkuId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialNumberCreateInput = {
+    id?: string
+    tenantId: string
+    serial: string
+    status?: $Enums.SerialStatus
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sku: SkuCreateNestedOneWithoutSerialNumbersInput
+  }
+
+  export type SerialNumberUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    serial: string
+    status?: $Enums.SerialStatus
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SerialNumberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sku?: SkuUpdateOneRequiredWithoutSerialNumbersNestedInput
+  }
+
+  export type SerialNumberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialNumberCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    serial: string
+    status?: $Enums.SerialStatus
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SerialNumberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialNumberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -148393,6 +154279,12 @@ export namespace Prisma {
     none?: ConsentRecordWhereInput
   }
 
+  export type PromotionListRelationFilter = {
+    every?: PromotionWhereInput
+    some?: PromotionWhereInput
+    none?: PromotionWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -148746,6 +154638,10 @@ export namespace Prisma {
   }
 
   export type ConsentRecordOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PromotionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -150545,6 +156441,13 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
+  export type EnumSerialPolicyFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialPolicy | EnumSerialPolicyFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialPolicyFilter<$PrismaModel> | $Enums.SerialPolicy
+  }
+
   export type EnumSkuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -150569,11 +156472,31 @@ export namespace Prisma {
     none?: UomConversionWhereInput
   }
 
+  export type BundleComponentListRelationFilter = {
+    every?: BundleComponentWhereInput
+    some?: BundleComponentWhereInput
+    none?: BundleComponentWhereInput
+  }
+
+  export type SerialNumberListRelationFilter = {
+    every?: SerialNumberWhereInput
+    some?: SerialNumberWhereInput
+    none?: SerialNumberWhereInput
+  }
+
   export type BarcodeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type UomConversionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BundleComponentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SerialNumberOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -150596,6 +156519,7 @@ export namespace Prisma {
     lengthCm?: SortOrder
     widthCm?: SortOrder
     heightCm?: SortOrder
+    serialPolicy?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -150622,6 +156546,7 @@ export namespace Prisma {
     lengthCm?: SortOrder
     widthCm?: SortOrder
     heightCm?: SortOrder
+    serialPolicy?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -150640,6 +156565,7 @@ export namespace Prisma {
     lengthCm?: SortOrder
     widthCm?: SortOrder
     heightCm?: SortOrder
+    serialPolicy?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -150683,6 +156609,16 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type EnumSerialPolicyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialPolicy | EnumSerialPolicyFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialPolicyWithAggregatesFilter<$PrismaModel> | $Enums.SerialPolicy
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSerialPolicyFilter<$PrismaModel>
+    _max?: NestedEnumSerialPolicyFilter<$PrismaModel>
   }
 
   export type EnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -154534,6 +160470,226 @@ export namespace Prisma {
     _max?: NestedEnumDowntimeCategoryFilter<$PrismaModel>
   }
 
+  export type PromotionRedemptionListRelationFilter = {
+    every?: PromotionRedemptionWhereInput
+    some?: PromotionRedemptionWhereInput
+    none?: PromotionRedemptionWhereInput
+  }
+
+  export type PromotionRedemptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PromotionTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type PromotionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    discountPct?: SortOrder
+    minOrderTotal?: SortOrder
+    maxRedemptions?: SortOrder
+    redemptions?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PromotionAvgOrderByAggregateInput = {
+    discountPct?: SortOrder
+    minOrderTotal?: SortOrder
+    maxRedemptions?: SortOrder
+    redemptions?: SortOrder
+  }
+
+  export type PromotionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    discountPct?: SortOrder
+    minOrderTotal?: SortOrder
+    maxRedemptions?: SortOrder
+    redemptions?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PromotionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    discountPct?: SortOrder
+    minOrderTotal?: SortOrder
+    maxRedemptions?: SortOrder
+    redemptions?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PromotionSumOrderByAggregateInput = {
+    discountPct?: SortOrder
+    minOrderTotal?: SortOrder
+    maxRedemptions?: SortOrder
+    redemptions?: SortOrder
+  }
+
+  export type PromotionScalarRelationFilter = {
+    is?: PromotionWhereInput
+    isNot?: PromotionWhereInput
+  }
+
+  export type PromotionRedemptionTenantIdPromotionIdOrderIdCompoundUniqueInput = {
+    tenantId: string
+    promotionId: string
+    orderId: string
+  }
+
+  export type PromotionRedemptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    promotionId?: SortOrder
+    orderId?: SortOrder
+    amountOff?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PromotionRedemptionAvgOrderByAggregateInput = {
+    amountOff?: SortOrder
+  }
+
+  export type PromotionRedemptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    promotionId?: SortOrder
+    orderId?: SortOrder
+    amountOff?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PromotionRedemptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    promotionId?: SortOrder
+    orderId?: SortOrder
+    amountOff?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PromotionRedemptionSumOrderByAggregateInput = {
+    amountOff?: SortOrder
+  }
+
+  export type BundleComponentTenantIdBundleSkuIdComponentSkuIdCompoundUniqueInput = {
+    tenantId: string
+    bundleSkuId: string
+    componentSkuId: string
+  }
+
+  export type BundleComponentCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bundleSkuId?: SortOrder
+    componentSkuId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BundleComponentAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type BundleComponentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bundleSkuId?: SortOrder
+    componentSkuId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BundleComponentMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    bundleSkuId?: SortOrder
+    componentSkuId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BundleComponentSumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type EnumSerialStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialStatus | EnumSerialStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialStatusFilter<$PrismaModel> | $Enums.SerialStatus
+  }
+
+  export type SerialNumberTenantIdSkuIdSerialCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+    serial: string
+  }
+
+  export type SerialNumberCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SerialNumberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SerialNumberMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumSerialStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialStatus | EnumSerialStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialStatusWithAggregatesFilter<$PrismaModel> | $Enums.SerialStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSerialStatusFilter<$PrismaModel>
+    _max?: NestedEnumSerialStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -155157,6 +161313,13 @@ export namespace Prisma {
     connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
   }
 
+  export type PromotionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PromotionCreateWithoutTenantInput, PromotionUncheckedCreateWithoutTenantInput> | PromotionCreateWithoutTenantInput[] | PromotionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PromotionCreateOrConnectWithoutTenantInput | PromotionCreateOrConnectWithoutTenantInput[]
+    createMany?: PromotionCreateManyTenantInputEnvelope
+    connect?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -155778,6 +161941,13 @@ export namespace Prisma {
     connectOrCreate?: ConsentRecordCreateOrConnectWithoutTenantInput | ConsentRecordCreateOrConnectWithoutTenantInput[]
     createMany?: ConsentRecordCreateManyTenantInputEnvelope
     connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+  }
+
+  export type PromotionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PromotionCreateWithoutTenantInput, PromotionUncheckedCreateWithoutTenantInput> | PromotionCreateWithoutTenantInput[] | PromotionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PromotionCreateOrConnectWithoutTenantInput | PromotionCreateOrConnectWithoutTenantInput[]
+    createMany?: PromotionCreateManyTenantInputEnvelope
+    connect?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -157046,6 +163216,20 @@ export namespace Prisma {
     deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
   }
 
+  export type PromotionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PromotionCreateWithoutTenantInput, PromotionUncheckedCreateWithoutTenantInput> | PromotionCreateWithoutTenantInput[] | PromotionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PromotionCreateOrConnectWithoutTenantInput | PromotionCreateOrConnectWithoutTenantInput[]
+    upsert?: PromotionUpsertWithWhereUniqueWithoutTenantInput | PromotionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PromotionCreateManyTenantInputEnvelope
+    set?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    disconnect?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    delete?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    connect?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    update?: PromotionUpdateWithWhereUniqueWithoutTenantInput | PromotionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PromotionUpdateManyWithWhereWithoutTenantInput | PromotionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PromotionScalarWhereInput | PromotionScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -158290,6 +164474,20 @@ export namespace Prisma {
     update?: ConsentRecordUpdateWithWhereUniqueWithoutTenantInput | ConsentRecordUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: ConsentRecordUpdateManyWithWhereWithoutTenantInput | ConsentRecordUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+  }
+
+  export type PromotionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PromotionCreateWithoutTenantInput, PromotionUncheckedCreateWithoutTenantInput> | PromotionCreateWithoutTenantInput[] | PromotionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PromotionCreateOrConnectWithoutTenantInput | PromotionCreateOrConnectWithoutTenantInput[]
+    upsert?: PromotionUpsertWithWhereUniqueWithoutTenantInput | PromotionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PromotionCreateManyTenantInputEnvelope
+    set?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    disconnect?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    delete?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    connect?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
+    update?: PromotionUpdateWithWhereUniqueWithoutTenantInput | PromotionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PromotionUpdateManyWithWhereWithoutTenantInput | PromotionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PromotionScalarWhereInput | PromotionScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -159656,6 +165854,27 @@ export namespace Prisma {
     connect?: PackagingLevelWhereUniqueInput | PackagingLevelWhereUniqueInput[]
   }
 
+  export type BundleComponentCreateNestedManyWithoutBundleSkuInput = {
+    create?: XOR<BundleComponentCreateWithoutBundleSkuInput, BundleComponentUncheckedCreateWithoutBundleSkuInput> | BundleComponentCreateWithoutBundleSkuInput[] | BundleComponentUncheckedCreateWithoutBundleSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutBundleSkuInput | BundleComponentCreateOrConnectWithoutBundleSkuInput[]
+    createMany?: BundleComponentCreateManyBundleSkuInputEnvelope
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+  }
+
+  export type BundleComponentCreateNestedManyWithoutComponentSkuInput = {
+    create?: XOR<BundleComponentCreateWithoutComponentSkuInput, BundleComponentUncheckedCreateWithoutComponentSkuInput> | BundleComponentCreateWithoutComponentSkuInput[] | BundleComponentUncheckedCreateWithoutComponentSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutComponentSkuInput | BundleComponentCreateOrConnectWithoutComponentSkuInput[]
+    createMany?: BundleComponentCreateManyComponentSkuInputEnvelope
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+  }
+
+  export type SerialNumberCreateNestedManyWithoutSkuInput = {
+    create?: XOR<SerialNumberCreateWithoutSkuInput, SerialNumberUncheckedCreateWithoutSkuInput> | SerialNumberCreateWithoutSkuInput[] | SerialNumberUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SerialNumberCreateOrConnectWithoutSkuInput | SerialNumberCreateOrConnectWithoutSkuInput[]
+    createMany?: SerialNumberCreateManySkuInputEnvelope
+    connect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+  }
+
   export type BarcodeUncheckedCreateNestedManyWithoutSkuInput = {
     create?: XOR<BarcodeCreateWithoutSkuInput, BarcodeUncheckedCreateWithoutSkuInput> | BarcodeCreateWithoutSkuInput[] | BarcodeUncheckedCreateWithoutSkuInput[]
     connectOrCreate?: BarcodeCreateOrConnectWithoutSkuInput | BarcodeCreateOrConnectWithoutSkuInput[]
@@ -159677,6 +165896,27 @@ export namespace Prisma {
     connect?: PackagingLevelWhereUniqueInput | PackagingLevelWhereUniqueInput[]
   }
 
+  export type BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput = {
+    create?: XOR<BundleComponentCreateWithoutBundleSkuInput, BundleComponentUncheckedCreateWithoutBundleSkuInput> | BundleComponentCreateWithoutBundleSkuInput[] | BundleComponentUncheckedCreateWithoutBundleSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutBundleSkuInput | BundleComponentCreateOrConnectWithoutBundleSkuInput[]
+    createMany?: BundleComponentCreateManyBundleSkuInputEnvelope
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+  }
+
+  export type BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput = {
+    create?: XOR<BundleComponentCreateWithoutComponentSkuInput, BundleComponentUncheckedCreateWithoutComponentSkuInput> | BundleComponentCreateWithoutComponentSkuInput[] | BundleComponentUncheckedCreateWithoutComponentSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutComponentSkuInput | BundleComponentCreateOrConnectWithoutComponentSkuInput[]
+    createMany?: BundleComponentCreateManyComponentSkuInputEnvelope
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+  }
+
+  export type SerialNumberUncheckedCreateNestedManyWithoutSkuInput = {
+    create?: XOR<SerialNumberCreateWithoutSkuInput, SerialNumberUncheckedCreateWithoutSkuInput> | SerialNumberCreateWithoutSkuInput[] | SerialNumberUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SerialNumberCreateOrConnectWithoutSkuInput | SerialNumberCreateOrConnectWithoutSkuInput[]
+    createMany?: SerialNumberCreateManySkuInputEnvelope
+    connect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -159691,6 +165931,10 @@ export namespace Prisma {
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
     divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type EnumSerialPolicyFieldUpdateOperationsInput = {
+    set?: $Enums.SerialPolicy
   }
 
   export type EnumSkuStatusFieldUpdateOperationsInput = {
@@ -159747,6 +165991,48 @@ export namespace Prisma {
     deleteMany?: PackagingLevelScalarWhereInput | PackagingLevelScalarWhereInput[]
   }
 
+  export type BundleComponentUpdateManyWithoutBundleSkuNestedInput = {
+    create?: XOR<BundleComponentCreateWithoutBundleSkuInput, BundleComponentUncheckedCreateWithoutBundleSkuInput> | BundleComponentCreateWithoutBundleSkuInput[] | BundleComponentUncheckedCreateWithoutBundleSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutBundleSkuInput | BundleComponentCreateOrConnectWithoutBundleSkuInput[]
+    upsert?: BundleComponentUpsertWithWhereUniqueWithoutBundleSkuInput | BundleComponentUpsertWithWhereUniqueWithoutBundleSkuInput[]
+    createMany?: BundleComponentCreateManyBundleSkuInputEnvelope
+    set?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    disconnect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    delete?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    update?: BundleComponentUpdateWithWhereUniqueWithoutBundleSkuInput | BundleComponentUpdateWithWhereUniqueWithoutBundleSkuInput[]
+    updateMany?: BundleComponentUpdateManyWithWhereWithoutBundleSkuInput | BundleComponentUpdateManyWithWhereWithoutBundleSkuInput[]
+    deleteMany?: BundleComponentScalarWhereInput | BundleComponentScalarWhereInput[]
+  }
+
+  export type BundleComponentUpdateManyWithoutComponentSkuNestedInput = {
+    create?: XOR<BundleComponentCreateWithoutComponentSkuInput, BundleComponentUncheckedCreateWithoutComponentSkuInput> | BundleComponentCreateWithoutComponentSkuInput[] | BundleComponentUncheckedCreateWithoutComponentSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutComponentSkuInput | BundleComponentCreateOrConnectWithoutComponentSkuInput[]
+    upsert?: BundleComponentUpsertWithWhereUniqueWithoutComponentSkuInput | BundleComponentUpsertWithWhereUniqueWithoutComponentSkuInput[]
+    createMany?: BundleComponentCreateManyComponentSkuInputEnvelope
+    set?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    disconnect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    delete?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    update?: BundleComponentUpdateWithWhereUniqueWithoutComponentSkuInput | BundleComponentUpdateWithWhereUniqueWithoutComponentSkuInput[]
+    updateMany?: BundleComponentUpdateManyWithWhereWithoutComponentSkuInput | BundleComponentUpdateManyWithWhereWithoutComponentSkuInput[]
+    deleteMany?: BundleComponentScalarWhereInput | BundleComponentScalarWhereInput[]
+  }
+
+  export type SerialNumberUpdateManyWithoutSkuNestedInput = {
+    create?: XOR<SerialNumberCreateWithoutSkuInput, SerialNumberUncheckedCreateWithoutSkuInput> | SerialNumberCreateWithoutSkuInput[] | SerialNumberUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SerialNumberCreateOrConnectWithoutSkuInput | SerialNumberCreateOrConnectWithoutSkuInput[]
+    upsert?: SerialNumberUpsertWithWhereUniqueWithoutSkuInput | SerialNumberUpsertWithWhereUniqueWithoutSkuInput[]
+    createMany?: SerialNumberCreateManySkuInputEnvelope
+    set?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    disconnect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    delete?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    connect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    update?: SerialNumberUpdateWithWhereUniqueWithoutSkuInput | SerialNumberUpdateWithWhereUniqueWithoutSkuInput[]
+    updateMany?: SerialNumberUpdateManyWithWhereWithoutSkuInput | SerialNumberUpdateManyWithWhereWithoutSkuInput[]
+    deleteMany?: SerialNumberScalarWhereInput | SerialNumberScalarWhereInput[]
+  }
+
   export type BarcodeUncheckedUpdateManyWithoutSkuNestedInput = {
     create?: XOR<BarcodeCreateWithoutSkuInput, BarcodeUncheckedCreateWithoutSkuInput> | BarcodeCreateWithoutSkuInput[] | BarcodeUncheckedCreateWithoutSkuInput[]
     connectOrCreate?: BarcodeCreateOrConnectWithoutSkuInput | BarcodeCreateOrConnectWithoutSkuInput[]
@@ -159787,6 +166073,48 @@ export namespace Prisma {
     update?: PackagingLevelUpdateWithWhereUniqueWithoutSkuInput | PackagingLevelUpdateWithWhereUniqueWithoutSkuInput[]
     updateMany?: PackagingLevelUpdateManyWithWhereWithoutSkuInput | PackagingLevelUpdateManyWithWhereWithoutSkuInput[]
     deleteMany?: PackagingLevelScalarWhereInput | PackagingLevelScalarWhereInput[]
+  }
+
+  export type BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput = {
+    create?: XOR<BundleComponentCreateWithoutBundleSkuInput, BundleComponentUncheckedCreateWithoutBundleSkuInput> | BundleComponentCreateWithoutBundleSkuInput[] | BundleComponentUncheckedCreateWithoutBundleSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutBundleSkuInput | BundleComponentCreateOrConnectWithoutBundleSkuInput[]
+    upsert?: BundleComponentUpsertWithWhereUniqueWithoutBundleSkuInput | BundleComponentUpsertWithWhereUniqueWithoutBundleSkuInput[]
+    createMany?: BundleComponentCreateManyBundleSkuInputEnvelope
+    set?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    disconnect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    delete?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    update?: BundleComponentUpdateWithWhereUniqueWithoutBundleSkuInput | BundleComponentUpdateWithWhereUniqueWithoutBundleSkuInput[]
+    updateMany?: BundleComponentUpdateManyWithWhereWithoutBundleSkuInput | BundleComponentUpdateManyWithWhereWithoutBundleSkuInput[]
+    deleteMany?: BundleComponentScalarWhereInput | BundleComponentScalarWhereInput[]
+  }
+
+  export type BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput = {
+    create?: XOR<BundleComponentCreateWithoutComponentSkuInput, BundleComponentUncheckedCreateWithoutComponentSkuInput> | BundleComponentCreateWithoutComponentSkuInput[] | BundleComponentUncheckedCreateWithoutComponentSkuInput[]
+    connectOrCreate?: BundleComponentCreateOrConnectWithoutComponentSkuInput | BundleComponentCreateOrConnectWithoutComponentSkuInput[]
+    upsert?: BundleComponentUpsertWithWhereUniqueWithoutComponentSkuInput | BundleComponentUpsertWithWhereUniqueWithoutComponentSkuInput[]
+    createMany?: BundleComponentCreateManyComponentSkuInputEnvelope
+    set?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    disconnect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    delete?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    connect?: BundleComponentWhereUniqueInput | BundleComponentWhereUniqueInput[]
+    update?: BundleComponentUpdateWithWhereUniqueWithoutComponentSkuInput | BundleComponentUpdateWithWhereUniqueWithoutComponentSkuInput[]
+    updateMany?: BundleComponentUpdateManyWithWhereWithoutComponentSkuInput | BundleComponentUpdateManyWithWhereWithoutComponentSkuInput[]
+    deleteMany?: BundleComponentScalarWhereInput | BundleComponentScalarWhereInput[]
+  }
+
+  export type SerialNumberUncheckedUpdateManyWithoutSkuNestedInput = {
+    create?: XOR<SerialNumberCreateWithoutSkuInput, SerialNumberUncheckedCreateWithoutSkuInput> | SerialNumberCreateWithoutSkuInput[] | SerialNumberUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SerialNumberCreateOrConnectWithoutSkuInput | SerialNumberCreateOrConnectWithoutSkuInput[]
+    upsert?: SerialNumberUpsertWithWhereUniqueWithoutSkuInput | SerialNumberUpsertWithWhereUniqueWithoutSkuInput[]
+    createMany?: SerialNumberCreateManySkuInputEnvelope
+    set?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    disconnect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    delete?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    connect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+    update?: SerialNumberUpdateWithWhereUniqueWithoutSkuInput | SerialNumberUpdateWithWhereUniqueWithoutSkuInput[]
+    updateMany?: SerialNumberUpdateManyWithWhereWithoutSkuInput | SerialNumberUpdateManyWithWhereWithoutSkuInput[]
+    deleteMany?: SerialNumberScalarWhereInput | SerialNumberScalarWhereInput[]
   }
 
   export type SkuCreateNestedOneWithoutBarcodesInput = {
@@ -162147,6 +168475,122 @@ export namespace Prisma {
     update?: XOR<XOR<WorkCenterUpdateToOneWithWhereWithoutDowntimesInput, WorkCenterUpdateWithoutDowntimesInput>, WorkCenterUncheckedUpdateWithoutDowntimesInput>
   }
 
+  export type TenantCreateNestedOneWithoutPromotionsInput = {
+    create?: XOR<TenantCreateWithoutPromotionsInput, TenantUncheckedCreateWithoutPromotionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPromotionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type PromotionRedemptionCreateNestedManyWithoutPromotionInput = {
+    create?: XOR<PromotionRedemptionCreateWithoutPromotionInput, PromotionRedemptionUncheckedCreateWithoutPromotionInput> | PromotionRedemptionCreateWithoutPromotionInput[] | PromotionRedemptionUncheckedCreateWithoutPromotionInput[]
+    connectOrCreate?: PromotionRedemptionCreateOrConnectWithoutPromotionInput | PromotionRedemptionCreateOrConnectWithoutPromotionInput[]
+    createMany?: PromotionRedemptionCreateManyPromotionInputEnvelope
+    connect?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+  }
+
+  export type PromotionRedemptionUncheckedCreateNestedManyWithoutPromotionInput = {
+    create?: XOR<PromotionRedemptionCreateWithoutPromotionInput, PromotionRedemptionUncheckedCreateWithoutPromotionInput> | PromotionRedemptionCreateWithoutPromotionInput[] | PromotionRedemptionUncheckedCreateWithoutPromotionInput[]
+    connectOrCreate?: PromotionRedemptionCreateOrConnectWithoutPromotionInput | PromotionRedemptionCreateOrConnectWithoutPromotionInput[]
+    createMany?: PromotionRedemptionCreateManyPromotionInputEnvelope
+    connect?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutPromotionsNestedInput = {
+    create?: XOR<TenantCreateWithoutPromotionsInput, TenantUncheckedCreateWithoutPromotionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPromotionsInput
+    upsert?: TenantUpsertWithoutPromotionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPromotionsInput, TenantUpdateWithoutPromotionsInput>, TenantUncheckedUpdateWithoutPromotionsInput>
+  }
+
+  export type PromotionRedemptionUpdateManyWithoutPromotionNestedInput = {
+    create?: XOR<PromotionRedemptionCreateWithoutPromotionInput, PromotionRedemptionUncheckedCreateWithoutPromotionInput> | PromotionRedemptionCreateWithoutPromotionInput[] | PromotionRedemptionUncheckedCreateWithoutPromotionInput[]
+    connectOrCreate?: PromotionRedemptionCreateOrConnectWithoutPromotionInput | PromotionRedemptionCreateOrConnectWithoutPromotionInput[]
+    upsert?: PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput | PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput[]
+    createMany?: PromotionRedemptionCreateManyPromotionInputEnvelope
+    set?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    disconnect?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    delete?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    connect?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    update?: PromotionRedemptionUpdateWithWhereUniqueWithoutPromotionInput | PromotionRedemptionUpdateWithWhereUniqueWithoutPromotionInput[]
+    updateMany?: PromotionRedemptionUpdateManyWithWhereWithoutPromotionInput | PromotionRedemptionUpdateManyWithWhereWithoutPromotionInput[]
+    deleteMany?: PromotionRedemptionScalarWhereInput | PromotionRedemptionScalarWhereInput[]
+  }
+
+  export type PromotionRedemptionUncheckedUpdateManyWithoutPromotionNestedInput = {
+    create?: XOR<PromotionRedemptionCreateWithoutPromotionInput, PromotionRedemptionUncheckedCreateWithoutPromotionInput> | PromotionRedemptionCreateWithoutPromotionInput[] | PromotionRedemptionUncheckedCreateWithoutPromotionInput[]
+    connectOrCreate?: PromotionRedemptionCreateOrConnectWithoutPromotionInput | PromotionRedemptionCreateOrConnectWithoutPromotionInput[]
+    upsert?: PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput | PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput[]
+    createMany?: PromotionRedemptionCreateManyPromotionInputEnvelope
+    set?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    disconnect?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    delete?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    connect?: PromotionRedemptionWhereUniqueInput | PromotionRedemptionWhereUniqueInput[]
+    update?: PromotionRedemptionUpdateWithWhereUniqueWithoutPromotionInput | PromotionRedemptionUpdateWithWhereUniqueWithoutPromotionInput[]
+    updateMany?: PromotionRedemptionUpdateManyWithWhereWithoutPromotionInput | PromotionRedemptionUpdateManyWithWhereWithoutPromotionInput[]
+    deleteMany?: PromotionRedemptionScalarWhereInput | PromotionRedemptionScalarWhereInput[]
+  }
+
+  export type PromotionCreateNestedOneWithoutRedemptionRecordsInput = {
+    create?: XOR<PromotionCreateWithoutRedemptionRecordsInput, PromotionUncheckedCreateWithoutRedemptionRecordsInput>
+    connectOrCreate?: PromotionCreateOrConnectWithoutRedemptionRecordsInput
+    connect?: PromotionWhereUniqueInput
+  }
+
+  export type PromotionUpdateOneRequiredWithoutRedemptionRecordsNestedInput = {
+    create?: XOR<PromotionCreateWithoutRedemptionRecordsInput, PromotionUncheckedCreateWithoutRedemptionRecordsInput>
+    connectOrCreate?: PromotionCreateOrConnectWithoutRedemptionRecordsInput
+    upsert?: PromotionUpsertWithoutRedemptionRecordsInput
+    connect?: PromotionWhereUniqueInput
+    update?: XOR<XOR<PromotionUpdateToOneWithWhereWithoutRedemptionRecordsInput, PromotionUpdateWithoutRedemptionRecordsInput>, PromotionUncheckedUpdateWithoutRedemptionRecordsInput>
+  }
+
+  export type SkuCreateNestedOneWithoutBundleComponentsInput = {
+    create?: XOR<SkuCreateWithoutBundleComponentsInput, SkuUncheckedCreateWithoutBundleComponentsInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutBundleComponentsInput
+    connect?: SkuWhereUniqueInput
+  }
+
+  export type SkuCreateNestedOneWithoutBundleUsedInInput = {
+    create?: XOR<SkuCreateWithoutBundleUsedInInput, SkuUncheckedCreateWithoutBundleUsedInInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutBundleUsedInInput
+    connect?: SkuWhereUniqueInput
+  }
+
+  export type SkuUpdateOneRequiredWithoutBundleComponentsNestedInput = {
+    create?: XOR<SkuCreateWithoutBundleComponentsInput, SkuUncheckedCreateWithoutBundleComponentsInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutBundleComponentsInput
+    upsert?: SkuUpsertWithoutBundleComponentsInput
+    connect?: SkuWhereUniqueInput
+    update?: XOR<XOR<SkuUpdateToOneWithWhereWithoutBundleComponentsInput, SkuUpdateWithoutBundleComponentsInput>, SkuUncheckedUpdateWithoutBundleComponentsInput>
+  }
+
+  export type SkuUpdateOneRequiredWithoutBundleUsedInNestedInput = {
+    create?: XOR<SkuCreateWithoutBundleUsedInInput, SkuUncheckedCreateWithoutBundleUsedInInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutBundleUsedInInput
+    upsert?: SkuUpsertWithoutBundleUsedInInput
+    connect?: SkuWhereUniqueInput
+    update?: XOR<XOR<SkuUpdateToOneWithWhereWithoutBundleUsedInInput, SkuUpdateWithoutBundleUsedInInput>, SkuUncheckedUpdateWithoutBundleUsedInInput>
+  }
+
+  export type SkuCreateNestedOneWithoutSerialNumbersInput = {
+    create?: XOR<SkuCreateWithoutSerialNumbersInput, SkuUncheckedCreateWithoutSerialNumbersInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutSerialNumbersInput
+    connect?: SkuWhereUniqueInput
+  }
+
+  export type EnumSerialStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SerialStatus
+  }
+
+  export type SkuUpdateOneRequiredWithoutSerialNumbersNestedInput = {
+    create?: XOR<SkuCreateWithoutSerialNumbersInput, SkuUncheckedCreateWithoutSerialNumbersInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutSerialNumbersInput
+    upsert?: SkuUpsertWithoutSerialNumbersInput
+    connect?: SkuWhereUniqueInput
+    update?: XOR<XOR<SkuUpdateToOneWithWhereWithoutSerialNumbersInput, SkuUpdateWithoutSerialNumbersInput>, SkuUncheckedUpdateWithoutSerialNumbersInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -162649,6 +169093,13 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
+  export type NestedEnumSerialPolicyFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialPolicy | EnumSerialPolicyFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialPolicyFilter<$PrismaModel> | $Enums.SerialPolicy
+  }
+
   export type NestedEnumSkuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -162697,6 +169148,16 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSerialPolicyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialPolicy | EnumSerialPolicyFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialPolicy[] | ListEnumSerialPolicyFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialPolicyWithAggregatesFilter<$PrismaModel> | $Enums.SerialPolicy
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSerialPolicyFilter<$PrismaModel>
+    _max?: NestedEnumSerialPolicyFilter<$PrismaModel>
   }
 
   export type NestedEnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -163308,6 +169769,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDowntimeCategoryFilter<$PrismaModel>
     _max?: NestedEnumDowntimeCategoryFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSerialStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialStatus | EnumSerialStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialStatusFilter<$PrismaModel> | $Enums.SerialStatus
+  }
+
+  export type NestedEnumSerialStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SerialStatus | EnumSerialStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SerialStatus[] | ListEnumSerialStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSerialStatusWithAggregatesFilter<$PrismaModel> | $Enums.SerialStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSerialStatusFilter<$PrismaModel>
+    _max?: NestedEnumSerialStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -166218,6 +172696,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PromotionCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    redemptionRecords?: PromotionRedemptionCreateNestedManyWithoutPromotionInput
+  }
+
+  export type PromotionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    redemptionRecords?: PromotionRedemptionUncheckedCreateNestedManyWithoutPromotionInput
+  }
+
+  export type PromotionCreateOrConnectWithoutTenantInput = {
+    where: PromotionWhereUniqueInput
+    create: XOR<PromotionCreateWithoutTenantInput, PromotionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PromotionCreateManyTenantInputEnvelope = {
+    data: PromotionCreateManyTenantInput | PromotionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -168969,6 +175489,41 @@ export namespace Prisma {
     recordedBy?: UuidNullableFilter<"ConsentRecord"> | string | null
   }
 
+  export type PromotionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PromotionWhereUniqueInput
+    update: XOR<PromotionUpdateWithoutTenantInput, PromotionUncheckedUpdateWithoutTenantInput>
+    create: XOR<PromotionCreateWithoutTenantInput, PromotionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PromotionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PromotionWhereUniqueInput
+    data: XOR<PromotionUpdateWithoutTenantInput, PromotionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PromotionUpdateManyWithWhereWithoutTenantInput = {
+    where: PromotionScalarWhereInput
+    data: XOR<PromotionUpdateManyMutationInput, PromotionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PromotionScalarWhereInput = {
+    AND?: PromotionScalarWhereInput | PromotionScalarWhereInput[]
+    OR?: PromotionScalarWhereInput[]
+    NOT?: PromotionScalarWhereInput | PromotionScalarWhereInput[]
+    id?: UuidFilter<"Promotion"> | string
+    tenantId?: UuidFilter<"Promotion"> | string
+    code?: StringFilter<"Promotion"> | string
+    name?: StringFilter<"Promotion"> | string
+    discountPct?: DecimalFilter<"Promotion"> | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: DecimalNullableFilter<"Promotion"> | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: IntNullableFilter<"Promotion"> | number | null
+    redemptions?: IntFilter<"Promotion"> | number
+    validFrom?: DateTimeNullableFilter<"Promotion"> | Date | string | null
+    validTo?: DateTimeNullableFilter<"Promotion"> | Date | string | null
+    active?: BoolFilter<"Promotion"> | boolean
+    createdAt?: DateTimeFilter<"Promotion"> | Date | string
+    updatedAt?: DateTimeFilter<"Promotion"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -169065,6 +175620,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -169163,6 +175719,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -169277,6 +175834,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -169375,6 +175933,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -169473,6 +176032,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -169571,6 +176131,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -169719,6 +176280,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -169817,6 +176379,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -169931,6 +176494,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -170029,6 +176593,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -170281,6 +176846,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -170379,6 +176945,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -170589,6 +177156,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -170687,6 +177255,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -170830,6 +177399,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -170928,6 +177498,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -171061,6 +177632,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -171159,6 +177731,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -171302,6 +177875,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -171400,6 +177974,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -171533,6 +178108,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -171631,6 +178207,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -171804,6 +178381,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -171902,6 +178480,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -172053,6 +178632,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -172151,6 +178731,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -172294,6 +178875,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -172392,6 +178974,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -172525,6 +179108,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -172623,6 +179207,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -172787,6 +179372,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -172885,6 +179471,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -173081,6 +179668,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -173179,6 +179767,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -173347,6 +179936,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -173445,6 +180035,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -173609,6 +180200,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -173707,6 +180299,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -173821,6 +180414,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -173919,6 +180513,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -174017,6 +180612,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -174115,6 +180711,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -174229,6 +180826,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -174327,6 +180925,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -174425,6 +181024,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -174523,6 +181123,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -174637,6 +181238,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -174735,6 +181337,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -174833,6 +181436,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -174931,6 +181535,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -175045,6 +181650,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -175143,6 +181749,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -175241,6 +181848,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -175339,6 +181947,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -175453,6 +182062,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -175551,6 +182161,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -175649,6 +182260,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -175747,6 +182359,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -175861,6 +182474,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -175959,6 +182573,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -176057,6 +182672,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -176155,6 +182771,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -176269,6 +182886,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -176367,6 +182985,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -176465,6 +183084,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -176563,6 +183183,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -176739,6 +183360,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -176837,6 +183459,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -177193,6 +183816,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -177291,6 +183915,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -177433,6 +184058,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -177531,6 +184157,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -177702,6 +184329,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -177800,6 +184428,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -177914,6 +184543,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -178012,6 +184642,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -178110,6 +184741,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -178208,6 +184840,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -178322,6 +184955,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -178420,6 +185054,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -178518,6 +185153,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -178616,6 +185252,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -178756,6 +185393,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -178854,6 +185492,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -179024,6 +185663,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -179122,6 +185762,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -179371,6 +186012,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -179469,6 +186111,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -179670,6 +186313,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -179768,6 +186412,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -179919,6 +186564,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -180017,6 +186663,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -180238,6 +186885,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -180336,6 +186984,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -180356,12 +187005,16 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     barcodes?: BarcodeCreateNestedManyWithoutSkuInput
     uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutProductInput = {
@@ -180377,12 +187030,16 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
     uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutProductInput = {
@@ -180502,6 +187159,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -180600,6 +187258,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -180635,6 +187294,7 @@ export namespace Prisma {
     lengthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFilter<"Sku"> | $Enums.SerialPolicy
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -180753,6 +187413,88 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BundleComponentCreateWithoutBundleSkuInput = {
+    id?: string
+    tenantId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    componentSku: SkuCreateNestedOneWithoutBundleUsedInInput
+  }
+
+  export type BundleComponentUncheckedCreateWithoutBundleSkuInput = {
+    id?: string
+    tenantId: string
+    componentSkuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type BundleComponentCreateOrConnectWithoutBundleSkuInput = {
+    where: BundleComponentWhereUniqueInput
+    create: XOR<BundleComponentCreateWithoutBundleSkuInput, BundleComponentUncheckedCreateWithoutBundleSkuInput>
+  }
+
+  export type BundleComponentCreateManyBundleSkuInputEnvelope = {
+    data: BundleComponentCreateManyBundleSkuInput | BundleComponentCreateManyBundleSkuInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BundleComponentCreateWithoutComponentSkuInput = {
+    id?: string
+    tenantId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    bundleSku: SkuCreateNestedOneWithoutBundleComponentsInput
+  }
+
+  export type BundleComponentUncheckedCreateWithoutComponentSkuInput = {
+    id?: string
+    tenantId: string
+    bundleSkuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type BundleComponentCreateOrConnectWithoutComponentSkuInput = {
+    where: BundleComponentWhereUniqueInput
+    create: XOR<BundleComponentCreateWithoutComponentSkuInput, BundleComponentUncheckedCreateWithoutComponentSkuInput>
+  }
+
+  export type BundleComponentCreateManyComponentSkuInputEnvelope = {
+    data: BundleComponentCreateManyComponentSkuInput | BundleComponentCreateManyComponentSkuInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SerialNumberCreateWithoutSkuInput = {
+    id?: string
+    tenantId: string
+    serial: string
+    status?: $Enums.SerialStatus
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SerialNumberUncheckedCreateWithoutSkuInput = {
+    id?: string
+    tenantId: string
+    serial: string
+    status?: $Enums.SerialStatus
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SerialNumberCreateOrConnectWithoutSkuInput = {
+    where: SerialNumberWhereUniqueInput
+    create: XOR<SerialNumberCreateWithoutSkuInput, SerialNumberUncheckedCreateWithoutSkuInput>
+  }
+
+  export type SerialNumberCreateManySkuInputEnvelope = {
+    data: SerialNumberCreateManySkuInput | SerialNumberCreateManySkuInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProductUpsertWithoutSkusInput = {
     update: XOR<ProductUpdateWithoutSkusInput, ProductUncheckedUpdateWithoutSkusInput>
     create: XOR<ProductCreateWithoutSkusInput, ProductUncheckedCreateWithoutSkusInput>
@@ -180864,6 +187606,80 @@ export namespace Prisma {
     data: XOR<PackagingLevelUpdateManyMutationInput, PackagingLevelUncheckedUpdateManyWithoutSkuInput>
   }
 
+  export type BundleComponentUpsertWithWhereUniqueWithoutBundleSkuInput = {
+    where: BundleComponentWhereUniqueInput
+    update: XOR<BundleComponentUpdateWithoutBundleSkuInput, BundleComponentUncheckedUpdateWithoutBundleSkuInput>
+    create: XOR<BundleComponentCreateWithoutBundleSkuInput, BundleComponentUncheckedCreateWithoutBundleSkuInput>
+  }
+
+  export type BundleComponentUpdateWithWhereUniqueWithoutBundleSkuInput = {
+    where: BundleComponentWhereUniqueInput
+    data: XOR<BundleComponentUpdateWithoutBundleSkuInput, BundleComponentUncheckedUpdateWithoutBundleSkuInput>
+  }
+
+  export type BundleComponentUpdateManyWithWhereWithoutBundleSkuInput = {
+    where: BundleComponentScalarWhereInput
+    data: XOR<BundleComponentUpdateManyMutationInput, BundleComponentUncheckedUpdateManyWithoutBundleSkuInput>
+  }
+
+  export type BundleComponentScalarWhereInput = {
+    AND?: BundleComponentScalarWhereInput | BundleComponentScalarWhereInput[]
+    OR?: BundleComponentScalarWhereInput[]
+    NOT?: BundleComponentScalarWhereInput | BundleComponentScalarWhereInput[]
+    id?: UuidFilter<"BundleComponent"> | string
+    tenantId?: UuidFilter<"BundleComponent"> | string
+    bundleSkuId?: UuidFilter<"BundleComponent"> | string
+    componentSkuId?: UuidFilter<"BundleComponent"> | string
+    quantity?: DecimalFilter<"BundleComponent"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"BundleComponent"> | Date | string
+  }
+
+  export type BundleComponentUpsertWithWhereUniqueWithoutComponentSkuInput = {
+    where: BundleComponentWhereUniqueInput
+    update: XOR<BundleComponentUpdateWithoutComponentSkuInput, BundleComponentUncheckedUpdateWithoutComponentSkuInput>
+    create: XOR<BundleComponentCreateWithoutComponentSkuInput, BundleComponentUncheckedCreateWithoutComponentSkuInput>
+  }
+
+  export type BundleComponentUpdateWithWhereUniqueWithoutComponentSkuInput = {
+    where: BundleComponentWhereUniqueInput
+    data: XOR<BundleComponentUpdateWithoutComponentSkuInput, BundleComponentUncheckedUpdateWithoutComponentSkuInput>
+  }
+
+  export type BundleComponentUpdateManyWithWhereWithoutComponentSkuInput = {
+    where: BundleComponentScalarWhereInput
+    data: XOR<BundleComponentUpdateManyMutationInput, BundleComponentUncheckedUpdateManyWithoutComponentSkuInput>
+  }
+
+  export type SerialNumberUpsertWithWhereUniqueWithoutSkuInput = {
+    where: SerialNumberWhereUniqueInput
+    update: XOR<SerialNumberUpdateWithoutSkuInput, SerialNumberUncheckedUpdateWithoutSkuInput>
+    create: XOR<SerialNumberCreateWithoutSkuInput, SerialNumberUncheckedCreateWithoutSkuInput>
+  }
+
+  export type SerialNumberUpdateWithWhereUniqueWithoutSkuInput = {
+    where: SerialNumberWhereUniqueInput
+    data: XOR<SerialNumberUpdateWithoutSkuInput, SerialNumberUncheckedUpdateWithoutSkuInput>
+  }
+
+  export type SerialNumberUpdateManyWithWhereWithoutSkuInput = {
+    where: SerialNumberScalarWhereInput
+    data: XOR<SerialNumberUpdateManyMutationInput, SerialNumberUncheckedUpdateManyWithoutSkuInput>
+  }
+
+  export type SerialNumberScalarWhereInput = {
+    AND?: SerialNumberScalarWhereInput | SerialNumberScalarWhereInput[]
+    OR?: SerialNumberScalarWhereInput[]
+    NOT?: SerialNumberScalarWhereInput | SerialNumberScalarWhereInput[]
+    id?: UuidFilter<"SerialNumber"> | string
+    tenantId?: UuidFilter<"SerialNumber"> | string
+    skuId?: UuidFilter<"SerialNumber"> | string
+    serial?: StringFilter<"SerialNumber"> | string
+    status?: EnumSerialStatusFilter<"SerialNumber"> | $Enums.SerialStatus
+    note?: StringNullableFilter<"SerialNumber"> | string | null
+    createdAt?: DateTimeFilter<"SerialNumber"> | Date | string
+    updatedAt?: DateTimeFilter<"SerialNumber"> | Date | string
+  }
+
   export type SkuCreateWithoutBarcodesInput = {
     id?: string
     tenantId: string
@@ -180877,12 +187693,16 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutSkusInput
     uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutBarcodesInput = {
@@ -180899,11 +187719,15 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutBarcodesInput = {
@@ -180935,12 +187759,16 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutSkusNestedInput
     uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutBarcodesInput = {
@@ -180957,11 +187785,15 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuCreateWithoutUomConversionsInput = {
@@ -180977,12 +187809,16 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutSkusInput
     barcodes?: BarcodeCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutUomConversionsInput = {
@@ -180999,11 +187835,15 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutUomConversionsInput = {
@@ -181035,12 +187875,16 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutSkusNestedInput
     barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutUomConversionsInput = {
@@ -181057,11 +187901,15 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type TenantCreateWithoutWarehousesInput = {
@@ -181160,6 +188008,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -181258,6 +188107,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -181394,6 +188244,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -181492,6 +188343,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -181660,6 +188512,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -181758,6 +188611,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -181872,6 +188726,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -181970,6 +188825,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -182068,6 +188924,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -182166,6 +189023,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -182280,6 +189138,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -182378,6 +189237,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -182476,6 +189336,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -182574,6 +189435,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -182688,6 +189550,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -182786,6 +189649,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -182884,6 +189748,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -182982,6 +189847,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -183096,6 +189962,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -183194,6 +190061,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -183292,6 +190160,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -183390,6 +190259,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -183530,6 +190400,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -183628,6 +190499,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -183742,6 +190614,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -183840,6 +190713,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -183987,6 +190861,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -184085,6 +190960,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -184222,6 +191098,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -184320,6 +191197,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -184434,6 +191312,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -184532,6 +191411,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -184630,6 +191510,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -184728,6 +191609,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -184866,6 +191748,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -184964,6 +191847,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -185078,6 +191962,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -185176,6 +192061,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -185311,6 +192197,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -185409,6 +192296,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -185534,6 +192422,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -185632,6 +192521,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -185746,6 +192636,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -185844,6 +192735,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -185942,6 +192834,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -186040,6 +192933,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -186154,6 +193048,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -186252,6 +193147,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -186350,6 +193246,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -186448,6 +193345,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -186562,6 +193460,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -186660,6 +193559,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -186758,6 +193658,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -186856,6 +193757,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -186970,6 +193872,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -187068,6 +193971,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -187166,6 +194070,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -187264,6 +194169,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -187404,6 +194310,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -187502,6 +194409,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -187616,6 +194524,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -187714,6 +194623,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -187859,6 +194769,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -187957,6 +194868,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -188092,6 +195004,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -188190,6 +195103,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -188338,6 +195252,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -188436,6 +195351,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -188550,6 +195466,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -188648,6 +195565,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -188668,12 +195586,16 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutSkusInput
     barcodes?: BarcodeCreateNestedManyWithoutSkuInput
     uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutPackagingLevelsInput = {
@@ -188690,11 +195612,15 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
     uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutPackagingLevelsInput = {
@@ -188809,6 +195735,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -188907,6 +195834,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -188933,12 +195861,16 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutSkusNestedInput
     barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
     uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -188955,11 +195887,15 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
     uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type TenantCreateWithoutSkuSubstitutionsInput = {
@@ -189058,6 +195994,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -189156,6 +196093,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -189270,6 +196208,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -189368,6 +196307,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -189466,6 +196406,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -189564,6 +196505,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -189678,6 +196620,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -189776,6 +196719,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -189874,6 +196818,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -189972,6 +196917,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -190133,6 +197079,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -190231,6 +197178,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -190382,6 +197330,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -190480,6 +197429,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -190628,6 +197578,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -190726,6 +197677,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -190840,6 +197792,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -190938,6 +197891,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -191089,6 +198043,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -191187,6 +198142,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -191328,6 +198284,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -191426,6 +198383,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -191540,6 +198498,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -191638,6 +198597,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -191736,6 +198696,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -191834,6 +198795,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -191948,6 +198910,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -192046,6 +199009,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -192144,6 +199108,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -192242,6 +199207,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -192386,6 +199352,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -192484,6 +199451,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -192598,6 +199566,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -192696,6 +199665,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -192843,6 +199813,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -192941,6 +199912,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -193078,6 +200050,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -193176,6 +200149,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -193322,6 +200296,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -193420,6 +200395,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -193534,6 +200510,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -193632,6 +200609,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -193783,6 +200761,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -193881,6 +200860,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -194022,6 +201002,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -194120,6 +201101,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -194264,6 +201246,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -194362,6 +201345,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -194476,6 +201460,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -194574,6 +201559,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -194719,6 +201705,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -194817,6 +201804,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -194952,6 +201940,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -195050,6 +202039,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -195196,6 +202186,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -195294,6 +202285,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -195408,6 +202400,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -195506,6 +202499,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -195647,6 +202641,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -195745,6 +202740,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -195876,6 +202872,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -195974,6 +202971,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -196088,6 +203086,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -196186,6 +203185,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -196284,6 +203284,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -196382,6 +203383,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -196496,6 +203498,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -196594,6 +203597,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -196692,6 +203696,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -196790,6 +203795,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -196934,6 +203940,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -197032,6 +204039,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -197146,6 +204154,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -197244,6 +204253,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -197383,6 +204393,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -197481,6 +204492,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -197610,6 +204622,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -197708,6 +204721,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -197854,6 +204868,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -197952,6 +204967,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -198066,6 +205082,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -198164,6 +205181,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -198321,6 +205339,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -198419,6 +205438,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -198566,6 +205586,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -198664,6 +205685,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -198804,6 +205826,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -198902,6 +205925,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -199016,6 +206040,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -199114,6 +206139,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -199255,6 +206281,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -199353,6 +206380,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -199484,6 +206512,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -199582,6 +206611,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -199726,6 +206756,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -199824,6 +206855,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -199938,6 +206970,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -200036,6 +207069,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -200185,6 +207219,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -200283,6 +207318,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -200422,6 +207458,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -200520,6 +207557,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -200634,6 +207672,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -200732,6 +207771,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -200830,6 +207870,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -200928,6 +207969,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -201074,6 +208116,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -201172,6 +208215,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -201286,6 +208330,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -201384,6 +208429,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -201541,6 +208587,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -201639,6 +208686,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -201786,6 +208834,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -201884,6 +208933,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -201998,6 +209048,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -202096,6 +209147,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -202194,6 +209246,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -202292,6 +209345,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -202406,6 +209460,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -202504,6 +209559,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -202602,6 +209658,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -202700,6 +209757,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -202831,6 +209889,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -202929,6 +209988,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -203050,6 +210110,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -203148,6 +210209,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -203293,6 +210355,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -203391,6 +210454,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -203526,6 +210590,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -203624,6 +210689,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -203738,6 +210804,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -203836,6 +210903,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -203934,6 +211002,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -204032,6 +211101,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -204146,6 +211216,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -204244,6 +211315,7 @@ export namespace Prisma {
     salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -204342,6 +211414,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -204440,6 +211513,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -204582,6 +211656,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -204680,6 +211755,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -204794,6 +211870,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -204892,6 +211969,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -205029,6 +212107,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -205127,6 +212206,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -205254,6 +212334,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -205352,6 +212433,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -205504,6 +212586,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -205602,6 +212685,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -205716,6 +212800,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -205814,6 +212899,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -205955,6 +213041,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -206053,6 +213140,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -206184,6 +213272,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -206282,6 +213371,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -206396,6 +213486,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -206494,6 +213585,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -206592,6 +213684,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -206690,6 +213783,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -206804,6 +213898,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -206902,6 +213997,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -207000,6 +214096,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -207098,6 +214195,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -207263,6 +214361,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -207361,6 +214460,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -207504,6 +214604,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -207602,6 +214703,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -207744,6 +214846,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -207842,6 +214945,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -207956,6 +215060,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -208054,6 +215159,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -208203,6 +215309,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -208301,6 +215408,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -208440,6 +215548,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -208538,6 +215647,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -208678,6 +215788,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -208776,6 +215887,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -208890,6 +216002,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -208988,6 +216101,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -209135,6 +216249,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -209233,6 +216348,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -209370,6 +216486,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -209468,6 +216585,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -209614,6 +216732,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -209712,6 +216831,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -209826,6 +216946,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -209924,6 +217045,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
     exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -210061,6 +217183,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -210159,6 +217282,7 @@ export namespace Prisma {
     salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
     exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -210188,6 +217312,900 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutPromotionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPromotionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPromotionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPromotionsInput, TenantUncheckedCreateWithoutPromotionsInput>
+  }
+
+  export type PromotionRedemptionCreateWithoutPromotionInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    amountOff: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type PromotionRedemptionUncheckedCreateWithoutPromotionInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    amountOff: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type PromotionRedemptionCreateOrConnectWithoutPromotionInput = {
+    where: PromotionRedemptionWhereUniqueInput
+    create: XOR<PromotionRedemptionCreateWithoutPromotionInput, PromotionRedemptionUncheckedCreateWithoutPromotionInput>
+  }
+
+  export type PromotionRedemptionCreateManyPromotionInputEnvelope = {
+    data: PromotionRedemptionCreateManyPromotionInput | PromotionRedemptionCreateManyPromotionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutPromotionsInput = {
+    update: XOR<TenantUpdateWithoutPromotionsInput, TenantUncheckedUpdateWithoutPromotionsInput>
+    create: XOR<TenantCreateWithoutPromotionsInput, TenantUncheckedCreateWithoutPromotionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPromotionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPromotionsInput, TenantUncheckedUpdateWithoutPromotionsInput>
+  }
+
+  export type TenantUpdateWithoutPromotionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPromotionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
+    where: PromotionRedemptionWhereUniqueInput
+    update: XOR<PromotionRedemptionUpdateWithoutPromotionInput, PromotionRedemptionUncheckedUpdateWithoutPromotionInput>
+    create: XOR<PromotionRedemptionCreateWithoutPromotionInput, PromotionRedemptionUncheckedCreateWithoutPromotionInput>
+  }
+
+  export type PromotionRedemptionUpdateWithWhereUniqueWithoutPromotionInput = {
+    where: PromotionRedemptionWhereUniqueInput
+    data: XOR<PromotionRedemptionUpdateWithoutPromotionInput, PromotionRedemptionUncheckedUpdateWithoutPromotionInput>
+  }
+
+  export type PromotionRedemptionUpdateManyWithWhereWithoutPromotionInput = {
+    where: PromotionRedemptionScalarWhereInput
+    data: XOR<PromotionRedemptionUpdateManyMutationInput, PromotionRedemptionUncheckedUpdateManyWithoutPromotionInput>
+  }
+
+  export type PromotionRedemptionScalarWhereInput = {
+    AND?: PromotionRedemptionScalarWhereInput | PromotionRedemptionScalarWhereInput[]
+    OR?: PromotionRedemptionScalarWhereInput[]
+    NOT?: PromotionRedemptionScalarWhereInput | PromotionRedemptionScalarWhereInput[]
+    id?: UuidFilter<"PromotionRedemption"> | string
+    tenantId?: UuidFilter<"PromotionRedemption"> | string
+    promotionId?: UuidFilter<"PromotionRedemption"> | string
+    orderId?: UuidFilter<"PromotionRedemption"> | string
+    amountOff?: DecimalFilter<"PromotionRedemption"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"PromotionRedemption"> | Date | string
+  }
+
+  export type PromotionCreateWithoutRedemptionRecordsInput = {
+    id?: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPromotionsInput
+  }
+
+  export type PromotionUncheckedCreateWithoutRedemptionRecordsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PromotionCreateOrConnectWithoutRedemptionRecordsInput = {
+    where: PromotionWhereUniqueInput
+    create: XOR<PromotionCreateWithoutRedemptionRecordsInput, PromotionUncheckedCreateWithoutRedemptionRecordsInput>
+  }
+
+  export type PromotionUpsertWithoutRedemptionRecordsInput = {
+    update: XOR<PromotionUpdateWithoutRedemptionRecordsInput, PromotionUncheckedUpdateWithoutRedemptionRecordsInput>
+    create: XOR<PromotionCreateWithoutRedemptionRecordsInput, PromotionUncheckedCreateWithoutRedemptionRecordsInput>
+    where?: PromotionWhereInput
+  }
+
+  export type PromotionUpdateToOneWithWhereWithoutRedemptionRecordsInput = {
+    where?: PromotionWhereInput
+    data: XOR<PromotionUpdateWithoutRedemptionRecordsInput, PromotionUncheckedUpdateWithoutRedemptionRecordsInput>
+  }
+
+  export type PromotionUpdateWithoutRedemptionRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPromotionsNestedInput
+  }
+
+  export type PromotionUncheckedUpdateWithoutRedemptionRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuCreateWithoutBundleComponentsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutSkusInput
+    barcodes?: BarcodeCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+  }
+
+  export type SkuUncheckedCreateWithoutBundleComponentsInput = {
+    id?: string
+    tenantId: string
+    productId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+  }
+
+  export type SkuCreateOrConnectWithoutBundleComponentsInput = {
+    where: SkuWhereUniqueInput
+    create: XOR<SkuCreateWithoutBundleComponentsInput, SkuUncheckedCreateWithoutBundleComponentsInput>
+  }
+
+  export type SkuCreateWithoutBundleUsedInInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutSkusInput
+    barcodes?: BarcodeCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+  }
+
+  export type SkuUncheckedCreateWithoutBundleUsedInInput = {
+    id?: string
+    tenantId: string
+    productId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+  }
+
+  export type SkuCreateOrConnectWithoutBundleUsedInInput = {
+    where: SkuWhereUniqueInput
+    create: XOR<SkuCreateWithoutBundleUsedInInput, SkuUncheckedCreateWithoutBundleUsedInInput>
+  }
+
+  export type SkuUpsertWithoutBundleComponentsInput = {
+    update: XOR<SkuUpdateWithoutBundleComponentsInput, SkuUncheckedUpdateWithoutBundleComponentsInput>
+    create: XOR<SkuCreateWithoutBundleComponentsInput, SkuUncheckedCreateWithoutBundleComponentsInput>
+    where?: SkuWhereInput
+  }
+
+  export type SkuUpdateToOneWithWhereWithoutBundleComponentsInput = {
+    where?: SkuWhereInput
+    data: XOR<SkuUpdateWithoutBundleComponentsInput, SkuUncheckedUpdateWithoutBundleComponentsInput>
+  }
+
+  export type SkuUpdateWithoutBundleComponentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutSkusNestedInput
+    barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+  }
+
+  export type SkuUncheckedUpdateWithoutBundleComponentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+  }
+
+  export type SkuUpsertWithoutBundleUsedInInput = {
+    update: XOR<SkuUpdateWithoutBundleUsedInInput, SkuUncheckedUpdateWithoutBundleUsedInInput>
+    create: XOR<SkuCreateWithoutBundleUsedInInput, SkuUncheckedCreateWithoutBundleUsedInInput>
+    where?: SkuWhereInput
+  }
+
+  export type SkuUpdateToOneWithWhereWithoutBundleUsedInInput = {
+    where?: SkuWhereInput
+    data: XOR<SkuUpdateWithoutBundleUsedInInput, SkuUncheckedUpdateWithoutBundleUsedInInput>
+  }
+
+  export type SkuUpdateWithoutBundleUsedInInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutSkusNestedInput
+    barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+  }
+
+  export type SkuUncheckedUpdateWithoutBundleUsedInInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+  }
+
+  export type SkuCreateWithoutSerialNumbersInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutSkusInput
+    barcodes?: BarcodeCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+  }
+
+  export type SkuUncheckedCreateWithoutSerialNumbersInput = {
+    id?: string
+    tenantId: string
+    productId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+  }
+
+  export type SkuCreateOrConnectWithoutSerialNumbersInput = {
+    where: SkuWhereUniqueInput
+    create: XOR<SkuCreateWithoutSerialNumbersInput, SkuUncheckedCreateWithoutSerialNumbersInput>
+  }
+
+  export type SkuUpsertWithoutSerialNumbersInput = {
+    update: XOR<SkuUpdateWithoutSerialNumbersInput, SkuUncheckedUpdateWithoutSerialNumbersInput>
+    create: XOR<SkuCreateWithoutSerialNumbersInput, SkuUncheckedCreateWithoutSerialNumbersInput>
+    where?: SkuWhereInput
+  }
+
+  export type SkuUpdateToOneWithWhereWithoutSerialNumbersInput = {
+    where?: SkuWhereInput
+    data: XOR<SkuUpdateWithoutSerialNumbersInput, SkuUncheckedUpdateWithoutSerialNumbersInput>
+  }
+
+  export type SkuUpdateWithoutSerialNumbersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutSkusNestedInput
+    barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+  }
+
+  export type SkuUncheckedUpdateWithoutSerialNumbersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -211159,6 +219177,21 @@ export namespace Prisma {
     note?: string | null
     recordedAt?: Date | string
     recordedBy?: string | null
+  }
+
+  export type PromotionCreateManyTenantInput = {
+    id?: string
+    code: string
+    name: string
+    discountPct: Decimal | DecimalJsLike | number | string
+    minOrderTotal?: Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: number | null
+    redemptions?: number
+    validFrom?: Date | string | null
+    validTo?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -214150,6 +222183,53 @@ export namespace Prisma {
     recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type PromotionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    redemptionRecords?: PromotionRedemptionUpdateManyWithoutPromotionNestedInput
+  }
+
+  export type PromotionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    redemptionRecords?: PromotionRedemptionUncheckedUpdateManyWithoutPromotionNestedInput
+  }
+
+  export type PromotionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    minOrderTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    maxRedemptions?: NullableIntFieldUpdateOperationsInput | number | null
+    redemptions?: IntFieldUpdateOperationsInput | number
+    validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -214735,6 +222815,7 @@ export namespace Prisma {
     lengthCm?: Decimal | DecimalJsLike | number | string | null
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -214753,12 +222834,16 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
     uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutProductInput = {
@@ -214774,12 +222859,16 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
     uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateManyWithoutProductInput = {
@@ -214795,6 +222884,7 @@ export namespace Prisma {
     lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -214823,6 +222913,32 @@ export namespace Prisma {
     unitsPerPack: Decimal | DecimalJsLike | number | string
     barcodeValue?: string | null
     createdAt?: Date | string
+  }
+
+  export type BundleComponentCreateManyBundleSkuInput = {
+    id?: string
+    tenantId: string
+    componentSkuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type BundleComponentCreateManyComponentSkuInput = {
+    id?: string
+    tenantId: string
+    bundleSkuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type SerialNumberCreateManySkuInput = {
+    id?: string
+    tenantId: string
+    serial: string
+    status?: $Enums.SerialStatus
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BarcodeUpdateWithoutSkuInput = {
@@ -214898,6 +223014,84 @@ export namespace Prisma {
     unitsPerPack?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     barcodeValue?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BundleComponentUpdateWithoutBundleSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    componentSku?: SkuUpdateOneRequiredWithoutBundleUsedInNestedInput
+  }
+
+  export type BundleComponentUncheckedUpdateWithoutBundleSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BundleComponentUncheckedUpdateManyWithoutBundleSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    componentSkuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BundleComponentUpdateWithoutComponentSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bundleSku?: SkuUpdateOneRequiredWithoutBundleComponentsNestedInput
+  }
+
+  export type BundleComponentUncheckedUpdateWithoutComponentSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    bundleSkuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BundleComponentUncheckedUpdateManyWithoutComponentSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    bundleSkuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialNumberUpdateWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialNumberUncheckedUpdateWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialNumberUncheckedUpdateManyWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WarehouseLocationCreateManyWarehouseInput = {
@@ -215716,6 +223910,38 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PromotionRedemptionCreateManyPromotionInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    amountOff: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type PromotionRedemptionUpdateWithoutPromotionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromotionRedemptionUncheckedUpdateWithoutPromotionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromotionRedemptionUncheckedUpdateManyWithoutPromotionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -468,6 +468,7 @@ exports.Prisma.SkuScalarFieldEnum = {
   lengthCm: 'lengthCm',
   widthCm: 'widthCm',
   heightCm: 'heightCm',
+  serialPolicy: 'serialPolicy',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1292,6 +1293,51 @@ exports.Prisma.DowntimeEventScalarFieldEnum = {
   createdBy: 'createdBy'
 };
 
+exports.Prisma.PromotionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  name: 'name',
+  discountPct: 'discountPct',
+  minOrderTotal: 'minOrderTotal',
+  maxRedemptions: 'maxRedemptions',
+  redemptions: 'redemptions',
+  validFrom: 'validFrom',
+  validTo: 'validTo',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PromotionRedemptionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  promotionId: 'promotionId',
+  orderId: 'orderId',
+  amountOff: 'amountOff',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BundleComponentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  bundleSkuId: 'bundleSkuId',
+  componentSkuId: 'componentSkuId',
+  quantity: 'quantity',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SerialNumberScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  serial: 'serial',
+  status: 'status',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1400,6 +1446,12 @@ exports.ProductStatus = exports.$Enums.ProductStatus = {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED',
   ARCHIVED: 'ARCHIVED'
+};
+
+exports.SerialPolicy = exports.$Enums.SerialPolicy = {
+  NONE: 'NONE',
+  OPTIONAL: 'OPTIONAL',
+  REQUIRED: 'REQUIRED'
 };
 
 exports.SkuStatus = exports.$Enums.SkuStatus = {
@@ -1627,6 +1679,13 @@ exports.DowntimeCategory = exports.$Enums.DowntimeCategory = {
   OTHER: 'OTHER'
 };
 
+exports.SerialStatus = exports.$Enums.SerialStatus = {
+  IN_STOCK: 'IN_STOCK',
+  SHIPPED: 'SHIPPED',
+  RETURNED: 'RETURNED',
+  SCRAPPED: 'SCRAPPED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1727,7 +1786,11 @@ exports.Prisma.ModelName = {
   StockCount: 'StockCount',
   StockCountLine: 'StockCountLine',
   WorkCenter: 'WorkCenter',
-  DowntimeEvent: 'DowntimeEvent'
+  DowntimeEvent: 'DowntimeEvent',
+  Promotion: 'Promotion',
+  PromotionRedemption: 'PromotionRedemption',
+  BundleComponent: 'BundleComponent',
+  SerialNumber: 'SerialNumber'
 };
 
 /**
