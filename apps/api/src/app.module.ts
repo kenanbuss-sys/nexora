@@ -20,6 +20,7 @@ import {
   QuoteService,
 } from '@nexora/domain-cpq';
 import {
+  LoyaltyService,
   CrmService,
   Customer360Service,
   SalesTeamService,
@@ -89,6 +90,8 @@ import {
   VERIFICATION_SERVICE,
 } from './dev/dev.controller';
 import {
+  LOYALTY_SERVICE,
+  LoyaltyController,
   CRM_SERVICE,
   CUSTOMER360_SERVICE,
   SALES_TEAM_SERVICE,
@@ -249,6 +252,7 @@ export const REDIS = 'REDIS';
     DevicesController,
     ScanEventsController,
     CrmAccountsController,
+    LoyaltyController,
     CrmLeadsController,
     CrmOpportunitiesController,
     CrmActivitiesController,
@@ -489,6 +493,11 @@ export const REDIS = 'REDIS';
       inject: [PRISMA],
     },
     {
+      provide: LOYALTY_SERVICE,
+      useFactory: (prisma: PrismaClient) => new LoyaltyService(prisma),
+      inject: [PRISMA],
+    },
+    {
       provide: SALES_TEAM_SERVICE,
       useFactory: (prisma: PrismaClient) => new SalesTeamService(prisma),
       inject: [PRISMA],
@@ -550,6 +559,7 @@ export const REDIS = 'REDIS';
         inventory2: InventoryService,
         planning: PlanningService,
         substitution: SubstitutionService,
+        loyalty: LoyaltyService,
       ) =>
         new OrderService(
           prisma,
@@ -581,6 +591,9 @@ export const REDIS = 'REDIS';
           {
             listAlternatives: (skuId, ctx) => substitution.listAlternatives(skuId, ctx),
           },
+          {
+            accrueForOrder: (input, ctx) => loyalty.accrueForOrder(input, ctx),
+          },
         ),
       inject: [
         PRISMA,
@@ -592,6 +605,7 @@ export const REDIS = 'REDIS';
         INVENTORY_SERVICE,
         PLANNING_SERVICE,
         SUBSTITUTION_SERVICE,
+        LOYALTY_SERVICE,
       ],
     },
     {

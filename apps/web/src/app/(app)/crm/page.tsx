@@ -102,6 +102,9 @@ export default function CrmPage() {
   const [leads, setLeads] = useState<LeadView[] | null>(null);
   const [accounts, setAccounts] = useState<AccountView[] | null>(null);
   const [territories, setTerritories] = useState<TerritoryView[]>([]);
+  const [loyalty, setLoyalty] = useState<
+    Record<string, { points: number; transactions: Array<{ delta: number; reason: string }> }>
+  >({});
   const [terrCode, setTerrCode] = useState('');
   const [terrName, setTerrName] = useState('');
   const [teams, setTeams] = useState<TeamView[]>([]);
@@ -366,7 +369,33 @@ export default function CrmPage() {
                           type="button"
                         >
                           {selected360 === a.id ? 'Close 360°' : '360°'}
-                        </button>
+                        </button>{' '}
+                        {loyalty[a.id] ? (
+                          <span className="badge badge-ok" title="Loyalty points">
+                            ★ {loyalty[a.id]!.points}
+                          </span>
+                        ) : (
+                          <button
+                            className="btn btn-sm"
+                            type="button"
+                            title="Loyalty points"
+                            onClick={() => {
+                              api<{
+                                points: number;
+                                transactions: Array<{ delta: number; reason: string }>;
+                              }>('GET', `/api/v1/crm/accounts/${a.id}/loyalty`)
+                                .then((r) =>
+                                  setLoyalty((prev) => ({
+                                    ...prev,
+                                    [a.id]: { points: r.points, transactions: r.transactions },
+                                  })),
+                                )
+                                .catch(() => undefined);
+                            }}
+                          >
+                            ★
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}

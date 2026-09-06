@@ -10,6 +10,7 @@ export {
   type OrderLineView,
   type OrderView,
   type LeadTimeGate,
+  type LoyaltyGate,
   type PromotionGate,
   type SkuInfoGate,
   type StockGate,

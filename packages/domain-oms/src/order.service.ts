@@ -78,6 +78,14 @@ export interface CreditGate {
   ): Promise<{ allowed: boolean; reason: string | null }>;
 }
 
+/** Cross-domain contract: loyalty is owned by CRM (COM-013). */
+export interface LoyaltyGate {
+  accrueForOrder(
+    input: { accountId: string; orderId: string; orderTotal: number },
+    ctx: RequestContext,
+  ): Promise<{ awarded: number; duplicate: boolean }>;
+}
+
 /** Cross-domain contract: substitution rules are owned by PIM. */
 export interface SubstitutionGate {
   listAlternatives(skuId: string, ctx: RequestContext): Promise<Array<{ substituteSkuId: string }>>;
@@ -184,6 +192,7 @@ export class OrderService {
     private readonly availability?: AvailabilityGate,
     private readonly leadTimes?: LeadTimeGate,
     private readonly substitutions?: SubstitutionGate,
+    private readonly loyalty?: LoyaltyGate,
   ) {}
 
   /**
@@ -902,6 +911,18 @@ export class OrderService {
       data: { status: 'FULFILLED' },
     });
     if (flipped.count === 0) throw new DomainError('CONFLICT', 'Order changed concurrently');
+    // COM-013: award loyalty points — idempotent per order in CRM, so a
+    // retried fulfillment can never double-award.
+    if (this.loyalty) {
+      try {
+        await this.loyalty.accrueForOrder(
+          { accountId: order.accountId, orderId: order.id, orderTotal: Number(order.total) },
+          ctx,
+        );
+      } catch {
+        // Loyalty must never block fulfillment.
+      }
+    }
     await this.recordTransition(
       order.id,
       EVENT_TYPES.ORDER_FULFILLMENT_PLANNED,

@@ -4,16 +4,16 @@ import { DevIdentityAdapter } from '@nexora/tenancy';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 /**
- * Sprint 061 acceptance tests: contract pricing (B2B-004/CPQ-014)
- * — customer-bound price lists resolve for their account only and
- * feed quote prices; other accounts are refused.
+ * Sprint 062 acceptance tests: loyalty (COM-013)
+ * — idempotent point accrual on fulfillment, audited manual
+ * adjustments with a non-negative balance, zero for fresh accounts.
  */
 const integration = process.env.INTEGRATION === '1' ? describe : describe.skip;
 
 const DB_URL = process.env.DATABASE_URL ?? 'postgresql://app:app@localhost:5432/enterprise_os';
 const SECRET = process.env.DEV_AUTH_SECRET ?? 'dev-secret-change-me';
 
-integration('Sprint 061 — contract pricing', () => {
+integration('Sprint 062 — loyalty', () => {
   let app: NestFastifyApplication;
   let prisma: PrismaClient;
   const identity = new DevIdentityAdapter(SECRET);
@@ -23,13 +23,12 @@ integration('Sprint 061 — contract pricing', () => {
     subject: 'ops|provisioner',
     platformAdmin: true,
   });
-  const tokenA = identity.signToken({ tenantSlug: 'test-s61a', subject: 'idp|s61-admin' });
+  const tokenA = identity.signToken({ tenantSlug: 'test-s62a', subject: 'idp|s62-admin' });
 
   let warehouseId = '';
   let accountId = '';
   let skuId = '';
   let scarceSkuId = '';
-  let contractListId = '';
 
   async function api(
     method: 'GET' | 'POST' | 'PUT',
@@ -47,6 +46,20 @@ integration('Sprint 061 — contract pricing', () => {
       ...(payload !== undefined ? { payload: payload as Record<string, unknown> } : {}),
     });
     return { status: response.statusCode, body: response.json() as Record<string, unknown> };
+  }
+
+  async function draftOrder(quantity: number, unitPrice: number): Promise<string> {
+    const order = await api('POST', '/api/v1/orders', tokenA, {
+      accountId,
+      warehouseId,
+      currency: 'EUR',
+    });
+    await api('POST', `/api/v1/orders/${order.body.id}/lines`, tokenA, {
+      skuId,
+      quantity,
+      unitPrice,
+    });
+    return order.body.id as string;
   }
 
   beforeAll(async () => {
@@ -94,23 +107,23 @@ integration('Sprint 061 — contract pricing', () => {
     await app.getHttpAdapter().getInstance().ready();
 
     await api('POST', '/api/v1/tenants', platformToken, {
-      slug: 'test-s61a',
-      name: 'Sprint61 Tenant',
+      slug: 'test-s62a',
+      name: 'Sprint62 Tenant',
       initialAdmin: {
-        email: 'admin@s61a.example',
-        displayName: 'S61 Admin',
-        idpSubject: 'idp|s61-admin',
+        email: 'admin@s62a.example',
+        displayName: 'S62 Admin',
+        idpSubject: 'idp|s62-admin',
       },
     });
     const warehouse = await api('POST', '/api/v1/warehouses', tokenA, {
-      code: 'WH61',
-      name: 'Sprint61 warehouse',
+      code: 'WH62',
+      name: 'Sprint62 warehouse',
     });
     warehouseId = warehouse.body.id as string;
-    const product = await api('POST', '/api/v1/products', tokenA, { code: 'PRO61', name: 'P53' });
+    const product = await api('POST', '/api/v1/products', tokenA, { code: 'PRO62', name: 'P53' });
     const sku = await api('POST', '/api/v1/skus', tokenA, {
       productId: product.body.id,
-      code: 'PRO61-STD',
+      code: 'PRO62-STD',
       name: 'P53 Std',
       baseUom: 'pcs',
     });
@@ -121,16 +134,16 @@ integration('Sprint 061 — contract pricing', () => {
       skuId,
       movementType: 'RECEIPT',
       quantity: 10,
-      idempotencyKey: 'receipt-PRO61',
+      idempotencyKey: 'receipt-PRO62',
     });
     const scarceProduct = await api('POST', '/api/v1/products', tokenA, {
-      code: 'SCARCE61',
-      name: 'S61',
+      code: 'SCARCE62',
+      name: 'S62',
     });
     const scarceSku = await api('POST', '/api/v1/skus', tokenA, {
       productId: scarceProduct.body.id,
-      code: 'SCARCE61-STD',
-      name: 'S61 Std',
+      code: 'SCARCE62-STD',
+      name: 'S62 Std',
       baseUom: 'pcs',
     });
     scarceSkuId = scarceSku.body.id as string;
@@ -148,78 +161,67 @@ integration('Sprint 061 — contract pricing', () => {
     await prisma?.$disconnect();
   });
 
-  it('B2B-004: a contract list serves only its account', async () => {
-    // General list for everyone; contract list bound to accountA.
-    const contract = await api('POST', '/api/v1/price-lists', tokenA, {
-      code: 'CON61',
-      name: 'Contract 61',
-      currency: 'EUR',
-      accountId,
-    });
-    expect(contract.status).toBe(201);
-    contractListId = contract.body.id as string;
-    await api('PUT', `/api/v1/price-lists/${contractListId}/entries`, tokenA, {
-      skuId,
-      unitPrice: 80,
-    });
-    await api('POST', `/api/v1/price-lists/${contractListId}/publish`, tokenA);
+  it('COM-013: fulfillment awards points once — retries never double-award', async () => {
+    const orderId = await draftOrder(2, 100); // total 200 -> 20 points
+    await api('POST', `/api/v1/orders/${orderId}/confirm`, tokenA);
+    const fulfilled = await api('POST', `/api/v1/orders/${orderId}/fulfill`, tokenA);
+    expect(fulfilled.status).toBe(201);
 
-    // The contract resolves for its account…
-    const found = await api('GET', `/api/v1/price-lists/contract/${accountId}`, tokenA);
-    expect(found.status).toBe(200);
-    expect((found.body.contract as { id: string }).id).toBe(contractListId);
+    const loyalty = await api('GET', `/api/v1/crm/accounts/${accountId}/loyalty`, tokenA);
+    expect(loyalty.status).toBe(200);
+    expect(loyalty.body.points).toBe(20);
 
-    // …and a quote for a DIFFERENT account may not use it.
-    const otherLead = await api('POST', '/api/v1/crm/leads', tokenA, {
-      name: 'Kupac Drugi61',
-      company: 'Drugi61 d.o.o.',
-    });
-    const otherConverted = await api(
-      'POST',
-      `/api/v1/crm/leads/${otherLead.body.id}/convert`,
-      tokenA,
-      {},
-    );
-    const refused = await api('POST', '/api/v1/quotes', tokenA, {
-      accountId: otherConverted.body.accountId,
-      priceListId: contractListId,
-    });
-    expect(refused.status).toBe(400);
+    // A second fulfillment attempt conflicts, and points stay put.
+    const again = await api('POST', `/api/v1/orders/${orderId}/fulfill`, tokenA);
+    expect(again.status).toBe(409);
+    const after = await api('GET', `/api/v1/crm/accounts/${accountId}/loyalty`, tokenA);
+    expect(after.body.points).toBe(20);
   });
 
-  it('CPQ-014: the bound account quotes from its contract prices', async () => {
-    const quote = await api('POST', '/api/v1/quotes', tokenA, {
-      accountId,
-      priceListId: contractListId,
+  it('COM-013: manual adjustments are audited and the balance never goes negative', async () => {
+    const adjusted = await api('POST', `/api/v1/crm/accounts/${accountId}/loyalty/adjust`, tokenA, {
+      delta: 5,
+      reason: 'Welcome bonus',
     });
-    expect(quote.status).toBe(201);
-    const line = await api('POST', `/api/v1/quotes/${quote.body.id}/lines`, tokenA, {
-      skuId,
-      quantity: 1,
+    expect(adjusted.status).toBe(201);
+    expect(adjusted.body.points).toBe(25);
+
+    const tooMuch = await api('POST', `/api/v1/crm/accounts/${accountId}/loyalty/adjust`, tokenA, {
+      delta: -100,
+      reason: 'Should fail',
     });
-    expect(line.status).toBe(201);
-    const lines = line.body.lines as Array<{ netUnitPrice: string }>;
-    expect(Number(lines[0]?.netUnitPrice)).toBe(80);
+    expect(tooMuch.status).toBe(409);
+
+    const audit = await prisma.auditEvent.findFirst({ where: { action: 'crm.loyalty.adjust' } });
+    expect(audit).not.toBeNull();
   });
 
-  it('B2B-004: an account without a contract resolves null', async () => {
-    const none = await api(
+  it('COM-013: an account with no history reads zero', async () => {
+    const lead = await api('POST', '/api/v1/crm/leads', tokenA, {
+      name: 'Kupac Bez62',
+      company: 'Bez62 d.o.o.',
+    });
+    const converted = await api('POST', `/api/v1/crm/leads/${lead.body.id}/convert`, tokenA, {});
+    const loyalty = await api(
       'GET',
-      `/api/v1/price-lists/contract/00000000-0000-4000-8000-000000000000`,
+      `/api/v1/crm/accounts/${converted.body.accountId}/loyalty`,
       tokenA,
     );
-    expect(none.status).toBe(200);
-    expect(none.body.contract).toBeNull();
+    expect(loyalty.status).toBe(200);
+    expect(loyalty.body.points).toBe(0);
   });
 
-  it('AUTHZ: contract lookup needs pricing.read', async () => {
-    const stranger = identity.signToken({ tenantSlug: 'test-s61a', subject: 'idp|s61-nobody' });
+  it('AUTHZ: adjusting needs crm.manage', async () => {
+    const stranger = identity.signToken({ tenantSlug: 'test-s62a', subject: 'idp|s62-nobody' });
     await api('POST', '/api/v1/users/invite', tokenA, {
-      email: 'niko61@primjer.example',
-      displayName: 'Niko61',
-      idpSubject: 'idp|s61-nobody',
+      email: 'niko62@primjer.example',
+      displayName: 'Niko62',
+      idpSubject: 'idp|s62-nobody',
     });
-    const denied = await api('GET', `/api/v1/price-lists/contract/${accountId}`, stranger);
+    const denied = await api('POST', `/api/v1/crm/accounts/${accountId}/loyalty/adjust`, stranger, {
+      delta: 1000,
+      reason: 'hak',
+    });
     expect(denied.status).toBe(403);
   });
 });

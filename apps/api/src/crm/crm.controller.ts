@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
 import type {
+  LoyaltyService,
   CrmService,
   Customer360Service,
   SalesTeamService,
@@ -15,6 +16,7 @@ export const CRM_SERVICE = 'CRM_SERVICE';
 export const CUSTOMER360_SERVICE = 'CUSTOMER360_SERVICE';
 export const TERRITORY_SERVICE = 'TERRITORY_SERVICE';
 export const SALES_TEAM_SERVICE = 'SALES_TEAM_SERVICE';
+export const LOYALTY_SERVICE = 'LOYALTY_SERVICE';
 
 const createAccountSchema = z.object({
   partyId: z.string().uuid(),
@@ -273,5 +275,31 @@ export class TerritoryTeamController {
   async assignTeam(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     await this.teams.assignTerritory(id, parseBody(assignTeamSchema, body).teamId, ctx);
     return { assigned: true };
+  }
+}
+
+const loyaltyAdjustSchema = z.object({
+  delta: z
+    .number()
+    .int()
+    .refine((v) => v !== 0, 'Delta must be non-zero'),
+  reason: z.string().min(1).max(300),
+});
+
+@Controller('api/v1/crm/accounts')
+export class LoyaltyController {
+  constructor(@Inject(LOYALTY_SERVICE) private readonly loyalty: LoyaltyService) {}
+
+  @Get(':id/loyalty')
+  @RequirePermission('crm.read')
+  async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.loyalty.getLoyalty(id, ctx);
+  }
+
+  @Post(':id/loyalty/adjust')
+  @RequirePermission('crm.manage')
+  async adjust(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(loyaltyAdjustSchema, body);
+    return this.loyalty.adjust({ accountId: id, delta: input.delta, reason: input.reason }, ctx);
   }
 }

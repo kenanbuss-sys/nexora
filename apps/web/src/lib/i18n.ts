@@ -412,6 +412,7 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Loyalty points': 'Bodovi lojalnosti',
   'General list': 'Opšti cjenovnik',
   'Customer contract (optional)': 'Ugovor s kupcem (opcionalno)',
   Replenishment: 'Dopuna zaliha',
