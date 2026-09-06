@@ -82,6 +82,19 @@ export class StockController {
     @Inject(ROLE_SERVICE) private readonly roles: RoleService,
   ) {}
 
+  /** Channel availability feed (COM-010): sellable quantities in one call. */
+  @Get('channel-availability')
+  @RequirePermission('inventory.read')
+  async channelAvailability(@Ctx() ctx: RequestContext, @Query('skuIds') skuIds?: string) {
+    const ids = skuIds
+      ? skuIds
+          .split(',')
+          .map((x) => x.trim())
+          .filter(Boolean)
+      : undefined;
+    return { availability: await this.inventory.channelAvailability(ids, ctx) };
+  }
+
   /** Permission depends on the movement type (receive/pick/adjust/transfer). */
   @Post('movements')
   async postMovement(@Body() body: unknown, @Ctx() ctx: RequestContext) {

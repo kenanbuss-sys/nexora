@@ -584,6 +584,61 @@ export class InventoryService {
   }
 
   /** Tenant-wide availability for one SKU across all warehouses (WMS read). */
+  /**
+   * Channel availability (COM-010): sellable quantities for a set of
+   * ACTIVE SKUs in one call — built for storefronts and marketplace
+   * feeds. Derived from the ledger and open reservations; never from
+   * an editable stock field.
+   */
+  async channelAvailability(
+    skuIds: string[] | undefined,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ skuId: string; code: string; name: string; onHand: number; available: number }>
+  > {
+    const skus = await this.prisma.sku.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        status: 'ACTIVE',
+        ...(skuIds && skuIds.length > 0 ? { id: { in: skuIds.slice(0, 200) } } : {}),
+      },
+      select: { id: true, code: true, name: true },
+      orderBy: { code: 'asc' },
+      take: 200,
+    });
+    if (skus.length === 0) return [];
+    const ids = skus.map((s) => s.id);
+    const movements = await this.prisma.stockMovement.groupBy({
+      by: ['skuId', 'movementType'],
+      where: { tenantId: ctx.tenantId, skuId: { in: ids } },
+      _sum: { quantity: true },
+    });
+    const onHand = new Map<string, number>();
+    for (const m of movements) {
+      const inbound = ['RECEIPT', 'ADJUSTMENT_IN', 'TRANSFER_IN'].includes(m.movementType);
+      onHand.set(
+        m.skuId,
+        (onHand.get(m.skuId) ?? 0) + Number(m._sum.quantity ?? 0) * (inbound ? 1 : -1),
+      );
+    }
+    const reservations = await this.prisma.stockReservation.groupBy({
+      by: ['skuId'],
+      where: { tenantId: ctx.tenantId, skuId: { in: ids }, status: 'ACTIVE' },
+      _sum: { quantity: true },
+    });
+    const reserved = new Map(reservations.map((r) => [r.skuId, Number(r._sum.quantity ?? 0)]));
+    return skus.map((sku) => {
+      const oh = onHand.get(sku.id) ?? 0;
+      return {
+        skuId: sku.id,
+        code: sku.code,
+        name: sku.name,
+        onHand: oh,
+        available: Math.max(0, oh - (reserved.get(sku.id) ?? 0)),
+      };
+    });
+  }
+
   async totalAvailability(
     skuId: string,
     ctx: RequestContext,

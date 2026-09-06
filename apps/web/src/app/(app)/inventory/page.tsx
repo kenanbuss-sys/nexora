@@ -83,6 +83,12 @@ export default function InventoryPage() {
   const [warehouseId, setWarehouseId] = useState('');
   const [skuId, setSkuId] = useState('');
   const [position, setPosition] = useState<Position | null>(null);
+  const [channel, setChannel] = useState<Array<{
+    skuId: string;
+    code: string;
+    available: number;
+    onHand: number;
+  }> | null>(null);
   const [movements, setMovements] = useState<Movement[]>([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -655,6 +661,42 @@ export default function InventoryPage() {
               ) : null}
             </div>
           ))}
+        </div>
+      ) : null}
+      {can('inventory.read') ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <div className="spread">
+            <h2>Channel availability</h2>
+            <button
+              className="btn btn-sm"
+              type="button"
+              onClick={() => {
+                api<{ availability: NonNullable<typeof channel> }>(
+                  'GET',
+                  '/api/v1/stock/channel-availability',
+                )
+                  .then((r) => setChannel(r.availability))
+                  .catch(() => setChannel([]));
+              }}
+            >
+              Refresh feed
+            </button>
+          </div>
+          <p className="muted" style={{ marginTop: 0 }}>
+            The sellable-quantity feed storefronts and marketplaces consume (also available to API
+            keys at <span className="mono">/api/v1/stock/channel-availability</span>).
+          </p>
+          {channel === null ? null : channel.length === 0 ? (
+            <div className="empty">No active SKUs.</div>
+          ) : (
+            <div className="row" style={{ flexWrap: 'wrap' }}>
+              {channel.slice(0, 24).map((row) => (
+                <span key={row.skuId} className="badge mono" title={`on hand ${row.onHand}`}>
+                  {row.code}: {row.available}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       ) : null}
     </main>
