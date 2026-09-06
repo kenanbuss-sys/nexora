@@ -1,5 +1,5 @@
 import { writeAudit } from '@nexora/audit';
-import type { PartyType, PrismaClient } from '@nexora/db';
+import type { PartyType, Prisma, PrismaClient } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
@@ -110,6 +110,40 @@ export class PartyService {
       hops += 1;
     }
     return toView(current);
+  }
+
+  /**
+   * Governed update (MDM-006): applied ONLY through the master data
+   * approval flow; the audit trail carries before/after values.
+   */
+  async applyGovernedUpdate(
+    partyId: string,
+    changes: { name?: string | undefined; email?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<void> {
+    const party = await this.prisma.party.findFirst({
+      where: { id: partyId, tenantId: ctx.tenantId },
+    });
+    if (!party) throw notFound('Party', partyId);
+    const data: Record<string, unknown> = {};
+    if (changes.name !== undefined) {
+      data.name = changes.name.trim();
+      data.normalizedName = normalizeName(changes.name);
+    }
+    if (changes.email !== undefined) data.email = changes.email.trim();
+    if (Object.keys(data).length === 0) return;
+    await this.prisma.party.update({ where: { id: party.id }, data });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'mdm.party.governed_update',
+      objectType: 'Party',
+      objectId: party.id,
+      source: 'api',
+      previousValues: { name: party.name, email: party.email },
+      newValues: data as Prisma.InputJsonValue,
+    });
   }
 
   async searchParties(query: string, ctx: RequestContext): Promise<PartyView[]> {

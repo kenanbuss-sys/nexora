@@ -26,7 +26,12 @@ import {
   TerritoryService,
 } from '@nexora/domain-crm';
 import { DeviceService } from '@nexora/domain-dev';
-import { ConsentService, DataQualityService, PartyService } from '@nexora/domain-mdm';
+import {
+  MasterDataApprovalService,
+  ConsentService,
+  DataQualityService,
+  PartyService,
+} from '@nexora/domain-mdm';
 import { ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ProcurementService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
@@ -70,6 +75,8 @@ import {
   VocabularyController,
 } from './config/config.controller';
 import {
+  ChangeRequestsController,
+  MDM_APPROVAL_SERVICE,
   CONSENT_SERVICE,
   DATA_QUALITY_SERVICE,
   PartiesController,
@@ -231,6 +238,7 @@ export const REDIS = 'REDIS';
     WfRulesController,
     ApprovalsController,
     DocumentTemplatesController,
+    ChangeRequestsController,
     PartiesController,
     ProductsController,
     SkusController,
@@ -380,6 +388,31 @@ export const REDIS = 'REDIS';
       provide: CONSENT_SERVICE,
       useFactory: (prisma: PrismaClient) => new ConsentService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: MDM_APPROVAL_SERVICE,
+      useFactory: (prisma: PrismaClient, party: PartyService, catalog: CatalogService) =>
+        new MasterDataApprovalService(
+          prisma,
+          {
+            exists: async (tenantId, partyId) =>
+              (await prisma.party.findFirst({
+                where: { id: partyId, tenantId },
+                select: { id: true },
+              })) !== null,
+            applyGovernedUpdate: (id, changes, ctx) => party.applyGovernedUpdate(id, changes, ctx),
+          },
+          {
+            exists: async (tenantId, productId) =>
+              (await prisma.product.findFirst({
+                where: { id: productId, tenantId },
+                select: { id: true },
+              })) !== null,
+            applyGovernedUpdate: (id, changes, ctx) =>
+              catalog.applyGovernedUpdate(id, changes, ctx),
+          },
+        ),
+      inject: [PRISMA, PARTY_SERVICE, CATALOG_SERVICE],
     },
     {
       provide: CATALOG_SERVICE,

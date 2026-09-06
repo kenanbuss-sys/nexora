@@ -412,6 +412,17 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Change requests': 'Zahtjevi za izmjene',
+  'Governed master data edits — a steward other than the requester approves; only approval applies the change.':
+    'Kontrolisane izmjene matičnih podataka — odobrava ih drugi steward, a izmjena se primjenjuje tek nakon odobrenja.',
+  'No change requests.': 'Nema zahtjeva za izmjene.',
+  'Request change': 'Zatraži izmjenu',
+  'Change request submitted.': 'Zahtjev za izmjenu poslan.',
+  'Change approved and applied.': 'Izmjena odobrena i primijenjena.',
+  'Change rejected.': 'Izmjena odbijena.',
+  'New name': 'Novo ime',
+  'New e-mail': 'Novi e-mail',
+  'Party…': 'Partner…',
   'Break-glass access': 'Pristup u nuždi (break-glass)',
   'Time-boxed emergency elevation that bypasses role permissions — granted by another admin with a mandatory reason; every use is audited.':
     'Vremenski ograničeno vanredno ovlaštenje koje zaobilazi dozvole uloga — odobrava ga drugi administrator uz obavezan razlog; svaka upotreba se evidentira.',

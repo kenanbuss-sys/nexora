@@ -23,12 +23,34 @@ export default function PartiesPage() {
   const { can } = useApp();
   const [query, setQuery] = useState('');
   const [parties, setParties] = useState<PartyView[] | null>(null);
+  const [crList, setCrList] = useState<
+    Array<{
+      id: string;
+      entityType: string;
+      payload: Record<string, string>;
+      status: string;
+    }>
+  >([]);
+  const [crParty, setCrParty] = useState('');
+  const [crName, setCrName] = useState('');
+  const [crEmail, setCrEmail] = useState('');
   const [consentParty, setConsentParty] = useState<string | null>(null);
   const [consents, setConsents] = useState<Array<{
     channel: string;
     granted: boolean | null;
     recordedAt: string | null;
   }> | null>(null);
+
+  function loadChangeRequests() {
+    api<{ requests: typeof crList }>('GET', '/api/v1/mdm/change-requests')
+      .then((r) => setCrList(r.requests))
+      .catch(() => setCrList([]));
+  }
+
+  useEffect(() => {
+    if (can('mdm.read')) loadChangeRequests();
+    // eslint-disable-next-line
+  }, []);
 
   function loadConsents(partyId: string) {
     api<{
@@ -329,6 +351,118 @@ export default function PartiesPage() {
             </div>
           ) : null}
 
+          {can('mdm.read') ? (
+            <div className="card">
+              <h2>Change requests</h2>
+              <p className="muted">
+                Governed master data edits — a steward other than the requester approves; only
+                approval applies the change.
+              </p>
+              {crList.length === 0 ? <div className="empty">No change requests.</div> : null}
+              {crList.slice(0, 8).map((cr) => (
+                <div key={cr.id} className="row spread" style={{ marginBottom: 6 }}>
+                  <span className="mono" style={{ fontSize: 12 }}>
+                    {cr.entityType} · {JSON.stringify(cr.payload)} ·{' '}
+                    <span className={`badge ${cr.status === 'PENDING' ? 'badge-warn' : ''}`}>
+                      {cr.status}
+                    </span>
+                  </span>
+                  {cr.status === 'PENDING' && can('mdm.steward') ? (
+                    <span>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        disabled={busy}
+                        type="button"
+                        onClick={() =>
+                          run(async () => {
+                            await api('POST', `/api/v1/mdm/change-requests/${cr.id}/decide`, {
+                              approve: true,
+                            });
+                            loadChangeRequests();
+                          }, 'Change approved and applied.')
+                        }
+                      >
+                        Approve
+                      </button>{' '}
+                      <button
+                        className="btn btn-sm"
+                        disabled={busy}
+                        type="button"
+                        onClick={() =>
+                          run(async () => {
+                            await api('POST', `/api/v1/mdm/change-requests/${cr.id}/decide`, {
+                              approve: false,
+                            });
+                            loadChangeRequests();
+                          }, 'Change rejected.')
+                        }
+                      >
+                        Reject
+                      </button>
+                    </span>
+                  ) : null}
+                </div>
+              ))}
+              {can('mdm.create') ? (
+                <form
+                  className="row"
+                  style={{ marginTop: 10, flexWrap: 'wrap' }}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const payload: Record<string, string> = {};
+                    if (crName.trim()) payload.name = crName.trim();
+                    if (crEmail.trim()) payload.email = crEmail.trim();
+                    void run(async () => {
+                      await api('POST', '/api/v1/mdm/change-requests', {
+                        entityType: 'party',
+                        entityId: crParty,
+                        payload,
+                      });
+                      setCrName('');
+                      setCrEmail('');
+                      loadChangeRequests();
+                    }, 'Change request submitted.');
+                  }}
+                >
+                  <select
+                    className="select"
+                    style={{ maxWidth: 160 }}
+                    value={crParty}
+                    onChange={(e) => setCrParty(e.target.value)}
+                    required
+                  >
+                    <option value="">Party…</option>
+                    {(parties ?? []).map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    className="input"
+                    style={{ maxWidth: 150 }}
+                    placeholder="New name"
+                    value={crName}
+                    onChange={(e) => setCrName(e.target.value)}
+                  />
+                  <input
+                    className="input"
+                    style={{ maxWidth: 170 }}
+                    placeholder="New e-mail"
+                    value={crEmail}
+                    onChange={(e) => setCrEmail(e.target.value)}
+                  />
+                  <button
+                    className="btn btn-sm btn-primary"
+                    disabled={busy || !crParty || (!crName.trim() && !crEmail.trim())}
+                    type="submit"
+                  >
+                    Request change
+                  </button>
+                </form>
+              ) : null}
+            </div>
+          ) : null}
           {can('mdm.steward') && duplicates && duplicates.length > 0 ? (
             <div className="card">
               <h2>Possible duplicates</h2>

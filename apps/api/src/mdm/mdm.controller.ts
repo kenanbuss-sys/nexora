@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { ConsentService, DataQualityService, PartyService } from '@nexora/domain-mdm';
+import type {
+  MasterDataApprovalService,
+  ConsentService,
+  DataQualityService,
+  PartyService,
+} from '@nexora/domain-mdm';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -9,6 +14,7 @@ import { parseBody } from '../common/validate';
 export const PARTY_SERVICE = 'PARTY_SERVICE';
 export const DATA_QUALITY_SERVICE = 'DATA_QUALITY_SERVICE';
 export const CONSENT_SERVICE = 'CONSENT_SERVICE';
+export const MDM_APPROVAL_SERVICE = 'MDM_APPROVAL_SERVICE';
 
 const consentSchema = z.object({
   channel: z.enum(['EMAIL', 'PHONE', 'SMS', 'POST']),
@@ -107,5 +113,43 @@ export class PartiesController {
   @RequirePermission('mdm.steward')
   async mapIdentity(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.parties.mapExternalIdentity(parseBody(mapIdentitySchema, body), ctx);
+  }
+}
+
+const submitChangeSchema = z.object({
+  entityType: z.enum(['party', 'product']),
+  entityId: z.string().uuid(),
+  payload: z.record(z.string(), z.string().min(1).max(300)),
+});
+const decideChangeSchema = z.object({
+  approve: z.boolean(),
+  note: z.string().max(500).optional(),
+});
+
+@Controller('api/v1/mdm/change-requests')
+export class ChangeRequestsController {
+  constructor(
+    @Inject(MDM_APPROVAL_SERVICE) private readonly approvals: MasterDataApprovalService,
+  ) {}
+
+  @Get()
+  @RequirePermission('mdm.read')
+  async list(@Ctx() ctx: RequestContext, @Query('status') status?: string) {
+    const parsed = status
+      ? parseBody(z.enum(['PENDING', 'APPROVED', 'REJECTED']), status)
+      : undefined;
+    return { requests: await this.approvals.listRequests(parsed, ctx) };
+  }
+
+  @Post()
+  @RequirePermission('mdm.create')
+  async submit(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.approvals.submitRequest(parseBody(submitChangeSchema, body), ctx);
+  }
+
+  @Post(':id/decide')
+  @RequirePermission('mdm.steward')
+  async decide(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.approvals.decide(id, parseBody(decideChangeSchema, body), ctx);
   }
 }

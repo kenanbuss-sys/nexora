@@ -1,5 +1,5 @@
 import { writeAudit } from '@nexora/audit';
-import type { PrismaClient } from '@nexora/db';
+import type { Prisma, PrismaClient } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
@@ -172,6 +172,37 @@ export class CatalogService {
         status: s.status,
       })),
     };
+  }
+
+  /**
+   * Governed update (MDM-006): applied ONLY through the master data
+   * approval flow; the audit trail carries before/after values.
+   */
+  async applyGovernedUpdate(
+    productId: string,
+    changes: { name?: string | undefined; description?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<void> {
+    const product = await this.prisma.product.findFirst({
+      where: { id: productId, tenantId: ctx.tenantId },
+    });
+    if (!product) throw notFound('Product', productId);
+    const data: Record<string, unknown> = {};
+    if (changes.name !== undefined) data.name = changes.name.trim();
+    if (changes.description !== undefined) data.description = changes.description.trim();
+    if (Object.keys(data).length === 0) return;
+    await this.prisma.product.update({ where: { id: product.id }, data });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'pim.product.governed_update',
+      objectType: 'Product',
+      objectId: product.id,
+      source: 'api',
+      previousValues: { name: product.name, description: product.description },
+      newValues: data as Prisma.InputJsonValue,
+    });
   }
 
   async searchCatalog(query: string, ctx: RequestContext): Promise<ProductView[]> {
