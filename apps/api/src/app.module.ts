@@ -39,6 +39,7 @@ import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
 import { IntegrationService } from '@nexora/domain-int';
 import {
+  SerialService,
   BundleService,
   MerchandisingService,
   CatalogService,
@@ -163,6 +164,7 @@ import {
 } from './proc/proc.controller';
 import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
 import {
+  SERIAL_SERVICE,
   BUNDLE_SERVICE,
   BarcodesController,
   CATALOG_SERVICE,
@@ -682,6 +684,11 @@ export const REDIS = 'REDIS';
     {
       provide: PACKAGING_SERVICE,
       useFactory: (prisma: PrismaClient) => new PackagingService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: SERIAL_SERVICE,
+      useFactory: (prisma: PrismaClient) => new SerialService(prisma),
       inject: [PRISMA],
     },
     {

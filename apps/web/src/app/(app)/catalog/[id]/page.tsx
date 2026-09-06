@@ -67,6 +67,12 @@ export default function ProductDetailPage() {
   >([]);
   const [subPrimary, setSubPrimary] = useState('');
   const [bundleSku, setBundleSku] = useState('');
+  const [serialSku, setSerialSku] = useState('');
+  const [serialInput, setSerialInput] = useState('');
+  const [serialData, setSerialData] = useState<{
+    policy: string;
+    serials: Array<{ id: string; serial: string; status: string }>;
+  } | null>(null);
   const [bundleComp, setBundleComp] = useState('');
   const [bundleQty, setBundleQty] = useState('1');
   const [bundle, setBundle] = useState<{
@@ -876,6 +882,132 @@ export default function ProductDetailPage() {
                       </span>
                     ))}
                   </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+          {can('product.manage') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Serial numbers</h2>
+              <p className="muted">
+                Serial-tracked SKUs keep one registry row per physical unit with a full lifecycle
+                (in stock, shipped, returned, scrapped).
+              </p>
+              <div className="row" style={{ flexWrap: 'wrap' }}>
+                <select
+                  className="select"
+                  style={{ maxWidth: 170 }}
+                  value={serialSku}
+                  onChange={(e) => {
+                    const skuId = e.target.value;
+                    setSerialSku(skuId);
+                    setSerialData(null);
+                    if (skuId) {
+                      api<{
+                        policy: string;
+                        serials: Array<{ id: string; serial: string; status: string }>;
+                      }>('GET', `/api/v1/skus/${skuId}/serials`)
+                        .then((r) => setSerialData(r))
+                        .catch(() => setSerialData(null));
+                    }
+                  }}
+                >
+                  <option value="">SKU…</option>
+                  {product.skus.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.code}
+                    </option>
+                  ))}
+                </select>
+                {serialData ? (
+                  <select
+                    className="select"
+                    style={{ maxWidth: 140 }}
+                    value={serialData.policy}
+                    onChange={(e) =>
+                      run(async () => {
+                        await api('POST', `/api/v1/skus/${serialSku}/serial-policy`, {
+                          policy: e.target.value,
+                        });
+                        const r = await api<{
+                          policy: string;
+                          serials: Array<{ id: string; serial: string; status: string }>;
+                        }>('GET', `/api/v1/skus/${serialSku}/serials`);
+                        setSerialData(r);
+                      }, 'Serial policy updated.')
+                    }
+                  >
+                    <option value="NONE">No serials</option>
+                    <option value="OPTIONAL">Optional</option>
+                    <option value="REQUIRED">Required</option>
+                  </select>
+                ) : null}
+                {serialData && serialData.policy !== 'NONE' ? (
+                  <>
+                    <input
+                      className="input"
+                      style={{ maxWidth: 220 }}
+                      placeholder="Serials, comma-separated"
+                      value={serialInput}
+                      onChange={(e) => setSerialInput(e.target.value)}
+                    />
+                    <button
+                      className="btn btn-sm btn-primary"
+                      disabled={busy || !serialInput.trim()}
+                      type="button"
+                      onClick={() =>
+                        run(async () => {
+                          await api('POST', `/api/v1/skus/${serialSku}/serials`, {
+                            serials: serialInput
+                              .split(',')
+                              .map((x) => x.trim())
+                              .filter(Boolean),
+                          });
+                          setSerialInput('');
+                          const r = await api<{
+                            policy: string;
+                            serials: Array<{ id: string; serial: string; status: string }>;
+                          }>('GET', `/api/v1/skus/${serialSku}/serials`);
+                          setSerialData(r);
+                        }, 'Serials registered.')
+                      }
+                    >
+                      Register
+                    </button>
+                  </>
+                ) : null}
+              </div>
+              {serialData && serialData.serials.length > 0 ? (
+                <div className="row" style={{ marginTop: 8, flexWrap: 'wrap' }}>
+                  {serialData.serials.slice(0, 30).map((sn) => (
+                    <span key={sn.id} className="badge mono" title={sn.status}>
+                      {sn.serial} · {sn.status}
+                      {sn.status === 'IN_STOCK' ? (
+                        <button
+                          className="btn btn-sm"
+                          style={{ marginLeft: 4, padding: '0 6px' }}
+                          type="button"
+                          disabled={busy}
+                          title="Mark shipped"
+                          onClick={() =>
+                            run(async () => {
+                              await api('POST', `/api/v1/skus/serials/${sn.id}/status`, {
+                                status: 'SHIPPED',
+                              });
+                              const r = await api<{
+                                policy: string;
+                                serials: Array<{ id: string; serial: string; status: string }>;
+                              }>('GET', `/api/v1/skus/${serialSku}/serials`);
+                              setSerialData(r);
+                            }, 'Serial shipped.')
+                          }
+                        >
+                          →
+                        </button>
+                      ) : null}
+                    </span>
+                  ))}
                 </div>
               ) : null}
             </div>

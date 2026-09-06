@@ -4,6 +4,7 @@ import type {
   CatalogService,
   MerchandisingService,
   PackagingService,
+  SerialService,
   SubstitutionService,
 } from '@nexora/domain-pim';
 import type { RequestContext } from '@nexora/tenancy';
@@ -17,6 +18,7 @@ export const MERCHANDISING_SERVICE = 'MERCHANDISING_SERVICE';
 export const SUBSTITUTION_SERVICE = 'SUBSTITUTION_SERVICE';
 export const PACKAGING_SERVICE = 'PACKAGING_SERVICE';
 export const BUNDLE_SERVICE = 'BUNDLE_SERVICE';
+export const SERIAL_SERVICE = 'SERIAL_SERVICE';
 
 const createProductSchema = z.object({
   code: z.string().min(1).max(64),
@@ -42,6 +44,14 @@ const addSubstitutionSchema = z.object({
 const bundleComponentSchema = z.object({
   componentSkuId: z.string().uuid(),
   quantity: z.number().positive(),
+});
+const serialPolicySchema = z.object({ policy: z.enum(['NONE', 'OPTIONAL', 'REQUIRED']) });
+const registerSerialsSchema = z.object({
+  serials: z.array(z.string().min(1).max(64)).min(1).max(500),
+});
+const serialStatusSchema = z.object({
+  status: z.enum(['IN_STOCK', 'SHIPPED', 'RETURNED', 'SCRAPPED']),
+  note: z.string().max(500).optional(),
 });
 const createSkuSchema = z.object({
   productId: z.string().uuid(),
@@ -102,6 +112,7 @@ export class SkusController {
     @Inject(SUBSTITUTION_SERVICE) private readonly substitutions: SubstitutionService,
     @Inject(PACKAGING_SERVICE) private readonly packaging: PackagingService,
     @Inject(BUNDLE_SERVICE) private readonly bundles: BundleService,
+    @Inject(SERIAL_SERVICE) private readonly serials: SerialService,
   ) {}
 
   @Get(':id/substitutions')
@@ -174,6 +185,53 @@ export class SkusController {
   ) {
     await this.bundles.removeComponent(id, componentId, ctx);
     return { removed: true };
+  }
+
+  @Get(':id/serials')
+  @RequirePermission('product.read')
+  async listSerials(
+    @Param('id') id: string,
+    @Ctx() ctx: RequestContext,
+    @Query('status') status?: string,
+  ) {
+    const parsed = status
+      ? parseBody(z.enum(['IN_STOCK', 'SHIPPED', 'RETURNED', 'SCRAPPED']), status)
+      : undefined;
+    return this.serials.listSerials(id, parsed, ctx);
+  }
+
+  @Post(':id/serial-policy')
+  @RequirePermission('product.manage')
+  async setSerialPolicy(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(serialPolicySchema, body);
+    await this.serials.setPolicy(id, input.policy, ctx);
+    return { set: true };
+  }
+
+  @Post(':id/serials')
+  @RequirePermission('product.manage')
+  async registerSerials(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(registerSerialsSchema, body);
+    return this.serials.registerSerials(id, input.serials, ctx);
+  }
+
+  @Post('serials/:serialId/status')
+  @RequirePermission('product.manage')
+  async setSerialStatus(
+    @Param('serialId') serialId: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(serialStatusSchema, body);
+    return this.serials.updateStatus(serialId, input.status, input.note, ctx);
   }
 
   @Post(':id/logistics')
