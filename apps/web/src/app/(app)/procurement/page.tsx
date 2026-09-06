@@ -87,6 +87,14 @@ export default function ProcurementPage() {
   const { can } = useApp();
   const [suppliers, setSuppliers] = useState<SupplierView[]>([]);
   const [performance, setPerformance] = useState<SupplierPerformanceRow[]>([]);
+  const [discrepancies, setDiscrepancies] = useState<
+    Array<{
+      poId: string;
+      poNumber: string;
+      status: string;
+      lines: Array<{ description: string; ordered: string; received: string; delta: string }>;
+    }>
+  >([]);
   const [otd, setOtd] = useState<
     Array<{
       supplierId: string;
@@ -120,6 +128,9 @@ export default function ProcurementPage() {
     api<{ suppliers: SupplierView[] }>('GET', '/api/v1/suppliers')
       .then((r) => setSuppliers(r.suppliers))
       .catch(() => setSuppliers([]));
+    api<{ report: typeof discrepancies }>('GET', '/api/v1/purchase-orders/discrepancies')
+      .then((r) => setDiscrepancies(r.report))
+      .catch(() => setDiscrepancies([]));
     api<{ suppliers: typeof otd }>('GET', '/api/v1/suppliers/delivery-performance')
       .then((r) => setOtd(r.suppliers))
       .catch(() => setOtd([]));
@@ -686,6 +697,26 @@ export default function ProcurementPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      ) : null}
+
+      {discrepancies.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Receiving discrepancies</h2>
+          <p className="muted" style={{ marginTop: 0 }}>
+            Received quantities that do not match what was ordered.
+          </p>
+          {discrepancies.slice(0, 8).map((d) => (
+            <div key={d.poId} style={{ marginBottom: 8 }}>
+              <strong className="mono">{d.poNumber}</strong>{' '}
+              <span className="badge badge-warn">{d.status}</span>
+              {d.lines.map((l, i) => (
+                <div key={i} className="muted mono" style={{ fontSize: 12 }}>
+                  {l.description}: {l.received}/{l.ordered} (Δ {l.delta})
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       ) : null}
 

@@ -129,6 +129,12 @@ export class PurchaseOrdersController {
     return { purchaseOrders: await this.proc.listPurchaseOrders(ctx) };
   }
 
+  @Get('discrepancies')
+  @RequirePermission('purchase.read')
+  async discrepancies(@Ctx() ctx: RequestContext) {
+    return { report: await this.proc.receivingDiscrepancies(ctx) };
+  }
+
   @Post()
   @RequirePermission('purchase.manage')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {

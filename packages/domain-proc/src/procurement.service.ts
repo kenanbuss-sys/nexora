@@ -665,6 +665,42 @@ export class ProcurementService {
     });
   }
 
+  /**
+   * Receiving discrepancies (WMS-005): received/partially received POs
+   * whose line quantities do not match what was ordered — over- and
+   * under-receipts alike, derived live, nothing stored.
+   */
+  async receivingDiscrepancies(ctx: RequestContext): Promise<
+    Array<{
+      poId: string;
+      poNumber: string;
+      status: string;
+      lines: Array<{ description: string; ordered: string; received: string; delta: string }>;
+    }>
+  > {
+    const pos = await this.prisma.purchaseOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: { in: ['PARTIALLY_RECEIVED', 'RECEIVED'] } },
+      include: { lines: true },
+      orderBy: [{ updatedAt: 'desc' }],
+      take: 200,
+    });
+    const report = [];
+    for (const po of pos) {
+      const lines = po.lines
+        .filter((l) => Number(l.receivedQty) !== Number(l.quantity))
+        .map((l) => ({
+          description: l.description,
+          ordered: l.quantity.toString(),
+          received: l.receivedQty.toString(),
+          delta: (Number(l.receivedQty) - Number(l.quantity)).toString(),
+        }));
+      if (lines.length > 0) {
+        report.push({ poId: po.id, poNumber: po.poNumber, status: po.status, lines });
+      }
+    }
+    return report;
+  }
+
   async receivePo(
     input: {
       poId: string;
