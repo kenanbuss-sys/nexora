@@ -1402,6 +1402,23 @@ exports.Prisma.SupportCaseScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ContractScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  contractNumber: 'contractNumber',
+  title: 'title',
+  partyId: 'partyId',
+  status: 'status',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  renewalNoticeDays: 'renewalNoticeDays',
+  value: 'value',
+  currency: 'currency',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1770,6 +1787,12 @@ exports.SupportCasePriority = exports.$Enums.SupportCasePriority = {
   URGENT: 'URGENT'
 };
 
+exports.ContractStatus = exports.$Enums.ContractStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  TERMINATED: 'TERMINATED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1879,7 +1902,8 @@ exports.Prisma.ModelName = {
   MasterDataRequest: 'MasterDataRequest',
   LoyaltyAccount: 'LoyaltyAccount',
   LoyaltyTransaction: 'LoyaltyTransaction',
-  SupportCase: 'SupportCase'
+  SupportCase: 'SupportCase',
+  Contract: 'Contract'
 };
 
 /**

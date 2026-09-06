@@ -134,6 +134,7 @@ model Tenant {
   masterDataRequests    MasterDataRequest[]
   loyaltyAccounts       LoyaltyAccount[]
   supportCases          SupportCase[]
+  contracts             Contract[]
 
   @@map("tenant")
 }
@@ -698,6 +699,8 @@ model Party {
   mergedParties      Party[]                 @relation("PartyMergeRedirect")
   externalIdentities PartyExternalIdentity[]
   consentRecords     ConsentRecord[]
+
+  contracts Contract[]
 
   @@index([tenantId, normalizedName])
   @@map("party")
@@ -2696,4 +2699,38 @@ model SupportCase {
   @@index([tenantId, status])
   @@index([tenantId, accountId])
   @@map("support_case")
+}
+
+enum ContractStatus {
+  DRAFT
+  ACTIVE
+  TERMINATED
+}
+
+/// Sprint 067 (DOC-007/009): contract repository — numbered contracts
+/// against a master-data party with validity, value and a renewal
+/// notice window; the renewal report derives live from endsAt.
+model Contract {
+  id                String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String         @map("tenant_id") @db.Uuid
+  contractNumber    String         @map("contract_number")
+  title             String
+  partyId           String         @map("party_id") @db.Uuid
+  status            ContractStatus @default(DRAFT)
+  startsAt          DateTime       @map("starts_at")
+  endsAt            DateTime?      @map("ends_at")
+  renewalNoticeDays Int            @default(30) @map("renewal_notice_days")
+  value             Decimal?       @db.Decimal(18, 2)
+  currency          String?        @db.Char(3)
+  createdBy         String?        @map("created_by")
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  party  Party  @relation(fields: [partyId], references: [id])
+
+  @@unique([tenantId, contractNumber])
+  @@index([tenantId, status])
+  @@index([tenantId, endsAt])
+  @@map("contract")
 }

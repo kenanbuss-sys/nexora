@@ -633,6 +633,13 @@ export type LoyaltyTransaction = $Result.DefaultSelection<Prisma.$LoyaltyTransac
  * (reopen: RESOLVED -> IN_PROGRESS)
  */
 export type SupportCase = $Result.DefaultSelection<Prisma.$SupportCasePayload>
+/**
+ * Model Contract
+ * Sprint 067 (DOC-007/009): contract repository — numbered contracts
+ * against a master-data party with validity, value and a renewal
+ * notice window; the renewal report derives live from endsAt.
+ */
+export type Contract = $Result.DefaultSelection<Prisma.$ContractPayload>
 
 /**
  * Enums
@@ -1129,6 +1136,15 @@ export const SupportCasePriority: {
 
 export type SupportCasePriority = (typeof SupportCasePriority)[keyof typeof SupportCasePriority]
 
+
+export const ContractStatus: {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  TERMINATED: 'TERMINATED'
+};
+
+export type ContractStatus = (typeof ContractStatus)[keyof typeof ContractStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1334,6 +1350,10 @@ export const SupportCaseStatus: typeof $Enums.SupportCaseStatus
 export type SupportCasePriority = $Enums.SupportCasePriority
 
 export const SupportCasePriority: typeof $Enums.SupportCasePriority
+
+export type ContractStatus = $Enums.ContractStatus
+
+export const ContractStatus: typeof $Enums.ContractStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2542,6 +2562,16 @@ export class PrismaClient<
     * ```
     */
   get supportCase(): Prisma.SupportCaseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.contract`: Exposes CRUD operations for the **Contract** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Contracts
+    * const contracts = await prisma.contract.findMany()
+    * ```
+    */
+  get contract(): Prisma.ContractDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3091,7 +3121,8 @@ export namespace Prisma {
     MasterDataRequest: 'MasterDataRequest',
     LoyaltyAccount: 'LoyaltyAccount',
     LoyaltyTransaction: 'LoyaltyTransaction',
-    SupportCase: 'SupportCase'
+    SupportCase: 'SupportCase',
+    Contract: 'Contract'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3110,7 +3141,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -11180,6 +11211,80 @@ export namespace Prisma {
           }
         }
       }
+      Contract: {
+        payload: Prisma.$ContractPayload<ExtArgs>
+        fields: Prisma.ContractFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ContractFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ContractFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>
+          }
+          findFirst: {
+            args: Prisma.ContractFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ContractFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>
+          }
+          findMany: {
+            args: Prisma.ContractFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>[]
+          }
+          create: {
+            args: Prisma.ContractCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>
+          }
+          createMany: {
+            args: Prisma.ContractCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ContractCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>[]
+          }
+          delete: {
+            args: Prisma.ContractDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>
+          }
+          update: {
+            args: Prisma.ContractUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>
+          }
+          deleteMany: {
+            args: Prisma.ContractDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ContractUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ContractUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>[]
+          }
+          upsert: {
+            args: Prisma.ContractUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContractPayload>
+          }
+          aggregate: {
+            args: Prisma.ContractAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateContract>
+          }
+          groupBy: {
+            args: Prisma.ContractGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ContractGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ContractCountArgs<ExtArgs>
+            result: $Utils.Optional<ContractCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -11385,6 +11490,7 @@ export namespace Prisma {
     loyaltyAccount?: LoyaltyAccountOmit
     loyaltyTransaction?: LoyaltyTransactionOmit
     supportCase?: SupportCaseOmit
+    contract?: ContractOmit
   }
 
   /* Types for Logging */
@@ -11559,6 +11665,7 @@ export namespace Prisma {
     masterDataRequests: number
     loyaltyAccounts: number
     supportCases: number
+    contracts: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11656,6 +11763,7 @@ export namespace Prisma {
     masterDataRequests?: boolean | TenantCountOutputTypeCountMasterDataRequestsArgs
     loyaltyAccounts?: boolean | TenantCountOutputTypeCountLoyaltyAccountsArgs
     supportCases?: boolean | TenantCountOutputTypeCountSupportCasesArgs
+    contracts?: boolean | TenantCountOutputTypeCountContractsArgs
   }
 
   // Custom InputTypes
@@ -12327,6 +12435,13 @@ export namespace Prisma {
     where?: SupportCaseWhereInput
   }
 
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountContractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContractWhereInput
+  }
+
 
   /**
    * Count Type LegalEntityCountOutputType
@@ -12629,12 +12744,14 @@ export namespace Prisma {
     mergedParties: number
     externalIdentities: number
     consentRecords: number
+    contracts: number
   }
 
   export type PartyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mergedParties?: boolean | PartyCountOutputTypeCountMergedPartiesArgs
     externalIdentities?: boolean | PartyCountOutputTypeCountExternalIdentitiesArgs
     consentRecords?: boolean | PartyCountOutputTypeCountConsentRecordsArgs
+    contracts?: boolean | PartyCountOutputTypeCountContractsArgs
   }
 
   // Custom InputTypes
@@ -12667,6 +12784,13 @@ export namespace Prisma {
    */
   export type PartyCountOutputTypeCountConsentRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConsentRecordWhereInput
+  }
+
+  /**
+   * PartyCountOutputType without action
+   */
+  export type PartyCountOutputTypeCountContractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContractWhereInput
   }
 
 
@@ -13802,6 +13926,7 @@ export namespace Prisma {
     masterDataRequests?: boolean | Tenant$masterDataRequestsArgs<ExtArgs>
     loyaltyAccounts?: boolean | Tenant$loyaltyAccountsArgs<ExtArgs>
     supportCases?: boolean | Tenant$supportCasesArgs<ExtArgs>
+    contracts?: boolean | Tenant$contractsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -13931,6 +14056,7 @@ export namespace Prisma {
     masterDataRequests?: boolean | Tenant$masterDataRequestsArgs<ExtArgs>
     loyaltyAccounts?: boolean | Tenant$loyaltyAccountsArgs<ExtArgs>
     supportCases?: boolean | Tenant$supportCasesArgs<ExtArgs>
+    contracts?: boolean | Tenant$contractsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -14033,6 +14159,7 @@ export namespace Prisma {
       masterDataRequests: Prisma.$MasterDataRequestPayload<ExtArgs>[]
       loyaltyAccounts: Prisma.$LoyaltyAccountPayload<ExtArgs>[]
       supportCases: Prisma.$SupportCasePayload<ExtArgs>[]
+      contracts: Prisma.$ContractPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14530,6 +14657,7 @@ export namespace Prisma {
     masterDataRequests<T extends Tenant$masterDataRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$masterDataRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterDataRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     loyaltyAccounts<T extends Tenant$loyaltyAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$loyaltyAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportCases<T extends Tenant$supportCasesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$supportCasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    contracts<T extends Tenant$contractsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17207,6 +17335,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SupportCaseScalarFieldEnum | SupportCaseScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.contracts
+   */
+  export type Tenant$contractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    where?: ContractWhereInput
+    orderBy?: ContractOrderByWithRelationInput | ContractOrderByWithRelationInput[]
+    cursor?: ContractWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ContractScalarFieldEnum | ContractScalarFieldEnum[]
   }
 
   /**
@@ -46515,6 +46667,7 @@ export namespace Prisma {
     mergedParties?: boolean | Party$mergedPartiesArgs<ExtArgs>
     externalIdentities?: boolean | Party$externalIdentitiesArgs<ExtArgs>
     consentRecords?: boolean | Party$consentRecordsArgs<ExtArgs>
+    contracts?: boolean | Party$contractsArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["party"]>
 
@@ -46571,6 +46724,7 @@ export namespace Prisma {
     mergedParties?: boolean | Party$mergedPartiesArgs<ExtArgs>
     externalIdentities?: boolean | Party$externalIdentitiesArgs<ExtArgs>
     consentRecords?: boolean | Party$consentRecordsArgs<ExtArgs>
+    contracts?: boolean | Party$contractsArgs<ExtArgs>
     _count?: boolean | PartyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PartyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -46590,6 +46744,7 @@ export namespace Prisma {
       mergedParties: Prisma.$PartyPayload<ExtArgs>[]
       externalIdentities: Prisma.$PartyExternalIdentityPayload<ExtArgs>[]
       consentRecords: Prisma.$ConsentRecordPayload<ExtArgs>[]
+      contracts: Prisma.$ContractPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -47008,6 +47163,7 @@ export namespace Prisma {
     mergedParties<T extends Party$mergedPartiesArgs<ExtArgs> = {}>(args?: Subset<T, Party$mergedPartiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     externalIdentities<T extends Party$externalIdentitiesArgs<ExtArgs> = {}>(args?: Subset<T, Party$externalIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartyExternalIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     consentRecords<T extends Party$consentRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Party$consentRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    contracts<T extends Party$contractsArgs<ExtArgs> = {}>(args?: Subset<T, Party$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -47532,6 +47688,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConsentRecordScalarFieldEnum | ConsentRecordScalarFieldEnum[]
+  }
+
+  /**
+   * Party.contracts
+   */
+  export type Party$contractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    where?: ContractWhereInput
+    orderBy?: ContractOrderByWithRelationInput | ContractOrderByWithRelationInput[]
+    cursor?: ContractWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ContractScalarFieldEnum | ContractScalarFieldEnum[]
   }
 
   /**
@@ -140491,6 +140671,1227 @@ export namespace Prisma {
 
 
   /**
+   * Model Contract
+   */
+
+  export type AggregateContract = {
+    _count: ContractCountAggregateOutputType | null
+    _avg: ContractAvgAggregateOutputType | null
+    _sum: ContractSumAggregateOutputType | null
+    _min: ContractMinAggregateOutputType | null
+    _max: ContractMaxAggregateOutputType | null
+  }
+
+  export type ContractAvgAggregateOutputType = {
+    renewalNoticeDays: number | null
+    value: Decimal | null
+  }
+
+  export type ContractSumAggregateOutputType = {
+    renewalNoticeDays: number | null
+    value: Decimal | null
+  }
+
+  export type ContractMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    contractNumber: string | null
+    title: string | null
+    partyId: string | null
+    status: $Enums.ContractStatus | null
+    startsAt: Date | null
+    endsAt: Date | null
+    renewalNoticeDays: number | null
+    value: Decimal | null
+    currency: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ContractMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    contractNumber: string | null
+    title: string | null
+    partyId: string | null
+    status: $Enums.ContractStatus | null
+    startsAt: Date | null
+    endsAt: Date | null
+    renewalNoticeDays: number | null
+    value: Decimal | null
+    currency: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ContractCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    contractNumber: number
+    title: number
+    partyId: number
+    status: number
+    startsAt: number
+    endsAt: number
+    renewalNoticeDays: number
+    value: number
+    currency: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ContractAvgAggregateInputType = {
+    renewalNoticeDays?: true
+    value?: true
+  }
+
+  export type ContractSumAggregateInputType = {
+    renewalNoticeDays?: true
+    value?: true
+  }
+
+  export type ContractMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    contractNumber?: true
+    title?: true
+    partyId?: true
+    status?: true
+    startsAt?: true
+    endsAt?: true
+    renewalNoticeDays?: true
+    value?: true
+    currency?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ContractMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    contractNumber?: true
+    title?: true
+    partyId?: true
+    status?: true
+    startsAt?: true
+    endsAt?: true
+    renewalNoticeDays?: true
+    value?: true
+    currency?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ContractCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    contractNumber?: true
+    title?: true
+    partyId?: true
+    status?: true
+    startsAt?: true
+    endsAt?: true
+    renewalNoticeDays?: true
+    value?: true
+    currency?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ContractAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Contract to aggregate.
+     */
+    where?: ContractWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contracts to fetch.
+     */
+    orderBy?: ContractOrderByWithRelationInput | ContractOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ContractWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contracts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contracts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Contracts
+    **/
+    _count?: true | ContractCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ContractAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ContractSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ContractMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ContractMaxAggregateInputType
+  }
+
+  export type GetContractAggregateType<T extends ContractAggregateArgs> = {
+        [P in keyof T & keyof AggregateContract]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContract[P]>
+      : GetScalarType<T[P], AggregateContract[P]>
+  }
+
+
+
+
+  export type ContractGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContractWhereInput
+    orderBy?: ContractOrderByWithAggregationInput | ContractOrderByWithAggregationInput[]
+    by: ContractScalarFieldEnum[] | ContractScalarFieldEnum
+    having?: ContractScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ContractCountAggregateInputType | true
+    _avg?: ContractAvgAggregateInputType
+    _sum?: ContractSumAggregateInputType
+    _min?: ContractMinAggregateInputType
+    _max?: ContractMaxAggregateInputType
+  }
+
+  export type ContractGroupByOutputType = {
+    id: string
+    tenantId: string
+    contractNumber: string
+    title: string
+    partyId: string
+    status: $Enums.ContractStatus
+    startsAt: Date
+    endsAt: Date | null
+    renewalNoticeDays: number
+    value: Decimal | null
+    currency: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ContractCountAggregateOutputType | null
+    _avg: ContractAvgAggregateOutputType | null
+    _sum: ContractSumAggregateOutputType | null
+    _min: ContractMinAggregateOutputType | null
+    _max: ContractMaxAggregateOutputType | null
+  }
+
+  type GetContractGroupByPayload<T extends ContractGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ContractGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ContractGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ContractGroupByOutputType[P]>
+            : GetScalarType<T[P], ContractGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ContractSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    contractNumber?: boolean
+    title?: boolean
+    partyId?: boolean
+    status?: boolean
+    startsAt?: boolean
+    endsAt?: boolean
+    renewalNoticeDays?: boolean
+    value?: boolean
+    currency?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contract"]>
+
+  export type ContractSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    contractNumber?: boolean
+    title?: boolean
+    partyId?: boolean
+    status?: boolean
+    startsAt?: boolean
+    endsAt?: boolean
+    renewalNoticeDays?: boolean
+    value?: boolean
+    currency?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contract"]>
+
+  export type ContractSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    contractNumber?: boolean
+    title?: boolean
+    partyId?: boolean
+    status?: boolean
+    startsAt?: boolean
+    endsAt?: boolean
+    renewalNoticeDays?: boolean
+    value?: boolean
+    currency?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contract"]>
+
+  export type ContractSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    contractNumber?: boolean
+    title?: boolean
+    partyId?: boolean
+    status?: boolean
+    startsAt?: boolean
+    endsAt?: boolean
+    renewalNoticeDays?: boolean
+    value?: boolean
+    currency?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ContractOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "contractNumber" | "title" | "partyId" | "status" | "startsAt" | "endsAt" | "renewalNoticeDays" | "value" | "currency" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["contract"]>
+  export type ContractInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }
+  export type ContractIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }
+  export type ContractIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    party?: boolean | PartyDefaultArgs<ExtArgs>
+  }
+
+  export type $ContractPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Contract"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      party: Prisma.$PartyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      contractNumber: string
+      title: string
+      partyId: string
+      status: $Enums.ContractStatus
+      startsAt: Date
+      endsAt: Date | null
+      renewalNoticeDays: number
+      value: Prisma.Decimal | null
+      currency: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["contract"]>
+    composites: {}
+  }
+
+  type ContractGetPayload<S extends boolean | null | undefined | ContractDefaultArgs> = $Result.GetResult<Prisma.$ContractPayload, S>
+
+  type ContractCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ContractFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ContractCountAggregateInputType | true
+    }
+
+  export interface ContractDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Contract'], meta: { name: 'Contract' } }
+    /**
+     * Find zero or one Contract that matches the filter.
+     * @param {ContractFindUniqueArgs} args - Arguments to find a Contract
+     * @example
+     * // Get one Contract
+     * const contract = await prisma.contract.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ContractFindUniqueArgs>(args: SelectSubset<T, ContractFindUniqueArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Contract that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ContractFindUniqueOrThrowArgs} args - Arguments to find a Contract
+     * @example
+     * // Get one Contract
+     * const contract = await prisma.contract.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ContractFindUniqueOrThrowArgs>(args: SelectSubset<T, ContractFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Contract that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContractFindFirstArgs} args - Arguments to find a Contract
+     * @example
+     * // Get one Contract
+     * const contract = await prisma.contract.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ContractFindFirstArgs>(args?: SelectSubset<T, ContractFindFirstArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Contract that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContractFindFirstOrThrowArgs} args - Arguments to find a Contract
+     * @example
+     * // Get one Contract
+     * const contract = await prisma.contract.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ContractFindFirstOrThrowArgs>(args?: SelectSubset<T, ContractFindFirstOrThrowArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Contracts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContractFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Contracts
+     * const contracts = await prisma.contract.findMany()
+     * 
+     * // Get first 10 Contracts
+     * const contracts = await prisma.contract.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const contractWithIdOnly = await prisma.contract.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ContractFindManyArgs>(args?: SelectSubset<T, ContractFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Contract.
+     * @param {ContractCreateArgs} args - Arguments to create a Contract.
+     * @example
+     * // Create one Contract
+     * const Contract = await prisma.contract.create({
+     *   data: {
+     *     // ... data to create a Contract
+     *   }
+     * })
+     * 
+     */
+    create<T extends ContractCreateArgs>(args: SelectSubset<T, ContractCreateArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Contracts.
+     * @param {ContractCreateManyArgs} args - Arguments to create many Contracts.
+     * @example
+     * // Create many Contracts
+     * const contract = await prisma.contract.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ContractCreateManyArgs>(args?: SelectSubset<T, ContractCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Contracts and returns the data saved in the database.
+     * @param {ContractCreateManyAndReturnArgs} args - Arguments to create many Contracts.
+     * @example
+     * // Create many Contracts
+     * const contract = await prisma.contract.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Contracts and only return the `id`
+     * const contractWithIdOnly = await prisma.contract.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ContractCreateManyAndReturnArgs>(args?: SelectSubset<T, ContractCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Contract.
+     * @param {ContractDeleteArgs} args - Arguments to delete one Contract.
+     * @example
+     * // Delete one Contract
+     * const Contract = await prisma.contract.delete({
+     *   where: {
+     *     // ... filter to delete one Contract
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ContractDeleteArgs>(args: SelectSubset<T, ContractDeleteArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Contract.
+     * @param {ContractUpdateArgs} args - Arguments to update one Contract.
+     * @example
+     * // Update one Contract
+     * const contract = await prisma.contract.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ContractUpdateArgs>(args: SelectSubset<T, ContractUpdateArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Contracts.
+     * @param {ContractDeleteManyArgs} args - Arguments to filter Contracts to delete.
+     * @example
+     * // Delete a few Contracts
+     * const { count } = await prisma.contract.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ContractDeleteManyArgs>(args?: SelectSubset<T, ContractDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Contracts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContractUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Contracts
+     * const contract = await prisma.contract.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ContractUpdateManyArgs>(args: SelectSubset<T, ContractUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Contracts and returns the data updated in the database.
+     * @param {ContractUpdateManyAndReturnArgs} args - Arguments to update many Contracts.
+     * @example
+     * // Update many Contracts
+     * const contract = await prisma.contract.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Contracts and only return the `id`
+     * const contractWithIdOnly = await prisma.contract.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ContractUpdateManyAndReturnArgs>(args: SelectSubset<T, ContractUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Contract.
+     * @param {ContractUpsertArgs} args - Arguments to update or create a Contract.
+     * @example
+     * // Update or create a Contract
+     * const contract = await prisma.contract.upsert({
+     *   create: {
+     *     // ... data to create a Contract
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Contract we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ContractUpsertArgs>(args: SelectSubset<T, ContractUpsertArgs<ExtArgs>>): Prisma__ContractClient<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Contracts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContractCountArgs} args - Arguments to filter Contracts to count.
+     * @example
+     * // Count the number of Contracts
+     * const count = await prisma.contract.count({
+     *   where: {
+     *     // ... the filter for the Contracts we want to count
+     *   }
+     * })
+    **/
+    count<T extends ContractCountArgs>(
+      args?: Subset<T, ContractCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ContractCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Contract.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContractAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ContractAggregateArgs>(args: Subset<T, ContractAggregateArgs>): Prisma.PrismaPromise<GetContractAggregateType<T>>
+
+    /**
+     * Group by Contract.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContractGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ContractGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ContractGroupByArgs['orderBy'] }
+        : { orderBy?: ContractGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ContractGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContractGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Contract model
+   */
+  readonly fields: ContractFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Contract.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ContractClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    party<T extends PartyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PartyDefaultArgs<ExtArgs>>): Prisma__PartyClient<$Result.GetResult<Prisma.$PartyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Contract model
+   */
+  interface ContractFieldRefs {
+    readonly id: FieldRef<"Contract", 'String'>
+    readonly tenantId: FieldRef<"Contract", 'String'>
+    readonly contractNumber: FieldRef<"Contract", 'String'>
+    readonly title: FieldRef<"Contract", 'String'>
+    readonly partyId: FieldRef<"Contract", 'String'>
+    readonly status: FieldRef<"Contract", 'ContractStatus'>
+    readonly startsAt: FieldRef<"Contract", 'DateTime'>
+    readonly endsAt: FieldRef<"Contract", 'DateTime'>
+    readonly renewalNoticeDays: FieldRef<"Contract", 'Int'>
+    readonly value: FieldRef<"Contract", 'Decimal'>
+    readonly currency: FieldRef<"Contract", 'String'>
+    readonly createdBy: FieldRef<"Contract", 'String'>
+    readonly createdAt: FieldRef<"Contract", 'DateTime'>
+    readonly updatedAt: FieldRef<"Contract", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Contract findUnique
+   */
+  export type ContractFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * Filter, which Contract to fetch.
+     */
+    where: ContractWhereUniqueInput
+  }
+
+  /**
+   * Contract findUniqueOrThrow
+   */
+  export type ContractFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * Filter, which Contract to fetch.
+     */
+    where: ContractWhereUniqueInput
+  }
+
+  /**
+   * Contract findFirst
+   */
+  export type ContractFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * Filter, which Contract to fetch.
+     */
+    where?: ContractWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contracts to fetch.
+     */
+    orderBy?: ContractOrderByWithRelationInput | ContractOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contracts.
+     */
+    cursor?: ContractWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contracts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contracts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contracts.
+     */
+    distinct?: ContractScalarFieldEnum | ContractScalarFieldEnum[]
+  }
+
+  /**
+   * Contract findFirstOrThrow
+   */
+  export type ContractFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * Filter, which Contract to fetch.
+     */
+    where?: ContractWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contracts to fetch.
+     */
+    orderBy?: ContractOrderByWithRelationInput | ContractOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contracts.
+     */
+    cursor?: ContractWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contracts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contracts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contracts.
+     */
+    distinct?: ContractScalarFieldEnum | ContractScalarFieldEnum[]
+  }
+
+  /**
+   * Contract findMany
+   */
+  export type ContractFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * Filter, which Contracts to fetch.
+     */
+    where?: ContractWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contracts to fetch.
+     */
+    orderBy?: ContractOrderByWithRelationInput | ContractOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Contracts.
+     */
+    cursor?: ContractWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contracts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contracts.
+     */
+    skip?: number
+    distinct?: ContractScalarFieldEnum | ContractScalarFieldEnum[]
+  }
+
+  /**
+   * Contract create
+   */
+  export type ContractCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Contract.
+     */
+    data: XOR<ContractCreateInput, ContractUncheckedCreateInput>
+  }
+
+  /**
+   * Contract createMany
+   */
+  export type ContractCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Contracts.
+     */
+    data: ContractCreateManyInput | ContractCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Contract createManyAndReturn
+   */
+  export type ContractCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * The data used to create many Contracts.
+     */
+    data: ContractCreateManyInput | ContractCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Contract update
+   */
+  export type ContractUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Contract.
+     */
+    data: XOR<ContractUpdateInput, ContractUncheckedUpdateInput>
+    /**
+     * Choose, which Contract to update.
+     */
+    where: ContractWhereUniqueInput
+  }
+
+  /**
+   * Contract updateMany
+   */
+  export type ContractUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Contracts.
+     */
+    data: XOR<ContractUpdateManyMutationInput, ContractUncheckedUpdateManyInput>
+    /**
+     * Filter which Contracts to update
+     */
+    where?: ContractWhereInput
+    /**
+     * Limit how many Contracts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Contract updateManyAndReturn
+   */
+  export type ContractUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * The data used to update Contracts.
+     */
+    data: XOR<ContractUpdateManyMutationInput, ContractUncheckedUpdateManyInput>
+    /**
+     * Filter which Contracts to update
+     */
+    where?: ContractWhereInput
+    /**
+     * Limit how many Contracts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Contract upsert
+   */
+  export type ContractUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Contract to update in case it exists.
+     */
+    where: ContractWhereUniqueInput
+    /**
+     * In case the Contract found by the `where` argument doesn't exist, create a new Contract with this data.
+     */
+    create: XOR<ContractCreateInput, ContractUncheckedCreateInput>
+    /**
+     * In case the Contract was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ContractUpdateInput, ContractUncheckedUpdateInput>
+  }
+
+  /**
+   * Contract delete
+   */
+  export type ContractDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+    /**
+     * Filter which Contract to delete.
+     */
+    where: ContractWhereUniqueInput
+  }
+
+  /**
+   * Contract deleteMany
+   */
+  export type ContractDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Contracts to delete
+     */
+    where?: ContractWhereInput
+    /**
+     * Limit how many Contracts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Contract without action
+   */
+  export type ContractDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contract
+     */
+    select?: ContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contract
+     */
+    omit?: ContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContractInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -142112,6 +143513,26 @@ export namespace Prisma {
   export type SupportCaseScalarFieldEnum = (typeof SupportCaseScalarFieldEnum)[keyof typeof SupportCaseScalarFieldEnum]
 
 
+  export const ContractScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    contractNumber: 'contractNumber',
+    title: 'title',
+    partyId: 'partyId',
+    status: 'status',
+    startsAt: 'startsAt',
+    endsAt: 'endsAt',
+    renewalNoticeDays: 'renewalNoticeDays',
+    value: 'value',
+    currency: 'currency',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ContractScalarFieldEnum = (typeof ContractScalarFieldEnum)[keyof typeof ContractScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -142971,6 +144392,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ContractStatus'
+   */
+  export type EnumContractStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContractStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContractStatus[]'
+   */
+  export type ListEnumContractStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContractStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -143092,6 +144527,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestListRelationFilter
     loyaltyAccounts?: LoyaltyAccountListRelationFilter
     supportCases?: SupportCaseListRelationFilter
+    contracts?: ContractListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -143196,6 +144632,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestOrderByRelationAggregateInput
     loyaltyAccounts?: LoyaltyAccountOrderByRelationAggregateInput
     supportCases?: SupportCaseOrderByRelationAggregateInput
+    contracts?: ContractOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -143303,6 +144740,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestListRelationFilter
     loyaltyAccounts?: LoyaltyAccountListRelationFilter
     supportCases?: SupportCaseListRelationFilter
+    contracts?: ContractListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -145215,6 +146653,7 @@ export namespace Prisma {
     mergedParties?: PartyListRelationFilter
     externalIdentities?: PartyExternalIdentityListRelationFilter
     consentRecords?: ConsentRecordListRelationFilter
+    contracts?: ContractListRelationFilter
   }
 
   export type PartyOrderByWithRelationInput = {
@@ -145234,6 +146673,7 @@ export namespace Prisma {
     mergedParties?: PartyOrderByRelationAggregateInput
     externalIdentities?: PartyExternalIdentityOrderByRelationAggregateInput
     consentRecords?: ConsentRecordOrderByRelationAggregateInput
+    contracts?: ContractOrderByRelationAggregateInput
   }
 
   export type PartyWhereUniqueInput = Prisma.AtLeast<{
@@ -145256,6 +146696,7 @@ export namespace Prisma {
     mergedParties?: PartyListRelationFilter
     externalIdentities?: PartyExternalIdentityListRelationFilter
     consentRecords?: ConsentRecordListRelationFilter
+    contracts?: ContractListRelationFilter
   }, "id">
 
   export type PartyOrderByWithAggregationInput = {
@@ -151739,6 +153180,112 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"SupportCase"> | Date | string
   }
 
+  export type ContractWhereInput = {
+    AND?: ContractWhereInput | ContractWhereInput[]
+    OR?: ContractWhereInput[]
+    NOT?: ContractWhereInput | ContractWhereInput[]
+    id?: UuidFilter<"Contract"> | string
+    tenantId?: UuidFilter<"Contract"> | string
+    contractNumber?: StringFilter<"Contract"> | string
+    title?: StringFilter<"Contract"> | string
+    partyId?: UuidFilter<"Contract"> | string
+    status?: EnumContractStatusFilter<"Contract"> | $Enums.ContractStatus
+    startsAt?: DateTimeFilter<"Contract"> | Date | string
+    endsAt?: DateTimeNullableFilter<"Contract"> | Date | string | null
+    renewalNoticeDays?: IntFilter<"Contract"> | number
+    value?: DecimalNullableFilter<"Contract"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableFilter<"Contract"> | string | null
+    createdBy?: StringNullableFilter<"Contract"> | string | null
+    createdAt?: DateTimeFilter<"Contract"> | Date | string
+    updatedAt?: DateTimeFilter<"Contract"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    party?: XOR<PartyScalarRelationFilter, PartyWhereInput>
+  }
+
+  export type ContractOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    contractNumber?: SortOrder
+    title?: SortOrder
+    partyId?: SortOrder
+    status?: SortOrder
+    startsAt?: SortOrder
+    endsAt?: SortOrderInput | SortOrder
+    renewalNoticeDays?: SortOrder
+    value?: SortOrderInput | SortOrder
+    currency?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    party?: PartyOrderByWithRelationInput
+  }
+
+  export type ContractWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_contractNumber?: ContractTenantIdContractNumberCompoundUniqueInput
+    AND?: ContractWhereInput | ContractWhereInput[]
+    OR?: ContractWhereInput[]
+    NOT?: ContractWhereInput | ContractWhereInput[]
+    tenantId?: UuidFilter<"Contract"> | string
+    contractNumber?: StringFilter<"Contract"> | string
+    title?: StringFilter<"Contract"> | string
+    partyId?: UuidFilter<"Contract"> | string
+    status?: EnumContractStatusFilter<"Contract"> | $Enums.ContractStatus
+    startsAt?: DateTimeFilter<"Contract"> | Date | string
+    endsAt?: DateTimeNullableFilter<"Contract"> | Date | string | null
+    renewalNoticeDays?: IntFilter<"Contract"> | number
+    value?: DecimalNullableFilter<"Contract"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableFilter<"Contract"> | string | null
+    createdBy?: StringNullableFilter<"Contract"> | string | null
+    createdAt?: DateTimeFilter<"Contract"> | Date | string
+    updatedAt?: DateTimeFilter<"Contract"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    party?: XOR<PartyScalarRelationFilter, PartyWhereInput>
+  }, "id" | "tenantId_contractNumber">
+
+  export type ContractOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    contractNumber?: SortOrder
+    title?: SortOrder
+    partyId?: SortOrder
+    status?: SortOrder
+    startsAt?: SortOrder
+    endsAt?: SortOrderInput | SortOrder
+    renewalNoticeDays?: SortOrder
+    value?: SortOrderInput | SortOrder
+    currency?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ContractCountOrderByAggregateInput
+    _avg?: ContractAvgOrderByAggregateInput
+    _max?: ContractMaxOrderByAggregateInput
+    _min?: ContractMinOrderByAggregateInput
+    _sum?: ContractSumOrderByAggregateInput
+  }
+
+  export type ContractScalarWhereWithAggregatesInput = {
+    AND?: ContractScalarWhereWithAggregatesInput | ContractScalarWhereWithAggregatesInput[]
+    OR?: ContractScalarWhereWithAggregatesInput[]
+    NOT?: ContractScalarWhereWithAggregatesInput | ContractScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Contract"> | string
+    tenantId?: UuidWithAggregatesFilter<"Contract"> | string
+    contractNumber?: StringWithAggregatesFilter<"Contract"> | string
+    title?: StringWithAggregatesFilter<"Contract"> | string
+    partyId?: UuidWithAggregatesFilter<"Contract"> | string
+    status?: EnumContractStatusWithAggregatesFilter<"Contract"> | $Enums.ContractStatus
+    startsAt?: DateTimeWithAggregatesFilter<"Contract"> | Date | string
+    endsAt?: DateTimeNullableWithAggregatesFilter<"Contract"> | Date | string | null
+    renewalNoticeDays?: IntWithAggregatesFilter<"Contract"> | number
+    value?: DecimalNullableWithAggregatesFilter<"Contract"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableWithAggregatesFilter<"Contract"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"Contract"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Contract"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Contract"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -151841,6 +153388,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -151945,6 +153493,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -152049,6 +153598,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -152153,6 +153703,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -154147,6 +155698,7 @@ export namespace Prisma {
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
+    contracts?: ContractCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateInput = {
@@ -154164,6 +155716,7 @@ export namespace Prisma {
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUpdateInput = {
@@ -154181,6 +155734,7 @@ export namespace Prisma {
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateInput = {
@@ -154198,6 +155752,7 @@ export namespace Prisma {
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyCreateManyInput = {
@@ -161132,6 +162687,123 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ContractCreateInput = {
+    id?: string
+    contractNumber: string
+    title: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutContractsInput
+    party: PartyCreateNestedOneWithoutContractsInput
+  }
+
+  export type ContractUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    contractNumber: string
+    title: string
+    partyId: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContractUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutContractsNestedInput
+    party?: PartyUpdateOneRequiredWithoutContractsNestedInput
+  }
+
+  export type ContractUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContractCreateManyInput = {
+    id?: string
+    tenantId: string
+    contractNumber: string
+    title: string
+    partyId: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContractUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContractUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -161752,6 +163424,12 @@ export namespace Prisma {
     none?: SupportCaseWhereInput
   }
 
+  export type ContractListRelationFilter = {
+    every?: ContractWhereInput
+    some?: ContractWhereInput
+    none?: ContractWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -162125,6 +163803,10 @@ export namespace Prisma {
   }
 
   export type SupportCaseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ContractOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -168461,6 +170143,89 @@ export namespace Prisma {
     _max?: NestedEnumSupportCasePriorityFilter<$PrismaModel>
   }
 
+  export type EnumContractStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContractStatus | EnumContractStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContractStatusFilter<$PrismaModel> | $Enums.ContractStatus
+  }
+
+  export type ContractTenantIdContractNumberCompoundUniqueInput = {
+    tenantId: string
+    contractNumber: string
+  }
+
+  export type ContractCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    contractNumber?: SortOrder
+    title?: SortOrder
+    partyId?: SortOrder
+    status?: SortOrder
+    startsAt?: SortOrder
+    endsAt?: SortOrder
+    renewalNoticeDays?: SortOrder
+    value?: SortOrder
+    currency?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContractAvgOrderByAggregateInput = {
+    renewalNoticeDays?: SortOrder
+    value?: SortOrder
+  }
+
+  export type ContractMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    contractNumber?: SortOrder
+    title?: SortOrder
+    partyId?: SortOrder
+    status?: SortOrder
+    startsAt?: SortOrder
+    endsAt?: SortOrder
+    renewalNoticeDays?: SortOrder
+    value?: SortOrder
+    currency?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContractMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    contractNumber?: SortOrder
+    title?: SortOrder
+    partyId?: SortOrder
+    status?: SortOrder
+    startsAt?: SortOrder
+    endsAt?: SortOrder
+    renewalNoticeDays?: SortOrder
+    value?: SortOrder
+    currency?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContractSumOrderByAggregateInput = {
+    renewalNoticeDays?: SortOrder
+    value?: SortOrder
+  }
+
+  export type EnumContractStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContractStatus | EnumContractStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContractStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContractStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContractStatusFilter<$PrismaModel>
+    _max?: NestedEnumContractStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -169119,6 +170884,13 @@ export namespace Prisma {
     connect?: SupportCaseWhereUniqueInput | SupportCaseWhereUniqueInput[]
   }
 
+  export type ContractCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ContractCreateWithoutTenantInput, ContractUncheckedCreateWithoutTenantInput> | ContractCreateWithoutTenantInput[] | ContractUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutTenantInput | ContractCreateOrConnectWithoutTenantInput[]
+    createMany?: ContractCreateManyTenantInputEnvelope
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -169775,6 +171547,13 @@ export namespace Prisma {
     connectOrCreate?: SupportCaseCreateOrConnectWithoutTenantInput | SupportCaseCreateOrConnectWithoutTenantInput[]
     createMany?: SupportCaseCreateManyTenantInputEnvelope
     connect?: SupportCaseWhereUniqueInput | SupportCaseWhereUniqueInput[]
+  }
+
+  export type ContractUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ContractCreateWithoutTenantInput, ContractUncheckedCreateWithoutTenantInput> | ContractCreateWithoutTenantInput[] | ContractUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutTenantInput | ContractCreateOrConnectWithoutTenantInput[]
+    createMany?: ContractCreateManyTenantInputEnvelope
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -171113,6 +172892,20 @@ export namespace Prisma {
     deleteMany?: SupportCaseScalarWhereInput | SupportCaseScalarWhereInput[]
   }
 
+  export type ContractUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ContractCreateWithoutTenantInput, ContractUncheckedCreateWithoutTenantInput> | ContractCreateWithoutTenantInput[] | ContractUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutTenantInput | ContractCreateOrConnectWithoutTenantInput[]
+    upsert?: ContractUpsertWithWhereUniqueWithoutTenantInput | ContractUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ContractCreateManyTenantInputEnvelope
+    set?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    disconnect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    delete?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    update?: ContractUpdateWithWhereUniqueWithoutTenantInput | ContractUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ContractUpdateManyWithWhereWithoutTenantInput | ContractUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ContractScalarWhereInput | ContractScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -172429,6 +174222,20 @@ export namespace Prisma {
     deleteMany?: SupportCaseScalarWhereInput | SupportCaseScalarWhereInput[]
   }
 
+  export type ContractUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ContractCreateWithoutTenantInput, ContractUncheckedCreateWithoutTenantInput> | ContractCreateWithoutTenantInput[] | ContractUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutTenantInput | ContractCreateOrConnectWithoutTenantInput[]
+    upsert?: ContractUpsertWithWhereUniqueWithoutTenantInput | ContractUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ContractCreateManyTenantInputEnvelope
+    set?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    disconnect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    delete?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    update?: ContractUpdateWithWhereUniqueWithoutTenantInput | ContractUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ContractUpdateManyWithWhereWithoutTenantInput | ContractUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ContractScalarWhereInput | ContractScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
     create?: XOR<TenantCreateWithoutConfigurationVersionsInput, TenantUncheckedCreateWithoutConfigurationVersionsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutConfigurationVersionsInput
@@ -173562,6 +175369,13 @@ export namespace Prisma {
     connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
   }
 
+  export type ContractCreateNestedManyWithoutPartyInput = {
+    create?: XOR<ContractCreateWithoutPartyInput, ContractUncheckedCreateWithoutPartyInput> | ContractCreateWithoutPartyInput[] | ContractUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutPartyInput | ContractCreateOrConnectWithoutPartyInput[]
+    createMany?: ContractCreateManyPartyInputEnvelope
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+  }
+
   export type PartyUncheckedCreateNestedManyWithoutMergedIntoInput = {
     create?: XOR<PartyCreateWithoutMergedIntoInput, PartyUncheckedCreateWithoutMergedIntoInput> | PartyCreateWithoutMergedIntoInput[] | PartyUncheckedCreateWithoutMergedIntoInput[]
     connectOrCreate?: PartyCreateOrConnectWithoutMergedIntoInput | PartyCreateOrConnectWithoutMergedIntoInput[]
@@ -173581,6 +175395,13 @@ export namespace Prisma {
     connectOrCreate?: ConsentRecordCreateOrConnectWithoutPartyInput | ConsentRecordCreateOrConnectWithoutPartyInput[]
     createMany?: ConsentRecordCreateManyPartyInputEnvelope
     connect?: ConsentRecordWhereUniqueInput | ConsentRecordWhereUniqueInput[]
+  }
+
+  export type ContractUncheckedCreateNestedManyWithoutPartyInput = {
+    create?: XOR<ContractCreateWithoutPartyInput, ContractUncheckedCreateWithoutPartyInput> | ContractCreateWithoutPartyInput[] | ContractUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutPartyInput | ContractCreateOrConnectWithoutPartyInput[]
+    createMany?: ContractCreateManyPartyInputEnvelope
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
   }
 
   export type EnumPartyTypeFieldUpdateOperationsInput = {
@@ -173651,6 +175472,20 @@ export namespace Prisma {
     deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
   }
 
+  export type ContractUpdateManyWithoutPartyNestedInput = {
+    create?: XOR<ContractCreateWithoutPartyInput, ContractUncheckedCreateWithoutPartyInput> | ContractCreateWithoutPartyInput[] | ContractUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutPartyInput | ContractCreateOrConnectWithoutPartyInput[]
+    upsert?: ContractUpsertWithWhereUniqueWithoutPartyInput | ContractUpsertWithWhereUniqueWithoutPartyInput[]
+    createMany?: ContractCreateManyPartyInputEnvelope
+    set?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    disconnect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    delete?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    update?: ContractUpdateWithWhereUniqueWithoutPartyInput | ContractUpdateWithWhereUniqueWithoutPartyInput[]
+    updateMany?: ContractUpdateManyWithWhereWithoutPartyInput | ContractUpdateManyWithWhereWithoutPartyInput[]
+    deleteMany?: ContractScalarWhereInput | ContractScalarWhereInput[]
+  }
+
   export type PartyUncheckedUpdateManyWithoutMergedIntoNestedInput = {
     create?: XOR<PartyCreateWithoutMergedIntoInput, PartyUncheckedCreateWithoutMergedIntoInput> | PartyCreateWithoutMergedIntoInput[] | PartyUncheckedCreateWithoutMergedIntoInput[]
     connectOrCreate?: PartyCreateOrConnectWithoutMergedIntoInput | PartyCreateOrConnectWithoutMergedIntoInput[]
@@ -173691,6 +175526,20 @@ export namespace Prisma {
     update?: ConsentRecordUpdateWithWhereUniqueWithoutPartyInput | ConsentRecordUpdateWithWhereUniqueWithoutPartyInput[]
     updateMany?: ConsentRecordUpdateManyWithWhereWithoutPartyInput | ConsentRecordUpdateManyWithWhereWithoutPartyInput[]
     deleteMany?: ConsentRecordScalarWhereInput | ConsentRecordScalarWhereInput[]
+  }
+
+  export type ContractUncheckedUpdateManyWithoutPartyNestedInput = {
+    create?: XOR<ContractCreateWithoutPartyInput, ContractUncheckedCreateWithoutPartyInput> | ContractCreateWithoutPartyInput[] | ContractUncheckedCreateWithoutPartyInput[]
+    connectOrCreate?: ContractCreateOrConnectWithoutPartyInput | ContractCreateOrConnectWithoutPartyInput[]
+    upsert?: ContractUpsertWithWhereUniqueWithoutPartyInput | ContractUpsertWithWhereUniqueWithoutPartyInput[]
+    createMany?: ContractCreateManyPartyInputEnvelope
+    set?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    disconnect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    delete?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    connect?: ContractWhereUniqueInput | ContractWhereUniqueInput[]
+    update?: ContractUpdateWithWhereUniqueWithoutPartyInput | ContractUpdateWithWhereUniqueWithoutPartyInput[]
+    updateMany?: ContractUpdateManyWithWhereWithoutPartyInput | ContractUpdateManyWithWhereWithoutPartyInput[]
+    deleteMany?: ContractScalarWhereInput | ContractScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConsentRecordsInput = {
@@ -176710,6 +178559,38 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSupportCasesInput, TenantUpdateWithoutSupportCasesInput>, TenantUncheckedUpdateWithoutSupportCasesInput>
   }
 
+  export type TenantCreateNestedOneWithoutContractsInput = {
+    create?: XOR<TenantCreateWithoutContractsInput, TenantUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutContractsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type PartyCreateNestedOneWithoutContractsInput = {
+    create?: XOR<PartyCreateWithoutContractsInput, PartyUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutContractsInput
+    connect?: PartyWhereUniqueInput
+  }
+
+  export type EnumContractStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ContractStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutContractsNestedInput = {
+    create?: XOR<TenantCreateWithoutContractsInput, TenantUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutContractsInput
+    upsert?: TenantUpsertWithoutContractsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutContractsInput, TenantUpdateWithoutContractsInput>, TenantUncheckedUpdateWithoutContractsInput>
+  }
+
+  export type PartyUpdateOneRequiredWithoutContractsNestedInput = {
+    create?: XOR<PartyCreateWithoutContractsInput, PartyUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: PartyCreateOrConnectWithoutContractsInput
+    upsert?: PartyUpsertWithoutContractsInput
+    connect?: PartyWhereUniqueInput
+    update?: XOR<XOR<PartyUpdateToOneWithWhereWithoutContractsInput, PartyUpdateWithoutContractsInput>, PartyUncheckedUpdateWithoutContractsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -177958,6 +179839,23 @@ export namespace Prisma {
     _max?: NestedEnumSupportCasePriorityFilter<$PrismaModel>
   }
 
+  export type NestedEnumContractStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContractStatus | EnumContractStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContractStatusFilter<$PrismaModel> | $Enums.ContractStatus
+  }
+
+  export type NestedEnumContractStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContractStatus | EnumContractStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContractStatus[] | ListEnumContractStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContractStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContractStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContractStatusFilter<$PrismaModel>
+    _max?: NestedEnumContractStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
     id?: string
     version: number
@@ -178584,6 +180482,7 @@ export namespace Prisma {
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
+    contracts?: ContractCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutTenantInput = {
@@ -178600,6 +180499,7 @@ export namespace Prisma {
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutTenantInput = {
@@ -181047,6 +182947,48 @@ export namespace Prisma {
 
   export type SupportCaseCreateManyTenantInputEnvelope = {
     data: SupportCaseCreateManyTenantInput | SupportCaseCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ContractCreateWithoutTenantInput = {
+    id?: string
+    contractNumber: string
+    title: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    party: PartyCreateNestedOneWithoutContractsInput
+  }
+
+  export type ContractUncheckedCreateWithoutTenantInput = {
+    id?: string
+    contractNumber: string
+    title: string
+    partyId: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContractCreateOrConnectWithoutTenantInput = {
+    where: ContractWhereUniqueInput
+    create: XOR<ContractCreateWithoutTenantInput, ContractUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ContractCreateManyTenantInputEnvelope = {
+    data: ContractCreateManyTenantInput | ContractCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -183965,6 +185907,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"SupportCase"> | Date | string
   }
 
+  export type ContractUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ContractWhereUniqueInput
+    update: XOR<ContractUpdateWithoutTenantInput, ContractUncheckedUpdateWithoutTenantInput>
+    create: XOR<ContractCreateWithoutTenantInput, ContractUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ContractUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ContractWhereUniqueInput
+    data: XOR<ContractUpdateWithoutTenantInput, ContractUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ContractUpdateManyWithWhereWithoutTenantInput = {
+    where: ContractScalarWhereInput
+    data: XOR<ContractUpdateManyMutationInput, ContractUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ContractScalarWhereInput = {
+    AND?: ContractScalarWhereInput | ContractScalarWhereInput[]
+    OR?: ContractScalarWhereInput[]
+    NOT?: ContractScalarWhereInput | ContractScalarWhereInput[]
+    id?: UuidFilter<"Contract"> | string
+    tenantId?: UuidFilter<"Contract"> | string
+    contractNumber?: StringFilter<"Contract"> | string
+    title?: StringFilter<"Contract"> | string
+    partyId?: UuidFilter<"Contract"> | string
+    status?: EnumContractStatusFilter<"Contract"> | $Enums.ContractStatus
+    startsAt?: DateTimeFilter<"Contract"> | Date | string
+    endsAt?: DateTimeNullableFilter<"Contract"> | Date | string | null
+    renewalNoticeDays?: IntFilter<"Contract"> | number
+    value?: DecimalNullableFilter<"Contract"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableFilter<"Contract"> | string | null
+    createdBy?: StringNullableFilter<"Contract"> | string | null
+    createdAt?: DateTimeFilter<"Contract"> | Date | string
+    updatedAt?: DateTimeFilter<"Contract"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -184066,6 +186044,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -184169,6 +186148,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -184288,6 +186268,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -184391,6 +186372,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -184494,6 +186476,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -184597,6 +186580,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -184750,6 +186734,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -184853,6 +186838,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -184972,6 +186958,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -185075,6 +187062,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -185332,6 +187320,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -185435,6 +187424,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -185650,6 +187640,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -185753,6 +187744,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -185901,6 +187893,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -186004,6 +187997,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -186142,6 +188136,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -186245,6 +188240,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -186393,6 +188389,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -186496,6 +188493,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -186634,6 +188632,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -186737,6 +188736,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -186945,6 +188945,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -187048,6 +189049,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -187220,6 +189222,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -187323,6 +189326,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -187473,6 +189477,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -187576,6 +189581,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -187716,6 +189722,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -187819,6 +189826,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -187988,6 +189996,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -188091,6 +190100,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -188292,6 +190302,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -188395,6 +190406,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -188570,6 +190582,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -188673,6 +190686,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -188844,6 +190858,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -188947,6 +190962,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -189066,6 +191082,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -189169,6 +191186,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -189272,6 +191290,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -189375,6 +191394,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -189494,6 +191514,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -189597,6 +191618,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -189700,6 +191722,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -189803,6 +191826,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -189922,6 +191946,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -190025,6 +192050,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -190128,6 +192154,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -190231,6 +192258,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -190350,6 +192378,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -190453,6 +192482,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -190556,6 +192586,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -190659,6 +192690,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -190778,6 +192810,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -190881,6 +192914,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -190984,6 +193018,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -191087,6 +193122,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -191206,6 +193242,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -191309,6 +193346,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -191412,6 +193450,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -191515,6 +193554,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -191634,6 +193674,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -191737,6 +193778,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -191840,6 +193882,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -191943,6 +193986,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -192124,6 +194168,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -192227,6 +194272,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -192588,6 +194634,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -192691,6 +194738,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -192838,6 +194886,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -192941,6 +194990,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -193117,6 +195167,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -193220,6 +195271,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -193339,6 +195391,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -193442,6 +195495,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -193545,6 +195599,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -193648,6 +195703,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -193767,6 +195823,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -193870,6 +195927,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -193973,6 +196031,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -194076,6 +196135,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -194221,6 +196281,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -194324,6 +196385,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -194499,6 +196561,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -194602,6 +196665,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -194623,6 +196687,7 @@ export namespace Prisma {
     mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
+    contracts?: ContractCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutMergedPartiesInput = {
@@ -194639,6 +196704,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutMergedPartiesInput = {
@@ -194660,6 +196726,7 @@ export namespace Prisma {
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
+    contracts?: ContractCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutMergedIntoInput = {
@@ -194676,6 +196743,7 @@ export namespace Prisma {
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutMergedIntoInput = {
@@ -194741,6 +196809,48 @@ export namespace Prisma {
 
   export type ConsentRecordCreateManyPartyInputEnvelope = {
     data: ConsentRecordCreateManyPartyInput | ConsentRecordCreateManyPartyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ContractCreateWithoutPartyInput = {
+    id?: string
+    contractNumber: string
+    title: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutContractsInput
+  }
+
+  export type ContractUncheckedCreateWithoutPartyInput = {
+    id?: string
+    tenantId: string
+    contractNumber: string
+    title: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContractCreateOrConnectWithoutPartyInput = {
+    where: ContractWhereUniqueInput
+    create: XOR<ContractCreateWithoutPartyInput, ContractUncheckedCreateWithoutPartyInput>
+  }
+
+  export type ContractCreateManyPartyInputEnvelope = {
+    data: ContractCreateManyPartyInput | ContractCreateManyPartyInput[]
     skipDuplicates?: boolean
   }
 
@@ -194856,6 +196966,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -194959,6 +197070,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -194986,6 +197098,7 @@ export namespace Prisma {
     mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutMergedPartiesInput = {
@@ -195002,6 +197115,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUpsertWithWhereUniqueWithoutMergedIntoInput = {
@@ -195062,6 +197176,22 @@ export namespace Prisma {
   export type ConsentRecordUpdateManyWithWhereWithoutPartyInput = {
     where: ConsentRecordScalarWhereInput
     data: XOR<ConsentRecordUpdateManyMutationInput, ConsentRecordUncheckedUpdateManyWithoutPartyInput>
+  }
+
+  export type ContractUpsertWithWhereUniqueWithoutPartyInput = {
+    where: ContractWhereUniqueInput
+    update: XOR<ContractUpdateWithoutPartyInput, ContractUncheckedUpdateWithoutPartyInput>
+    create: XOR<ContractCreateWithoutPartyInput, ContractUncheckedCreateWithoutPartyInput>
+  }
+
+  export type ContractUpdateWithWhereUniqueWithoutPartyInput = {
+    where: ContractWhereUniqueInput
+    data: XOR<ContractUpdateWithoutPartyInput, ContractUncheckedUpdateWithoutPartyInput>
+  }
+
+  export type ContractUpdateManyWithWhereWithoutPartyInput = {
+    where: ContractScalarWhereInput
+    data: XOR<ContractUpdateManyMutationInput, ContractUncheckedUpdateManyWithoutPartyInput>
   }
 
   export type TenantCreateWithoutConsentRecordsInput = {
@@ -195165,6 +197295,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -195268,6 +197399,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -195289,6 +197421,7 @@ export namespace Prisma {
     mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
+    contracts?: ContractCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutConsentRecordsInput = {
@@ -195305,6 +197438,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutConsentRecordsInput = {
@@ -195424,6 +197558,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -195527,6 +197662,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -195554,6 +197690,7 @@ export namespace Prisma {
     mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutConsentRecordsInput = {
@@ -195570,6 +197707,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyCreateWithoutExternalIdentitiesInput = {
@@ -195586,6 +197724,7 @@ export namespace Prisma {
     mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
     mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
     consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
+    contracts?: ContractCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutExternalIdentitiesInput = {
@@ -195602,6 +197741,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutPartyInput
   }
 
   export type PartyCreateOrConnectWithoutExternalIdentitiesInput = {
@@ -195634,6 +197774,7 @@ export namespace Prisma {
     mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutExternalIdentitiesInput = {
@@ -195650,6 +197791,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type TenantCreateWithoutProductsInput = {
@@ -195753,6 +197895,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -195856,6 +197999,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -196035,6 +198179,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -196138,6 +198283,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -196892,6 +199038,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -196995,6 +199142,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -197136,6 +199284,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -197239,6 +199388,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -197412,6 +199562,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -197515,6 +199666,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -197634,6 +199786,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -197737,6 +199890,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -197840,6 +199994,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -197943,6 +200098,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -198062,6 +200218,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -198165,6 +200322,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -198268,6 +200426,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -198371,6 +200530,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -198490,6 +200650,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -198593,6 +200754,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -198696,6 +200858,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -198799,6 +200962,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -198918,6 +201082,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -199021,6 +201186,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -199124,6 +201290,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -199227,6 +201394,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -199372,6 +201540,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -199475,6 +201644,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -199594,6 +201764,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -199697,6 +201868,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -199849,6 +202021,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -199952,6 +202125,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -200094,6 +202268,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -200197,6 +202372,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -200316,6 +202492,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -200419,6 +202596,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -200522,6 +202700,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -200625,6 +202804,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -200768,6 +202948,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -200871,6 +203052,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -200990,6 +203172,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -201093,6 +203276,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -201233,6 +203417,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -201336,6 +203521,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -201466,6 +203652,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -201569,6 +203756,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -201688,6 +203876,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -201791,6 +203980,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -201894,6 +204084,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -201997,6 +204188,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -202116,6 +204308,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -202219,6 +204412,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -202322,6 +204516,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -202425,6 +204620,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -202544,6 +204740,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -202647,6 +204844,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -202750,6 +204948,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -202853,6 +205052,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -202972,6 +205172,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -203075,6 +205276,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -203178,6 +205380,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -203281,6 +205484,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -203426,6 +205630,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -203529,6 +205734,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -203648,6 +205854,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -203751,6 +205958,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -203903,6 +206111,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -204006,6 +206215,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -204148,6 +206358,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -204251,6 +206462,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -204404,6 +206616,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -204507,6 +206720,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -204626,6 +206840,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -204729,6 +206944,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -204903,6 +207119,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -205006,6 +207223,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -205170,6 +207388,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -205273,6 +207492,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -205392,6 +207612,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -205495,6 +207716,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -205598,6 +207820,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -205701,6 +207924,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -205820,6 +208044,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -205923,6 +208148,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -206026,6 +208252,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -206129,6 +208356,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -206295,6 +208523,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -206398,6 +208627,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -206554,6 +208784,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -206657,6 +208888,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -206810,6 +209042,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -206913,6 +209146,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -207032,6 +209266,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -207135,6 +209370,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -207291,6 +209527,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -207394,6 +209631,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -207540,6 +209778,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -207643,6 +209882,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -207762,6 +210002,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -207865,6 +210106,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -207968,6 +210210,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -208071,6 +210314,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -208190,6 +210434,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -208293,6 +210538,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -208396,6 +210642,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -208499,6 +210746,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -208648,6 +210896,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -208751,6 +211000,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -208870,6 +211120,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -208973,6 +211224,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -209125,6 +211377,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -209228,6 +211481,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -209370,6 +211624,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -209473,6 +211728,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -209624,6 +211880,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -209727,6 +211984,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -209846,6 +212104,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -209949,6 +212208,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -210105,6 +212365,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -210208,6 +212469,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -210354,6 +212616,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -210457,6 +212720,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -210606,6 +212870,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -210709,6 +212974,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -210828,6 +213094,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -210931,6 +213198,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -211081,6 +213349,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -211184,6 +213453,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -211324,6 +213594,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -211427,6 +213698,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -211578,6 +213850,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -211681,6 +213954,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -211800,6 +214074,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -211903,6 +214178,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -212049,6 +214325,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -212152,6 +214429,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -212288,6 +214566,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -212391,6 +214670,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -212510,6 +214790,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -212613,6 +214894,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -212716,6 +214998,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -212819,6 +215102,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -212938,6 +215222,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -213041,6 +215326,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -213144,6 +215430,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -213247,6 +215534,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -213396,6 +215684,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -213499,6 +215788,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -213618,6 +215908,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -213721,6 +216012,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -213865,6 +216157,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -213968,6 +216261,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -214102,6 +216396,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -214205,6 +216500,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -214356,6 +216652,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -214459,6 +216756,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -214578,6 +216876,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -214681,6 +216980,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -214843,6 +217143,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -214946,6 +217247,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -215098,6 +217400,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -215201,6 +217504,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -215346,6 +217650,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -215449,6 +217754,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -215568,6 +217874,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -215671,6 +217978,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -215817,6 +218125,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -215920,6 +218229,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -216056,6 +218366,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -216159,6 +218470,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -216308,6 +218620,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -216411,6 +218724,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -216530,6 +218844,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -216633,6 +218948,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -216787,6 +219103,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -216890,6 +219207,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -217034,6 +219352,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -217137,6 +219456,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -217256,6 +219576,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -217359,6 +219680,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -217462,6 +219784,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -217565,6 +219888,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -217716,6 +220040,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -217819,6 +220144,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -217938,6 +220264,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -218041,6 +220368,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -218203,6 +220531,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -218306,6 +220635,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -218458,6 +220788,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -218561,6 +220892,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -218680,6 +221012,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -218783,6 +221116,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -218886,6 +221220,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -218989,6 +221324,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -219108,6 +221444,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -219211,6 +221548,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -219314,6 +221652,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -219417,6 +221756,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -219553,6 +221893,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -219656,6 +221997,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -219782,6 +222124,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -219885,6 +222228,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -220035,6 +222379,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -220138,6 +222483,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -220278,6 +222624,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -220381,6 +222728,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -220500,6 +222848,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -220603,6 +222952,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -220706,6 +223056,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -220809,6 +223160,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -220928,6 +223280,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -221031,6 +223384,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -221134,6 +223488,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -221237,6 +223592,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -221384,6 +223740,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -221487,6 +223844,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -221606,6 +223964,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -221709,6 +224068,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -221851,6 +224211,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -221954,6 +224315,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -222086,6 +224448,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -222189,6 +224552,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -222346,6 +224710,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -222449,6 +224814,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -222568,6 +224934,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -222671,6 +225038,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -222817,6 +225185,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -222920,6 +225289,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -223056,6 +225426,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -223159,6 +225530,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -223278,6 +225650,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -223381,6 +225754,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -223484,6 +225858,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -223587,6 +225962,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -223706,6 +226082,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -223809,6 +226186,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -223912,6 +226290,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -224015,6 +226394,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -224185,6 +226565,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -224288,6 +226669,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -224436,6 +226818,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -224539,6 +226922,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -224686,6 +227070,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -224789,6 +227174,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -224908,6 +227294,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -225011,6 +227398,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -225165,6 +227553,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -225268,6 +227657,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -225412,6 +227802,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -225515,6 +227906,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -225660,6 +228052,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -225763,6 +228156,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -225882,6 +228276,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -225985,6 +228380,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -226137,6 +228533,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -226240,6 +228637,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -226382,6 +228780,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -226485,6 +228884,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -226636,6 +229036,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -226739,6 +229140,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -226858,6 +229260,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -226961,6 +229364,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -227103,6 +229507,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -227206,6 +229611,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -227338,6 +229744,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -227441,6 +229848,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -227586,6 +229994,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -227689,6 +230098,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -228248,6 +230658,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -228351,6 +230762,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -228501,6 +230913,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -228604,6 +231017,7 @@ export namespace Prisma {
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -228744,6 +231158,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -228847,6 +231262,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -228966,6 +231382,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -229069,6 +231486,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -229172,6 +231590,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -229275,6 +231694,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -229424,6 +231844,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -229527,6 +231948,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -229712,6 +232134,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -229815,6 +232238,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
     loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -229934,6 +232358,7 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -230037,6 +232462,523 @@ export namespace Prisma {
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
     loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutContractsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutContractsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutContractsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutContractsInput, TenantUncheckedCreateWithoutContractsInput>
+  }
+
+  export type PartyCreateWithoutContractsInput = {
+    id?: string
+    partyType: $Enums.PartyType
+    name: string
+    normalizedName: string
+    email?: string | null
+    taxId?: string | null
+    status?: $Enums.PartyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPartiesInput
+    mergedInto?: PartyCreateNestedOneWithoutMergedPartiesInput
+    mergedParties?: PartyCreateNestedManyWithoutMergedIntoInput
+    externalIdentities?: PartyExternalIdentityCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutPartyInput
+  }
+
+  export type PartyUncheckedCreateWithoutContractsInput = {
+    id?: string
+    tenantId: string
+    partyType: $Enums.PartyType
+    name: string
+    normalizedName: string
+    email?: string | null
+    taxId?: string | null
+    status?: $Enums.PartyStatus
+    mergedIntoId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mergedParties?: PartyUncheckedCreateNestedManyWithoutMergedIntoInput
+    externalIdentities?: PartyExternalIdentityUncheckedCreateNestedManyWithoutPartyInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutPartyInput
+  }
+
+  export type PartyCreateOrConnectWithoutContractsInput = {
+    where: PartyWhereUniqueInput
+    create: XOR<PartyCreateWithoutContractsInput, PartyUncheckedCreateWithoutContractsInput>
+  }
+
+  export type TenantUpsertWithoutContractsInput = {
+    update: XOR<TenantUpdateWithoutContractsInput, TenantUncheckedUpdateWithoutContractsInput>
+    create: XOR<TenantCreateWithoutContractsInput, TenantUncheckedCreateWithoutContractsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutContractsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutContractsInput, TenantUncheckedUpdateWithoutContractsInput>
+  }
+
+  export type TenantUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PartyUpsertWithoutContractsInput = {
+    update: XOR<PartyUpdateWithoutContractsInput, PartyUncheckedUpdateWithoutContractsInput>
+    create: XOR<PartyCreateWithoutContractsInput, PartyUncheckedCreateWithoutContractsInput>
+    where?: PartyWhereInput
+  }
+
+  export type PartyUpdateToOneWithWhereWithoutContractsInput = {
+    where?: PartyWhereInput
+    data: XOR<PartyUpdateWithoutContractsInput, PartyUncheckedUpdateWithoutContractsInput>
+  }
+
+  export type PartyUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    partyType?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    name?: StringFieldUpdateOperationsInput | string
+    normalizedName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPartyStatusFieldUpdateOperationsInput | $Enums.PartyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPartiesNestedInput
+    mergedInto?: PartyUpdateOneWithoutMergedPartiesNestedInput
+    mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
+    externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
+  }
+
+  export type PartyUncheckedUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    partyType?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
+    name?: StringFieldUpdateOperationsInput | string
+    normalizedName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPartyStatusFieldUpdateOperationsInput | $Enums.PartyStatus
+    mergedIntoId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
+    externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -231074,6 +234016,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ContractCreateManyTenantInput = {
+    id?: string
+    contractNumber: string
+    title: string
+    partyId: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     version?: IntFieldUpdateOperationsInput | number
@@ -231693,6 +234651,7 @@ export namespace Prisma {
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutTenantInput = {
@@ -231709,6 +234668,7 @@ export namespace Prisma {
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutTenantInput = {
@@ -234261,6 +237221,54 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ContractUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    party?: PartyUpdateOneRequiredWithoutContractsNestedInput
+  }
+
+  export type ContractUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContractUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    partyId?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -234774,6 +237782,22 @@ export namespace Prisma {
     recordedBy?: string | null
   }
 
+  export type ContractCreateManyPartyInput = {
+    id?: string
+    tenantId: string
+    contractNumber: string
+    title: string
+    status?: $Enums.ContractStatus
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    renewalNoticeDays?: number
+    value?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type PartyUpdateWithoutMergedIntoInput = {
     id?: StringFieldUpdateOperationsInput | string
     partyType?: EnumPartyTypeFieldUpdateOperationsInput | $Enums.PartyType
@@ -234788,6 +237812,7 @@ export namespace Prisma {
     mergedParties?: PartyUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutMergedIntoInput = {
@@ -234804,6 +237829,7 @@ export namespace Prisma {
     mergedParties?: PartyUncheckedUpdateManyWithoutMergedIntoNestedInput
     externalIdentities?: PartyExternalIdentityUncheckedUpdateManyWithoutPartyNestedInput
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutPartyNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateManyWithoutMergedIntoInput = {
@@ -234871,6 +237897,54 @@ export namespace Prisma {
     note?: NullableStringFieldUpdateOperationsInput | string | null
     recordedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ContractUpdateWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutContractsNestedInput
+  }
+
+  export type ContractUncheckedUpdateWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContractUncheckedUpdateManyWithoutPartyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    contractNumber?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: EnumContractStatusFieldUpdateOperationsInput | $Enums.ContractStatus
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    renewalNoticeDays?: IntFieldUpdateOperationsInput | number
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SkuCreateManyProductInput = {
