@@ -54,6 +54,18 @@ export default function UsersPage() {
   const [mfaPassword, setMfaPassword] = useState('');
 
   const [email, setEmail] = useState('');
+  const [bgGrants, setBgGrants] = useState<
+    Array<{
+      id: string;
+      userEmail: string;
+      reason: string;
+      expiresAt: string;
+      active: boolean;
+    }>
+  >([]);
+  const [bgUser, setBgUser] = useState('');
+  const [bgReason, setBgReason] = useState('');
+  const [bgMinutes, setBgMinutes] = useState('60');
   const [displayName, setDisplayName] = useState('');
   const [idpSubject, setIdpSubject] = useState('');
   const [assignUser, setAssignUser] = useState('');
@@ -94,6 +106,15 @@ export default function UsersPage() {
     api<{ hasPassword: boolean; mfaEnabled: boolean }>('GET', '/api/v1/auth/mfa')
       .then(setMfa)
       .catch(() => setMfa(null));
+  }, []);
+
+  useEffect(() => {
+    if (can('iam.user.manage')) {
+      api<{ grants: typeof bgGrants }>('GET', '/api/v1/break-glass')
+        .then((r) => setBgGrants(r.grants))
+        .catch(() => setBgGrants([]));
+    }
+    // eslint-disable-next-line
   }, []);
 
   async function run(fn: () => Promise<unknown>, successText: string) {
@@ -437,6 +458,99 @@ export default function UsersPage() {
             </form>
           </div>
 
+          <div className="card">
+            <h2>Break-glass access</h2>
+            <p className="muted" style={{ marginTop: 0, fontSize: 13 }}>
+              Time-boxed emergency elevation that bypasses role permissions — granted by another
+              admin with a mandatory reason; every use is audited.
+            </p>
+            {bgGrants.length === 0 ? <div className="empty">No grants.</div> : null}
+            {bgGrants.map((g) => (
+              <div key={g.id} className="row spread" style={{ marginBottom: 6 }}>
+                <span>
+                  <strong>{g.userEmail}</strong>{' '}
+                  <span className="muted" style={{ fontSize: 12 }}>
+                    {g.reason} · until {new Date(g.expiresAt).toLocaleString()}
+                  </span>
+                </span>
+                {g.active ? (
+                  <button
+                    className="btn btn-sm btn-danger"
+                    disabled={busy}
+                    type="button"
+                    onClick={() =>
+                      run(async () => {
+                        await api('POST', `/api/v1/break-glass/${g.id}/revoke`);
+                        const r = await api<{ grants: typeof bgGrants }>(
+                          'GET',
+                          '/api/v1/break-glass',
+                        );
+                        setBgGrants(r.grants);
+                      }, 'Break-glass access revoked.')
+                    }
+                  >
+                    Revoke
+                  </button>
+                ) : (
+                  <span className="badge">expired</span>
+                )}
+              </div>
+            ))}
+            <form
+              className="row"
+              style={{ marginTop: 10, flexWrap: 'wrap' }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void run(async () => {
+                  await api('POST', '/api/v1/break-glass', {
+                    userId: bgUser,
+                    reason: bgReason,
+                    minutes: Number(bgMinutes),
+                  });
+                  setBgReason('');
+                  const r = await api<{ grants: typeof bgGrants }>('GET', '/api/v1/break-glass');
+                  setBgGrants(r.grants);
+                }, 'Break-glass access granted.');
+              }}
+            >
+              <select
+                className="select"
+                style={{ maxWidth: 180 }}
+                value={bgUser}
+                onChange={(e) => setBgUser(e.target.value)}
+                required
+              >
+                <option value="">User…</option>
+                {(users ?? []).map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.email}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="input"
+                style={{ maxWidth: 220 }}
+                placeholder="Reason (mandatory)"
+                value={bgReason}
+                onChange={(e) => setBgReason(e.target.value)}
+                required
+                minLength={10}
+              />
+              <input
+                className="input"
+                style={{ maxWidth: 80 }}
+                type="number"
+                min="5"
+                max="240"
+                title="Minutes"
+                value={bgMinutes}
+                onChange={(e) => setBgMinutes(e.target.value)}
+              />
+              <button className="btn btn-sm btn-primary" disabled={busy || !bgUser} type="submit">
+                Grant
+              </button>
+            </form>
+          </div>
           <div className="card">
             <h2>Security log</h2>
             {securityEvents.length === 0 ? (

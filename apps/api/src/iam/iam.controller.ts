@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Put } from '@nestjs/common';
-import type { RoleService, UserService } from '@nexora/domain-iam';
+import type { BreakGlassService, RoleService, UserService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,6 +8,7 @@ import { ROLE_SERVICE } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const USER_SERVICE = 'USER_SERVICE';
+export const BREAK_GLASS_SERVICE = 'BREAK_GLASS_SERVICE';
 
 const inviteSchema = z.object({
   email: z.string().email(),
@@ -102,5 +103,35 @@ export class MeController {
     if (!ctx.userId) return { grants: [] };
     const grants = await this.roles.getEffectivePermissions(ctx.userId, ctx.tenantId);
     return { grants };
+  }
+}
+
+const breakGlassGrantSchema = z.object({
+  userId: z.string().uuid(),
+  reason: z.string().min(10).max(500),
+  minutes: z.number().int().min(5).max(240),
+});
+
+@Controller('api/v1/break-glass')
+export class BreakGlassController {
+  constructor(@Inject(BREAK_GLASS_SERVICE) private readonly breakGlass: BreakGlassService) {}
+
+  @Get()
+  @RequirePermission('iam.user.manage')
+  async list(@Ctx() ctx: RequestContext) {
+    return { grants: await this.breakGlass.listGrants(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('iam.user.manage')
+  async grant(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.breakGlass.grant(parseBody(breakGlassGrantSchema, body), ctx);
+  }
+
+  @Post(':id/revoke')
+  @RequirePermission('iam.user.manage')
+  async revoke(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    await this.breakGlass.revoke(id, ctx);
+    return { revoked: true };
   }
 }

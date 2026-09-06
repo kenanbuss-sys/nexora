@@ -50,6 +50,7 @@ import { VerificationService } from '@nexora/domain-ver';
 import { CountService, InventoryService, WmsOrderService } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import {
+  BreakGlassService,
   CredentialService,
   ServiceAccountService,
   RoleService,
@@ -176,7 +177,14 @@ import {
   SkusController,
 } from './pim/pim.controller';
 import { DocumentTemplatesController, TEMPLATE_SERVICE } from './documents/templates.controller';
-import { MeController, RolesController, USER_SERVICE, UsersController } from './iam/iam.controller';
+import {
+  BREAK_GLASS_SERVICE,
+  BreakGlassController,
+  MeController,
+  RolesController,
+  USER_SERVICE,
+  UsersController,
+} from './iam/iam.controller';
 import {
   APPROVAL_SERVICE,
   InboxController,
@@ -210,6 +218,7 @@ export const REDIS = 'REDIS';
     TenantsAdminController,
     TenantController,
     OrganizationController,
+    BreakGlassController,
     UsersController,
     RolesController,
     MeController,
@@ -315,6 +324,11 @@ export const REDIS = 'REDIS';
     {
       provide: USER_SERVICE,
       useFactory: (prisma: PrismaClient) => new UserService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: BREAK_GLASS_SERVICE,
+      useFactory: (prisma: PrismaClient) => new BreakGlassService(prisma),
       inject: [PRISMA],
     },
     {

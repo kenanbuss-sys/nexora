@@ -24,3 +24,8 @@ export {
   verifyTotp,
   type LoginResult,
 } from './credential.service';
+export {
+  BREAK_GLASS_MAX_MINUTES,
+  BreakGlassService,
+  type BreakGlassView,
+} from './breakglass.service';

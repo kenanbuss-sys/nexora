@@ -1,11 +1,12 @@
 import type { CanActivate, ExecutionContext } from '@nestjs/common';
 import { ForbiddenException, Inject, Injectable, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import type { RoleService, ServiceAccountService } from '@nexora/domain-iam';
+import type { BreakGlassService, RoleService, ServiceAccountService } from '@nexora/domain-iam';
 import type { AuthenticatedRequest } from './auth.guard';
 import { IS_PUBLIC, SERVICE_ACCOUNT_SERVICE } from './auth.guard';
 
 export const ROLE_SERVICE = 'ROLE_SERVICE';
+export const BREAK_GLASS_SERVICE_GUARD = 'BREAK_GLASS_SERVICE';
 
 /** Endpoint requires a platform-operator session. */
 export const IS_PLATFORM = 'isPlatform';
@@ -26,6 +27,7 @@ export class PermissionsGuard implements CanActivate {
     @Inject(Reflector) private readonly reflector: Reflector,
     @Inject(ROLE_SERVICE) private readonly roles: RoleService,
     @Inject(SERVICE_ACCOUNT_SERVICE) private readonly serviceAccounts: ServiceAccountService,
+    @Inject(BREAK_GLASS_SERVICE_GUARD) private readonly breakGlass: BreakGlassService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -85,6 +87,18 @@ export class PermissionsGuard implements CanActivate {
     }
     const allowed = await this.roles.authorize(ctx, permissionKey);
     if (!allowed) {
+      // IAM-014: an active break-glass grant bypasses role permissions,
+      // but every single use is audited and security-logged.
+      if (await this.breakGlass.hasActiveGrant(ctx.tenantId, ctx.userId)) {
+        await this.breakGlass.recordUse(ctx.tenantId, ctx.userId, permissionKey);
+        await this.serviceAccounts.logSecurityEvent(
+          ctx.tenantId,
+          'break_glass.use',
+          ctx.userId,
+          `bypassed ${permissionKey}`,
+        );
+        return true;
+      }
       await this.serviceAccounts.logSecurityEvent(
         ctx.tenantId,
         'permission.denied',

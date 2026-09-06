@@ -412,6 +412,16 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Break-glass access': 'Pristup u nuždi (break-glass)',
+  'Time-boxed emergency elevation that bypasses role permissions — granted by another admin with a mandatory reason; every use is audited.':
+    'Vremenski ograničeno vanredno ovlaštenje koje zaobilazi dozvole uloga — odobrava ga drugi administrator uz obavezan razlog; svaka upotreba se evidentira.',
+  'No grants.': 'Nema odobrenja.',
+  Grant: 'Odobri',
+  'Reason (mandatory)': 'Razlog (obavezno)',
+  'Break-glass access granted.': 'Pristup u nuždi odobren.',
+  'Break-glass access revoked.': 'Pristup u nuždi opozvan.',
+  expired: 'isteklo',
+  'User…': 'Korisnik…',
   'Bundle / kit': 'Bundle / komplet',
   'A bundle SKU sells as one line but is built from component SKUs — buildable quantity derives live from component stock.':
     'Bundle artikal se prodaje kao jedna stavka, a sastoji se od komponenti — moguća količina se računa uživo iz zaliha komponenti.',
