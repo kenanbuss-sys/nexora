@@ -14,3 +14,4 @@ export {
   type AvailabilityGate,
   type SubstitutionView,
 } from './substitution.service';
+export { BundleService, type BundleComponentView, type BundleView } from './bundle.service';

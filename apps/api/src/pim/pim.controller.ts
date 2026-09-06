@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import type {
+  BundleService,
   CatalogService,
   MerchandisingService,
   PackagingService,
@@ -15,6 +16,7 @@ export const CATALOG_SERVICE = 'CATALOG_SERVICE';
 export const MERCHANDISING_SERVICE = 'MERCHANDISING_SERVICE';
 export const SUBSTITUTION_SERVICE = 'SUBSTITUTION_SERVICE';
 export const PACKAGING_SERVICE = 'PACKAGING_SERVICE';
+export const BUNDLE_SERVICE = 'BUNDLE_SERVICE';
 
 const createProductSchema = z.object({
   code: z.string().min(1).max(64),
@@ -36,6 +38,10 @@ const addSubstitutionSchema = z.object({
   substituteSkuId: z.string().uuid(),
   priority: z.number().int().min(1).max(100).optional(),
   note: z.string().max(300).optional(),
+});
+const bundleComponentSchema = z.object({
+  componentSkuId: z.string().uuid(),
+  quantity: z.number().positive(),
 });
 const createSkuSchema = z.object({
   productId: z.string().uuid(),
@@ -95,6 +101,7 @@ export class SkusController {
     @Inject(CATALOG_SERVICE) private readonly catalog: CatalogService,
     @Inject(SUBSTITUTION_SERVICE) private readonly substitutions: SubstitutionService,
     @Inject(PACKAGING_SERVICE) private readonly packaging: PackagingService,
+    @Inject(BUNDLE_SERVICE) private readonly bundles: BundleService,
   ) {}
 
   @Get(':id/substitutions')
@@ -133,6 +140,39 @@ export class SkusController {
   @RequirePermission('product.manage')
   async removeSubstitution(@Param('subId') subId: string, @Ctx() ctx: RequestContext) {
     await this.substitutions.removeSubstitution(subId, ctx);
+    return { removed: true };
+  }
+
+  @Get(':id/bundle')
+  @RequirePermission('product.read')
+  async getBundle(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.bundles.getBundle(id, ctx);
+  }
+
+  @Post(':id/bundle')
+  @RequirePermission('product.manage')
+  async setBundleComponent(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(bundleComponentSchema, body);
+    return {
+      components: await this.bundles.setComponent(
+        { bundleSkuId: id, componentSkuId: input.componentSkuId, quantity: input.quantity },
+        ctx,
+      ),
+    };
+  }
+
+  @Post(':id/bundle/:componentId/remove')
+  @RequirePermission('product.manage')
+  async removeBundleComponent(
+    @Param('id') id: string,
+    @Param('componentId') componentId: string,
+    @Ctx() ctx: RequestContext,
+  ) {
+    await this.bundles.removeComponent(id, componentId, ctx);
     return { removed: true };
   }
 

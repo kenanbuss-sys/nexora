@@ -66,6 +66,18 @@ export default function ProductDetailPage() {
     Array<{ id: string; name: string; unitsPerPack: string; barcodeValue: string | null }>
   >([]);
   const [subPrimary, setSubPrimary] = useState('');
+  const [bundleSku, setBundleSku] = useState('');
+  const [bundleComp, setBundleComp] = useState('');
+  const [bundleQty, setBundleQty] = useState('1');
+  const [bundle, setBundle] = useState<{
+    components: Array<{
+      id: string;
+      componentCode: string;
+      quantity: string;
+      available: string;
+    }>;
+    buildable: number;
+  } | null>(null);
   const [subAlt, setSubAlt] = useState('');
   const [subs, setSubs] = useState<Array<{ id: string; substituteCode: string; priority: number }>>(
     [],
@@ -737,6 +749,133 @@ export default function ProductDetailPage() {
                       </button>
                     </span>
                   ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+          {can('product.manage') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Bundle / kit</h2>
+              <p className="muted">
+                A bundle SKU sells as one line but is built from component SKUs — buildable quantity
+                derives live from component stock.
+              </p>
+              <div className="row" style={{ flexWrap: 'wrap' }}>
+                <select
+                  className="select"
+                  style={{ maxWidth: 170 }}
+                  value={bundleSku}
+                  onChange={(e) => {
+                    const skuId = e.target.value;
+                    setBundleSku(skuId);
+                    setBundle(null);
+                    if (skuId) {
+                      api<{
+                        components: Array<{
+                          id: string;
+                          componentCode: string;
+                          quantity: string;
+                          available: string;
+                        }>;
+                        buildable: number;
+                      }>('GET', `/api/v1/skus/${skuId}/bundle`)
+                        .then((r) => setBundle(r))
+                        .catch(() => setBundle(null));
+                    }
+                  }}
+                >
+                  <option value="">Bundle SKU…</option>
+                  {product.skus.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.code}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="select"
+                  style={{ maxWidth: 170 }}
+                  value={bundleComp}
+                  onChange={(e) => setBundleComp(e.target.value)}
+                >
+                  <option value="">Component…</option>
+                  {product.skus
+                    .filter((s) => s.id !== bundleSku)
+                    .map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.code}
+                      </option>
+                    ))}
+                </select>
+                <input
+                  className="input"
+                  style={{ maxWidth: 70 }}
+                  type="number"
+                  min="0.000001"
+                  step="any"
+                  title="Quantity per bundle"
+                  value={bundleQty}
+                  onChange={(e) => setBundleQty(e.target.value)}
+                />
+                <button
+                  className="btn btn-sm btn-primary"
+                  disabled={busy || !bundleSku || !bundleComp}
+                  type="button"
+                  onClick={() =>
+                    run(async () => {
+                      await api('POST', `/api/v1/skus/${bundleSku}/bundle`, {
+                        componentSkuId: bundleComp,
+                        quantity: Number(bundleQty),
+                      });
+                      const r = await api<{
+                        components: Array<{
+                          id: string;
+                          componentCode: string;
+                          quantity: string;
+                          available: string;
+                        }>;
+                        buildable: number;
+                      }>('GET', `/api/v1/skus/${bundleSku}/bundle`);
+                      setBundle(r);
+                    }, 'Component added.')
+                  }
+                >
+                  Add component
+                </button>
+              </div>
+              {bundle && bundle.components.length > 0 ? (
+                <div style={{ marginTop: 8 }}>
+                  <p className="muted" style={{ marginBottom: 6 }}>
+                    Buildable now: <strong>{bundle.buildable}</strong>
+                  </p>
+                  <div className="row" style={{ flexWrap: 'wrap' }}>
+                    {bundle.components.map((c) => (
+                      <span key={c.id} className="badge mono">
+                        {c.quantity} × {c.componentCode} (avail {c.available}){' '}
+                        <button
+                          className="btn btn-sm"
+                          style={{ marginLeft: 4, padding: '0 6px' }}
+                          type="button"
+                          disabled={busy}
+                          onClick={() =>
+                            run(async () => {
+                              await api('POST', `/api/v1/skus/${bundleSku}/bundle/${c.id}/remove`);
+                              setBundle((prev) =>
+                                prev
+                                  ? {
+                                      ...prev,
+                                      components: prev.components.filter((x) => x.id !== c.id),
+                                    }
+                                  : prev,
+                              );
+                            }, 'Component removed.')
+                          }
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
               ) : null}
             </div>

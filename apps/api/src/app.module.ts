@@ -39,6 +39,7 @@ import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
 import { IntegrationService } from '@nexora/domain-int';
 import {
+  BundleService,
   MerchandisingService,
   CatalogService,
   PackagingService,
@@ -162,6 +163,7 @@ import {
 } from './proc/proc.controller';
 import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
 import {
+  BUNDLE_SERVICE,
   BarcodesController,
   CATALOG_SERVICE,
   MERCHANDISING_SERVICE,
@@ -681,6 +683,23 @@ export const REDIS = 'REDIS';
       provide: PACKAGING_SERVICE,
       useFactory: (prisma: PrismaClient) => new PackagingService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: BUNDLE_SERVICE,
+      useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
+        new BundleService(prisma, {
+          totalAvailability: (tenantId, skuId) =>
+            inventory.totalAvailability(skuId, {
+              tenantId,
+              tenantSlug: '',
+              tenantStatus: 'ACTIVE',
+              actorType: 'SERVICE',
+              userId: undefined,
+              userStatus: undefined,
+              platformAdmin: false,
+            }),
+        }),
+      inject: [PRISMA, INVENTORY_SERVICE],
     },
     {
       provide: SUBSTITUTION_SERVICE,
