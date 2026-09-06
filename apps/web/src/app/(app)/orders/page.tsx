@@ -92,7 +92,7 @@ export default function OrdersPage() {
     Record<string, { orderPromise: string; fromStockCount: number; total: number }>
   >({});
   const [alternatives, setAlternatives] = useState<
-    Record<string, Array<{ substituteCode: string; available: string }>>
+    Record<string, Array<{ substituteSkuId: string; substituteCode: string; available: string }>>
   >({});
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -386,9 +386,33 @@ export default function OrdersPage() {
                               alternatives[l.skuId]!.length > 0 ? (
                                 <span className="muted" style={{ marginLeft: 6, fontSize: 12 }}>
                                   Alt:{' '}
-                                  {alternatives[l.skuId]!.map(
-                                    (a) => `${a.substituteCode} (${a.available})`,
-                                  ).join(', ')}
+                                  {alternatives[l.skuId]!.map((a) => (
+                                    <span key={a.substituteSkuId} style={{ marginRight: 6 }}>
+                                      {a.substituteCode} ({a.available})
+                                      {can('order.create') ? (
+                                        <button
+                                          className="btn btn-sm"
+                                          style={{ marginLeft: 2, padding: '0 6px' }}
+                                          disabled={busy}
+                                          type="button"
+                                          title="Substitute this line"
+                                          onClick={() =>
+                                            run(
+                                              () =>
+                                                api(
+                                                  'POST',
+                                                  `/api/v1/orders/${o.id}/lines/${l.id}/substitute`,
+                                                  { substituteSkuId: a.substituteSkuId },
+                                                ),
+                                              'Line substituted.',
+                                            )
+                                          }
+                                        >
+                                          Use
+                                        </button>
+                                      ) : null}
+                                    </span>
+                                  ))}
                                 </span>
                               ) : null
                             ) : (
@@ -399,6 +423,7 @@ export default function OrdersPage() {
                                 onClick={() => {
                                   api<{
                                     alternatives: Array<{
+                                      substituteSkuId: string;
                                       substituteCode: string;
                                       available: string;
                                     }>;
@@ -775,6 +800,19 @@ export default function OrdersPage() {
                 >
                   Promise date
                 </button>
+                {can('order.create') ? (
+                  <button
+                    className="btn btn-sm"
+                    type="button"
+                    disabled={busy}
+                    title="Create a fresh draft with the same lines"
+                    onClick={() =>
+                      run(() => api('POST', `/api/v1/orders/${o.id}/repeat`), 'Order repeated.')
+                    }
+                  >
+                    Repeat
+                  </button>
+                ) : null}
                 {promises[o.id] ? (
                   <span className="muted mono" style={{ fontSize: 12 }}>
                     ≈ {new Date(promises[o.id]!.orderPromise).toLocaleDateString()} ·{' '}

@@ -97,6 +97,24 @@ export class OrdersController {
     return this.orders.applyPromotion(id, input.code, ctx);
   }
 
+  @Post(':id/repeat')
+  @RequirePermission('order.create')
+  async repeat(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.orders.repeatOrder(id, ctx);
+  }
+
+  @Post(':id/lines/:lineId/substitute')
+  @RequirePermission('order.create')
+  async substitute(
+    @Param('id') id: string,
+    @Param('lineId') lineId: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(z.object({ substituteSkuId: z.string().uuid() }), body);
+    return this.orders.substituteLine(id, lineId, input.substituteSkuId, ctx);
+  }
+
   @Post(':id/confirm')
   @RequirePermission('order.confirm')
   async confirm(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {

@@ -13,5 +13,6 @@ export {
   type PromotionGate,
   type SkuInfoGate,
   type StockGate,
+  type SubstitutionGate,
 } from './order.service';
 export { ReturnsService, type ReturnLineView, type ReturnView } from './returns.service';

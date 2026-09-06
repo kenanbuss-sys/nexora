@@ -105,7 +105,7 @@ OMS-003,OMS,Allocation,P1,PLANNED,R1,,,
 OMS-004,OMS,Reservation,P1,DONE,R1,,,
 OMS-005,OMS,Split fulfillment,P1,PLANNED,R1,,,
 OMS-006,OMS,Backorders,P1,DONE,R1,,,"Backorders: confirm with allowBackorder, release on arrival (Sprint 018)"
-OMS-007,OMS,Substitution,P1,PLANNED,R1,,,
+OMS-007,OMS,Substitution,P1,DONE,R1,,,Sprint 059: line substitution to configured substitutes; backordered confirmed lines reserve the substitute and clear the backorder.
 OMS-008,OMS,Holds,P1,DONE,R1,,,
 OMS-009,OMS,Order amendments,P1,DONE,R1,,,Order amendments with reservation swap and credit gate (Sprint 018)
 OMS-010,OMS,Cancellation,P1,DONE,R1,,,
@@ -120,7 +120,7 @@ B2B-004,B2B,Customer prices,P1,PLANNED,R3,,,
 B2B-005,B2B,Self-service quotes,P1,DONE,R3,,,
 B2B-006,B2B,Self-service orders,P1,DONE,R3,,,
 B2B-007,B2B,Customer-side approvals,P1,PLANNED,R3,,,
-B2B-008,B2B,Repeat order,P1,PLANNED,R3,,,
+B2B-008,B2B,Repeat order,P1,DONE,R3,,,"Sprint 059: repeat order — fresh DRAFT copying account/warehouse/currency/lines, event-tracked."
 B2B-009,B2B,Project/site ordering,P1,PLANNED,R3,,,
 B2B-010,B2B,Production tracking,P1,DONE,R3,,,
 B2B-011,B2B,Invoices/documents,P1,DONE,R3,,,

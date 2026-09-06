@@ -549,6 +549,7 @@ export const REDIS = 'REDIS';
         promotions: PromotionService,
         inventory2: InventoryService,
         planning: PlanningService,
+        substitution: SubstitutionService,
       ) =>
         new OrderService(
           prisma,
@@ -577,6 +578,9 @@ export const REDIS = 'REDIS';
               }),
           },
           { leadTimeFor: (tenantId, skuId) => planning.leadTimeFor(tenantId, skuId) },
+          {
+            listAlternatives: (skuId, ctx) => substitution.listAlternatives(skuId, ctx),
+          },
         ),
       inject: [
         PRISMA,
@@ -587,6 +591,7 @@ export const REDIS = 'REDIS';
         PROMOTION_SERVICE,
         INVENTORY_SERVICE,
         PLANNING_SERVICE,
+        SUBSTITUTION_SERVICE,
       ],
     },
     {

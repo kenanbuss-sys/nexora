@@ -78,6 +78,11 @@ export interface CreditGate {
   ): Promise<{ allowed: boolean; reason: string | null }>;
 }
 
+/** Cross-domain contract: substitution rules are owned by PIM. */
+export interface SubstitutionGate {
+  listAlternatives(skuId: string, ctx: RequestContext): Promise<Array<{ substituteSkuId: string }>>;
+}
+
 /** Cross-domain contract: promotions are owned by CPQ (CPQ-006/COM-012). */
 export interface PromotionGate {
   redeem(
@@ -178,6 +183,7 @@ export class OrderService {
     private readonly promotions?: PromotionGate,
     private readonly availability?: AvailabilityGate,
     private readonly leadTimes?: LeadTimeGate,
+    private readonly substitutions?: SubstitutionGate,
   ) {}
 
   /**
@@ -238,6 +244,136 @@ export class OrderService {
       });
     }
     return { orderPromise: new Date(latest).toISOString(), lines };
+  }
+
+  /**
+   * Repeat order (B2B-008): a fresh DRAFT copying the account,
+   * warehouse, currency and lines of an existing order — prices as
+   * they were; nothing is reserved until confirmation.
+   */
+  async repeatOrder(orderId: string, ctx: RequestContext): Promise<OrderView> {
+    const source = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!source) throw notFound('SalesOrder', orderId);
+    if (source.lines.length === 0) {
+      throw new DomainError('INVALID_STATE', 'Order has no lines to repeat');
+    }
+    const account = await this.accounts.getAccountState(ctx.tenantId, source.accountId);
+    if (!account.active) throw new DomainError('INVALID_STATE', 'Account is blocked');
+
+    const fresh = await this.createOrder(
+      { accountId: source.accountId, warehouseId: source.warehouseId, currency: source.currency },
+      ctx,
+    );
+    for (const line of source.lines) {
+      await this.addLine(
+        {
+          orderId: fresh.id,
+          skuId: line.skuId,
+          quantity: Number(line.quantity),
+          unitPrice: Number(line.unitPrice),
+        },
+        ctx,
+      );
+    }
+    await this.recordTransition(
+      fresh.id,
+      EVENT_TYPES.ORDER_AMENDED,
+      `Repeated from ${source.orderNumber}`,
+      ctx,
+    );
+    return this.getOrder(fresh.id, ctx);
+  }
+
+  /**
+   * Line substitution (OMS-007): swap a line to a configured, active
+   * substitute of its SKU. DRAFT lines swap freely; a CONFIRMED
+   * backordered line tries to reserve the substitute and clears its
+   * backorder when stock covers it.
+   */
+  async substituteLine(
+    orderId: string,
+    lineId: string,
+    substituteSkuId: string,
+    ctx: RequestContext,
+  ): Promise<OrderView> {
+    if (!this.substitutions) {
+      throw new DomainError('INVALID_STATE', 'Substitutions are not configured');
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('SalesOrder', orderId);
+    const line = order.lines.find((l) => l.id === lineId);
+    if (!line) throw notFound('SalesOrderLine', lineId);
+    if (order.status !== 'DRAFT' && !(order.status === 'CONFIRMED' && line.backordered)) {
+      throw new DomainError(
+        'INVALID_STATE',
+        'Only draft lines or backordered lines of confirmed orders can be substituted',
+      );
+    }
+    const alternatives = await this.substitutions.listAlternatives(line.skuId, ctx);
+    if (!alternatives.some((a) => a.substituteSkuId === substituteSkuId)) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'The chosen SKU is not a configured substitute for this line',
+      );
+    }
+    const sku = await this.skus.getSkuInfo(ctx.tenantId, substituteSkuId);
+    if (!sku || !sku.exists || !sku.active) {
+      throw new DomainError('INVALID_STATE', 'Substitute SKU is not active');
+    }
+
+    let reservationId: string | null = null;
+    let backordered = line.backordered;
+    if (order.status === 'CONFIRMED') {
+      try {
+        const reserved = await this.stock.reserveStock(
+          {
+            warehouseId: order.warehouseId,
+            skuId: substituteSkuId,
+            quantity: Number(line.quantity),
+            reference: order.orderNumber,
+          },
+          ctx,
+        );
+        reservationId = reserved.reservationId;
+        backordered = false;
+      } catch {
+        reservationId = null;
+        backordered = true;
+      }
+    }
+    await this.prisma.salesOrderLine.updateMany({
+      where: { id: line.id, tenantId: ctx.tenantId },
+      data: {
+        skuId: substituteSkuId,
+        description: `${sku.code} — ${sku.name}`,
+        reservationId,
+        backordered,
+      },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'oms.order.substitute_line',
+      objectType: 'SalesOrder',
+      objectId: order.id,
+      source: 'api',
+      previousValues: { skuId: line.skuId },
+      newValues: { skuId: substituteSkuId, backordered },
+    });
+    await this.recordTransition(
+      order.id,
+      EVENT_TYPES.ORDER_AMENDED,
+      `Line substituted: ${line.description} -> ${sku.code}`,
+      ctx,
+    );
+    return this.getOrder(order.id, ctx);
   }
 
   /**
