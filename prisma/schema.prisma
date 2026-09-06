@@ -132,6 +132,7 @@ model Tenant {
   promotions            Promotion[]
   breakGlassGrants      BreakGlassGrant[]
   masterDataRequests    MasterDataRequest[]
+  loyaltyAccounts       LoyaltyAccount[]
 
   @@map("tenant")
 }
@@ -1238,6 +1239,9 @@ model PriceList {
   name      String
   currency  String          @db.Char(3)
   status    PriceListStatus @default(DRAFT)
+  /// Sprint 061 (B2B-004/CPQ-014): set = a contract price list for one
+  /// customer account; null = a general list.
+  accountId String?         @map("account_id") @db.Uuid
   validFrom DateTime?       @map("valid_from")
   validTo   DateTime?       @map("valid_to")
   createdAt DateTime        @default(now()) @map("created_at")
@@ -2612,4 +2616,39 @@ model MasterDataRequest {
   @@index([tenantId, status])
   @@index([tenantId, entityType, entityId])
   @@map("master_data_request")
+}
+
+/// Sprint 062 (COM-013): loyalty — one account per CRM customer;
+/// points accrue from fulfilled orders and adjustments; balance is the
+/// sum of an append-only transaction ledger, never edited in place.
+model LoyaltyAccount {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  accountId String   @map("account_id") @db.Uuid
+  points    Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant       Tenant               @relation(fields: [tenantId], references: [id])
+  transactions LoyaltyTransaction[]
+
+  @@unique([tenantId, accountId])
+  @@map("loyalty_account")
+}
+
+model LoyaltyTransaction {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String   @map("tenant_id") @db.Uuid
+  loyaltyAccountId String   @map("loyalty_account_id") @db.Uuid
+  delta            Int
+  reason           String
+  orderId          String?  @map("order_id") @db.Uuid
+  createdBy        String?  @map("created_by")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  loyaltyAccount LoyaltyAccount @relation(fields: [loyaltyAccountId], references: [id])
+
+  @@unique([tenantId, orderId, reason])
+  @@index([tenantId, loyaltyAccountId])
+  @@map("loyalty_transaction")
 }
