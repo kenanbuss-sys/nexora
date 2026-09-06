@@ -17,3 +17,4 @@ export {
   type Customer360View,
 } from './customer360.service';
 export { LOYALTY_EARN_DIVISOR, LoyaltyService, type LoyaltyView } from './loyalty.service';
+export { SupportCaseService, type SupportCaseView } from './case.service';

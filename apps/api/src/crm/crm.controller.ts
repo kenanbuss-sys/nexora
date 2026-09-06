@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
 import type {
+  SupportCaseService,
   LoyaltyService,
   CrmService,
   Customer360Service,
@@ -17,6 +18,7 @@ export const CUSTOMER360_SERVICE = 'CUSTOMER360_SERVICE';
 export const TERRITORY_SERVICE = 'TERRITORY_SERVICE';
 export const SALES_TEAM_SERVICE = 'SALES_TEAM_SERVICE';
 export const LOYALTY_SERVICE = 'LOYALTY_SERVICE';
+export const SUPPORT_CASE_SERVICE = 'SUPPORT_CASE_SERVICE';
 
 const createAccountSchema = z.object({
   partyId: z.string().uuid(),
@@ -301,5 +303,51 @@ export class LoyaltyController {
   async adjust(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(loyaltyAdjustSchema, body);
     return this.loyalty.adjust({ accountId: id, delta: input.delta, reason: input.reason }, ctx);
+  }
+}
+
+const createCaseSchema = z.object({
+  subject: z.string().min(1).max(300),
+  description: z.string().max(4000).optional(),
+  priority: z.enum(['LOW', 'NORMAL', 'HIGH', 'URGENT']).optional(),
+  accountId: z.string().uuid().optional(),
+  orderId: z.string().uuid().optional(),
+});
+const assignCaseSchema = z.object({ userId: z.string().uuid().nullable() });
+const caseTransitionSchema = z.object({
+  status: z.enum(['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED']),
+});
+
+@Controller('api/v1/support-cases')
+export class SupportCasesController {
+  constructor(@Inject(SUPPORT_CASE_SERVICE) private readonly cases: SupportCaseService) {}
+
+  @Get()
+  @RequirePermission('crm.read')
+  async list(@Ctx() ctx: RequestContext, @Query('status') status?: string) {
+    const parsed = status
+      ? parseBody(z.enum(['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED']), status)
+      : undefined;
+    return { cases: await this.cases.listCases({ status: parsed }, ctx) };
+  }
+
+  @Post()
+  @RequirePermission('crm.manage')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.cases.createCase(parseBody(createCaseSchema, body), ctx);
+  }
+
+  @Post(':id/assign')
+  @RequirePermission('crm.manage')
+  async assign(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(assignCaseSchema, body);
+    return this.cases.assignCase(id, input.userId, ctx);
+  }
+
+  @Post(':id/transition')
+  @RequirePermission('crm.manage')
+  async transition(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(caseTransitionSchema, body);
+    return this.cases.transition(id, input.status, ctx);
   }
 }

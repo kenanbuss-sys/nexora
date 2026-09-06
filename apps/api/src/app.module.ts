@@ -20,6 +20,7 @@ import {
   QuoteService,
 } from '@nexora/domain-cpq';
 import {
+  SupportCaseService,
   LoyaltyService,
   CrmService,
   Customer360Service,
@@ -90,6 +91,8 @@ import {
   VERIFICATION_SERVICE,
 } from './dev/dev.controller';
 import {
+  SUPPORT_CASE_SERVICE,
+  SupportCasesController,
   LOYALTY_SERVICE,
   LoyaltyController,
   CRM_SERVICE,
@@ -253,6 +256,7 @@ export const REDIS = 'REDIS';
     ScanEventsController,
     CrmAccountsController,
     LoyaltyController,
+    SupportCasesController,
     CrmLeadsController,
     CrmOpportunitiesController,
     CrmActivitiesController,
@@ -495,6 +499,11 @@ export const REDIS = 'REDIS';
     {
       provide: LOYALTY_SERVICE,
       useFactory: (prisma: PrismaClient) => new LoyaltyService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: SUPPORT_CASE_SERVICE,
+      useFactory: (prisma: PrismaClient) => new SupportCaseService(prisma),
       inject: [PRISMA],
     },
     {

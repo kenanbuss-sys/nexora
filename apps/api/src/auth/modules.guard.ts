@@ -25,6 +25,7 @@ export const MODULE_ROUTE_MAP: Array<[string, string]> = [
   ['price-lists', 'sales'],
   ['discount-rules', 'sales'],
   ['promotions', 'sales'],
+  ['support-cases', 'crm'],
   ['orders', 'sales'],
   ['returns', 'sales'],
   ['requisitions', 'procurement'],

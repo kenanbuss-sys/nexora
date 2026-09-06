@@ -97,11 +97,29 @@ const NEXT_STAGES: Record<OpportunityView['stage'], OpportunityView['stage'][]> 
   LOST: [],
 };
 
+const CASE_NEXT: Record<string, { label: string; to: string } | undefined> = {
+  OPEN: { label: 'Start', to: 'IN_PROGRESS' },
+  IN_PROGRESS: { label: 'Resolve', to: 'RESOLVED' },
+  RESOLVED: { label: 'Close', to: 'CLOSED' },
+};
+
 export default function CrmPage() {
   const { can } = useApp();
   const [leads, setLeads] = useState<LeadView[] | null>(null);
   const [accounts, setAccounts] = useState<AccountView[] | null>(null);
   const [territories, setTerritories] = useState<TerritoryView[]>([]);
+  const [cases, setCases] = useState<
+    Array<{
+      id: string;
+      caseNumber: string;
+      subject: string;
+      status: string;
+      priority: string;
+    }>
+  >([]);
+  const [caseSubject, setCaseSubject] = useState('');
+  const [caseAccount, setCaseAccount] = useState('');
+  const [casePriority, setCasePriority] = useState('NORMAL');
   const [loyalty, setLoyalty] = useState<
     Record<string, { points: number; transactions: Array<{ delta: number; reason: string }> }>
   >({});
@@ -163,6 +181,9 @@ export default function CrmPage() {
         .then((r) => setTenantUsers(r.users))
         .catch(() => setTenantUsers([]));
     }
+    api<{ cases: typeof cases }>('GET', '/api/v1/support-cases')
+      .then((r) => setCases(r.cases))
+      .catch(() => setCases([]));
     api<{ accounts: AccountView[] }>('GET', '/api/v1/crm/accounts')
       .then((r) => setAccounts(r.accounts))
       .catch(() => setAccounts([]));
@@ -771,6 +792,108 @@ export default function CrmPage() {
           ))}
         </div>
       </div>
+      {can('crm.read') ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Support cases</h2>
+          <p className="muted" style={{ marginTop: 0 }}>
+            Customer issues with a clear lifecycle — open, in progress, resolved, closed.
+          </p>
+          {cases.length === 0 ? <div className="empty">No cases.</div> : null}
+          {cases.slice(0, 10).map((c) => (
+            <div key={c.id} className="row spread" style={{ marginBottom: 6 }}>
+              <span>
+                <strong className="mono">{c.caseNumber}</strong> {c.subject}{' '}
+                <span
+                  className={`badge ${
+                    c.status === 'CLOSED'
+                      ? ''
+                      : c.status === 'RESOLVED'
+                        ? 'badge-ok'
+                        : c.priority === 'URGENT' || c.priority === 'HIGH'
+                          ? 'badge-danger'
+                          : 'badge-warn'
+                  }`}
+                >
+                  {c.status}
+                </span>
+              </span>
+              {can('crm.manage') && CASE_NEXT[c.status] ? (
+                <button
+                  className="btn btn-sm"
+                  disabled={busy}
+                  type="button"
+                  onClick={() =>
+                    run(async () => {
+                      await api('POST', `/api/v1/support-cases/${c.id}/transition`, {
+                        status: CASE_NEXT[c.status]!.to,
+                      });
+                      const r = await api<{ cases: typeof cases }>('GET', '/api/v1/support-cases');
+                      setCases(r.cases);
+                    }, 'Case updated.')
+                  }
+                >
+                  {CASE_NEXT[c.status]!.label}
+                </button>
+              ) : null}
+            </div>
+          ))}
+          {can('crm.manage') ? (
+            <form
+              className="row"
+              style={{ marginTop: 10, flexWrap: 'wrap' }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void run(async () => {
+                  await api('POST', '/api/v1/support-cases', {
+                    subject: caseSubject,
+                    priority: casePriority,
+                    ...(caseAccount ? { accountId: caseAccount } : {}),
+                  });
+                  setCaseSubject('');
+                  const r = await api<{ cases: typeof cases }>('GET', '/api/v1/support-cases');
+                  setCases(r.cases);
+                }, 'Case opened.');
+              }}
+            >
+              <input
+                className="input"
+                style={{ maxWidth: 240 }}
+                placeholder="Subject"
+                value={caseSubject}
+                onChange={(e) => setCaseSubject(e.target.value)}
+                required
+              />
+              <select
+                className="select"
+                style={{ maxWidth: 120 }}
+                value={casePriority}
+                onChange={(e) => setCasePriority(e.target.value)}
+              >
+                <option value="LOW">Low</option>
+                <option value="NORMAL">Normal</option>
+                <option value="HIGH">High</option>
+                <option value="URGENT">Urgent</option>
+              </select>
+              <select
+                className="select"
+                style={{ maxWidth: 160 }}
+                value={caseAccount}
+                onChange={(e) => setCaseAccount(e.target.value)}
+              >
+                <option value="">No account</option>
+                {(accounts ?? []).map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.accountNumber}
+                  </option>
+                ))}
+              </select>
+              <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                Open case
+              </button>
+            </form>
+          ) : null}
+        </div>
+      ) : null}
     </main>
   );
 }
