@@ -87,6 +87,14 @@ export default function ProcurementPage() {
   const { can } = useApp();
   const [suppliers, setSuppliers] = useState<SupplierView[]>([]);
   const [performance, setPerformance] = useState<SupplierPerformanceRow[]>([]);
+  const [otd, setOtd] = useState<
+    Array<{
+      supplierId: string;
+      supplierNumber: string;
+      receivedCount: number;
+      onTimePct: number | null;
+    }>
+  >([]);
   const [requisitions, setRequisitions] = useState<RequisitionView[] | null>(null);
   const [pos, setPos] = useState<PurchaseOrderView[]>([]);
   const [warehouses, setWarehouses] = useState<WarehouseView[]>([]);
@@ -112,6 +120,9 @@ export default function ProcurementPage() {
     api<{ suppliers: SupplierView[] }>('GET', '/api/v1/suppliers')
       .then((r) => setSuppliers(r.suppliers))
       .catch(() => setSuppliers([]));
+    api<{ suppliers: typeof otd }>('GET', '/api/v1/suppliers/delivery-performance')
+      .then((r) => setOtd(r.suppliers))
+      .catch(() => setOtd([]));
     api<{ suppliers: SupplierPerformanceRow[] }>('GET', '/api/v1/suppliers/performance')
       .then((r) => setPerformance(r.suppliers))
       .catch(() => setPerformance([]));
@@ -675,6 +686,42 @@ export default function ProcurementPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      ) : null}
+
+      {otd.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>On-time delivery</h2>
+          <p className="muted" style={{ marginTop: 0 }}>
+            Fully received purchase orders landing on or before their expected date.
+          </p>
+          {otd.map((row) => (
+            <div key={row.supplierId} className="row spread" style={{ marginBottom: 4 }}>
+              <span className="mono" style={{ fontSize: 13 }}>
+                {row.supplierNumber}
+              </span>
+              <span>
+                {row.onTimePct !== null ? (
+                  <span
+                    className={`badge ${
+                      row.onTimePct >= 90
+                        ? 'badge-ok'
+                        : row.onTimePct >= 60
+                          ? 'badge-warn'
+                          : 'badge-danger'
+                    }`}
+                  >
+                    {row.onTimePct}% on time
+                  </span>
+                ) : (
+                  <span className="badge">no promises</span>
+                )}{' '}
+                <span className="muted" style={{ fontSize: 12 }}>
+                  {row.receivedCount} received
+                </span>
+              </span>
+            </div>
+          ))}
         </div>
       ) : null}
     </main>

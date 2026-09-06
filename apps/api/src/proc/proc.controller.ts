@@ -49,6 +49,12 @@ export class SuppliersController {
     return { suppliers: await this.proc.supplierPerformance(ctx) };
   }
 
+  @Get('delivery-performance')
+  @RequirePermission('purchase.read')
+  async deliveryPerformance(@Ctx() ctx: RequestContext) {
+    return { suppliers: await this.proc.deliveryPerformance(ctx) };
+  }
+
   @Post()
   @RequirePermission('purchase.manage')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {

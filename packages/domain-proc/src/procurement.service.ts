@@ -566,7 +566,12 @@ export class ProcurementService {
           requisitionId: requisition.id,
           currency: requisition.currency,
           total: requisition.total,
-          expectedAt: input.expectedAt ? new Date(input.expectedAt) : null,
+          // PROC-007: default the promise from the supplier's lead time.
+          expectedAt: input.expectedAt
+            ? new Date(input.expectedAt)
+            : supplier.leadTimeDays !== null
+              ? new Date(Date.now() + supplier.leadTimeDays * 24 * 60 * 60 * 1000)
+              : null,
           createdBy: ctx.userId ?? null,
           lines: {
             create: requisition.lines.map((l) => ({
@@ -609,6 +614,57 @@ export class ProcurementService {
    * movement per line through WMS; a duplicate receipt key produces no
    * second stock effect and no double-counted received quantity.
    */
+  /**
+   * Supplier delivery performance (PROC-007): per supplier, how many
+   * fully received POs landed on or before their expected date. POs
+   * without an expected date are counted separately, never guessed.
+   */
+  async deliveryPerformance(ctx: RequestContext): Promise<
+    Array<{
+      supplierId: string;
+      supplierNumber: string;
+      receivedCount: number;
+      onTimeCount: number;
+      noPromiseCount: number;
+      onTimePct: number | null;
+    }>
+  > {
+    const pos = await this.prisma.purchaseOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: 'RECEIVED' },
+      select: { supplierId: true, expectedAt: true, updatedAt: true },
+      take: 1000,
+    });
+    const suppliers = await this.prisma.supplier.findMany({
+      where: { tenantId: ctx.tenantId },
+      select: { id: true, supplierNumber: true },
+    });
+    const byId = new Map(suppliers.map((sup) => [sup.id, sup.supplierNumber]));
+    const agg = new Map<
+      string,
+      { receivedCount: number; onTimeCount: number; noPromiseCount: number }
+    >();
+    for (const po of pos) {
+      const row = agg.get(po.supplierId) ?? {
+        receivedCount: 0,
+        onTimeCount: 0,
+        noPromiseCount: 0,
+      };
+      row.receivedCount += 1;
+      if (!po.expectedAt) row.noPromiseCount += 1;
+      else if (po.updatedAt <= po.expectedAt) row.onTimeCount += 1;
+      agg.set(po.supplierId, row);
+    }
+    return [...agg.entries()].map(([supplierId, row]) => {
+      const promised = row.receivedCount - row.noPromiseCount;
+      return {
+        supplierId,
+        supplierNumber: byId.get(supplierId) ?? '?',
+        ...row,
+        onTimePct: promised > 0 ? Math.round((row.onTimeCount / promised) * 100) : null,
+      };
+    });
+  }
+
   async receivePo(
     input: {
       poId: string;
