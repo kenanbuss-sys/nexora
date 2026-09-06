@@ -54,6 +54,16 @@ const QUOTE_BADGE: Record<QuoteView['status'], string> = {
   EXPIRED: '',
 };
 
+interface PromotionView {
+  id: string;
+  code: string;
+  name: string;
+  discountPct: string;
+  redemptions: number;
+  maxRedemptions: number | null;
+  active: boolean;
+}
+
 interface DiscountRuleView {
   id: string;
   name: string;
@@ -79,6 +89,10 @@ export default function QuotesPage() {
   const [busy, setBusy] = useState(false);
 
   const [rules, setRules] = useState<DiscountRuleView[]>([]);
+  const [promos, setPromos] = useState<PromotionView[]>([]);
+  const [promoCode, setPromoCode] = useState('');
+  const [promoName, setPromoName] = useState('');
+  const [promoPct, setPromoPct] = useState('');
   const [ruleName, setRuleName] = useState('');
   const [rulePct, setRulePct] = useState('');
   const [ruleAccount, setRuleAccount] = useState('');
@@ -117,6 +131,9 @@ export default function QuotesPage() {
     api<{ rules: DiscountRuleView[] }>('GET', '/api/v1/discount-rules')
       .then((r) => setRules(r.rules))
       .catch(() => setRules([]));
+    api<{ promotions: PromotionView[] }>('GET', '/api/v1/promotions')
+      .then((r) => setPromos(r.promotions))
+      .catch(() => setPromos([]));
     api<{ accounts: AccountView[] }>('GET', '/api/v1/crm/accounts')
       .then((r) => setAccounts(r.accounts))
       .catch(() => undefined);
@@ -430,6 +447,99 @@ export default function QuotesPage() {
                   </select>
                   <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
                     Add rule
+                  </button>
+                </form>
+              ) : null}
+            </div>
+          ) : null}
+
+          {can('pricing.read') ? (
+            <div className="card">
+              <h2>Promotions</h2>
+              <p className="muted">
+                Voucher codes redeemable on draft orders — percentage off the order total.
+              </p>
+              {promos.length === 0 ? <div className="empty">No promotions yet.</div> : null}
+              {promos.map((pr) => (
+                <div key={pr.id} className="row spread" style={{ marginBottom: 6 }}>
+                  <span>
+                    <strong>{pr.code}</strong>{' '}
+                    <span className="muted" style={{ fontSize: 12 }}>
+                      {pr.name} · {pr.discountPct}% · {pr.redemptions}
+                      {pr.maxRedemptions !== null ? `/${pr.maxRedemptions}` : ''} used
+                    </span>
+                  </span>
+                  {can('pricing.manage') ? (
+                    <button
+                      className="btn btn-sm"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          () =>
+                            api('PUT', `/api/v1/promotions/${pr.id}/active`, {
+                              active: !pr.active,
+                            }),
+                          pr.active ? 'Promotion deactivated.' : 'Promotion activated.',
+                        )
+                      }
+                      type="button"
+                    >
+                      {pr.active ? 'Deactivate' : 'Activate'}
+                    </button>
+                  ) : (
+                    <span className={`badge ${pr.active ? 'badge-ok' : ''}`}>
+                      {pr.active ? 'active' : 'inactive'}
+                    </span>
+                  )}
+                </div>
+              ))}
+              {can('pricing.manage') ? (
+                <form
+                  className="row"
+                  style={{ marginTop: 10, flexWrap: 'wrap' }}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void run(
+                      () =>
+                        api('POST', '/api/v1/promotions', {
+                          code: promoCode,
+                          name: promoName,
+                          discountPct: Number(promoPct),
+                        }),
+                      'Promotion created.',
+                    );
+                  }}
+                >
+                  <input
+                    className="input"
+                    style={{ maxWidth: 130 }}
+                    placeholder="CODE"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                    required
+                  />
+                  <input
+                    className="input"
+                    style={{ maxWidth: 170 }}
+                    placeholder="Name"
+                    value={promoName}
+                    onChange={(e) => setPromoName(e.target.value)}
+                    required
+                  />
+                  <input
+                    className="input"
+                    style={{ maxWidth: 70 }}
+                    type="number"
+                    min="0.01"
+                    max="100"
+                    step="any"
+                    placeholder="%"
+                    value={promoPct}
+                    onChange={(e) => setPromoPct(e.target.value)}
+                    required
+                  />
+                  <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                    Add promotion
                   </button>
                 </form>
               ) : null}

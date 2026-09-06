@@ -411,6 +411,17 @@ export const BS: Record<string, string> = {
   'Approval policy published.': 'Politika odobrenja objavljena.',
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
+  Promotions: 'Promocije',
+  'Voucher codes redeemable on draft orders — percentage off the order total.':
+    'Vaučer kodovi koji se koriste na nacrtima narudžbi — procenat popusta na ukupan iznos.',
+  'No promotions yet.': 'Još nema promocija.',
+  'Add promotion': 'Dodaj promociju',
+  'Promotion created.': 'Promocija kreirana.',
+  'Promotion activated.': 'Promocija aktivirana.',
+  'Promotion deactivated.': 'Promocija deaktivirana.',
+  'Promo code': 'Promo kod',
+  'Apply promo': 'Primijeni promo',
+  'Promotion applied.': 'Promocija primijenjena.',
   'Automatic discounts — the best matching rule applies when a quote line has no explicit discount.':
     'Automatski popusti — najbolje pravilo se primjenjuje kad stavka ponude nema izričit popust.',
   'No rules yet.': 'Još nema pravila.',

@@ -8,6 +8,7 @@ export {
   type OrderEventView,
   type OrderLineView,
   type OrderView,
+  type PromotionGate,
   type SkuInfoGate,
   type StockGate,
 } from './order.service';

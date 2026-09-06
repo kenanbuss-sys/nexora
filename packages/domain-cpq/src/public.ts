@@ -16,3 +16,4 @@ export {
   type QuoteView,
   type SkuInfoGate,
 } from './quote.service';
+export { PromotionService, type PromotionView, type RedemptionResult } from './promotion.service';

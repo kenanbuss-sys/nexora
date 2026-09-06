@@ -13,7 +13,12 @@ import {
   TenantService,
 } from '@nexora/domain-core';
 import { PdfService, DocumentTemplateService } from '@nexora/domain-doc';
-import { DiscountRuleService, PricingService, QuoteService } from '@nexora/domain-cpq';
+import {
+  DiscountRuleService,
+  PricingService,
+  PromotionService,
+  QuoteService,
+} from '@nexora/domain-cpq';
 import {
   CrmService,
   Customer360Service,
@@ -89,6 +94,8 @@ import {
 import {
   DISCOUNT_SERVICE,
   DiscountRulesController,
+  PROMOTION_SERVICE,
+  PromotionsController,
   PRICING_SERVICE,
   PriceListsController,
   QUOTE_SERVICE,
@@ -230,6 +237,7 @@ export const REDIS = 'REDIS';
     PriceListsController,
     QuotesController,
     DiscountRulesController,
+    PromotionsController,
     OrdersController,
     SuppliersController,
     RequisitionsController,
@@ -475,6 +483,11 @@ export const REDIS = 'REDIS';
       inject: [PRISMA],
     },
     {
+      provide: PROMOTION_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PromotionService(prisma),
+      inject: [PRISMA],
+    },
+    {
       provide: ORDER_SERVICE,
       useFactory: (
         prisma: PrismaClient,
@@ -482,6 +495,7 @@ export const REDIS = 'REDIS';
         catalog: CatalogService,
         inventory: InventoryService,
         customer360: Customer360Service,
+        promotions: PromotionService,
       ) =>
         new OrderService(
           prisma,
@@ -493,8 +507,19 @@ export const REDIS = 'REDIS';
             postMovement: (input, ctx) => inventory.postMovement(input, ctx),
           },
           { checkCredit: (t, a, amount) => customer360.checkCredit(t, a, amount) },
+          {
+            redeem: (code, orderId, total, ctx) => promotions.redeem(code, orderId, total, ctx),
+            discountFor: (t, orderId) => promotions.discountFor(t, orderId),
+          },
         ),
-      inject: [PRISMA, CRM_SERVICE, CATALOG_SERVICE, INVENTORY_SERVICE, CUSTOMER360_SERVICE],
+      inject: [
+        PRISMA,
+        CRM_SERVICE,
+        CATALOG_SERVICE,
+        INVENTORY_SERVICE,
+        CUSTOMER360_SERVICE,
+        PROMOTION_SERVICE,
+      ],
     },
     {
       provide: PROCUREMENT_SERVICE,

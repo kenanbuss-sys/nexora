@@ -106,6 +106,8 @@ export default function OrdersPage() {
   const [lineQty, setLineQty] = useState('1');
   const [linePrice, setLinePrice] = useState('');
   const [holdOrder, setHoldOrder] = useState('');
+  const [promoOrder, setPromoOrder] = useState('');
+  const [promoCode, setPromoCode] = useState('');
   const [holdReason, setHoldReason] = useState('');
   const [timeline, setTimeline] = useState<Record<string, OrderEventView[]>>({});
   const [discussion, setDiscussion] = useState<Record<string, boolean>>({});
@@ -508,6 +510,36 @@ export default function OrdersPage() {
                     >
                       Add line
                     </button>
+                    {o.lines.length > 0 ? (
+                      <>
+                        <input
+                          className="input"
+                          style={{ maxWidth: 120 }}
+                          placeholder="Promo code"
+                          value={promoOrder === o.id ? promoCode : ''}
+                          onChange={(e) => {
+                            setPromoOrder(o.id);
+                            setPromoCode(e.target.value.toUpperCase());
+                          }}
+                        />
+                        <button
+                          className="btn btn-sm"
+                          disabled={busy || promoOrder !== o.id || !promoCode}
+                          onClick={() =>
+                            run(
+                              () =>
+                                api('POST', `/api/v1/orders/${o.id}/apply-promotion`, {
+                                  code: promoCode,
+                                }),
+                              'Promotion applied.',
+                            )
+                          }
+                          type="button"
+                        >
+                          Apply promo
+                        </button>
+                      </>
+                    ) : null}
                     {o.lines.length > 0 && can('order.confirm') ? (
                       <button
                         className="btn btn-sm btn-primary"

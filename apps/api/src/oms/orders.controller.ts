@@ -84,6 +84,13 @@ export class OrdersController {
     return this.orders.addLine({ orderId: id, ...input }, ctx);
   }
 
+  @Post(':id/apply-promotion')
+  @RequirePermission('order.create')
+  async applyPromotion(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ code: z.string().min(1).max(64) }), body);
+    return this.orders.applyPromotion(id, input.code, ctx);
+  }
+
   @Post(':id/confirm')
   @RequirePermission('order.confirm')
   async confirm(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {

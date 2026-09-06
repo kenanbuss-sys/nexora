@@ -78,6 +78,17 @@ export interface CreditGate {
   ): Promise<{ allowed: boolean; reason: string | null }>;
 }
 
+/** Cross-domain contract: promotions are owned by CPQ (CPQ-006/COM-012). */
+export interface PromotionGate {
+  redeem(
+    code: string,
+    orderId: string,
+    orderTotal: number,
+    ctx: RequestContext,
+  ): Promise<{ promotionId: string; promotionCode: string; amountOff: number }>;
+  discountFor(tenantId: string, orderId: string): Promise<number>;
+}
+
 /** Cross-domain contract: stock truth is owned by WMS. */
 export interface StockGate {
   reserveStock(
@@ -151,7 +162,44 @@ export class OrderService {
     private readonly skus: SkuInfoGate,
     private readonly stock: StockGate,
     private readonly credit?: CreditGate,
+    private readonly promotions?: PromotionGate,
   ) {}
+
+  /**
+   * Apply a promotion/voucher code to a DRAFT order (CPQ-006/COM-012).
+   * CPQ owns validity and the redemption ledger; this domain records
+   * the resulting discount in the order total and its event history.
+   */
+  async applyPromotion(orderId: string, code: string, ctx: RequestContext): Promise<OrderView> {
+    if (!this.promotions) {
+      throw new DomainError('INVALID_STATE', 'Promotions are not configured');
+    }
+    if (!code?.trim()) {
+      throw new DomainError('VALIDATION_FAILED', 'Promotion code is required');
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('Order', orderId);
+    if (order.status !== 'DRAFT') {
+      throw new DomainError('INVALID_STATE', 'Promotions can only be applied to DRAFT orders');
+    }
+    if (order.lines.length === 0) {
+      throw new DomainError('INVALID_STATE', 'Order has no lines');
+    }
+    const grossTotal =
+      Math.round(order.lines.reduce((sum, l) => sum + Number(l.lineTotal), 0) * 100) / 100;
+    const redemption = await this.promotions.redeem(code, order.id, grossTotal, ctx);
+    await this.recomputeTotal(order.id, ctx);
+    await this.recordTransition(
+      order.id,
+      EVENT_TYPES.ORDER_AMENDED,
+      `Promotion ${redemption.promotionCode} applied: -${redemption.amountOff.toFixed(2)}`,
+      ctx,
+    );
+    return this.getOrder(order.id, ctx);
+  }
 
   async listOrders(
     filter: { accountId?: string | undefined; status?: SalesOrderStatus | undefined },
@@ -779,7 +827,9 @@ export class OrderService {
     const lines = await this.prisma.salesOrderLine.findMany({
       where: { tenantId: ctx.tenantId, orderId },
     });
-    const total = Math.round(lines.reduce((sum, l) => sum + Number(l.lineTotal), 0) * 100) / 100;
+    const gross = Math.round(lines.reduce((sum, l) => sum + Number(l.lineTotal), 0) * 100) / 100;
+    const discount = this.promotions ? await this.promotions.discountFor(ctx.tenantId, orderId) : 0;
+    const total = Math.max(0, Math.round((gross - discount) * 100) / 100);
     await this.prisma.salesOrder.update({ where: { id: orderId }, data: { total } });
   }
 

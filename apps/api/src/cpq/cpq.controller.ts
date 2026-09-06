@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
-import type { DiscountRuleService, PricingService, QuoteService } from '@nexora/domain-cpq';
+import type {
+  DiscountRuleService,
+  PricingService,
+  PromotionService,
+  QuoteService,
+} from '@nexora/domain-cpq';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -9,6 +14,7 @@ import { parseBody } from '../common/validate';
 export const PRICING_SERVICE = 'PRICING_SERVICE';
 export const QUOTE_SERVICE = 'QUOTE_SERVICE';
 export const DISCOUNT_SERVICE = 'DISCOUNT_SERVICE';
+export const PROMOTION_SERVICE = 'PROMOTION_SERVICE';
 
 const createPriceListSchema = z.object({
   code: z.string().min(1).max(64),
@@ -199,5 +205,39 @@ export class DiscountRulesController {
   @RequirePermission('pricing.manage')
   async setActive(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.discounts.setRuleActive(id, parseBody(setActiveSchema, body).active, ctx);
+  }
+}
+
+const createPromotionSchema = z.object({
+  code: z.string().min(3).max(32),
+  name: z.string().min(1).max(200),
+  discountPct: z.number().gt(0).max(100),
+  minOrderTotal: z.number().nonnegative().optional(),
+  maxRedemptions: z.number().int().positive().optional(),
+  validFrom: z.string().datetime().optional(),
+  validTo: z.string().datetime().optional(),
+});
+
+@Controller('api/v1/promotions')
+export class PromotionsController {
+  constructor(@Inject(PROMOTION_SERVICE) private readonly promotions: PromotionService) {}
+
+  @Get()
+  @RequirePermission('pricing.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { promotions: await this.promotions.listPromotions(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('pricing.manage')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.promotions.createPromotion(parseBody(createPromotionSchema, body), ctx);
+  }
+
+  @Put(':id/active')
+  @RequirePermission('pricing.manage')
+  async setActive(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(setActiveSchema, body);
+    return this.promotions.setActive(id, input.active, ctx);
   }
 }
