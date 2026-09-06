@@ -18,3 +18,8 @@ export {
 } from './customer360.service';
 export { LOYALTY_EARN_DIVISOR, LoyaltyService, type LoyaltyView } from './loyalty.service';
 export { SupportCaseService, type SupportCaseView } from './case.service';
+export {
+  DEFAULT_ONBOARDING_STEPS,
+  OnboardingService,
+  type OnboardingStatus,
+} from './onboarding.service';

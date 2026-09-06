@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
 import type {
+  OnboardingService,
   SupportCaseService,
   LoyaltyService,
   CrmService,
@@ -19,6 +20,7 @@ export const TERRITORY_SERVICE = 'TERRITORY_SERVICE';
 export const SALES_TEAM_SERVICE = 'SALES_TEAM_SERVICE';
 export const LOYALTY_SERVICE = 'LOYALTY_SERVICE';
 export const SUPPORT_CASE_SERVICE = 'SUPPORT_CASE_SERVICE';
+export const ONBOARDING_SERVICE = 'ONBOARDING_SERVICE';
 
 const createAccountSchema = z.object({
   partyId: z.string().uuid(),
@@ -349,5 +351,22 @@ export class SupportCasesController {
   async transition(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(caseTransitionSchema, body);
     return this.cases.transition(id, input.status, ctx);
+  }
+}
+
+@Controller('api/v1/crm/accounts')
+export class OnboardingController {
+  constructor(@Inject(ONBOARDING_SERVICE) private readonly onboarding: OnboardingService) {}
+
+  @Get(':id/onboarding')
+  @RequirePermission('crm.read')
+  async status(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.onboarding.status(id, ctx);
+  }
+
+  @Post(':id/onboarding/start')
+  @RequirePermission('crm.manage')
+  async start(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.onboarding.start(id, ctx);
   }
 }

@@ -120,6 +120,9 @@ export default function CrmPage() {
   const [caseSubject, setCaseSubject] = useState('');
   const [caseAccount, setCaseAccount] = useState('');
   const [casePriority, setCasePriority] = useState('NORMAL');
+  const [onboarding, setOnboarding] = useState<
+    Record<string, { started: boolean; done: number; total: number }>
+  >({});
   const [loyalty, setLoyalty] = useState<
     Record<string, { points: number; transactions: Array<{ delta: number; reason: string }> }>
   >({});
@@ -391,6 +394,55 @@ export default function CrmPage() {
                         >
                           {selected360 === a.id ? 'Close 360°' : '360°'}
                         </button>{' '}
+                        {onboarding[a.id] ? (
+                          onboarding[a.id]!.started ? (
+                            <span className="badge" title="Onboarding progress">
+                              🚀 {onboarding[a.id]!.done}/{onboarding[a.id]!.total}
+                            </span>
+                          ) : can('crm.manage') ? (
+                            <button
+                              className="btn btn-sm"
+                              type="button"
+                              disabled={busy}
+                              title="Start onboarding checklist"
+                              onClick={() =>
+                                run(async () => {
+                                  const r = await api<{ done: number; total: number }>(
+                                    'POST',
+                                    `/api/v1/crm/accounts/${a.id}/onboarding/start`,
+                                  );
+                                  setOnboarding((prev) => ({
+                                    ...prev,
+                                    [a.id]: { started: true, done: r.done, total: r.total },
+                                  }));
+                                }, 'Onboarding started — tasks created.')
+                              }
+                            >
+                              🚀
+                            </button>
+                          ) : null
+                        ) : (
+                          <button
+                            className="btn btn-sm"
+                            type="button"
+                            title="Onboarding status"
+                            onClick={() => {
+                              api<{ started: boolean; done: number; total: number }>(
+                                'GET',
+                                `/api/v1/crm/accounts/${a.id}/onboarding`,
+                              )
+                                .then((r) =>
+                                  setOnboarding((prev) => ({
+                                    ...prev,
+                                    [a.id]: { started: r.started, done: r.done, total: r.total },
+                                  })),
+                                )
+                                .catch(() => undefined);
+                            }}
+                          >
+                            🚀?
+                          </button>
+                        )}{' '}
                         {loyalty[a.id] ? (
                           <span className="badge badge-ok" title="Loyalty points">
                             ★ {loyalty[a.id]!.points}

@@ -412,6 +412,10 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Onboarding started — tasks created.': 'Onboarding pokrenut — zadaci kreirani.',
+  'Start onboarding checklist': 'Pokreni onboarding listu',
+  'Onboarding status': 'Status onboardinga',
+  'Onboarding progress': 'Napredak onboardinga',
   'Support cases': 'Slučajevi podrške',
   'Customer issues with a clear lifecycle — open, in progress, resolved, closed.':
     'Prijave kupaca s jasnim tokom — otvoreno, u radu, riješeno, zatvoreno.',

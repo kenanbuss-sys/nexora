@@ -20,6 +20,7 @@ import {
   QuoteService,
 } from '@nexora/domain-cpq';
 import {
+  OnboardingService,
   SupportCaseService,
   LoyaltyService,
   CrmService,
@@ -91,6 +92,8 @@ import {
   VERIFICATION_SERVICE,
 } from './dev/dev.controller';
 import {
+  ONBOARDING_SERVICE,
+  OnboardingController,
   SUPPORT_CASE_SERVICE,
   SupportCasesController,
   LOYALTY_SERVICE,
@@ -257,6 +260,7 @@ export const REDIS = 'REDIS';
     CrmAccountsController,
     LoyaltyController,
     SupportCasesController,
+    OnboardingController,
     CrmLeadsController,
     CrmOpportunitiesController,
     CrmActivitiesController,
@@ -505,6 +509,16 @@ export const REDIS = 'REDIS';
       provide: SUPPORT_CASE_SERVICE,
       useFactory: (prisma: PrismaClient) => new SupportCaseService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: ONBOARDING_SERVICE,
+      useFactory: (prisma: PrismaClient, tasks: TaskService, tenants: TenantService) =>
+        new OnboardingService(
+          prisma,
+          { createTask: (input, ctx) => tasks.createTask(input, ctx) },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, TASK_SERVICE, TENANT_SERVICE],
     },
     {
       provide: SALES_TEAM_SERVICE,
