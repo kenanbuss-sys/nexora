@@ -133,6 +133,7 @@ model Tenant {
   breakGlassGrants      BreakGlassGrant[]
   masterDataRequests    MasterDataRequest[]
   loyaltyAccounts       LoyaltyAccount[]
+  supportCases          SupportCase[]
 
   @@map("tenant")
 }
@@ -2651,4 +2652,48 @@ model LoyaltyTransaction {
   @@unique([tenantId, orderId, reason])
   @@index([tenantId, loyaltyAccountId])
   @@map("loyalty_transaction")
+}
+
+enum SupportCaseStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum SupportCasePriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+/// Sprint 064 (CSM-001): customer support cases — numbered, optionally
+/// linked to a CRM account and a sales order, assigned to a user, with
+/// an explicit lifecycle:
+///
+///   OPEN -> IN_PROGRESS -> RESOLVED -> CLOSED
+///        (reopen: RESOLVED -> IN_PROGRESS)
+model SupportCase {
+  id          String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String              @map("tenant_id") @db.Uuid
+  caseNumber  String              @map("case_number")
+  subject     String
+  description String?
+  status      SupportCaseStatus   @default(OPEN)
+  priority    SupportCasePriority @default(NORMAL)
+  accountId   String?             @map("account_id") @db.Uuid
+  orderId     String?             @map("order_id") @db.Uuid
+  assignedTo  String?             @map("assigned_to") @db.Uuid
+  resolvedAt  DateTime?           @map("resolved_at")
+  createdBy   String?             @map("created_by")
+  createdAt   DateTime            @default(now()) @map("created_at")
+  updatedAt   DateTime            @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, caseNumber])
+  @@index([tenantId, status])
+  @@index([tenantId, accountId])
+  @@map("support_case")
 }
