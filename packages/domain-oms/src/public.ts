@@ -4,10 +4,12 @@
 export {
   OrderService,
   type AccountGate,
+  type AvailabilityGate,
   type CreditGate,
   type OrderEventView,
   type OrderLineView,
   type OrderView,
+  type LeadTimeGate,
   type PromotionGate,
   type SkuInfoGate,
   type StockGate,

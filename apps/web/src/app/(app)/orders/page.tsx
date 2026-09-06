@@ -88,6 +88,9 @@ export default function OrdersPage() {
   const [logistics, setLogistics] = useState<
     Record<string, { totalWeightKg: string; totalVolumeM3: string; linesMissingData: number }>
   >({});
+  const [promises, setPromises] = useState<
+    Record<string, { orderPromise: string; fromStockCount: number; total: number }>
+  >({});
   const [alternatives, setAlternatives] = useState<
     Record<string, Array<{ substituteCode: string; available: string }>>
   >({});
@@ -749,6 +752,35 @@ export default function OrdersPage() {
                 >
                   Logistics
                 </button>
+                <button
+                  className="btn btn-sm"
+                  type="button"
+                  onClick={() => {
+                    api<{
+                      orderPromise: string;
+                      lines: Array<{ fromStock: boolean }>;
+                    }>('GET', `/api/v1/orders/${o.id}/promise`)
+                      .then((r) =>
+                        setPromises((prev) => ({
+                          ...prev,
+                          [o.id]: {
+                            orderPromise: r.orderPromise,
+                            fromStockCount: r.lines.filter((l) => l.fromStock).length,
+                            total: r.lines.length,
+                          },
+                        })),
+                      )
+                      .catch(() => undefined);
+                  }}
+                >
+                  Promise date
+                </button>
+                {promises[o.id] ? (
+                  <span className="muted mono" style={{ fontSize: 12 }}>
+                    ≈ {new Date(promises[o.id]!.orderPromise).toLocaleDateString()} ·{' '}
+                    {promises[o.id]!.fromStockCount}/{promises[o.id]!.total} from stock
+                  </span>
+                ) : null}
                 {logistics[o.id] ? (
                   <span className="muted mono" style={{ fontSize: 12 }}>
                     {logistics[o.id]!.totalWeightKg} kg · {logistics[o.id]!.totalVolumeM3} m³

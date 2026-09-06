@@ -83,7 +83,7 @@ CPQ-009,CPQ,Formula pricing,P1,PLANNED,R1,,,
 CPQ-010,CPQ,Cost-aware pricing,P1,PLANNED,R1,,,
 CPQ-011,CPQ,Quote generation,Implemented (Sprint 006),PLANNED,R1,,,Quote lifecycle DRAFT->...->ACCEPTED with totals
 CPQ-012,CPQ,Quote versioning,Implemented (Sprint 006),PLANNED,R1,,,New version supersedes SENT/REJECTED/EXPIRED
-CPQ-013,CPQ,Promise-date calculation,P1,PLANNED,R1,,,
+CPQ-013,CPQ,Promise-date calculation,P1,DONE,R1,,,Sprint 058: per-line promise dates from live availability + planning lead times; order promise = latest line.
 CPQ-014,CPQ,Contract pricing,P1,PLANNED,R1,,,
 COM-001,COM,B2C channel integration,P1,PLANNED,R1,,,
 COM-002,COM,B2B commerce portal,P1,PLANNED,R1,,,
@@ -196,7 +196,7 @@ PLAN-011,PLAN,Finite scheduling,P2,PLANNED,R2,,,
 PLAN-012,PLAN,Sequence optimization,P2,PLANNED,R2,,,
 PLAN-013,PLAN,Constraint management,P2,PLANNED,R2,,,
 PLAN-014,PLAN,What-if scenarios,P2,PLANNED,R2,,,
-PLAN-015,PLAN,Promise-date engine,P2,PLANNED,R2,,,
+PLAN-015,PLAN,Promise-date engine,P2,Partially implemented (Sprint 058),R2,,,Order promise-date endpoint from availability + lead times; full engine (capacity-aware) pending.
 MES-001,MES,Work orders,P1,DONE,R2,,,
 MES-002,MES,Operations,P1,DONE,R2,,,
 MES-003,MES,Work centers,P1,DONE,R2,,,Work-center master data (Sprint 031)

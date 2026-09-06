@@ -89,6 +89,19 @@ export interface PromotionGate {
   discountFor(tenantId: string, orderId: string): Promise<number>;
 }
 
+/** Cross-domain contract: availability truth is owned by WMS. */
+export interface AvailabilityGate {
+  totalAvailability(
+    tenantId: string,
+    skuId: string,
+  ): Promise<{ onHand: number; available: number }>;
+}
+
+/** Cross-domain contract: replenishment lead times are owned by planning. */
+export interface LeadTimeGate {
+  leadTimeFor(tenantId: string, skuId: string): Promise<number>;
+}
+
 /** Cross-domain contract: stock truth is owned by WMS. */
 export interface StockGate {
   reserveStock(
@@ -163,7 +176,69 @@ export class OrderService {
     private readonly stock: StockGate,
     private readonly credit?: CreditGate,
     private readonly promotions?: PromotionGate,
+    private readonly availability?: AvailabilityGate,
+    private readonly leadTimes?: LeadTimeGate,
   ) {}
+
+  /**
+   * Promise dates (CPQ-013/PLAN-015): per line, if free availability
+   * covers the quantity the promise is tomorrow (handling); otherwise
+   * it derives from the SKU's planning lead time (with one buffer day,
+   * minimum 3 when no policy exists). The order promise is the latest
+   * line promise. Read-only — this never mutates the order.
+   */
+  async promiseDates(
+    orderId: string,
+    ctx: RequestContext,
+  ): Promise<{
+    orderPromise: string;
+    lines: Array<{
+      lineId: string;
+      skuId: string;
+      description: string;
+      fromStock: boolean;
+      leadTimeDays: number;
+      promisedAt: string;
+    }>;
+  }> {
+    if (!this.availability || !this.leadTimes) {
+      throw new DomainError('INVALID_STATE', 'Promise dates are not configured');
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('Order', orderId);
+    if (order.lines.length === 0) {
+      throw new DomainError('INVALID_STATE', 'Order has no lines');
+    }
+    const dayMs = 24 * 60 * 60 * 1000;
+    const lines = [];
+    let latest = 0;
+    for (const line of order.lines) {
+      const stock = await this.availability.totalAvailability(ctx.tenantId, line.skuId);
+      const fromStock = stock.available >= Number(line.quantity);
+      let days: number;
+      let leadTimeDays = 0;
+      if (fromStock) {
+        days = 1;
+      } else {
+        leadTimeDays = await this.leadTimes.leadTimeFor(ctx.tenantId, line.skuId);
+        days = leadTimeDays > 0 ? leadTimeDays + 1 : 3;
+      }
+      const promisedAt = new Date(Date.now() + days * dayMs);
+      latest = Math.max(latest, promisedAt.getTime());
+      lines.push({
+        lineId: line.id,
+        skuId: line.skuId,
+        description: line.description,
+        fromStock,
+        leadTimeDays,
+        promisedAt: promisedAt.toISOString(),
+      });
+    }
+    return { orderPromise: new Date(latest).toISOString(), lines };
+  }
 
   /**
    * Apply a promotion/voucher code to a DRAFT order (CPQ-006/COM-012).

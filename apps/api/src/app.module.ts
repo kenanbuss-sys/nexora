@@ -547,6 +547,8 @@ export const REDIS = 'REDIS';
         inventory: InventoryService,
         customer360: Customer360Service,
         promotions: PromotionService,
+        inventory2: InventoryService,
+        planning: PlanningService,
       ) =>
         new OrderService(
           prisma,
@@ -562,6 +564,19 @@ export const REDIS = 'REDIS';
             redeem: (code, orderId, total, ctx) => promotions.redeem(code, orderId, total, ctx),
             discountFor: (t, orderId) => promotions.discountFor(t, orderId),
           },
+          {
+            totalAvailability: (tenantId, skuId) =>
+              inventory2.totalAvailability(skuId, {
+                tenantId,
+                tenantSlug: '',
+                tenantStatus: 'ACTIVE',
+                actorType: 'SERVICE',
+                userId: undefined,
+                userStatus: undefined,
+                platformAdmin: false,
+              }),
+          },
+          { leadTimeFor: (tenantId, skuId) => planning.leadTimeFor(tenantId, skuId) },
         ),
       inject: [
         PRISMA,
@@ -570,6 +585,8 @@ export const REDIS = 'REDIS';
         INVENTORY_SERVICE,
         CUSTOMER360_SERVICE,
         PROMOTION_SERVICE,
+        INVENTORY_SERVICE,
+        PLANNING_SERVICE,
       ],
     },
     {

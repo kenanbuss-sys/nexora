@@ -137,6 +137,15 @@ export class PlanningService {
 
   // ------------------------------------------------------------------- runs
 
+  /** Lead time for one SKU (PLAN policy), 0 when no policy exists. */
+  async leadTimeFor(tenantId: string, skuId: string): Promise<number> {
+    const policy = await this.prisma.planningPolicy.findFirst({
+      where: { tenantId, skuId },
+      select: { leadTimeDays: true },
+    });
+    return policy ? policy.leadTimeDays : 0;
+  }
+
   async listRuns(ctx: RequestContext): Promise<MrpRunView[]> {
     const runs = await this.prisma.mrpRun.findMany({
       where: { tenantId: ctx.tenantId },

@@ -59,6 +59,12 @@ export class OrdersController {
     return this.orders.createFromQuote(parseBody(fromQuoteSchema, body), ctx);
   }
 
+  @Get(':id/promise')
+  @RequirePermission('order.read')
+  async promise(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.orders.promiseDates(id, ctx);
+  }
+
   @Get(':id/logistics')
   @RequirePermission('order.read')
   async logistics(@Param('id') id: string, @Ctx() ctx: RequestContext) {

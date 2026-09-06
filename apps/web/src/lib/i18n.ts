@@ -412,6 +412,8 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Promise date': 'Obećani datum',
+  'from stock': 'sa zalihe',
   'Change requests': 'Zahtjevi za izmjene',
   'Governed master data edits — a steward other than the requester approves; only approval applies the change.':
     'Kontrolisane izmjene matičnih podataka — odobrava ih drugi steward, a izmjena se primjenjuje tek nakon odobrenja.',
