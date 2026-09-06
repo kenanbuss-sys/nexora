@@ -130,6 +130,8 @@ model Tenant {
   exchangeRates         ExchangeRate[]
   consentRecords        ConsentRecord[]
   promotions            Promotion[]
+  breakGlassGrants      BreakGlassGrant[]
+  masterDataRequests    MasterDataRequest[]
 
   @@map("tenant")
 }
@@ -238,9 +240,10 @@ model User {
   createdAt   DateTime   @default(now()) @map("created_at")
   updatedAt   DateTime   @updatedAt @map("updated_at")
 
-  tenant          Tenant               @relation(fields: [tenantId], references: [id])
-  roleAssignments UserRoleAssignment[]
-  credential      UserCredential?
+  tenant           Tenant               @relation(fields: [tenantId], references: [id])
+  roleAssignments  UserRoleAssignment[]
+  credential       UserCredential?
+  breakGlassGrants BreakGlassGrant[]
 
   @@unique([tenantId, email])
   @@index([tenantId, idpSubject])
@@ -2557,4 +2560,56 @@ model SerialNumber {
   @@unique([tenantId, skuId, serial])
   @@index([tenantId, status])
   @@map("serial_number")
+}
+
+/// Sprint 056 (IAM-014): break-glass access — a time-boxed emergency
+/// elevation that bypasses role permissions, is loudly audited and can
+/// be revoked early. Requires a reason; another admin grants it (never
+/// self-service).
+model BreakGlassGrant {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String    @map("tenant_id") @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  reason    String
+  grantedBy String    @map("granted_by") @db.Uuid
+  expiresAt DateTime  @map("expires_at")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([tenantId, userId, expiresAt])
+  @@map("break_glass_grant")
+}
+
+enum MasterDataRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+/// Sprint 057 (MDM-006): master data approvals — governed changes to
+/// master records travel as change requests holding the proposed
+/// payload; a steward other than the requester decides (SoD), and only
+/// approval applies the change through the owning domain.
+model MasterDataRequest {
+  id           String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String                  @map("tenant_id") @db.Uuid
+  entityType   String                  @map("entity_type")
+  entityId     String                  @map("entity_id") @db.Uuid
+  changeType   String                  @map("change_type")
+  payload      Json
+  status       MasterDataRequestStatus @default(PENDING)
+  requestedBy  String                  @map("requested_by") @db.Uuid
+  decidedBy    String?                 @map("decided_by") @db.Uuid
+  decidedAt    DateTime?               @map("decided_at")
+  decisionNote String?                 @map("decision_note")
+  createdAt    DateTime                @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, status])
+  @@index([tenantId, entityType, entityId])
+  @@map("master_data_request")
 }

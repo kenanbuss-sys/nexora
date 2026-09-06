@@ -1338,6 +1338,32 @@ exports.Prisma.SerialNumberScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BreakGlassGrantScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  reason: 'reason',
+  grantedBy: 'grantedBy',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MasterDataRequestScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  changeType: 'changeType',
+  payload: 'payload',
+  status: 'status',
+  requestedBy: 'requestedBy',
+  decidedBy: 'decidedBy',
+  decidedAt: 'decidedAt',
+  decisionNote: 'decisionNote',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1686,6 +1712,12 @@ exports.SerialStatus = exports.$Enums.SerialStatus = {
   SCRAPPED: 'SCRAPPED'
 };
 
+exports.MasterDataRequestStatus = exports.$Enums.MasterDataRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1790,7 +1822,9 @@ exports.Prisma.ModelName = {
   Promotion: 'Promotion',
   PromotionRedemption: 'PromotionRedemption',
   BundleComponent: 'BundleComponent',
-  SerialNumber: 'SerialNumber'
+  SerialNumber: 'SerialNumber',
+  BreakGlassGrant: 'BreakGlassGrant',
+  MasterDataRequest: 'MasterDataRequest'
 };
 
 /**
