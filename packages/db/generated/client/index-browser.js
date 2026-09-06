@@ -680,6 +680,7 @@ exports.Prisma.PriceListScalarFieldEnum = {
   name: 'name',
   currency: 'currency',
   status: 'status',
+  accountId: 'accountId',
   validFrom: 'validFrom',
   validTo: 'validTo',
   createdAt: 'createdAt',
@@ -1364,6 +1365,26 @@ exports.Prisma.MasterDataRequestScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.LoyaltyAccountScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  accountId: 'accountId',
+  points: 'points',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LoyaltyTransactionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  loyaltyAccountId: 'loyaltyAccountId',
+  delta: 'delta',
+  reason: 'reason',
+  orderId: 'orderId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1824,7 +1845,9 @@ exports.Prisma.ModelName = {
   BundleComponent: 'BundleComponent',
   SerialNumber: 'SerialNumber',
   BreakGlassGrant: 'BreakGlassGrant',
-  MasterDataRequest: 'MasterDataRequest'
+  MasterDataRequest: 'MasterDataRequest',
+  LoyaltyAccount: 'LoyaltyAccount',
+  LoyaltyTransaction: 'LoyaltyTransaction'
 };
 
 /**

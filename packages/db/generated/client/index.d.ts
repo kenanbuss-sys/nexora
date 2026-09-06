@@ -611,6 +611,18 @@ export type BreakGlassGrant = $Result.DefaultSelection<Prisma.$BreakGlassGrantPa
  * approval applies the change through the owning domain.
  */
 export type MasterDataRequest = $Result.DefaultSelection<Prisma.$MasterDataRequestPayload>
+/**
+ * Model LoyaltyAccount
+ * Sprint 062 (COM-013): loyalty — one account per CRM customer;
+ * points accrue from fulfilled orders and adjustments; balance is the
+ * sum of an append-only transaction ledger, never edited in place.
+ */
+export type LoyaltyAccount = $Result.DefaultSelection<Prisma.$LoyaltyAccountPayload>
+/**
+ * Model LoyaltyTransaction
+ * 
+ */
+export type LoyaltyTransaction = $Result.DefaultSelection<Prisma.$LoyaltyTransactionPayload>
 
 /**
  * Enums
@@ -2462,6 +2474,26 @@ export class PrismaClient<
     * ```
     */
   get masterDataRequest(): Prisma.MasterDataRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loyaltyAccount`: Exposes CRUD operations for the **LoyaltyAccount** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoyaltyAccounts
+    * const loyaltyAccounts = await prisma.loyaltyAccount.findMany()
+    * ```
+    */
+  get loyaltyAccount(): Prisma.LoyaltyAccountDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loyaltyTransaction`: Exposes CRUD operations for the **LoyaltyTransaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoyaltyTransactions
+    * const loyaltyTransactions = await prisma.loyaltyTransaction.findMany()
+    * ```
+    */
+  get loyaltyTransaction(): Prisma.LoyaltyTransactionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3008,7 +3040,9 @@ export namespace Prisma {
     BundleComponent: 'BundleComponent',
     SerialNumber: 'SerialNumber',
     BreakGlassGrant: 'BreakGlassGrant',
-    MasterDataRequest: 'MasterDataRequest'
+    MasterDataRequest: 'MasterDataRequest',
+    LoyaltyAccount: 'LoyaltyAccount',
+    LoyaltyTransaction: 'LoyaltyTransaction'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3027,7 +3061,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -10875,6 +10909,154 @@ export namespace Prisma {
           }
         }
       }
+      LoyaltyAccount: {
+        payload: Prisma.$LoyaltyAccountPayload<ExtArgs>
+        fields: Prisma.LoyaltyAccountFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoyaltyAccountFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoyaltyAccountFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>
+          }
+          findFirst: {
+            args: Prisma.LoyaltyAccountFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoyaltyAccountFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>
+          }
+          findMany: {
+            args: Prisma.LoyaltyAccountFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>[]
+          }
+          create: {
+            args: Prisma.LoyaltyAccountCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>
+          }
+          createMany: {
+            args: Prisma.LoyaltyAccountCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoyaltyAccountCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>[]
+          }
+          delete: {
+            args: Prisma.LoyaltyAccountDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>
+          }
+          update: {
+            args: Prisma.LoyaltyAccountUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoyaltyAccountDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoyaltyAccountUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoyaltyAccountUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoyaltyAccountUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyAccountPayload>
+          }
+          aggregate: {
+            args: Prisma.LoyaltyAccountAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoyaltyAccount>
+          }
+          groupBy: {
+            args: Prisma.LoyaltyAccountGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoyaltyAccountGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoyaltyAccountCountArgs<ExtArgs>
+            result: $Utils.Optional<LoyaltyAccountCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoyaltyTransaction: {
+        payload: Prisma.$LoyaltyTransactionPayload<ExtArgs>
+        fields: Prisma.LoyaltyTransactionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoyaltyTransactionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoyaltyTransactionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>
+          }
+          findFirst: {
+            args: Prisma.LoyaltyTransactionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoyaltyTransactionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>
+          }
+          findMany: {
+            args: Prisma.LoyaltyTransactionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>[]
+          }
+          create: {
+            args: Prisma.LoyaltyTransactionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>
+          }
+          createMany: {
+            args: Prisma.LoyaltyTransactionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoyaltyTransactionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>[]
+          }
+          delete: {
+            args: Prisma.LoyaltyTransactionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>
+          }
+          update: {
+            args: Prisma.LoyaltyTransactionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoyaltyTransactionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoyaltyTransactionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoyaltyTransactionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoyaltyTransactionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoyaltyTransactionPayload>
+          }
+          aggregate: {
+            args: Prisma.LoyaltyTransactionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoyaltyTransaction>
+          }
+          groupBy: {
+            args: Prisma.LoyaltyTransactionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoyaltyTransactionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoyaltyTransactionCountArgs<ExtArgs>
+            result: $Utils.Optional<LoyaltyTransactionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -11077,6 +11259,8 @@ export namespace Prisma {
     serialNumber?: SerialNumberOmit
     breakGlassGrant?: BreakGlassGrantOmit
     masterDataRequest?: MasterDataRequestOmit
+    loyaltyAccount?: LoyaltyAccountOmit
+    loyaltyTransaction?: LoyaltyTransactionOmit
   }
 
   /* Types for Logging */
@@ -11249,6 +11433,7 @@ export namespace Prisma {
     promotions: number
     breakGlassGrants: number
     masterDataRequests: number
+    loyaltyAccounts: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11344,6 +11529,7 @@ export namespace Prisma {
     promotions?: boolean | TenantCountOutputTypeCountPromotionsArgs
     breakGlassGrants?: boolean | TenantCountOutputTypeCountBreakGlassGrantsArgs
     masterDataRequests?: boolean | TenantCountOutputTypeCountMasterDataRequestsArgs
+    loyaltyAccounts?: boolean | TenantCountOutputTypeCountLoyaltyAccountsArgs
   }
 
   // Custom InputTypes
@@ -11999,6 +12185,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountMasterDataRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MasterDataRequestWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountLoyaltyAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoyaltyAccountWhereInput
   }
 
 
@@ -13134,6 +13327,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type LoyaltyAccountCountOutputType
+   */
+
+  export type LoyaltyAccountCountOutputType = {
+    transactions: number
+  }
+
+  export type LoyaltyAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transactions?: boolean | LoyaltyAccountCountOutputTypeCountTransactionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LoyaltyAccountCountOutputType without action
+   */
+  export type LoyaltyAccountCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccountCountOutputType
+     */
+    select?: LoyaltyAccountCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LoyaltyAccountCountOutputType without action
+   */
+  export type LoyaltyAccountCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoyaltyTransactionWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -13443,6 +13667,7 @@ export namespace Prisma {
     promotions?: boolean | Tenant$promotionsArgs<ExtArgs>
     breakGlassGrants?: boolean | Tenant$breakGlassGrantsArgs<ExtArgs>
     masterDataRequests?: boolean | Tenant$masterDataRequestsArgs<ExtArgs>
+    loyaltyAccounts?: boolean | Tenant$loyaltyAccountsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -13570,6 +13795,7 @@ export namespace Prisma {
     promotions?: boolean | Tenant$promotionsArgs<ExtArgs>
     breakGlassGrants?: boolean | Tenant$breakGlassGrantsArgs<ExtArgs>
     masterDataRequests?: boolean | Tenant$masterDataRequestsArgs<ExtArgs>
+    loyaltyAccounts?: boolean | Tenant$loyaltyAccountsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -13670,6 +13896,7 @@ export namespace Prisma {
       promotions: Prisma.$PromotionPayload<ExtArgs>[]
       breakGlassGrants: Prisma.$BreakGlassGrantPayload<ExtArgs>[]
       masterDataRequests: Prisma.$MasterDataRequestPayload<ExtArgs>[]
+      loyaltyAccounts: Prisma.$LoyaltyAccountPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14165,6 +14392,7 @@ export namespace Prisma {
     promotions<T extends Tenant$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$promotionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     breakGlassGrants<T extends Tenant$breakGlassGrantsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$breakGlassGrantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BreakGlassGrantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     masterDataRequests<T extends Tenant$masterDataRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$masterDataRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterDataRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    loyaltyAccounts<T extends Tenant$loyaltyAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$loyaltyAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16794,6 +17022,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MasterDataRequestScalarFieldEnum | MasterDataRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.loyaltyAccounts
+   */
+  export type Tenant$loyaltyAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    where?: LoyaltyAccountWhereInput
+    orderBy?: LoyaltyAccountOrderByWithRelationInput | LoyaltyAccountOrderByWithRelationInput[]
+    cursor?: LoyaltyAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoyaltyAccountScalarFieldEnum | LoyaltyAccountScalarFieldEnum[]
   }
 
   /**
@@ -71081,6 +71333,7 @@ export namespace Prisma {
     name: string | null
     currency: string | null
     status: $Enums.PriceListStatus | null
+    accountId: string | null
     validFrom: Date | null
     validTo: Date | null
     createdAt: Date | null
@@ -71094,6 +71347,7 @@ export namespace Prisma {
     name: string | null
     currency: string | null
     status: $Enums.PriceListStatus | null
+    accountId: string | null
     validFrom: Date | null
     validTo: Date | null
     createdAt: Date | null
@@ -71107,6 +71361,7 @@ export namespace Prisma {
     name: number
     currency: number
     status: number
+    accountId: number
     validFrom: number
     validTo: number
     createdAt: number
@@ -71122,6 +71377,7 @@ export namespace Prisma {
     name?: true
     currency?: true
     status?: true
+    accountId?: true
     validFrom?: true
     validTo?: true
     createdAt?: true
@@ -71135,6 +71391,7 @@ export namespace Prisma {
     name?: true
     currency?: true
     status?: true
+    accountId?: true
     validFrom?: true
     validTo?: true
     createdAt?: true
@@ -71148,6 +71405,7 @@ export namespace Prisma {
     name?: true
     currency?: true
     status?: true
+    accountId?: true
     validFrom?: true
     validTo?: true
     createdAt?: true
@@ -71234,6 +71492,7 @@ export namespace Prisma {
     name: string
     currency: string
     status: $Enums.PriceListStatus
+    accountId: string | null
     validFrom: Date | null
     validTo: Date | null
     createdAt: Date
@@ -71264,6 +71523,7 @@ export namespace Prisma {
     name?: boolean
     currency?: boolean
     status?: boolean
+    accountId?: boolean
     validFrom?: boolean
     validTo?: boolean
     createdAt?: boolean
@@ -71280,6 +71540,7 @@ export namespace Prisma {
     name?: boolean
     currency?: boolean
     status?: boolean
+    accountId?: boolean
     validFrom?: boolean
     validTo?: boolean
     createdAt?: boolean
@@ -71294,6 +71555,7 @@ export namespace Prisma {
     name?: boolean
     currency?: boolean
     status?: boolean
+    accountId?: boolean
     validFrom?: boolean
     validTo?: boolean
     createdAt?: boolean
@@ -71308,13 +71570,14 @@ export namespace Prisma {
     name?: boolean
     currency?: boolean
     status?: boolean
+    accountId?: boolean
     validFrom?: boolean
     validTo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PriceListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "currency" | "status" | "validFrom" | "validTo" | "createdAt" | "updatedAt", ExtArgs["result"]["priceList"]>
+  export type PriceListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "name" | "currency" | "status" | "accountId" | "validFrom" | "validTo" | "createdAt" | "updatedAt", ExtArgs["result"]["priceList"]>
   export type PriceListInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     entries?: boolean | PriceList$entriesArgs<ExtArgs>
@@ -71340,6 +71603,11 @@ export namespace Prisma {
       name: string
       currency: string
       status: $Enums.PriceListStatus
+      /**
+       * Sprint 061 (B2B-004/CPQ-014): set = a contract price list for one
+       * customer account; null = a general list.
+       */
+      accountId: string | null
       validFrom: Date | null
       validTo: Date | null
       createdAt: Date
@@ -71775,6 +72043,7 @@ export namespace Prisma {
     readonly name: FieldRef<"PriceList", 'String'>
     readonly currency: FieldRef<"PriceList", 'String'>
     readonly status: FieldRef<"PriceList", 'PriceListStatus'>
+    readonly accountId: FieldRef<"PriceList", 'String'>
     readonly validFrom: FieldRef<"PriceList", 'DateTime'>
     readonly validTo: FieldRef<"PriceList", 'DateTime'>
     readonly createdAt: FieldRef<"PriceList", 'DateTime'>
@@ -136620,6 +136889,2272 @@ export namespace Prisma {
 
 
   /**
+   * Model LoyaltyAccount
+   */
+
+  export type AggregateLoyaltyAccount = {
+    _count: LoyaltyAccountCountAggregateOutputType | null
+    _avg: LoyaltyAccountAvgAggregateOutputType | null
+    _sum: LoyaltyAccountSumAggregateOutputType | null
+    _min: LoyaltyAccountMinAggregateOutputType | null
+    _max: LoyaltyAccountMaxAggregateOutputType | null
+  }
+
+  export type LoyaltyAccountAvgAggregateOutputType = {
+    points: number | null
+  }
+
+  export type LoyaltyAccountSumAggregateOutputType = {
+    points: number | null
+  }
+
+  export type LoyaltyAccountMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    accountId: string | null
+    points: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LoyaltyAccountMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    accountId: string | null
+    points: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LoyaltyAccountCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    accountId: number
+    points: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LoyaltyAccountAvgAggregateInputType = {
+    points?: true
+  }
+
+  export type LoyaltyAccountSumAggregateInputType = {
+    points?: true
+  }
+
+  export type LoyaltyAccountMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    accountId?: true
+    points?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LoyaltyAccountMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    accountId?: true
+    points?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LoyaltyAccountCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    accountId?: true
+    points?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LoyaltyAccountAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoyaltyAccount to aggregate.
+     */
+    where?: LoyaltyAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyAccounts to fetch.
+     */
+    orderBy?: LoyaltyAccountOrderByWithRelationInput | LoyaltyAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoyaltyAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoyaltyAccounts
+    **/
+    _count?: true | LoyaltyAccountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LoyaltyAccountAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoyaltyAccountSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoyaltyAccountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoyaltyAccountMaxAggregateInputType
+  }
+
+  export type GetLoyaltyAccountAggregateType<T extends LoyaltyAccountAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoyaltyAccount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoyaltyAccount[P]>
+      : GetScalarType<T[P], AggregateLoyaltyAccount[P]>
+  }
+
+
+
+
+  export type LoyaltyAccountGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoyaltyAccountWhereInput
+    orderBy?: LoyaltyAccountOrderByWithAggregationInput | LoyaltyAccountOrderByWithAggregationInput[]
+    by: LoyaltyAccountScalarFieldEnum[] | LoyaltyAccountScalarFieldEnum
+    having?: LoyaltyAccountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoyaltyAccountCountAggregateInputType | true
+    _avg?: LoyaltyAccountAvgAggregateInputType
+    _sum?: LoyaltyAccountSumAggregateInputType
+    _min?: LoyaltyAccountMinAggregateInputType
+    _max?: LoyaltyAccountMaxAggregateInputType
+  }
+
+  export type LoyaltyAccountGroupByOutputType = {
+    id: string
+    tenantId: string
+    accountId: string
+    points: number
+    createdAt: Date
+    updatedAt: Date
+    _count: LoyaltyAccountCountAggregateOutputType | null
+    _avg: LoyaltyAccountAvgAggregateOutputType | null
+    _sum: LoyaltyAccountSumAggregateOutputType | null
+    _min: LoyaltyAccountMinAggregateOutputType | null
+    _max: LoyaltyAccountMaxAggregateOutputType | null
+  }
+
+  type GetLoyaltyAccountGroupByPayload<T extends LoyaltyAccountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoyaltyAccountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoyaltyAccountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoyaltyAccountGroupByOutputType[P]>
+            : GetScalarType<T[P], LoyaltyAccountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoyaltyAccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    points?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    transactions?: boolean | LoyaltyAccount$transactionsArgs<ExtArgs>
+    _count?: boolean | LoyaltyAccountCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loyaltyAccount"]>
+
+  export type LoyaltyAccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    points?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loyaltyAccount"]>
+
+  export type LoyaltyAccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    points?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loyaltyAccount"]>
+
+  export type LoyaltyAccountSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    accountId?: boolean
+    points?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LoyaltyAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "accountId" | "points" | "createdAt" | "updatedAt", ExtArgs["result"]["loyaltyAccount"]>
+  export type LoyaltyAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    transactions?: boolean | LoyaltyAccount$transactionsArgs<ExtArgs>
+    _count?: boolean | LoyaltyAccountCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LoyaltyAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type LoyaltyAccountIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $LoyaltyAccountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoyaltyAccount"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      transactions: Prisma.$LoyaltyTransactionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      accountId: string
+      points: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["loyaltyAccount"]>
+    composites: {}
+  }
+
+  type LoyaltyAccountGetPayload<S extends boolean | null | undefined | LoyaltyAccountDefaultArgs> = $Result.GetResult<Prisma.$LoyaltyAccountPayload, S>
+
+  type LoyaltyAccountCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoyaltyAccountFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoyaltyAccountCountAggregateInputType | true
+    }
+
+  export interface LoyaltyAccountDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoyaltyAccount'], meta: { name: 'LoyaltyAccount' } }
+    /**
+     * Find zero or one LoyaltyAccount that matches the filter.
+     * @param {LoyaltyAccountFindUniqueArgs} args - Arguments to find a LoyaltyAccount
+     * @example
+     * // Get one LoyaltyAccount
+     * const loyaltyAccount = await prisma.loyaltyAccount.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoyaltyAccountFindUniqueArgs>(args: SelectSubset<T, LoyaltyAccountFindUniqueArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoyaltyAccount that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoyaltyAccountFindUniqueOrThrowArgs} args - Arguments to find a LoyaltyAccount
+     * @example
+     * // Get one LoyaltyAccount
+     * const loyaltyAccount = await prisma.loyaltyAccount.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoyaltyAccountFindUniqueOrThrowArgs>(args: SelectSubset<T, LoyaltyAccountFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoyaltyAccount that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyAccountFindFirstArgs} args - Arguments to find a LoyaltyAccount
+     * @example
+     * // Get one LoyaltyAccount
+     * const loyaltyAccount = await prisma.loyaltyAccount.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoyaltyAccountFindFirstArgs>(args?: SelectSubset<T, LoyaltyAccountFindFirstArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoyaltyAccount that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyAccountFindFirstOrThrowArgs} args - Arguments to find a LoyaltyAccount
+     * @example
+     * // Get one LoyaltyAccount
+     * const loyaltyAccount = await prisma.loyaltyAccount.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoyaltyAccountFindFirstOrThrowArgs>(args?: SelectSubset<T, LoyaltyAccountFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoyaltyAccounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyAccountFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoyaltyAccounts
+     * const loyaltyAccounts = await prisma.loyaltyAccount.findMany()
+     * 
+     * // Get first 10 LoyaltyAccounts
+     * const loyaltyAccounts = await prisma.loyaltyAccount.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loyaltyAccountWithIdOnly = await prisma.loyaltyAccount.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoyaltyAccountFindManyArgs>(args?: SelectSubset<T, LoyaltyAccountFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoyaltyAccount.
+     * @param {LoyaltyAccountCreateArgs} args - Arguments to create a LoyaltyAccount.
+     * @example
+     * // Create one LoyaltyAccount
+     * const LoyaltyAccount = await prisma.loyaltyAccount.create({
+     *   data: {
+     *     // ... data to create a LoyaltyAccount
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoyaltyAccountCreateArgs>(args: SelectSubset<T, LoyaltyAccountCreateArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoyaltyAccounts.
+     * @param {LoyaltyAccountCreateManyArgs} args - Arguments to create many LoyaltyAccounts.
+     * @example
+     * // Create many LoyaltyAccounts
+     * const loyaltyAccount = await prisma.loyaltyAccount.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoyaltyAccountCreateManyArgs>(args?: SelectSubset<T, LoyaltyAccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoyaltyAccounts and returns the data saved in the database.
+     * @param {LoyaltyAccountCreateManyAndReturnArgs} args - Arguments to create many LoyaltyAccounts.
+     * @example
+     * // Create many LoyaltyAccounts
+     * const loyaltyAccount = await prisma.loyaltyAccount.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoyaltyAccounts and only return the `id`
+     * const loyaltyAccountWithIdOnly = await prisma.loyaltyAccount.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoyaltyAccountCreateManyAndReturnArgs>(args?: SelectSubset<T, LoyaltyAccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoyaltyAccount.
+     * @param {LoyaltyAccountDeleteArgs} args - Arguments to delete one LoyaltyAccount.
+     * @example
+     * // Delete one LoyaltyAccount
+     * const LoyaltyAccount = await prisma.loyaltyAccount.delete({
+     *   where: {
+     *     // ... filter to delete one LoyaltyAccount
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoyaltyAccountDeleteArgs>(args: SelectSubset<T, LoyaltyAccountDeleteArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoyaltyAccount.
+     * @param {LoyaltyAccountUpdateArgs} args - Arguments to update one LoyaltyAccount.
+     * @example
+     * // Update one LoyaltyAccount
+     * const loyaltyAccount = await prisma.loyaltyAccount.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoyaltyAccountUpdateArgs>(args: SelectSubset<T, LoyaltyAccountUpdateArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoyaltyAccounts.
+     * @param {LoyaltyAccountDeleteManyArgs} args - Arguments to filter LoyaltyAccounts to delete.
+     * @example
+     * // Delete a few LoyaltyAccounts
+     * const { count } = await prisma.loyaltyAccount.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoyaltyAccountDeleteManyArgs>(args?: SelectSubset<T, LoyaltyAccountDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoyaltyAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyAccountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoyaltyAccounts
+     * const loyaltyAccount = await prisma.loyaltyAccount.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoyaltyAccountUpdateManyArgs>(args: SelectSubset<T, LoyaltyAccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoyaltyAccounts and returns the data updated in the database.
+     * @param {LoyaltyAccountUpdateManyAndReturnArgs} args - Arguments to update many LoyaltyAccounts.
+     * @example
+     * // Update many LoyaltyAccounts
+     * const loyaltyAccount = await prisma.loyaltyAccount.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoyaltyAccounts and only return the `id`
+     * const loyaltyAccountWithIdOnly = await prisma.loyaltyAccount.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoyaltyAccountUpdateManyAndReturnArgs>(args: SelectSubset<T, LoyaltyAccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoyaltyAccount.
+     * @param {LoyaltyAccountUpsertArgs} args - Arguments to update or create a LoyaltyAccount.
+     * @example
+     * // Update or create a LoyaltyAccount
+     * const loyaltyAccount = await prisma.loyaltyAccount.upsert({
+     *   create: {
+     *     // ... data to create a LoyaltyAccount
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoyaltyAccount we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoyaltyAccountUpsertArgs>(args: SelectSubset<T, LoyaltyAccountUpsertArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoyaltyAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyAccountCountArgs} args - Arguments to filter LoyaltyAccounts to count.
+     * @example
+     * // Count the number of LoyaltyAccounts
+     * const count = await prisma.loyaltyAccount.count({
+     *   where: {
+     *     // ... the filter for the LoyaltyAccounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoyaltyAccountCountArgs>(
+      args?: Subset<T, LoyaltyAccountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoyaltyAccountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoyaltyAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyAccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoyaltyAccountAggregateArgs>(args: Subset<T, LoyaltyAccountAggregateArgs>): Prisma.PrismaPromise<GetLoyaltyAccountAggregateType<T>>
+
+    /**
+     * Group by LoyaltyAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyAccountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoyaltyAccountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoyaltyAccountGroupByArgs['orderBy'] }
+        : { orderBy?: LoyaltyAccountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoyaltyAccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoyaltyAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoyaltyAccount model
+   */
+  readonly fields: LoyaltyAccountFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoyaltyAccount.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoyaltyAccountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    transactions<T extends LoyaltyAccount$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, LoyaltyAccount$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoyaltyAccount model
+   */
+  interface LoyaltyAccountFieldRefs {
+    readonly id: FieldRef<"LoyaltyAccount", 'String'>
+    readonly tenantId: FieldRef<"LoyaltyAccount", 'String'>
+    readonly accountId: FieldRef<"LoyaltyAccount", 'String'>
+    readonly points: FieldRef<"LoyaltyAccount", 'Int'>
+    readonly createdAt: FieldRef<"LoyaltyAccount", 'DateTime'>
+    readonly updatedAt: FieldRef<"LoyaltyAccount", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoyaltyAccount findUnique
+   */
+  export type LoyaltyAccountFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyAccount to fetch.
+     */
+    where: LoyaltyAccountWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyAccount findUniqueOrThrow
+   */
+  export type LoyaltyAccountFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyAccount to fetch.
+     */
+    where: LoyaltyAccountWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyAccount findFirst
+   */
+  export type LoyaltyAccountFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyAccount to fetch.
+     */
+    where?: LoyaltyAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyAccounts to fetch.
+     */
+    orderBy?: LoyaltyAccountOrderByWithRelationInput | LoyaltyAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoyaltyAccounts.
+     */
+    cursor?: LoyaltyAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoyaltyAccounts.
+     */
+    distinct?: LoyaltyAccountScalarFieldEnum | LoyaltyAccountScalarFieldEnum[]
+  }
+
+  /**
+   * LoyaltyAccount findFirstOrThrow
+   */
+  export type LoyaltyAccountFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyAccount to fetch.
+     */
+    where?: LoyaltyAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyAccounts to fetch.
+     */
+    orderBy?: LoyaltyAccountOrderByWithRelationInput | LoyaltyAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoyaltyAccounts.
+     */
+    cursor?: LoyaltyAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoyaltyAccounts.
+     */
+    distinct?: LoyaltyAccountScalarFieldEnum | LoyaltyAccountScalarFieldEnum[]
+  }
+
+  /**
+   * LoyaltyAccount findMany
+   */
+  export type LoyaltyAccountFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyAccounts to fetch.
+     */
+    where?: LoyaltyAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyAccounts to fetch.
+     */
+    orderBy?: LoyaltyAccountOrderByWithRelationInput | LoyaltyAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoyaltyAccounts.
+     */
+    cursor?: LoyaltyAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyAccounts.
+     */
+    skip?: number
+    distinct?: LoyaltyAccountScalarFieldEnum | LoyaltyAccountScalarFieldEnum[]
+  }
+
+  /**
+   * LoyaltyAccount create
+   */
+  export type LoyaltyAccountCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoyaltyAccount.
+     */
+    data: XOR<LoyaltyAccountCreateInput, LoyaltyAccountUncheckedCreateInput>
+  }
+
+  /**
+   * LoyaltyAccount createMany
+   */
+  export type LoyaltyAccountCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoyaltyAccounts.
+     */
+    data: LoyaltyAccountCreateManyInput | LoyaltyAccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoyaltyAccount createManyAndReturn
+   */
+  export type LoyaltyAccountCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoyaltyAccounts.
+     */
+    data: LoyaltyAccountCreateManyInput | LoyaltyAccountCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoyaltyAccount update
+   */
+  export type LoyaltyAccountUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoyaltyAccount.
+     */
+    data: XOR<LoyaltyAccountUpdateInput, LoyaltyAccountUncheckedUpdateInput>
+    /**
+     * Choose, which LoyaltyAccount to update.
+     */
+    where: LoyaltyAccountWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyAccount updateMany
+   */
+  export type LoyaltyAccountUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoyaltyAccounts.
+     */
+    data: XOR<LoyaltyAccountUpdateManyMutationInput, LoyaltyAccountUncheckedUpdateManyInput>
+    /**
+     * Filter which LoyaltyAccounts to update
+     */
+    where?: LoyaltyAccountWhereInput
+    /**
+     * Limit how many LoyaltyAccounts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoyaltyAccount updateManyAndReturn
+   */
+  export type LoyaltyAccountUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * The data used to update LoyaltyAccounts.
+     */
+    data: XOR<LoyaltyAccountUpdateManyMutationInput, LoyaltyAccountUncheckedUpdateManyInput>
+    /**
+     * Filter which LoyaltyAccounts to update
+     */
+    where?: LoyaltyAccountWhereInput
+    /**
+     * Limit how many LoyaltyAccounts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoyaltyAccount upsert
+   */
+  export type LoyaltyAccountUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoyaltyAccount to update in case it exists.
+     */
+    where: LoyaltyAccountWhereUniqueInput
+    /**
+     * In case the LoyaltyAccount found by the `where` argument doesn't exist, create a new LoyaltyAccount with this data.
+     */
+    create: XOR<LoyaltyAccountCreateInput, LoyaltyAccountUncheckedCreateInput>
+    /**
+     * In case the LoyaltyAccount was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoyaltyAccountUpdateInput, LoyaltyAccountUncheckedUpdateInput>
+  }
+
+  /**
+   * LoyaltyAccount delete
+   */
+  export type LoyaltyAccountDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+    /**
+     * Filter which LoyaltyAccount to delete.
+     */
+    where: LoyaltyAccountWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyAccount deleteMany
+   */
+  export type LoyaltyAccountDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoyaltyAccounts to delete
+     */
+    where?: LoyaltyAccountWhereInput
+    /**
+     * Limit how many LoyaltyAccounts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoyaltyAccount.transactions
+   */
+  export type LoyaltyAccount$transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    where?: LoyaltyTransactionWhereInput
+    orderBy?: LoyaltyTransactionOrderByWithRelationInput | LoyaltyTransactionOrderByWithRelationInput[]
+    cursor?: LoyaltyTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoyaltyTransactionScalarFieldEnum | LoyaltyTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * LoyaltyAccount without action
+   */
+  export type LoyaltyAccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyAccount
+     */
+    select?: LoyaltyAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyAccount
+     */
+    omit?: LoyaltyAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyAccountInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoyaltyTransaction
+   */
+
+  export type AggregateLoyaltyTransaction = {
+    _count: LoyaltyTransactionCountAggregateOutputType | null
+    _avg: LoyaltyTransactionAvgAggregateOutputType | null
+    _sum: LoyaltyTransactionSumAggregateOutputType | null
+    _min: LoyaltyTransactionMinAggregateOutputType | null
+    _max: LoyaltyTransactionMaxAggregateOutputType | null
+  }
+
+  export type LoyaltyTransactionAvgAggregateOutputType = {
+    delta: number | null
+  }
+
+  export type LoyaltyTransactionSumAggregateOutputType = {
+    delta: number | null
+  }
+
+  export type LoyaltyTransactionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    loyaltyAccountId: string | null
+    delta: number | null
+    reason: string | null
+    orderId: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type LoyaltyTransactionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    loyaltyAccountId: string | null
+    delta: number | null
+    reason: string | null
+    orderId: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type LoyaltyTransactionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    loyaltyAccountId: number
+    delta: number
+    reason: number
+    orderId: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LoyaltyTransactionAvgAggregateInputType = {
+    delta?: true
+  }
+
+  export type LoyaltyTransactionSumAggregateInputType = {
+    delta?: true
+  }
+
+  export type LoyaltyTransactionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    loyaltyAccountId?: true
+    delta?: true
+    reason?: true
+    orderId?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type LoyaltyTransactionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    loyaltyAccountId?: true
+    delta?: true
+    reason?: true
+    orderId?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type LoyaltyTransactionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    loyaltyAccountId?: true
+    delta?: true
+    reason?: true
+    orderId?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LoyaltyTransactionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoyaltyTransaction to aggregate.
+     */
+    where?: LoyaltyTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyTransactions to fetch.
+     */
+    orderBy?: LoyaltyTransactionOrderByWithRelationInput | LoyaltyTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoyaltyTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoyaltyTransactions
+    **/
+    _count?: true | LoyaltyTransactionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LoyaltyTransactionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoyaltyTransactionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoyaltyTransactionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoyaltyTransactionMaxAggregateInputType
+  }
+
+  export type GetLoyaltyTransactionAggregateType<T extends LoyaltyTransactionAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoyaltyTransaction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoyaltyTransaction[P]>
+      : GetScalarType<T[P], AggregateLoyaltyTransaction[P]>
+  }
+
+
+
+
+  export type LoyaltyTransactionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoyaltyTransactionWhereInput
+    orderBy?: LoyaltyTransactionOrderByWithAggregationInput | LoyaltyTransactionOrderByWithAggregationInput[]
+    by: LoyaltyTransactionScalarFieldEnum[] | LoyaltyTransactionScalarFieldEnum
+    having?: LoyaltyTransactionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoyaltyTransactionCountAggregateInputType | true
+    _avg?: LoyaltyTransactionAvgAggregateInputType
+    _sum?: LoyaltyTransactionSumAggregateInputType
+    _min?: LoyaltyTransactionMinAggregateInputType
+    _max?: LoyaltyTransactionMaxAggregateInputType
+  }
+
+  export type LoyaltyTransactionGroupByOutputType = {
+    id: string
+    tenantId: string
+    loyaltyAccountId: string
+    delta: number
+    reason: string
+    orderId: string | null
+    createdBy: string | null
+    createdAt: Date
+    _count: LoyaltyTransactionCountAggregateOutputType | null
+    _avg: LoyaltyTransactionAvgAggregateOutputType | null
+    _sum: LoyaltyTransactionSumAggregateOutputType | null
+    _min: LoyaltyTransactionMinAggregateOutputType | null
+    _max: LoyaltyTransactionMaxAggregateOutputType | null
+  }
+
+  type GetLoyaltyTransactionGroupByPayload<T extends LoyaltyTransactionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoyaltyTransactionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoyaltyTransactionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoyaltyTransactionGroupByOutputType[P]>
+            : GetScalarType<T[P], LoyaltyTransactionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoyaltyTransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    loyaltyAccountId?: boolean
+    delta?: boolean
+    reason?: boolean
+    orderId?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    loyaltyAccount?: boolean | LoyaltyAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loyaltyTransaction"]>
+
+  export type LoyaltyTransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    loyaltyAccountId?: boolean
+    delta?: boolean
+    reason?: boolean
+    orderId?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    loyaltyAccount?: boolean | LoyaltyAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loyaltyTransaction"]>
+
+  export type LoyaltyTransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    loyaltyAccountId?: boolean
+    delta?: boolean
+    reason?: boolean
+    orderId?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    loyaltyAccount?: boolean | LoyaltyAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loyaltyTransaction"]>
+
+  export type LoyaltyTransactionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    loyaltyAccountId?: boolean
+    delta?: boolean
+    reason?: boolean
+    orderId?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type LoyaltyTransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "loyaltyAccountId" | "delta" | "reason" | "orderId" | "createdBy" | "createdAt", ExtArgs["result"]["loyaltyTransaction"]>
+  export type LoyaltyTransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    loyaltyAccount?: boolean | LoyaltyAccountDefaultArgs<ExtArgs>
+  }
+  export type LoyaltyTransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    loyaltyAccount?: boolean | LoyaltyAccountDefaultArgs<ExtArgs>
+  }
+  export type LoyaltyTransactionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    loyaltyAccount?: boolean | LoyaltyAccountDefaultArgs<ExtArgs>
+  }
+
+  export type $LoyaltyTransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoyaltyTransaction"
+    objects: {
+      loyaltyAccount: Prisma.$LoyaltyAccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      loyaltyAccountId: string
+      delta: number
+      reason: string
+      orderId: string | null
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["loyaltyTransaction"]>
+    composites: {}
+  }
+
+  type LoyaltyTransactionGetPayload<S extends boolean | null | undefined | LoyaltyTransactionDefaultArgs> = $Result.GetResult<Prisma.$LoyaltyTransactionPayload, S>
+
+  type LoyaltyTransactionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoyaltyTransactionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoyaltyTransactionCountAggregateInputType | true
+    }
+
+  export interface LoyaltyTransactionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoyaltyTransaction'], meta: { name: 'LoyaltyTransaction' } }
+    /**
+     * Find zero or one LoyaltyTransaction that matches the filter.
+     * @param {LoyaltyTransactionFindUniqueArgs} args - Arguments to find a LoyaltyTransaction
+     * @example
+     * // Get one LoyaltyTransaction
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoyaltyTransactionFindUniqueArgs>(args: SelectSubset<T, LoyaltyTransactionFindUniqueArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoyaltyTransaction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoyaltyTransactionFindUniqueOrThrowArgs} args - Arguments to find a LoyaltyTransaction
+     * @example
+     * // Get one LoyaltyTransaction
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoyaltyTransactionFindUniqueOrThrowArgs>(args: SelectSubset<T, LoyaltyTransactionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoyaltyTransaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyTransactionFindFirstArgs} args - Arguments to find a LoyaltyTransaction
+     * @example
+     * // Get one LoyaltyTransaction
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoyaltyTransactionFindFirstArgs>(args?: SelectSubset<T, LoyaltyTransactionFindFirstArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoyaltyTransaction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyTransactionFindFirstOrThrowArgs} args - Arguments to find a LoyaltyTransaction
+     * @example
+     * // Get one LoyaltyTransaction
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoyaltyTransactionFindFirstOrThrowArgs>(args?: SelectSubset<T, LoyaltyTransactionFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoyaltyTransactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyTransactionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoyaltyTransactions
+     * const loyaltyTransactions = await prisma.loyaltyTransaction.findMany()
+     * 
+     * // Get first 10 LoyaltyTransactions
+     * const loyaltyTransactions = await prisma.loyaltyTransaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loyaltyTransactionWithIdOnly = await prisma.loyaltyTransaction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoyaltyTransactionFindManyArgs>(args?: SelectSubset<T, LoyaltyTransactionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoyaltyTransaction.
+     * @param {LoyaltyTransactionCreateArgs} args - Arguments to create a LoyaltyTransaction.
+     * @example
+     * // Create one LoyaltyTransaction
+     * const LoyaltyTransaction = await prisma.loyaltyTransaction.create({
+     *   data: {
+     *     // ... data to create a LoyaltyTransaction
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoyaltyTransactionCreateArgs>(args: SelectSubset<T, LoyaltyTransactionCreateArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoyaltyTransactions.
+     * @param {LoyaltyTransactionCreateManyArgs} args - Arguments to create many LoyaltyTransactions.
+     * @example
+     * // Create many LoyaltyTransactions
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoyaltyTransactionCreateManyArgs>(args?: SelectSubset<T, LoyaltyTransactionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoyaltyTransactions and returns the data saved in the database.
+     * @param {LoyaltyTransactionCreateManyAndReturnArgs} args - Arguments to create many LoyaltyTransactions.
+     * @example
+     * // Create many LoyaltyTransactions
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoyaltyTransactions and only return the `id`
+     * const loyaltyTransactionWithIdOnly = await prisma.loyaltyTransaction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoyaltyTransactionCreateManyAndReturnArgs>(args?: SelectSubset<T, LoyaltyTransactionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoyaltyTransaction.
+     * @param {LoyaltyTransactionDeleteArgs} args - Arguments to delete one LoyaltyTransaction.
+     * @example
+     * // Delete one LoyaltyTransaction
+     * const LoyaltyTransaction = await prisma.loyaltyTransaction.delete({
+     *   where: {
+     *     // ... filter to delete one LoyaltyTransaction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoyaltyTransactionDeleteArgs>(args: SelectSubset<T, LoyaltyTransactionDeleteArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoyaltyTransaction.
+     * @param {LoyaltyTransactionUpdateArgs} args - Arguments to update one LoyaltyTransaction.
+     * @example
+     * // Update one LoyaltyTransaction
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoyaltyTransactionUpdateArgs>(args: SelectSubset<T, LoyaltyTransactionUpdateArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoyaltyTransactions.
+     * @param {LoyaltyTransactionDeleteManyArgs} args - Arguments to filter LoyaltyTransactions to delete.
+     * @example
+     * // Delete a few LoyaltyTransactions
+     * const { count } = await prisma.loyaltyTransaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoyaltyTransactionDeleteManyArgs>(args?: SelectSubset<T, LoyaltyTransactionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoyaltyTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyTransactionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoyaltyTransactions
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoyaltyTransactionUpdateManyArgs>(args: SelectSubset<T, LoyaltyTransactionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoyaltyTransactions and returns the data updated in the database.
+     * @param {LoyaltyTransactionUpdateManyAndReturnArgs} args - Arguments to update many LoyaltyTransactions.
+     * @example
+     * // Update many LoyaltyTransactions
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoyaltyTransactions and only return the `id`
+     * const loyaltyTransactionWithIdOnly = await prisma.loyaltyTransaction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoyaltyTransactionUpdateManyAndReturnArgs>(args: SelectSubset<T, LoyaltyTransactionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoyaltyTransaction.
+     * @param {LoyaltyTransactionUpsertArgs} args - Arguments to update or create a LoyaltyTransaction.
+     * @example
+     * // Update or create a LoyaltyTransaction
+     * const loyaltyTransaction = await prisma.loyaltyTransaction.upsert({
+     *   create: {
+     *     // ... data to create a LoyaltyTransaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoyaltyTransaction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoyaltyTransactionUpsertArgs>(args: SelectSubset<T, LoyaltyTransactionUpsertArgs<ExtArgs>>): Prisma__LoyaltyTransactionClient<$Result.GetResult<Prisma.$LoyaltyTransactionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoyaltyTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyTransactionCountArgs} args - Arguments to filter LoyaltyTransactions to count.
+     * @example
+     * // Count the number of LoyaltyTransactions
+     * const count = await prisma.loyaltyTransaction.count({
+     *   where: {
+     *     // ... the filter for the LoyaltyTransactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoyaltyTransactionCountArgs>(
+      args?: Subset<T, LoyaltyTransactionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoyaltyTransactionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoyaltyTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyTransactionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoyaltyTransactionAggregateArgs>(args: Subset<T, LoyaltyTransactionAggregateArgs>): Prisma.PrismaPromise<GetLoyaltyTransactionAggregateType<T>>
+
+    /**
+     * Group by LoyaltyTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoyaltyTransactionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoyaltyTransactionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoyaltyTransactionGroupByArgs['orderBy'] }
+        : { orderBy?: LoyaltyTransactionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoyaltyTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoyaltyTransactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoyaltyTransaction model
+   */
+  readonly fields: LoyaltyTransactionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoyaltyTransaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoyaltyTransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    loyaltyAccount<T extends LoyaltyAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LoyaltyAccountDefaultArgs<ExtArgs>>): Prisma__LoyaltyAccountClient<$Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoyaltyTransaction model
+   */
+  interface LoyaltyTransactionFieldRefs {
+    readonly id: FieldRef<"LoyaltyTransaction", 'String'>
+    readonly tenantId: FieldRef<"LoyaltyTransaction", 'String'>
+    readonly loyaltyAccountId: FieldRef<"LoyaltyTransaction", 'String'>
+    readonly delta: FieldRef<"LoyaltyTransaction", 'Int'>
+    readonly reason: FieldRef<"LoyaltyTransaction", 'String'>
+    readonly orderId: FieldRef<"LoyaltyTransaction", 'String'>
+    readonly createdBy: FieldRef<"LoyaltyTransaction", 'String'>
+    readonly createdAt: FieldRef<"LoyaltyTransaction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoyaltyTransaction findUnique
+   */
+  export type LoyaltyTransactionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyTransaction to fetch.
+     */
+    where: LoyaltyTransactionWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyTransaction findUniqueOrThrow
+   */
+  export type LoyaltyTransactionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyTransaction to fetch.
+     */
+    where: LoyaltyTransactionWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyTransaction findFirst
+   */
+  export type LoyaltyTransactionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyTransaction to fetch.
+     */
+    where?: LoyaltyTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyTransactions to fetch.
+     */
+    orderBy?: LoyaltyTransactionOrderByWithRelationInput | LoyaltyTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoyaltyTransactions.
+     */
+    cursor?: LoyaltyTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoyaltyTransactions.
+     */
+    distinct?: LoyaltyTransactionScalarFieldEnum | LoyaltyTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * LoyaltyTransaction findFirstOrThrow
+   */
+  export type LoyaltyTransactionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyTransaction to fetch.
+     */
+    where?: LoyaltyTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyTransactions to fetch.
+     */
+    orderBy?: LoyaltyTransactionOrderByWithRelationInput | LoyaltyTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoyaltyTransactions.
+     */
+    cursor?: LoyaltyTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoyaltyTransactions.
+     */
+    distinct?: LoyaltyTransactionScalarFieldEnum | LoyaltyTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * LoyaltyTransaction findMany
+   */
+  export type LoyaltyTransactionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which LoyaltyTransactions to fetch.
+     */
+    where?: LoyaltyTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoyaltyTransactions to fetch.
+     */
+    orderBy?: LoyaltyTransactionOrderByWithRelationInput | LoyaltyTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoyaltyTransactions.
+     */
+    cursor?: LoyaltyTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoyaltyTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoyaltyTransactions.
+     */
+    skip?: number
+    distinct?: LoyaltyTransactionScalarFieldEnum | LoyaltyTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * LoyaltyTransaction create
+   */
+  export type LoyaltyTransactionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoyaltyTransaction.
+     */
+    data: XOR<LoyaltyTransactionCreateInput, LoyaltyTransactionUncheckedCreateInput>
+  }
+
+  /**
+   * LoyaltyTransaction createMany
+   */
+  export type LoyaltyTransactionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoyaltyTransactions.
+     */
+    data: LoyaltyTransactionCreateManyInput | LoyaltyTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoyaltyTransaction createManyAndReturn
+   */
+  export type LoyaltyTransactionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoyaltyTransactions.
+     */
+    data: LoyaltyTransactionCreateManyInput | LoyaltyTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoyaltyTransaction update
+   */
+  export type LoyaltyTransactionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoyaltyTransaction.
+     */
+    data: XOR<LoyaltyTransactionUpdateInput, LoyaltyTransactionUncheckedUpdateInput>
+    /**
+     * Choose, which LoyaltyTransaction to update.
+     */
+    where: LoyaltyTransactionWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyTransaction updateMany
+   */
+  export type LoyaltyTransactionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoyaltyTransactions.
+     */
+    data: XOR<LoyaltyTransactionUpdateManyMutationInput, LoyaltyTransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which LoyaltyTransactions to update
+     */
+    where?: LoyaltyTransactionWhereInput
+    /**
+     * Limit how many LoyaltyTransactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoyaltyTransaction updateManyAndReturn
+   */
+  export type LoyaltyTransactionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * The data used to update LoyaltyTransactions.
+     */
+    data: XOR<LoyaltyTransactionUpdateManyMutationInput, LoyaltyTransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which LoyaltyTransactions to update
+     */
+    where?: LoyaltyTransactionWhereInput
+    /**
+     * Limit how many LoyaltyTransactions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoyaltyTransaction upsert
+   */
+  export type LoyaltyTransactionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoyaltyTransaction to update in case it exists.
+     */
+    where: LoyaltyTransactionWhereUniqueInput
+    /**
+     * In case the LoyaltyTransaction found by the `where` argument doesn't exist, create a new LoyaltyTransaction with this data.
+     */
+    create: XOR<LoyaltyTransactionCreateInput, LoyaltyTransactionUncheckedCreateInput>
+    /**
+     * In case the LoyaltyTransaction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoyaltyTransactionUpdateInput, LoyaltyTransactionUncheckedUpdateInput>
+  }
+
+  /**
+   * LoyaltyTransaction delete
+   */
+  export type LoyaltyTransactionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+    /**
+     * Filter which LoyaltyTransaction to delete.
+     */
+    where: LoyaltyTransactionWhereUniqueInput
+  }
+
+  /**
+   * LoyaltyTransaction deleteMany
+   */
+  export type LoyaltyTransactionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoyaltyTransactions to delete
+     */
+    where?: LoyaltyTransactionWhereInput
+    /**
+     * Limit how many LoyaltyTransactions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoyaltyTransaction without action
+   */
+  export type LoyaltyTransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoyaltyTransaction
+     */
+    select?: LoyaltyTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoyaltyTransaction
+     */
+    omit?: LoyaltyTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoyaltyTransactionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -137339,6 +139874,7 @@ export namespace Prisma {
     name: 'name',
     currency: 'currency',
     status: 'status',
+    accountId: 'accountId',
     validFrom: 'validFrom',
     validTo: 'validTo',
     createdAt: 'createdAt',
@@ -138192,6 +140728,32 @@ export namespace Prisma {
   };
 
   export type MasterDataRequestScalarFieldEnum = (typeof MasterDataRequestScalarFieldEnum)[keyof typeof MasterDataRequestScalarFieldEnum]
+
+
+  export const LoyaltyAccountScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    accountId: 'accountId',
+    points: 'points',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LoyaltyAccountScalarFieldEnum = (typeof LoyaltyAccountScalarFieldEnum)[keyof typeof LoyaltyAccountScalarFieldEnum]
+
+
+  export const LoyaltyTransactionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    loyaltyAccountId: 'loyaltyAccountId',
+    delta: 'delta',
+    reason: 'reason',
+    orderId: 'orderId',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type LoyaltyTransactionScalarFieldEnum = (typeof LoyaltyTransactionScalarFieldEnum)[keyof typeof LoyaltyTransactionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -139144,6 +141706,7 @@ export namespace Prisma {
     promotions?: PromotionListRelationFilter
     breakGlassGrants?: BreakGlassGrantListRelationFilter
     masterDataRequests?: MasterDataRequestListRelationFilter
+    loyaltyAccounts?: LoyaltyAccountListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -139246,6 +141809,7 @@ export namespace Prisma {
     promotions?: PromotionOrderByRelationAggregateInput
     breakGlassGrants?: BreakGlassGrantOrderByRelationAggregateInput
     masterDataRequests?: MasterDataRequestOrderByRelationAggregateInput
+    loyaltyAccounts?: LoyaltyAccountOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -139351,6 +141915,7 @@ export namespace Prisma {
     promotions?: PromotionListRelationFilter
     breakGlassGrants?: BreakGlassGrantListRelationFilter
     masterDataRequests?: MasterDataRequestListRelationFilter
+    loyaltyAccounts?: LoyaltyAccountListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -142998,6 +145563,7 @@ export namespace Prisma {
     name?: StringFilter<"PriceList"> | string
     currency?: StringFilter<"PriceList"> | string
     status?: EnumPriceListStatusFilter<"PriceList"> | $Enums.PriceListStatus
+    accountId?: UuidNullableFilter<"PriceList"> | string | null
     validFrom?: DateTimeNullableFilter<"PriceList"> | Date | string | null
     validTo?: DateTimeNullableFilter<"PriceList"> | Date | string | null
     createdAt?: DateTimeFilter<"PriceList"> | Date | string
@@ -143013,6 +145579,7 @@ export namespace Prisma {
     name?: SortOrder
     currency?: SortOrder
     status?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     validFrom?: SortOrderInput | SortOrder
     validTo?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -143032,6 +145599,7 @@ export namespace Prisma {
     name?: StringFilter<"PriceList"> | string
     currency?: StringFilter<"PriceList"> | string
     status?: EnumPriceListStatusFilter<"PriceList"> | $Enums.PriceListStatus
+    accountId?: UuidNullableFilter<"PriceList"> | string | null
     validFrom?: DateTimeNullableFilter<"PriceList"> | Date | string | null
     validTo?: DateTimeNullableFilter<"PriceList"> | Date | string | null
     createdAt?: DateTimeFilter<"PriceList"> | Date | string
@@ -143047,6 +145615,7 @@ export namespace Prisma {
     name?: SortOrder
     currency?: SortOrder
     status?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     validFrom?: SortOrderInput | SortOrder
     validTo?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -143066,6 +145635,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"PriceList"> | string
     currency?: StringWithAggregatesFilter<"PriceList"> | string
     status?: EnumPriceListStatusWithAggregatesFilter<"PriceList"> | $Enums.PriceListStatus
+    accountId?: UuidNullableWithAggregatesFilter<"PriceList"> | string | null
     validFrom?: DateTimeNullableWithAggregatesFilter<"PriceList"> | Date | string | null
     validTo?: DateTimeNullableWithAggregatesFilter<"PriceList"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"PriceList"> | Date | string
@@ -147542,6 +150112,145 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"MasterDataRequest"> | Date | string
   }
 
+  export type LoyaltyAccountWhereInput = {
+    AND?: LoyaltyAccountWhereInput | LoyaltyAccountWhereInput[]
+    OR?: LoyaltyAccountWhereInput[]
+    NOT?: LoyaltyAccountWhereInput | LoyaltyAccountWhereInput[]
+    id?: UuidFilter<"LoyaltyAccount"> | string
+    tenantId?: UuidFilter<"LoyaltyAccount"> | string
+    accountId?: UuidFilter<"LoyaltyAccount"> | string
+    points?: IntFilter<"LoyaltyAccount"> | number
+    createdAt?: DateTimeFilter<"LoyaltyAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"LoyaltyAccount"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    transactions?: LoyaltyTransactionListRelationFilter
+  }
+
+  export type LoyaltyAccountOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    transactions?: LoyaltyTransactionOrderByRelationAggregateInput
+  }
+
+  export type LoyaltyAccountWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_accountId?: LoyaltyAccountTenantIdAccountIdCompoundUniqueInput
+    AND?: LoyaltyAccountWhereInput | LoyaltyAccountWhereInput[]
+    OR?: LoyaltyAccountWhereInput[]
+    NOT?: LoyaltyAccountWhereInput | LoyaltyAccountWhereInput[]
+    tenantId?: UuidFilter<"LoyaltyAccount"> | string
+    accountId?: UuidFilter<"LoyaltyAccount"> | string
+    points?: IntFilter<"LoyaltyAccount"> | number
+    createdAt?: DateTimeFilter<"LoyaltyAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"LoyaltyAccount"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    transactions?: LoyaltyTransactionListRelationFilter
+  }, "id" | "tenantId_accountId">
+
+  export type LoyaltyAccountOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LoyaltyAccountCountOrderByAggregateInput
+    _avg?: LoyaltyAccountAvgOrderByAggregateInput
+    _max?: LoyaltyAccountMaxOrderByAggregateInput
+    _min?: LoyaltyAccountMinOrderByAggregateInput
+    _sum?: LoyaltyAccountSumOrderByAggregateInput
+  }
+
+  export type LoyaltyAccountScalarWhereWithAggregatesInput = {
+    AND?: LoyaltyAccountScalarWhereWithAggregatesInput | LoyaltyAccountScalarWhereWithAggregatesInput[]
+    OR?: LoyaltyAccountScalarWhereWithAggregatesInput[]
+    NOT?: LoyaltyAccountScalarWhereWithAggregatesInput | LoyaltyAccountScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"LoyaltyAccount"> | string
+    tenantId?: UuidWithAggregatesFilter<"LoyaltyAccount"> | string
+    accountId?: UuidWithAggregatesFilter<"LoyaltyAccount"> | string
+    points?: IntWithAggregatesFilter<"LoyaltyAccount"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"LoyaltyAccount"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LoyaltyAccount"> | Date | string
+  }
+
+  export type LoyaltyTransactionWhereInput = {
+    AND?: LoyaltyTransactionWhereInput | LoyaltyTransactionWhereInput[]
+    OR?: LoyaltyTransactionWhereInput[]
+    NOT?: LoyaltyTransactionWhereInput | LoyaltyTransactionWhereInput[]
+    id?: UuidFilter<"LoyaltyTransaction"> | string
+    tenantId?: UuidFilter<"LoyaltyTransaction"> | string
+    loyaltyAccountId?: UuidFilter<"LoyaltyTransaction"> | string
+    delta?: IntFilter<"LoyaltyTransaction"> | number
+    reason?: StringFilter<"LoyaltyTransaction"> | string
+    orderId?: UuidNullableFilter<"LoyaltyTransaction"> | string | null
+    createdBy?: StringNullableFilter<"LoyaltyTransaction"> | string | null
+    createdAt?: DateTimeFilter<"LoyaltyTransaction"> | Date | string
+    loyaltyAccount?: XOR<LoyaltyAccountScalarRelationFilter, LoyaltyAccountWhereInput>
+  }
+
+  export type LoyaltyTransactionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    loyaltyAccountId?: SortOrder
+    delta?: SortOrder
+    reason?: SortOrder
+    orderId?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    loyaltyAccount?: LoyaltyAccountOrderByWithRelationInput
+  }
+
+  export type LoyaltyTransactionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_orderId_reason?: LoyaltyTransactionTenantIdOrderIdReasonCompoundUniqueInput
+    AND?: LoyaltyTransactionWhereInput | LoyaltyTransactionWhereInput[]
+    OR?: LoyaltyTransactionWhereInput[]
+    NOT?: LoyaltyTransactionWhereInput | LoyaltyTransactionWhereInput[]
+    tenantId?: UuidFilter<"LoyaltyTransaction"> | string
+    loyaltyAccountId?: UuidFilter<"LoyaltyTransaction"> | string
+    delta?: IntFilter<"LoyaltyTransaction"> | number
+    reason?: StringFilter<"LoyaltyTransaction"> | string
+    orderId?: UuidNullableFilter<"LoyaltyTransaction"> | string | null
+    createdBy?: StringNullableFilter<"LoyaltyTransaction"> | string | null
+    createdAt?: DateTimeFilter<"LoyaltyTransaction"> | Date | string
+    loyaltyAccount?: XOR<LoyaltyAccountScalarRelationFilter, LoyaltyAccountWhereInput>
+  }, "id" | "tenantId_orderId_reason">
+
+  export type LoyaltyTransactionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    loyaltyAccountId?: SortOrder
+    delta?: SortOrder
+    reason?: SortOrder
+    orderId?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LoyaltyTransactionCountOrderByAggregateInput
+    _avg?: LoyaltyTransactionAvgOrderByAggregateInput
+    _max?: LoyaltyTransactionMaxOrderByAggregateInput
+    _min?: LoyaltyTransactionMinOrderByAggregateInput
+    _sum?: LoyaltyTransactionSumOrderByAggregateInput
+  }
+
+  export type LoyaltyTransactionScalarWhereWithAggregatesInput = {
+    AND?: LoyaltyTransactionScalarWhereWithAggregatesInput | LoyaltyTransactionScalarWhereWithAggregatesInput[]
+    OR?: LoyaltyTransactionScalarWhereWithAggregatesInput[]
+    NOT?: LoyaltyTransactionScalarWhereWithAggregatesInput | LoyaltyTransactionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"LoyaltyTransaction"> | string
+    tenantId?: UuidWithAggregatesFilter<"LoyaltyTransaction"> | string
+    loyaltyAccountId?: UuidWithAggregatesFilter<"LoyaltyTransaction"> | string
+    delta?: IntWithAggregatesFilter<"LoyaltyTransaction"> | number
+    reason?: StringWithAggregatesFilter<"LoyaltyTransaction"> | string
+    orderId?: UuidNullableWithAggregatesFilter<"LoyaltyTransaction"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"LoyaltyTransaction"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LoyaltyTransaction"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -147642,6 +150351,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -147744,6 +150454,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -147846,6 +150557,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -147948,6 +150660,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -151828,6 +154541,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -151843,6 +154557,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -151856,6 +154571,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151871,6 +154587,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151885,6 +154602,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -151897,6 +154615,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -151910,6 +154629,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -156660,6 +159380,148 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LoyaltyAccountCreateInput = {
+    id?: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutLoyaltyAccountsInput
+    transactions?: LoyaltyTransactionCreateNestedManyWithoutLoyaltyAccountInput
+  }
+
+  export type LoyaltyAccountUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: LoyaltyTransactionUncheckedCreateNestedManyWithoutLoyaltyAccountInput
+  }
+
+  export type LoyaltyAccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutLoyaltyAccountsNestedInput
+    transactions?: LoyaltyTransactionUpdateManyWithoutLoyaltyAccountNestedInput
+  }
+
+  export type LoyaltyAccountUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: LoyaltyTransactionUncheckedUpdateManyWithoutLoyaltyAccountNestedInput
+  }
+
+  export type LoyaltyAccountCreateManyInput = {
+    id?: string
+    tenantId: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoyaltyAccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoyaltyAccountUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoyaltyTransactionCreateInput = {
+    id?: string
+    tenantId: string
+    delta: number
+    reason: string
+    orderId?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    loyaltyAccount: LoyaltyAccountCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type LoyaltyTransactionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    loyaltyAccountId: string
+    delta: number
+    reason: string
+    orderId?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoyaltyTransactionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    delta?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loyaltyAccount?: LoyaltyAccountUpdateOneRequiredWithoutTransactionsNestedInput
+  }
+
+  export type LoyaltyTransactionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    loyaltyAccountId?: StringFieldUpdateOperationsInput | string
+    delta?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoyaltyTransactionCreateManyInput = {
+    id?: string
+    tenantId: string
+    loyaltyAccountId: string
+    delta: number
+    reason: string
+    orderId?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoyaltyTransactionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    delta?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoyaltyTransactionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    loyaltyAccountId?: StringFieldUpdateOperationsInput | string
+    delta?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -157268,6 +160130,12 @@ export namespace Prisma {
     none?: MasterDataRequestWhereInput
   }
 
+  export type LoyaltyAccountListRelationFilter = {
+    every?: LoyaltyAccountWhereInput
+    some?: LoyaltyAccountWhereInput
+    none?: LoyaltyAccountWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -157633,6 +160501,10 @@ export namespace Prisma {
   }
 
   export type MasterDataRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoyaltyAccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -160591,6 +163463,7 @@ export namespace Prisma {
     name?: SortOrder
     currency?: SortOrder
     status?: SortOrder
+    accountId?: SortOrder
     validFrom?: SortOrder
     validTo?: SortOrder
     createdAt?: SortOrder
@@ -160604,6 +163477,7 @@ export namespace Prisma {
     name?: SortOrder
     currency?: SortOrder
     status?: SortOrder
+    accountId?: SortOrder
     validFrom?: SortOrder
     validTo?: SortOrder
     createdAt?: SortOrder
@@ -160617,6 +163491,7 @@ export namespace Prisma {
     name?: SortOrder
     currency?: SortOrder
     status?: SortOrder
+    accountId?: SortOrder
     validFrom?: SortOrder
     validTo?: SortOrder
     createdAt?: SortOrder
@@ -163774,6 +166649,108 @@ export namespace Prisma {
     _max?: NestedEnumMasterDataRequestStatusFilter<$PrismaModel>
   }
 
+  export type LoyaltyTransactionListRelationFilter = {
+    every?: LoyaltyTransactionWhereInput
+    some?: LoyaltyTransactionWhereInput
+    none?: LoyaltyTransactionWhereInput
+  }
+
+  export type LoyaltyTransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoyaltyAccountTenantIdAccountIdCompoundUniqueInput = {
+    tenantId: string
+    accountId: string
+  }
+
+  export type LoyaltyAccountCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoyaltyAccountAvgOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type LoyaltyAccountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoyaltyAccountMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    accountId?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoyaltyAccountSumOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type LoyaltyAccountScalarRelationFilter = {
+    is?: LoyaltyAccountWhereInput
+    isNot?: LoyaltyAccountWhereInput
+  }
+
+  export type LoyaltyTransactionTenantIdOrderIdReasonCompoundUniqueInput = {
+    tenantId: string
+    orderId: string
+    reason: string
+  }
+
+  export type LoyaltyTransactionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    loyaltyAccountId?: SortOrder
+    delta?: SortOrder
+    reason?: SortOrder
+    orderId?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoyaltyTransactionAvgOrderByAggregateInput = {
+    delta?: SortOrder
+  }
+
+  export type LoyaltyTransactionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    loyaltyAccountId?: SortOrder
+    delta?: SortOrder
+    reason?: SortOrder
+    orderId?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoyaltyTransactionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    loyaltyAccountId?: SortOrder
+    delta?: SortOrder
+    reason?: SortOrder
+    orderId?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoyaltyTransactionSumOrderByAggregateInput = {
+    delta?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -164418,6 +167395,13 @@ export namespace Prisma {
     connect?: MasterDataRequestWhereUniqueInput | MasterDataRequestWhereUniqueInput[]
   }
 
+  export type LoyaltyAccountCreateNestedManyWithoutTenantInput = {
+    create?: XOR<LoyaltyAccountCreateWithoutTenantInput, LoyaltyAccountUncheckedCreateWithoutTenantInput> | LoyaltyAccountCreateWithoutTenantInput[] | LoyaltyAccountUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LoyaltyAccountCreateOrConnectWithoutTenantInput | LoyaltyAccountCreateOrConnectWithoutTenantInput[]
+    createMany?: LoyaltyAccountCreateManyTenantInputEnvelope
+    connect?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -165060,6 +168044,13 @@ export namespace Prisma {
     connectOrCreate?: MasterDataRequestCreateOrConnectWithoutTenantInput | MasterDataRequestCreateOrConnectWithoutTenantInput[]
     createMany?: MasterDataRequestCreateManyTenantInputEnvelope
     connect?: MasterDataRequestWhereUniqueInput | MasterDataRequestWhereUniqueInput[]
+  }
+
+  export type LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<LoyaltyAccountCreateWithoutTenantInput, LoyaltyAccountUncheckedCreateWithoutTenantInput> | LoyaltyAccountCreateWithoutTenantInput[] | LoyaltyAccountUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LoyaltyAccountCreateOrConnectWithoutTenantInput | LoyaltyAccountCreateOrConnectWithoutTenantInput[]
+    createMany?: LoyaltyAccountCreateManyTenantInputEnvelope
+    connect?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -166370,6 +169361,20 @@ export namespace Prisma {
     deleteMany?: MasterDataRequestScalarWhereInput | MasterDataRequestScalarWhereInput[]
   }
 
+  export type LoyaltyAccountUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<LoyaltyAccountCreateWithoutTenantInput, LoyaltyAccountUncheckedCreateWithoutTenantInput> | LoyaltyAccountCreateWithoutTenantInput[] | LoyaltyAccountUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LoyaltyAccountCreateOrConnectWithoutTenantInput | LoyaltyAccountCreateOrConnectWithoutTenantInput[]
+    upsert?: LoyaltyAccountUpsertWithWhereUniqueWithoutTenantInput | LoyaltyAccountUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: LoyaltyAccountCreateManyTenantInputEnvelope
+    set?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    disconnect?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    delete?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    connect?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    update?: LoyaltyAccountUpdateWithWhereUniqueWithoutTenantInput | LoyaltyAccountUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: LoyaltyAccountUpdateManyWithWhereWithoutTenantInput | LoyaltyAccountUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: LoyaltyAccountScalarWhereInput | LoyaltyAccountScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -167656,6 +170661,20 @@ export namespace Prisma {
     update?: MasterDataRequestUpdateWithWhereUniqueWithoutTenantInput | MasterDataRequestUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: MasterDataRequestUpdateManyWithWhereWithoutTenantInput | MasterDataRequestUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: MasterDataRequestScalarWhereInput | MasterDataRequestScalarWhereInput[]
+  }
+
+  export type LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<LoyaltyAccountCreateWithoutTenantInput, LoyaltyAccountUncheckedCreateWithoutTenantInput> | LoyaltyAccountCreateWithoutTenantInput[] | LoyaltyAccountUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LoyaltyAccountCreateOrConnectWithoutTenantInput | LoyaltyAccountCreateOrConnectWithoutTenantInput[]
+    upsert?: LoyaltyAccountUpsertWithWhereUniqueWithoutTenantInput | LoyaltyAccountUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: LoyaltyAccountCreateManyTenantInputEnvelope
+    set?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    disconnect?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    delete?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    connect?: LoyaltyAccountWhereUniqueInput | LoyaltyAccountWhereUniqueInput[]
+    update?: LoyaltyAccountUpdateWithWhereUniqueWithoutTenantInput | LoyaltyAccountUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: LoyaltyAccountUpdateManyWithWhereWithoutTenantInput | LoyaltyAccountUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: LoyaltyAccountScalarWhereInput | LoyaltyAccountScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -171847,6 +174866,76 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutMasterDataRequestsInput, TenantUpdateWithoutMasterDataRequestsInput>, TenantUncheckedUpdateWithoutMasterDataRequestsInput>
   }
 
+  export type TenantCreateNestedOneWithoutLoyaltyAccountsInput = {
+    create?: XOR<TenantCreateWithoutLoyaltyAccountsInput, TenantUncheckedCreateWithoutLoyaltyAccountsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutLoyaltyAccountsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type LoyaltyTransactionCreateNestedManyWithoutLoyaltyAccountInput = {
+    create?: XOR<LoyaltyTransactionCreateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput> | LoyaltyTransactionCreateWithoutLoyaltyAccountInput[] | LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput[]
+    connectOrCreate?: LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput | LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput[]
+    createMany?: LoyaltyTransactionCreateManyLoyaltyAccountInputEnvelope
+    connect?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+  }
+
+  export type LoyaltyTransactionUncheckedCreateNestedManyWithoutLoyaltyAccountInput = {
+    create?: XOR<LoyaltyTransactionCreateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput> | LoyaltyTransactionCreateWithoutLoyaltyAccountInput[] | LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput[]
+    connectOrCreate?: LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput | LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput[]
+    createMany?: LoyaltyTransactionCreateManyLoyaltyAccountInputEnvelope
+    connect?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutLoyaltyAccountsNestedInput = {
+    create?: XOR<TenantCreateWithoutLoyaltyAccountsInput, TenantUncheckedCreateWithoutLoyaltyAccountsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutLoyaltyAccountsInput
+    upsert?: TenantUpsertWithoutLoyaltyAccountsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutLoyaltyAccountsInput, TenantUpdateWithoutLoyaltyAccountsInput>, TenantUncheckedUpdateWithoutLoyaltyAccountsInput>
+  }
+
+  export type LoyaltyTransactionUpdateManyWithoutLoyaltyAccountNestedInput = {
+    create?: XOR<LoyaltyTransactionCreateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput> | LoyaltyTransactionCreateWithoutLoyaltyAccountInput[] | LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput[]
+    connectOrCreate?: LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput | LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput[]
+    upsert?: LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput | LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput[]
+    createMany?: LoyaltyTransactionCreateManyLoyaltyAccountInputEnvelope
+    set?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    disconnect?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    delete?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    connect?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    update?: LoyaltyTransactionUpdateWithWhereUniqueWithoutLoyaltyAccountInput | LoyaltyTransactionUpdateWithWhereUniqueWithoutLoyaltyAccountInput[]
+    updateMany?: LoyaltyTransactionUpdateManyWithWhereWithoutLoyaltyAccountInput | LoyaltyTransactionUpdateManyWithWhereWithoutLoyaltyAccountInput[]
+    deleteMany?: LoyaltyTransactionScalarWhereInput | LoyaltyTransactionScalarWhereInput[]
+  }
+
+  export type LoyaltyTransactionUncheckedUpdateManyWithoutLoyaltyAccountNestedInput = {
+    create?: XOR<LoyaltyTransactionCreateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput> | LoyaltyTransactionCreateWithoutLoyaltyAccountInput[] | LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput[]
+    connectOrCreate?: LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput | LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput[]
+    upsert?: LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput | LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput[]
+    createMany?: LoyaltyTransactionCreateManyLoyaltyAccountInputEnvelope
+    set?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    disconnect?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    delete?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    connect?: LoyaltyTransactionWhereUniqueInput | LoyaltyTransactionWhereUniqueInput[]
+    update?: LoyaltyTransactionUpdateWithWhereUniqueWithoutLoyaltyAccountInput | LoyaltyTransactionUpdateWithWhereUniqueWithoutLoyaltyAccountInput[]
+    updateMany?: LoyaltyTransactionUpdateManyWithWhereWithoutLoyaltyAccountInput | LoyaltyTransactionUpdateManyWithWhereWithoutLoyaltyAccountInput[]
+    deleteMany?: LoyaltyTransactionScalarWhereInput | LoyaltyTransactionScalarWhereInput[]
+  }
+
+  export type LoyaltyAccountCreateNestedOneWithoutTransactionsInput = {
+    create?: XOR<LoyaltyAccountCreateWithoutTransactionsInput, LoyaltyAccountUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: LoyaltyAccountCreateOrConnectWithoutTransactionsInput
+    connect?: LoyaltyAccountWhereUniqueInput
+  }
+
+  export type LoyaltyAccountUpdateOneRequiredWithoutTransactionsNestedInput = {
+    create?: XOR<LoyaltyAccountCreateWithoutTransactionsInput, LoyaltyAccountUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: LoyaltyAccountCreateOrConnectWithoutTransactionsInput
+    upsert?: LoyaltyAccountUpsertWithoutTransactionsInput
+    connect?: LoyaltyAccountWhereUniqueInput
+    update?: XOR<XOR<LoyaltyAccountUpdateToOneWithWhereWithoutTransactionsInput, LoyaltyAccountUpdateWithoutTransactionsInput>, LoyaltyAccountUncheckedUpdateWithoutTransactionsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -174147,6 +177236,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -174160,6 +177250,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -176081,6 +179172,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LoyaltyAccountCreateWithoutTenantInput = {
+    id?: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: LoyaltyTransactionCreateNestedManyWithoutLoyaltyAccountInput
+  }
+
+  export type LoyaltyAccountUncheckedCreateWithoutTenantInput = {
+    id?: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: LoyaltyTransactionUncheckedCreateNestedManyWithoutLoyaltyAccountInput
+  }
+
+  export type LoyaltyAccountCreateOrConnectWithoutTenantInput = {
+    where: LoyaltyAccountWhereUniqueInput
+    create: XOR<LoyaltyAccountCreateWithoutTenantInput, LoyaltyAccountUncheckedCreateWithoutTenantInput>
+  }
+
+  export type LoyaltyAccountCreateManyTenantInputEnvelope = {
+    data: LoyaltyAccountCreateManyTenantInput | LoyaltyAccountCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -177123,6 +180242,7 @@ export namespace Prisma {
     name?: StringFilter<"PriceList"> | string
     currency?: StringFilter<"PriceList"> | string
     status?: EnumPriceListStatusFilter<"PriceList"> | $Enums.PriceListStatus
+    accountId?: UuidNullableFilter<"PriceList"> | string | null
     validFrom?: DateTimeNullableFilter<"PriceList"> | Date | string | null
     validTo?: DateTimeNullableFilter<"PriceList"> | Date | string | null
     createdAt?: DateTimeFilter<"PriceList"> | Date | string
@@ -178931,6 +182051,34 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"MasterDataRequest"> | Date | string
   }
 
+  export type LoyaltyAccountUpsertWithWhereUniqueWithoutTenantInput = {
+    where: LoyaltyAccountWhereUniqueInput
+    update: XOR<LoyaltyAccountUpdateWithoutTenantInput, LoyaltyAccountUncheckedUpdateWithoutTenantInput>
+    create: XOR<LoyaltyAccountCreateWithoutTenantInput, LoyaltyAccountUncheckedCreateWithoutTenantInput>
+  }
+
+  export type LoyaltyAccountUpdateWithWhereUniqueWithoutTenantInput = {
+    where: LoyaltyAccountWhereUniqueInput
+    data: XOR<LoyaltyAccountUpdateWithoutTenantInput, LoyaltyAccountUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type LoyaltyAccountUpdateManyWithWhereWithoutTenantInput = {
+    where: LoyaltyAccountScalarWhereInput
+    data: XOR<LoyaltyAccountUpdateManyMutationInput, LoyaltyAccountUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type LoyaltyAccountScalarWhereInput = {
+    AND?: LoyaltyAccountScalarWhereInput | LoyaltyAccountScalarWhereInput[]
+    OR?: LoyaltyAccountScalarWhereInput[]
+    NOT?: LoyaltyAccountScalarWhereInput | LoyaltyAccountScalarWhereInput[]
+    id?: UuidFilter<"LoyaltyAccount"> | string
+    tenantId?: UuidFilter<"LoyaltyAccount"> | string
+    accountId?: UuidFilter<"LoyaltyAccount"> | string
+    points?: IntFilter<"LoyaltyAccount"> | number
+    createdAt?: DateTimeFilter<"LoyaltyAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"LoyaltyAccount"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -179030,6 +182178,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -179131,6 +182280,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -179248,6 +182398,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -179349,6 +182500,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -179450,6 +182602,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -179551,6 +182704,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -179702,6 +182856,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -179803,6 +182958,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -179920,6 +183076,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -180021,6 +183178,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -180276,6 +183434,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -180377,6 +183536,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -180590,6 +183750,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -180691,6 +183852,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -180837,6 +183999,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -180938,6 +184101,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -181074,6 +184238,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -181175,6 +184340,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -181321,6 +184487,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -181422,6 +184589,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -181558,6 +184726,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -181659,6 +184828,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -181865,6 +185035,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -181966,6 +185137,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -182136,6 +185308,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -182237,6 +185410,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -182385,6 +185559,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -182486,6 +185661,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -182624,6 +185800,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -182725,6 +185902,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -182892,6 +186070,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -182993,6 +186172,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -183192,6 +186372,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -183293,6 +186474,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -183466,6 +186648,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -183567,6 +186750,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -183736,6 +186920,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -183837,6 +187022,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -183954,6 +187140,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -184055,6 +187242,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -184156,6 +187344,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -184257,6 +187446,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -184374,6 +187564,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -184475,6 +187666,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -184576,6 +187768,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -184677,6 +187870,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -184794,6 +187988,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -184895,6 +188090,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -184996,6 +188192,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -185097,6 +188294,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -185214,6 +188412,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -185315,6 +188514,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -185416,6 +188616,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -185517,6 +188718,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -185634,6 +188836,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -185735,6 +188938,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -185836,6 +189040,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -185937,6 +189142,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -186054,6 +189260,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -186155,6 +189362,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -186256,6 +189464,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -186357,6 +189566,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -186474,6 +189684,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -186575,6 +189786,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -186676,6 +189888,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -186777,6 +189990,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -186956,6 +190170,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -187057,6 +190272,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -187416,6 +190632,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -187517,6 +190734,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -187662,6 +190880,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -187763,6 +190982,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -187937,6 +191157,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -188038,6 +191259,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -188155,6 +191377,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -188256,6 +191479,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -188357,6 +191581,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -188458,6 +191683,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -188575,6 +191801,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -188676,6 +191903,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -188777,6 +192005,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -188878,6 +192107,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -189021,6 +192251,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -189122,6 +192353,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -189295,6 +192527,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -189396,6 +192629,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -189648,6 +192882,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -189749,6 +192984,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -189953,6 +193189,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -190054,6 +193291,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -190208,6 +193446,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -190309,6 +193548,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -190533,6 +193773,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -190634,6 +193875,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -190811,6 +194053,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -190912,6 +194155,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -191664,6 +194908,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -191765,6 +195010,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -191904,6 +195150,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -192005,6 +195252,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -192176,6 +195424,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -192277,6 +195526,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -192394,6 +195644,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -192495,6 +195746,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -192596,6 +195848,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -192697,6 +195950,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -192814,6 +196068,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -192915,6 +196170,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -193016,6 +196272,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -193117,6 +196374,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -193234,6 +196492,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -193335,6 +196594,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -193436,6 +196696,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -193537,6 +196798,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -193654,6 +196916,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -193755,6 +197018,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -193856,6 +197120,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -193957,6 +197222,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -194100,6 +197366,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -194201,6 +197468,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -194318,6 +197586,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -194419,6 +197688,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -194569,6 +197839,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -194670,6 +197941,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -194810,6 +198082,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -194911,6 +198184,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -195028,6 +198302,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -195129,6 +198404,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -195230,6 +198506,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -195331,6 +198608,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -195472,6 +198750,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -195573,6 +198852,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -195690,6 +198970,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -195791,6 +199072,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -195929,6 +199211,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -196030,6 +199313,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -196158,6 +199442,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -196259,6 +199544,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -196376,6 +199662,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -196477,6 +199764,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -196578,6 +199866,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -196679,6 +199968,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -196796,6 +200086,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -196897,6 +200188,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -196998,6 +200290,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -197099,6 +200392,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -197216,6 +200510,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -197317,6 +200612,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -197418,6 +200714,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -197519,6 +200816,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -197636,6 +200934,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -197737,6 +201036,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -197838,6 +201138,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -197939,6 +201240,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -198082,6 +201384,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -198183,6 +201486,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -198300,6 +201604,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -198401,6 +201706,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -198414,6 +201720,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -198428,6 +201735,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -198549,6 +201857,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -198650,6 +201959,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -198669,6 +201979,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -198683,6 +201994,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -198788,6 +202100,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -198889,6 +202202,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -199040,6 +202354,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -199141,6 +202456,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -199258,6 +202574,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -199359,6 +202676,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -199531,6 +202849,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -199632,6 +202951,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -199794,6 +203114,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -199895,6 +203216,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -200012,6 +203334,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -200113,6 +203436,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -200214,6 +203538,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -200315,6 +203640,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -200432,6 +203758,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -200533,6 +203860,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -200634,6 +203962,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -200735,6 +204064,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -200899,6 +204229,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -201000,6 +204331,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -201154,6 +204486,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -201255,6 +204588,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -201406,6 +204740,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -201507,6 +204842,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -201624,6 +204960,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -201725,6 +205062,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -201879,6 +205217,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -201980,6 +205319,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -202124,6 +205464,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -202225,6 +205566,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -202342,6 +205684,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -202443,6 +205786,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -202544,6 +205888,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -202645,6 +205990,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -202762,6 +206108,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -202863,6 +206210,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -202964,6 +206312,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -203065,6 +206414,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -203212,6 +206562,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -203313,6 +206664,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -203430,6 +206782,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -203531,6 +206884,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -203681,6 +207035,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -203782,6 +207137,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -203922,6 +207278,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -204023,6 +207380,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -204172,6 +207530,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -204273,6 +207632,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -204390,6 +207750,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -204491,6 +207852,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -204645,6 +208007,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -204746,6 +208109,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -204890,6 +208254,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -204991,6 +208356,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -205138,6 +208504,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -205239,6 +208606,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -205356,6 +208724,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -205457,6 +208826,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -205605,6 +208975,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -205706,6 +209077,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -205844,6 +209216,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -205945,6 +209318,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -206094,6 +209468,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -206195,6 +209570,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -206312,6 +209688,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -206413,6 +209790,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -206557,6 +209935,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -206658,6 +210037,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -206792,6 +210172,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -206893,6 +210274,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -207010,6 +210392,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -207111,6 +210494,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -207212,6 +210596,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -207313,6 +210698,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -207430,6 +210816,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -207531,6 +210918,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -207632,6 +211020,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -207733,6 +211122,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -207880,6 +211270,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -207981,6 +211372,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -208098,6 +211490,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -208199,6 +211592,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -208341,6 +211735,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -208442,6 +211837,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -208574,6 +211970,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -208675,6 +212072,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -208824,6 +212222,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -208925,6 +212324,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -209042,6 +212442,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -209143,6 +212544,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -209303,6 +212705,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -209404,6 +212807,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -209554,6 +212958,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -209655,6 +213060,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -209798,6 +213204,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -209899,6 +213306,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -210016,6 +213424,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -210117,6 +213526,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -210261,6 +213671,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -210362,6 +213773,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -210496,6 +213908,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -210597,6 +214010,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -210744,6 +214158,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -210845,6 +214260,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -210962,6 +214378,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -211063,6 +214480,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -211215,6 +214633,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -211316,6 +214735,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -211458,6 +214878,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -211559,6 +214980,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -211676,6 +215098,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -211777,6 +215200,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -211878,6 +215302,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -211979,6 +215404,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -212128,6 +215554,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -212229,6 +215656,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -212346,6 +215774,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -212447,6 +215876,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -212607,6 +216037,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -212708,6 +216139,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -212858,6 +216290,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -212959,6 +216392,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -213076,6 +216510,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -213177,6 +216612,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -213278,6 +216714,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -213379,6 +216816,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -213496,6 +216934,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -213597,6 +217036,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -213698,6 +217138,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -213799,6 +217240,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -213933,6 +217375,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -214034,6 +217477,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -214158,6 +217602,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -214259,6 +217704,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -214407,6 +217853,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -214508,6 +217955,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -214646,6 +218094,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -214747,6 +218196,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -214864,6 +218314,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -214965,6 +218416,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -215066,6 +218518,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -215167,6 +218620,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -215284,6 +218738,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -215385,6 +218840,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -215486,6 +218942,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -215587,6 +219044,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -215732,6 +219190,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -215833,6 +219292,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -215950,6 +219410,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -216051,6 +219512,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -216191,6 +219653,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -216292,6 +219755,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -216422,6 +219886,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -216523,6 +219988,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -216678,6 +220144,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -216779,6 +220246,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -216896,6 +220364,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -216997,6 +220466,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -217141,6 +220611,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -217242,6 +220713,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -217376,6 +220848,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -217477,6 +220950,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -217594,6 +221068,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -217695,6 +221170,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -217796,6 +221272,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -217897,6 +221374,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -218014,6 +221492,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -218115,6 +221594,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -218216,6 +221696,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -218317,6 +221798,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -218485,6 +221967,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -218586,6 +222069,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -218732,6 +222216,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -218833,6 +222318,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -218978,6 +222464,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -219079,6 +222566,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -219196,6 +222684,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -219297,6 +222786,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -219449,6 +222939,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -219550,6 +223041,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -219692,6 +223184,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -219793,6 +223286,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -219936,6 +223430,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -220037,6 +223532,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -220154,6 +223650,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -220255,6 +223752,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -220405,6 +223903,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -220506,6 +224005,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -220646,6 +224146,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -220747,6 +224248,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -220896,6 +224398,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -220997,6 +224500,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -221114,6 +224618,7 @@ export namespace Prisma {
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -221215,6 +224720,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -221355,6 +224861,7 @@ export namespace Prisma {
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -221456,6 +224963,7 @@ export namespace Prisma {
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -221586,6 +225094,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -221687,6 +225196,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -221830,6 +225340,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -221931,6 +225442,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -222488,6 +226000,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -222589,6 +226102,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -222737,6 +226251,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -222838,6 +226353,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -222976,6 +226492,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
     promotions?: PromotionCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -223077,6 +226594,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
     breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -223194,6 +226712,7 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
     promotions?: PromotionUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -223295,6 +226814,543 @@ export namespace Prisma {
     consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
     breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutLoyaltyAccountsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutLoyaltyAccountsInput, TenantUncheckedCreateWithoutLoyaltyAccountsInput>
+  }
+
+  export type LoyaltyTransactionCreateWithoutLoyaltyAccountInput = {
+    id?: string
+    tenantId: string
+    delta: number
+    reason: string
+    orderId?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput = {
+    id?: string
+    tenantId: string
+    delta: number
+    reason: string
+    orderId?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoyaltyTransactionCreateOrConnectWithoutLoyaltyAccountInput = {
+    where: LoyaltyTransactionWhereUniqueInput
+    create: XOR<LoyaltyTransactionCreateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput>
+  }
+
+  export type LoyaltyTransactionCreateManyLoyaltyAccountInputEnvelope = {
+    data: LoyaltyTransactionCreateManyLoyaltyAccountInput | LoyaltyTransactionCreateManyLoyaltyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutLoyaltyAccountsInput = {
+    update: XOR<TenantUpdateWithoutLoyaltyAccountsInput, TenantUncheckedUpdateWithoutLoyaltyAccountsInput>
+    create: XOR<TenantCreateWithoutLoyaltyAccountsInput, TenantUncheckedCreateWithoutLoyaltyAccountsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutLoyaltyAccountsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutLoyaltyAccountsInput, TenantUncheckedUpdateWithoutLoyaltyAccountsInput>
+  }
+
+  export type TenantUpdateWithoutLoyaltyAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
+    where: LoyaltyTransactionWhereUniqueInput
+    update: XOR<LoyaltyTransactionUpdateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedUpdateWithoutLoyaltyAccountInput>
+    create: XOR<LoyaltyTransactionCreateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedCreateWithoutLoyaltyAccountInput>
+  }
+
+  export type LoyaltyTransactionUpdateWithWhereUniqueWithoutLoyaltyAccountInput = {
+    where: LoyaltyTransactionWhereUniqueInput
+    data: XOR<LoyaltyTransactionUpdateWithoutLoyaltyAccountInput, LoyaltyTransactionUncheckedUpdateWithoutLoyaltyAccountInput>
+  }
+
+  export type LoyaltyTransactionUpdateManyWithWhereWithoutLoyaltyAccountInput = {
+    where: LoyaltyTransactionScalarWhereInput
+    data: XOR<LoyaltyTransactionUpdateManyMutationInput, LoyaltyTransactionUncheckedUpdateManyWithoutLoyaltyAccountInput>
+  }
+
+  export type LoyaltyTransactionScalarWhereInput = {
+    AND?: LoyaltyTransactionScalarWhereInput | LoyaltyTransactionScalarWhereInput[]
+    OR?: LoyaltyTransactionScalarWhereInput[]
+    NOT?: LoyaltyTransactionScalarWhereInput | LoyaltyTransactionScalarWhereInput[]
+    id?: UuidFilter<"LoyaltyTransaction"> | string
+    tenantId?: UuidFilter<"LoyaltyTransaction"> | string
+    loyaltyAccountId?: UuidFilter<"LoyaltyTransaction"> | string
+    delta?: IntFilter<"LoyaltyTransaction"> | number
+    reason?: StringFilter<"LoyaltyTransaction"> | string
+    orderId?: UuidNullableFilter<"LoyaltyTransaction"> | string | null
+    createdBy?: StringNullableFilter<"LoyaltyTransaction"> | string | null
+    createdAt?: DateTimeFilter<"LoyaltyTransaction"> | Date | string
+  }
+
+  export type LoyaltyAccountCreateWithoutTransactionsInput = {
+    id?: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutLoyaltyAccountsInput
+  }
+
+  export type LoyaltyAccountUncheckedCreateWithoutTransactionsInput = {
+    id?: string
+    tenantId: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoyaltyAccountCreateOrConnectWithoutTransactionsInput = {
+    where: LoyaltyAccountWhereUniqueInput
+    create: XOR<LoyaltyAccountCreateWithoutTransactionsInput, LoyaltyAccountUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type LoyaltyAccountUpsertWithoutTransactionsInput = {
+    update: XOR<LoyaltyAccountUpdateWithoutTransactionsInput, LoyaltyAccountUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<LoyaltyAccountCreateWithoutTransactionsInput, LoyaltyAccountUncheckedCreateWithoutTransactionsInput>
+    where?: LoyaltyAccountWhereInput
+  }
+
+  export type LoyaltyAccountUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: LoyaltyAccountWhereInput
+    data: XOR<LoyaltyAccountUpdateWithoutTransactionsInput, LoyaltyAccountUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type LoyaltyAccountUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutLoyaltyAccountsNestedInput
+  }
+
+  export type LoyaltyAccountUncheckedUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -223659,6 +227715,7 @@ export namespace Prisma {
     name: string
     currency: string
     status?: $Enums.PriceListStatus
+    accountId?: string | null
     validFrom?: Date | string | null
     validTo?: Date | string | null
     createdAt?: Date | string
@@ -224305,6 +228362,14 @@ export namespace Prisma {
     decidedAt?: Date | string | null
     decisionNote?: string | null
     createdAt?: Date | string
+  }
+
+  export type LoyaltyAccountCreateManyTenantInput = {
+    id?: string
+    accountId: string
+    points?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -225419,6 +229484,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -225432,6 +229498,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -225445,6 +229512,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPriceListStatusFieldUpdateOperationsInput | $Enums.PriceListStatus
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     validFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -227417,6 +231485,32 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LoyaltyAccountUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: LoyaltyTransactionUpdateManyWithoutLoyaltyAccountNestedInput
+  }
+
+  export type LoyaltyAccountUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: LoyaltyTransactionUncheckedUpdateManyWithoutLoyaltyAccountNestedInput
+  }
+
+  export type LoyaltyAccountUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -229168,6 +233262,46 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     amountOff?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoyaltyTransactionCreateManyLoyaltyAccountInput = {
+    id?: string
+    tenantId: string
+    delta: number
+    reason: string
+    orderId?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoyaltyTransactionUpdateWithoutLoyaltyAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    delta?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoyaltyTransactionUncheckedUpdateWithoutLoyaltyAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    delta?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoyaltyTransactionUncheckedUpdateManyWithoutLoyaltyAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    delta?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
