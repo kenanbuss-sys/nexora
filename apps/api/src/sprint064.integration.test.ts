@@ -49,20 +49,6 @@ integration('Sprint 064 — support cases', () => {
     return { status: response.statusCode, body: response.json() as Record<string, unknown> };
   }
 
-  async function draftOrder(quantity: number, unitPrice: number): Promise<string> {
-    const order = await api('POST', '/api/v1/orders', tokenA, {
-      accountId,
-      warehouseId,
-      currency: 'EUR',
-    });
-    await api('POST', `/api/v1/orders/${order.body.id}/lines`, tokenA, {
-      skuId,
-      quantity,
-      unitPrice,
-    });
-    return order.body.id as string;
-  }
-
   beforeAll(async () => {
     process.env.DATABASE_URL = DB_URL;
     prisma = createDb({ connectionString: DB_URL, max: 10 });
