@@ -1385,6 +1385,23 @@ exports.Prisma.LoyaltyTransactionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SupportCaseScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  caseNumber: 'caseNumber',
+  subject: 'subject',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  accountId: 'accountId',
+  orderId: 'orderId',
+  assignedTo: 'assignedTo',
+  resolvedAt: 'resolvedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1739,6 +1756,20 @@ exports.MasterDataRequestStatus = exports.$Enums.MasterDataRequestStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.SupportCaseStatus = exports.$Enums.SupportCaseStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED'
+};
+
+exports.SupportCasePriority = exports.$Enums.SupportCasePriority = {
+  LOW: 'LOW',
+  NORMAL: 'NORMAL',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1847,7 +1878,8 @@ exports.Prisma.ModelName = {
   BreakGlassGrant: 'BreakGlassGrant',
   MasterDataRequest: 'MasterDataRequest',
   LoyaltyAccount: 'LoyaltyAccount',
-  LoyaltyTransaction: 'LoyaltyTransaction'
+  LoyaltyTransaction: 'LoyaltyTransaction',
+  SupportCase: 'SupportCase'
 };
 
 /**
