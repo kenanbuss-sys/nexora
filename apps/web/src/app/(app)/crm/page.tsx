@@ -118,6 +118,12 @@ export default function CrmPage() {
     }>
   >([]);
   const [caseSubject, setCaseSubject] = useState('');
+  const [caseStats, setCaseStats] = useState<{
+    open: number;
+    inProgress: number;
+    avgResolutionHours: number | null;
+    overdue: Array<{ caseNumber: string; ageHours: number }>;
+  } | null>(null);
   const [caseAccount, setCaseAccount] = useState('');
   const [casePriority, setCasePriority] = useState('NORMAL');
   const [onboarding, setOnboarding] = useState<
@@ -187,6 +193,9 @@ export default function CrmPage() {
     api<{ cases: typeof cases }>('GET', '/api/v1/support-cases')
       .then((r) => setCases(r.cases))
       .catch(() => setCases([]));
+    api<NonNullable<typeof caseStats>>('GET', '/api/v1/support-cases/analytics')
+      .then((r) => setCaseStats(r))
+      .catch(() => setCaseStats(null));
     api<{ accounts: AccountView[] }>('GET', '/api/v1/crm/accounts')
       .then((r) => setAccounts(r.accounts))
       .catch(() => setAccounts([]));
@@ -847,6 +856,20 @@ export default function CrmPage() {
       {can('crm.read') ? (
         <div className="card" style={{ marginTop: 16 }}>
           <h2>Support cases</h2>
+          {caseStats ? (
+            <div className="row" style={{ flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
+              <span className="badge">open: {caseStats.open}</span>
+              <span className="badge">in progress: {caseStats.inProgress}</span>
+              {caseStats.avgResolutionHours !== null ? (
+                <span className="badge badge-ok">avg resolve: {caseStats.avgResolutionHours}h</span>
+              ) : null}
+              {caseStats.overdue.length > 0 ? (
+                <span className="badge badge-danger">
+                  SLA overdue: {caseStats.overdue.map((o) => o.caseNumber).join(', ')}
+                </span>
+              ) : null}
+            </div>
+          ) : null}
           <p className="muted" style={{ marginTop: 0 }}>
             Customer issues with a clear lifecycle — open, in progress, resolved, closed.
           </p>

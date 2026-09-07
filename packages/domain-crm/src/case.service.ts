@@ -77,6 +77,60 @@ export class SupportCaseService {
     return rows.map((r) => this.toView(r));
   }
 
+  /**
+   * Case SLA + analytics (CSM-005/014): open cases older than the given
+   * hours (priority-weighted default: URGENT 4h, HIGH 8h, else 24h) and
+   * summary statistics with average resolution time.
+   */
+  async caseAnalytics(ctx: RequestContext): Promise<{
+    open: number;
+    inProgress: number;
+    resolved: number;
+    closed: number;
+    avgResolutionHours: number | null;
+    overdue: Array<{
+      id: string;
+      caseNumber: string;
+      subject: string;
+      priority: string;
+      ageHours: number;
+    }>;
+  }> {
+    const rows = await this.prisma.supportCase.findMany({
+      where: { tenantId: ctx.tenantId },
+      take: 1000,
+    });
+    const now = Date.now();
+    const slaHours: Record<string, number> = { URGENT: 4, HIGH: 8, NORMAL: 24, LOW: 72 };
+    const overdue = rows
+      .filter((c) => (c.status === 'OPEN' || c.status === 'IN_PROGRESS') && c.createdAt)
+      .map((c) => ({
+        id: c.id,
+        caseNumber: c.caseNumber,
+        subject: c.subject,
+        priority: c.priority as string,
+        ageHours: Math.floor((now - c.createdAt.getTime()) / 3_600_000),
+      }))
+      .filter((c) => c.ageHours > (slaHours[c.priority] ?? 24))
+      .sort((a, b) => b.ageHours - a.ageHours)
+      .slice(0, 50);
+    const resolutionTimes = rows
+      .filter((c) => c.resolvedAt)
+      .map((c) => ((c.resolvedAt as Date).getTime() - c.createdAt.getTime()) / 3_600_000);
+    return {
+      open: rows.filter((c) => c.status === 'OPEN').length,
+      inProgress: rows.filter((c) => c.status === 'IN_PROGRESS').length,
+      resolved: rows.filter((c) => c.status === 'RESOLVED').length,
+      closed: rows.filter((c) => c.status === 'CLOSED').length,
+      avgResolutionHours:
+        resolutionTimes.length > 0
+          ? Math.round((resolutionTimes.reduce((a, b) => a + b, 0) / resolutionTimes.length) * 10) /
+            10
+          : null,
+      overdue,
+    };
+  }
+
   async createCase(
     input: {
       subject: string;

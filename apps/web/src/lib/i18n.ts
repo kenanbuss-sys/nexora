@@ -412,6 +412,10 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'in progress:': 'u radu:',
+  'avg resolve:': 'prosj. rješavanje:',
+  'SLA overdue:': 'SLA probijeno:',
+  'open:': 'otvoreno:',
   Quarantine: 'Karantin',
   'Load holds': 'Učitaj zadrške',
   'Held quantities cannot be reserved until quality releases or scraps them.':

@@ -478,7 +478,7 @@ CSM-001,CSM,Customer support cases,P2,DONE,R4+,,,"Sprint 064: numbered support c
 CSM-002,CSM,Omnichannel case intake,P2,PLANNED,R4+,,,
 CSM-003,CSM,Case routing/assignment,P2,DONE,R4+,,,"Sprint 064: case assignment to active tenant users, audited."
 CSM-004,CSM,Customer complaint handling,P2,PLANNED,R4+,,,
-CSM-005,CSM,SLA policies,P2,PLANNED,R4+,,,
+CSM-005,CSM,SLA policies,P2,DONE,R4+,,,Sprint 083: priority-weighted case SLA overdue detection (URGENT 4h/HIGH 8h/NORMAL 24h/LOW 72h).
 CSM-006,CSM,Escalations,P2,PLANNED,R4+,,,
 CSM-007,CSM,Case collaboration,P2,PLANNED,R4+,,,
 CSM-008,CSM,Canned responses/templates,P2,PLANNED,R4+,,,
@@ -487,7 +487,7 @@ CSM-010,CSM,Customer support portal,P2,PLANNED,R4+,,,
 CSM-011,CSM,Case-to-order linkage,P2,Partially implemented (Sprint 064),R4+,,,Cases link to sales orders at creation; deeper order-context views pending.
 CSM-012,CSM,Case-to-service linkage,P2,PLANNED,R4+,,,
 CSM-013,CSM,Case-to-RMA linkage,P2,PLANNED,R4+,,,
-CSM-014,CSM,Support analytics,P2,PLANNED,R4+,,,
+CSM-014,CSM,Support analytics,P2,DONE,R4+,,,Sprint 083: case analytics — status counts + average resolution time; CRM page badges.
 CSM-015,CSM,Customer satisfaction feedback,P2,PLANNED,R4+,,,
 MKT-001,MKT,Campaigns,P3,PLANNED,R4+,,,
 MKT-002,MKT,Audience segmentation,P3,PLANNED,R4+,,,

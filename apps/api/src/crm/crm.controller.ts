@@ -333,6 +333,12 @@ export class SupportCasesController {
     return { cases: await this.cases.listCases({ status: parsed }, ctx) };
   }
 
+  @Get('analytics')
+  @RequirePermission('crm.read')
+  async analytics(@Ctx() ctx: RequestContext) {
+    return this.cases.caseAnalytics(ctx);
+  }
+
   @Post()
   @RequirePermission('crm.manage')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
