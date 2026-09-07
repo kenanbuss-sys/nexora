@@ -11,3 +11,4 @@ export {
   type ProductUpdateGate,
 } from './approval.service';
 export { UomService, DEFAULT_UOMS, type UomConfigGate, type UomView } from './uom.service';
+export { LocationMasterService, type SiteKind, type SiteView } from './location.service';

@@ -5,6 +5,7 @@ import type {
   DataQualityService,
   PartyService,
   UomService,
+  LocationMasterService,
 } from '@nexora/domain-mdm';
 import type { FieldPolicyService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
@@ -19,6 +20,7 @@ export const CONSENT_SERVICE = 'CONSENT_SERVICE';
 export const MDM_APPROVAL_SERVICE = 'MDM_APPROVAL_SERVICE';
 export const UOM_SERVICE = 'UOM_SERVICE';
 export const FIELD_POLICY_SERVICE = 'FIELD_POLICY_SERVICE';
+export const LOCATION_MASTER_SERVICE = 'LOCATION_MASTER_SERVICE';
 
 const consentSchema = z.object({
   channel: z.enum(['EMAIL', 'PHONE', 'SMS', 'POST']),
@@ -194,5 +196,22 @@ export class UomsController {
   @RequirePermission('mdm.steward')
   async usage(@Param('code') code: string, @Ctx() ctx: RequestContext) {
     return this.uoms.usage(code, ctx);
+  }
+}
+
+@Controller('api/v1/sites')
+export class SitesController {
+  constructor(@Inject(LOCATION_MASTER_SERVICE) private readonly locations: LocationMasterService) {}
+
+  @Get()
+  @RequirePermission('mdm.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { sites: await this.locations.listSites(ctx) };
+  }
+
+  @Get('duplicates')
+  @RequirePermission('mdm.steward')
+  async duplicates(@Ctx() ctx: RequestContext) {
+    return { duplicates: await this.locations.duplicateNames(ctx) };
   }
 }

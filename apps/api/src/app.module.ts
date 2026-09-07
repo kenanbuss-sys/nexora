@@ -38,6 +38,7 @@ import {
   DataQualityService,
   PartyService,
   UomService,
+  LocationMasterService,
 } from '@nexora/domain-mdm';
 import { ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ProcurementService, RfqService } from '@nexora/domain-proc';
@@ -111,6 +112,8 @@ import {
   UOM_SERVICE,
   UomsController,
   FIELD_POLICY_SERVICE,
+  LOCATION_MASTER_SERVICE,
+  SitesController,
 } from './mdm/mdm.controller';
 import {
   DEVICE_SERVICE,
@@ -301,6 +304,7 @@ export const REDIS = 'REDIS';
     ChangeRequestsController,
     PartiesController,
     UomsController,
+    SitesController,
     ProductsController,
     SkusController,
     BarcodesController,
@@ -650,6 +654,11 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [TENANT_SERVICE, ROLE_SERVICE],
+    },
+    {
+      provide: LOCATION_MASTER_SERVICE,
+      useFactory: (prisma: PrismaClient) => new LocationMasterService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: CUSTOM_OBJECT_SERVICE,
