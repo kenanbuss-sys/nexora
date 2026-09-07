@@ -11,6 +11,7 @@ export {
   DISCOUNT_APPROVAL_THRESHOLD_PCT,
   QuoteService,
   type AccountGate,
+  type CostGate,
   type ApprovalGate,
   type QuoteLineView,
   type QuoteView,

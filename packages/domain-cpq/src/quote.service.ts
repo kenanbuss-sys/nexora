@@ -136,6 +136,15 @@ function toView(quote: {
   };
 }
 
+/**
+ * Cost-aware pricing gate (CPQ-010): standard cost and the tenant's
+ * margin floor, owned by finance/configuration.
+ */
+export interface CostGate {
+  getStandardCost(tenantId: string, skuId: string): Promise<number | null>;
+  getMinMarginPct(tenantId: string): Promise<number>;
+}
+
 export class QuoteService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -144,6 +153,7 @@ export class QuoteService {
     private readonly approvals: ApprovalGate,
     private readonly skus: SkuInfoGate,
     private readonly discounts?: DiscountGate,
+    private readonly costs?: CostGate,
   ) {}
 
   async listQuotes(
@@ -282,6 +292,22 @@ export class QuoteService {
     const list = Number(unitPrice);
     const net = Math.round(list * (1 - discountPct / 100) * 10000) / 10000;
     const lineTotal = Math.round(net * input.quantity * 100) / 100;
+
+    // Cost-aware floor (CPQ-010): never quote below standard cost plus
+    // the configured minimum margin.
+    if (this.costs) {
+      const cost = await this.costs.getStandardCost(ctx.tenantId, input.skuId);
+      if (cost !== null && cost > 0) {
+        const minMarginPct = await this.costs.getMinMarginPct(ctx.tenantId);
+        const floor = Math.round(cost * (1 + minMarginPct / 100) * 10000) / 10000;
+        if (net < floor - 1e-9) {
+          throw new DomainError(
+            'INVALID_STATE',
+            `Net price ${net} is below the cost floor ${floor} (cost ${cost} + ${minMarginPct}% margin)`,
+          );
+        }
+      }
+    }
 
     await this.prisma.quoteLine.create({
       data: {

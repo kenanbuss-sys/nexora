@@ -202,6 +202,33 @@ export class PricingService {
   }
 
   /**
+   * Cost-aware price suggestions (CPQ-010): for every active SKU with a
+   * standard cost, propose cost x (1 + targetMarginPct / 100).
+   */
+  async costBasedSuggestions(
+    targetMarginPct: number,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ skuId: string; code: string; name: string; standardCost: string; suggested: string }>
+  > {
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, status: 'ACTIVE', standardCost: { not: null } },
+      orderBy: [{ code: 'asc' }],
+      take: 200,
+    });
+    return skus.map((sku) => {
+      const cost = Number(sku.standardCost);
+      return {
+        skuId: sku.id,
+        code: sku.code,
+        name: sku.name,
+        standardCost: cost.toFixed(2),
+        suggested: (Math.round(cost * (1 + targetMarginPct / 100) * 100) / 100).toFixed(2),
+      };
+    });
+  }
+
+  /**
    * Resolves the effective unit price for a SKU/quantity on an ACTIVE list:
    * the entry with the highest minQty that is <= quantity (quantity break).
    */

@@ -644,6 +644,7 @@ export const REDIS = 'REDIS';
         approvals: ApprovalService,
         catalog: CatalogService,
         discounts: DiscountRuleService,
+        tenants: TenantService,
       ) =>
         new QuoteService(
           prisma,
@@ -655,6 +656,22 @@ export const REDIS = 'REDIS';
           },
           { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) },
           { bestDiscount: (t, a, sk, q) => discounts.bestDiscount(t, a, sk, q) },
+          {
+            getStandardCost: async (t, skuId) => {
+              const sku = await prisma.sku.findFirst({
+                where: { id: skuId, tenantId: t },
+                select: { standardCost: true },
+              });
+              return sku?.standardCost === null || sku?.standardCost === undefined
+                ? null
+                : Number(sku.standardCost);
+            },
+            getMinMarginPct: async (t) => {
+              const { config } = await tenants.getEffectiveConfiguration(t);
+              const pct = (config as { sales?: { minMarginPct?: unknown } })?.sales?.minMarginPct;
+              return typeof pct === 'number' && pct >= 0 && pct <= 500 ? pct : 0;
+            },
+          },
         ),
       inject: [
         PRISMA,
@@ -663,6 +680,7 @@ export const REDIS = 'REDIS';
         APPROVAL_SERVICE,
         CATALOG_SERVICE,
         DISCOUNT_SERVICE,
+        TENANT_SERVICE,
       ],
     },
     {

@@ -85,6 +85,10 @@ export default function QuotesPage() {
   const [accounts, setAccounts] = useState<AccountView[]>([]);
   const [skus, setSkus] = useState<SkuOption[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [costSuggestions, setCostSuggestions] = useState<
+    Array<{ skuId: string; code: string; standardCost: string; suggested: string }>
+  >([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -226,6 +230,51 @@ export default function QuotesPage() {
                   </tbody>
                 </table>
               )}
+
+              <button
+                className="btn btn-sm"
+                style={{ marginTop: 8 }}
+                type="button"
+                onClick={() => {
+                  if (showSuggestions) {
+                    setShowSuggestions(false);
+                    return;
+                  }
+                  api<{ suggestions: typeof costSuggestions }>(
+                    'GET',
+                    '/api/v1/price-lists/cost-suggestions?marginPct=30',
+                  )
+                    .then((r) => {
+                      setCostSuggestions(r.suggestions);
+                      setShowSuggestions(true);
+                    })
+                    .catch((e: unknown) => setError(errorText(e)));
+                }}
+              >
+                Cost suggestions
+              </button>
+              {showSuggestions ? (
+                costSuggestions.length === 0 ? (
+                  <div className="empty">No SKUs with a standard cost yet.</div>
+                ) : (
+                  <table className="table" style={{ marginTop: 8 }}>
+                    <tbody>
+                      {costSuggestions.slice(0, 12).map((c) => (
+                        <tr key={c.skuId}>
+                          <td className="mono">{c.code}</td>
+                          <td className="muted">cost {c.standardCost}</td>
+                          <td>
+                            <strong>{c.suggested}</strong>{' '}
+                            <span className="muted" style={{ fontSize: 12 }}>
+                              @30%
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )
+              ) : null}
 
               {can('pricing.manage') ? (
                 <>

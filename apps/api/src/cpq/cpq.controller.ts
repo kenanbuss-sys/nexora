@@ -66,6 +66,14 @@ export class PriceListsController {
     return this.pricing.createPriceList(parseBody(createPriceListSchema, body), ctx);
   }
 
+  @Get('cost-suggestions')
+  @RequirePermission('pricing.read')
+  async costSuggestions(@Query('marginPct') marginPct: string, @Ctx() ctx: RequestContext) {
+    const pct = Number(marginPct);
+    const target = Number.isFinite(pct) && pct >= 0 && pct <= 500 ? pct : 30;
+    return { suggestions: await this.pricing.costBasedSuggestions(target, ctx) };
+  }
+
   @Get('contract/:accountId')
   @RequirePermission('pricing.read')
   async contract(@Param('accountId') accountId: string, @Ctx() ctx: RequestContext) {
