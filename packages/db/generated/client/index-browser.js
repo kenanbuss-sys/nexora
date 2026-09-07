@@ -1450,6 +1450,20 @@ exports.Prisma.AssetScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.QuarantineHoldScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  warehouseId: 'warehouseId',
+  skuId: 'skuId',
+  quantity: 'quantity',
+  reason: 'reason',
+  status: 'status',
+  createdBy: 'createdBy',
+  decidedBy: 'decidedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1835,6 +1849,12 @@ exports.AssetStatus = exports.$Enums.AssetStatus = {
   RETIRED: 'RETIRED'
 };
 
+exports.QuarantineStatus = exports.$Enums.QuarantineStatus = {
+  ACTIVE: 'ACTIVE',
+  RELEASED: 'RELEASED',
+  SCRAPPED: 'SCRAPPED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1947,7 +1967,8 @@ exports.Prisma.ModelName = {
   SupportCase: 'SupportCase',
   Contract: 'Contract',
   Employee: 'Employee',
-  Asset: 'Asset'
+  Asset: 'Asset',
+  QuarantineHold: 'QuarantineHold'
 };
 
 /**

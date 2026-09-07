@@ -654,6 +654,14 @@ export type Employee = $Result.DefaultSelection<Prisma.$EmployeePayload>
  * an explicit service lifecycle.
  */
 export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
+/**
+ * Model QuarantineHold
+ * Sprint 082 (QMS-006/WMS-006): quarantine holds — quantity of a SKU
+ * in a warehouse blocked from reservation until quality releases it.
+ * Holds subtract from availability everywhere; releasing or scrapping
+ * closes the hold (scrap posts a compensating ledger adjustment).
+ */
+export type QuarantineHold = $Result.DefaultSelection<Prisma.$QuarantineHoldPayload>
 
 /**
  * Enums
@@ -1176,6 +1184,15 @@ export const AssetStatus: {
 
 export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus]
 
+
+export const QuarantineStatus: {
+  ACTIVE: 'ACTIVE',
+  RELEASED: 'RELEASED',
+  SCRAPPED: 'SCRAPPED'
+};
+
+export type QuarantineStatus = (typeof QuarantineStatus)[keyof typeof QuarantineStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1393,6 +1410,10 @@ export const EmployeeStatus: typeof $Enums.EmployeeStatus
 export type AssetStatus = $Enums.AssetStatus
 
 export const AssetStatus: typeof $Enums.AssetStatus
+
+export type QuarantineStatus = $Enums.QuarantineStatus
+
+export const QuarantineStatus: typeof $Enums.QuarantineStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2631,6 +2652,16 @@ export class PrismaClient<
     * ```
     */
   get asset(): Prisma.AssetDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quarantineHold`: Exposes CRUD operations for the **QuarantineHold** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuarantineHolds
+    * const quarantineHolds = await prisma.quarantineHold.findMany()
+    * ```
+    */
+  get quarantineHold(): Prisma.QuarantineHoldDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3183,7 +3214,8 @@ export namespace Prisma {
     SupportCase: 'SupportCase',
     Contract: 'Contract',
     Employee: 'Employee',
-    Asset: 'Asset'
+    Asset: 'Asset',
+    QuarantineHold: 'QuarantineHold'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3202,7 +3234,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -11494,6 +11526,80 @@ export namespace Prisma {
           }
         }
       }
+      QuarantineHold: {
+        payload: Prisma.$QuarantineHoldPayload<ExtArgs>
+        fields: Prisma.QuarantineHoldFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuarantineHoldFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuarantineHoldFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>
+          }
+          findFirst: {
+            args: Prisma.QuarantineHoldFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuarantineHoldFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>
+          }
+          findMany: {
+            args: Prisma.QuarantineHoldFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>[]
+          }
+          create: {
+            args: Prisma.QuarantineHoldCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>
+          }
+          createMany: {
+            args: Prisma.QuarantineHoldCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuarantineHoldCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>[]
+          }
+          delete: {
+            args: Prisma.QuarantineHoldDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>
+          }
+          update: {
+            args: Prisma.QuarantineHoldUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuarantineHoldDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuarantineHoldUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuarantineHoldUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuarantineHoldUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuarantineHoldPayload>
+          }
+          aggregate: {
+            args: Prisma.QuarantineHoldAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuarantineHold>
+          }
+          groupBy: {
+            args: Prisma.QuarantineHoldGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuarantineHoldGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuarantineHoldCountArgs<ExtArgs>
+            result: $Utils.Optional<QuarantineHoldCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -11702,6 +11808,7 @@ export namespace Prisma {
     contract?: ContractOmit
     employee?: EmployeeOmit
     asset?: AssetOmit
+    quarantineHold?: QuarantineHoldOmit
   }
 
   /* Types for Logging */
@@ -11879,6 +11986,7 @@ export namespace Prisma {
     contracts: number
     employees: number
     assets: number
+    quarantineHolds: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11979,6 +12087,7 @@ export namespace Prisma {
     contracts?: boolean | TenantCountOutputTypeCountContractsArgs
     employees?: boolean | TenantCountOutputTypeCountEmployeesArgs
     assets?: boolean | TenantCountOutputTypeCountAssetsArgs
+    quarantineHolds?: boolean | TenantCountOutputTypeCountQuarantineHoldsArgs
   }
 
   // Custom InputTypes
@@ -12669,6 +12778,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AssetWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountQuarantineHoldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuarantineHoldWhereInput
   }
 
 
@@ -14158,6 +14274,7 @@ export namespace Prisma {
     contracts?: boolean | Tenant$contractsArgs<ExtArgs>
     employees?: boolean | Tenant$employeesArgs<ExtArgs>
     assets?: boolean | Tenant$assetsArgs<ExtArgs>
+    quarantineHolds?: boolean | Tenant$quarantineHoldsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -14290,6 +14407,7 @@ export namespace Prisma {
     contracts?: boolean | Tenant$contractsArgs<ExtArgs>
     employees?: boolean | Tenant$employeesArgs<ExtArgs>
     assets?: boolean | Tenant$assetsArgs<ExtArgs>
+    quarantineHolds?: boolean | Tenant$quarantineHoldsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -14395,6 +14513,7 @@ export namespace Prisma {
       contracts: Prisma.$ContractPayload<ExtArgs>[]
       employees: Prisma.$EmployeePayload<ExtArgs>[]
       assets: Prisma.$AssetPayload<ExtArgs>[]
+      quarantineHolds: Prisma.$QuarantineHoldPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14895,6 +15014,7 @@ export namespace Prisma {
     contracts<T extends Tenant$contractsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     employees<T extends Tenant$employeesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assets<T extends Tenant$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quarantineHolds<T extends Tenant$quarantineHoldsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$quarantineHoldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17644,6 +17764,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.quarantineHolds
+   */
+  export type Tenant$quarantineHoldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    where?: QuarantineHoldWhereInput
+    orderBy?: QuarantineHoldOrderByWithRelationInput | QuarantineHoldOrderByWithRelationInput[]
+    cursor?: QuarantineHoldWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuarantineHoldScalarFieldEnum | QuarantineHoldScalarFieldEnum[]
   }
 
   /**
@@ -144525,6 +144669,1176 @@ export namespace Prisma {
 
 
   /**
+   * Model QuarantineHold
+   */
+
+  export type AggregateQuarantineHold = {
+    _count: QuarantineHoldCountAggregateOutputType | null
+    _avg: QuarantineHoldAvgAggregateOutputType | null
+    _sum: QuarantineHoldSumAggregateOutputType | null
+    _min: QuarantineHoldMinAggregateOutputType | null
+    _max: QuarantineHoldMaxAggregateOutputType | null
+  }
+
+  export type QuarantineHoldAvgAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type QuarantineHoldSumAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type QuarantineHoldMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    warehouseId: string | null
+    skuId: string | null
+    quantity: Decimal | null
+    reason: string | null
+    status: $Enums.QuarantineStatus | null
+    createdBy: string | null
+    decidedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuarantineHoldMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    warehouseId: string | null
+    skuId: string | null
+    quantity: Decimal | null
+    reason: string | null
+    status: $Enums.QuarantineStatus | null
+    createdBy: string | null
+    decidedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuarantineHoldCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    warehouseId: number
+    skuId: number
+    quantity: number
+    reason: number
+    status: number
+    createdBy: number
+    decidedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuarantineHoldAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type QuarantineHoldSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type QuarantineHoldMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    warehouseId?: true
+    skuId?: true
+    quantity?: true
+    reason?: true
+    status?: true
+    createdBy?: true
+    decidedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuarantineHoldMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    warehouseId?: true
+    skuId?: true
+    quantity?: true
+    reason?: true
+    status?: true
+    createdBy?: true
+    decidedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuarantineHoldCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    warehouseId?: true
+    skuId?: true
+    quantity?: true
+    reason?: true
+    status?: true
+    createdBy?: true
+    decidedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuarantineHoldAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuarantineHold to aggregate.
+     */
+    where?: QuarantineHoldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuarantineHolds to fetch.
+     */
+    orderBy?: QuarantineHoldOrderByWithRelationInput | QuarantineHoldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuarantineHoldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuarantineHolds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuarantineHolds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuarantineHolds
+    **/
+    _count?: true | QuarantineHoldCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QuarantineHoldAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QuarantineHoldSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuarantineHoldMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuarantineHoldMaxAggregateInputType
+  }
+
+  export type GetQuarantineHoldAggregateType<T extends QuarantineHoldAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuarantineHold]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuarantineHold[P]>
+      : GetScalarType<T[P], AggregateQuarantineHold[P]>
+  }
+
+
+
+
+  export type QuarantineHoldGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuarantineHoldWhereInput
+    orderBy?: QuarantineHoldOrderByWithAggregationInput | QuarantineHoldOrderByWithAggregationInput[]
+    by: QuarantineHoldScalarFieldEnum[] | QuarantineHoldScalarFieldEnum
+    having?: QuarantineHoldScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuarantineHoldCountAggregateInputType | true
+    _avg?: QuarantineHoldAvgAggregateInputType
+    _sum?: QuarantineHoldSumAggregateInputType
+    _min?: QuarantineHoldMinAggregateInputType
+    _max?: QuarantineHoldMaxAggregateInputType
+  }
+
+  export type QuarantineHoldGroupByOutputType = {
+    id: string
+    tenantId: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal
+    reason: string
+    status: $Enums.QuarantineStatus
+    createdBy: string | null
+    decidedBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: QuarantineHoldCountAggregateOutputType | null
+    _avg: QuarantineHoldAvgAggregateOutputType | null
+    _sum: QuarantineHoldSumAggregateOutputType | null
+    _min: QuarantineHoldMinAggregateOutputType | null
+    _max: QuarantineHoldMaxAggregateOutputType | null
+  }
+
+  type GetQuarantineHoldGroupByPayload<T extends QuarantineHoldGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuarantineHoldGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuarantineHoldGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuarantineHoldGroupByOutputType[P]>
+            : GetScalarType<T[P], QuarantineHoldGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuarantineHoldSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    skuId?: boolean
+    quantity?: boolean
+    reason?: boolean
+    status?: boolean
+    createdBy?: boolean
+    decidedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quarantineHold"]>
+
+  export type QuarantineHoldSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    skuId?: boolean
+    quantity?: boolean
+    reason?: boolean
+    status?: boolean
+    createdBy?: boolean
+    decidedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quarantineHold"]>
+
+  export type QuarantineHoldSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    skuId?: boolean
+    quantity?: boolean
+    reason?: boolean
+    status?: boolean
+    createdBy?: boolean
+    decidedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quarantineHold"]>
+
+  export type QuarantineHoldSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    skuId?: boolean
+    quantity?: boolean
+    reason?: boolean
+    status?: boolean
+    createdBy?: boolean
+    decidedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuarantineHoldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "warehouseId" | "skuId" | "quantity" | "reason" | "status" | "createdBy" | "decidedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["quarantineHold"]>
+  export type QuarantineHoldInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type QuarantineHoldIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type QuarantineHoldIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $QuarantineHoldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuarantineHold"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      warehouseId: string
+      skuId: string
+      quantity: Prisma.Decimal
+      reason: string
+      status: $Enums.QuarantineStatus
+      createdBy: string | null
+      decidedBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["quarantineHold"]>
+    composites: {}
+  }
+
+  type QuarantineHoldGetPayload<S extends boolean | null | undefined | QuarantineHoldDefaultArgs> = $Result.GetResult<Prisma.$QuarantineHoldPayload, S>
+
+  type QuarantineHoldCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuarantineHoldFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuarantineHoldCountAggregateInputType | true
+    }
+
+  export interface QuarantineHoldDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuarantineHold'], meta: { name: 'QuarantineHold' } }
+    /**
+     * Find zero or one QuarantineHold that matches the filter.
+     * @param {QuarantineHoldFindUniqueArgs} args - Arguments to find a QuarantineHold
+     * @example
+     * // Get one QuarantineHold
+     * const quarantineHold = await prisma.quarantineHold.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuarantineHoldFindUniqueArgs>(args: SelectSubset<T, QuarantineHoldFindUniqueArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuarantineHold that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuarantineHoldFindUniqueOrThrowArgs} args - Arguments to find a QuarantineHold
+     * @example
+     * // Get one QuarantineHold
+     * const quarantineHold = await prisma.quarantineHold.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuarantineHoldFindUniqueOrThrowArgs>(args: SelectSubset<T, QuarantineHoldFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuarantineHold that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuarantineHoldFindFirstArgs} args - Arguments to find a QuarantineHold
+     * @example
+     * // Get one QuarantineHold
+     * const quarantineHold = await prisma.quarantineHold.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuarantineHoldFindFirstArgs>(args?: SelectSubset<T, QuarantineHoldFindFirstArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuarantineHold that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuarantineHoldFindFirstOrThrowArgs} args - Arguments to find a QuarantineHold
+     * @example
+     * // Get one QuarantineHold
+     * const quarantineHold = await prisma.quarantineHold.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuarantineHoldFindFirstOrThrowArgs>(args?: SelectSubset<T, QuarantineHoldFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuarantineHolds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuarantineHoldFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuarantineHolds
+     * const quarantineHolds = await prisma.quarantineHold.findMany()
+     * 
+     * // Get first 10 QuarantineHolds
+     * const quarantineHolds = await prisma.quarantineHold.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quarantineHoldWithIdOnly = await prisma.quarantineHold.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuarantineHoldFindManyArgs>(args?: SelectSubset<T, QuarantineHoldFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuarantineHold.
+     * @param {QuarantineHoldCreateArgs} args - Arguments to create a QuarantineHold.
+     * @example
+     * // Create one QuarantineHold
+     * const QuarantineHold = await prisma.quarantineHold.create({
+     *   data: {
+     *     // ... data to create a QuarantineHold
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuarantineHoldCreateArgs>(args: SelectSubset<T, QuarantineHoldCreateArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuarantineHolds.
+     * @param {QuarantineHoldCreateManyArgs} args - Arguments to create many QuarantineHolds.
+     * @example
+     * // Create many QuarantineHolds
+     * const quarantineHold = await prisma.quarantineHold.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuarantineHoldCreateManyArgs>(args?: SelectSubset<T, QuarantineHoldCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuarantineHolds and returns the data saved in the database.
+     * @param {QuarantineHoldCreateManyAndReturnArgs} args - Arguments to create many QuarantineHolds.
+     * @example
+     * // Create many QuarantineHolds
+     * const quarantineHold = await prisma.quarantineHold.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuarantineHolds and only return the `id`
+     * const quarantineHoldWithIdOnly = await prisma.quarantineHold.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuarantineHoldCreateManyAndReturnArgs>(args?: SelectSubset<T, QuarantineHoldCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuarantineHold.
+     * @param {QuarantineHoldDeleteArgs} args - Arguments to delete one QuarantineHold.
+     * @example
+     * // Delete one QuarantineHold
+     * const QuarantineHold = await prisma.quarantineHold.delete({
+     *   where: {
+     *     // ... filter to delete one QuarantineHold
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuarantineHoldDeleteArgs>(args: SelectSubset<T, QuarantineHoldDeleteArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuarantineHold.
+     * @param {QuarantineHoldUpdateArgs} args - Arguments to update one QuarantineHold.
+     * @example
+     * // Update one QuarantineHold
+     * const quarantineHold = await prisma.quarantineHold.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuarantineHoldUpdateArgs>(args: SelectSubset<T, QuarantineHoldUpdateArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuarantineHolds.
+     * @param {QuarantineHoldDeleteManyArgs} args - Arguments to filter QuarantineHolds to delete.
+     * @example
+     * // Delete a few QuarantineHolds
+     * const { count } = await prisma.quarantineHold.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuarantineHoldDeleteManyArgs>(args?: SelectSubset<T, QuarantineHoldDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuarantineHolds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuarantineHoldUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuarantineHolds
+     * const quarantineHold = await prisma.quarantineHold.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuarantineHoldUpdateManyArgs>(args: SelectSubset<T, QuarantineHoldUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuarantineHolds and returns the data updated in the database.
+     * @param {QuarantineHoldUpdateManyAndReturnArgs} args - Arguments to update many QuarantineHolds.
+     * @example
+     * // Update many QuarantineHolds
+     * const quarantineHold = await prisma.quarantineHold.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuarantineHolds and only return the `id`
+     * const quarantineHoldWithIdOnly = await prisma.quarantineHold.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuarantineHoldUpdateManyAndReturnArgs>(args: SelectSubset<T, QuarantineHoldUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuarantineHold.
+     * @param {QuarantineHoldUpsertArgs} args - Arguments to update or create a QuarantineHold.
+     * @example
+     * // Update or create a QuarantineHold
+     * const quarantineHold = await prisma.quarantineHold.upsert({
+     *   create: {
+     *     // ... data to create a QuarantineHold
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuarantineHold we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuarantineHoldUpsertArgs>(args: SelectSubset<T, QuarantineHoldUpsertArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuarantineHolds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuarantineHoldCountArgs} args - Arguments to filter QuarantineHolds to count.
+     * @example
+     * // Count the number of QuarantineHolds
+     * const count = await prisma.quarantineHold.count({
+     *   where: {
+     *     // ... the filter for the QuarantineHolds we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuarantineHoldCountArgs>(
+      args?: Subset<T, QuarantineHoldCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuarantineHoldCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuarantineHold.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuarantineHoldAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuarantineHoldAggregateArgs>(args: Subset<T, QuarantineHoldAggregateArgs>): Prisma.PrismaPromise<GetQuarantineHoldAggregateType<T>>
+
+    /**
+     * Group by QuarantineHold.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuarantineHoldGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuarantineHoldGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuarantineHoldGroupByArgs['orderBy'] }
+        : { orderBy?: QuarantineHoldGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuarantineHoldGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuarantineHoldGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuarantineHold model
+   */
+  readonly fields: QuarantineHoldFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuarantineHold.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuarantineHoldClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuarantineHold model
+   */
+  interface QuarantineHoldFieldRefs {
+    readonly id: FieldRef<"QuarantineHold", 'String'>
+    readonly tenantId: FieldRef<"QuarantineHold", 'String'>
+    readonly warehouseId: FieldRef<"QuarantineHold", 'String'>
+    readonly skuId: FieldRef<"QuarantineHold", 'String'>
+    readonly quantity: FieldRef<"QuarantineHold", 'Decimal'>
+    readonly reason: FieldRef<"QuarantineHold", 'String'>
+    readonly status: FieldRef<"QuarantineHold", 'QuarantineStatus'>
+    readonly createdBy: FieldRef<"QuarantineHold", 'String'>
+    readonly decidedBy: FieldRef<"QuarantineHold", 'String'>
+    readonly createdAt: FieldRef<"QuarantineHold", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuarantineHold", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuarantineHold findUnique
+   */
+  export type QuarantineHoldFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * Filter, which QuarantineHold to fetch.
+     */
+    where: QuarantineHoldWhereUniqueInput
+  }
+
+  /**
+   * QuarantineHold findUniqueOrThrow
+   */
+  export type QuarantineHoldFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * Filter, which QuarantineHold to fetch.
+     */
+    where: QuarantineHoldWhereUniqueInput
+  }
+
+  /**
+   * QuarantineHold findFirst
+   */
+  export type QuarantineHoldFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * Filter, which QuarantineHold to fetch.
+     */
+    where?: QuarantineHoldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuarantineHolds to fetch.
+     */
+    orderBy?: QuarantineHoldOrderByWithRelationInput | QuarantineHoldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuarantineHolds.
+     */
+    cursor?: QuarantineHoldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuarantineHolds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuarantineHolds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuarantineHolds.
+     */
+    distinct?: QuarantineHoldScalarFieldEnum | QuarantineHoldScalarFieldEnum[]
+  }
+
+  /**
+   * QuarantineHold findFirstOrThrow
+   */
+  export type QuarantineHoldFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * Filter, which QuarantineHold to fetch.
+     */
+    where?: QuarantineHoldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuarantineHolds to fetch.
+     */
+    orderBy?: QuarantineHoldOrderByWithRelationInput | QuarantineHoldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuarantineHolds.
+     */
+    cursor?: QuarantineHoldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuarantineHolds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuarantineHolds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuarantineHolds.
+     */
+    distinct?: QuarantineHoldScalarFieldEnum | QuarantineHoldScalarFieldEnum[]
+  }
+
+  /**
+   * QuarantineHold findMany
+   */
+  export type QuarantineHoldFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * Filter, which QuarantineHolds to fetch.
+     */
+    where?: QuarantineHoldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuarantineHolds to fetch.
+     */
+    orderBy?: QuarantineHoldOrderByWithRelationInput | QuarantineHoldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuarantineHolds.
+     */
+    cursor?: QuarantineHoldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuarantineHolds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuarantineHolds.
+     */
+    skip?: number
+    distinct?: QuarantineHoldScalarFieldEnum | QuarantineHoldScalarFieldEnum[]
+  }
+
+  /**
+   * QuarantineHold create
+   */
+  export type QuarantineHoldCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QuarantineHold.
+     */
+    data: XOR<QuarantineHoldCreateInput, QuarantineHoldUncheckedCreateInput>
+  }
+
+  /**
+   * QuarantineHold createMany
+   */
+  export type QuarantineHoldCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuarantineHolds.
+     */
+    data: QuarantineHoldCreateManyInput | QuarantineHoldCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuarantineHold createManyAndReturn
+   */
+  export type QuarantineHoldCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuarantineHolds.
+     */
+    data: QuarantineHoldCreateManyInput | QuarantineHoldCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuarantineHold update
+   */
+  export type QuarantineHoldUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QuarantineHold.
+     */
+    data: XOR<QuarantineHoldUpdateInput, QuarantineHoldUncheckedUpdateInput>
+    /**
+     * Choose, which QuarantineHold to update.
+     */
+    where: QuarantineHoldWhereUniqueInput
+  }
+
+  /**
+   * QuarantineHold updateMany
+   */
+  export type QuarantineHoldUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuarantineHolds.
+     */
+    data: XOR<QuarantineHoldUpdateManyMutationInput, QuarantineHoldUncheckedUpdateManyInput>
+    /**
+     * Filter which QuarantineHolds to update
+     */
+    where?: QuarantineHoldWhereInput
+    /**
+     * Limit how many QuarantineHolds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuarantineHold updateManyAndReturn
+   */
+  export type QuarantineHoldUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * The data used to update QuarantineHolds.
+     */
+    data: XOR<QuarantineHoldUpdateManyMutationInput, QuarantineHoldUncheckedUpdateManyInput>
+    /**
+     * Filter which QuarantineHolds to update
+     */
+    where?: QuarantineHoldWhereInput
+    /**
+     * Limit how many QuarantineHolds to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuarantineHold upsert
+   */
+  export type QuarantineHoldUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QuarantineHold to update in case it exists.
+     */
+    where: QuarantineHoldWhereUniqueInput
+    /**
+     * In case the QuarantineHold found by the `where` argument doesn't exist, create a new QuarantineHold with this data.
+     */
+    create: XOR<QuarantineHoldCreateInput, QuarantineHoldUncheckedCreateInput>
+    /**
+     * In case the QuarantineHold was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuarantineHoldUpdateInput, QuarantineHoldUncheckedUpdateInput>
+  }
+
+  /**
+   * QuarantineHold delete
+   */
+  export type QuarantineHoldDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    /**
+     * Filter which QuarantineHold to delete.
+     */
+    where: QuarantineHoldWhereUniqueInput
+  }
+
+  /**
+   * QuarantineHold deleteMany
+   */
+  export type QuarantineHoldDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuarantineHolds to delete
+     */
+    where?: QuarantineHoldWhereInput
+    /**
+     * Limit how many QuarantineHolds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuarantineHold without action
+   */
+  export type QuarantineHoldDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -146203,6 +147517,23 @@ export namespace Prisma {
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
 
 
+  export const QuarantineHoldScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    warehouseId: 'warehouseId',
+    skuId: 'skuId',
+    quantity: 'quantity',
+    reason: 'reason',
+    status: 'status',
+    createdBy: 'createdBy',
+    decidedBy: 'decidedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuarantineHoldScalarFieldEnum = (typeof QuarantineHoldScalarFieldEnum)[keyof typeof QuarantineHoldScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -147104,6 +148435,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'QuarantineStatus'
+   */
+  export type EnumQuarantineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuarantineStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuarantineStatus[]'
+   */
+  export type ListEnumQuarantineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuarantineStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -147228,6 +148573,7 @@ export namespace Prisma {
     contracts?: ContractListRelationFilter
     employees?: EmployeeListRelationFilter
     assets?: AssetListRelationFilter
+    quarantineHolds?: QuarantineHoldListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -147335,6 +148681,7 @@ export namespace Prisma {
     contracts?: ContractOrderByRelationAggregateInput
     employees?: EmployeeOrderByRelationAggregateInput
     assets?: AssetOrderByRelationAggregateInput
+    quarantineHolds?: QuarantineHoldOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -147445,6 +148792,7 @@ export namespace Prisma {
     contracts?: ContractListRelationFilter
     employees?: EmployeeListRelationFilter
     assets?: AssetListRelationFilter
+    quarantineHolds?: QuarantineHoldListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -156179,6 +157527,93 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
   }
 
+  export type QuarantineHoldWhereInput = {
+    AND?: QuarantineHoldWhereInput | QuarantineHoldWhereInput[]
+    OR?: QuarantineHoldWhereInput[]
+    NOT?: QuarantineHoldWhereInput | QuarantineHoldWhereInput[]
+    id?: UuidFilter<"QuarantineHold"> | string
+    tenantId?: UuidFilter<"QuarantineHold"> | string
+    warehouseId?: UuidFilter<"QuarantineHold"> | string
+    skuId?: UuidFilter<"QuarantineHold"> | string
+    quantity?: DecimalFilter<"QuarantineHold"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"QuarantineHold"> | string
+    status?: EnumQuarantineStatusFilter<"QuarantineHold"> | $Enums.QuarantineStatus
+    createdBy?: StringNullableFilter<"QuarantineHold"> | string | null
+    decidedBy?: StringNullableFilter<"QuarantineHold"> | string | null
+    createdAt?: DateTimeFilter<"QuarantineHold"> | Date | string
+    updatedAt?: DateTimeFilter<"QuarantineHold"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type QuarantineHoldOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    skuId?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    decidedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type QuarantineHoldWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuarantineHoldWhereInput | QuarantineHoldWhereInput[]
+    OR?: QuarantineHoldWhereInput[]
+    NOT?: QuarantineHoldWhereInput | QuarantineHoldWhereInput[]
+    tenantId?: UuidFilter<"QuarantineHold"> | string
+    warehouseId?: UuidFilter<"QuarantineHold"> | string
+    skuId?: UuidFilter<"QuarantineHold"> | string
+    quantity?: DecimalFilter<"QuarantineHold"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"QuarantineHold"> | string
+    status?: EnumQuarantineStatusFilter<"QuarantineHold"> | $Enums.QuarantineStatus
+    createdBy?: StringNullableFilter<"QuarantineHold"> | string | null
+    decidedBy?: StringNullableFilter<"QuarantineHold"> | string | null
+    createdAt?: DateTimeFilter<"QuarantineHold"> | Date | string
+    updatedAt?: DateTimeFilter<"QuarantineHold"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id">
+
+  export type QuarantineHoldOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    skuId?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    decidedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuarantineHoldCountOrderByAggregateInput
+    _avg?: QuarantineHoldAvgOrderByAggregateInput
+    _max?: QuarantineHoldMaxOrderByAggregateInput
+    _min?: QuarantineHoldMinOrderByAggregateInput
+    _sum?: QuarantineHoldSumOrderByAggregateInput
+  }
+
+  export type QuarantineHoldScalarWhereWithAggregatesInput = {
+    AND?: QuarantineHoldScalarWhereWithAggregatesInput | QuarantineHoldScalarWhereWithAggregatesInput[]
+    OR?: QuarantineHoldScalarWhereWithAggregatesInput[]
+    NOT?: QuarantineHoldScalarWhereWithAggregatesInput | QuarantineHoldScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"QuarantineHold"> | string
+    tenantId?: UuidWithAggregatesFilter<"QuarantineHold"> | string
+    warehouseId?: UuidWithAggregatesFilter<"QuarantineHold"> | string
+    skuId?: UuidWithAggregatesFilter<"QuarantineHold"> | string
+    quantity?: DecimalWithAggregatesFilter<"QuarantineHold"> | Decimal | DecimalJsLike | number | string
+    reason?: StringWithAggregatesFilter<"QuarantineHold"> | string
+    status?: EnumQuarantineStatusWithAggregatesFilter<"QuarantineHold"> | $Enums.QuarantineStatus
+    createdBy?: StringNullableWithAggregatesFilter<"QuarantineHold"> | string | null
+    decidedBy?: StringNullableWithAggregatesFilter<"QuarantineHold"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"QuarantineHold"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuarantineHold"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -156284,6 +157719,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -156391,6 +157827,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -156498,6 +157935,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -156605,6 +158043,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -165920,6 +167359,103 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type QuarantineHoldCreateInput = {
+    id?: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutQuarantineHoldsInput
+  }
+
+  export type QuarantineHoldUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuarantineHoldUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutQuarantineHoldsNestedInput
+  }
+
+  export type QuarantineHoldUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuarantineHoldCreateManyInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuarantineHoldUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuarantineHoldUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -166558,6 +168094,12 @@ export namespace Prisma {
     none?: AssetWhereInput
   }
 
+  export type QuarantineHoldListRelationFilter = {
+    every?: QuarantineHoldWhereInput
+    some?: QuarantineHoldWhereInput
+    none?: QuarantineHoldWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -166943,6 +168485,10 @@ export namespace Prisma {
   }
 
   export type AssetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuarantineHoldOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -173507,6 +175053,73 @@ export namespace Prisma {
     _max?: NestedEnumAssetStatusFilter<$PrismaModel>
   }
 
+  export type EnumQuarantineStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuarantineStatus | EnumQuarantineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuarantineStatusFilter<$PrismaModel> | $Enums.QuarantineStatus
+  }
+
+  export type QuarantineHoldCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    skuId?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    decidedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuarantineHoldAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type QuarantineHoldMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    skuId?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    decidedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuarantineHoldMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    skuId?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    decidedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuarantineHoldSumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type EnumQuarantineStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuarantineStatus | EnumQuarantineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuarantineStatusWithAggregatesFilter<$PrismaModel> | $Enums.QuarantineStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuarantineStatusFilter<$PrismaModel>
+    _max?: NestedEnumQuarantineStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -174186,6 +175799,13 @@ export namespace Prisma {
     connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
   }
 
+  export type QuarantineHoldCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QuarantineHoldCreateWithoutTenantInput, QuarantineHoldUncheckedCreateWithoutTenantInput> | QuarantineHoldCreateWithoutTenantInput[] | QuarantineHoldUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutTenantInput | QuarantineHoldCreateOrConnectWithoutTenantInput[]
+    createMany?: QuarantineHoldCreateManyTenantInputEnvelope
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -174863,6 +176483,13 @@ export namespace Prisma {
     connectOrCreate?: AssetCreateOrConnectWithoutTenantInput | AssetCreateOrConnectWithoutTenantInput[]
     createMany?: AssetCreateManyTenantInputEnvelope
     connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<QuarantineHoldCreateWithoutTenantInput, QuarantineHoldUncheckedCreateWithoutTenantInput> | QuarantineHoldCreateWithoutTenantInput[] | QuarantineHoldUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutTenantInput | QuarantineHoldCreateOrConnectWithoutTenantInput[]
+    createMany?: QuarantineHoldCreateManyTenantInputEnvelope
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -176243,6 +177870,20 @@ export namespace Prisma {
     deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
   }
 
+  export type QuarantineHoldUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QuarantineHoldCreateWithoutTenantInput, QuarantineHoldUncheckedCreateWithoutTenantInput> | QuarantineHoldCreateWithoutTenantInput[] | QuarantineHoldUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutTenantInput | QuarantineHoldCreateOrConnectWithoutTenantInput[]
+    upsert?: QuarantineHoldUpsertWithWhereUniqueWithoutTenantInput | QuarantineHoldUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QuarantineHoldCreateManyTenantInputEnvelope
+    set?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    disconnect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    delete?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    update?: QuarantineHoldUpdateWithWhereUniqueWithoutTenantInput | QuarantineHoldUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QuarantineHoldUpdateManyWithWhereWithoutTenantInput | QuarantineHoldUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QuarantineHoldScalarWhereInput | QuarantineHoldScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -177599,6 +179240,20 @@ export namespace Prisma {
     update?: AssetUpdateWithWhereUniqueWithoutTenantInput | AssetUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: AssetUpdateManyWithWhereWithoutTenantInput | AssetUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<QuarantineHoldCreateWithoutTenantInput, QuarantineHoldUncheckedCreateWithoutTenantInput> | QuarantineHoldCreateWithoutTenantInput[] | QuarantineHoldUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutTenantInput | QuarantineHoldCreateOrConnectWithoutTenantInput[]
+    upsert?: QuarantineHoldUpsertWithWhereUniqueWithoutTenantInput | QuarantineHoldUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: QuarantineHoldCreateManyTenantInputEnvelope
+    set?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    disconnect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    delete?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    update?: QuarantineHoldUpdateWithWhereUniqueWithoutTenantInput | QuarantineHoldUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: QuarantineHoldUpdateManyWithWhereWithoutTenantInput | QuarantineHoldUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: QuarantineHoldScalarWhereInput | QuarantineHoldScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -181992,6 +183647,24 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutAssetsInput, TenantUpdateWithoutAssetsInput>, TenantUncheckedUpdateWithoutAssetsInput>
   }
 
+  export type TenantCreateNestedOneWithoutQuarantineHoldsInput = {
+    create?: XOR<TenantCreateWithoutQuarantineHoldsInput, TenantUncheckedCreateWithoutQuarantineHoldsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQuarantineHoldsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumQuarantineStatusFieldUpdateOperationsInput = {
+    set?: $Enums.QuarantineStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutQuarantineHoldsNestedInput = {
+    create?: XOR<TenantCreateWithoutQuarantineHoldsInput, TenantUncheckedCreateWithoutQuarantineHoldsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutQuarantineHoldsInput
+    upsert?: TenantUpsertWithoutQuarantineHoldsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutQuarantineHoldsInput, TenantUpdateWithoutQuarantineHoldsInput>, TenantUncheckedUpdateWithoutQuarantineHoldsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -183289,6 +184962,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAssetStatusFilter<$PrismaModel>
     _max?: NestedEnumAssetStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQuarantineStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuarantineStatus | EnumQuarantineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuarantineStatusFilter<$PrismaModel> | $Enums.QuarantineStatus
+  }
+
+  export type NestedEnumQuarantineStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuarantineStatus | EnumQuarantineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuarantineStatusWithAggregatesFilter<$PrismaModel> | $Enums.QuarantineStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuarantineStatusFilter<$PrismaModel>
+    _max?: NestedEnumQuarantineStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -186503,6 +188193,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type QuarantineHoldCreateWithoutTenantInput = {
+    id?: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuarantineHoldUncheckedCreateWithoutTenantInput = {
+    id?: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuarantineHoldCreateOrConnectWithoutTenantInput = {
+    where: QuarantineHoldWhereUniqueInput
+    create: XOR<QuarantineHoldCreateWithoutTenantInput, QuarantineHoldUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QuarantineHoldCreateManyTenantInputEnvelope = {
+    data: QuarantineHoldCreateManyTenantInput | QuarantineHoldCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -189522,6 +191248,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
   }
 
+  export type QuarantineHoldUpsertWithWhereUniqueWithoutTenantInput = {
+    where: QuarantineHoldWhereUniqueInput
+    update: XOR<QuarantineHoldUpdateWithoutTenantInput, QuarantineHoldUncheckedUpdateWithoutTenantInput>
+    create: XOR<QuarantineHoldCreateWithoutTenantInput, QuarantineHoldUncheckedCreateWithoutTenantInput>
+  }
+
+  export type QuarantineHoldUpdateWithWhereUniqueWithoutTenantInput = {
+    where: QuarantineHoldWhereUniqueInput
+    data: XOR<QuarantineHoldUpdateWithoutTenantInput, QuarantineHoldUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type QuarantineHoldUpdateManyWithWhereWithoutTenantInput = {
+    where: QuarantineHoldScalarWhereInput
+    data: XOR<QuarantineHoldUpdateManyMutationInput, QuarantineHoldUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type QuarantineHoldScalarWhereInput = {
+    AND?: QuarantineHoldScalarWhereInput | QuarantineHoldScalarWhereInput[]
+    OR?: QuarantineHoldScalarWhereInput[]
+    NOT?: QuarantineHoldScalarWhereInput | QuarantineHoldScalarWhereInput[]
+    id?: UuidFilter<"QuarantineHold"> | string
+    tenantId?: UuidFilter<"QuarantineHold"> | string
+    warehouseId?: UuidFilter<"QuarantineHold"> | string
+    skuId?: UuidFilter<"QuarantineHold"> | string
+    quantity?: DecimalFilter<"QuarantineHold"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"QuarantineHold"> | string
+    status?: EnumQuarantineStatusFilter<"QuarantineHold"> | $Enums.QuarantineStatus
+    createdBy?: StringNullableFilter<"QuarantineHold"> | string | null
+    decidedBy?: StringNullableFilter<"QuarantineHold"> | string | null
+    createdAt?: DateTimeFilter<"QuarantineHold"> | Date | string
+    updatedAt?: DateTimeFilter<"QuarantineHold"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -189626,6 +191385,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -189732,6 +191492,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -189854,6 +191615,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -189960,6 +191722,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -190066,6 +191829,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -190172,6 +191936,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -190328,6 +192093,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -190434,6 +192200,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -190556,6 +192323,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -190662,6 +192430,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -190922,6 +192691,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -191028,6 +192798,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -191246,6 +193017,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -191352,6 +193124,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -191503,6 +193276,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -191609,6 +193383,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -191750,6 +193525,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -191856,6 +193632,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -192007,6 +193784,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -192113,6 +193891,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -192254,6 +194033,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -192360,6 +194140,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -192571,6 +194352,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -192677,6 +194459,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -192852,6 +194635,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -192958,6 +194742,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -193111,6 +194896,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -193217,6 +195003,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -193360,6 +195147,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -193466,6 +195254,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -193638,6 +195427,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -193744,6 +195534,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -193948,6 +195739,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -194054,6 +195846,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -194232,6 +196025,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -194338,6 +196132,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -194512,6 +196307,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -194618,6 +196414,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -194740,6 +196537,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -194846,6 +196644,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -194952,6 +196751,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -195058,6 +196858,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -195180,6 +196981,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -195286,6 +197088,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -195392,6 +197195,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -195498,6 +197302,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -195620,6 +197425,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -195726,6 +197532,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -195832,6 +197639,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -195938,6 +197746,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -196060,6 +197869,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -196166,6 +197976,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -196272,6 +198083,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -196378,6 +198190,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -196500,6 +198313,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -196606,6 +198420,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -196712,6 +198527,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -196818,6 +198634,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -196940,6 +198757,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -197046,6 +198864,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -197152,6 +198971,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -197258,6 +199078,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -197380,6 +199201,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -197486,6 +199308,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -197592,6 +199415,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -197698,6 +199522,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -197882,6 +199707,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -197988,6 +199814,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -198352,6 +200179,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -198458,6 +200286,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -198608,6 +200437,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -198714,6 +200544,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -198893,6 +200724,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -198999,6 +200831,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -199121,6 +200954,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -199227,6 +201061,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -199333,6 +201168,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -199439,6 +201275,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -199561,6 +201398,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -199667,6 +201505,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -199773,6 +201612,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -199879,6 +201719,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -200027,6 +201868,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -200133,6 +201975,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -200311,6 +202154,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -200417,6 +202261,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -200720,6 +202565,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -200826,6 +202672,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -201053,6 +202900,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -201159,6 +203007,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -201320,6 +203169,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -201426,6 +203276,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -201661,6 +203512,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -201767,6 +203619,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -201951,6 +203804,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -202057,6 +203911,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -202823,6 +204678,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -202929,6 +204785,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -203073,6 +204930,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -203179,6 +205037,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -203355,6 +205214,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -203461,6 +205321,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -203583,6 +205444,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -203689,6 +205551,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -203795,6 +205658,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -203901,6 +205765,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -204023,6 +205888,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -204129,6 +205995,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -204235,6 +206102,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -204341,6 +206209,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -204463,6 +206332,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -204569,6 +206439,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -204675,6 +206546,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -204781,6 +206653,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -204903,6 +206776,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -205009,6 +206883,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -205115,6 +206990,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -205221,6 +207097,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -205369,6 +207246,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -205475,6 +207353,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -205597,6 +207476,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -205703,6 +207583,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -205858,6 +207739,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -205964,6 +207846,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -206109,6 +207992,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -206215,6 +208099,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -206337,6 +208222,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -206443,6 +208329,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -206549,6 +208436,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -206655,6 +208543,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -206801,6 +208690,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -206907,6 +208797,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -207029,6 +208920,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -207135,6 +209027,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -207278,6 +209171,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -207384,6 +209278,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -207517,6 +209412,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -207623,6 +209519,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -207745,6 +209642,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -207851,6 +209749,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -207957,6 +209856,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -208063,6 +209963,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -208185,6 +210086,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -208291,6 +210193,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -208397,6 +210300,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -208503,6 +210407,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -208625,6 +210530,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -208731,6 +210637,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -208837,6 +210744,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -208943,6 +210851,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -209065,6 +210974,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -209171,6 +211081,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -209277,6 +211188,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -209383,6 +211295,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -209531,6 +211444,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -209637,6 +211551,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -209759,6 +211674,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -209865,6 +211781,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -210020,6 +211937,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -210126,6 +212044,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -210271,6 +212190,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -210377,6 +212297,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -210533,6 +212454,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -210639,6 +212561,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -210761,6 +212684,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -210867,6 +212791,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -211046,6 +212971,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -211152,6 +213078,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -211321,6 +213248,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -211427,6 +213355,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -211549,6 +213478,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -211655,6 +213585,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -211761,6 +213692,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -211867,6 +213799,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -211989,6 +213922,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -212095,6 +214029,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -212201,6 +214136,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -212307,6 +214243,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -212476,6 +214413,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -212582,6 +214520,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -212741,6 +214680,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -212847,6 +214787,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -213003,6 +214944,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -213109,6 +215051,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -213231,6 +215174,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -213337,6 +215281,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -213496,6 +215441,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -213602,6 +215548,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -213751,6 +215698,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -213857,6 +215805,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -213979,6 +215928,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -214085,6 +216035,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -214191,6 +216142,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -214297,6 +216249,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -214419,6 +216372,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -214525,6 +216479,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -214631,6 +216586,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -214737,6 +216693,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -214889,6 +216846,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -214995,6 +216953,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -215117,6 +217076,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -215223,6 +217183,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -215378,6 +217339,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -215484,6 +217446,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -215629,6 +217592,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -215735,6 +217699,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -215889,6 +217854,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -215995,6 +217961,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -216117,6 +218084,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -216223,6 +218191,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -216382,6 +218351,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -216488,6 +218458,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -216637,6 +218608,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -216743,6 +218715,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -216895,6 +218868,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -217001,6 +218975,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -217123,6 +219098,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -217229,6 +219205,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -217382,6 +219359,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -217488,6 +219466,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -217631,6 +219610,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -217737,6 +219717,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -217891,6 +219872,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -217997,6 +219979,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -218119,6 +220102,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -218225,6 +220209,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -218374,6 +220359,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -218480,6 +220466,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -218619,6 +220606,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -218725,6 +220713,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -218847,6 +220836,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -218953,6 +220943,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -219059,6 +221050,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -219165,6 +221157,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -219287,6 +221280,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -219393,6 +221387,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -219499,6 +221494,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -219605,6 +221601,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -219757,6 +221754,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -219863,6 +221861,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -219985,6 +221984,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -220091,6 +222091,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -220238,6 +222239,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -220344,6 +222346,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -220481,6 +222484,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -220587,6 +222591,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -220741,6 +222746,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -220847,6 +222853,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -220969,6 +222976,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -221075,6 +223083,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -221240,6 +223249,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -221346,6 +223356,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -221501,6 +223512,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -221607,6 +223619,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -221755,6 +223768,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -221861,6 +223875,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -221983,6 +223998,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -222089,6 +224105,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -222238,6 +224255,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -222344,6 +224362,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -222483,6 +224502,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -222589,6 +224609,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -222741,6 +224762,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -222847,6 +224869,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -222969,6 +224992,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -223075,6 +225099,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -223232,6 +225257,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -223338,6 +225364,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -223485,6 +225512,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -223591,6 +225619,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -223713,6 +225742,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -223819,6 +225849,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -223925,6 +225956,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -224031,6 +226063,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -224185,6 +226218,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -224291,6 +226325,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -224413,6 +226448,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -224519,6 +226555,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -224684,6 +226721,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -224790,6 +226828,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -224945,6 +226984,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -225051,6 +227091,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -225173,6 +227214,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -225279,6 +227321,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -225385,6 +227428,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -225491,6 +227535,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -225613,6 +227658,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -225719,6 +227765,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -225825,6 +227872,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -225931,6 +227979,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -226070,6 +228119,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -226176,6 +228226,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -226305,6 +228356,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -226411,6 +228463,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -226564,6 +228617,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -226670,6 +228724,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -226813,6 +228868,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -226919,6 +228975,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -227041,6 +229098,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -227147,6 +229205,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -227253,6 +229312,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -227359,6 +229419,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -227481,6 +229542,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -227587,6 +229649,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -227693,6 +229756,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -227799,6 +229863,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -227949,6 +230014,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -228055,6 +230121,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -228177,6 +230244,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -228283,6 +230351,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -228428,6 +230497,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -228534,6 +230604,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -228669,6 +230740,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -228775,6 +230847,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -228935,6 +231008,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -229041,6 +231115,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -229163,6 +231238,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -229269,6 +231345,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -229418,6 +231495,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -229524,6 +231602,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -229663,6 +231742,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -229769,6 +231849,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -229891,6 +231972,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -229997,6 +232079,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -230103,6 +232186,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -230209,6 +232293,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -230331,6 +232416,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -230437,6 +232523,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -230543,6 +232630,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -230649,6 +232737,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -230822,6 +232911,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -230928,6 +233018,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -231079,6 +233170,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -231185,6 +233277,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -231335,6 +233428,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -231441,6 +233535,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -231563,6 +233658,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -231669,6 +233765,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -231826,6 +233923,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -231932,6 +234030,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -232079,6 +234178,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -232185,6 +234285,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -232333,6 +234434,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -232439,6 +234541,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -232561,6 +234664,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -232667,6 +234771,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -232822,6 +234927,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -232928,6 +235034,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -233073,6 +235180,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -233179,6 +235287,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -233333,6 +235442,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -233439,6 +235549,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -233561,6 +235672,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -233667,6 +235779,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -233812,6 +235925,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -233918,6 +236032,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -234053,6 +236168,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -234159,6 +236275,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -234307,6 +236424,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -234413,6 +236531,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -234987,6 +237106,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -235093,6 +237213,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -235246,6 +237367,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -235352,6 +237474,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -235495,6 +237618,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -235601,6 +237725,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -235723,6 +237848,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -235829,6 +237955,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -235935,6 +238062,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -236041,6 +238169,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -236193,6 +238322,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -236299,6 +238429,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -236487,6 +238618,7 @@ export namespace Prisma {
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -236593,6 +238725,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -236715,6 +238848,7 @@ export namespace Prisma {
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -236821,6 +238955,7 @@ export namespace Prisma {
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -236927,6 +239062,7 @@ export namespace Prisma {
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -237033,6 +239169,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -237194,6 +239331,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -237300,6 +239438,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -237451,6 +239590,7 @@ export namespace Prisma {
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
     contracts?: ContractCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -237557,6 +239697,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -237679,6 +239820,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -237785,6 +239927,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -237891,6 +240034,7 @@ export namespace Prisma {
     supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
     contracts?: ContractCreateNestedManyWithoutTenantInput
     employees?: EmployeeCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -237997,6 +240141,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
     contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -238119,6 +240264,7 @@ export namespace Prisma {
     supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
     contracts?: ContractUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -238225,6 +240371,451 @@ export namespace Prisma {
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutQuarantineHoldsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutQuarantineHoldsInput, TenantUncheckedCreateWithoutQuarantineHoldsInput>
+  }
+
+  export type TenantUpsertWithoutQuarantineHoldsInput = {
+    update: XOR<TenantUpdateWithoutQuarantineHoldsInput, TenantUncheckedUpdateWithoutQuarantineHoldsInput>
+    create: XOR<TenantCreateWithoutQuarantineHoldsInput, TenantUncheckedCreateWithoutQuarantineHoldsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutQuarantineHoldsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutQuarantineHoldsInput, TenantUncheckedUpdateWithoutQuarantineHoldsInput>
+  }
+
+  export type TenantUpdateWithoutQuarantineHoldsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -239302,6 +241893,19 @@ export namespace Prisma {
     status?: $Enums.AssetStatus
     value?: Decimal | DecimalJsLike | number | string | null
     purchasedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuarantineHoldCreateManyTenantInput = {
+    id?: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -242623,6 +245227,45 @@ export namespace Prisma {
     status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
     value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuarantineHoldUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuarantineHoldUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuarantineHoldUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
