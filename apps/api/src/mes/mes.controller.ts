@@ -42,6 +42,12 @@ export class WorkOrdersController {
     return this.mes.createWorkOrder(parseBody(createSchema, body), ctx);
   }
 
+  @Get('production-by-day')
+  @RequirePermission('production.read')
+  async productionByDay(@Ctx() ctx: RequestContext, @Query('days') days?: string) {
+    return { rows: await this.mes.productionByDay(days ? Number(days) || 7 : 7, ctx) };
+  }
+
   @Get(':id')
   @RequirePermission('production.read')
   async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {

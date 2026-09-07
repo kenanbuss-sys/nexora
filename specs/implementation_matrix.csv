@@ -219,7 +219,7 @@ MES-019,MES,Mobile production,P1,PLANNED,R2,,,
 MES-020,MES,Genealogy,P1,PLANNED,R2,,,
 MES-021,MES,OEE inputs,P1,DONE,R2,,,Measured OEE inputs per work center (Sprint 031)
 MES-022,MES,Andon/alerts,P1,PLANNED,R2,,,
-MES-023,MES,Shift production,P1,PLANNED,R2,,,
+MES-023,MES,Shift production,P1,DONE,R2,,,Sprint 081: production-by-day report (good/scrap/WO count) from completed work orders; Production page card.
 MES-024,MES,Production confirmations,P1,PLANNED,R2,,,
 MES-025,MES,Machine hooks,P1,PLANNED,R2,,,
 VER-001,VER,Barcode events,Implemented (Sprint 005),PLANNED,R1/R2,,,Barcode events resolved to SKUs via PIM contract

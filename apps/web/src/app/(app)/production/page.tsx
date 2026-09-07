@@ -65,6 +65,9 @@ export default function ProductionPage() {
   const [warehouses, setWarehouses] = useState<WarehouseView[]>([]);
   const [skus, setSkus] = useState<SkuOption[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [byDay, setByDay] = useState<
+    Array<{ day: string; good: number; scrap: number; workOrders: number }>
+  >([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [workCenters, setWorkCenters] = useState<WorkCenterOption[]>([]);
@@ -100,6 +103,9 @@ export default function ProductionPage() {
   }, []);
 
   useEffect(() => {
+    api<{ rows: typeof byDay }>('GET', '/api/v1/work-orders/production-by-day')
+      .then((r) => setByDay(r.rows))
+      .catch(() => setByDay([]));
     load();
     api<{ warehouses: WarehouseView[] }>('GET', '/api/v1/warehouses')
       .then((r) => {
@@ -565,6 +571,19 @@ export default function ProductionPage() {
           ) : null}
         </div>
       </div>
+      {byDay.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Production by day</h2>
+          {byDay.map((d) => (
+            <div key={d.day} className="row spread" style={{ marginBottom: 4 }}>
+              <span className="mono">{d.day}</span>
+              <span className="muted" style={{ fontSize: 12 }}>
+                good {d.good} · scrap {d.scrap} · {d.workOrders} WO
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </main>
   );
 }

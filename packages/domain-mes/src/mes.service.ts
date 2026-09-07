@@ -442,6 +442,35 @@ export class MesService {
    * material with compensating receipts (ledger corrections, never
    * edits).
    */
+  /**
+   * Shift production report (MES-023): good and scrap output per day
+   * over the last `days` days, derived from completed work orders.
+   */
+  async productionByDay(
+    days: number,
+    ctx: RequestContext,
+  ): Promise<Array<{ day: string; good: number; scrap: number; workOrders: number }>> {
+    const clamped = Math.max(1, Math.min(31, days));
+    const cutoff = new Date(Date.now() - clamped * 86_400_000);
+    const rows = await this.prisma.workOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: 'COMPLETED', completedAt: { gte: cutoff } },
+      select: { completedAt: true, goodQuantity: true, scrapQuantity: true },
+      take: 1000,
+    });
+    const byDay = new Map<string, { good: number; scrap: number; workOrders: number }>();
+    for (const row of rows) {
+      const day = (row.completedAt as Date).toISOString().slice(0, 10);
+      const agg = byDay.get(day) ?? { good: 0, scrap: 0, workOrders: 0 };
+      agg.good += Number(row.goodQuantity ?? 0);
+      agg.scrap += Number(row.scrapQuantity ?? 0);
+      agg.workOrders += 1;
+      byDay.set(day, agg);
+    }
+    return [...byDay.entries()]
+      .sort(([a], [b]) => (a < b ? 1 : -1))
+      .map(([day, agg]) => ({ day, ...agg }));
+  }
+
   async cancelWorkOrder(workOrderId: string, ctx: RequestContext): Promise<WorkOrderView> {
     const wo = await this.prisma.workOrder.findFirst({
       where: { id: workOrderId, tenantId: ctx.tenantId },
