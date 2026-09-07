@@ -127,6 +127,61 @@ export class QualityService {
 
   // ------------------------------------------------------------ inspections
 
+  /**
+   * Incoming inspection queue (QMS-002): SKUs with an active QC plan
+   * that received goods from purchase orders in the last `days` days —
+   * the material a quality inspector should look at first. Derived
+   * live from the receipt ledger; nothing is stored.
+   */
+  async incomingQueue(
+    days: number,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ skuId: string; code: string; name: string; receivedQty: number; lastReceiptAt: string }>
+  > {
+    const cutoff = new Date(Date.now() - Math.max(1, Math.min(90, days)) * 86_400_000);
+    const plans = await this.prisma.qcPlan.findMany({
+      where: { tenantId: ctx.tenantId, active: true },
+      select: { skuId: true },
+      take: 500,
+    });
+    if (plans.length === 0) return [];
+    const skuIds = [...new Set(plans.map((p) => p.skuId))];
+    const receipts = await this.prisma.stockMovement.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        skuId: { in: skuIds },
+        movementType: 'RECEIPT',
+        idempotencyKey: { startsWith: 'po:' },
+        occurredAt: { gte: cutoff },
+      },
+      select: { skuId: true, quantity: true, occurredAt: true },
+      take: 1000,
+    });
+    if (receipts.length === 0) return [];
+    const agg = new Map<string, { qty: number; last: Date }>();
+    for (const r of receipts) {
+      const row = agg.get(r.skuId) ?? { qty: 0, last: new Date(0) };
+      row.qty += Number(r.quantity);
+      if (r.occurredAt > row.last) row.last = r.occurredAt;
+      agg.set(r.skuId, row);
+    }
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: [...agg.keys()] } },
+      select: { id: true, code: true, name: true },
+    });
+    return skus.map((sku) => {
+      const row = agg.get(sku.id) as { qty: number; last: Date };
+      return {
+        skuId: sku.id,
+        code: sku.code,
+        name: sku.name,
+        receivedQty: row.qty,
+        lastReceiptAt: row.last.toISOString(),
+      };
+    });
+  }
+
   async listInspections(
     filter: { workOrderId?: string | undefined },
     ctx: RequestContext,

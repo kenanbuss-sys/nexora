@@ -56,6 +56,12 @@ export class QcPlansController {
 export class QcInspectionsController {
   constructor(@Inject(QUALITY_SERVICE) private readonly quality: QualityService) {}
 
+  @Get('incoming-queue')
+  @RequirePermission('qc.read')
+  async incomingQueue(@Ctx() ctx: RequestContext, @Query('days') days?: string) {
+    return { queue: await this.quality.incomingQueue(days ? Number(days) || 14 : 14, ctx) };
+  }
+
   @Get()
   @RequirePermission('qc.read')
   async list(@Ctx() ctx: RequestContext, @Query('workOrderId') workOrderId?: string) {

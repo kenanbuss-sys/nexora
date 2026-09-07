@@ -77,6 +77,9 @@ export default function QualityPage() {
   const [workOrders, setWorkOrders] = useState<WorkOrderOption[]>([]);
   const [skus, setSkus] = useState<SkuOption[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [incoming, setIncoming] = useState<
+    Array<{ skuId: string; code: string; receivedQty: number; lastReceiptAt: string }>
+  >([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -107,6 +110,9 @@ export default function QualityPage() {
   }, []);
 
   useEffect(() => {
+    api<{ queue: typeof incoming }>('GET', '/api/v1/qc/inspections/incoming-queue')
+      .then((r) => setIncoming(r.queue))
+      .catch(() => setIncoming([]));
     load();
     api<{ products: Array<{ id: string }> }>('GET', '/api/v1/products/search')
       .then(async (r) => {
@@ -454,6 +460,22 @@ export default function QualityPage() {
           ))}
         </div>
       </div>
+      {incoming.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Incoming inspection queue</h2>
+          <p className="muted" style={{ marginTop: 0 }}>
+            Recently received goods whose SKU has an active QC plan.
+          </p>
+          {incoming.map((row) => (
+            <div key={row.skuId} className="row spread" style={{ marginBottom: 4 }}>
+              <span className="mono">{row.code}</span>
+              <span className="muted" style={{ fontSize: 12 }}>
+                {row.receivedQty} received · last {new Date(row.lastReceiptAt).toLocaleDateString()}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </main>
   );
 }

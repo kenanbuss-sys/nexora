@@ -412,6 +412,9 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Incoming inspection queue': 'Red za ulaznu kontrolu',
+  'Recently received goods whose SKU has an active QC plan.':
+    'Nedavno zaprimljena roba čiji artikal ima aktivan QC plan.',
   'Segregation of duties': 'Razdvajanje dužnosti',
   'Users combining permissions that policy says must stay separate.':
     'Korisnici koji kombinuju dozvole koje po politici moraju ostati razdvojene.',

@@ -243,7 +243,7 @@ VER-018,VER,Idempotent replay,Implemented (Sprint 005),PLANNED,R1/R2,,,"Exactly-
 VER-019,VER,Device capability detection,Implemented (Sprint 005),PLANNED,R1/R2,,,Capabilities reported at enrollment
 VER-020,VER,Event correlation,Implemented (Sprint 005),PLANNED,R1/R2,,,correlationId on events
 QMS-001,QMS,Inspection plans,P2,PLANNED,R2,,,
-QMS-002,QMS,Incoming inspection,P2,PLANNED,R2,,,
+QMS-002,QMS,Incoming inspection,P2,DONE,R2,,,Sprint 076: incoming inspection queue — PO receipts of QC-planned SKUs surface live for inspectors.
 QMS-003,QMS,In-process inspection,P2,PLANNED,R2,,,
 QMS-004,QMS,Final inspection,P2,PLANNED,R2,,,
 QMS-005,QMS,Disposition,P2,PLANNED,R2,,,
