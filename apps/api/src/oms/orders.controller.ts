@@ -60,6 +60,12 @@ export class OrdersController {
     return this.orders.createOrder(parseBody(createOrderSchema, body), ctx);
   }
 
+  @Post('allocate-backorders')
+  @RequirePermission('order.confirm')
+  async allocateBackorders(@Ctx() ctx: RequestContext) {
+    return { report: await this.orders.allocateBackorders(ctx) };
+  }
+
   @Post('quick')
   @RequirePermission('order.create')
   async quick(@Body() body: unknown, @Ctx() ctx: RequestContext) {

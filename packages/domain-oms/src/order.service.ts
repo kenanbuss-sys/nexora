@@ -259,6 +259,75 @@ export class OrderService {
    * SLA monitoring (OMS-014): CONFIRMED orders sitting unfulfilled
    * longer than the given number of days.
    */
+  /**
+   * Allocation run (OMS-003): hand freed-up stock to backordered lines
+   * of confirmed orders, oldest order first, so scarce supply is
+   * allocated fairly and automatically. Idempotent — an allocated line
+   * stops being backordered and is skipped on the next run.
+   */
+  async allocateBackorders(
+    ctx: RequestContext,
+  ): Promise<Array<{ orderId: string; orderNumber: string; lineId: string; allocated: boolean }>> {
+    const orders = await this.prisma.salesOrder.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        status: 'CONFIRMED',
+        lines: { some: { backordered: true } },
+      },
+      include: { lines: true },
+      orderBy: [{ createdAt: 'asc' }],
+      take: 100,
+    });
+    const report: Array<{
+      orderId: string;
+      orderNumber: string;
+      lineId: string;
+      allocated: boolean;
+    }> = [];
+    for (const order of orders) {
+      for (const line of order.lines.filter((l) => l.backordered)) {
+        let allocated = false;
+        try {
+          const { reservationId } = await this.stock.reserveStock(
+            {
+              warehouseId: order.warehouseId,
+              skuId: line.skuId,
+              quantity: Number(line.quantity),
+              reference: `order:${order.orderNumber}`,
+            },
+            ctx,
+          );
+          await this.prisma.salesOrderLine.update({
+            where: { id: line.id },
+            data: { reservationId, backordered: false },
+          });
+          allocated = true;
+        } catch {
+          // Still short — the line stays backordered for the next run.
+        }
+        report.push({
+          orderId: order.id,
+          orderNumber: order.orderNumber,
+          lineId: line.id,
+          allocated,
+        });
+      }
+    }
+    if (report.some((r) => r.allocated)) {
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'oms.allocation.run',
+        objectType: 'SalesOrder',
+        objectId: report.find((r) => r.allocated)?.orderId ?? 'batch',
+        source: 'api',
+        newValues: { allocated: report.filter((r) => r.allocated).length, total: report.length },
+      });
+    }
+    return report;
+  }
+
   async overdueFulfillments(
     slaDays: number,
     ctx: RequestContext,

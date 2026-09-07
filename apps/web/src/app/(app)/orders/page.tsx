@@ -208,6 +208,25 @@ export default function OrdersPage() {
       </p>
       {error ? <div className="alert alert-error">{error}</div> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
+      {can('order.confirm') ? (
+        <button
+          className="btn btn-sm"
+          style={{ marginBottom: 12 }}
+          type="button"
+          onClick={() =>
+            run(async () => {
+              const r = await api<{ report: Array<{ allocated: boolean }> }>(
+                'POST',
+                '/api/v1/orders/allocate-backorders',
+              );
+              const done = r.report.filter((x) => x.allocated).length;
+              setNotice(`Allocation run: ${done}/${r.report.length} backordered lines allocated.`);
+            }, null)
+          }
+        >
+          Allocate backorders
+        </button>
+      ) : null}
 
       <div className="grid-2">
         <div>
