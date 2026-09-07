@@ -25,6 +25,12 @@ const logDowntimeSchema = z.object({
 export class ShopFloorController {
   constructor(@Inject(SHOPFLOOR_SERVICE) private readonly shopFloor: ShopFloorService) {}
 
+  @Get('andon')
+  @RequirePermission('production.read')
+  async andon(@Ctx() ctx: RequestContext) {
+    return { alerts: await this.shopFloor.andonBoard(ctx) };
+  }
+
   @Get('work-centers')
   @RequirePermission('production.read')
   async workCenters(@Ctx() ctx: RequestContext) {

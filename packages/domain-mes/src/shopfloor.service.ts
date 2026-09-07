@@ -41,7 +41,35 @@ export interface OeeInputRow {
 }
 
 export class ShopFloorService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly andonTasks?: {
+      createTask(
+        input: {
+          title: string;
+          relatedObjectType?: string | undefined;
+          relatedObjectId?: string | undefined;
+        },
+        ctx: RequestContext,
+      ): Promise<{ id: string }>;
+    },
+    private readonly config?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
+    },
+  ) {}
+
+  /** Andon threshold in minutes (mes.andon.downtimeMinutes; null = off). */
+  private async andonThreshold(tenantId: string): Promise<number | null> {
+    if (!this.config) return null;
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(tenantId);
+      const raw = (config as { mes?: { andon?: { downtimeMinutes?: unknown } } })?.mes?.andon
+        ?.downtimeMinutes;
+      return typeof raw === 'number' && raw > 0 ? raw : null;
+    } catch {
+      return null;
+    }
+  }
 
   // ------------------------------------------------------------ work centers
 
@@ -81,6 +109,22 @@ export class ShopFloorService {
       }
       throw error;
     }
+  }
+
+  /** Open andon alerts (MES-022): unresolved alert tasks with context. */
+  async andonBoard(
+    ctx: RequestContext,
+  ): Promise<Array<{ taskId: string; title: string; createdAt: string }>> {
+    const tasks = await this.prisma.task.findMany({
+      where: { tenantId: ctx.tenantId, relatedObjectType: 'mes_andon', status: 'OPEN' },
+      orderBy: [{ createdAt: 'desc' }],
+      take: 50,
+    });
+    return tasks.map((t) => ({
+      taskId: t.id,
+      title: t.title,
+      createdAt: t.createdAt.toISOString(),
+    }));
   }
 
   // --------------------------------------------------------------- downtime
@@ -132,6 +176,29 @@ export class ShopFloorService {
       });
       return created;
     });
+    // Andon (MES-022): downtime at or beyond the configured threshold
+    // raises a work-queue alert exactly once per downtime event.
+    const threshold = await this.andonThreshold(ctx.tenantId);
+    if (threshold !== null && this.andonTasks && input.minutes >= threshold) {
+      await this.andonTasks.createTask(
+        {
+          title: `ANDON: ${center.code} — ${input.category} ${input.minutes} min (${input.reason.trim()})`,
+          relatedObjectType: 'mes_andon',
+          relatedObjectId: event.id,
+        },
+        ctx,
+      );
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'mes.andon.raise',
+        objectType: 'DowntimeEvent',
+        objectId: event.id,
+        source: 'api',
+        newValues: { workCenter: center.code, minutes: input.minutes },
+      });
+    }
     return {
       id: event.id,
       workCenterId: event.workCenterId,

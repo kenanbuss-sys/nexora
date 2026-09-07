@@ -1190,8 +1190,18 @@ export const REDIS = 'REDIS';
     },
     {
       provide: SHOPFLOOR_SERVICE,
-      useFactory: (prisma: PrismaClient) => new ShopFloorService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tasks: TaskService, tenants: TenantService) =>
+        new ShopFloorService(
+          prisma,
+          {
+            createTask: async (input, ctx) => {
+              const view = await tasks.createTask(input, ctx);
+              return { id: view.id };
+            },
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, TASK_SERVICE, TENANT_SERVICE],
     },
     {
       provide: CREDENTIAL_SERVICE,
