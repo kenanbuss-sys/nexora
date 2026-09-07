@@ -256,6 +256,29 @@ export class OrderService {
   }
 
   /**
+   * SLA monitoring (OMS-014): CONFIRMED orders sitting unfulfilled
+   * longer than the given number of days.
+   */
+  async overdueFulfillments(
+    slaDays: number,
+    ctx: RequestContext,
+  ): Promise<Array<{ id: string; orderNumber: string; total: string; ageDays: number }>> {
+    const cutoff = new Date(Date.now() - slaDays * 86_400_000);
+    const rows = await this.prisma.salesOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: 'CONFIRMED', createdAt: { lt: cutoff } },
+      orderBy: [{ createdAt: 'asc' }],
+      take: 100,
+    });
+    const now = Date.now();
+    return rows.map((o) => ({
+      id: o.id,
+      orderNumber: o.orderNumber,
+      total: o.total.toString(),
+      ageDays: Math.floor((now - o.createdAt.getTime()) / 86_400_000),
+    }));
+  }
+
+  /**
    * Repeat order (B2B-008): a fresh DRAFT copying the account,
    * warehouse, currency and lines of an existing order — prices as
    * they were; nothing is reserved until confirmation.

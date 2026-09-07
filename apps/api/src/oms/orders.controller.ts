@@ -47,6 +47,13 @@ export class OrdersController {
     return { orders: await this.orders.listOrders(params, ctx) };
   }
 
+  @Get('overdue')
+  @RequirePermission('order.read')
+  async overdue(@Ctx() ctx: RequestContext, @Query('days') days?: string) {
+    const slaDays = days ? Math.max(1, Math.min(90, Number(days) || 3)) : 3;
+    return { slaDays, orders: await this.orders.overdueFulfillments(slaDays, ctx) };
+  }
+
   @Post()
   @RequirePermission('order.create')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {

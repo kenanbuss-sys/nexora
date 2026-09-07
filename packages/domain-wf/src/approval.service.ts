@@ -183,6 +183,27 @@ export class ApprovalService {
     return approval ? approval.status : null;
   }
 
+  /**
+   * SLA monitoring (WF-004): REQUESTED approvals older than the given
+   * number of hours — the queue nobody should let rot.
+   */
+  async overdueApprovals(
+    slaHours: number,
+    ctx: RequestContext,
+  ): Promise<Array<ApprovalView & { ageHours: number }>> {
+    const cutoff = new Date(Date.now() - slaHours * 3_600_000);
+    const rows = await this.prisma.approval.findMany({
+      where: { tenantId: ctx.tenantId, status: 'REQUESTED', createdAt: { lt: cutoff } },
+      orderBy: [{ createdAt: 'asc' }],
+      take: 100,
+    });
+    const now = Date.now();
+    return rows.map((a) => ({
+      ...toView(a),
+      ageHours: Math.floor((now - a.createdAt.getTime()) / 3_600_000),
+    }));
+  }
+
   async pendingForUser(ctx: RequestContext): Promise<ApprovalView[]> {
     if (!ctx.userId) return [];
     const approvals = await this.prisma.approval.findMany({

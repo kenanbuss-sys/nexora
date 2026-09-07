@@ -46,11 +46,27 @@ function randomKey(): string {
 export default function OperationsPage() {
   const { can } = useApp();
   const [orders, setOrders] = useState<OrderView[] | null>(null);
+  const [slaApprovals, setSlaApprovals] = useState<
+    Array<{ id: string; title: string; ageHours: number }>
+  >([]);
+  const [slaOrders, setSlaOrders] = useState<
+    Array<{ id: string; orderNumber: string; ageDays: number }>
+  >([]);
   const [warehouses, setWarehouses] = useState<WarehouseView[]>([]);
   const [skus, setSkus] = useState<SkuOption[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    api<{ approvals: typeof slaApprovals }>('GET', '/api/v1/approvals/overdue')
+      .then((r) => setSlaApprovals(r.approvals))
+      .catch(() => setSlaApprovals([]));
+    api<{ orders: typeof slaOrders }>('GET', '/api/v1/orders/overdue')
+      .then((r) => setSlaOrders(r.orders))
+      .catch(() => setSlaOrders([]));
+    // eslint-disable-next-line
+  }, []);
 
   const [orderType, setOrderType] = useState<OrderView['orderType']>('RECEIVING');
   const [warehouseId, setWarehouseId] = useState('');
@@ -324,6 +340,23 @@ export default function OperationsPage() {
           </button>
         </form>
       </div>
+      {slaApprovals.length > 0 || slaOrders.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>SLA alerts</h2>
+          {slaApprovals.map((a) => (
+            <div key={a.id} className="row spread" style={{ marginBottom: 4 }}>
+              <span>{a.title}</span>
+              <span className="badge badge-danger">approval waiting {a.ageHours}h</span>
+            </div>
+          ))}
+          {slaOrders.map((o) => (
+            <div key={o.id} className="row spread" style={{ marginBottom: 4 }}>
+              <span className="mono">{o.orderNumber}</span>
+              <span className="badge badge-warn">unfulfilled {o.ageDays}d</span>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </main>
   );
 }

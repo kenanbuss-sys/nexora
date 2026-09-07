@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
 import type { ApprovalService, RuleService, WorkflowService } from '@nexora/domain-wf';
 import type { RoleService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
@@ -90,6 +90,13 @@ export class RulesController {
 @Controller('api/v1/approvals')
 export class ApprovalsController {
   constructor(@Inject(APPROVAL_SERVICE) private readonly approvals: ApprovalService) {}
+
+  @Get('overdue')
+  @RequirePermission('approval.act')
+  async overdue(@Ctx() ctx: RequestContext, @Query('hours') hours?: string) {
+    const slaHours = hours ? Math.max(1, Math.min(720, Number(hours) || 24)) : 24;
+    return { slaHours, approvals: await this.approvals.overdueApprovals(slaHours, ctx) };
+  }
 
   @Post('request')
   @RequirePermission('approval.act')

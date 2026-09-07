@@ -412,6 +412,9 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'SLA alerts': 'SLA upozorenja',
+  'approval waiting': 'odobrenje čeka',
+  unfulfilled: 'neisporučeno',
   'Channel availability': 'Dostupnost za kanale',
   'Refresh feed': 'Osvježi feed',
   'The sellable-quantity feed storefronts and marketplaces consume (also available to API keys at':
