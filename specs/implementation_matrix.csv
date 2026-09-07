@@ -209,7 +209,7 @@ MES-009,MES,Start/pause/complete,P1,DONE,R2,,,
 MES-010,MES,Good quantity,P1,DONE,R2,,,
 MES-011,MES,Scrap,P1,DONE,R2,,,
 MES-012,MES,Rework,P1,DONE,R2,,,Sprint 085: completed scrap spawns exactly one PLANNED rework order for the scrapped quantity; Production page button.
-MES-013,MES,Co/by-products,P1,PLANNED,R2,,,
+MES-013,MES,Co/by-products,P1,Implemented (Sprint 138),R2,,,
 MES-014,MES,Downtime,P1,DONE,R2,,,Downtime logging by category (Sprint 031)
 MES-015,MES,Setup/changeover,P1,Implemented (Sprint 130),R2,,,
 MES-016,MES,Digital work instructions,P1,Implemented (Sprint 130),R2,,,

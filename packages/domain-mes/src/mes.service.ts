@@ -713,6 +713,51 @@ export class MesService {
       }
     }
 
+    // Co/by-products (MES-013): configured secondary outputs receipt
+    // alongside the main output, scaled to good quantity, idempotent.
+    if (input.goodQuantity > 0 && this.config) {
+      try {
+        const { config } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+        const raw = (config as { mes?: { byProducts?: unknown } })?.mes?.byProducts;
+        if (Array.isArray(raw)) {
+          const mainSku = await this.prisma.sku.findFirst({
+            where: { id: wo.skuId, tenantId: ctx.tenantId },
+            select: { code: true },
+          });
+          const rule = raw.find(
+            (entry) => (entry as { skuCode?: unknown })?.skuCode === mainSku?.code,
+          );
+          const byProducts = (rule as { byProducts?: unknown })?.byProducts;
+          if (Array.isArray(byProducts)) {
+            for (const bp of byProducts) {
+              const code = (bp as { code?: unknown })?.code;
+              const ratio = (bp as { ratio?: unknown })?.ratio;
+              if (typeof code !== 'string' || typeof ratio !== 'number' || ratio <= 0) continue;
+              const bySku = await this.prisma.sku.findFirst({
+                where: { tenantId: ctx.tenantId, code, status: 'ACTIVE' },
+                select: { id: true },
+              });
+              if (!bySku) continue;
+              const quantity = Math.round(input.goodQuantity * ratio * 1e6) / 1e6;
+              await this.stock.postMovement(
+                {
+                  warehouseId: wo.warehouseId,
+                  skuId: bySku.id,
+                  movementType: 'RECEIPT',
+                  quantity,
+                  idempotencyKey: `wo:${wo.id}:byproduct:${code}`,
+                  reason: `By-product of ${wo.woNumber}`,
+                },
+                ctx,
+              );
+            }
+          }
+        }
+      } catch {
+        // By-products must never block the main completion.
+      }
+    }
+
     if (input.goodQuantity > 0) {
       await this.stock.postMovement(
         {
