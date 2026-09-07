@@ -67,6 +67,9 @@ export default function ProductionPage() {
   const [skus, setSkus] = useState<SkuOption[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [backflush, setBackflush] = useState(false);
+  const [wcLoad, setWcLoad] = useState<
+    Array<{ code: string; name: string; active: boolean; pending: number; running: number }>
+  >([]);
   const [byDay, setByDay] = useState<
     Array<{ day: string; good: number; scrap: number; workOrders: number }>
   >([]);
@@ -108,6 +111,9 @@ export default function ProductionPage() {
     api<{ rows: typeof byDay }>('GET', '/api/v1/work-orders/production-by-day')
       .then((r) => setByDay(r.rows))
       .catch(() => setByDay([]));
+    api<{ load: typeof wcLoad }>('GET', '/api/v1/work-orders/work-center-load')
+      .then((r) => setWcLoad(r.load))
+      .catch(() => setWcLoad([]));
     api<{ config: { mes?: { issueMode?: string } } }>('GET', '/api/v1/tenant/configuration')
       .then((r) => setBackflush(r.config?.mes?.issueMode === 'backflush'))
       .catch(() => setBackflush(false));
@@ -604,6 +610,28 @@ export default function ProductionPage() {
           ) : null}
         </div>
       </div>
+      {wcLoad.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Work-center load</h2>
+          {wcLoad.map((w) => (
+            <div key={w.code} className="row spread" style={{ marginBottom: 4 }}>
+              <span className="mono" style={{ fontSize: 13 }}>
+                {w.code} <span className="muted">{w.name}</span>
+                {!w.active ? <span className="badge badge-danger"> inactive</span> : null}
+              </span>
+              <span>
+                <span className={`badge ${w.pending > 0 ? 'badge-warn' : ''}`}>
+                  {w.pending} pending
+                </span>{' '}
+                <span className={`badge ${w.running > 0 ? 'badge-accent' : ''}`}>
+                  {w.running} running
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
       {byDay.length > 0 ? (
         <div className="card" style={{ marginTop: 16 }}>
           <h2>Production by day</h2>

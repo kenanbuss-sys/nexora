@@ -285,6 +285,81 @@ export class MesService {
     return rework;
   }
 
+  /**
+   * Machine assignment (MES-004): move a pending operation to another
+   * registered, active work center. Audited; running or finished
+   * operations keep their history.
+   */
+  async assignOperation(
+    input: { workOrderId: string; operationId: string; workCenterCode: string },
+    ctx: RequestContext,
+  ): Promise<WorkOrderView> {
+    const wo = await this.prisma.workOrder.findFirst({
+      where: { id: input.workOrderId, tenantId: ctx.tenantId },
+      include: { operations: true },
+    });
+    if (!wo) throw notFound('WorkOrder', input.workOrderId);
+    const op = wo.operations.find((o) => o.id === input.operationId);
+    if (!op) throw notFound('WorkOrderOperation', input.operationId);
+    if (op.status !== 'PENDING') {
+      throw new DomainError('INVALID_STATE', 'Only pending operations can be reassigned');
+    }
+    const center = await this.prisma.workCenter.findFirst({
+      where: { tenantId: ctx.tenantId, code: input.workCenterCode },
+    });
+    if (!center) throw notFound('WorkCenter', input.workCenterCode);
+    if (!center.active) {
+      throw new DomainError('INVALID_STATE', `Work center ${center.code} is not active`);
+    }
+    await this.prisma.workOrderOperation.update({
+      where: { id: op.id },
+      data: { workCenter: center.code },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'mes.operation.assign',
+      objectType: 'WorkOrderOperation',
+      objectId: op.id,
+      source: 'api',
+      previousValues: { workCenter: op.workCenter },
+      newValues: { workCenter: center.code },
+    });
+    return this.getWorkOrder(wo.id, ctx);
+  }
+
+  /**
+   * Work-center load (MES-004): open operations per registered center,
+   * so planners see where the queue is building up.
+   */
+  async workCenterLoad(
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ code: string; name: string; active: boolean; pending: number; running: number }>
+  > {
+    const centers = await this.prisma.workCenter.findMany({
+      where: { tenantId: ctx.tenantId },
+      orderBy: [{ code: 'asc' }],
+      take: 100,
+    });
+    const open = await this.prisma.workOrderOperation.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        status: { in: ['PENDING', 'RUNNING'] },
+        workOrder: { status: { in: ['RELEASED', 'IN_PROGRESS', 'PAUSED'] } },
+      },
+      select: { workCenter: true, status: true },
+    });
+    return centers.map((center) => ({
+      code: center.code,
+      name: center.name,
+      active: center.active,
+      pending: open.filter((o) => o.workCenter === center.code && o.status === 'PENDING').length,
+      running: open.filter((o) => o.workCenter === center.code && o.status === 'RUNNING').length,
+    }));
+  }
+
   async releaseWorkOrder(workOrderId: string, ctx: RequestContext): Promise<WorkOrderView> {
     const wo = await this.prisma.workOrder.findFirst({
       where: { id: workOrderId, tenantId: ctx.tenantId },

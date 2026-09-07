@@ -13,6 +13,7 @@ const createSchema = z.object({
   warehouseId: z.string().uuid(),
   quantity: z.number().positive(),
 });
+const assignSchema = z.object({ workCenterCode: z.string().min(1).max(40) });
 const completeSchema = z.object({
   goodQuantity: z.number().min(0),
   scrapQuantity: z.number().min(0).optional(),
@@ -46,6 +47,27 @@ export class WorkOrdersController {
   @RequirePermission('production.read')
   async productionByDay(@Ctx() ctx: RequestContext, @Query('days') days?: string) {
     return { rows: await this.mes.productionByDay(days ? Number(days) || 7 : 7, ctx) };
+  }
+
+  @Get('work-center-load')
+  @RequirePermission('production.read')
+  async workCenterLoad(@Ctx() ctx: RequestContext) {
+    return { load: await this.mes.workCenterLoad(ctx) };
+  }
+
+  @Post(':id/operations/:opId/assign')
+  @RequirePermission('production.manage')
+  async assign(
+    @Param('id') id: string,
+    @Param('opId') opId: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(assignSchema, body);
+    return this.mes.assignOperation(
+      { workOrderId: id, operationId: opId, workCenterCode: input.workCenterCode },
+      ctx,
+    );
   }
 
   @Post(':id/rework')

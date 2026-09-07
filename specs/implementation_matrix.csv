@@ -200,7 +200,7 @@ PLAN-015,PLAN,Promise-date engine,P2,Partially implemented (Sprint 058),R2,,,Ord
 MES-001,MES,Work orders,P1,DONE,R2,,,
 MES-002,MES,Operations,P1,DONE,R2,,,
 MES-003,MES,Work centers,P1,DONE,R2,,,Work-center master data (Sprint 031)
-MES-004,MES,Machine assignment,P1,PLANNED,R2,,,
+MES-004,MES,Machine assignment,P1,Implemented (Sprint 098),R2,,,
 MES-005,MES,Operator assignment,P1,PLANNED,R2,,,
 MES-006,MES,Material issue,P1,DONE,R2,,,
 MES-007,MES,Backflush,P1,Implemented (Sprint 089),R2,,,
