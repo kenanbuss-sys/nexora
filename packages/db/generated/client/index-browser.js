@@ -1524,6 +1524,45 @@ exports.Prisma.LandedCostScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CustomObjectDefinitionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  key: 'key',
+  name: 'name',
+  fields: 'fields',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CustomObjectRecordScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  definitionId: 'definitionId',
+  data: 'data',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FrameworkAgreementScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  agreementNumber: 'agreementNumber',
+  supplierId: 'supplierId',
+  skuId: 'skuId',
+  unitPrice: 'unitPrice',
+  maxQuantity: 'maxQuantity',
+  calledQuantity: 'calledQuantity',
+  validFrom: 'validFrom',
+  validTo: 'validTo',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1946,6 +1985,19 @@ exports.LandedCostType = exports.$Enums.LandedCostType = {
   OTHER: 'OTHER'
 };
 
+exports.CustomObjectStatus = exports.$Enums.CustomObjectStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  RETIRED: 'RETIRED'
+};
+
+exports.FrameworkStatus = exports.$Enums.FrameworkStatus = {
+  ACTIVE: 'ACTIVE',
+  EXHAUSTED: 'EXHAUSTED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -2064,7 +2116,10 @@ exports.Prisma.ModelName = {
   RfqQuote: 'RfqQuote',
   Package: 'Package',
   PackageLine: 'PackageLine',
-  LandedCost: 'LandedCost'
+  LandedCost: 'LandedCost',
+  CustomObjectDefinition: 'CustomObjectDefinition',
+  CustomObjectRecord: 'CustomObjectRecord',
+  FrameworkAgreement: 'FrameworkAgreement'
 };
 
 /**

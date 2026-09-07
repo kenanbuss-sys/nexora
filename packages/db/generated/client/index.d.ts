@@ -691,6 +691,23 @@ export type PackageLine = $Result.DefaultSelection<Prisma.$PackageLinePayload>
  * allocated over received value for true landed unit costs.
  */
 export type LandedCost = $Result.DefaultSelection<Prisma.$LandedCostPayload>
+/**
+ * Model CustomObjectDefinition
+ * Tenant-defined object type (CORE-016): fields described as data,
+ * records validated against them — extension without a code fork.
+ */
+export type CustomObjectDefinition = $Result.DefaultSelection<Prisma.$CustomObjectDefinitionPayload>
+/**
+ * Model CustomObjectRecord
+ * 
+ */
+export type CustomObjectRecord = $Result.DefaultSelection<Prisma.$CustomObjectRecordPayload>
+/**
+ * Model FrameworkAgreement
+ * Framework/blanket purchase agreement (PROC-006): negotiated price
+ * and ceiling quantity per SKU and supplier; call-offs draw it down.
+ */
+export type FrameworkAgreement = $Result.DefaultSelection<Prisma.$FrameworkAgreementPayload>
 
 /**
  * Enums
@@ -1268,6 +1285,25 @@ export const LandedCostType: {
 
 export type LandedCostType = (typeof LandedCostType)[keyof typeof LandedCostType]
 
+
+export const CustomObjectStatus: {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  RETIRED: 'RETIRED'
+};
+
+export type CustomObjectStatus = (typeof CustomObjectStatus)[keyof typeof CustomObjectStatus]
+
+
+export const FrameworkStatus: {
+  ACTIVE: 'ACTIVE',
+  EXHAUSTED: 'EXHAUSTED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type FrameworkStatus = (typeof FrameworkStatus)[keyof typeof FrameworkStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1509,6 +1545,14 @@ export const PackageStatus: typeof $Enums.PackageStatus
 export type LandedCostType = $Enums.LandedCostType
 
 export const LandedCostType: typeof $Enums.LandedCostType
+
+export type CustomObjectStatus = $Enums.CustomObjectStatus
+
+export const CustomObjectStatus: typeof $Enums.CustomObjectStatus
+
+export type FrameworkStatus = $Enums.FrameworkStatus
+
+export const FrameworkStatus: typeof $Enums.FrameworkStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2807,6 +2851,36 @@ export class PrismaClient<
     * ```
     */
   get landedCost(): Prisma.LandedCostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customObjectDefinition`: Exposes CRUD operations for the **CustomObjectDefinition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomObjectDefinitions
+    * const customObjectDefinitions = await prisma.customObjectDefinition.findMany()
+    * ```
+    */
+  get customObjectDefinition(): Prisma.CustomObjectDefinitionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customObjectRecord`: Exposes CRUD operations for the **CustomObjectRecord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomObjectRecords
+    * const customObjectRecords = await prisma.customObjectRecord.findMany()
+    * ```
+    */
+  get customObjectRecord(): Prisma.CustomObjectRecordDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.frameworkAgreement`: Exposes CRUD operations for the **FrameworkAgreement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FrameworkAgreements
+    * const frameworkAgreements = await prisma.frameworkAgreement.findMany()
+    * ```
+    */
+  get frameworkAgreement(): Prisma.FrameworkAgreementDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3365,7 +3439,10 @@ export namespace Prisma {
     RfqQuote: 'RfqQuote',
     Package: 'Package',
     PackageLine: 'PackageLine',
-    LandedCost: 'LandedCost'
+    LandedCost: 'LandedCost',
+    CustomObjectDefinition: 'CustomObjectDefinition',
+    CustomObjectRecord: 'CustomObjectRecord',
+    FrameworkAgreement: 'FrameworkAgreement'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3384,7 +3461,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12120,6 +12197,228 @@ export namespace Prisma {
           }
         }
       }
+      CustomObjectDefinition: {
+        payload: Prisma.$CustomObjectDefinitionPayload<ExtArgs>
+        fields: Prisma.CustomObjectDefinitionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomObjectDefinitionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomObjectDefinitionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomObjectDefinitionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomObjectDefinitionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>
+          }
+          findMany: {
+            args: Prisma.CustomObjectDefinitionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>[]
+          }
+          create: {
+            args: Prisma.CustomObjectDefinitionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>
+          }
+          createMany: {
+            args: Prisma.CustomObjectDefinitionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomObjectDefinitionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomObjectDefinitionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>
+          }
+          update: {
+            args: Prisma.CustomObjectDefinitionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomObjectDefinitionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomObjectDefinitionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomObjectDefinitionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomObjectDefinitionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectDefinitionPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomObjectDefinitionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomObjectDefinition>
+          }
+          groupBy: {
+            args: Prisma.CustomObjectDefinitionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomObjectDefinitionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomObjectDefinitionCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomObjectDefinitionCountAggregateOutputType> | number
+          }
+        }
+      }
+      CustomObjectRecord: {
+        payload: Prisma.$CustomObjectRecordPayload<ExtArgs>
+        fields: Prisma.CustomObjectRecordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomObjectRecordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomObjectRecordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomObjectRecordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomObjectRecordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>
+          }
+          findMany: {
+            args: Prisma.CustomObjectRecordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>[]
+          }
+          create: {
+            args: Prisma.CustomObjectRecordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>
+          }
+          createMany: {
+            args: Prisma.CustomObjectRecordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomObjectRecordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomObjectRecordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>
+          }
+          update: {
+            args: Prisma.CustomObjectRecordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomObjectRecordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomObjectRecordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomObjectRecordUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomObjectRecordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomObjectRecordPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomObjectRecordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomObjectRecord>
+          }
+          groupBy: {
+            args: Prisma.CustomObjectRecordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomObjectRecordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomObjectRecordCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomObjectRecordCountAggregateOutputType> | number
+          }
+        }
+      }
+      FrameworkAgreement: {
+        payload: Prisma.$FrameworkAgreementPayload<ExtArgs>
+        fields: Prisma.FrameworkAgreementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FrameworkAgreementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FrameworkAgreementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>
+          }
+          findFirst: {
+            args: Prisma.FrameworkAgreementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FrameworkAgreementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>
+          }
+          findMany: {
+            args: Prisma.FrameworkAgreementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>[]
+          }
+          create: {
+            args: Prisma.FrameworkAgreementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>
+          }
+          createMany: {
+            args: Prisma.FrameworkAgreementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FrameworkAgreementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>[]
+          }
+          delete: {
+            args: Prisma.FrameworkAgreementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>
+          }
+          update: {
+            args: Prisma.FrameworkAgreementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>
+          }
+          deleteMany: {
+            args: Prisma.FrameworkAgreementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FrameworkAgreementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FrameworkAgreementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>[]
+          }
+          upsert: {
+            args: Prisma.FrameworkAgreementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FrameworkAgreementPayload>
+          }
+          aggregate: {
+            args: Prisma.FrameworkAgreementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFrameworkAgreement>
+          }
+          groupBy: {
+            args: Prisma.FrameworkAgreementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FrameworkAgreementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FrameworkAgreementCountArgs<ExtArgs>
+            result: $Utils.Optional<FrameworkAgreementCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -12334,6 +12633,9 @@ export namespace Prisma {
     package?: PackageOmit
     packageLine?: PackageLineOmit
     landedCost?: LandedCostOmit
+    customObjectDefinition?: CustomObjectDefinitionOmit
+    customObjectRecord?: CustomObjectRecordOmit
+    frameworkAgreement?: FrameworkAgreementOmit
   }
 
   /* Types for Logging */
@@ -12515,6 +12817,8 @@ export namespace Prisma {
     rfqs: number
     packages: number
     landedCosts: number
+    customObjectDefinitions: number
+    frameworkAgreements: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12619,6 +12923,8 @@ export namespace Prisma {
     rfqs?: boolean | TenantCountOutputTypeCountRfqsArgs
     packages?: boolean | TenantCountOutputTypeCountPackagesArgs
     landedCosts?: boolean | TenantCountOutputTypeCountLandedCostsArgs
+    customObjectDefinitions?: boolean | TenantCountOutputTypeCountCustomObjectDefinitionsArgs
+    frameworkAgreements?: boolean | TenantCountOutputTypeCountFrameworkAgreementsArgs
   }
 
   // Custom InputTypes
@@ -13337,6 +13643,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountLandedCostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LandedCostWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountCustomObjectDefinitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomObjectDefinitionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountFrameworkAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FrameworkAgreementWhereInput
   }
 
 
@@ -14592,6 +14912,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CustomObjectDefinitionCountOutputType
+   */
+
+  export type CustomObjectDefinitionCountOutputType = {
+    records: number
+  }
+
+  export type CustomObjectDefinitionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    records?: boolean | CustomObjectDefinitionCountOutputTypeCountRecordsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CustomObjectDefinitionCountOutputType without action
+   */
+  export type CustomObjectDefinitionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinitionCountOutputType
+     */
+    select?: CustomObjectDefinitionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CustomObjectDefinitionCountOutputType without action
+   */
+  export type CustomObjectDefinitionCountOutputTypeCountRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomObjectRecordWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -14910,6 +15261,8 @@ export namespace Prisma {
     rfqs?: boolean | Tenant$rfqsArgs<ExtArgs>
     packages?: boolean | Tenant$packagesArgs<ExtArgs>
     landedCosts?: boolean | Tenant$landedCostsArgs<ExtArgs>
+    customObjectDefinitions?: boolean | Tenant$customObjectDefinitionsArgs<ExtArgs>
+    frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -15046,6 +15399,8 @@ export namespace Prisma {
     rfqs?: boolean | Tenant$rfqsArgs<ExtArgs>
     packages?: boolean | Tenant$packagesArgs<ExtArgs>
     landedCosts?: boolean | Tenant$landedCostsArgs<ExtArgs>
+    customObjectDefinitions?: boolean | Tenant$customObjectDefinitionsArgs<ExtArgs>
+    frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -15155,6 +15510,8 @@ export namespace Prisma {
       rfqs: Prisma.$RfqPayload<ExtArgs>[]
       packages: Prisma.$PackagePayload<ExtArgs>[]
       landedCosts: Prisma.$LandedCostPayload<ExtArgs>[]
+      customObjectDefinitions: Prisma.$CustomObjectDefinitionPayload<ExtArgs>[]
+      frameworkAgreements: Prisma.$FrameworkAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15659,6 +16016,8 @@ export namespace Prisma {
     rfqs<T extends Tenant$rfqsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$rfqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RfqPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages<T extends Tenant$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     landedCosts<T extends Tenant$landedCostsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$landedCostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    customObjectDefinitions<T extends Tenant$customObjectDefinitionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$customObjectDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    frameworkAgreements<T extends Tenant$frameworkAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$frameworkAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18504,6 +18863,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LandedCostScalarFieldEnum | LandedCostScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.customObjectDefinitions
+   */
+  export type Tenant$customObjectDefinitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    where?: CustomObjectDefinitionWhereInput
+    orderBy?: CustomObjectDefinitionOrderByWithRelationInput | CustomObjectDefinitionOrderByWithRelationInput[]
+    cursor?: CustomObjectDefinitionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomObjectDefinitionScalarFieldEnum | CustomObjectDefinitionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.frameworkAgreements
+   */
+  export type Tenant$frameworkAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    where?: FrameworkAgreementWhereInput
+    orderBy?: FrameworkAgreementOrderByWithRelationInput | FrameworkAgreementOrderByWithRelationInput[]
+    cursor?: FrameworkAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FrameworkAgreementScalarFieldEnum | FrameworkAgreementScalarFieldEnum[]
   }
 
   /**
@@ -152427,6 +152834,3442 @@ export namespace Prisma {
 
 
   /**
+   * Model CustomObjectDefinition
+   */
+
+  export type AggregateCustomObjectDefinition = {
+    _count: CustomObjectDefinitionCountAggregateOutputType | null
+    _min: CustomObjectDefinitionMinAggregateOutputType | null
+    _max: CustomObjectDefinitionMaxAggregateOutputType | null
+  }
+
+  export type CustomObjectDefinitionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    key: string | null
+    name: string | null
+    status: $Enums.CustomObjectStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomObjectDefinitionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    key: string | null
+    name: string | null
+    status: $Enums.CustomObjectStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomObjectDefinitionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    key: number
+    name: number
+    fields: number
+    status: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CustomObjectDefinitionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    key?: true
+    name?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomObjectDefinitionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    key?: true
+    name?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomObjectDefinitionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    key?: true
+    name?: true
+    fields?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CustomObjectDefinitionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomObjectDefinition to aggregate.
+     */
+    where?: CustomObjectDefinitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectDefinitions to fetch.
+     */
+    orderBy?: CustomObjectDefinitionOrderByWithRelationInput | CustomObjectDefinitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomObjectDefinitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectDefinitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectDefinitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomObjectDefinitions
+    **/
+    _count?: true | CustomObjectDefinitionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomObjectDefinitionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomObjectDefinitionMaxAggregateInputType
+  }
+
+  export type GetCustomObjectDefinitionAggregateType<T extends CustomObjectDefinitionAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomObjectDefinition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomObjectDefinition[P]>
+      : GetScalarType<T[P], AggregateCustomObjectDefinition[P]>
+  }
+
+
+
+
+  export type CustomObjectDefinitionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomObjectDefinitionWhereInput
+    orderBy?: CustomObjectDefinitionOrderByWithAggregationInput | CustomObjectDefinitionOrderByWithAggregationInput[]
+    by: CustomObjectDefinitionScalarFieldEnum[] | CustomObjectDefinitionScalarFieldEnum
+    having?: CustomObjectDefinitionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomObjectDefinitionCountAggregateInputType | true
+    _min?: CustomObjectDefinitionMinAggregateInputType
+    _max?: CustomObjectDefinitionMaxAggregateInputType
+  }
+
+  export type CustomObjectDefinitionGroupByOutputType = {
+    id: string
+    tenantId: string
+    key: string
+    name: string
+    fields: JsonValue
+    status: $Enums.CustomObjectStatus
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CustomObjectDefinitionCountAggregateOutputType | null
+    _min: CustomObjectDefinitionMinAggregateOutputType | null
+    _max: CustomObjectDefinitionMaxAggregateOutputType | null
+  }
+
+  type GetCustomObjectDefinitionGroupByPayload<T extends CustomObjectDefinitionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomObjectDefinitionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomObjectDefinitionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomObjectDefinitionGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomObjectDefinitionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomObjectDefinitionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    name?: boolean
+    fields?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    records?: boolean | CustomObjectDefinition$recordsArgs<ExtArgs>
+    _count?: boolean | CustomObjectDefinitionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customObjectDefinition"]>
+
+  export type CustomObjectDefinitionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    name?: boolean
+    fields?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customObjectDefinition"]>
+
+  export type CustomObjectDefinitionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    name?: boolean
+    fields?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customObjectDefinition"]>
+
+  export type CustomObjectDefinitionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    name?: boolean
+    fields?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CustomObjectDefinitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "key" | "name" | "fields" | "status" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customObjectDefinition"]>
+  export type CustomObjectDefinitionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    records?: boolean | CustomObjectDefinition$recordsArgs<ExtArgs>
+    _count?: boolean | CustomObjectDefinitionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CustomObjectDefinitionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type CustomObjectDefinitionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomObjectDefinitionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomObjectDefinition"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      records: Prisma.$CustomObjectRecordPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      key: string
+      name: string
+      /**
+       * Field definitions: [{ key, label, type: text|number|date|boolean|select, required, options? }]
+       */
+      fields: Prisma.JsonValue
+      status: $Enums.CustomObjectStatus
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["customObjectDefinition"]>
+    composites: {}
+  }
+
+  type CustomObjectDefinitionGetPayload<S extends boolean | null | undefined | CustomObjectDefinitionDefaultArgs> = $Result.GetResult<Prisma.$CustomObjectDefinitionPayload, S>
+
+  type CustomObjectDefinitionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomObjectDefinitionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomObjectDefinitionCountAggregateInputType | true
+    }
+
+  export interface CustomObjectDefinitionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomObjectDefinition'], meta: { name: 'CustomObjectDefinition' } }
+    /**
+     * Find zero or one CustomObjectDefinition that matches the filter.
+     * @param {CustomObjectDefinitionFindUniqueArgs} args - Arguments to find a CustomObjectDefinition
+     * @example
+     * // Get one CustomObjectDefinition
+     * const customObjectDefinition = await prisma.customObjectDefinition.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomObjectDefinitionFindUniqueArgs>(args: SelectSubset<T, CustomObjectDefinitionFindUniqueArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomObjectDefinition that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomObjectDefinitionFindUniqueOrThrowArgs} args - Arguments to find a CustomObjectDefinition
+     * @example
+     * // Get one CustomObjectDefinition
+     * const customObjectDefinition = await prisma.customObjectDefinition.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomObjectDefinitionFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomObjectDefinitionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomObjectDefinition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectDefinitionFindFirstArgs} args - Arguments to find a CustomObjectDefinition
+     * @example
+     * // Get one CustomObjectDefinition
+     * const customObjectDefinition = await prisma.customObjectDefinition.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomObjectDefinitionFindFirstArgs>(args?: SelectSubset<T, CustomObjectDefinitionFindFirstArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomObjectDefinition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectDefinitionFindFirstOrThrowArgs} args - Arguments to find a CustomObjectDefinition
+     * @example
+     * // Get one CustomObjectDefinition
+     * const customObjectDefinition = await prisma.customObjectDefinition.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomObjectDefinitionFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomObjectDefinitionFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomObjectDefinitions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectDefinitionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomObjectDefinitions
+     * const customObjectDefinitions = await prisma.customObjectDefinition.findMany()
+     * 
+     * // Get first 10 CustomObjectDefinitions
+     * const customObjectDefinitions = await prisma.customObjectDefinition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customObjectDefinitionWithIdOnly = await prisma.customObjectDefinition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomObjectDefinitionFindManyArgs>(args?: SelectSubset<T, CustomObjectDefinitionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomObjectDefinition.
+     * @param {CustomObjectDefinitionCreateArgs} args - Arguments to create a CustomObjectDefinition.
+     * @example
+     * // Create one CustomObjectDefinition
+     * const CustomObjectDefinition = await prisma.customObjectDefinition.create({
+     *   data: {
+     *     // ... data to create a CustomObjectDefinition
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomObjectDefinitionCreateArgs>(args: SelectSubset<T, CustomObjectDefinitionCreateArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomObjectDefinitions.
+     * @param {CustomObjectDefinitionCreateManyArgs} args - Arguments to create many CustomObjectDefinitions.
+     * @example
+     * // Create many CustomObjectDefinitions
+     * const customObjectDefinition = await prisma.customObjectDefinition.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomObjectDefinitionCreateManyArgs>(args?: SelectSubset<T, CustomObjectDefinitionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomObjectDefinitions and returns the data saved in the database.
+     * @param {CustomObjectDefinitionCreateManyAndReturnArgs} args - Arguments to create many CustomObjectDefinitions.
+     * @example
+     * // Create many CustomObjectDefinitions
+     * const customObjectDefinition = await prisma.customObjectDefinition.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomObjectDefinitions and only return the `id`
+     * const customObjectDefinitionWithIdOnly = await prisma.customObjectDefinition.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomObjectDefinitionCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomObjectDefinitionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomObjectDefinition.
+     * @param {CustomObjectDefinitionDeleteArgs} args - Arguments to delete one CustomObjectDefinition.
+     * @example
+     * // Delete one CustomObjectDefinition
+     * const CustomObjectDefinition = await prisma.customObjectDefinition.delete({
+     *   where: {
+     *     // ... filter to delete one CustomObjectDefinition
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomObjectDefinitionDeleteArgs>(args: SelectSubset<T, CustomObjectDefinitionDeleteArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomObjectDefinition.
+     * @param {CustomObjectDefinitionUpdateArgs} args - Arguments to update one CustomObjectDefinition.
+     * @example
+     * // Update one CustomObjectDefinition
+     * const customObjectDefinition = await prisma.customObjectDefinition.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomObjectDefinitionUpdateArgs>(args: SelectSubset<T, CustomObjectDefinitionUpdateArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomObjectDefinitions.
+     * @param {CustomObjectDefinitionDeleteManyArgs} args - Arguments to filter CustomObjectDefinitions to delete.
+     * @example
+     * // Delete a few CustomObjectDefinitions
+     * const { count } = await prisma.customObjectDefinition.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomObjectDefinitionDeleteManyArgs>(args?: SelectSubset<T, CustomObjectDefinitionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomObjectDefinitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectDefinitionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomObjectDefinitions
+     * const customObjectDefinition = await prisma.customObjectDefinition.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomObjectDefinitionUpdateManyArgs>(args: SelectSubset<T, CustomObjectDefinitionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomObjectDefinitions and returns the data updated in the database.
+     * @param {CustomObjectDefinitionUpdateManyAndReturnArgs} args - Arguments to update many CustomObjectDefinitions.
+     * @example
+     * // Update many CustomObjectDefinitions
+     * const customObjectDefinition = await prisma.customObjectDefinition.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomObjectDefinitions and only return the `id`
+     * const customObjectDefinitionWithIdOnly = await prisma.customObjectDefinition.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomObjectDefinitionUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomObjectDefinitionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomObjectDefinition.
+     * @param {CustomObjectDefinitionUpsertArgs} args - Arguments to update or create a CustomObjectDefinition.
+     * @example
+     * // Update or create a CustomObjectDefinition
+     * const customObjectDefinition = await prisma.customObjectDefinition.upsert({
+     *   create: {
+     *     // ... data to create a CustomObjectDefinition
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomObjectDefinition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomObjectDefinitionUpsertArgs>(args: SelectSubset<T, CustomObjectDefinitionUpsertArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomObjectDefinitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectDefinitionCountArgs} args - Arguments to filter CustomObjectDefinitions to count.
+     * @example
+     * // Count the number of CustomObjectDefinitions
+     * const count = await prisma.customObjectDefinition.count({
+     *   where: {
+     *     // ... the filter for the CustomObjectDefinitions we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomObjectDefinitionCountArgs>(
+      args?: Subset<T, CustomObjectDefinitionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomObjectDefinitionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomObjectDefinition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectDefinitionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomObjectDefinitionAggregateArgs>(args: Subset<T, CustomObjectDefinitionAggregateArgs>): Prisma.PrismaPromise<GetCustomObjectDefinitionAggregateType<T>>
+
+    /**
+     * Group by CustomObjectDefinition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectDefinitionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomObjectDefinitionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomObjectDefinitionGroupByArgs['orderBy'] }
+        : { orderBy?: CustomObjectDefinitionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomObjectDefinitionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomObjectDefinitionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomObjectDefinition model
+   */
+  readonly fields: CustomObjectDefinitionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomObjectDefinition.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomObjectDefinitionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    records<T extends CustomObjectDefinition$recordsArgs<ExtArgs> = {}>(args?: Subset<T, CustomObjectDefinition$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomObjectDefinition model
+   */
+  interface CustomObjectDefinitionFieldRefs {
+    readonly id: FieldRef<"CustomObjectDefinition", 'String'>
+    readonly tenantId: FieldRef<"CustomObjectDefinition", 'String'>
+    readonly key: FieldRef<"CustomObjectDefinition", 'String'>
+    readonly name: FieldRef<"CustomObjectDefinition", 'String'>
+    readonly fields: FieldRef<"CustomObjectDefinition", 'Json'>
+    readonly status: FieldRef<"CustomObjectDefinition", 'CustomObjectStatus'>
+    readonly createdBy: FieldRef<"CustomObjectDefinition", 'String'>
+    readonly createdAt: FieldRef<"CustomObjectDefinition", 'DateTime'>
+    readonly updatedAt: FieldRef<"CustomObjectDefinition", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomObjectDefinition findUnique
+   */
+  export type CustomObjectDefinitionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectDefinition to fetch.
+     */
+    where: CustomObjectDefinitionWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectDefinition findUniqueOrThrow
+   */
+  export type CustomObjectDefinitionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectDefinition to fetch.
+     */
+    where: CustomObjectDefinitionWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectDefinition findFirst
+   */
+  export type CustomObjectDefinitionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectDefinition to fetch.
+     */
+    where?: CustomObjectDefinitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectDefinitions to fetch.
+     */
+    orderBy?: CustomObjectDefinitionOrderByWithRelationInput | CustomObjectDefinitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomObjectDefinitions.
+     */
+    cursor?: CustomObjectDefinitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectDefinitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectDefinitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomObjectDefinitions.
+     */
+    distinct?: CustomObjectDefinitionScalarFieldEnum | CustomObjectDefinitionScalarFieldEnum[]
+  }
+
+  /**
+   * CustomObjectDefinition findFirstOrThrow
+   */
+  export type CustomObjectDefinitionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectDefinition to fetch.
+     */
+    where?: CustomObjectDefinitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectDefinitions to fetch.
+     */
+    orderBy?: CustomObjectDefinitionOrderByWithRelationInput | CustomObjectDefinitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomObjectDefinitions.
+     */
+    cursor?: CustomObjectDefinitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectDefinitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectDefinitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomObjectDefinitions.
+     */
+    distinct?: CustomObjectDefinitionScalarFieldEnum | CustomObjectDefinitionScalarFieldEnum[]
+  }
+
+  /**
+   * CustomObjectDefinition findMany
+   */
+  export type CustomObjectDefinitionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectDefinitions to fetch.
+     */
+    where?: CustomObjectDefinitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectDefinitions to fetch.
+     */
+    orderBy?: CustomObjectDefinitionOrderByWithRelationInput | CustomObjectDefinitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomObjectDefinitions.
+     */
+    cursor?: CustomObjectDefinitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectDefinitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectDefinitions.
+     */
+    skip?: number
+    distinct?: CustomObjectDefinitionScalarFieldEnum | CustomObjectDefinitionScalarFieldEnum[]
+  }
+
+  /**
+   * CustomObjectDefinition create
+   */
+  export type CustomObjectDefinitionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomObjectDefinition.
+     */
+    data: XOR<CustomObjectDefinitionCreateInput, CustomObjectDefinitionUncheckedCreateInput>
+  }
+
+  /**
+   * CustomObjectDefinition createMany
+   */
+  export type CustomObjectDefinitionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomObjectDefinitions.
+     */
+    data: CustomObjectDefinitionCreateManyInput | CustomObjectDefinitionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomObjectDefinition createManyAndReturn
+   */
+  export type CustomObjectDefinitionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomObjectDefinitions.
+     */
+    data: CustomObjectDefinitionCreateManyInput | CustomObjectDefinitionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomObjectDefinition update
+   */
+  export type CustomObjectDefinitionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomObjectDefinition.
+     */
+    data: XOR<CustomObjectDefinitionUpdateInput, CustomObjectDefinitionUncheckedUpdateInput>
+    /**
+     * Choose, which CustomObjectDefinition to update.
+     */
+    where: CustomObjectDefinitionWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectDefinition updateMany
+   */
+  export type CustomObjectDefinitionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomObjectDefinitions.
+     */
+    data: XOR<CustomObjectDefinitionUpdateManyMutationInput, CustomObjectDefinitionUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomObjectDefinitions to update
+     */
+    where?: CustomObjectDefinitionWhereInput
+    /**
+     * Limit how many CustomObjectDefinitions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomObjectDefinition updateManyAndReturn
+   */
+  export type CustomObjectDefinitionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomObjectDefinitions.
+     */
+    data: XOR<CustomObjectDefinitionUpdateManyMutationInput, CustomObjectDefinitionUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomObjectDefinitions to update
+     */
+    where?: CustomObjectDefinitionWhereInput
+    /**
+     * Limit how many CustomObjectDefinitions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomObjectDefinition upsert
+   */
+  export type CustomObjectDefinitionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomObjectDefinition to update in case it exists.
+     */
+    where: CustomObjectDefinitionWhereUniqueInput
+    /**
+     * In case the CustomObjectDefinition found by the `where` argument doesn't exist, create a new CustomObjectDefinition with this data.
+     */
+    create: XOR<CustomObjectDefinitionCreateInput, CustomObjectDefinitionUncheckedCreateInput>
+    /**
+     * In case the CustomObjectDefinition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomObjectDefinitionUpdateInput, CustomObjectDefinitionUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomObjectDefinition delete
+   */
+  export type CustomObjectDefinitionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+    /**
+     * Filter which CustomObjectDefinition to delete.
+     */
+    where: CustomObjectDefinitionWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectDefinition deleteMany
+   */
+  export type CustomObjectDefinitionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomObjectDefinitions to delete
+     */
+    where?: CustomObjectDefinitionWhereInput
+    /**
+     * Limit how many CustomObjectDefinitions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomObjectDefinition.records
+   */
+  export type CustomObjectDefinition$recordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    where?: CustomObjectRecordWhereInput
+    orderBy?: CustomObjectRecordOrderByWithRelationInput | CustomObjectRecordOrderByWithRelationInput[]
+    cursor?: CustomObjectRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomObjectRecordScalarFieldEnum | CustomObjectRecordScalarFieldEnum[]
+  }
+
+  /**
+   * CustomObjectDefinition without action
+   */
+  export type CustomObjectDefinitionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectDefinition
+     */
+    select?: CustomObjectDefinitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectDefinition
+     */
+    omit?: CustomObjectDefinitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectDefinitionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CustomObjectRecord
+   */
+
+  export type AggregateCustomObjectRecord = {
+    _count: CustomObjectRecordCountAggregateOutputType | null
+    _min: CustomObjectRecordMinAggregateOutputType | null
+    _max: CustomObjectRecordMaxAggregateOutputType | null
+  }
+
+  export type CustomObjectRecordMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    definitionId: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomObjectRecordMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    definitionId: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomObjectRecordCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    definitionId: number
+    data: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CustomObjectRecordMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    definitionId?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomObjectRecordMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    definitionId?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomObjectRecordCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    definitionId?: true
+    data?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CustomObjectRecordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomObjectRecord to aggregate.
+     */
+    where?: CustomObjectRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectRecords to fetch.
+     */
+    orderBy?: CustomObjectRecordOrderByWithRelationInput | CustomObjectRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomObjectRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomObjectRecords
+    **/
+    _count?: true | CustomObjectRecordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomObjectRecordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomObjectRecordMaxAggregateInputType
+  }
+
+  export type GetCustomObjectRecordAggregateType<T extends CustomObjectRecordAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomObjectRecord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomObjectRecord[P]>
+      : GetScalarType<T[P], AggregateCustomObjectRecord[P]>
+  }
+
+
+
+
+  export type CustomObjectRecordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomObjectRecordWhereInput
+    orderBy?: CustomObjectRecordOrderByWithAggregationInput | CustomObjectRecordOrderByWithAggregationInput[]
+    by: CustomObjectRecordScalarFieldEnum[] | CustomObjectRecordScalarFieldEnum
+    having?: CustomObjectRecordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomObjectRecordCountAggregateInputType | true
+    _min?: CustomObjectRecordMinAggregateInputType
+    _max?: CustomObjectRecordMaxAggregateInputType
+  }
+
+  export type CustomObjectRecordGroupByOutputType = {
+    id: string
+    tenantId: string
+    definitionId: string
+    data: JsonValue
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CustomObjectRecordCountAggregateOutputType | null
+    _min: CustomObjectRecordMinAggregateOutputType | null
+    _max: CustomObjectRecordMaxAggregateOutputType | null
+  }
+
+  type GetCustomObjectRecordGroupByPayload<T extends CustomObjectRecordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomObjectRecordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomObjectRecordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomObjectRecordGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomObjectRecordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomObjectRecordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    definitionId?: boolean
+    data?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    definition?: boolean | CustomObjectDefinitionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customObjectRecord"]>
+
+  export type CustomObjectRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    definitionId?: boolean
+    data?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    definition?: boolean | CustomObjectDefinitionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customObjectRecord"]>
+
+  export type CustomObjectRecordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    definitionId?: boolean
+    data?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    definition?: boolean | CustomObjectDefinitionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customObjectRecord"]>
+
+  export type CustomObjectRecordSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    definitionId?: boolean
+    data?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CustomObjectRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "definitionId" | "data" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customObjectRecord"]>
+  export type CustomObjectRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    definition?: boolean | CustomObjectDefinitionDefaultArgs<ExtArgs>
+  }
+  export type CustomObjectRecordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    definition?: boolean | CustomObjectDefinitionDefaultArgs<ExtArgs>
+  }
+  export type CustomObjectRecordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    definition?: boolean | CustomObjectDefinitionDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomObjectRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomObjectRecord"
+    objects: {
+      definition: Prisma.$CustomObjectDefinitionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      definitionId: string
+      data: Prisma.JsonValue
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["customObjectRecord"]>
+    composites: {}
+  }
+
+  type CustomObjectRecordGetPayload<S extends boolean | null | undefined | CustomObjectRecordDefaultArgs> = $Result.GetResult<Prisma.$CustomObjectRecordPayload, S>
+
+  type CustomObjectRecordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomObjectRecordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomObjectRecordCountAggregateInputType | true
+    }
+
+  export interface CustomObjectRecordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomObjectRecord'], meta: { name: 'CustomObjectRecord' } }
+    /**
+     * Find zero or one CustomObjectRecord that matches the filter.
+     * @param {CustomObjectRecordFindUniqueArgs} args - Arguments to find a CustomObjectRecord
+     * @example
+     * // Get one CustomObjectRecord
+     * const customObjectRecord = await prisma.customObjectRecord.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomObjectRecordFindUniqueArgs>(args: SelectSubset<T, CustomObjectRecordFindUniqueArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomObjectRecord that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomObjectRecordFindUniqueOrThrowArgs} args - Arguments to find a CustomObjectRecord
+     * @example
+     * // Get one CustomObjectRecord
+     * const customObjectRecord = await prisma.customObjectRecord.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomObjectRecordFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomObjectRecordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomObjectRecord that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectRecordFindFirstArgs} args - Arguments to find a CustomObjectRecord
+     * @example
+     * // Get one CustomObjectRecord
+     * const customObjectRecord = await prisma.customObjectRecord.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomObjectRecordFindFirstArgs>(args?: SelectSubset<T, CustomObjectRecordFindFirstArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomObjectRecord that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectRecordFindFirstOrThrowArgs} args - Arguments to find a CustomObjectRecord
+     * @example
+     * // Get one CustomObjectRecord
+     * const customObjectRecord = await prisma.customObjectRecord.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomObjectRecordFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomObjectRecordFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomObjectRecords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectRecordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomObjectRecords
+     * const customObjectRecords = await prisma.customObjectRecord.findMany()
+     * 
+     * // Get first 10 CustomObjectRecords
+     * const customObjectRecords = await prisma.customObjectRecord.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customObjectRecordWithIdOnly = await prisma.customObjectRecord.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomObjectRecordFindManyArgs>(args?: SelectSubset<T, CustomObjectRecordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomObjectRecord.
+     * @param {CustomObjectRecordCreateArgs} args - Arguments to create a CustomObjectRecord.
+     * @example
+     * // Create one CustomObjectRecord
+     * const CustomObjectRecord = await prisma.customObjectRecord.create({
+     *   data: {
+     *     // ... data to create a CustomObjectRecord
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomObjectRecordCreateArgs>(args: SelectSubset<T, CustomObjectRecordCreateArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomObjectRecords.
+     * @param {CustomObjectRecordCreateManyArgs} args - Arguments to create many CustomObjectRecords.
+     * @example
+     * // Create many CustomObjectRecords
+     * const customObjectRecord = await prisma.customObjectRecord.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomObjectRecordCreateManyArgs>(args?: SelectSubset<T, CustomObjectRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomObjectRecords and returns the data saved in the database.
+     * @param {CustomObjectRecordCreateManyAndReturnArgs} args - Arguments to create many CustomObjectRecords.
+     * @example
+     * // Create many CustomObjectRecords
+     * const customObjectRecord = await prisma.customObjectRecord.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomObjectRecords and only return the `id`
+     * const customObjectRecordWithIdOnly = await prisma.customObjectRecord.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomObjectRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomObjectRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomObjectRecord.
+     * @param {CustomObjectRecordDeleteArgs} args - Arguments to delete one CustomObjectRecord.
+     * @example
+     * // Delete one CustomObjectRecord
+     * const CustomObjectRecord = await prisma.customObjectRecord.delete({
+     *   where: {
+     *     // ... filter to delete one CustomObjectRecord
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomObjectRecordDeleteArgs>(args: SelectSubset<T, CustomObjectRecordDeleteArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomObjectRecord.
+     * @param {CustomObjectRecordUpdateArgs} args - Arguments to update one CustomObjectRecord.
+     * @example
+     * // Update one CustomObjectRecord
+     * const customObjectRecord = await prisma.customObjectRecord.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomObjectRecordUpdateArgs>(args: SelectSubset<T, CustomObjectRecordUpdateArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomObjectRecords.
+     * @param {CustomObjectRecordDeleteManyArgs} args - Arguments to filter CustomObjectRecords to delete.
+     * @example
+     * // Delete a few CustomObjectRecords
+     * const { count } = await prisma.customObjectRecord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomObjectRecordDeleteManyArgs>(args?: SelectSubset<T, CustomObjectRecordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomObjectRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectRecordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomObjectRecords
+     * const customObjectRecord = await prisma.customObjectRecord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomObjectRecordUpdateManyArgs>(args: SelectSubset<T, CustomObjectRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomObjectRecords and returns the data updated in the database.
+     * @param {CustomObjectRecordUpdateManyAndReturnArgs} args - Arguments to update many CustomObjectRecords.
+     * @example
+     * // Update many CustomObjectRecords
+     * const customObjectRecord = await prisma.customObjectRecord.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomObjectRecords and only return the `id`
+     * const customObjectRecordWithIdOnly = await prisma.customObjectRecord.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomObjectRecordUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomObjectRecordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomObjectRecord.
+     * @param {CustomObjectRecordUpsertArgs} args - Arguments to update or create a CustomObjectRecord.
+     * @example
+     * // Update or create a CustomObjectRecord
+     * const customObjectRecord = await prisma.customObjectRecord.upsert({
+     *   create: {
+     *     // ... data to create a CustomObjectRecord
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomObjectRecord we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomObjectRecordUpsertArgs>(args: SelectSubset<T, CustomObjectRecordUpsertArgs<ExtArgs>>): Prisma__CustomObjectRecordClient<$Result.GetResult<Prisma.$CustomObjectRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomObjectRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectRecordCountArgs} args - Arguments to filter CustomObjectRecords to count.
+     * @example
+     * // Count the number of CustomObjectRecords
+     * const count = await prisma.customObjectRecord.count({
+     *   where: {
+     *     // ... the filter for the CustomObjectRecords we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomObjectRecordCountArgs>(
+      args?: Subset<T, CustomObjectRecordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomObjectRecordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomObjectRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectRecordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomObjectRecordAggregateArgs>(args: Subset<T, CustomObjectRecordAggregateArgs>): Prisma.PrismaPromise<GetCustomObjectRecordAggregateType<T>>
+
+    /**
+     * Group by CustomObjectRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomObjectRecordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomObjectRecordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomObjectRecordGroupByArgs['orderBy'] }
+        : { orderBy?: CustomObjectRecordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomObjectRecordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomObjectRecordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomObjectRecord model
+   */
+  readonly fields: CustomObjectRecordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomObjectRecord.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomObjectRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    definition<T extends CustomObjectDefinitionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomObjectDefinitionDefaultArgs<ExtArgs>>): Prisma__CustomObjectDefinitionClient<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomObjectRecord model
+   */
+  interface CustomObjectRecordFieldRefs {
+    readonly id: FieldRef<"CustomObjectRecord", 'String'>
+    readonly tenantId: FieldRef<"CustomObjectRecord", 'String'>
+    readonly definitionId: FieldRef<"CustomObjectRecord", 'String'>
+    readonly data: FieldRef<"CustomObjectRecord", 'Json'>
+    readonly createdBy: FieldRef<"CustomObjectRecord", 'String'>
+    readonly createdAt: FieldRef<"CustomObjectRecord", 'DateTime'>
+    readonly updatedAt: FieldRef<"CustomObjectRecord", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomObjectRecord findUnique
+   */
+  export type CustomObjectRecordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectRecord to fetch.
+     */
+    where: CustomObjectRecordWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectRecord findUniqueOrThrow
+   */
+  export type CustomObjectRecordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectRecord to fetch.
+     */
+    where: CustomObjectRecordWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectRecord findFirst
+   */
+  export type CustomObjectRecordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectRecord to fetch.
+     */
+    where?: CustomObjectRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectRecords to fetch.
+     */
+    orderBy?: CustomObjectRecordOrderByWithRelationInput | CustomObjectRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomObjectRecords.
+     */
+    cursor?: CustomObjectRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomObjectRecords.
+     */
+    distinct?: CustomObjectRecordScalarFieldEnum | CustomObjectRecordScalarFieldEnum[]
+  }
+
+  /**
+   * CustomObjectRecord findFirstOrThrow
+   */
+  export type CustomObjectRecordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectRecord to fetch.
+     */
+    where?: CustomObjectRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectRecords to fetch.
+     */
+    orderBy?: CustomObjectRecordOrderByWithRelationInput | CustomObjectRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomObjectRecords.
+     */
+    cursor?: CustomObjectRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomObjectRecords.
+     */
+    distinct?: CustomObjectRecordScalarFieldEnum | CustomObjectRecordScalarFieldEnum[]
+  }
+
+  /**
+   * CustomObjectRecord findMany
+   */
+  export type CustomObjectRecordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomObjectRecords to fetch.
+     */
+    where?: CustomObjectRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomObjectRecords to fetch.
+     */
+    orderBy?: CustomObjectRecordOrderByWithRelationInput | CustomObjectRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomObjectRecords.
+     */
+    cursor?: CustomObjectRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomObjectRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomObjectRecords.
+     */
+    skip?: number
+    distinct?: CustomObjectRecordScalarFieldEnum | CustomObjectRecordScalarFieldEnum[]
+  }
+
+  /**
+   * CustomObjectRecord create
+   */
+  export type CustomObjectRecordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomObjectRecord.
+     */
+    data: XOR<CustomObjectRecordCreateInput, CustomObjectRecordUncheckedCreateInput>
+  }
+
+  /**
+   * CustomObjectRecord createMany
+   */
+  export type CustomObjectRecordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomObjectRecords.
+     */
+    data: CustomObjectRecordCreateManyInput | CustomObjectRecordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomObjectRecord createManyAndReturn
+   */
+  export type CustomObjectRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomObjectRecords.
+     */
+    data: CustomObjectRecordCreateManyInput | CustomObjectRecordCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomObjectRecord update
+   */
+  export type CustomObjectRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomObjectRecord.
+     */
+    data: XOR<CustomObjectRecordUpdateInput, CustomObjectRecordUncheckedUpdateInput>
+    /**
+     * Choose, which CustomObjectRecord to update.
+     */
+    where: CustomObjectRecordWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectRecord updateMany
+   */
+  export type CustomObjectRecordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomObjectRecords.
+     */
+    data: XOR<CustomObjectRecordUpdateManyMutationInput, CustomObjectRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomObjectRecords to update
+     */
+    where?: CustomObjectRecordWhereInput
+    /**
+     * Limit how many CustomObjectRecords to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomObjectRecord updateManyAndReturn
+   */
+  export type CustomObjectRecordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomObjectRecords.
+     */
+    data: XOR<CustomObjectRecordUpdateManyMutationInput, CustomObjectRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomObjectRecords to update
+     */
+    where?: CustomObjectRecordWhereInput
+    /**
+     * Limit how many CustomObjectRecords to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomObjectRecord upsert
+   */
+  export type CustomObjectRecordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomObjectRecord to update in case it exists.
+     */
+    where: CustomObjectRecordWhereUniqueInput
+    /**
+     * In case the CustomObjectRecord found by the `where` argument doesn't exist, create a new CustomObjectRecord with this data.
+     */
+    create: XOR<CustomObjectRecordCreateInput, CustomObjectRecordUncheckedCreateInput>
+    /**
+     * In case the CustomObjectRecord was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomObjectRecordUpdateInput, CustomObjectRecordUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomObjectRecord delete
+   */
+  export type CustomObjectRecordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+    /**
+     * Filter which CustomObjectRecord to delete.
+     */
+    where: CustomObjectRecordWhereUniqueInput
+  }
+
+  /**
+   * CustomObjectRecord deleteMany
+   */
+  export type CustomObjectRecordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomObjectRecords to delete
+     */
+    where?: CustomObjectRecordWhereInput
+    /**
+     * Limit how many CustomObjectRecords to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomObjectRecord without action
+   */
+  export type CustomObjectRecordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomObjectRecord
+     */
+    select?: CustomObjectRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomObjectRecord
+     */
+    omit?: CustomObjectRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomObjectRecordInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FrameworkAgreement
+   */
+
+  export type AggregateFrameworkAgreement = {
+    _count: FrameworkAgreementCountAggregateOutputType | null
+    _avg: FrameworkAgreementAvgAggregateOutputType | null
+    _sum: FrameworkAgreementSumAggregateOutputType | null
+    _min: FrameworkAgreementMinAggregateOutputType | null
+    _max: FrameworkAgreementMaxAggregateOutputType | null
+  }
+
+  export type FrameworkAgreementAvgAggregateOutputType = {
+    unitPrice: Decimal | null
+    maxQuantity: Decimal | null
+    calledQuantity: Decimal | null
+  }
+
+  export type FrameworkAgreementSumAggregateOutputType = {
+    unitPrice: Decimal | null
+    maxQuantity: Decimal | null
+    calledQuantity: Decimal | null
+  }
+
+  export type FrameworkAgreementMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    agreementNumber: string | null
+    supplierId: string | null
+    skuId: string | null
+    unitPrice: Decimal | null
+    maxQuantity: Decimal | null
+    calledQuantity: Decimal | null
+    validFrom: Date | null
+    validTo: Date | null
+    status: $Enums.FrameworkStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FrameworkAgreementMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    agreementNumber: string | null
+    supplierId: string | null
+    skuId: string | null
+    unitPrice: Decimal | null
+    maxQuantity: Decimal | null
+    calledQuantity: Decimal | null
+    validFrom: Date | null
+    validTo: Date | null
+    status: $Enums.FrameworkStatus | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FrameworkAgreementCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    agreementNumber: number
+    supplierId: number
+    skuId: number
+    unitPrice: number
+    maxQuantity: number
+    calledQuantity: number
+    validFrom: number
+    validTo: number
+    status: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FrameworkAgreementAvgAggregateInputType = {
+    unitPrice?: true
+    maxQuantity?: true
+    calledQuantity?: true
+  }
+
+  export type FrameworkAgreementSumAggregateInputType = {
+    unitPrice?: true
+    maxQuantity?: true
+    calledQuantity?: true
+  }
+
+  export type FrameworkAgreementMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    agreementNumber?: true
+    supplierId?: true
+    skuId?: true
+    unitPrice?: true
+    maxQuantity?: true
+    calledQuantity?: true
+    validFrom?: true
+    validTo?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FrameworkAgreementMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    agreementNumber?: true
+    supplierId?: true
+    skuId?: true
+    unitPrice?: true
+    maxQuantity?: true
+    calledQuantity?: true
+    validFrom?: true
+    validTo?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FrameworkAgreementCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    agreementNumber?: true
+    supplierId?: true
+    skuId?: true
+    unitPrice?: true
+    maxQuantity?: true
+    calledQuantity?: true
+    validFrom?: true
+    validTo?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FrameworkAgreementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FrameworkAgreement to aggregate.
+     */
+    where?: FrameworkAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FrameworkAgreements to fetch.
+     */
+    orderBy?: FrameworkAgreementOrderByWithRelationInput | FrameworkAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FrameworkAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FrameworkAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FrameworkAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FrameworkAgreements
+    **/
+    _count?: true | FrameworkAgreementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FrameworkAgreementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FrameworkAgreementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FrameworkAgreementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FrameworkAgreementMaxAggregateInputType
+  }
+
+  export type GetFrameworkAgreementAggregateType<T extends FrameworkAgreementAggregateArgs> = {
+        [P in keyof T & keyof AggregateFrameworkAgreement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFrameworkAgreement[P]>
+      : GetScalarType<T[P], AggregateFrameworkAgreement[P]>
+  }
+
+
+
+
+  export type FrameworkAgreementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FrameworkAgreementWhereInput
+    orderBy?: FrameworkAgreementOrderByWithAggregationInput | FrameworkAgreementOrderByWithAggregationInput[]
+    by: FrameworkAgreementScalarFieldEnum[] | FrameworkAgreementScalarFieldEnum
+    having?: FrameworkAgreementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FrameworkAgreementCountAggregateInputType | true
+    _avg?: FrameworkAgreementAvgAggregateInputType
+    _sum?: FrameworkAgreementSumAggregateInputType
+    _min?: FrameworkAgreementMinAggregateInputType
+    _max?: FrameworkAgreementMaxAggregateInputType
+  }
+
+  export type FrameworkAgreementGroupByOutputType = {
+    id: string
+    tenantId: string
+    agreementNumber: string
+    supplierId: string
+    skuId: string
+    unitPrice: Decimal
+    maxQuantity: Decimal
+    calledQuantity: Decimal
+    validFrom: Date
+    validTo: Date | null
+    status: $Enums.FrameworkStatus
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: FrameworkAgreementCountAggregateOutputType | null
+    _avg: FrameworkAgreementAvgAggregateOutputType | null
+    _sum: FrameworkAgreementSumAggregateOutputType | null
+    _min: FrameworkAgreementMinAggregateOutputType | null
+    _max: FrameworkAgreementMaxAggregateOutputType | null
+  }
+
+  type GetFrameworkAgreementGroupByPayload<T extends FrameworkAgreementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FrameworkAgreementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FrameworkAgreementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FrameworkAgreementGroupByOutputType[P]>
+            : GetScalarType<T[P], FrameworkAgreementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FrameworkAgreementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    agreementNumber?: boolean
+    supplierId?: boolean
+    skuId?: boolean
+    unitPrice?: boolean
+    maxQuantity?: boolean
+    calledQuantity?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["frameworkAgreement"]>
+
+  export type FrameworkAgreementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    agreementNumber?: boolean
+    supplierId?: boolean
+    skuId?: boolean
+    unitPrice?: boolean
+    maxQuantity?: boolean
+    calledQuantity?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["frameworkAgreement"]>
+
+  export type FrameworkAgreementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    agreementNumber?: boolean
+    supplierId?: boolean
+    skuId?: boolean
+    unitPrice?: boolean
+    maxQuantity?: boolean
+    calledQuantity?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["frameworkAgreement"]>
+
+  export type FrameworkAgreementSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    agreementNumber?: boolean
+    supplierId?: boolean
+    skuId?: boolean
+    unitPrice?: boolean
+    maxQuantity?: boolean
+    calledQuantity?: boolean
+    validFrom?: boolean
+    validTo?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FrameworkAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "agreementNumber" | "supplierId" | "skuId" | "unitPrice" | "maxQuantity" | "calledQuantity" | "validFrom" | "validTo" | "status" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["frameworkAgreement"]>
+  export type FrameworkAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type FrameworkAgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type FrameworkAgreementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $FrameworkAgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FrameworkAgreement"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      agreementNumber: string
+      supplierId: string
+      skuId: string
+      unitPrice: Prisma.Decimal
+      maxQuantity: Prisma.Decimal
+      calledQuantity: Prisma.Decimal
+      validFrom: Date
+      validTo: Date | null
+      status: $Enums.FrameworkStatus
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["frameworkAgreement"]>
+    composites: {}
+  }
+
+  type FrameworkAgreementGetPayload<S extends boolean | null | undefined | FrameworkAgreementDefaultArgs> = $Result.GetResult<Prisma.$FrameworkAgreementPayload, S>
+
+  type FrameworkAgreementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FrameworkAgreementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FrameworkAgreementCountAggregateInputType | true
+    }
+
+  export interface FrameworkAgreementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FrameworkAgreement'], meta: { name: 'FrameworkAgreement' } }
+    /**
+     * Find zero or one FrameworkAgreement that matches the filter.
+     * @param {FrameworkAgreementFindUniqueArgs} args - Arguments to find a FrameworkAgreement
+     * @example
+     * // Get one FrameworkAgreement
+     * const frameworkAgreement = await prisma.frameworkAgreement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FrameworkAgreementFindUniqueArgs>(args: SelectSubset<T, FrameworkAgreementFindUniqueArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FrameworkAgreement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FrameworkAgreementFindUniqueOrThrowArgs} args - Arguments to find a FrameworkAgreement
+     * @example
+     * // Get one FrameworkAgreement
+     * const frameworkAgreement = await prisma.frameworkAgreement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FrameworkAgreementFindUniqueOrThrowArgs>(args: SelectSubset<T, FrameworkAgreementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FrameworkAgreement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FrameworkAgreementFindFirstArgs} args - Arguments to find a FrameworkAgreement
+     * @example
+     * // Get one FrameworkAgreement
+     * const frameworkAgreement = await prisma.frameworkAgreement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FrameworkAgreementFindFirstArgs>(args?: SelectSubset<T, FrameworkAgreementFindFirstArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FrameworkAgreement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FrameworkAgreementFindFirstOrThrowArgs} args - Arguments to find a FrameworkAgreement
+     * @example
+     * // Get one FrameworkAgreement
+     * const frameworkAgreement = await prisma.frameworkAgreement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FrameworkAgreementFindFirstOrThrowArgs>(args?: SelectSubset<T, FrameworkAgreementFindFirstOrThrowArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FrameworkAgreements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FrameworkAgreementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FrameworkAgreements
+     * const frameworkAgreements = await prisma.frameworkAgreement.findMany()
+     * 
+     * // Get first 10 FrameworkAgreements
+     * const frameworkAgreements = await prisma.frameworkAgreement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const frameworkAgreementWithIdOnly = await prisma.frameworkAgreement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FrameworkAgreementFindManyArgs>(args?: SelectSubset<T, FrameworkAgreementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FrameworkAgreement.
+     * @param {FrameworkAgreementCreateArgs} args - Arguments to create a FrameworkAgreement.
+     * @example
+     * // Create one FrameworkAgreement
+     * const FrameworkAgreement = await prisma.frameworkAgreement.create({
+     *   data: {
+     *     // ... data to create a FrameworkAgreement
+     *   }
+     * })
+     * 
+     */
+    create<T extends FrameworkAgreementCreateArgs>(args: SelectSubset<T, FrameworkAgreementCreateArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FrameworkAgreements.
+     * @param {FrameworkAgreementCreateManyArgs} args - Arguments to create many FrameworkAgreements.
+     * @example
+     * // Create many FrameworkAgreements
+     * const frameworkAgreement = await prisma.frameworkAgreement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FrameworkAgreementCreateManyArgs>(args?: SelectSubset<T, FrameworkAgreementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FrameworkAgreements and returns the data saved in the database.
+     * @param {FrameworkAgreementCreateManyAndReturnArgs} args - Arguments to create many FrameworkAgreements.
+     * @example
+     * // Create many FrameworkAgreements
+     * const frameworkAgreement = await prisma.frameworkAgreement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FrameworkAgreements and only return the `id`
+     * const frameworkAgreementWithIdOnly = await prisma.frameworkAgreement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FrameworkAgreementCreateManyAndReturnArgs>(args?: SelectSubset<T, FrameworkAgreementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FrameworkAgreement.
+     * @param {FrameworkAgreementDeleteArgs} args - Arguments to delete one FrameworkAgreement.
+     * @example
+     * // Delete one FrameworkAgreement
+     * const FrameworkAgreement = await prisma.frameworkAgreement.delete({
+     *   where: {
+     *     // ... filter to delete one FrameworkAgreement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FrameworkAgreementDeleteArgs>(args: SelectSubset<T, FrameworkAgreementDeleteArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FrameworkAgreement.
+     * @param {FrameworkAgreementUpdateArgs} args - Arguments to update one FrameworkAgreement.
+     * @example
+     * // Update one FrameworkAgreement
+     * const frameworkAgreement = await prisma.frameworkAgreement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FrameworkAgreementUpdateArgs>(args: SelectSubset<T, FrameworkAgreementUpdateArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FrameworkAgreements.
+     * @param {FrameworkAgreementDeleteManyArgs} args - Arguments to filter FrameworkAgreements to delete.
+     * @example
+     * // Delete a few FrameworkAgreements
+     * const { count } = await prisma.frameworkAgreement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FrameworkAgreementDeleteManyArgs>(args?: SelectSubset<T, FrameworkAgreementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FrameworkAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FrameworkAgreementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FrameworkAgreements
+     * const frameworkAgreement = await prisma.frameworkAgreement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FrameworkAgreementUpdateManyArgs>(args: SelectSubset<T, FrameworkAgreementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FrameworkAgreements and returns the data updated in the database.
+     * @param {FrameworkAgreementUpdateManyAndReturnArgs} args - Arguments to update many FrameworkAgreements.
+     * @example
+     * // Update many FrameworkAgreements
+     * const frameworkAgreement = await prisma.frameworkAgreement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FrameworkAgreements and only return the `id`
+     * const frameworkAgreementWithIdOnly = await prisma.frameworkAgreement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FrameworkAgreementUpdateManyAndReturnArgs>(args: SelectSubset<T, FrameworkAgreementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FrameworkAgreement.
+     * @param {FrameworkAgreementUpsertArgs} args - Arguments to update or create a FrameworkAgreement.
+     * @example
+     * // Update or create a FrameworkAgreement
+     * const frameworkAgreement = await prisma.frameworkAgreement.upsert({
+     *   create: {
+     *     // ... data to create a FrameworkAgreement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FrameworkAgreement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FrameworkAgreementUpsertArgs>(args: SelectSubset<T, FrameworkAgreementUpsertArgs<ExtArgs>>): Prisma__FrameworkAgreementClient<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FrameworkAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FrameworkAgreementCountArgs} args - Arguments to filter FrameworkAgreements to count.
+     * @example
+     * // Count the number of FrameworkAgreements
+     * const count = await prisma.frameworkAgreement.count({
+     *   where: {
+     *     // ... the filter for the FrameworkAgreements we want to count
+     *   }
+     * })
+    **/
+    count<T extends FrameworkAgreementCountArgs>(
+      args?: Subset<T, FrameworkAgreementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FrameworkAgreementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FrameworkAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FrameworkAgreementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FrameworkAgreementAggregateArgs>(args: Subset<T, FrameworkAgreementAggregateArgs>): Prisma.PrismaPromise<GetFrameworkAgreementAggregateType<T>>
+
+    /**
+     * Group by FrameworkAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FrameworkAgreementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FrameworkAgreementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FrameworkAgreementGroupByArgs['orderBy'] }
+        : { orderBy?: FrameworkAgreementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FrameworkAgreementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFrameworkAgreementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FrameworkAgreement model
+   */
+  readonly fields: FrameworkAgreementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FrameworkAgreement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FrameworkAgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FrameworkAgreement model
+   */
+  interface FrameworkAgreementFieldRefs {
+    readonly id: FieldRef<"FrameworkAgreement", 'String'>
+    readonly tenantId: FieldRef<"FrameworkAgreement", 'String'>
+    readonly agreementNumber: FieldRef<"FrameworkAgreement", 'String'>
+    readonly supplierId: FieldRef<"FrameworkAgreement", 'String'>
+    readonly skuId: FieldRef<"FrameworkAgreement", 'String'>
+    readonly unitPrice: FieldRef<"FrameworkAgreement", 'Decimal'>
+    readonly maxQuantity: FieldRef<"FrameworkAgreement", 'Decimal'>
+    readonly calledQuantity: FieldRef<"FrameworkAgreement", 'Decimal'>
+    readonly validFrom: FieldRef<"FrameworkAgreement", 'DateTime'>
+    readonly validTo: FieldRef<"FrameworkAgreement", 'DateTime'>
+    readonly status: FieldRef<"FrameworkAgreement", 'FrameworkStatus'>
+    readonly createdBy: FieldRef<"FrameworkAgreement", 'String'>
+    readonly createdAt: FieldRef<"FrameworkAgreement", 'DateTime'>
+    readonly updatedAt: FieldRef<"FrameworkAgreement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FrameworkAgreement findUnique
+   */
+  export type FrameworkAgreementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which FrameworkAgreement to fetch.
+     */
+    where: FrameworkAgreementWhereUniqueInput
+  }
+
+  /**
+   * FrameworkAgreement findUniqueOrThrow
+   */
+  export type FrameworkAgreementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which FrameworkAgreement to fetch.
+     */
+    where: FrameworkAgreementWhereUniqueInput
+  }
+
+  /**
+   * FrameworkAgreement findFirst
+   */
+  export type FrameworkAgreementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which FrameworkAgreement to fetch.
+     */
+    where?: FrameworkAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FrameworkAgreements to fetch.
+     */
+    orderBy?: FrameworkAgreementOrderByWithRelationInput | FrameworkAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FrameworkAgreements.
+     */
+    cursor?: FrameworkAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FrameworkAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FrameworkAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FrameworkAgreements.
+     */
+    distinct?: FrameworkAgreementScalarFieldEnum | FrameworkAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * FrameworkAgreement findFirstOrThrow
+   */
+  export type FrameworkAgreementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which FrameworkAgreement to fetch.
+     */
+    where?: FrameworkAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FrameworkAgreements to fetch.
+     */
+    orderBy?: FrameworkAgreementOrderByWithRelationInput | FrameworkAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FrameworkAgreements.
+     */
+    cursor?: FrameworkAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FrameworkAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FrameworkAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FrameworkAgreements.
+     */
+    distinct?: FrameworkAgreementScalarFieldEnum | FrameworkAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * FrameworkAgreement findMany
+   */
+  export type FrameworkAgreementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which FrameworkAgreements to fetch.
+     */
+    where?: FrameworkAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FrameworkAgreements to fetch.
+     */
+    orderBy?: FrameworkAgreementOrderByWithRelationInput | FrameworkAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FrameworkAgreements.
+     */
+    cursor?: FrameworkAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FrameworkAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FrameworkAgreements.
+     */
+    skip?: number
+    distinct?: FrameworkAgreementScalarFieldEnum | FrameworkAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * FrameworkAgreement create
+   */
+  export type FrameworkAgreementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FrameworkAgreement.
+     */
+    data: XOR<FrameworkAgreementCreateInput, FrameworkAgreementUncheckedCreateInput>
+  }
+
+  /**
+   * FrameworkAgreement createMany
+   */
+  export type FrameworkAgreementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FrameworkAgreements.
+     */
+    data: FrameworkAgreementCreateManyInput | FrameworkAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FrameworkAgreement createManyAndReturn
+   */
+  export type FrameworkAgreementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to create many FrameworkAgreements.
+     */
+    data: FrameworkAgreementCreateManyInput | FrameworkAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FrameworkAgreement update
+   */
+  export type FrameworkAgreementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FrameworkAgreement.
+     */
+    data: XOR<FrameworkAgreementUpdateInput, FrameworkAgreementUncheckedUpdateInput>
+    /**
+     * Choose, which FrameworkAgreement to update.
+     */
+    where: FrameworkAgreementWhereUniqueInput
+  }
+
+  /**
+   * FrameworkAgreement updateMany
+   */
+  export type FrameworkAgreementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FrameworkAgreements.
+     */
+    data: XOR<FrameworkAgreementUpdateManyMutationInput, FrameworkAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which FrameworkAgreements to update
+     */
+    where?: FrameworkAgreementWhereInput
+    /**
+     * Limit how many FrameworkAgreements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FrameworkAgreement updateManyAndReturn
+   */
+  export type FrameworkAgreementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to update FrameworkAgreements.
+     */
+    data: XOR<FrameworkAgreementUpdateManyMutationInput, FrameworkAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which FrameworkAgreements to update
+     */
+    where?: FrameworkAgreementWhereInput
+    /**
+     * Limit how many FrameworkAgreements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FrameworkAgreement upsert
+   */
+  export type FrameworkAgreementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FrameworkAgreement to update in case it exists.
+     */
+    where: FrameworkAgreementWhereUniqueInput
+    /**
+     * In case the FrameworkAgreement found by the `where` argument doesn't exist, create a new FrameworkAgreement with this data.
+     */
+    create: XOR<FrameworkAgreementCreateInput, FrameworkAgreementUncheckedCreateInput>
+    /**
+     * In case the FrameworkAgreement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FrameworkAgreementUpdateInput, FrameworkAgreementUncheckedUpdateInput>
+  }
+
+  /**
+   * FrameworkAgreement delete
+   */
+  export type FrameworkAgreementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+    /**
+     * Filter which FrameworkAgreement to delete.
+     */
+    where: FrameworkAgreementWhereUniqueInput
+  }
+
+  /**
+   * FrameworkAgreement deleteMany
+   */
+  export type FrameworkAgreementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FrameworkAgreements to delete
+     */
+    where?: FrameworkAgreementWhereInput
+    /**
+     * Limit how many FrameworkAgreements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FrameworkAgreement without action
+   */
+  export type FrameworkAgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FrameworkAgreement
+     */
+    select?: FrameworkAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FrameworkAgreement
+     */
+    omit?: FrameworkAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FrameworkAgreementInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -154197,6 +158040,54 @@ export namespace Prisma {
   export type LandedCostScalarFieldEnum = (typeof LandedCostScalarFieldEnum)[keyof typeof LandedCostScalarFieldEnum]
 
 
+  export const CustomObjectDefinitionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    key: 'key',
+    name: 'name',
+    fields: 'fields',
+    status: 'status',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CustomObjectDefinitionScalarFieldEnum = (typeof CustomObjectDefinitionScalarFieldEnum)[keyof typeof CustomObjectDefinitionScalarFieldEnum]
+
+
+  export const CustomObjectRecordScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    definitionId: 'definitionId',
+    data: 'data',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CustomObjectRecordScalarFieldEnum = (typeof CustomObjectRecordScalarFieldEnum)[keyof typeof CustomObjectRecordScalarFieldEnum]
+
+
+  export const FrameworkAgreementScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    agreementNumber: 'agreementNumber',
+    supplierId: 'supplierId',
+    skuId: 'skuId',
+    unitPrice: 'unitPrice',
+    maxQuantity: 'maxQuantity',
+    calledQuantity: 'calledQuantity',
+    validFrom: 'validFrom',
+    validTo: 'validTo',
+    status: 'status',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FrameworkAgreementScalarFieldEnum = (typeof FrameworkAgreementScalarFieldEnum)[keyof typeof FrameworkAgreementScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -155182,6 +159073,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'CustomObjectStatus'
+   */
+  export type EnumCustomObjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomObjectStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CustomObjectStatus[]'
+   */
+  export type ListEnumCustomObjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomObjectStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FrameworkStatus'
+   */
+  export type EnumFrameworkStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FrameworkStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'FrameworkStatus[]'
+   */
+  export type ListEnumFrameworkStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FrameworkStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -155310,6 +159229,8 @@ export namespace Prisma {
     rfqs?: RfqListRelationFilter
     packages?: PackageListRelationFilter
     landedCosts?: LandedCostListRelationFilter
+    customObjectDefinitions?: CustomObjectDefinitionListRelationFilter
+    frameworkAgreements?: FrameworkAgreementListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -155421,6 +159342,8 @@ export namespace Prisma {
     rfqs?: RfqOrderByRelationAggregateInput
     packages?: PackageOrderByRelationAggregateInput
     landedCosts?: LandedCostOrderByRelationAggregateInput
+    customObjectDefinitions?: CustomObjectDefinitionOrderByRelationAggregateInput
+    frameworkAgreements?: FrameworkAgreementOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -155535,6 +159458,8 @@ export namespace Prisma {
     rfqs?: RfqListRelationFilter
     packages?: PackageListRelationFilter
     landedCosts?: LandedCostListRelationFilter
+    customObjectDefinitions?: CustomObjectDefinitionListRelationFilter
+    frameworkAgreements?: FrameworkAgreementListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -164763,6 +168688,253 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"LandedCost"> | Date | string
   }
 
+  export type CustomObjectDefinitionWhereInput = {
+    AND?: CustomObjectDefinitionWhereInput | CustomObjectDefinitionWhereInput[]
+    OR?: CustomObjectDefinitionWhereInput[]
+    NOT?: CustomObjectDefinitionWhereInput | CustomObjectDefinitionWhereInput[]
+    id?: UuidFilter<"CustomObjectDefinition"> | string
+    tenantId?: UuidFilter<"CustomObjectDefinition"> | string
+    key?: StringFilter<"CustomObjectDefinition"> | string
+    name?: StringFilter<"CustomObjectDefinition"> | string
+    fields?: JsonFilter<"CustomObjectDefinition">
+    status?: EnumCustomObjectStatusFilter<"CustomObjectDefinition"> | $Enums.CustomObjectStatus
+    createdBy?: StringNullableFilter<"CustomObjectDefinition"> | string | null
+    createdAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    records?: CustomObjectRecordListRelationFilter
+  }
+
+  export type CustomObjectDefinitionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    fields?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    records?: CustomObjectRecordOrderByRelationAggregateInput
+  }
+
+  export type CustomObjectDefinitionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_key?: CustomObjectDefinitionTenantIdKeyCompoundUniqueInput
+    AND?: CustomObjectDefinitionWhereInput | CustomObjectDefinitionWhereInput[]
+    OR?: CustomObjectDefinitionWhereInput[]
+    NOT?: CustomObjectDefinitionWhereInput | CustomObjectDefinitionWhereInput[]
+    tenantId?: UuidFilter<"CustomObjectDefinition"> | string
+    key?: StringFilter<"CustomObjectDefinition"> | string
+    name?: StringFilter<"CustomObjectDefinition"> | string
+    fields?: JsonFilter<"CustomObjectDefinition">
+    status?: EnumCustomObjectStatusFilter<"CustomObjectDefinition"> | $Enums.CustomObjectStatus
+    createdBy?: StringNullableFilter<"CustomObjectDefinition"> | string | null
+    createdAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    records?: CustomObjectRecordListRelationFilter
+  }, "id" | "tenantId_key">
+
+  export type CustomObjectDefinitionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    fields?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CustomObjectDefinitionCountOrderByAggregateInput
+    _max?: CustomObjectDefinitionMaxOrderByAggregateInput
+    _min?: CustomObjectDefinitionMinOrderByAggregateInput
+  }
+
+  export type CustomObjectDefinitionScalarWhereWithAggregatesInput = {
+    AND?: CustomObjectDefinitionScalarWhereWithAggregatesInput | CustomObjectDefinitionScalarWhereWithAggregatesInput[]
+    OR?: CustomObjectDefinitionScalarWhereWithAggregatesInput[]
+    NOT?: CustomObjectDefinitionScalarWhereWithAggregatesInput | CustomObjectDefinitionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"CustomObjectDefinition"> | string
+    tenantId?: UuidWithAggregatesFilter<"CustomObjectDefinition"> | string
+    key?: StringWithAggregatesFilter<"CustomObjectDefinition"> | string
+    name?: StringWithAggregatesFilter<"CustomObjectDefinition"> | string
+    fields?: JsonWithAggregatesFilter<"CustomObjectDefinition">
+    status?: EnumCustomObjectStatusWithAggregatesFilter<"CustomObjectDefinition"> | $Enums.CustomObjectStatus
+    createdBy?: StringNullableWithAggregatesFilter<"CustomObjectDefinition"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CustomObjectDefinition"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CustomObjectDefinition"> | Date | string
+  }
+
+  export type CustomObjectRecordWhereInput = {
+    AND?: CustomObjectRecordWhereInput | CustomObjectRecordWhereInput[]
+    OR?: CustomObjectRecordWhereInput[]
+    NOT?: CustomObjectRecordWhereInput | CustomObjectRecordWhereInput[]
+    id?: UuidFilter<"CustomObjectRecord"> | string
+    tenantId?: UuidFilter<"CustomObjectRecord"> | string
+    definitionId?: UuidFilter<"CustomObjectRecord"> | string
+    data?: JsonFilter<"CustomObjectRecord">
+    createdBy?: StringNullableFilter<"CustomObjectRecord"> | string | null
+    createdAt?: DateTimeFilter<"CustomObjectRecord"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomObjectRecord"> | Date | string
+    definition?: XOR<CustomObjectDefinitionScalarRelationFilter, CustomObjectDefinitionWhereInput>
+  }
+
+  export type CustomObjectRecordOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    definitionId?: SortOrder
+    data?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    definition?: CustomObjectDefinitionOrderByWithRelationInput
+  }
+
+  export type CustomObjectRecordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CustomObjectRecordWhereInput | CustomObjectRecordWhereInput[]
+    OR?: CustomObjectRecordWhereInput[]
+    NOT?: CustomObjectRecordWhereInput | CustomObjectRecordWhereInput[]
+    tenantId?: UuidFilter<"CustomObjectRecord"> | string
+    definitionId?: UuidFilter<"CustomObjectRecord"> | string
+    data?: JsonFilter<"CustomObjectRecord">
+    createdBy?: StringNullableFilter<"CustomObjectRecord"> | string | null
+    createdAt?: DateTimeFilter<"CustomObjectRecord"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomObjectRecord"> | Date | string
+    definition?: XOR<CustomObjectDefinitionScalarRelationFilter, CustomObjectDefinitionWhereInput>
+  }, "id">
+
+  export type CustomObjectRecordOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    definitionId?: SortOrder
+    data?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CustomObjectRecordCountOrderByAggregateInput
+    _max?: CustomObjectRecordMaxOrderByAggregateInput
+    _min?: CustomObjectRecordMinOrderByAggregateInput
+  }
+
+  export type CustomObjectRecordScalarWhereWithAggregatesInput = {
+    AND?: CustomObjectRecordScalarWhereWithAggregatesInput | CustomObjectRecordScalarWhereWithAggregatesInput[]
+    OR?: CustomObjectRecordScalarWhereWithAggregatesInput[]
+    NOT?: CustomObjectRecordScalarWhereWithAggregatesInput | CustomObjectRecordScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"CustomObjectRecord"> | string
+    tenantId?: UuidWithAggregatesFilter<"CustomObjectRecord"> | string
+    definitionId?: UuidWithAggregatesFilter<"CustomObjectRecord"> | string
+    data?: JsonWithAggregatesFilter<"CustomObjectRecord">
+    createdBy?: StringNullableWithAggregatesFilter<"CustomObjectRecord"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CustomObjectRecord"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CustomObjectRecord"> | Date | string
+  }
+
+  export type FrameworkAgreementWhereInput = {
+    AND?: FrameworkAgreementWhereInput | FrameworkAgreementWhereInput[]
+    OR?: FrameworkAgreementWhereInput[]
+    NOT?: FrameworkAgreementWhereInput | FrameworkAgreementWhereInput[]
+    id?: UuidFilter<"FrameworkAgreement"> | string
+    tenantId?: UuidFilter<"FrameworkAgreement"> | string
+    agreementNumber?: StringFilter<"FrameworkAgreement"> | string
+    supplierId?: UuidFilter<"FrameworkAgreement"> | string
+    skuId?: UuidFilter<"FrameworkAgreement"> | string
+    unitPrice?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    validTo?: DateTimeNullableFilter<"FrameworkAgreement"> | Date | string | null
+    status?: EnumFrameworkStatusFilter<"FrameworkAgreement"> | $Enums.FrameworkStatus
+    createdBy?: StringNullableFilter<"FrameworkAgreement"> | string | null
+    createdAt?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    updatedAt?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type FrameworkAgreementOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    agreementNumber?: SortOrder
+    supplierId?: SortOrder
+    skuId?: SortOrder
+    unitPrice?: SortOrder
+    maxQuantity?: SortOrder
+    calledQuantity?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type FrameworkAgreementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_agreementNumber?: FrameworkAgreementTenantIdAgreementNumberCompoundUniqueInput
+    AND?: FrameworkAgreementWhereInput | FrameworkAgreementWhereInput[]
+    OR?: FrameworkAgreementWhereInput[]
+    NOT?: FrameworkAgreementWhereInput | FrameworkAgreementWhereInput[]
+    tenantId?: UuidFilter<"FrameworkAgreement"> | string
+    agreementNumber?: StringFilter<"FrameworkAgreement"> | string
+    supplierId?: UuidFilter<"FrameworkAgreement"> | string
+    skuId?: UuidFilter<"FrameworkAgreement"> | string
+    unitPrice?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    validTo?: DateTimeNullableFilter<"FrameworkAgreement"> | Date | string | null
+    status?: EnumFrameworkStatusFilter<"FrameworkAgreement"> | $Enums.FrameworkStatus
+    createdBy?: StringNullableFilter<"FrameworkAgreement"> | string | null
+    createdAt?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    updatedAt?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_agreementNumber">
+
+  export type FrameworkAgreementOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    agreementNumber?: SortOrder
+    supplierId?: SortOrder
+    skuId?: SortOrder
+    unitPrice?: SortOrder
+    maxQuantity?: SortOrder
+    calledQuantity?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FrameworkAgreementCountOrderByAggregateInput
+    _avg?: FrameworkAgreementAvgOrderByAggregateInput
+    _max?: FrameworkAgreementMaxOrderByAggregateInput
+    _min?: FrameworkAgreementMinOrderByAggregateInput
+    _sum?: FrameworkAgreementSumOrderByAggregateInput
+  }
+
+  export type FrameworkAgreementScalarWhereWithAggregatesInput = {
+    AND?: FrameworkAgreementScalarWhereWithAggregatesInput | FrameworkAgreementScalarWhereWithAggregatesInput[]
+    OR?: FrameworkAgreementScalarWhereWithAggregatesInput[]
+    NOT?: FrameworkAgreementScalarWhereWithAggregatesInput | FrameworkAgreementScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"FrameworkAgreement"> | string
+    tenantId?: UuidWithAggregatesFilter<"FrameworkAgreement"> | string
+    agreementNumber?: StringWithAggregatesFilter<"FrameworkAgreement"> | string
+    supplierId?: UuidWithAggregatesFilter<"FrameworkAgreement"> | string
+    skuId?: UuidWithAggregatesFilter<"FrameworkAgreement"> | string
+    unitPrice?: DecimalWithAggregatesFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalWithAggregatesFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalWithAggregatesFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeWithAggregatesFilter<"FrameworkAgreement"> | Date | string
+    validTo?: DateTimeNullableWithAggregatesFilter<"FrameworkAgreement"> | Date | string | null
+    status?: EnumFrameworkStatusWithAggregatesFilter<"FrameworkAgreement"> | $Enums.FrameworkStatus
+    createdBy?: StringNullableWithAggregatesFilter<"FrameworkAgreement"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"FrameworkAgreement"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FrameworkAgreement"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -164872,6 +169044,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -164983,6 +169157,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -165094,6 +169270,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -165205,6 +169383,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -175046,6 +179226,280 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CustomObjectDefinitionCreateInput = {
+    id?: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCustomObjectDefinitionsInput
+    records?: CustomObjectRecordCreateNestedManyWithoutDefinitionInput
+  }
+
+  export type CustomObjectDefinitionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    records?: CustomObjectRecordUncheckedCreateNestedManyWithoutDefinitionInput
+  }
+
+  export type CustomObjectDefinitionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCustomObjectDefinitionsNestedInput
+    records?: CustomObjectRecordUpdateManyWithoutDefinitionNestedInput
+  }
+
+  export type CustomObjectDefinitionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    records?: CustomObjectRecordUncheckedUpdateManyWithoutDefinitionNestedInput
+  }
+
+  export type CustomObjectDefinitionCreateManyInput = {
+    id?: string
+    tenantId: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomObjectDefinitionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomObjectDefinitionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomObjectRecordCreateInput = {
+    id?: string
+    tenantId: string
+    data: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    definition: CustomObjectDefinitionCreateNestedOneWithoutRecordsInput
+  }
+
+  export type CustomObjectRecordUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    definitionId: string
+    data: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomObjectRecordUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    definition?: CustomObjectDefinitionUpdateOneRequiredWithoutRecordsNestedInput
+  }
+
+  export type CustomObjectRecordUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    definitionId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomObjectRecordCreateManyInput = {
+    id?: string
+    tenantId: string
+    definitionId: string
+    data: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomObjectRecordUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomObjectRecordUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    definitionId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FrameworkAgreementCreateInput = {
+    id?: string
+    agreementNumber: string
+    supplierId: string
+    skuId: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    maxQuantity: Decimal | DecimalJsLike | number | string
+    calledQuantity?: Decimal | DecimalJsLike | number | string
+    validFrom?: Date | string
+    validTo?: Date | string | null
+    status?: $Enums.FrameworkStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutFrameworkAgreementsInput
+  }
+
+  export type FrameworkAgreementUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    agreementNumber: string
+    supplierId: string
+    skuId: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    maxQuantity: Decimal | DecimalJsLike | number | string
+    calledQuantity?: Decimal | DecimalJsLike | number | string
+    validFrom?: Date | string
+    validTo?: Date | string | null
+    status?: $Enums.FrameworkStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FrameworkAgreementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutFrameworkAgreementsNestedInput
+  }
+
+  export type FrameworkAgreementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    agreementNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FrameworkAgreementCreateManyInput = {
+    id?: string
+    tenantId: string
+    agreementNumber: string
+    supplierId: string
+    skuId: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    maxQuantity: Decimal | DecimalJsLike | number | string
+    calledQuantity?: Decimal | DecimalJsLike | number | string
+    validFrom?: Date | string
+    validTo?: Date | string | null
+    status?: $Enums.FrameworkStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FrameworkAgreementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FrameworkAgreementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    agreementNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -175708,6 +180162,18 @@ export namespace Prisma {
     none?: LandedCostWhereInput
   }
 
+  export type CustomObjectDefinitionListRelationFilter = {
+    every?: CustomObjectDefinitionWhereInput
+    some?: CustomObjectDefinitionWhereInput
+    none?: CustomObjectDefinitionWhereInput
+  }
+
+  export type FrameworkAgreementListRelationFilter = {
+    every?: FrameworkAgreementWhereInput
+    some?: FrameworkAgreementWhereInput
+    none?: FrameworkAgreementWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -176109,6 +180575,14 @@ export namespace Prisma {
   }
 
   export type LandedCostOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomObjectDefinitionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FrameworkAgreementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -183101,6 +187575,190 @@ export namespace Prisma {
     _max?: NestedEnumLandedCostTypeFilter<$PrismaModel>
   }
 
+  export type EnumCustomObjectStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomObjectStatus | EnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomObjectStatusFilter<$PrismaModel> | $Enums.CustomObjectStatus
+  }
+
+  export type CustomObjectRecordListRelationFilter = {
+    every?: CustomObjectRecordWhereInput
+    some?: CustomObjectRecordWhereInput
+    none?: CustomObjectRecordWhereInput
+  }
+
+  export type CustomObjectRecordOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomObjectDefinitionTenantIdKeyCompoundUniqueInput = {
+    tenantId: string
+    key: string
+  }
+
+  export type CustomObjectDefinitionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    fields?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomObjectDefinitionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomObjectDefinitionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumCustomObjectStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomObjectStatus | EnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomObjectStatusWithAggregatesFilter<$PrismaModel> | $Enums.CustomObjectStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCustomObjectStatusFilter<$PrismaModel>
+    _max?: NestedEnumCustomObjectStatusFilter<$PrismaModel>
+  }
+
+  export type CustomObjectDefinitionScalarRelationFilter = {
+    is?: CustomObjectDefinitionWhereInput
+    isNot?: CustomObjectDefinitionWhereInput
+  }
+
+  export type CustomObjectRecordCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    definitionId?: SortOrder
+    data?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomObjectRecordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    definitionId?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomObjectRecordMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    definitionId?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumFrameworkStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FrameworkStatus | EnumFrameworkStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrameworkStatusFilter<$PrismaModel> | $Enums.FrameworkStatus
+  }
+
+  export type FrameworkAgreementTenantIdAgreementNumberCompoundUniqueInput = {
+    tenantId: string
+    agreementNumber: string
+  }
+
+  export type FrameworkAgreementCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    agreementNumber?: SortOrder
+    supplierId?: SortOrder
+    skuId?: SortOrder
+    unitPrice?: SortOrder
+    maxQuantity?: SortOrder
+    calledQuantity?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FrameworkAgreementAvgOrderByAggregateInput = {
+    unitPrice?: SortOrder
+    maxQuantity?: SortOrder
+    calledQuantity?: SortOrder
+  }
+
+  export type FrameworkAgreementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    agreementNumber?: SortOrder
+    supplierId?: SortOrder
+    skuId?: SortOrder
+    unitPrice?: SortOrder
+    maxQuantity?: SortOrder
+    calledQuantity?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FrameworkAgreementMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    agreementNumber?: SortOrder
+    supplierId?: SortOrder
+    skuId?: SortOrder
+    unitPrice?: SortOrder
+    maxQuantity?: SortOrder
+    calledQuantity?: SortOrder
+    validFrom?: SortOrder
+    validTo?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FrameworkAgreementSumOrderByAggregateInput = {
+    unitPrice?: SortOrder
+    maxQuantity?: SortOrder
+    calledQuantity?: SortOrder
+  }
+
+  export type EnumFrameworkStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FrameworkStatus | EnumFrameworkStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrameworkStatusWithAggregatesFilter<$PrismaModel> | $Enums.FrameworkStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFrameworkStatusFilter<$PrismaModel>
+    _max?: NestedEnumFrameworkStatusFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -183808,6 +188466,20 @@ export namespace Prisma {
     connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
   }
 
+  export type CustomObjectDefinitionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CustomObjectDefinitionCreateWithoutTenantInput, CustomObjectDefinitionUncheckedCreateWithoutTenantInput> | CustomObjectDefinitionCreateWithoutTenantInput[] | CustomObjectDefinitionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutTenantInput | CustomObjectDefinitionCreateOrConnectWithoutTenantInput[]
+    createMany?: CustomObjectDefinitionCreateManyTenantInputEnvelope
+    connect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+  }
+
+  export type FrameworkAgreementCreateNestedManyWithoutTenantInput = {
+    create?: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput> | FrameworkAgreementCreateWithoutTenantInput[] | FrameworkAgreementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
+    createMany?: FrameworkAgreementCreateManyTenantInputEnvelope
+    connect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -184513,6 +189185,20 @@ export namespace Prisma {
     connectOrCreate?: LandedCostCreateOrConnectWithoutTenantInput | LandedCostCreateOrConnectWithoutTenantInput[]
     createMany?: LandedCostCreateManyTenantInputEnvelope
     connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+  }
+
+  export type CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CustomObjectDefinitionCreateWithoutTenantInput, CustomObjectDefinitionUncheckedCreateWithoutTenantInput> | CustomObjectDefinitionCreateWithoutTenantInput[] | CustomObjectDefinitionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutTenantInput | CustomObjectDefinitionCreateOrConnectWithoutTenantInput[]
+    createMany?: CustomObjectDefinitionCreateManyTenantInputEnvelope
+    connect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+  }
+
+  export type FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput> | FrameworkAgreementCreateWithoutTenantInput[] | FrameworkAgreementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
+    createMany?: FrameworkAgreementCreateManyTenantInputEnvelope
+    connect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -185949,6 +190635,34 @@ export namespace Prisma {
     deleteMany?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
   }
 
+  export type CustomObjectDefinitionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CustomObjectDefinitionCreateWithoutTenantInput, CustomObjectDefinitionUncheckedCreateWithoutTenantInput> | CustomObjectDefinitionCreateWithoutTenantInput[] | CustomObjectDefinitionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutTenantInput | CustomObjectDefinitionCreateOrConnectWithoutTenantInput[]
+    upsert?: CustomObjectDefinitionUpsertWithWhereUniqueWithoutTenantInput | CustomObjectDefinitionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CustomObjectDefinitionCreateManyTenantInputEnvelope
+    set?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    disconnect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    delete?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    connect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    update?: CustomObjectDefinitionUpdateWithWhereUniqueWithoutTenantInput | CustomObjectDefinitionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CustomObjectDefinitionUpdateManyWithWhereWithoutTenantInput | CustomObjectDefinitionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CustomObjectDefinitionScalarWhereInput | CustomObjectDefinitionScalarWhereInput[]
+  }
+
+  export type FrameworkAgreementUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput> | FrameworkAgreementCreateWithoutTenantInput[] | FrameworkAgreementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
+    upsert?: FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput | FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: FrameworkAgreementCreateManyTenantInputEnvelope
+    set?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    disconnect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    delete?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    connect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    update?: FrameworkAgreementUpdateWithWhereUniqueWithoutTenantInput | FrameworkAgreementUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: FrameworkAgreementUpdateManyWithWhereWithoutTenantInput | FrameworkAgreementUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: FrameworkAgreementScalarWhereInput | FrameworkAgreementScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -187361,6 +192075,34 @@ export namespace Prisma {
     update?: LandedCostUpdateWithWhereUniqueWithoutTenantInput | LandedCostUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: LandedCostUpdateManyWithWhereWithoutTenantInput | LandedCostUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
+  }
+
+  export type CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CustomObjectDefinitionCreateWithoutTenantInput, CustomObjectDefinitionUncheckedCreateWithoutTenantInput> | CustomObjectDefinitionCreateWithoutTenantInput[] | CustomObjectDefinitionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutTenantInput | CustomObjectDefinitionCreateOrConnectWithoutTenantInput[]
+    upsert?: CustomObjectDefinitionUpsertWithWhereUniqueWithoutTenantInput | CustomObjectDefinitionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CustomObjectDefinitionCreateManyTenantInputEnvelope
+    set?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    disconnect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    delete?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    connect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+    update?: CustomObjectDefinitionUpdateWithWhereUniqueWithoutTenantInput | CustomObjectDefinitionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CustomObjectDefinitionUpdateManyWithWhereWithoutTenantInput | CustomObjectDefinitionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CustomObjectDefinitionScalarWhereInput | CustomObjectDefinitionScalarWhereInput[]
+  }
+
+  export type FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput> | FrameworkAgreementCreateWithoutTenantInput[] | FrameworkAgreementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
+    upsert?: FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput | FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: FrameworkAgreementCreateManyTenantInputEnvelope
+    set?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    disconnect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    delete?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    connect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+    update?: FrameworkAgreementUpdateWithWhereUniqueWithoutTenantInput | FrameworkAgreementUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: FrameworkAgreementUpdateManyWithWhereWithoutTenantInput | FrameworkAgreementUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: FrameworkAgreementScalarWhereInput | FrameworkAgreementScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -192058,6 +196800,98 @@ export namespace Prisma {
     update?: XOR<XOR<PurchaseOrderUpdateToOneWithWhereWithoutLandedCostsInput, PurchaseOrderUpdateWithoutLandedCostsInput>, PurchaseOrderUncheckedUpdateWithoutLandedCostsInput>
   }
 
+  export type TenantCreateNestedOneWithoutCustomObjectDefinitionsInput = {
+    create?: XOR<TenantCreateWithoutCustomObjectDefinitionsInput, TenantUncheckedCreateWithoutCustomObjectDefinitionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCustomObjectDefinitionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type CustomObjectRecordCreateNestedManyWithoutDefinitionInput = {
+    create?: XOR<CustomObjectRecordCreateWithoutDefinitionInput, CustomObjectRecordUncheckedCreateWithoutDefinitionInput> | CustomObjectRecordCreateWithoutDefinitionInput[] | CustomObjectRecordUncheckedCreateWithoutDefinitionInput[]
+    connectOrCreate?: CustomObjectRecordCreateOrConnectWithoutDefinitionInput | CustomObjectRecordCreateOrConnectWithoutDefinitionInput[]
+    createMany?: CustomObjectRecordCreateManyDefinitionInputEnvelope
+    connect?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+  }
+
+  export type CustomObjectRecordUncheckedCreateNestedManyWithoutDefinitionInput = {
+    create?: XOR<CustomObjectRecordCreateWithoutDefinitionInput, CustomObjectRecordUncheckedCreateWithoutDefinitionInput> | CustomObjectRecordCreateWithoutDefinitionInput[] | CustomObjectRecordUncheckedCreateWithoutDefinitionInput[]
+    connectOrCreate?: CustomObjectRecordCreateOrConnectWithoutDefinitionInput | CustomObjectRecordCreateOrConnectWithoutDefinitionInput[]
+    createMany?: CustomObjectRecordCreateManyDefinitionInputEnvelope
+    connect?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+  }
+
+  export type EnumCustomObjectStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CustomObjectStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutCustomObjectDefinitionsNestedInput = {
+    create?: XOR<TenantCreateWithoutCustomObjectDefinitionsInput, TenantUncheckedCreateWithoutCustomObjectDefinitionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCustomObjectDefinitionsInput
+    upsert?: TenantUpsertWithoutCustomObjectDefinitionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutCustomObjectDefinitionsInput, TenantUpdateWithoutCustomObjectDefinitionsInput>, TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput>
+  }
+
+  export type CustomObjectRecordUpdateManyWithoutDefinitionNestedInput = {
+    create?: XOR<CustomObjectRecordCreateWithoutDefinitionInput, CustomObjectRecordUncheckedCreateWithoutDefinitionInput> | CustomObjectRecordCreateWithoutDefinitionInput[] | CustomObjectRecordUncheckedCreateWithoutDefinitionInput[]
+    connectOrCreate?: CustomObjectRecordCreateOrConnectWithoutDefinitionInput | CustomObjectRecordCreateOrConnectWithoutDefinitionInput[]
+    upsert?: CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput | CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput[]
+    createMany?: CustomObjectRecordCreateManyDefinitionInputEnvelope
+    set?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    disconnect?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    delete?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    connect?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    update?: CustomObjectRecordUpdateWithWhereUniqueWithoutDefinitionInput | CustomObjectRecordUpdateWithWhereUniqueWithoutDefinitionInput[]
+    updateMany?: CustomObjectRecordUpdateManyWithWhereWithoutDefinitionInput | CustomObjectRecordUpdateManyWithWhereWithoutDefinitionInput[]
+    deleteMany?: CustomObjectRecordScalarWhereInput | CustomObjectRecordScalarWhereInput[]
+  }
+
+  export type CustomObjectRecordUncheckedUpdateManyWithoutDefinitionNestedInput = {
+    create?: XOR<CustomObjectRecordCreateWithoutDefinitionInput, CustomObjectRecordUncheckedCreateWithoutDefinitionInput> | CustomObjectRecordCreateWithoutDefinitionInput[] | CustomObjectRecordUncheckedCreateWithoutDefinitionInput[]
+    connectOrCreate?: CustomObjectRecordCreateOrConnectWithoutDefinitionInput | CustomObjectRecordCreateOrConnectWithoutDefinitionInput[]
+    upsert?: CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput | CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput[]
+    createMany?: CustomObjectRecordCreateManyDefinitionInputEnvelope
+    set?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    disconnect?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    delete?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    connect?: CustomObjectRecordWhereUniqueInput | CustomObjectRecordWhereUniqueInput[]
+    update?: CustomObjectRecordUpdateWithWhereUniqueWithoutDefinitionInput | CustomObjectRecordUpdateWithWhereUniqueWithoutDefinitionInput[]
+    updateMany?: CustomObjectRecordUpdateManyWithWhereWithoutDefinitionInput | CustomObjectRecordUpdateManyWithWhereWithoutDefinitionInput[]
+    deleteMany?: CustomObjectRecordScalarWhereInput | CustomObjectRecordScalarWhereInput[]
+  }
+
+  export type CustomObjectDefinitionCreateNestedOneWithoutRecordsInput = {
+    create?: XOR<CustomObjectDefinitionCreateWithoutRecordsInput, CustomObjectDefinitionUncheckedCreateWithoutRecordsInput>
+    connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutRecordsInput
+    connect?: CustomObjectDefinitionWhereUniqueInput
+  }
+
+  export type CustomObjectDefinitionUpdateOneRequiredWithoutRecordsNestedInput = {
+    create?: XOR<CustomObjectDefinitionCreateWithoutRecordsInput, CustomObjectDefinitionUncheckedCreateWithoutRecordsInput>
+    connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutRecordsInput
+    upsert?: CustomObjectDefinitionUpsertWithoutRecordsInput
+    connect?: CustomObjectDefinitionWhereUniqueInput
+    update?: XOR<XOR<CustomObjectDefinitionUpdateToOneWithWhereWithoutRecordsInput, CustomObjectDefinitionUpdateWithoutRecordsInput>, CustomObjectDefinitionUncheckedUpdateWithoutRecordsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutFrameworkAgreementsInput = {
+    create?: XOR<TenantCreateWithoutFrameworkAgreementsInput, TenantUncheckedCreateWithoutFrameworkAgreementsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutFrameworkAgreementsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type EnumFrameworkStatusFieldUpdateOperationsInput = {
+    set?: $Enums.FrameworkStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutFrameworkAgreementsNestedInput = {
+    create?: XOR<TenantCreateWithoutFrameworkAgreementsInput, TenantUncheckedCreateWithoutFrameworkAgreementsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutFrameworkAgreementsInput
+    upsert?: TenantUpsertWithoutFrameworkAgreementsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutFrameworkAgreementsInput, TenantUpdateWithoutFrameworkAgreementsInput>, TenantUncheckedUpdateWithoutFrameworkAgreementsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -193457,6 +198291,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLandedCostTypeFilter<$PrismaModel>
     _max?: NestedEnumLandedCostTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCustomObjectStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomObjectStatus | EnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomObjectStatusFilter<$PrismaModel> | $Enums.CustomObjectStatus
+  }
+
+  export type NestedEnumCustomObjectStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomObjectStatus | EnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomObjectStatus[] | ListEnumCustomObjectStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomObjectStatusWithAggregatesFilter<$PrismaModel> | $Enums.CustomObjectStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCustomObjectStatusFilter<$PrismaModel>
+    _max?: NestedEnumCustomObjectStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFrameworkStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FrameworkStatus | EnumFrameworkStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrameworkStatusFilter<$PrismaModel> | $Enums.FrameworkStatus
+  }
+
+  export type NestedEnumFrameworkStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FrameworkStatus | EnumFrameworkStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FrameworkStatus[] | ListEnumFrameworkStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrameworkStatusWithAggregatesFilter<$PrismaModel> | $Enums.FrameworkStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFrameworkStatusFilter<$PrismaModel>
+    _max?: NestedEnumFrameworkStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -196821,6 +201689,82 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CustomObjectDefinitionCreateWithoutTenantInput = {
+    id?: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    records?: CustomObjectRecordCreateNestedManyWithoutDefinitionInput
+  }
+
+  export type CustomObjectDefinitionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    records?: CustomObjectRecordUncheckedCreateNestedManyWithoutDefinitionInput
+  }
+
+  export type CustomObjectDefinitionCreateOrConnectWithoutTenantInput = {
+    where: CustomObjectDefinitionWhereUniqueInput
+    create: XOR<CustomObjectDefinitionCreateWithoutTenantInput, CustomObjectDefinitionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CustomObjectDefinitionCreateManyTenantInputEnvelope = {
+    data: CustomObjectDefinitionCreateManyTenantInput | CustomObjectDefinitionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FrameworkAgreementCreateWithoutTenantInput = {
+    id?: string
+    agreementNumber: string
+    supplierId: string
+    skuId: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    maxQuantity: Decimal | DecimalJsLike | number | string
+    calledQuantity?: Decimal | DecimalJsLike | number | string
+    validFrom?: Date | string
+    validTo?: Date | string | null
+    status?: $Enums.FrameworkStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FrameworkAgreementUncheckedCreateWithoutTenantInput = {
+    id?: string
+    agreementNumber: string
+    supplierId: string
+    skuId: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    maxQuantity: Decimal | DecimalJsLike | number | string
+    calledQuantity?: Decimal | DecimalJsLike | number | string
+    validFrom?: Date | string
+    validTo?: Date | string | null
+    status?: $Enums.FrameworkStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FrameworkAgreementCreateOrConnectWithoutTenantInput = {
+    where: FrameworkAgreementWhereUniqueInput
+    create: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput>
+  }
+
+  export type FrameworkAgreementCreateManyTenantInputEnvelope = {
+    data: FrameworkAgreementCreateManyTenantInput | FrameworkAgreementCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -199971,6 +204915,73 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LandedCost"> | Date | string
   }
 
+  export type CustomObjectDefinitionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: CustomObjectDefinitionWhereUniqueInput
+    update: XOR<CustomObjectDefinitionUpdateWithoutTenantInput, CustomObjectDefinitionUncheckedUpdateWithoutTenantInput>
+    create: XOR<CustomObjectDefinitionCreateWithoutTenantInput, CustomObjectDefinitionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CustomObjectDefinitionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: CustomObjectDefinitionWhereUniqueInput
+    data: XOR<CustomObjectDefinitionUpdateWithoutTenantInput, CustomObjectDefinitionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type CustomObjectDefinitionUpdateManyWithWhereWithoutTenantInput = {
+    where: CustomObjectDefinitionScalarWhereInput
+    data: XOR<CustomObjectDefinitionUpdateManyMutationInput, CustomObjectDefinitionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type CustomObjectDefinitionScalarWhereInput = {
+    AND?: CustomObjectDefinitionScalarWhereInput | CustomObjectDefinitionScalarWhereInput[]
+    OR?: CustomObjectDefinitionScalarWhereInput[]
+    NOT?: CustomObjectDefinitionScalarWhereInput | CustomObjectDefinitionScalarWhereInput[]
+    id?: UuidFilter<"CustomObjectDefinition"> | string
+    tenantId?: UuidFilter<"CustomObjectDefinition"> | string
+    key?: StringFilter<"CustomObjectDefinition"> | string
+    name?: StringFilter<"CustomObjectDefinition"> | string
+    fields?: JsonFilter<"CustomObjectDefinition">
+    status?: EnumCustomObjectStatusFilter<"CustomObjectDefinition"> | $Enums.CustomObjectStatus
+    createdBy?: StringNullableFilter<"CustomObjectDefinition"> | string | null
+    createdAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
+  }
+
+  export type FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput = {
+    where: FrameworkAgreementWhereUniqueInput
+    update: XOR<FrameworkAgreementUpdateWithoutTenantInput, FrameworkAgreementUncheckedUpdateWithoutTenantInput>
+    create: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput>
+  }
+
+  export type FrameworkAgreementUpdateWithWhereUniqueWithoutTenantInput = {
+    where: FrameworkAgreementWhereUniqueInput
+    data: XOR<FrameworkAgreementUpdateWithoutTenantInput, FrameworkAgreementUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type FrameworkAgreementUpdateManyWithWhereWithoutTenantInput = {
+    where: FrameworkAgreementScalarWhereInput
+    data: XOR<FrameworkAgreementUpdateManyMutationInput, FrameworkAgreementUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type FrameworkAgreementScalarWhereInput = {
+    AND?: FrameworkAgreementScalarWhereInput | FrameworkAgreementScalarWhereInput[]
+    OR?: FrameworkAgreementScalarWhereInput[]
+    NOT?: FrameworkAgreementScalarWhereInput | FrameworkAgreementScalarWhereInput[]
+    id?: UuidFilter<"FrameworkAgreement"> | string
+    tenantId?: UuidFilter<"FrameworkAgreement"> | string
+    agreementNumber?: StringFilter<"FrameworkAgreement"> | string
+    supplierId?: UuidFilter<"FrameworkAgreement"> | string
+    skuId?: UuidFilter<"FrameworkAgreement"> | string
+    unitPrice?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFilter<"FrameworkAgreement"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    validTo?: DateTimeNullableFilter<"FrameworkAgreement"> | Date | string | null
+    status?: EnumFrameworkStatusFilter<"FrameworkAgreement"> | $Enums.FrameworkStatus
+    createdBy?: StringNullableFilter<"FrameworkAgreement"> | string | null
+    createdAt?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+    updatedAt?: DateTimeFilter<"FrameworkAgreement"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -200079,6 +205090,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -200189,6 +205202,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -200315,6 +205330,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -200425,6 +205442,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -200535,6 +205554,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -200645,6 +205666,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -200805,6 +205828,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -200915,6 +205940,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -201041,6 +206068,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -201151,6 +206180,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -201415,6 +206446,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -201525,6 +206558,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -201747,6 +206782,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -201857,6 +206894,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -202012,6 +207051,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -202122,6 +207163,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -202267,6 +207310,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -202377,6 +207422,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -202532,6 +207579,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -202642,6 +207691,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -202787,6 +207838,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -202897,6 +207950,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -203112,6 +208167,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -203222,6 +208279,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -203401,6 +208460,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -203511,6 +208572,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -203668,6 +208731,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -203778,6 +208843,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -203925,6 +208992,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -204035,6 +209104,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -204211,6 +209282,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -204321,6 +209394,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -204529,6 +209604,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -204639,6 +209716,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -204821,6 +209900,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -204931,6 +210012,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -205109,6 +210192,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -205219,6 +210304,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -205345,6 +210432,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -205455,6 +210544,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -205565,6 +210656,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -205675,6 +210768,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -205801,6 +210896,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -205911,6 +211008,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -206021,6 +211120,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -206131,6 +211232,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -206257,6 +211360,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -206367,6 +211472,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -206477,6 +211584,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -206587,6 +211696,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -206713,6 +211824,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -206823,6 +211936,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -206933,6 +212048,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -207043,6 +212160,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -207169,6 +212288,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -207279,6 +212400,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -207389,6 +212512,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -207499,6 +212624,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -207625,6 +212752,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -207735,6 +212864,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -207845,6 +212976,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -207955,6 +213088,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -208081,6 +213216,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -208191,6 +213328,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -208301,6 +213440,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -208411,6 +213552,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -208599,6 +213742,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -208709,6 +213854,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -209077,6 +214224,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -209187,6 +214336,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -209341,6 +214492,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -209451,6 +214604,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -209634,6 +214789,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -209744,6 +214901,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -209870,6 +215029,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -209980,6 +215141,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -210090,6 +215253,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -210200,6 +215365,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -210326,6 +215493,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -210436,6 +215605,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -210546,6 +215717,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -210656,6 +215829,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -210808,6 +215983,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -210918,6 +216095,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -211104,6 +216283,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -211214,6 +216395,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -211521,6 +216704,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -211631,6 +216816,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -211862,6 +217049,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -211972,6 +217161,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -212137,6 +217328,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -212247,6 +217440,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -212486,6 +217681,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -212596,6 +217793,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -212784,6 +217983,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -212894,6 +218095,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -213664,6 +218867,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -213774,6 +218979,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -213922,6 +219129,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -214032,6 +219241,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -214212,6 +219423,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -214322,6 +219535,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -214448,6 +219663,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -214558,6 +219775,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -214668,6 +219887,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -214778,6 +219999,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -214904,6 +220127,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -215014,6 +220239,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -215124,6 +220351,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -215234,6 +220463,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -215360,6 +220591,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -215470,6 +220703,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -215580,6 +220815,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -215690,6 +220927,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -215816,6 +221055,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -215926,6 +221167,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -216036,6 +221279,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -216146,6 +221391,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -216298,6 +221545,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -216408,6 +221657,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -216534,6 +221785,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -216644,6 +221897,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -216803,6 +222058,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -216913,6 +222170,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -217062,6 +222321,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -217172,6 +222433,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -217298,6 +222561,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -217408,6 +222673,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -217518,6 +222785,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -217628,6 +222897,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -217778,6 +223049,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -217888,6 +223161,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -218014,6 +223289,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -218124,6 +223401,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -218271,6 +223550,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -218381,6 +223662,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -218518,6 +223801,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -218628,6 +223913,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -218754,6 +224041,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -218864,6 +224153,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -218974,6 +224265,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -219084,6 +224377,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -219210,6 +224505,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -219320,6 +224617,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -219430,6 +224729,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -219540,6 +224841,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -219666,6 +224969,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -219776,6 +225081,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -219886,6 +225193,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -219996,6 +225305,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -220122,6 +225433,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -220232,6 +225545,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -220342,6 +225657,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -220452,6 +225769,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -220604,6 +225923,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -220714,6 +226035,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -220840,6 +226163,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -220950,6 +226275,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -221109,6 +226436,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -221219,6 +226548,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -221368,6 +226699,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -221478,6 +226811,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -221638,6 +226973,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -221748,6 +227085,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -221874,6 +227213,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -221984,6 +227325,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -222167,6 +227510,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -222277,6 +227622,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -222450,6 +227797,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -222560,6 +227909,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -222686,6 +228037,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -222796,6 +228149,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -222906,6 +228261,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -223016,6 +228373,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -223142,6 +228501,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -223252,6 +228613,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -223362,6 +228725,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -223472,6 +228837,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -223645,6 +229012,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -223755,6 +229124,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -223918,6 +229289,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -224028,6 +229401,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -224224,6 +229599,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -224334,6 +229711,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -224476,6 +229855,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -224586,6 +229967,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -224755,6 +230138,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -224865,6 +230250,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -225024,6 +230411,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -225134,6 +230523,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -225260,6 +230651,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -225370,6 +230763,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -225480,6 +230875,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -225590,6 +230987,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -225716,6 +231115,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -225826,6 +231227,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -225936,6 +231339,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -226046,6 +231451,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -226202,6 +231609,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -226312,6 +231721,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -226438,6 +231849,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -226548,6 +231961,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -226707,6 +232122,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -226817,6 +232234,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -226966,6 +232385,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -227076,6 +232497,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -227264,6 +232687,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -227374,6 +232799,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -227516,6 +232943,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -227626,6 +233055,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -227791,6 +233222,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -227901,6 +233334,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -228056,6 +233491,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -228166,6 +233603,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -228322,6 +233761,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -228432,6 +233873,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -228558,6 +234001,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -228668,6 +234113,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -228825,6 +234272,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -228935,6 +234384,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -229082,6 +234533,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -229192,6 +234645,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -229350,6 +234805,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -229460,6 +234917,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -229586,6 +235045,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -229696,6 +235157,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -229849,6 +235312,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -229959,6 +235424,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -230102,6 +235569,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -230212,6 +235681,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -230338,6 +235809,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -230448,6 +235921,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -230558,6 +236033,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -230668,6 +236145,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -230794,6 +236273,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -230904,6 +236385,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -231014,6 +236497,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -231124,6 +236609,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -231280,6 +236767,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -231390,6 +236879,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -231516,6 +237007,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -231626,6 +237119,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -231777,6 +237272,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -231887,6 +237384,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -232028,6 +237527,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -232138,6 +237639,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -232296,6 +237799,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -232406,6 +237911,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -232532,6 +238039,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -232642,6 +238151,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -232811,6 +238322,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -232921,6 +238434,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -233080,6 +238595,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -233190,6 +238707,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -233342,6 +238861,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -233452,6 +238973,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -233578,6 +239101,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -233688,6 +239213,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -233841,6 +239368,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -233951,6 +239480,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -234094,6 +239625,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -234204,6 +239737,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -234360,6 +239895,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -234470,6 +240007,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -234596,6 +240135,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -234706,6 +240247,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -234867,6 +240410,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -234977,6 +240522,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -235128,6 +240675,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -235238,6 +240787,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -235364,6 +240915,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -235474,6 +241027,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -235584,6 +241139,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -235694,6 +241251,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -235852,6 +241411,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -235962,6 +241523,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -236088,6 +241651,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -236198,6 +241763,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -236367,6 +241934,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -236477,6 +242046,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -236636,6 +242207,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -236746,6 +242319,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -236872,6 +242447,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -236982,6 +242559,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -237092,6 +242671,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -237202,6 +242783,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -237328,6 +242911,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -237438,6 +243023,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -237548,6 +243135,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -237658,6 +243247,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -237801,6 +243392,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -237911,6 +243504,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -238044,6 +243639,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -238154,6 +243751,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -238311,6 +243910,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -238421,6 +244022,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -238568,6 +244171,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -238678,6 +244283,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -238804,6 +244411,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -238914,6 +244523,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -239024,6 +244635,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -239134,6 +244747,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -239260,6 +244875,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -239370,6 +244987,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -239480,6 +245099,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -239590,6 +245211,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -239744,6 +245367,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -239854,6 +245479,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -239980,6 +245607,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -240090,6 +245719,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -240239,6 +245870,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -240349,6 +245982,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -240488,6 +246123,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -240598,6 +246235,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -240762,6 +246401,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -240872,6 +246513,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -240998,6 +246641,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -241108,6 +246753,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -241261,6 +246908,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -241371,6 +247020,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -241514,6 +247165,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -241624,6 +247277,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -241750,6 +247405,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -241860,6 +247517,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -241970,6 +247629,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -242080,6 +247741,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -242206,6 +247869,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -242316,6 +247981,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -242426,6 +248093,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -242536,6 +248205,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -242713,6 +248384,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -242823,6 +248496,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -242978,6 +248653,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -243088,6 +248765,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -243242,6 +248921,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -243352,6 +249033,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -243478,6 +249161,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -243588,6 +249273,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -243749,6 +249436,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -243859,6 +249548,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -244010,6 +249701,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -244120,6 +249813,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -244272,6 +249967,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -244382,6 +250079,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -244508,6 +250207,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -244618,6 +250319,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -244777,6 +250480,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -244887,6 +250592,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -245036,6 +250743,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -245146,6 +250855,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -245304,6 +251015,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -245414,6 +251127,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -245540,6 +251255,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -245650,6 +251367,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -245799,6 +251518,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -245909,6 +251630,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -246048,6 +251771,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -246158,6 +251883,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -246310,6 +252037,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -246420,6 +252149,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -246998,6 +252729,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -247108,6 +252841,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -247265,6 +253000,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -247375,6 +253112,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -247522,6 +253261,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -247632,6 +253373,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -247758,6 +253501,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -247868,6 +253613,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -247978,6 +253725,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -248088,6 +253837,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -248244,6 +253995,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -248354,6 +254107,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -248546,6 +254301,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -248656,6 +254413,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -248782,6 +254541,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -248892,6 +254653,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -249002,6 +254765,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -249112,6 +254877,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -249277,6 +255044,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -249387,6 +255156,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -249542,6 +255313,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -249652,6 +255425,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -249778,6 +255553,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -249888,6 +255665,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -249998,6 +255777,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -250108,6 +255889,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -250234,6 +256017,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -250344,6 +256129,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -250454,6 +256241,8 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -250564,6 +256353,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -250690,6 +256481,8 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -250800,6 +256593,8 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -250910,6 +256705,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -251020,6 +256817,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -251176,6 +256975,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -251286,6 +257087,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -251498,6 +257301,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -251608,6 +257413,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -251801,6 +257608,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -251911,6 +257720,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -252161,6 +257972,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -252271,6 +258084,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -252436,6 +258251,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -252546,6 +258363,8 @@ export namespace Prisma {
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -252591,6 +258410,1055 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: PurchaseOrderLineUncheckedUpdateManyWithoutPoNestedInput
+  }
+
+  export type TenantCreateWithoutCustomObjectDefinitionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutCustomObjectDefinitionsInput, TenantUncheckedCreateWithoutCustomObjectDefinitionsInput>
+  }
+
+  export type CustomObjectRecordCreateWithoutDefinitionInput = {
+    id?: string
+    tenantId: string
+    data: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomObjectRecordUncheckedCreateWithoutDefinitionInput = {
+    id?: string
+    tenantId: string
+    data: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomObjectRecordCreateOrConnectWithoutDefinitionInput = {
+    where: CustomObjectRecordWhereUniqueInput
+    create: XOR<CustomObjectRecordCreateWithoutDefinitionInput, CustomObjectRecordUncheckedCreateWithoutDefinitionInput>
+  }
+
+  export type CustomObjectRecordCreateManyDefinitionInputEnvelope = {
+    data: CustomObjectRecordCreateManyDefinitionInput | CustomObjectRecordCreateManyDefinitionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutCustomObjectDefinitionsInput = {
+    update: XOR<TenantUpdateWithoutCustomObjectDefinitionsInput, TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput>
+    create: XOR<TenantCreateWithoutCustomObjectDefinitionsInput, TenantUncheckedCreateWithoutCustomObjectDefinitionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutCustomObjectDefinitionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutCustomObjectDefinitionsInput, TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput>
+  }
+
+  export type TenantUpdateWithoutCustomObjectDefinitionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
+    where: CustomObjectRecordWhereUniqueInput
+    update: XOR<CustomObjectRecordUpdateWithoutDefinitionInput, CustomObjectRecordUncheckedUpdateWithoutDefinitionInput>
+    create: XOR<CustomObjectRecordCreateWithoutDefinitionInput, CustomObjectRecordUncheckedCreateWithoutDefinitionInput>
+  }
+
+  export type CustomObjectRecordUpdateWithWhereUniqueWithoutDefinitionInput = {
+    where: CustomObjectRecordWhereUniqueInput
+    data: XOR<CustomObjectRecordUpdateWithoutDefinitionInput, CustomObjectRecordUncheckedUpdateWithoutDefinitionInput>
+  }
+
+  export type CustomObjectRecordUpdateManyWithWhereWithoutDefinitionInput = {
+    where: CustomObjectRecordScalarWhereInput
+    data: XOR<CustomObjectRecordUpdateManyMutationInput, CustomObjectRecordUncheckedUpdateManyWithoutDefinitionInput>
+  }
+
+  export type CustomObjectRecordScalarWhereInput = {
+    AND?: CustomObjectRecordScalarWhereInput | CustomObjectRecordScalarWhereInput[]
+    OR?: CustomObjectRecordScalarWhereInput[]
+    NOT?: CustomObjectRecordScalarWhereInput | CustomObjectRecordScalarWhereInput[]
+    id?: UuidFilter<"CustomObjectRecord"> | string
+    tenantId?: UuidFilter<"CustomObjectRecord"> | string
+    definitionId?: UuidFilter<"CustomObjectRecord"> | string
+    data?: JsonFilter<"CustomObjectRecord">
+    createdBy?: StringNullableFilter<"CustomObjectRecord"> | string | null
+    createdAt?: DateTimeFilter<"CustomObjectRecord"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomObjectRecord"> | Date | string
+  }
+
+  export type CustomObjectDefinitionCreateWithoutRecordsInput = {
+    id?: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCustomObjectDefinitionsInput
+  }
+
+  export type CustomObjectDefinitionUncheckedCreateWithoutRecordsInput = {
+    id?: string
+    tenantId: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomObjectDefinitionCreateOrConnectWithoutRecordsInput = {
+    where: CustomObjectDefinitionWhereUniqueInput
+    create: XOR<CustomObjectDefinitionCreateWithoutRecordsInput, CustomObjectDefinitionUncheckedCreateWithoutRecordsInput>
+  }
+
+  export type CustomObjectDefinitionUpsertWithoutRecordsInput = {
+    update: XOR<CustomObjectDefinitionUpdateWithoutRecordsInput, CustomObjectDefinitionUncheckedUpdateWithoutRecordsInput>
+    create: XOR<CustomObjectDefinitionCreateWithoutRecordsInput, CustomObjectDefinitionUncheckedCreateWithoutRecordsInput>
+    where?: CustomObjectDefinitionWhereInput
+  }
+
+  export type CustomObjectDefinitionUpdateToOneWithWhereWithoutRecordsInput = {
+    where?: CustomObjectDefinitionWhereInput
+    data: XOR<CustomObjectDefinitionUpdateWithoutRecordsInput, CustomObjectDefinitionUncheckedUpdateWithoutRecordsInput>
+  }
+
+  export type CustomObjectDefinitionUpdateWithoutRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCustomObjectDefinitionsNestedInput
+  }
+
+  export type CustomObjectDefinitionUncheckedUpdateWithoutRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutFrameworkAgreementsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutFrameworkAgreementsInput, TenantUncheckedCreateWithoutFrameworkAgreementsInput>
+  }
+
+  export type TenantUpsertWithoutFrameworkAgreementsInput = {
+    update: XOR<TenantUpdateWithoutFrameworkAgreementsInput, TenantUncheckedUpdateWithoutFrameworkAgreementsInput>
+    create: XOR<TenantCreateWithoutFrameworkAgreementsInput, TenantUncheckedCreateWithoutFrameworkAgreementsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutFrameworkAgreementsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutFrameworkAgreementsInput, TenantUncheckedUpdateWithoutFrameworkAgreementsInput>
+  }
+
+  export type TenantUpdateWithoutFrameworkAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -253721,6 +260589,33 @@ export namespace Prisma {
     note?: string | null
     createdBy?: string | null
     createdAt?: Date | string
+  }
+
+  export type CustomObjectDefinitionCreateManyTenantInput = {
+    id?: string
+    key: string
+    name: string
+    fields: JsonNullValueInput | InputJsonValue
+    status?: $Enums.CustomObjectStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FrameworkAgreementCreateManyTenantInput = {
+    id?: string
+    agreementNumber: string
+    supplierId: string
+    skuId: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    maxQuantity: Decimal | DecimalJsLike | number | string
+    calledQuantity?: Decimal | DecimalJsLike | number | string
+    validFrom?: Date | string
+    validTo?: Date | string | null
+    status?: $Enums.FrameworkStatus
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -257205,6 +264100,89 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CustomObjectDefinitionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    records?: CustomObjectRecordUpdateManyWithoutDefinitionNestedInput
+  }
+
+  export type CustomObjectDefinitionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    records?: CustomObjectRecordUncheckedUpdateManyWithoutDefinitionNestedInput
+  }
+
+  export type CustomObjectDefinitionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FrameworkAgreementUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FrameworkAgreementUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FrameworkAgreementUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    calledQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -259225,6 +266203,42 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     orderLineId?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type CustomObjectRecordCreateManyDefinitionInput = {
+    id?: string
+    tenantId: string
+    data: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomObjectRecordUpdateWithoutDefinitionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomObjectRecordUncheckedUpdateWithoutDefinitionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomObjectRecordUncheckedUpdateManyWithoutDefinitionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
