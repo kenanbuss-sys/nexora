@@ -674,6 +674,23 @@ export type Rfq = $Result.DefaultSelection<Prisma.$RfqPayload>
  * 
  */
 export type RfqQuote = $Result.DefaultSelection<Prisma.$RfqQuotePayload>
+/**
+ * Model Package
+ * Physical package built from confirmed order lines (WMS-011). Staging
+ * and shipping only flip status — stock truth stays in the ledger.
+ */
+export type Package = $Result.DefaultSelection<Prisma.$PackagePayload>
+/**
+ * Model PackageLine
+ * 
+ */
+export type PackageLine = $Result.DefaultSelection<Prisma.$PackageLinePayload>
+/**
+ * Model LandedCost
+ * Sprint 102 (PROC-011): extra acquisition costs on a purchase order,
+ * allocated over received value for true landed unit costs.
+ */
+export type LandedCost = $Result.DefaultSelection<Prisma.$LandedCostPayload>
 
 /**
  * Enums
@@ -762,6 +779,15 @@ export const ApprovalStatus: {
 };
 
 export type ApprovalStatus = (typeof ApprovalStatus)[keyof typeof ApprovalStatus]
+
+
+export const DocumentTemplateStatus: {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  RETIRED: 'RETIRED'
+};
+
+export type DocumentTemplateStatus = (typeof DocumentTemplateStatus)[keyof typeof DocumentTemplateStatus]
 
 
 export const PartyType: {
@@ -1215,6 +1241,33 @@ export const RfqStatus: {
 
 export type RfqStatus = (typeof RfqStatus)[keyof typeof RfqStatus]
 
+
+export const FulfillmentType: {
+  DELIVERY: 'DELIVERY',
+  PICKUP: 'PICKUP'
+};
+
+export type FulfillmentType = (typeof FulfillmentType)[keyof typeof FulfillmentType]
+
+
+export const PackageStatus: {
+  PACKED: 'PACKED',
+  STAGED: 'STAGED',
+  SHIPPED: 'SHIPPED'
+};
+
+export type PackageStatus = (typeof PackageStatus)[keyof typeof PackageStatus]
+
+
+export const LandedCostType: {
+  FREIGHT: 'FREIGHT',
+  DUTY: 'DUTY',
+  INSURANCE: 'INSURANCE',
+  OTHER: 'OTHER'
+};
+
+export type LandedCostType = (typeof LandedCostType)[keyof typeof LandedCostType]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1252,6 +1305,10 @@ export const WorkflowInstanceStatus: typeof $Enums.WorkflowInstanceStatus
 export type ApprovalStatus = $Enums.ApprovalStatus
 
 export const ApprovalStatus: typeof $Enums.ApprovalStatus
+
+export type DocumentTemplateStatus = $Enums.DocumentTemplateStatus
+
+export const DocumentTemplateStatus: typeof $Enums.DocumentTemplateStatus
 
 export type PartyType = $Enums.PartyType
 
@@ -1440,6 +1497,18 @@ export const QuarantineStatus: typeof $Enums.QuarantineStatus
 export type RfqStatus = $Enums.RfqStatus
 
 export const RfqStatus: typeof $Enums.RfqStatus
+
+export type FulfillmentType = $Enums.FulfillmentType
+
+export const FulfillmentType: typeof $Enums.FulfillmentType
+
+export type PackageStatus = $Enums.PackageStatus
+
+export const PackageStatus: typeof $Enums.PackageStatus
+
+export type LandedCostType = $Enums.LandedCostType
+
+export const LandedCostType: typeof $Enums.LandedCostType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2708,6 +2777,36 @@ export class PrismaClient<
     * ```
     */
   get rfqQuote(): Prisma.RfqQuoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.package`: Exposes CRUD operations for the **Package** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Packages
+    * const packages = await prisma.package.findMany()
+    * ```
+    */
+  get package(): Prisma.PackageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.packageLine`: Exposes CRUD operations for the **PackageLine** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PackageLines
+    * const packageLines = await prisma.packageLine.findMany()
+    * ```
+    */
+  get packageLine(): Prisma.PackageLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.landedCost`: Exposes CRUD operations for the **LandedCost** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LandedCosts
+    * const landedCosts = await prisma.landedCost.findMany()
+    * ```
+    */
+  get landedCost(): Prisma.LandedCostDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3263,7 +3362,10 @@ export namespace Prisma {
     Asset: 'Asset',
     QuarantineHold: 'QuarantineHold',
     Rfq: 'Rfq',
-    RfqQuote: 'RfqQuote'
+    RfqQuote: 'RfqQuote',
+    Package: 'Package',
+    PackageLine: 'PackageLine',
+    LandedCost: 'LandedCost'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3282,7 +3384,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -11796,6 +11898,228 @@ export namespace Prisma {
           }
         }
       }
+      Package: {
+        payload: Prisma.$PackagePayload<ExtArgs>
+        fields: Prisma.PackageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PackageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PackageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>
+          }
+          findFirst: {
+            args: Prisma.PackageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PackageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>
+          }
+          findMany: {
+            args: Prisma.PackageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>[]
+          }
+          create: {
+            args: Prisma.PackageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>
+          }
+          createMany: {
+            args: Prisma.PackageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PackageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>[]
+          }
+          delete: {
+            args: Prisma.PackageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>
+          }
+          update: {
+            args: Prisma.PackageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>
+          }
+          deleteMany: {
+            args: Prisma.PackageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PackageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PackageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>[]
+          }
+          upsert: {
+            args: Prisma.PackageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>
+          }
+          aggregate: {
+            args: Prisma.PackageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePackage>
+          }
+          groupBy: {
+            args: Prisma.PackageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PackageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PackageCountArgs<ExtArgs>
+            result: $Utils.Optional<PackageCountAggregateOutputType> | number
+          }
+        }
+      }
+      PackageLine: {
+        payload: Prisma.$PackageLinePayload<ExtArgs>
+        fields: Prisma.PackageLineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PackageLineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PackageLineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>
+          }
+          findFirst: {
+            args: Prisma.PackageLineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PackageLineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>
+          }
+          findMany: {
+            args: Prisma.PackageLineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>[]
+          }
+          create: {
+            args: Prisma.PackageLineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>
+          }
+          createMany: {
+            args: Prisma.PackageLineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PackageLineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>[]
+          }
+          delete: {
+            args: Prisma.PackageLineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>
+          }
+          update: {
+            args: Prisma.PackageLineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>
+          }
+          deleteMany: {
+            args: Prisma.PackageLineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PackageLineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PackageLineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>[]
+          }
+          upsert: {
+            args: Prisma.PackageLineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageLinePayload>
+          }
+          aggregate: {
+            args: Prisma.PackageLineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePackageLine>
+          }
+          groupBy: {
+            args: Prisma.PackageLineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PackageLineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PackageLineCountArgs<ExtArgs>
+            result: $Utils.Optional<PackageLineCountAggregateOutputType> | number
+          }
+        }
+      }
+      LandedCost: {
+        payload: Prisma.$LandedCostPayload<ExtArgs>
+        fields: Prisma.LandedCostFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LandedCostFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LandedCostFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>
+          }
+          findFirst: {
+            args: Prisma.LandedCostFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LandedCostFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>
+          }
+          findMany: {
+            args: Prisma.LandedCostFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>[]
+          }
+          create: {
+            args: Prisma.LandedCostCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>
+          }
+          createMany: {
+            args: Prisma.LandedCostCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LandedCostCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>[]
+          }
+          delete: {
+            args: Prisma.LandedCostDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>
+          }
+          update: {
+            args: Prisma.LandedCostUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>
+          }
+          deleteMany: {
+            args: Prisma.LandedCostDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LandedCostUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LandedCostUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>[]
+          }
+          upsert: {
+            args: Prisma.LandedCostUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandedCostPayload>
+          }
+          aggregate: {
+            args: Prisma.LandedCostAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLandedCost>
+          }
+          groupBy: {
+            args: Prisma.LandedCostGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LandedCostGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LandedCostCountArgs<ExtArgs>
+            result: $Utils.Optional<LandedCostCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -12007,6 +12331,9 @@ export namespace Prisma {
     quarantineHold?: QuarantineHoldOmit
     rfq?: RfqOmit
     rfqQuote?: RfqQuoteOmit
+    package?: PackageOmit
+    packageLine?: PackageLineOmit
+    landedCost?: LandedCostOmit
   }
 
   /* Types for Logging */
@@ -12186,6 +12513,8 @@ export namespace Prisma {
     assets: number
     quarantineHolds: number
     rfqs: number
+    packages: number
+    landedCosts: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12288,6 +12617,8 @@ export namespace Prisma {
     assets?: boolean | TenantCountOutputTypeCountAssetsArgs
     quarantineHolds?: boolean | TenantCountOutputTypeCountQuarantineHoldsArgs
     rfqs?: boolean | TenantCountOutputTypeCountRfqsArgs
+    packages?: boolean | TenantCountOutputTypeCountPackagesArgs
+    landedCosts?: boolean | TenantCountOutputTypeCountLandedCostsArgs
   }
 
   // Custom InputTypes
@@ -12994,6 +13325,20 @@ export namespace Prisma {
     where?: RfqWhereInput
   }
 
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPackagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PackageWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountLandedCostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LandedCostWhereInput
+  }
+
 
   /**
    * Count Type LegalEntityCountOutputType
@@ -13614,10 +13959,12 @@ export namespace Prisma {
 
   export type SalesOrderCountOutputType = {
     lines: number
+    packages: number
   }
 
   export type SalesOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lines?: boolean | SalesOrderCountOutputTypeCountLinesArgs
+    packages?: boolean | SalesOrderCountOutputTypeCountPackagesArgs
   }
 
   // Custom InputTypes
@@ -13636,6 +13983,13 @@ export namespace Prisma {
    */
   export type SalesOrderCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SalesOrderLineWhereInput
+  }
+
+  /**
+   * SalesOrderCountOutputType without action
+   */
+  export type SalesOrderCountOutputTypeCountPackagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PackageWhereInput
   }
 
 
@@ -13676,10 +14030,12 @@ export namespace Prisma {
 
   export type PurchaseOrderCountOutputType = {
     lines: number
+    landedCosts: number
   }
 
   export type PurchaseOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lines?: boolean | PurchaseOrderCountOutputTypeCountLinesArgs
+    landedCosts?: boolean | PurchaseOrderCountOutputTypeCountLandedCostsArgs
   }
 
   // Custom InputTypes
@@ -13698,6 +14054,13 @@ export namespace Prisma {
    */
   export type PurchaseOrderCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PurchaseOrderLineWhereInput
+  }
+
+  /**
+   * PurchaseOrderCountOutputType without action
+   */
+  export type PurchaseOrderCountOutputTypeCountLandedCostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LandedCostWhereInput
   }
 
 
@@ -14198,6 +14561,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type PackageCountOutputType
+   */
+
+  export type PackageCountOutputType = {
+    lines: number
+  }
+
+  export type PackageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lines?: boolean | PackageCountOutputTypeCountLinesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PackageCountOutputType without action
+   */
+  export type PackageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageCountOutputType
+     */
+    select?: PackageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PackageCountOutputType without action
+   */
+  export type PackageCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PackageLineWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -14514,6 +14908,8 @@ export namespace Prisma {
     assets?: boolean | Tenant$assetsArgs<ExtArgs>
     quarantineHolds?: boolean | Tenant$quarantineHoldsArgs<ExtArgs>
     rfqs?: boolean | Tenant$rfqsArgs<ExtArgs>
+    packages?: boolean | Tenant$packagesArgs<ExtArgs>
+    landedCosts?: boolean | Tenant$landedCostsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -14648,6 +15044,8 @@ export namespace Prisma {
     assets?: boolean | Tenant$assetsArgs<ExtArgs>
     quarantineHolds?: boolean | Tenant$quarantineHoldsArgs<ExtArgs>
     rfqs?: boolean | Tenant$rfqsArgs<ExtArgs>
+    packages?: boolean | Tenant$packagesArgs<ExtArgs>
+    landedCosts?: boolean | Tenant$landedCostsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -14755,6 +15153,8 @@ export namespace Prisma {
       assets: Prisma.$AssetPayload<ExtArgs>[]
       quarantineHolds: Prisma.$QuarantineHoldPayload<ExtArgs>[]
       rfqs: Prisma.$RfqPayload<ExtArgs>[]
+      packages: Prisma.$PackagePayload<ExtArgs>[]
+      landedCosts: Prisma.$LandedCostPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15257,6 +15657,8 @@ export namespace Prisma {
     assets<T extends Tenant$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quarantineHolds<T extends Tenant$quarantineHoldsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$quarantineHoldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rfqs<T extends Tenant$rfqsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$rfqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RfqPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    packages<T extends Tenant$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    landedCosts<T extends Tenant$landedCostsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$landedCostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18054,6 +18456,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RfqScalarFieldEnum | RfqScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.packages
+   */
+  export type Tenant$packagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    where?: PackageWhereInput
+    orderBy?: PackageOrderByWithRelationInput | PackageOrderByWithRelationInput[]
+    cursor?: PackageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PackageScalarFieldEnum | PackageScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.landedCosts
+   */
+  export type Tenant$landedCostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    where?: LandedCostWhereInput
+    orderBy?: LandedCostOrderByWithRelationInput | LandedCostOrderByWithRelationInput[]
+    cursor?: LandedCostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LandedCostScalarFieldEnum | LandedCostScalarFieldEnum[]
   }
 
   /**
@@ -44977,6 +45427,7 @@ export namespace Prisma {
     tenantId: string | null
     key: string | null
     name: string | null
+    status: $Enums.DocumentTemplateStatus | null
   }
 
   export type DocumentTemplateMaxAggregateOutputType = {
@@ -44984,6 +45435,7 @@ export namespace Prisma {
     tenantId: string | null
     key: string | null
     name: string | null
+    status: $Enums.DocumentTemplateStatus | null
   }
 
   export type DocumentTemplateCountAggregateOutputType = {
@@ -44991,6 +45443,7 @@ export namespace Prisma {
     tenantId: number
     key: number
     name: number
+    status: number
     _all: number
   }
 
@@ -45000,6 +45453,7 @@ export namespace Prisma {
     tenantId?: true
     key?: true
     name?: true
+    status?: true
   }
 
   export type DocumentTemplateMaxAggregateInputType = {
@@ -45007,6 +45461,7 @@ export namespace Prisma {
     tenantId?: true
     key?: true
     name?: true
+    status?: true
   }
 
   export type DocumentTemplateCountAggregateInputType = {
@@ -45014,6 +45469,7 @@ export namespace Prisma {
     tenantId?: true
     key?: true
     name?: true
+    status?: true
     _all?: true
   }
 
@@ -45094,6 +45550,7 @@ export namespace Prisma {
     tenantId: string
     key: string
     name: string
+    status: $Enums.DocumentTemplateStatus
     _count: DocumentTemplateCountAggregateOutputType | null
     _min: DocumentTemplateMinAggregateOutputType | null
     _max: DocumentTemplateMaxAggregateOutputType | null
@@ -45118,6 +45575,7 @@ export namespace Prisma {
     tenantId?: boolean
     key?: boolean
     name?: boolean
+    status?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     versions?: boolean | DocumentTemplate$versionsArgs<ExtArgs>
     _count?: boolean | DocumentTemplateCountOutputTypeDefaultArgs<ExtArgs>
@@ -45128,6 +45586,7 @@ export namespace Prisma {
     tenantId?: boolean
     key?: boolean
     name?: boolean
+    status?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentTemplate"]>
 
@@ -45136,6 +45595,7 @@ export namespace Prisma {
     tenantId?: boolean
     key?: boolean
     name?: boolean
+    status?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentTemplate"]>
 
@@ -45144,9 +45604,10 @@ export namespace Prisma {
     tenantId?: boolean
     key?: boolean
     name?: boolean
+    status?: boolean
   }
 
-  export type DocumentTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "key" | "name", ExtArgs["result"]["documentTemplate"]>
+  export type DocumentTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "key" | "name" | "status", ExtArgs["result"]["documentTemplate"]>
   export type DocumentTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     versions?: boolean | DocumentTemplate$versionsArgs<ExtArgs>
@@ -45170,6 +45631,10 @@ export namespace Prisma {
       tenantId: string
       key: string
       name: string
+      /**
+       * Sprint 102 (DOC-005): lifecycle — only ACTIVE templates render.
+       */
+      status: $Enums.DocumentTemplateStatus
     }, ExtArgs["result"]["documentTemplate"]>
     composites: {}
   }
@@ -45599,6 +46064,7 @@ export namespace Prisma {
     readonly tenantId: FieldRef<"DocumentTemplate", 'String'>
     readonly key: FieldRef<"DocumentTemplate", 'String'>
     readonly name: FieldRef<"DocumentTemplate", 'String'>
+    readonly status: FieldRef<"DocumentTemplate", 'DocumentTemplateStatus'>
   }
     
 
@@ -80614,6 +81080,8 @@ export namespace Prisma {
     currency: string | null
     total: Decimal | null
     holdReason: string | null
+    fulfillmentType: $Enums.FulfillmentType | null
+    projectRef: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -80630,6 +81098,8 @@ export namespace Prisma {
     currency: string | null
     total: Decimal | null
     holdReason: string | null
+    fulfillmentType: $Enums.FulfillmentType | null
+    projectRef: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -80646,6 +81116,8 @@ export namespace Prisma {
     currency: number
     total: number
     holdReason: number
+    fulfillmentType: number
+    projectRef: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -80672,6 +81144,8 @@ export namespace Prisma {
     currency?: true
     total?: true
     holdReason?: true
+    fulfillmentType?: true
+    projectRef?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -80688,6 +81162,8 @@ export namespace Prisma {
     currency?: true
     total?: true
     holdReason?: true
+    fulfillmentType?: true
+    projectRef?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -80704,6 +81180,8 @@ export namespace Prisma {
     currency?: true
     total?: true
     holdReason?: true
+    fulfillmentType?: true
+    projectRef?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -80807,6 +81285,8 @@ export namespace Prisma {
     currency: string
     total: Decimal
     holdReason: string | null
+    fulfillmentType: $Enums.FulfillmentType
+    projectRef: string | null
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -80842,11 +81322,14 @@ export namespace Prisma {
     currency?: boolean
     total?: boolean
     holdReason?: boolean
+    fulfillmentType?: boolean
+    projectRef?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | SalesOrder$linesArgs<ExtArgs>
+    packages?: boolean | SalesOrder$packagesArgs<ExtArgs>
     _count?: boolean | SalesOrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrder"]>
 
@@ -80861,6 +81344,8 @@ export namespace Prisma {
     currency?: boolean
     total?: boolean
     holdReason?: boolean
+    fulfillmentType?: boolean
+    projectRef?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -80878,6 +81363,8 @@ export namespace Prisma {
     currency?: boolean
     total?: boolean
     holdReason?: boolean
+    fulfillmentType?: boolean
+    projectRef?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -80895,15 +81382,18 @@ export namespace Prisma {
     currency?: boolean
     total?: boolean
     holdReason?: boolean
+    fulfillmentType?: boolean
+    projectRef?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
+  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "fulfillmentType" | "projectRef" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
   export type SalesOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | SalesOrder$linesArgs<ExtArgs>
+    packages?: boolean | SalesOrder$packagesArgs<ExtArgs>
     _count?: boolean | SalesOrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SalesOrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -80918,6 +81408,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       lines: Prisma.$SalesOrderLinePayload<ExtArgs>[]
+      packages: Prisma.$PackagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -80930,6 +81421,14 @@ export namespace Prisma {
       currency: string
       total: Prisma.Decimal
       holdReason: string | null
+      /**
+       * Sprint 102 (COM-007): DELIVERY ships; PICKUP is click & collect.
+       */
+      fulfillmentType: $Enums.FulfillmentType
+      /**
+       * Sprint 102 (B2B-009): customer's project/site reference.
+       */
+      projectRef: string | null
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -81329,6 +81828,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     lines<T extends SalesOrder$linesArgs<ExtArgs> = {}>(args?: Subset<T, SalesOrder$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesOrderLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    packages<T extends SalesOrder$packagesArgs<ExtArgs> = {}>(args?: Subset<T, SalesOrder$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -81368,6 +81868,8 @@ export namespace Prisma {
     readonly currency: FieldRef<"SalesOrder", 'String'>
     readonly total: FieldRef<"SalesOrder", 'Decimal'>
     readonly holdReason: FieldRef<"SalesOrder", 'String'>
+    readonly fulfillmentType: FieldRef<"SalesOrder", 'FulfillmentType'>
+    readonly projectRef: FieldRef<"SalesOrder", 'String'>
     readonly createdBy: FieldRef<"SalesOrder", 'String'>
     readonly createdAt: FieldRef<"SalesOrder", 'DateTime'>
     readonly updatedAt: FieldRef<"SalesOrder", 'DateTime'>
@@ -81791,6 +82293,30 @@ export namespace Prisma {
   }
 
   /**
+   * SalesOrder.packages
+   */
+  export type SalesOrder$packagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    where?: PackageWhereInput
+    orderBy?: PackageOrderByWithRelationInput | PackageOrderByWithRelationInput[]
+    cursor?: PackageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PackageScalarFieldEnum | PackageScalarFieldEnum[]
+  }
+
+  /**
    * SalesOrder without action
    */
   export type SalesOrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -81825,12 +82351,14 @@ export namespace Prisma {
     quantity: Decimal | null
     unitPrice: Decimal | null
     lineTotal: Decimal | null
+    fulfilledQty: Decimal | null
   }
 
   export type SalesOrderLineSumAggregateOutputType = {
     quantity: Decimal | null
     unitPrice: Decimal | null
     lineTotal: Decimal | null
+    fulfilledQty: Decimal | null
   }
 
   export type SalesOrderLineMinAggregateOutputType = {
@@ -81844,6 +82372,7 @@ export namespace Prisma {
     lineTotal: Decimal | null
     reservationId: string | null
     backordered: boolean | null
+    fulfilledQty: Decimal | null
   }
 
   export type SalesOrderLineMaxAggregateOutputType = {
@@ -81857,6 +82386,7 @@ export namespace Prisma {
     lineTotal: Decimal | null
     reservationId: string | null
     backordered: boolean | null
+    fulfilledQty: Decimal | null
   }
 
   export type SalesOrderLineCountAggregateOutputType = {
@@ -81870,6 +82400,7 @@ export namespace Prisma {
     lineTotal: number
     reservationId: number
     backordered: number
+    fulfilledQty: number
     _all: number
   }
 
@@ -81878,12 +82409,14 @@ export namespace Prisma {
     quantity?: true
     unitPrice?: true
     lineTotal?: true
+    fulfilledQty?: true
   }
 
   export type SalesOrderLineSumAggregateInputType = {
     quantity?: true
     unitPrice?: true
     lineTotal?: true
+    fulfilledQty?: true
   }
 
   export type SalesOrderLineMinAggregateInputType = {
@@ -81897,6 +82430,7 @@ export namespace Prisma {
     lineTotal?: true
     reservationId?: true
     backordered?: true
+    fulfilledQty?: true
   }
 
   export type SalesOrderLineMaxAggregateInputType = {
@@ -81910,6 +82444,7 @@ export namespace Prisma {
     lineTotal?: true
     reservationId?: true
     backordered?: true
+    fulfilledQty?: true
   }
 
   export type SalesOrderLineCountAggregateInputType = {
@@ -81923,6 +82458,7 @@ export namespace Prisma {
     lineTotal?: true
     reservationId?: true
     backordered?: true
+    fulfilledQty?: true
     _all?: true
   }
 
@@ -82023,6 +82559,7 @@ export namespace Prisma {
     lineTotal: Decimal
     reservationId: string | null
     backordered: boolean
+    fulfilledQty: Decimal
     _count: SalesOrderLineCountAggregateOutputType | null
     _avg: SalesOrderLineAvgAggregateOutputType | null
     _sum: SalesOrderLineSumAggregateOutputType | null
@@ -82055,6 +82592,7 @@ export namespace Prisma {
     lineTotal?: boolean
     reservationId?: boolean
     backordered?: boolean
+    fulfilledQty?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -82070,6 +82608,7 @@ export namespace Prisma {
     lineTotal?: boolean
     reservationId?: boolean
     backordered?: boolean
+    fulfilledQty?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -82085,6 +82624,7 @@ export namespace Prisma {
     lineTotal?: boolean
     reservationId?: boolean
     backordered?: boolean
+    fulfilledQty?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -82100,9 +82640,10 @@ export namespace Prisma {
     lineTotal?: boolean
     reservationId?: boolean
     backordered?: boolean
+    fulfilledQty?: boolean
   }
 
-  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId" | "backordered", ExtArgs["result"]["salesOrderLine"]>
+  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId" | "backordered" | "fulfilledQty", ExtArgs["result"]["salesOrderLine"]>
   export type SalesOrderLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -82136,6 +82677,10 @@ export namespace Prisma {
        * Sprint 018 (OMS-006): confirmed without stock; released later.
        */
       backordered: boolean
+      /**
+       * Sprint 102 (OMS-005): shipped so far — split fulfillment.
+       */
+      fulfilledQty: Prisma.Decimal
     }, ExtArgs["result"]["salesOrderLine"]>
     composites: {}
   }
@@ -82571,6 +83116,7 @@ export namespace Prisma {
     readonly lineTotal: FieldRef<"SalesOrderLine", 'Decimal'>
     readonly reservationId: FieldRef<"SalesOrderLine", 'String'>
     readonly backordered: FieldRef<"SalesOrderLine", 'Boolean'>
+    readonly fulfilledQty: FieldRef<"SalesOrderLine", 'Decimal'>
   }
     
 
@@ -87811,6 +88357,7 @@ export namespace Prisma {
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | PurchaseOrder$linesArgs<ExtArgs>
+    landedCosts?: boolean | PurchaseOrder$landedCostsArgs<ExtArgs>
     _count?: boolean | PurchaseOrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchaseOrder"]>
 
@@ -87868,6 +88415,7 @@ export namespace Prisma {
   export type PurchaseOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | PurchaseOrder$linesArgs<ExtArgs>
+    landedCosts?: boolean | PurchaseOrder$landedCostsArgs<ExtArgs>
     _count?: boolean | PurchaseOrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PurchaseOrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -87882,6 +88430,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       lines: Prisma.$PurchaseOrderLinePayload<ExtArgs>[]
+      landedCosts: Prisma.$LandedCostPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -88293,6 +88842,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     lines<T extends PurchaseOrder$linesArgs<ExtArgs> = {}>(args?: Subset<T, PurchaseOrder$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseOrderLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    landedCosts<T extends PurchaseOrder$landedCostsArgs<ExtArgs> = {}>(args?: Subset<T, PurchaseOrder$landedCostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -88752,6 +89302,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PurchaseOrderLineScalarFieldEnum | PurchaseOrderLineScalarFieldEnum[]
+  }
+
+  /**
+   * PurchaseOrder.landedCosts
+   */
+  export type PurchaseOrder$landedCostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    where?: LandedCostWhereInput
+    orderBy?: LandedCostOrderByWithRelationInput | LandedCostOrderByWithRelationInput[]
+    cursor?: LandedCostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LandedCostScalarFieldEnum | LandedCostScalarFieldEnum[]
   }
 
   /**
@@ -148440,6 +149014,3419 @@ export namespace Prisma {
 
 
   /**
+   * Model Package
+   */
+
+  export type AggregatePackage = {
+    _count: PackageCountAggregateOutputType | null
+    _avg: PackageAvgAggregateOutputType | null
+    _sum: PackageSumAggregateOutputType | null
+    _min: PackageMinAggregateOutputType | null
+    _max: PackageMaxAggregateOutputType | null
+  }
+
+  export type PackageAvgAggregateOutputType = {
+    weightKg: Decimal | null
+  }
+
+  export type PackageSumAggregateOutputType = {
+    weightKg: Decimal | null
+  }
+
+  export type PackageMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    orderId: string | null
+    packageNumber: string | null
+    status: $Enums.PackageStatus | null
+    weightKg: Decimal | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PackageMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    orderId: string | null
+    packageNumber: string | null
+    status: $Enums.PackageStatus | null
+    weightKg: Decimal | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PackageCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    orderId: number
+    packageNumber: number
+    status: number
+    weightKg: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PackageAvgAggregateInputType = {
+    weightKg?: true
+  }
+
+  export type PackageSumAggregateInputType = {
+    weightKg?: true
+  }
+
+  export type PackageMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderId?: true
+    packageNumber?: true
+    status?: true
+    weightKg?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PackageMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderId?: true
+    packageNumber?: true
+    status?: true
+    weightKg?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PackageCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    orderId?: true
+    packageNumber?: true
+    status?: true
+    weightKg?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PackageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Package to aggregate.
+     */
+    where?: PackageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Packages to fetch.
+     */
+    orderBy?: PackageOrderByWithRelationInput | PackageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PackageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Packages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Packages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Packages
+    **/
+    _count?: true | PackageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PackageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PackageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PackageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PackageMaxAggregateInputType
+  }
+
+  export type GetPackageAggregateType<T extends PackageAggregateArgs> = {
+        [P in keyof T & keyof AggregatePackage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePackage[P]>
+      : GetScalarType<T[P], AggregatePackage[P]>
+  }
+
+
+
+
+  export type PackageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PackageWhereInput
+    orderBy?: PackageOrderByWithAggregationInput | PackageOrderByWithAggregationInput[]
+    by: PackageScalarFieldEnum[] | PackageScalarFieldEnum
+    having?: PackageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PackageCountAggregateInputType | true
+    _avg?: PackageAvgAggregateInputType
+    _sum?: PackageSumAggregateInputType
+    _min?: PackageMinAggregateInputType
+    _max?: PackageMaxAggregateInputType
+  }
+
+  export type PackageGroupByOutputType = {
+    id: string
+    tenantId: string
+    orderId: string
+    packageNumber: string
+    status: $Enums.PackageStatus
+    weightKg: Decimal | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PackageCountAggregateOutputType | null
+    _avg: PackageAvgAggregateOutputType | null
+    _sum: PackageSumAggregateOutputType | null
+    _min: PackageMinAggregateOutputType | null
+    _max: PackageMaxAggregateOutputType | null
+  }
+
+  type GetPackageGroupByPayload<T extends PackageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PackageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PackageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PackageGroupByOutputType[P]>
+            : GetScalarType<T[P], PackageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PackageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    packageNumber?: boolean
+    status?: boolean
+    weightKg?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | SalesOrderDefaultArgs<ExtArgs>
+    lines?: boolean | Package$linesArgs<ExtArgs>
+    _count?: boolean | PackageCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["package"]>
+
+  export type PackageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    packageNumber?: boolean
+    status?: boolean
+    weightKg?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | SalesOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["package"]>
+
+  export type PackageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    packageNumber?: boolean
+    status?: boolean
+    weightKg?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | SalesOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["package"]>
+
+  export type PackageSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    orderId?: boolean
+    packageNumber?: boolean
+    status?: boolean
+    weightKg?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PackageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "packageNumber" | "status" | "weightKg" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["package"]>
+  export type PackageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | SalesOrderDefaultArgs<ExtArgs>
+    lines?: boolean | Package$linesArgs<ExtArgs>
+    _count?: boolean | PackageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PackageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | SalesOrderDefaultArgs<ExtArgs>
+  }
+  export type PackageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    order?: boolean | SalesOrderDefaultArgs<ExtArgs>
+  }
+
+  export type $PackagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Package"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      order: Prisma.$SalesOrderPayload<ExtArgs>
+      lines: Prisma.$PackageLinePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      orderId: string
+      packageNumber: string
+      status: $Enums.PackageStatus
+      weightKg: Prisma.Decimal | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["package"]>
+    composites: {}
+  }
+
+  type PackageGetPayload<S extends boolean | null | undefined | PackageDefaultArgs> = $Result.GetResult<Prisma.$PackagePayload, S>
+
+  type PackageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PackageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PackageCountAggregateInputType | true
+    }
+
+  export interface PackageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Package'], meta: { name: 'Package' } }
+    /**
+     * Find zero or one Package that matches the filter.
+     * @param {PackageFindUniqueArgs} args - Arguments to find a Package
+     * @example
+     * // Get one Package
+     * const package = await prisma.package.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PackageFindUniqueArgs>(args: SelectSubset<T, PackageFindUniqueArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Package that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PackageFindUniqueOrThrowArgs} args - Arguments to find a Package
+     * @example
+     * // Get one Package
+     * const package = await prisma.package.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PackageFindUniqueOrThrowArgs>(args: SelectSubset<T, PackageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Package that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageFindFirstArgs} args - Arguments to find a Package
+     * @example
+     * // Get one Package
+     * const package = await prisma.package.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PackageFindFirstArgs>(args?: SelectSubset<T, PackageFindFirstArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Package that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageFindFirstOrThrowArgs} args - Arguments to find a Package
+     * @example
+     * // Get one Package
+     * const package = await prisma.package.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PackageFindFirstOrThrowArgs>(args?: SelectSubset<T, PackageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Packages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Packages
+     * const packages = await prisma.package.findMany()
+     * 
+     * // Get first 10 Packages
+     * const packages = await prisma.package.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const packageWithIdOnly = await prisma.package.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PackageFindManyArgs>(args?: SelectSubset<T, PackageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Package.
+     * @param {PackageCreateArgs} args - Arguments to create a Package.
+     * @example
+     * // Create one Package
+     * const Package = await prisma.package.create({
+     *   data: {
+     *     // ... data to create a Package
+     *   }
+     * })
+     * 
+     */
+    create<T extends PackageCreateArgs>(args: SelectSubset<T, PackageCreateArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Packages.
+     * @param {PackageCreateManyArgs} args - Arguments to create many Packages.
+     * @example
+     * // Create many Packages
+     * const package = await prisma.package.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PackageCreateManyArgs>(args?: SelectSubset<T, PackageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Packages and returns the data saved in the database.
+     * @param {PackageCreateManyAndReturnArgs} args - Arguments to create many Packages.
+     * @example
+     * // Create many Packages
+     * const package = await prisma.package.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Packages and only return the `id`
+     * const packageWithIdOnly = await prisma.package.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PackageCreateManyAndReturnArgs>(args?: SelectSubset<T, PackageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Package.
+     * @param {PackageDeleteArgs} args - Arguments to delete one Package.
+     * @example
+     * // Delete one Package
+     * const Package = await prisma.package.delete({
+     *   where: {
+     *     // ... filter to delete one Package
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PackageDeleteArgs>(args: SelectSubset<T, PackageDeleteArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Package.
+     * @param {PackageUpdateArgs} args - Arguments to update one Package.
+     * @example
+     * // Update one Package
+     * const package = await prisma.package.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PackageUpdateArgs>(args: SelectSubset<T, PackageUpdateArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Packages.
+     * @param {PackageDeleteManyArgs} args - Arguments to filter Packages to delete.
+     * @example
+     * // Delete a few Packages
+     * const { count } = await prisma.package.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PackageDeleteManyArgs>(args?: SelectSubset<T, PackageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Packages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Packages
+     * const package = await prisma.package.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PackageUpdateManyArgs>(args: SelectSubset<T, PackageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Packages and returns the data updated in the database.
+     * @param {PackageUpdateManyAndReturnArgs} args - Arguments to update many Packages.
+     * @example
+     * // Update many Packages
+     * const package = await prisma.package.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Packages and only return the `id`
+     * const packageWithIdOnly = await prisma.package.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PackageUpdateManyAndReturnArgs>(args: SelectSubset<T, PackageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Package.
+     * @param {PackageUpsertArgs} args - Arguments to update or create a Package.
+     * @example
+     * // Update or create a Package
+     * const package = await prisma.package.upsert({
+     *   create: {
+     *     // ... data to create a Package
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Package we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PackageUpsertArgs>(args: SelectSubset<T, PackageUpsertArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Packages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageCountArgs} args - Arguments to filter Packages to count.
+     * @example
+     * // Count the number of Packages
+     * const count = await prisma.package.count({
+     *   where: {
+     *     // ... the filter for the Packages we want to count
+     *   }
+     * })
+    **/
+    count<T extends PackageCountArgs>(
+      args?: Subset<T, PackageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PackageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Package.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PackageAggregateArgs>(args: Subset<T, PackageAggregateArgs>): Prisma.PrismaPromise<GetPackageAggregateType<T>>
+
+    /**
+     * Group by Package.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PackageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PackageGroupByArgs['orderBy'] }
+        : { orderBy?: PackageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PackageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPackageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Package model
+   */
+  readonly fields: PackageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Package.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PackageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    order<T extends SalesOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SalesOrderDefaultArgs<ExtArgs>>): Prisma__SalesOrderClient<$Result.GetResult<Prisma.$SalesOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lines<T extends Package$linesArgs<ExtArgs> = {}>(args?: Subset<T, Package$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Package model
+   */
+  interface PackageFieldRefs {
+    readonly id: FieldRef<"Package", 'String'>
+    readonly tenantId: FieldRef<"Package", 'String'>
+    readonly orderId: FieldRef<"Package", 'String'>
+    readonly packageNumber: FieldRef<"Package", 'String'>
+    readonly status: FieldRef<"Package", 'PackageStatus'>
+    readonly weightKg: FieldRef<"Package", 'Decimal'>
+    readonly createdBy: FieldRef<"Package", 'String'>
+    readonly createdAt: FieldRef<"Package", 'DateTime'>
+    readonly updatedAt: FieldRef<"Package", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Package findUnique
+   */
+  export type PackageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * Filter, which Package to fetch.
+     */
+    where: PackageWhereUniqueInput
+  }
+
+  /**
+   * Package findUniqueOrThrow
+   */
+  export type PackageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * Filter, which Package to fetch.
+     */
+    where: PackageWhereUniqueInput
+  }
+
+  /**
+   * Package findFirst
+   */
+  export type PackageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * Filter, which Package to fetch.
+     */
+    where?: PackageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Packages to fetch.
+     */
+    orderBy?: PackageOrderByWithRelationInput | PackageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Packages.
+     */
+    cursor?: PackageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Packages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Packages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Packages.
+     */
+    distinct?: PackageScalarFieldEnum | PackageScalarFieldEnum[]
+  }
+
+  /**
+   * Package findFirstOrThrow
+   */
+  export type PackageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * Filter, which Package to fetch.
+     */
+    where?: PackageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Packages to fetch.
+     */
+    orderBy?: PackageOrderByWithRelationInput | PackageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Packages.
+     */
+    cursor?: PackageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Packages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Packages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Packages.
+     */
+    distinct?: PackageScalarFieldEnum | PackageScalarFieldEnum[]
+  }
+
+  /**
+   * Package findMany
+   */
+  export type PackageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * Filter, which Packages to fetch.
+     */
+    where?: PackageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Packages to fetch.
+     */
+    orderBy?: PackageOrderByWithRelationInput | PackageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Packages.
+     */
+    cursor?: PackageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Packages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Packages.
+     */
+    skip?: number
+    distinct?: PackageScalarFieldEnum | PackageScalarFieldEnum[]
+  }
+
+  /**
+   * Package create
+   */
+  export type PackageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Package.
+     */
+    data: XOR<PackageCreateInput, PackageUncheckedCreateInput>
+  }
+
+  /**
+   * Package createMany
+   */
+  export type PackageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Packages.
+     */
+    data: PackageCreateManyInput | PackageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Package createManyAndReturn
+   */
+  export type PackageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * The data used to create many Packages.
+     */
+    data: PackageCreateManyInput | PackageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Package update
+   */
+  export type PackageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Package.
+     */
+    data: XOR<PackageUpdateInput, PackageUncheckedUpdateInput>
+    /**
+     * Choose, which Package to update.
+     */
+    where: PackageWhereUniqueInput
+  }
+
+  /**
+   * Package updateMany
+   */
+  export type PackageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Packages.
+     */
+    data: XOR<PackageUpdateManyMutationInput, PackageUncheckedUpdateManyInput>
+    /**
+     * Filter which Packages to update
+     */
+    where?: PackageWhereInput
+    /**
+     * Limit how many Packages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Package updateManyAndReturn
+   */
+  export type PackageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * The data used to update Packages.
+     */
+    data: XOR<PackageUpdateManyMutationInput, PackageUncheckedUpdateManyInput>
+    /**
+     * Filter which Packages to update
+     */
+    where?: PackageWhereInput
+    /**
+     * Limit how many Packages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Package upsert
+   */
+  export type PackageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Package to update in case it exists.
+     */
+    where: PackageWhereUniqueInput
+    /**
+     * In case the Package found by the `where` argument doesn't exist, create a new Package with this data.
+     */
+    create: XOR<PackageCreateInput, PackageUncheckedCreateInput>
+    /**
+     * In case the Package was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PackageUpdateInput, PackageUncheckedUpdateInput>
+  }
+
+  /**
+   * Package delete
+   */
+  export type PackageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    /**
+     * Filter which Package to delete.
+     */
+    where: PackageWhereUniqueInput
+  }
+
+  /**
+   * Package deleteMany
+   */
+  export type PackageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Packages to delete
+     */
+    where?: PackageWhereInput
+    /**
+     * Limit how many Packages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Package.lines
+   */
+  export type Package$linesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    where?: PackageLineWhereInput
+    orderBy?: PackageLineOrderByWithRelationInput | PackageLineOrderByWithRelationInput[]
+    cursor?: PackageLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PackageLineScalarFieldEnum | PackageLineScalarFieldEnum[]
+  }
+
+  /**
+   * Package without action
+   */
+  export type PackageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PackageLine
+   */
+
+  export type AggregatePackageLine = {
+    _count: PackageLineCountAggregateOutputType | null
+    _avg: PackageLineAvgAggregateOutputType | null
+    _sum: PackageLineSumAggregateOutputType | null
+    _min: PackageLineMinAggregateOutputType | null
+    _max: PackageLineMaxAggregateOutputType | null
+  }
+
+  export type PackageLineAvgAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type PackageLineSumAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type PackageLineMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    packageId: string | null
+    orderLineId: string | null
+    quantity: Decimal | null
+  }
+
+  export type PackageLineMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    packageId: string | null
+    orderLineId: string | null
+    quantity: Decimal | null
+  }
+
+  export type PackageLineCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    packageId: number
+    orderLineId: number
+    quantity: number
+    _all: number
+  }
+
+
+  export type PackageLineAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type PackageLineSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type PackageLineMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    packageId?: true
+    orderLineId?: true
+    quantity?: true
+  }
+
+  export type PackageLineMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    packageId?: true
+    orderLineId?: true
+    quantity?: true
+  }
+
+  export type PackageLineCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    packageId?: true
+    orderLineId?: true
+    quantity?: true
+    _all?: true
+  }
+
+  export type PackageLineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PackageLine to aggregate.
+     */
+    where?: PackageLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageLines to fetch.
+     */
+    orderBy?: PackageLineOrderByWithRelationInput | PackageLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PackageLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PackageLines
+    **/
+    _count?: true | PackageLineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PackageLineAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PackageLineSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PackageLineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PackageLineMaxAggregateInputType
+  }
+
+  export type GetPackageLineAggregateType<T extends PackageLineAggregateArgs> = {
+        [P in keyof T & keyof AggregatePackageLine]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePackageLine[P]>
+      : GetScalarType<T[P], AggregatePackageLine[P]>
+  }
+
+
+
+
+  export type PackageLineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PackageLineWhereInput
+    orderBy?: PackageLineOrderByWithAggregationInput | PackageLineOrderByWithAggregationInput[]
+    by: PackageLineScalarFieldEnum[] | PackageLineScalarFieldEnum
+    having?: PackageLineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PackageLineCountAggregateInputType | true
+    _avg?: PackageLineAvgAggregateInputType
+    _sum?: PackageLineSumAggregateInputType
+    _min?: PackageLineMinAggregateInputType
+    _max?: PackageLineMaxAggregateInputType
+  }
+
+  export type PackageLineGroupByOutputType = {
+    id: string
+    tenantId: string
+    packageId: string
+    orderLineId: string
+    quantity: Decimal
+    _count: PackageLineCountAggregateOutputType | null
+    _avg: PackageLineAvgAggregateOutputType | null
+    _sum: PackageLineSumAggregateOutputType | null
+    _min: PackageLineMinAggregateOutputType | null
+    _max: PackageLineMaxAggregateOutputType | null
+  }
+
+  type GetPackageLineGroupByPayload<T extends PackageLineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PackageLineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PackageLineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PackageLineGroupByOutputType[P]>
+            : GetScalarType<T[P], PackageLineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PackageLineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    packageId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["packageLine"]>
+
+  export type PackageLineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    packageId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["packageLine"]>
+
+  export type PackageLineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    packageId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["packageLine"]>
+
+  export type PackageLineSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    packageId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+  }
+
+  export type PackageLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "packageId" | "orderLineId" | "quantity", ExtArgs["result"]["packageLine"]>
+  export type PackageLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }
+  export type PackageLineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }
+  export type PackageLineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }
+
+  export type $PackageLinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PackageLine"
+    objects: {
+      package: Prisma.$PackagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      packageId: string
+      orderLineId: string
+      quantity: Prisma.Decimal
+    }, ExtArgs["result"]["packageLine"]>
+    composites: {}
+  }
+
+  type PackageLineGetPayload<S extends boolean | null | undefined | PackageLineDefaultArgs> = $Result.GetResult<Prisma.$PackageLinePayload, S>
+
+  type PackageLineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PackageLineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PackageLineCountAggregateInputType | true
+    }
+
+  export interface PackageLineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PackageLine'], meta: { name: 'PackageLine' } }
+    /**
+     * Find zero or one PackageLine that matches the filter.
+     * @param {PackageLineFindUniqueArgs} args - Arguments to find a PackageLine
+     * @example
+     * // Get one PackageLine
+     * const packageLine = await prisma.packageLine.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PackageLineFindUniqueArgs>(args: SelectSubset<T, PackageLineFindUniqueArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PackageLine that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PackageLineFindUniqueOrThrowArgs} args - Arguments to find a PackageLine
+     * @example
+     * // Get one PackageLine
+     * const packageLine = await prisma.packageLine.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PackageLineFindUniqueOrThrowArgs>(args: SelectSubset<T, PackageLineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PackageLine that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageLineFindFirstArgs} args - Arguments to find a PackageLine
+     * @example
+     * // Get one PackageLine
+     * const packageLine = await prisma.packageLine.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PackageLineFindFirstArgs>(args?: SelectSubset<T, PackageLineFindFirstArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PackageLine that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageLineFindFirstOrThrowArgs} args - Arguments to find a PackageLine
+     * @example
+     * // Get one PackageLine
+     * const packageLine = await prisma.packageLine.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PackageLineFindFirstOrThrowArgs>(args?: SelectSubset<T, PackageLineFindFirstOrThrowArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PackageLines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageLineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PackageLines
+     * const packageLines = await prisma.packageLine.findMany()
+     * 
+     * // Get first 10 PackageLines
+     * const packageLines = await prisma.packageLine.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const packageLineWithIdOnly = await prisma.packageLine.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PackageLineFindManyArgs>(args?: SelectSubset<T, PackageLineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PackageLine.
+     * @param {PackageLineCreateArgs} args - Arguments to create a PackageLine.
+     * @example
+     * // Create one PackageLine
+     * const PackageLine = await prisma.packageLine.create({
+     *   data: {
+     *     // ... data to create a PackageLine
+     *   }
+     * })
+     * 
+     */
+    create<T extends PackageLineCreateArgs>(args: SelectSubset<T, PackageLineCreateArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PackageLines.
+     * @param {PackageLineCreateManyArgs} args - Arguments to create many PackageLines.
+     * @example
+     * // Create many PackageLines
+     * const packageLine = await prisma.packageLine.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PackageLineCreateManyArgs>(args?: SelectSubset<T, PackageLineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PackageLines and returns the data saved in the database.
+     * @param {PackageLineCreateManyAndReturnArgs} args - Arguments to create many PackageLines.
+     * @example
+     * // Create many PackageLines
+     * const packageLine = await prisma.packageLine.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PackageLines and only return the `id`
+     * const packageLineWithIdOnly = await prisma.packageLine.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PackageLineCreateManyAndReturnArgs>(args?: SelectSubset<T, PackageLineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PackageLine.
+     * @param {PackageLineDeleteArgs} args - Arguments to delete one PackageLine.
+     * @example
+     * // Delete one PackageLine
+     * const PackageLine = await prisma.packageLine.delete({
+     *   where: {
+     *     // ... filter to delete one PackageLine
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PackageLineDeleteArgs>(args: SelectSubset<T, PackageLineDeleteArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PackageLine.
+     * @param {PackageLineUpdateArgs} args - Arguments to update one PackageLine.
+     * @example
+     * // Update one PackageLine
+     * const packageLine = await prisma.packageLine.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PackageLineUpdateArgs>(args: SelectSubset<T, PackageLineUpdateArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PackageLines.
+     * @param {PackageLineDeleteManyArgs} args - Arguments to filter PackageLines to delete.
+     * @example
+     * // Delete a few PackageLines
+     * const { count } = await prisma.packageLine.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PackageLineDeleteManyArgs>(args?: SelectSubset<T, PackageLineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PackageLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageLineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PackageLines
+     * const packageLine = await prisma.packageLine.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PackageLineUpdateManyArgs>(args: SelectSubset<T, PackageLineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PackageLines and returns the data updated in the database.
+     * @param {PackageLineUpdateManyAndReturnArgs} args - Arguments to update many PackageLines.
+     * @example
+     * // Update many PackageLines
+     * const packageLine = await prisma.packageLine.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PackageLines and only return the `id`
+     * const packageLineWithIdOnly = await prisma.packageLine.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PackageLineUpdateManyAndReturnArgs>(args: SelectSubset<T, PackageLineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PackageLine.
+     * @param {PackageLineUpsertArgs} args - Arguments to update or create a PackageLine.
+     * @example
+     * // Update or create a PackageLine
+     * const packageLine = await prisma.packageLine.upsert({
+     *   create: {
+     *     // ... data to create a PackageLine
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PackageLine we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PackageLineUpsertArgs>(args: SelectSubset<T, PackageLineUpsertArgs<ExtArgs>>): Prisma__PackageLineClient<$Result.GetResult<Prisma.$PackageLinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PackageLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageLineCountArgs} args - Arguments to filter PackageLines to count.
+     * @example
+     * // Count the number of PackageLines
+     * const count = await prisma.packageLine.count({
+     *   where: {
+     *     // ... the filter for the PackageLines we want to count
+     *   }
+     * })
+    **/
+    count<T extends PackageLineCountArgs>(
+      args?: Subset<T, PackageLineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PackageLineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PackageLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageLineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PackageLineAggregateArgs>(args: Subset<T, PackageLineAggregateArgs>): Prisma.PrismaPromise<GetPackageLineAggregateType<T>>
+
+    /**
+     * Group by PackageLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageLineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PackageLineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PackageLineGroupByArgs['orderBy'] }
+        : { orderBy?: PackageLineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PackageLineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPackageLineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PackageLine model
+   */
+  readonly fields: PackageLineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PackageLine.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PackageLineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    package<T extends PackageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PackageDefaultArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PackageLine model
+   */
+  interface PackageLineFieldRefs {
+    readonly id: FieldRef<"PackageLine", 'String'>
+    readonly tenantId: FieldRef<"PackageLine", 'String'>
+    readonly packageId: FieldRef<"PackageLine", 'String'>
+    readonly orderLineId: FieldRef<"PackageLine", 'String'>
+    readonly quantity: FieldRef<"PackageLine", 'Decimal'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PackageLine findUnique
+   */
+  export type PackageLineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageLine to fetch.
+     */
+    where: PackageLineWhereUniqueInput
+  }
+
+  /**
+   * PackageLine findUniqueOrThrow
+   */
+  export type PackageLineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageLine to fetch.
+     */
+    where: PackageLineWhereUniqueInput
+  }
+
+  /**
+   * PackageLine findFirst
+   */
+  export type PackageLineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageLine to fetch.
+     */
+    where?: PackageLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageLines to fetch.
+     */
+    orderBy?: PackageLineOrderByWithRelationInput | PackageLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PackageLines.
+     */
+    cursor?: PackageLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PackageLines.
+     */
+    distinct?: PackageLineScalarFieldEnum | PackageLineScalarFieldEnum[]
+  }
+
+  /**
+   * PackageLine findFirstOrThrow
+   */
+  export type PackageLineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageLine to fetch.
+     */
+    where?: PackageLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageLines to fetch.
+     */
+    orderBy?: PackageLineOrderByWithRelationInput | PackageLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PackageLines.
+     */
+    cursor?: PackageLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PackageLines.
+     */
+    distinct?: PackageLineScalarFieldEnum | PackageLineScalarFieldEnum[]
+  }
+
+  /**
+   * PackageLine findMany
+   */
+  export type PackageLineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageLines to fetch.
+     */
+    where?: PackageLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageLines to fetch.
+     */
+    orderBy?: PackageLineOrderByWithRelationInput | PackageLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PackageLines.
+     */
+    cursor?: PackageLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageLines.
+     */
+    skip?: number
+    distinct?: PackageLineScalarFieldEnum | PackageLineScalarFieldEnum[]
+  }
+
+  /**
+   * PackageLine create
+   */
+  export type PackageLineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PackageLine.
+     */
+    data: XOR<PackageLineCreateInput, PackageLineUncheckedCreateInput>
+  }
+
+  /**
+   * PackageLine createMany
+   */
+  export type PackageLineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PackageLines.
+     */
+    data: PackageLineCreateManyInput | PackageLineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PackageLine createManyAndReturn
+   */
+  export type PackageLineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * The data used to create many PackageLines.
+     */
+    data: PackageLineCreateManyInput | PackageLineCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PackageLine update
+   */
+  export type PackageLineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PackageLine.
+     */
+    data: XOR<PackageLineUpdateInput, PackageLineUncheckedUpdateInput>
+    /**
+     * Choose, which PackageLine to update.
+     */
+    where: PackageLineWhereUniqueInput
+  }
+
+  /**
+   * PackageLine updateMany
+   */
+  export type PackageLineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PackageLines.
+     */
+    data: XOR<PackageLineUpdateManyMutationInput, PackageLineUncheckedUpdateManyInput>
+    /**
+     * Filter which PackageLines to update
+     */
+    where?: PackageLineWhereInput
+    /**
+     * Limit how many PackageLines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PackageLine updateManyAndReturn
+   */
+  export type PackageLineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * The data used to update PackageLines.
+     */
+    data: XOR<PackageLineUpdateManyMutationInput, PackageLineUncheckedUpdateManyInput>
+    /**
+     * Filter which PackageLines to update
+     */
+    where?: PackageLineWhereInput
+    /**
+     * Limit how many PackageLines to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PackageLine upsert
+   */
+  export type PackageLineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PackageLine to update in case it exists.
+     */
+    where: PackageLineWhereUniqueInput
+    /**
+     * In case the PackageLine found by the `where` argument doesn't exist, create a new PackageLine with this data.
+     */
+    create: XOR<PackageLineCreateInput, PackageLineUncheckedCreateInput>
+    /**
+     * In case the PackageLine was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PackageLineUpdateInput, PackageLineUncheckedUpdateInput>
+  }
+
+  /**
+   * PackageLine delete
+   */
+  export type PackageLineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+    /**
+     * Filter which PackageLine to delete.
+     */
+    where: PackageLineWhereUniqueInput
+  }
+
+  /**
+   * PackageLine deleteMany
+   */
+  export type PackageLineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PackageLines to delete
+     */
+    where?: PackageLineWhereInput
+    /**
+     * Limit how many PackageLines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PackageLine without action
+   */
+  export type PackageLineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageLine
+     */
+    select?: PackageLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageLine
+     */
+    omit?: PackageLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageLineInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LandedCost
+   */
+
+  export type AggregateLandedCost = {
+    _count: LandedCostCountAggregateOutputType | null
+    _avg: LandedCostAvgAggregateOutputType | null
+    _sum: LandedCostSumAggregateOutputType | null
+    _min: LandedCostMinAggregateOutputType | null
+    _max: LandedCostMaxAggregateOutputType | null
+  }
+
+  export type LandedCostAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type LandedCostSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type LandedCostMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    poId: string | null
+    costType: $Enums.LandedCostType | null
+    amount: Decimal | null
+    note: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type LandedCostMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    poId: string | null
+    costType: $Enums.LandedCostType | null
+    amount: Decimal | null
+    note: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type LandedCostCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    poId: number
+    costType: number
+    amount: number
+    note: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LandedCostAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type LandedCostSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type LandedCostMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    poId?: true
+    costType?: true
+    amount?: true
+    note?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type LandedCostMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    poId?: true
+    costType?: true
+    amount?: true
+    note?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type LandedCostCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    poId?: true
+    costType?: true
+    amount?: true
+    note?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LandedCostAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LandedCost to aggregate.
+     */
+    where?: LandedCostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandedCosts to fetch.
+     */
+    orderBy?: LandedCostOrderByWithRelationInput | LandedCostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LandedCostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandedCosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandedCosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LandedCosts
+    **/
+    _count?: true | LandedCostCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LandedCostAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LandedCostSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LandedCostMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LandedCostMaxAggregateInputType
+  }
+
+  export type GetLandedCostAggregateType<T extends LandedCostAggregateArgs> = {
+        [P in keyof T & keyof AggregateLandedCost]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLandedCost[P]>
+      : GetScalarType<T[P], AggregateLandedCost[P]>
+  }
+
+
+
+
+  export type LandedCostGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LandedCostWhereInput
+    orderBy?: LandedCostOrderByWithAggregationInput | LandedCostOrderByWithAggregationInput[]
+    by: LandedCostScalarFieldEnum[] | LandedCostScalarFieldEnum
+    having?: LandedCostScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LandedCostCountAggregateInputType | true
+    _avg?: LandedCostAvgAggregateInputType
+    _sum?: LandedCostSumAggregateInputType
+    _min?: LandedCostMinAggregateInputType
+    _max?: LandedCostMaxAggregateInputType
+  }
+
+  export type LandedCostGroupByOutputType = {
+    id: string
+    tenantId: string
+    poId: string
+    costType: $Enums.LandedCostType
+    amount: Decimal
+    note: string | null
+    createdBy: string | null
+    createdAt: Date
+    _count: LandedCostCountAggregateOutputType | null
+    _avg: LandedCostAvgAggregateOutputType | null
+    _sum: LandedCostSumAggregateOutputType | null
+    _min: LandedCostMinAggregateOutputType | null
+    _max: LandedCostMaxAggregateOutputType | null
+  }
+
+  type GetLandedCostGroupByPayload<T extends LandedCostGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LandedCostGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LandedCostGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LandedCostGroupByOutputType[P]>
+            : GetScalarType<T[P], LandedCostGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LandedCostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    poId?: boolean
+    costType?: boolean
+    amount?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    po?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["landedCost"]>
+
+  export type LandedCostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    poId?: boolean
+    costType?: boolean
+    amount?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    po?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["landedCost"]>
+
+  export type LandedCostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    poId?: boolean
+    costType?: boolean
+    amount?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    po?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["landedCost"]>
+
+  export type LandedCostSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    poId?: boolean
+    costType?: boolean
+    amount?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type LandedCostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "poId" | "costType" | "amount" | "note" | "createdBy" | "createdAt", ExtArgs["result"]["landedCost"]>
+  export type LandedCostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    po?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
+  }
+  export type LandedCostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    po?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
+  }
+  export type LandedCostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    po?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
+  }
+
+  export type $LandedCostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LandedCost"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      po: Prisma.$PurchaseOrderPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      poId: string
+      costType: $Enums.LandedCostType
+      amount: Prisma.Decimal
+      note: string | null
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["landedCost"]>
+    composites: {}
+  }
+
+  type LandedCostGetPayload<S extends boolean | null | undefined | LandedCostDefaultArgs> = $Result.GetResult<Prisma.$LandedCostPayload, S>
+
+  type LandedCostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LandedCostFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LandedCostCountAggregateInputType | true
+    }
+
+  export interface LandedCostDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LandedCost'], meta: { name: 'LandedCost' } }
+    /**
+     * Find zero or one LandedCost that matches the filter.
+     * @param {LandedCostFindUniqueArgs} args - Arguments to find a LandedCost
+     * @example
+     * // Get one LandedCost
+     * const landedCost = await prisma.landedCost.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LandedCostFindUniqueArgs>(args: SelectSubset<T, LandedCostFindUniqueArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LandedCost that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LandedCostFindUniqueOrThrowArgs} args - Arguments to find a LandedCost
+     * @example
+     * // Get one LandedCost
+     * const landedCost = await prisma.landedCost.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LandedCostFindUniqueOrThrowArgs>(args: SelectSubset<T, LandedCostFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LandedCost that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandedCostFindFirstArgs} args - Arguments to find a LandedCost
+     * @example
+     * // Get one LandedCost
+     * const landedCost = await prisma.landedCost.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LandedCostFindFirstArgs>(args?: SelectSubset<T, LandedCostFindFirstArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LandedCost that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandedCostFindFirstOrThrowArgs} args - Arguments to find a LandedCost
+     * @example
+     * // Get one LandedCost
+     * const landedCost = await prisma.landedCost.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LandedCostFindFirstOrThrowArgs>(args?: SelectSubset<T, LandedCostFindFirstOrThrowArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LandedCosts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandedCostFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LandedCosts
+     * const landedCosts = await prisma.landedCost.findMany()
+     * 
+     * // Get first 10 LandedCosts
+     * const landedCosts = await prisma.landedCost.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const landedCostWithIdOnly = await prisma.landedCost.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LandedCostFindManyArgs>(args?: SelectSubset<T, LandedCostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LandedCost.
+     * @param {LandedCostCreateArgs} args - Arguments to create a LandedCost.
+     * @example
+     * // Create one LandedCost
+     * const LandedCost = await prisma.landedCost.create({
+     *   data: {
+     *     // ... data to create a LandedCost
+     *   }
+     * })
+     * 
+     */
+    create<T extends LandedCostCreateArgs>(args: SelectSubset<T, LandedCostCreateArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LandedCosts.
+     * @param {LandedCostCreateManyArgs} args - Arguments to create many LandedCosts.
+     * @example
+     * // Create many LandedCosts
+     * const landedCost = await prisma.landedCost.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LandedCostCreateManyArgs>(args?: SelectSubset<T, LandedCostCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LandedCosts and returns the data saved in the database.
+     * @param {LandedCostCreateManyAndReturnArgs} args - Arguments to create many LandedCosts.
+     * @example
+     * // Create many LandedCosts
+     * const landedCost = await prisma.landedCost.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LandedCosts and only return the `id`
+     * const landedCostWithIdOnly = await prisma.landedCost.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LandedCostCreateManyAndReturnArgs>(args?: SelectSubset<T, LandedCostCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LandedCost.
+     * @param {LandedCostDeleteArgs} args - Arguments to delete one LandedCost.
+     * @example
+     * // Delete one LandedCost
+     * const LandedCost = await prisma.landedCost.delete({
+     *   where: {
+     *     // ... filter to delete one LandedCost
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LandedCostDeleteArgs>(args: SelectSubset<T, LandedCostDeleteArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LandedCost.
+     * @param {LandedCostUpdateArgs} args - Arguments to update one LandedCost.
+     * @example
+     * // Update one LandedCost
+     * const landedCost = await prisma.landedCost.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LandedCostUpdateArgs>(args: SelectSubset<T, LandedCostUpdateArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LandedCosts.
+     * @param {LandedCostDeleteManyArgs} args - Arguments to filter LandedCosts to delete.
+     * @example
+     * // Delete a few LandedCosts
+     * const { count } = await prisma.landedCost.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LandedCostDeleteManyArgs>(args?: SelectSubset<T, LandedCostDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LandedCosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandedCostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LandedCosts
+     * const landedCost = await prisma.landedCost.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LandedCostUpdateManyArgs>(args: SelectSubset<T, LandedCostUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LandedCosts and returns the data updated in the database.
+     * @param {LandedCostUpdateManyAndReturnArgs} args - Arguments to update many LandedCosts.
+     * @example
+     * // Update many LandedCosts
+     * const landedCost = await prisma.landedCost.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LandedCosts and only return the `id`
+     * const landedCostWithIdOnly = await prisma.landedCost.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LandedCostUpdateManyAndReturnArgs>(args: SelectSubset<T, LandedCostUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LandedCost.
+     * @param {LandedCostUpsertArgs} args - Arguments to update or create a LandedCost.
+     * @example
+     * // Update or create a LandedCost
+     * const landedCost = await prisma.landedCost.upsert({
+     *   create: {
+     *     // ... data to create a LandedCost
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LandedCost we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LandedCostUpsertArgs>(args: SelectSubset<T, LandedCostUpsertArgs<ExtArgs>>): Prisma__LandedCostClient<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LandedCosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandedCostCountArgs} args - Arguments to filter LandedCosts to count.
+     * @example
+     * // Count the number of LandedCosts
+     * const count = await prisma.landedCost.count({
+     *   where: {
+     *     // ... the filter for the LandedCosts we want to count
+     *   }
+     * })
+    **/
+    count<T extends LandedCostCountArgs>(
+      args?: Subset<T, LandedCostCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LandedCostCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LandedCost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandedCostAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LandedCostAggregateArgs>(args: Subset<T, LandedCostAggregateArgs>): Prisma.PrismaPromise<GetLandedCostAggregateType<T>>
+
+    /**
+     * Group by LandedCost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandedCostGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LandedCostGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LandedCostGroupByArgs['orderBy'] }
+        : { orderBy?: LandedCostGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LandedCostGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLandedCostGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LandedCost model
+   */
+  readonly fields: LandedCostFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LandedCost.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LandedCostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    po<T extends PurchaseOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PurchaseOrderDefaultArgs<ExtArgs>>): Prisma__PurchaseOrderClient<$Result.GetResult<Prisma.$PurchaseOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LandedCost model
+   */
+  interface LandedCostFieldRefs {
+    readonly id: FieldRef<"LandedCost", 'String'>
+    readonly tenantId: FieldRef<"LandedCost", 'String'>
+    readonly poId: FieldRef<"LandedCost", 'String'>
+    readonly costType: FieldRef<"LandedCost", 'LandedCostType'>
+    readonly amount: FieldRef<"LandedCost", 'Decimal'>
+    readonly note: FieldRef<"LandedCost", 'String'>
+    readonly createdBy: FieldRef<"LandedCost", 'String'>
+    readonly createdAt: FieldRef<"LandedCost", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LandedCost findUnique
+   */
+  export type LandedCostFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * Filter, which LandedCost to fetch.
+     */
+    where: LandedCostWhereUniqueInput
+  }
+
+  /**
+   * LandedCost findUniqueOrThrow
+   */
+  export type LandedCostFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * Filter, which LandedCost to fetch.
+     */
+    where: LandedCostWhereUniqueInput
+  }
+
+  /**
+   * LandedCost findFirst
+   */
+  export type LandedCostFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * Filter, which LandedCost to fetch.
+     */
+    where?: LandedCostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandedCosts to fetch.
+     */
+    orderBy?: LandedCostOrderByWithRelationInput | LandedCostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LandedCosts.
+     */
+    cursor?: LandedCostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandedCosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandedCosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LandedCosts.
+     */
+    distinct?: LandedCostScalarFieldEnum | LandedCostScalarFieldEnum[]
+  }
+
+  /**
+   * LandedCost findFirstOrThrow
+   */
+  export type LandedCostFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * Filter, which LandedCost to fetch.
+     */
+    where?: LandedCostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandedCosts to fetch.
+     */
+    orderBy?: LandedCostOrderByWithRelationInput | LandedCostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LandedCosts.
+     */
+    cursor?: LandedCostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandedCosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandedCosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LandedCosts.
+     */
+    distinct?: LandedCostScalarFieldEnum | LandedCostScalarFieldEnum[]
+  }
+
+  /**
+   * LandedCost findMany
+   */
+  export type LandedCostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * Filter, which LandedCosts to fetch.
+     */
+    where?: LandedCostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandedCosts to fetch.
+     */
+    orderBy?: LandedCostOrderByWithRelationInput | LandedCostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LandedCosts.
+     */
+    cursor?: LandedCostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandedCosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandedCosts.
+     */
+    skip?: number
+    distinct?: LandedCostScalarFieldEnum | LandedCostScalarFieldEnum[]
+  }
+
+  /**
+   * LandedCost create
+   */
+  export type LandedCostCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LandedCost.
+     */
+    data: XOR<LandedCostCreateInput, LandedCostUncheckedCreateInput>
+  }
+
+  /**
+   * LandedCost createMany
+   */
+  export type LandedCostCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LandedCosts.
+     */
+    data: LandedCostCreateManyInput | LandedCostCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LandedCost createManyAndReturn
+   */
+  export type LandedCostCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * The data used to create many LandedCosts.
+     */
+    data: LandedCostCreateManyInput | LandedCostCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LandedCost update
+   */
+  export type LandedCostUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LandedCost.
+     */
+    data: XOR<LandedCostUpdateInput, LandedCostUncheckedUpdateInput>
+    /**
+     * Choose, which LandedCost to update.
+     */
+    where: LandedCostWhereUniqueInput
+  }
+
+  /**
+   * LandedCost updateMany
+   */
+  export type LandedCostUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LandedCosts.
+     */
+    data: XOR<LandedCostUpdateManyMutationInput, LandedCostUncheckedUpdateManyInput>
+    /**
+     * Filter which LandedCosts to update
+     */
+    where?: LandedCostWhereInput
+    /**
+     * Limit how many LandedCosts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LandedCost updateManyAndReturn
+   */
+  export type LandedCostUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * The data used to update LandedCosts.
+     */
+    data: XOR<LandedCostUpdateManyMutationInput, LandedCostUncheckedUpdateManyInput>
+    /**
+     * Filter which LandedCosts to update
+     */
+    where?: LandedCostWhereInput
+    /**
+     * Limit how many LandedCosts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LandedCost upsert
+   */
+  export type LandedCostUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LandedCost to update in case it exists.
+     */
+    where: LandedCostWhereUniqueInput
+    /**
+     * In case the LandedCost found by the `where` argument doesn't exist, create a new LandedCost with this data.
+     */
+    create: XOR<LandedCostCreateInput, LandedCostUncheckedCreateInput>
+    /**
+     * In case the LandedCost was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LandedCostUpdateInput, LandedCostUncheckedUpdateInput>
+  }
+
+  /**
+   * LandedCost delete
+   */
+  export type LandedCostDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+    /**
+     * Filter which LandedCost to delete.
+     */
+    where: LandedCostWhereUniqueInput
+  }
+
+  /**
+   * LandedCost deleteMany
+   */
+  export type LandedCostDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LandedCosts to delete
+     */
+    where?: LandedCostWhereInput
+    /**
+     * Limit how many LandedCosts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LandedCost without action
+   */
+  export type LandedCostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandedCost
+     */
+    select?: LandedCostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandedCost
+     */
+    omit?: LandedCostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandedCostInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -148801,7 +152788,8 @@ export namespace Prisma {
     id: 'id',
     tenantId: 'tenantId',
     key: 'key',
-    name: 'name'
+    name: 'name',
+    status: 'status'
   };
 
   export type DocumentTemplateScalarFieldEnum = (typeof DocumentTemplateScalarFieldEnum)[keyof typeof DocumentTemplateScalarFieldEnum]
@@ -149277,6 +153265,8 @@ export namespace Prisma {
     currency: 'currency',
     total: 'total',
     holdReason: 'holdReason',
+    fulfillmentType: 'fulfillmentType',
+    projectRef: 'projectRef',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -149295,7 +153285,8 @@ export namespace Prisma {
     unitPrice: 'unitPrice',
     lineTotal: 'lineTotal',
     reservationId: 'reservationId',
-    backordered: 'backordered'
+    backordered: 'backordered',
+    fulfilledQty: 'fulfilledQty'
   };
 
   export type SalesOrderLineScalarFieldEnum = (typeof SalesOrderLineScalarFieldEnum)[keyof typeof SalesOrderLineScalarFieldEnum]
@@ -150166,6 +154157,46 @@ export namespace Prisma {
   export type RfqQuoteScalarFieldEnum = (typeof RfqQuoteScalarFieldEnum)[keyof typeof RfqQuoteScalarFieldEnum]
 
 
+  export const PackageScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    orderId: 'orderId',
+    packageNumber: 'packageNumber',
+    status: 'status',
+    weightKg: 'weightKg',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PackageScalarFieldEnum = (typeof PackageScalarFieldEnum)[keyof typeof PackageScalarFieldEnum]
+
+
+  export const PackageLineScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    packageId: 'packageId',
+    orderLineId: 'orderLineId',
+    quantity: 'quantity'
+  };
+
+  export type PackageLineScalarFieldEnum = (typeof PackageLineScalarFieldEnum)[keyof typeof PackageLineScalarFieldEnum]
+
+
+  export const LandedCostScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    poId: 'poId',
+    costType: 'costType',
+    amount: 'amount',
+    note: 'note',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type LandedCostScalarFieldEnum = (typeof LandedCostScalarFieldEnum)[keyof typeof LandedCostScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -150405,6 +154436,20 @@ export namespace Prisma {
    * Reference to a field of type 'ApprovalStatus[]'
    */
   export type ListEnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentTemplateStatus'
+   */
+  export type EnumDocumentTemplateStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentTemplateStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentTemplateStatus[]'
+   */
+  export type ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentTemplateStatus[]'>
     
 
 
@@ -150699,6 +154744,20 @@ export namespace Prisma {
    * Reference to a field of type 'SalesOrderStatus[]'
    */
   export type ListEnumSalesOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SalesOrderStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FulfillmentType'
+   */
+  export type EnumFulfillmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FulfillmentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'FulfillmentType[]'
+   */
+  export type ListEnumFulfillmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FulfillmentType[]'>
     
 
 
@@ -151095,6 +155154,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'PackageStatus'
+   */
+  export type EnumPackageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PackageStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PackageStatus[]'
+   */
+  export type ListEnumPackageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PackageStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'LandedCostType'
+   */
+  export type EnumLandedCostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LandedCostType'>
+    
+
+
+  /**
+   * Reference to a field of type 'LandedCostType[]'
+   */
+  export type ListEnumLandedCostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LandedCostType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -151221,6 +155308,8 @@ export namespace Prisma {
     assets?: AssetListRelationFilter
     quarantineHolds?: QuarantineHoldListRelationFilter
     rfqs?: RfqListRelationFilter
+    packages?: PackageListRelationFilter
+    landedCosts?: LandedCostListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -151330,6 +155419,8 @@ export namespace Prisma {
     assets?: AssetOrderByRelationAggregateInput
     quarantineHolds?: QuarantineHoldOrderByRelationAggregateInput
     rfqs?: RfqOrderByRelationAggregateInput
+    packages?: PackageOrderByRelationAggregateInput
+    landedCosts?: LandedCostOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -151442,6 +155533,8 @@ export namespace Prisma {
     assets?: AssetListRelationFilter
     quarantineHolds?: QuarantineHoldListRelationFilter
     rfqs?: RfqListRelationFilter
+    packages?: PackageListRelationFilter
+    landedCosts?: LandedCostListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -153225,6 +157318,7 @@ export namespace Prisma {
     tenantId?: UuidFilter<"DocumentTemplate"> | string
     key?: StringFilter<"DocumentTemplate"> | string
     name?: StringFilter<"DocumentTemplate"> | string
+    status?: EnumDocumentTemplateStatusFilter<"DocumentTemplate"> | $Enums.DocumentTemplateStatus
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     versions?: DocumentTemplateVersionListRelationFilter
   }
@@ -153234,6 +157328,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     key?: SortOrder
     name?: SortOrder
+    status?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     versions?: DocumentTemplateVersionOrderByRelationAggregateInput
   }
@@ -153247,6 +157342,7 @@ export namespace Prisma {
     tenantId?: UuidFilter<"DocumentTemplate"> | string
     key?: StringFilter<"DocumentTemplate"> | string
     name?: StringFilter<"DocumentTemplate"> | string
+    status?: EnumDocumentTemplateStatusFilter<"DocumentTemplate"> | $Enums.DocumentTemplateStatus
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     versions?: DocumentTemplateVersionListRelationFilter
   }, "id" | "tenantId_key">
@@ -153256,6 +157352,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     key?: SortOrder
     name?: SortOrder
+    status?: SortOrder
     _count?: DocumentTemplateCountOrderByAggregateInput
     _max?: DocumentTemplateMaxOrderByAggregateInput
     _min?: DocumentTemplateMinOrderByAggregateInput
@@ -153269,6 +157366,7 @@ export namespace Prisma {
     tenantId?: UuidWithAggregatesFilter<"DocumentTemplate"> | string
     key?: StringWithAggregatesFilter<"DocumentTemplate"> | string
     name?: StringWithAggregatesFilter<"DocumentTemplate"> | string
+    status?: EnumDocumentTemplateStatusWithAggregatesFilter<"DocumentTemplate"> | $Enums.DocumentTemplateStatus
   }
 
   export type DocumentTemplateVersionWhereInput = {
@@ -155699,11 +159797,14 @@ export namespace Prisma {
     currency?: StringFilter<"SalesOrder"> | string
     total?: DecimalFilter<"SalesOrder"> | Decimal | DecimalJsLike | number | string
     holdReason?: StringNullableFilter<"SalesOrder"> | string | null
+    fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
+    projectRef?: StringNullableFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     lines?: SalesOrderLineListRelationFilter
+    packages?: PackageListRelationFilter
   }
 
   export type SalesOrderOrderByWithRelationInput = {
@@ -155717,11 +159818,14 @@ export namespace Prisma {
     currency?: SortOrder
     total?: SortOrder
     holdReason?: SortOrderInput | SortOrder
+    fulfillmentType?: SortOrder
+    projectRef?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     lines?: SalesOrderLineOrderByRelationAggregateInput
+    packages?: PackageOrderByRelationAggregateInput
   }
 
   export type SalesOrderWhereUniqueInput = Prisma.AtLeast<{
@@ -155739,11 +159843,14 @@ export namespace Prisma {
     currency?: StringFilter<"SalesOrder"> | string
     total?: DecimalFilter<"SalesOrder"> | Decimal | DecimalJsLike | number | string
     holdReason?: StringNullableFilter<"SalesOrder"> | string | null
+    fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
+    projectRef?: StringNullableFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     lines?: SalesOrderLineListRelationFilter
+    packages?: PackageListRelationFilter
   }, "id" | "tenantId_orderNumber">
 
   export type SalesOrderOrderByWithAggregationInput = {
@@ -155757,6 +159864,8 @@ export namespace Prisma {
     currency?: SortOrder
     total?: SortOrder
     holdReason?: SortOrderInput | SortOrder
+    fulfillmentType?: SortOrder
+    projectRef?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -155781,6 +159890,8 @@ export namespace Prisma {
     currency?: StringWithAggregatesFilter<"SalesOrder"> | string
     total?: DecimalWithAggregatesFilter<"SalesOrder"> | Decimal | DecimalJsLike | number | string
     holdReason?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
+    fulfillmentType?: EnumFulfillmentTypeWithAggregatesFilter<"SalesOrder"> | $Enums.FulfillmentType
+    projectRef?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
@@ -155800,6 +159911,7 @@ export namespace Prisma {
     lineTotal?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
+    fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
   }
@@ -155815,6 +159927,7 @@ export namespace Prisma {
     lineTotal?: SortOrder
     reservationId?: SortOrderInput | SortOrder
     backordered?: SortOrder
+    fulfilledQty?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     order?: SalesOrderOrderByWithRelationInput
   }
@@ -155833,6 +159946,7 @@ export namespace Prisma {
     lineTotal?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
+    fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
   }, "id">
@@ -155848,6 +159962,7 @@ export namespace Prisma {
     lineTotal?: SortOrder
     reservationId?: SortOrderInput | SortOrder
     backordered?: SortOrder
+    fulfilledQty?: SortOrder
     _count?: SalesOrderLineCountOrderByAggregateInput
     _avg?: SalesOrderLineAvgOrderByAggregateInput
     _max?: SalesOrderLineMaxOrderByAggregateInput
@@ -155869,6 +159984,7 @@ export namespace Prisma {
     lineTotal?: DecimalWithAggregatesFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableWithAggregatesFilter<"SalesOrderLine"> | string | null
     backordered?: BoolWithAggregatesFilter<"SalesOrderLine"> | boolean
+    fulfilledQty?: DecimalWithAggregatesFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
   }
 
   export type OrderEventWhereInput = {
@@ -156195,6 +160311,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PurchaseOrder"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     lines?: PurchaseOrderLineListRelationFilter
+    landedCosts?: LandedCostListRelationFilter
   }
 
   export type PurchaseOrderOrderByWithRelationInput = {
@@ -156213,6 +160330,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     lines?: PurchaseOrderLineOrderByRelationAggregateInput
+    landedCosts?: LandedCostOrderByRelationAggregateInput
   }
 
   export type PurchaseOrderWhereUniqueInput = Prisma.AtLeast<{
@@ -156235,6 +160353,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PurchaseOrder"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     lines?: PurchaseOrderLineListRelationFilter
+    landedCosts?: LandedCostListRelationFilter
   }, "id" | "tenantId_poNumber">
 
   export type PurchaseOrderOrderByWithAggregationInput = {
@@ -160427,6 +164546,223 @@ export namespace Prisma {
     receivedAt?: DateTimeWithAggregatesFilter<"RfqQuote"> | Date | string
   }
 
+  export type PackageWhereInput = {
+    AND?: PackageWhereInput | PackageWhereInput[]
+    OR?: PackageWhereInput[]
+    NOT?: PackageWhereInput | PackageWhereInput[]
+    id?: UuidFilter<"Package"> | string
+    tenantId?: UuidFilter<"Package"> | string
+    orderId?: UuidFilter<"Package"> | string
+    packageNumber?: StringFilter<"Package"> | string
+    status?: EnumPackageStatusFilter<"Package"> | $Enums.PackageStatus
+    weightKg?: DecimalNullableFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    createdBy?: StringNullableFilter<"Package"> | string | null
+    createdAt?: DateTimeFilter<"Package"> | Date | string
+    updatedAt?: DateTimeFilter<"Package"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
+    lines?: PackageLineListRelationFilter
+  }
+
+  export type PackageOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    packageNumber?: SortOrder
+    status?: SortOrder
+    weightKg?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    order?: SalesOrderOrderByWithRelationInput
+    lines?: PackageLineOrderByRelationAggregateInput
+  }
+
+  export type PackageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_packageNumber?: PackageTenantIdPackageNumberCompoundUniqueInput
+    AND?: PackageWhereInput | PackageWhereInput[]
+    OR?: PackageWhereInput[]
+    NOT?: PackageWhereInput | PackageWhereInput[]
+    tenantId?: UuidFilter<"Package"> | string
+    orderId?: UuidFilter<"Package"> | string
+    packageNumber?: StringFilter<"Package"> | string
+    status?: EnumPackageStatusFilter<"Package"> | $Enums.PackageStatus
+    weightKg?: DecimalNullableFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    createdBy?: StringNullableFilter<"Package"> | string | null
+    createdAt?: DateTimeFilter<"Package"> | Date | string
+    updatedAt?: DateTimeFilter<"Package"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
+    lines?: PackageLineListRelationFilter
+  }, "id" | "tenantId_packageNumber">
+
+  export type PackageOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    packageNumber?: SortOrder
+    status?: SortOrder
+    weightKg?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PackageCountOrderByAggregateInput
+    _avg?: PackageAvgOrderByAggregateInput
+    _max?: PackageMaxOrderByAggregateInput
+    _min?: PackageMinOrderByAggregateInput
+    _sum?: PackageSumOrderByAggregateInput
+  }
+
+  export type PackageScalarWhereWithAggregatesInput = {
+    AND?: PackageScalarWhereWithAggregatesInput | PackageScalarWhereWithAggregatesInput[]
+    OR?: PackageScalarWhereWithAggregatesInput[]
+    NOT?: PackageScalarWhereWithAggregatesInput | PackageScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Package"> | string
+    tenantId?: UuidWithAggregatesFilter<"Package"> | string
+    orderId?: UuidWithAggregatesFilter<"Package"> | string
+    packageNumber?: StringWithAggregatesFilter<"Package"> | string
+    status?: EnumPackageStatusWithAggregatesFilter<"Package"> | $Enums.PackageStatus
+    weightKg?: DecimalNullableWithAggregatesFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"Package"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Package"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Package"> | Date | string
+  }
+
+  export type PackageLineWhereInput = {
+    AND?: PackageLineWhereInput | PackageLineWhereInput[]
+    OR?: PackageLineWhereInput[]
+    NOT?: PackageLineWhereInput | PackageLineWhereInput[]
+    id?: UuidFilter<"PackageLine"> | string
+    tenantId?: UuidFilter<"PackageLine"> | string
+    packageId?: UuidFilter<"PackageLine"> | string
+    orderLineId?: UuidFilter<"PackageLine"> | string
+    quantity?: DecimalFilter<"PackageLine"> | Decimal | DecimalJsLike | number | string
+    package?: XOR<PackageScalarRelationFilter, PackageWhereInput>
+  }
+
+  export type PackageLineOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    packageId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+    package?: PackageOrderByWithRelationInput
+  }
+
+  export type PackageLineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_packageId_orderLineId?: PackageLineTenantIdPackageIdOrderLineIdCompoundUniqueInput
+    AND?: PackageLineWhereInput | PackageLineWhereInput[]
+    OR?: PackageLineWhereInput[]
+    NOT?: PackageLineWhereInput | PackageLineWhereInput[]
+    tenantId?: UuidFilter<"PackageLine"> | string
+    packageId?: UuidFilter<"PackageLine"> | string
+    orderLineId?: UuidFilter<"PackageLine"> | string
+    quantity?: DecimalFilter<"PackageLine"> | Decimal | DecimalJsLike | number | string
+    package?: XOR<PackageScalarRelationFilter, PackageWhereInput>
+  }, "id" | "tenantId_packageId_orderLineId">
+
+  export type PackageLineOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    packageId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+    _count?: PackageLineCountOrderByAggregateInput
+    _avg?: PackageLineAvgOrderByAggregateInput
+    _max?: PackageLineMaxOrderByAggregateInput
+    _min?: PackageLineMinOrderByAggregateInput
+    _sum?: PackageLineSumOrderByAggregateInput
+  }
+
+  export type PackageLineScalarWhereWithAggregatesInput = {
+    AND?: PackageLineScalarWhereWithAggregatesInput | PackageLineScalarWhereWithAggregatesInput[]
+    OR?: PackageLineScalarWhereWithAggregatesInput[]
+    NOT?: PackageLineScalarWhereWithAggregatesInput | PackageLineScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PackageLine"> | string
+    tenantId?: UuidWithAggregatesFilter<"PackageLine"> | string
+    packageId?: UuidWithAggregatesFilter<"PackageLine"> | string
+    orderLineId?: UuidWithAggregatesFilter<"PackageLine"> | string
+    quantity?: DecimalWithAggregatesFilter<"PackageLine"> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type LandedCostWhereInput = {
+    AND?: LandedCostWhereInput | LandedCostWhereInput[]
+    OR?: LandedCostWhereInput[]
+    NOT?: LandedCostWhereInput | LandedCostWhereInput[]
+    id?: UuidFilter<"LandedCost"> | string
+    tenantId?: UuidFilter<"LandedCost"> | string
+    poId?: UuidFilter<"LandedCost"> | string
+    costType?: EnumLandedCostTypeFilter<"LandedCost"> | $Enums.LandedCostType
+    amount?: DecimalFilter<"LandedCost"> | Decimal | DecimalJsLike | number | string
+    note?: StringNullableFilter<"LandedCost"> | string | null
+    createdBy?: StringNullableFilter<"LandedCost"> | string | null
+    createdAt?: DateTimeFilter<"LandedCost"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    po?: XOR<PurchaseOrderScalarRelationFilter, PurchaseOrderWhereInput>
+  }
+
+  export type LandedCostOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    poId?: SortOrder
+    costType?: SortOrder
+    amount?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    po?: PurchaseOrderOrderByWithRelationInput
+  }
+
+  export type LandedCostWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LandedCostWhereInput | LandedCostWhereInput[]
+    OR?: LandedCostWhereInput[]
+    NOT?: LandedCostWhereInput | LandedCostWhereInput[]
+    tenantId?: UuidFilter<"LandedCost"> | string
+    poId?: UuidFilter<"LandedCost"> | string
+    costType?: EnumLandedCostTypeFilter<"LandedCost"> | $Enums.LandedCostType
+    amount?: DecimalFilter<"LandedCost"> | Decimal | DecimalJsLike | number | string
+    note?: StringNullableFilter<"LandedCost"> | string | null
+    createdBy?: StringNullableFilter<"LandedCost"> | string | null
+    createdAt?: DateTimeFilter<"LandedCost"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    po?: XOR<PurchaseOrderScalarRelationFilter, PurchaseOrderWhereInput>
+  }, "id">
+
+  export type LandedCostOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    poId?: SortOrder
+    costType?: SortOrder
+    amount?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LandedCostCountOrderByAggregateInput
+    _avg?: LandedCostAvgOrderByAggregateInput
+    _max?: LandedCostMaxOrderByAggregateInput
+    _min?: LandedCostMinOrderByAggregateInput
+    _sum?: LandedCostSumOrderByAggregateInput
+  }
+
+  export type LandedCostScalarWhereWithAggregatesInput = {
+    AND?: LandedCostScalarWhereWithAggregatesInput | LandedCostScalarWhereWithAggregatesInput[]
+    OR?: LandedCostScalarWhereWithAggregatesInput[]
+    NOT?: LandedCostScalarWhereWithAggregatesInput | LandedCostScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"LandedCost"> | string
+    tenantId?: UuidWithAggregatesFilter<"LandedCost"> | string
+    poId?: UuidWithAggregatesFilter<"LandedCost"> | string
+    costType?: EnumLandedCostTypeWithAggregatesFilter<"LandedCost"> | $Enums.LandedCostType
+    amount?: DecimalWithAggregatesFilter<"LandedCost"> | Decimal | DecimalJsLike | number | string
+    note?: StringNullableWithAggregatesFilter<"LandedCost"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"LandedCost"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LandedCost"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -160534,6 +164870,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -160643,6 +164981,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -160752,6 +165092,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -160861,6 +165203,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -162730,6 +167074,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
     tenant: TenantCreateNestedOneWithoutDocumentTemplatesInput
     versions?: DocumentTemplateVersionCreateNestedManyWithoutTemplateInput
   }
@@ -162739,6 +167084,7 @@ export namespace Prisma {
     tenantId: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
     versions?: DocumentTemplateVersionUncheckedCreateNestedManyWithoutTemplateInput
   }
 
@@ -162746,6 +167092,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
     tenant?: TenantUpdateOneRequiredWithoutDocumentTemplatesNestedInput
     versions?: DocumentTemplateVersionUpdateManyWithoutTemplateNestedInput
   }
@@ -162755,6 +167102,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
     versions?: DocumentTemplateVersionUncheckedUpdateManyWithoutTemplateNestedInput
   }
 
@@ -162763,12 +167111,14 @@ export namespace Prisma {
     tenantId: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
   }
 
   export type DocumentTemplateUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
   }
 
   export type DocumentTemplateUncheckedUpdateManyInput = {
@@ -162776,6 +167126,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
   }
 
   export type DocumentTemplateVersionCreateInput = {
@@ -165398,11 +169749,14 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutSalesOrdersInput
     lines?: SalesOrderLineCreateNestedManyWithoutOrderInput
+    packages?: PackageCreateNestedManyWithoutOrderInput
   }
 
   export type SalesOrderUncheckedCreateInput = {
@@ -165416,10 +169770,13 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lines?: SalesOrderLineUncheckedCreateNestedManyWithoutOrderInput
+    packages?: PackageUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type SalesOrderUpdateInput = {
@@ -165432,11 +169789,14 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutSalesOrdersNestedInput
     lines?: SalesOrderLineUpdateManyWithoutOrderNestedInput
+    packages?: PackageUpdateManyWithoutOrderNestedInput
   }
 
   export type SalesOrderUncheckedUpdateInput = {
@@ -165450,10 +169810,13 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: SalesOrderLineUncheckedUpdateManyWithoutOrderNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type SalesOrderCreateManyInput = {
@@ -165467,6 +169830,8 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -165482,6 +169847,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -165498,6 +169865,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -165512,6 +169881,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
     order: SalesOrderCreateNestedOneWithoutLinesInput
   }
@@ -165527,6 +169897,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineUpdateInput = {
@@ -165538,6 +169909,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
   }
@@ -165553,6 +169925,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineCreateManyInput = {
@@ -165566,6 +169939,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineUpdateManyMutationInput = {
@@ -165577,6 +169951,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineUncheckedUpdateManyInput = {
@@ -165590,6 +169965,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type OrderEventCreateInput = {
@@ -165928,6 +170304,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutPurchaseOrdersInput
     lines?: PurchaseOrderLineCreateNestedManyWithoutPoInput
+    landedCosts?: LandedCostCreateNestedManyWithoutPoInput
   }
 
   export type PurchaseOrderUncheckedCreateInput = {
@@ -165945,6 +170322,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     lines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutPoInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutPoInput
   }
 
   export type PurchaseOrderUpdateInput = {
@@ -165962,6 +170340,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutPurchaseOrdersNestedInput
     lines?: PurchaseOrderLineUpdateManyWithoutPoNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutPoNestedInput
   }
 
   export type PurchaseOrderUncheckedUpdateInput = {
@@ -165979,6 +170358,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: PurchaseOrderLineUncheckedUpdateManyWithoutPoNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutPoNestedInput
   }
 
   export type PurchaseOrderCreateManyInput = {
@@ -170450,6 +174830,222 @@ export namespace Prisma {
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PackageCreateInput = {
+    id?: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPackagesInput
+    order: SalesOrderCreateNestedOneWithoutPackagesInput
+    lines?: PackageLineCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: PackageLineUncheckedCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPackagesNestedInput
+    order?: SalesOrderUpdateOneRequiredWithoutPackagesNestedInput
+    lines?: PackageLineUpdateManyWithoutPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: PackageLineUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type PackageCreateManyInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PackageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageLineCreateInput = {
+    id?: string
+    tenantId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    package: PackageCreateNestedOneWithoutLinesInput
+  }
+
+  export type PackageLineUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    packageId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    package?: PackageUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type PackageLineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    packageId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineCreateManyInput = {
+    id?: string
+    tenantId: string
+    packageId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    packageId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type LandedCostCreateInput = {
+    id?: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutLandedCostsInput
+    po: PurchaseOrderCreateNestedOneWithoutLandedCostsInput
+  }
+
+  export type LandedCostUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    poId: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LandedCostUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutLandedCostsNestedInput
+    po?: PurchaseOrderUpdateOneRequiredWithoutLandedCostsNestedInput
+  }
+
+  export type LandedCostUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    poId?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LandedCostCreateManyInput = {
+    id?: string
+    tenantId: string
+    poId: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LandedCostUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LandedCostUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    poId?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -171100,6 +175696,18 @@ export namespace Prisma {
     none?: RfqWhereInput
   }
 
+  export type PackageListRelationFilter = {
+    every?: PackageWhereInput
+    some?: PackageWhereInput
+    none?: PackageWhereInput
+  }
+
+  export type LandedCostListRelationFilter = {
+    every?: LandedCostWhereInput
+    some?: LandedCostWhereInput
+    none?: LandedCostWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -171493,6 +176101,14 @@ export namespace Prisma {
   }
 
   export type RfqOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PackageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LandedCostOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -172932,6 +177548,13 @@ export namespace Prisma {
     processedAt?: SortOrder
   }
 
+  export type EnumDocumentTemplateStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentTemplateStatus | EnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTemplateStatusFilter<$PrismaModel> | $Enums.DocumentTemplateStatus
+  }
+
   export type DocumentTemplateVersionListRelationFilter = {
     every?: DocumentTemplateVersionWhereInput
     some?: DocumentTemplateVersionWhereInput
@@ -172952,6 +177575,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     key?: SortOrder
     name?: SortOrder
+    status?: SortOrder
   }
 
   export type DocumentTemplateMaxOrderByAggregateInput = {
@@ -172959,6 +177583,7 @@ export namespace Prisma {
     tenantId?: SortOrder
     key?: SortOrder
     name?: SortOrder
+    status?: SortOrder
   }
 
   export type DocumentTemplateMinOrderByAggregateInput = {
@@ -172966,6 +177591,17 @@ export namespace Prisma {
     tenantId?: SortOrder
     key?: SortOrder
     name?: SortOrder
+    status?: SortOrder
+  }
+
+  export type EnumDocumentTemplateStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentTemplateStatus | EnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTemplateStatusWithAggregatesFilter<$PrismaModel> | $Enums.DocumentTemplateStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTemplateStatusFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTemplateStatusFilter<$PrismaModel>
   }
 
   export type DocumentTemplateScalarRelationFilter = {
@@ -174865,6 +179501,13 @@ export namespace Prisma {
     not?: NestedEnumSalesOrderStatusFilter<$PrismaModel> | $Enums.SalesOrderStatus
   }
 
+  export type EnumFulfillmentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FulfillmentType | EnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFulfillmentTypeFilter<$PrismaModel> | $Enums.FulfillmentType
+  }
+
   export type SalesOrderTenantIdOrderNumberCompoundUniqueInput = {
     tenantId: string
     orderNumber: string
@@ -174881,6 +179524,8 @@ export namespace Prisma {
     currency?: SortOrder
     total?: SortOrder
     holdReason?: SortOrder
+    fulfillmentType?: SortOrder
+    projectRef?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -174901,6 +179546,8 @@ export namespace Prisma {
     currency?: SortOrder
     total?: SortOrder
     holdReason?: SortOrder
+    fulfillmentType?: SortOrder
+    projectRef?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -174917,6 +179564,8 @@ export namespace Prisma {
     currency?: SortOrder
     total?: SortOrder
     holdReason?: SortOrder
+    fulfillmentType?: SortOrder
+    projectRef?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -174936,6 +179585,16 @@ export namespace Prisma {
     _max?: NestedEnumSalesOrderStatusFilter<$PrismaModel>
   }
 
+  export type EnumFulfillmentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FulfillmentType | EnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFulfillmentTypeWithAggregatesFilter<$PrismaModel> | $Enums.FulfillmentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFulfillmentTypeFilter<$PrismaModel>
+    _max?: NestedEnumFulfillmentTypeFilter<$PrismaModel>
+  }
+
   export type SalesOrderScalarRelationFilter = {
     is?: SalesOrderWhereInput
     isNot?: SalesOrderWhereInput
@@ -174952,12 +179611,14 @@ export namespace Prisma {
     lineTotal?: SortOrder
     reservationId?: SortOrder
     backordered?: SortOrder
+    fulfilledQty?: SortOrder
   }
 
   export type SalesOrderLineAvgOrderByAggregateInput = {
     quantity?: SortOrder
     unitPrice?: SortOrder
     lineTotal?: SortOrder
+    fulfilledQty?: SortOrder
   }
 
   export type SalesOrderLineMaxOrderByAggregateInput = {
@@ -174971,6 +179632,7 @@ export namespace Prisma {
     lineTotal?: SortOrder
     reservationId?: SortOrder
     backordered?: SortOrder
+    fulfilledQty?: SortOrder
   }
 
   export type SalesOrderLineMinOrderByAggregateInput = {
@@ -174984,12 +179646,14 @@ export namespace Prisma {
     lineTotal?: SortOrder
     reservationId?: SortOrder
     backordered?: SortOrder
+    fulfilledQty?: SortOrder
   }
 
   export type SalesOrderLineSumOrderByAggregateInput = {
     quantity?: SortOrder
     unitPrice?: SortOrder
     lineTotal?: SortOrder
+    fulfilledQty?: SortOrder
   }
 
   export type OrderEventCountOrderByAggregateInput = {
@@ -178260,6 +182924,183 @@ export namespace Prisma {
     leadTimeDays?: SortOrder
   }
 
+  export type EnumPackageStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PackageStatus | EnumPackageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPackageStatusFilter<$PrismaModel> | $Enums.PackageStatus
+  }
+
+  export type PackageLineListRelationFilter = {
+    every?: PackageLineWhereInput
+    some?: PackageLineWhereInput
+    none?: PackageLineWhereInput
+  }
+
+  export type PackageLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PackageTenantIdPackageNumberCompoundUniqueInput = {
+    tenantId: string
+    packageNumber: string
+  }
+
+  export type PackageCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    packageNumber?: SortOrder
+    status?: SortOrder
+    weightKg?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PackageAvgOrderByAggregateInput = {
+    weightKg?: SortOrder
+  }
+
+  export type PackageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    packageNumber?: SortOrder
+    status?: SortOrder
+    weightKg?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PackageMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    orderId?: SortOrder
+    packageNumber?: SortOrder
+    status?: SortOrder
+    weightKg?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PackageSumOrderByAggregateInput = {
+    weightKg?: SortOrder
+  }
+
+  export type EnumPackageStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PackageStatus | EnumPackageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPackageStatusWithAggregatesFilter<$PrismaModel> | $Enums.PackageStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPackageStatusFilter<$PrismaModel>
+    _max?: NestedEnumPackageStatusFilter<$PrismaModel>
+  }
+
+  export type PackageScalarRelationFilter = {
+    is?: PackageWhereInput
+    isNot?: PackageWhereInput
+  }
+
+  export type PackageLineTenantIdPackageIdOrderLineIdCompoundUniqueInput = {
+    tenantId: string
+    packageId: string
+    orderLineId: string
+  }
+
+  export type PackageLineCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    packageId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type PackageLineAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type PackageLineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    packageId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type PackageLineMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    packageId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type PackageLineSumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type EnumLandedCostTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.LandedCostType | EnumLandedCostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumLandedCostTypeFilter<$PrismaModel> | $Enums.LandedCostType
+  }
+
+  export type LandedCostCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    poId?: SortOrder
+    costType?: SortOrder
+    amount?: SortOrder
+    note?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LandedCostAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type LandedCostMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    poId?: SortOrder
+    costType?: SortOrder
+    amount?: SortOrder
+    note?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LandedCostMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    poId?: SortOrder
+    costType?: SortOrder
+    amount?: SortOrder
+    note?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LandedCostSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumLandedCostTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LandedCostType | EnumLandedCostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumLandedCostTypeWithAggregatesFilter<$PrismaModel> | $Enums.LandedCostType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLandedCostTypeFilter<$PrismaModel>
+    _max?: NestedEnumLandedCostTypeFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -178953,6 +183794,20 @@ export namespace Prisma {
     connect?: RfqWhereUniqueInput | RfqWhereUniqueInput[]
   }
 
+  export type PackageCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PackageCreateWithoutTenantInput, PackageUncheckedCreateWithoutTenantInput> | PackageCreateWithoutTenantInput[] | PackageUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutTenantInput | PackageCreateOrConnectWithoutTenantInput[]
+    createMany?: PackageCreateManyTenantInputEnvelope
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+  }
+
+  export type LandedCostCreateNestedManyWithoutTenantInput = {
+    create?: XOR<LandedCostCreateWithoutTenantInput, LandedCostUncheckedCreateWithoutTenantInput> | LandedCostCreateWithoutTenantInput[] | LandedCostUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutTenantInput | LandedCostCreateOrConnectWithoutTenantInput[]
+    createMany?: LandedCostCreateManyTenantInputEnvelope
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -179644,6 +184499,20 @@ export namespace Prisma {
     connectOrCreate?: RfqCreateOrConnectWithoutTenantInput | RfqCreateOrConnectWithoutTenantInput[]
     createMany?: RfqCreateManyTenantInputEnvelope
     connect?: RfqWhereUniqueInput | RfqWhereUniqueInput[]
+  }
+
+  export type PackageUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PackageCreateWithoutTenantInput, PackageUncheckedCreateWithoutTenantInput> | PackageCreateWithoutTenantInput[] | PackageUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutTenantInput | PackageCreateOrConnectWithoutTenantInput[]
+    createMany?: PackageCreateManyTenantInputEnvelope
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+  }
+
+  export type LandedCostUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<LandedCostCreateWithoutTenantInput, LandedCostUncheckedCreateWithoutTenantInput> | LandedCostCreateWithoutTenantInput[] | LandedCostUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutTenantInput | LandedCostCreateOrConnectWithoutTenantInput[]
+    createMany?: LandedCostCreateManyTenantInputEnvelope
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -181052,6 +185921,34 @@ export namespace Prisma {
     deleteMany?: RfqScalarWhereInput | RfqScalarWhereInput[]
   }
 
+  export type PackageUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PackageCreateWithoutTenantInput, PackageUncheckedCreateWithoutTenantInput> | PackageCreateWithoutTenantInput[] | PackageUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutTenantInput | PackageCreateOrConnectWithoutTenantInput[]
+    upsert?: PackageUpsertWithWhereUniqueWithoutTenantInput | PackageUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PackageCreateManyTenantInputEnvelope
+    set?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    disconnect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    delete?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    update?: PackageUpdateWithWhereUniqueWithoutTenantInput | PackageUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PackageUpdateManyWithWhereWithoutTenantInput | PackageUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
+  }
+
+  export type LandedCostUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<LandedCostCreateWithoutTenantInput, LandedCostUncheckedCreateWithoutTenantInput> | LandedCostCreateWithoutTenantInput[] | LandedCostUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutTenantInput | LandedCostCreateOrConnectWithoutTenantInput[]
+    upsert?: LandedCostUpsertWithWhereUniqueWithoutTenantInput | LandedCostUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: LandedCostCreateManyTenantInputEnvelope
+    set?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    disconnect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    delete?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    update?: LandedCostUpdateWithWhereUniqueWithoutTenantInput | LandedCostUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: LandedCostUpdateManyWithWhereWithoutTenantInput | LandedCostUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -182438,6 +187335,34 @@ export namespace Prisma {
     deleteMany?: RfqScalarWhereInput | RfqScalarWhereInput[]
   }
 
+  export type PackageUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PackageCreateWithoutTenantInput, PackageUncheckedCreateWithoutTenantInput> | PackageCreateWithoutTenantInput[] | PackageUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutTenantInput | PackageCreateOrConnectWithoutTenantInput[]
+    upsert?: PackageUpsertWithWhereUniqueWithoutTenantInput | PackageUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PackageCreateManyTenantInputEnvelope
+    set?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    disconnect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    delete?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    update?: PackageUpdateWithWhereUniqueWithoutTenantInput | PackageUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PackageUpdateManyWithWhereWithoutTenantInput | PackageUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
+  }
+
+  export type LandedCostUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<LandedCostCreateWithoutTenantInput, LandedCostUncheckedCreateWithoutTenantInput> | LandedCostCreateWithoutTenantInput[] | LandedCostUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutTenantInput | LandedCostCreateOrConnectWithoutTenantInput[]
+    upsert?: LandedCostUpsertWithWhereUniqueWithoutTenantInput | LandedCostUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: LandedCostCreateManyTenantInputEnvelope
+    set?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    disconnect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    delete?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    update?: LandedCostUpdateWithWhereUniqueWithoutTenantInput | LandedCostUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: LandedCostUpdateManyWithWhereWithoutTenantInput | LandedCostUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
     create?: XOR<TenantCreateWithoutConfigurationVersionsInput, TenantUncheckedCreateWithoutConfigurationVersionsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutConfigurationVersionsInput
@@ -183486,6 +188411,10 @@ export namespace Prisma {
     connectOrCreate?: DocumentTemplateVersionCreateOrConnectWithoutTemplateInput | DocumentTemplateVersionCreateOrConnectWithoutTemplateInput[]
     createMany?: DocumentTemplateVersionCreateManyTemplateInputEnvelope
     connect?: DocumentTemplateVersionWhereUniqueInput | DocumentTemplateVersionWhereUniqueInput[]
+  }
+
+  export type EnumDocumentTemplateStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DocumentTemplateStatus
   }
 
   export type TenantUpdateOneRequiredWithoutDocumentTemplatesNestedInput = {
@@ -184847,6 +189776,13 @@ export namespace Prisma {
     connect?: SalesOrderLineWhereUniqueInput | SalesOrderLineWhereUniqueInput[]
   }
 
+  export type PackageCreateNestedManyWithoutOrderInput = {
+    create?: XOR<PackageCreateWithoutOrderInput, PackageUncheckedCreateWithoutOrderInput> | PackageCreateWithoutOrderInput[] | PackageUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutOrderInput | PackageCreateOrConnectWithoutOrderInput[]
+    createMany?: PackageCreateManyOrderInputEnvelope
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+  }
+
   export type SalesOrderLineUncheckedCreateNestedManyWithoutOrderInput = {
     create?: XOR<SalesOrderLineCreateWithoutOrderInput, SalesOrderLineUncheckedCreateWithoutOrderInput> | SalesOrderLineCreateWithoutOrderInput[] | SalesOrderLineUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: SalesOrderLineCreateOrConnectWithoutOrderInput | SalesOrderLineCreateOrConnectWithoutOrderInput[]
@@ -184854,8 +189790,19 @@ export namespace Prisma {
     connect?: SalesOrderLineWhereUniqueInput | SalesOrderLineWhereUniqueInput[]
   }
 
+  export type PackageUncheckedCreateNestedManyWithoutOrderInput = {
+    create?: XOR<PackageCreateWithoutOrderInput, PackageUncheckedCreateWithoutOrderInput> | PackageCreateWithoutOrderInput[] | PackageUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutOrderInput | PackageCreateOrConnectWithoutOrderInput[]
+    createMany?: PackageCreateManyOrderInputEnvelope
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+  }
+
   export type EnumSalesOrderStatusFieldUpdateOperationsInput = {
     set?: $Enums.SalesOrderStatus
+  }
+
+  export type EnumFulfillmentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.FulfillmentType
   }
 
   export type TenantUpdateOneRequiredWithoutSalesOrdersNestedInput = {
@@ -184880,6 +189827,20 @@ export namespace Prisma {
     deleteMany?: SalesOrderLineScalarWhereInput | SalesOrderLineScalarWhereInput[]
   }
 
+  export type PackageUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<PackageCreateWithoutOrderInput, PackageUncheckedCreateWithoutOrderInput> | PackageCreateWithoutOrderInput[] | PackageUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutOrderInput | PackageCreateOrConnectWithoutOrderInput[]
+    upsert?: PackageUpsertWithWhereUniqueWithoutOrderInput | PackageUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: PackageCreateManyOrderInputEnvelope
+    set?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    disconnect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    delete?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    update?: PackageUpdateWithWhereUniqueWithoutOrderInput | PackageUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: PackageUpdateManyWithWhereWithoutOrderInput | PackageUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
+  }
+
   export type SalesOrderLineUncheckedUpdateManyWithoutOrderNestedInput = {
     create?: XOR<SalesOrderLineCreateWithoutOrderInput, SalesOrderLineUncheckedCreateWithoutOrderInput> | SalesOrderLineCreateWithoutOrderInput[] | SalesOrderLineUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: SalesOrderLineCreateOrConnectWithoutOrderInput | SalesOrderLineCreateOrConnectWithoutOrderInput[]
@@ -184892,6 +189853,20 @@ export namespace Prisma {
     update?: SalesOrderLineUpdateWithWhereUniqueWithoutOrderInput | SalesOrderLineUpdateWithWhereUniqueWithoutOrderInput[]
     updateMany?: SalesOrderLineUpdateManyWithWhereWithoutOrderInput | SalesOrderLineUpdateManyWithWhereWithoutOrderInput[]
     deleteMany?: SalesOrderLineScalarWhereInput | SalesOrderLineScalarWhereInput[]
+  }
+
+  export type PackageUncheckedUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<PackageCreateWithoutOrderInput, PackageUncheckedCreateWithoutOrderInput> | PackageCreateWithoutOrderInput[] | PackageUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: PackageCreateOrConnectWithoutOrderInput | PackageCreateOrConnectWithoutOrderInput[]
+    upsert?: PackageUpsertWithWhereUniqueWithoutOrderInput | PackageUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: PackageCreateManyOrderInputEnvelope
+    set?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    disconnect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    delete?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
+    update?: PackageUpdateWithWhereUniqueWithoutOrderInput | PackageUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: PackageUpdateManyWithWhereWithoutOrderInput | PackageUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutSalesOrderLinesInput = {
@@ -185055,11 +190030,25 @@ export namespace Prisma {
     connect?: PurchaseOrderLineWhereUniqueInput | PurchaseOrderLineWhereUniqueInput[]
   }
 
+  export type LandedCostCreateNestedManyWithoutPoInput = {
+    create?: XOR<LandedCostCreateWithoutPoInput, LandedCostUncheckedCreateWithoutPoInput> | LandedCostCreateWithoutPoInput[] | LandedCostUncheckedCreateWithoutPoInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutPoInput | LandedCostCreateOrConnectWithoutPoInput[]
+    createMany?: LandedCostCreateManyPoInputEnvelope
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+  }
+
   export type PurchaseOrderLineUncheckedCreateNestedManyWithoutPoInput = {
     create?: XOR<PurchaseOrderLineCreateWithoutPoInput, PurchaseOrderLineUncheckedCreateWithoutPoInput> | PurchaseOrderLineCreateWithoutPoInput[] | PurchaseOrderLineUncheckedCreateWithoutPoInput[]
     connectOrCreate?: PurchaseOrderLineCreateOrConnectWithoutPoInput | PurchaseOrderLineCreateOrConnectWithoutPoInput[]
     createMany?: PurchaseOrderLineCreateManyPoInputEnvelope
     connect?: PurchaseOrderLineWhereUniqueInput | PurchaseOrderLineWhereUniqueInput[]
+  }
+
+  export type LandedCostUncheckedCreateNestedManyWithoutPoInput = {
+    create?: XOR<LandedCostCreateWithoutPoInput, LandedCostUncheckedCreateWithoutPoInput> | LandedCostCreateWithoutPoInput[] | LandedCostUncheckedCreateWithoutPoInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutPoInput | LandedCostCreateOrConnectWithoutPoInput[]
+    createMany?: LandedCostCreateManyPoInputEnvelope
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
   }
 
   export type EnumPurchaseOrderStatusFieldUpdateOperationsInput = {
@@ -185088,6 +190077,20 @@ export namespace Prisma {
     deleteMany?: PurchaseOrderLineScalarWhereInput | PurchaseOrderLineScalarWhereInput[]
   }
 
+  export type LandedCostUpdateManyWithoutPoNestedInput = {
+    create?: XOR<LandedCostCreateWithoutPoInput, LandedCostUncheckedCreateWithoutPoInput> | LandedCostCreateWithoutPoInput[] | LandedCostUncheckedCreateWithoutPoInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutPoInput | LandedCostCreateOrConnectWithoutPoInput[]
+    upsert?: LandedCostUpsertWithWhereUniqueWithoutPoInput | LandedCostUpsertWithWhereUniqueWithoutPoInput[]
+    createMany?: LandedCostCreateManyPoInputEnvelope
+    set?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    disconnect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    delete?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    update?: LandedCostUpdateWithWhereUniqueWithoutPoInput | LandedCostUpdateWithWhereUniqueWithoutPoInput[]
+    updateMany?: LandedCostUpdateManyWithWhereWithoutPoInput | LandedCostUpdateManyWithWhereWithoutPoInput[]
+    deleteMany?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
+  }
+
   export type PurchaseOrderLineUncheckedUpdateManyWithoutPoNestedInput = {
     create?: XOR<PurchaseOrderLineCreateWithoutPoInput, PurchaseOrderLineUncheckedCreateWithoutPoInput> | PurchaseOrderLineCreateWithoutPoInput[] | PurchaseOrderLineUncheckedCreateWithoutPoInput[]
     connectOrCreate?: PurchaseOrderLineCreateOrConnectWithoutPoInput | PurchaseOrderLineCreateOrConnectWithoutPoInput[]
@@ -185100,6 +190103,20 @@ export namespace Prisma {
     update?: PurchaseOrderLineUpdateWithWhereUniqueWithoutPoInput | PurchaseOrderLineUpdateWithWhereUniqueWithoutPoInput[]
     updateMany?: PurchaseOrderLineUpdateManyWithWhereWithoutPoInput | PurchaseOrderLineUpdateManyWithWhereWithoutPoInput[]
     deleteMany?: PurchaseOrderLineScalarWhereInput | PurchaseOrderLineScalarWhereInput[]
+  }
+
+  export type LandedCostUncheckedUpdateManyWithoutPoNestedInput = {
+    create?: XOR<LandedCostCreateWithoutPoInput, LandedCostUncheckedCreateWithoutPoInput> | LandedCostCreateWithoutPoInput[] | LandedCostUncheckedCreateWithoutPoInput[]
+    connectOrCreate?: LandedCostCreateOrConnectWithoutPoInput | LandedCostCreateOrConnectWithoutPoInput[]
+    upsert?: LandedCostUpsertWithWhereUniqueWithoutPoInput | LandedCostUpsertWithWhereUniqueWithoutPoInput[]
+    createMany?: LandedCostCreateManyPoInputEnvelope
+    set?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    disconnect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    delete?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    connect?: LandedCostWhereUniqueInput | LandedCostWhereUniqueInput[]
+    update?: LandedCostUpdateWithWhereUniqueWithoutPoInput | LandedCostUpdateWithWhereUniqueWithoutPoInput[]
+    updateMany?: LandedCostUpdateManyWithWhereWithoutPoInput | LandedCostUpdateManyWithWhereWithoutPoInput[]
+    deleteMany?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutPurchaseOrderLinesInput = {
@@ -186921,6 +191938,126 @@ export namespace Prisma {
     update?: XOR<XOR<RfqUpdateToOneWithWhereWithoutQuotesInput, RfqUpdateWithoutQuotesInput>, RfqUncheckedUpdateWithoutQuotesInput>
   }
 
+  export type TenantCreateNestedOneWithoutPackagesInput = {
+    create?: XOR<TenantCreateWithoutPackagesInput, TenantUncheckedCreateWithoutPackagesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPackagesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type SalesOrderCreateNestedOneWithoutPackagesInput = {
+    create?: XOR<SalesOrderCreateWithoutPackagesInput, SalesOrderUncheckedCreateWithoutPackagesInput>
+    connectOrCreate?: SalesOrderCreateOrConnectWithoutPackagesInput
+    connect?: SalesOrderWhereUniqueInput
+  }
+
+  export type PackageLineCreateNestedManyWithoutPackageInput = {
+    create?: XOR<PackageLineCreateWithoutPackageInput, PackageLineUncheckedCreateWithoutPackageInput> | PackageLineCreateWithoutPackageInput[] | PackageLineUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageLineCreateOrConnectWithoutPackageInput | PackageLineCreateOrConnectWithoutPackageInput[]
+    createMany?: PackageLineCreateManyPackageInputEnvelope
+    connect?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+  }
+
+  export type PackageLineUncheckedCreateNestedManyWithoutPackageInput = {
+    create?: XOR<PackageLineCreateWithoutPackageInput, PackageLineUncheckedCreateWithoutPackageInput> | PackageLineCreateWithoutPackageInput[] | PackageLineUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageLineCreateOrConnectWithoutPackageInput | PackageLineCreateOrConnectWithoutPackageInput[]
+    createMany?: PackageLineCreateManyPackageInputEnvelope
+    connect?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+  }
+
+  export type EnumPackageStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PackageStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutPackagesNestedInput = {
+    create?: XOR<TenantCreateWithoutPackagesInput, TenantUncheckedCreateWithoutPackagesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPackagesInput
+    upsert?: TenantUpsertWithoutPackagesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPackagesInput, TenantUpdateWithoutPackagesInput>, TenantUncheckedUpdateWithoutPackagesInput>
+  }
+
+  export type SalesOrderUpdateOneRequiredWithoutPackagesNestedInput = {
+    create?: XOR<SalesOrderCreateWithoutPackagesInput, SalesOrderUncheckedCreateWithoutPackagesInput>
+    connectOrCreate?: SalesOrderCreateOrConnectWithoutPackagesInput
+    upsert?: SalesOrderUpsertWithoutPackagesInput
+    connect?: SalesOrderWhereUniqueInput
+    update?: XOR<XOR<SalesOrderUpdateToOneWithWhereWithoutPackagesInput, SalesOrderUpdateWithoutPackagesInput>, SalesOrderUncheckedUpdateWithoutPackagesInput>
+  }
+
+  export type PackageLineUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<PackageLineCreateWithoutPackageInput, PackageLineUncheckedCreateWithoutPackageInput> | PackageLineCreateWithoutPackageInput[] | PackageLineUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageLineCreateOrConnectWithoutPackageInput | PackageLineCreateOrConnectWithoutPackageInput[]
+    upsert?: PackageLineUpsertWithWhereUniqueWithoutPackageInput | PackageLineUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: PackageLineCreateManyPackageInputEnvelope
+    set?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    disconnect?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    delete?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    connect?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    update?: PackageLineUpdateWithWhereUniqueWithoutPackageInput | PackageLineUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: PackageLineUpdateManyWithWhereWithoutPackageInput | PackageLineUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: PackageLineScalarWhereInput | PackageLineScalarWhereInput[]
+  }
+
+  export type PackageLineUncheckedUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<PackageLineCreateWithoutPackageInput, PackageLineUncheckedCreateWithoutPackageInput> | PackageLineCreateWithoutPackageInput[] | PackageLineUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageLineCreateOrConnectWithoutPackageInput | PackageLineCreateOrConnectWithoutPackageInput[]
+    upsert?: PackageLineUpsertWithWhereUniqueWithoutPackageInput | PackageLineUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: PackageLineCreateManyPackageInputEnvelope
+    set?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    disconnect?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    delete?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    connect?: PackageLineWhereUniqueInput | PackageLineWhereUniqueInput[]
+    update?: PackageLineUpdateWithWhereUniqueWithoutPackageInput | PackageLineUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: PackageLineUpdateManyWithWhereWithoutPackageInput | PackageLineUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: PackageLineScalarWhereInput | PackageLineScalarWhereInput[]
+  }
+
+  export type PackageCreateNestedOneWithoutLinesInput = {
+    create?: XOR<PackageCreateWithoutLinesInput, PackageUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutLinesInput
+    connect?: PackageWhereUniqueInput
+  }
+
+  export type PackageUpdateOneRequiredWithoutLinesNestedInput = {
+    create?: XOR<PackageCreateWithoutLinesInput, PackageUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutLinesInput
+    upsert?: PackageUpsertWithoutLinesInput
+    connect?: PackageWhereUniqueInput
+    update?: XOR<XOR<PackageUpdateToOneWithWhereWithoutLinesInput, PackageUpdateWithoutLinesInput>, PackageUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutLandedCostsInput = {
+    create?: XOR<TenantCreateWithoutLandedCostsInput, TenantUncheckedCreateWithoutLandedCostsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutLandedCostsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type PurchaseOrderCreateNestedOneWithoutLandedCostsInput = {
+    create?: XOR<PurchaseOrderCreateWithoutLandedCostsInput, PurchaseOrderUncheckedCreateWithoutLandedCostsInput>
+    connectOrCreate?: PurchaseOrderCreateOrConnectWithoutLandedCostsInput
+    connect?: PurchaseOrderWhereUniqueInput
+  }
+
+  export type EnumLandedCostTypeFieldUpdateOperationsInput = {
+    set?: $Enums.LandedCostType
+  }
+
+  export type TenantUpdateOneRequiredWithoutLandedCostsNestedInput = {
+    create?: XOR<TenantCreateWithoutLandedCostsInput, TenantUncheckedCreateWithoutLandedCostsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutLandedCostsInput
+    upsert?: TenantUpsertWithoutLandedCostsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutLandedCostsInput, TenantUpdateWithoutLandedCostsInput>, TenantUncheckedUpdateWithoutLandedCostsInput>
+  }
+
+  export type PurchaseOrderUpdateOneRequiredWithoutLandedCostsNestedInput = {
+    create?: XOR<PurchaseOrderCreateWithoutLandedCostsInput, PurchaseOrderUncheckedCreateWithoutLandedCostsInput>
+    connectOrCreate?: PurchaseOrderCreateOrConnectWithoutLandedCostsInput
+    upsert?: PurchaseOrderUpsertWithoutLandedCostsInput
+    connect?: PurchaseOrderWhereUniqueInput
+    update?: XOR<XOR<PurchaseOrderUpdateToOneWithWhereWithoutLandedCostsInput, PurchaseOrderUpdateWithoutLandedCostsInput>, PurchaseOrderUncheckedUpdateWithoutLandedCostsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -187344,6 +192481,23 @@ export namespace Prisma {
     _max?: NestedEnumApprovalStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumDocumentTemplateStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentTemplateStatus | EnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTemplateStatusFilter<$PrismaModel> | $Enums.DocumentTemplateStatus
+  }
+
+  export type NestedEnumDocumentTemplateStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentTemplateStatus | EnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentTemplateStatus[] | ListEnumDocumentTemplateStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTemplateStatusWithAggregatesFilter<$PrismaModel> | $Enums.DocumentTemplateStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTemplateStatusFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTemplateStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumPartyTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.PartyType | EnumPartyTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PartyType[] | ListEnumPartyTypeFieldRefInput<$PrismaModel>
@@ -187755,6 +192909,13 @@ export namespace Prisma {
     not?: NestedEnumSalesOrderStatusFilter<$PrismaModel> | $Enums.SalesOrderStatus
   }
 
+  export type NestedEnumFulfillmentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FulfillmentType | EnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFulfillmentTypeFilter<$PrismaModel> | $Enums.FulfillmentType
+  }
+
   export type NestedEnumSalesOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.SalesOrderStatus | EnumSalesOrderStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SalesOrderStatus[] | ListEnumSalesOrderStatusFieldRefInput<$PrismaModel>
@@ -187763,6 +192924,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSalesOrderStatusFilter<$PrismaModel>
     _max?: NestedEnumSalesOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFulfillmentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FulfillmentType | EnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FulfillmentType[] | ListEnumFulfillmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFulfillmentTypeWithAggregatesFilter<$PrismaModel> | $Enums.FulfillmentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFulfillmentTypeFilter<$PrismaModel>
+    _max?: NestedEnumFulfillmentTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumSupplierStatusFilter<$PrismaModel = never> = {
@@ -188252,6 +193423,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRfqStatusFilter<$PrismaModel>
     _max?: NestedEnumRfqStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPackageStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PackageStatus | EnumPackageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPackageStatusFilter<$PrismaModel> | $Enums.PackageStatus
+  }
+
+  export type NestedEnumPackageStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PackageStatus | EnumPackageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PackageStatus[] | ListEnumPackageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPackageStatusWithAggregatesFilter<$PrismaModel> | $Enums.PackageStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPackageStatusFilter<$PrismaModel>
+    _max?: NestedEnumPackageStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumLandedCostTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.LandedCostType | EnumLandedCostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumLandedCostTypeFilter<$PrismaModel> | $Enums.LandedCostType
+  }
+
+  export type NestedEnumLandedCostTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LandedCostType | EnumLandedCostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LandedCostType[] | ListEnumLandedCostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumLandedCostTypeWithAggregatesFilter<$PrismaModel> | $Enums.LandedCostType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLandedCostTypeFilter<$PrismaModel>
+    _max?: NestedEnumLandedCostTypeFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -188846,6 +194051,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
     versions?: DocumentTemplateVersionCreateNestedManyWithoutTemplateInput
   }
 
@@ -188853,6 +194059,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
     versions?: DocumentTemplateVersionUncheckedCreateNestedManyWithoutTemplateInput
   }
 
@@ -189496,10 +194703,13 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lines?: SalesOrderLineCreateNestedManyWithoutOrderInput
+    packages?: PackageCreateNestedManyWithoutOrderInput
   }
 
   export type SalesOrderUncheckedCreateWithoutTenantInput = {
@@ -189512,10 +194722,13 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lines?: SalesOrderLineUncheckedCreateNestedManyWithoutOrderInput
+    packages?: PackageUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type SalesOrderCreateOrConnectWithoutTenantInput = {
@@ -189537,6 +194750,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
     order: SalesOrderCreateNestedOneWithoutLinesInput
   }
 
@@ -189550,6 +194764,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineCreateOrConnectWithoutTenantInput = {
@@ -189702,6 +194917,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     lines?: PurchaseOrderLineCreateNestedManyWithoutPoInput
+    landedCosts?: LandedCostCreateNestedManyWithoutPoInput
   }
 
   export type PurchaseOrderUncheckedCreateWithoutTenantInput = {
@@ -189718,6 +194934,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     lines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutPoInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutPoInput
   }
 
   export type PurchaseOrderCreateOrConnectWithoutTenantInput = {
@@ -191540,6 +196757,70 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PackageCreateWithoutTenantInput = {
+    id?: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    order: SalesOrderCreateNestedOneWithoutPackagesInput
+    lines?: PackageLineCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageUncheckedCreateWithoutTenantInput = {
+    id?: string
+    orderId: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: PackageLineUncheckedCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageCreateOrConnectWithoutTenantInput = {
+    where: PackageWhereUniqueInput
+    create: XOR<PackageCreateWithoutTenantInput, PackageUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PackageCreateManyTenantInputEnvelope = {
+    data: PackageCreateManyTenantInput | PackageCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LandedCostCreateWithoutTenantInput = {
+    id?: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    po: PurchaseOrderCreateNestedOneWithoutLandedCostsInput
+  }
+
+  export type LandedCostUncheckedCreateWithoutTenantInput = {
+    id?: string
+    poId: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LandedCostCreateOrConnectWithoutTenantInput = {
+    where: LandedCostWhereUniqueInput
+    create: XOR<LandedCostCreateWithoutTenantInput, LandedCostUncheckedCreateWithoutTenantInput>
+  }
+
+  export type LandedCostCreateManyTenantInputEnvelope = {
+    data: LandedCostCreateManyTenantInput | LandedCostCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -192131,6 +197412,7 @@ export namespace Prisma {
     tenantId?: UuidFilter<"DocumentTemplate"> | string
     key?: StringFilter<"DocumentTemplate"> | string
     name?: StringFilter<"DocumentTemplate"> | string
+    status?: EnumDocumentTemplateStatusFilter<"DocumentTemplate"> | $Enums.DocumentTemplateStatus
   }
 
   export type PartyUpsertWithWhereUniqueWithoutTenantInput = {
@@ -192719,6 +198001,8 @@ export namespace Prisma {
     currency?: StringFilter<"SalesOrder"> | string
     total?: DecimalFilter<"SalesOrder"> | Decimal | DecimalJsLike | number | string
     holdReason?: StringNullableFilter<"SalesOrder"> | string | null
+    fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
+    projectRef?: StringNullableFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -192754,6 +198038,7 @@ export namespace Prisma {
     lineTotal?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
+    fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
   }
 
   export type OrderEventUpsertWithWhereUniqueWithoutTenantInput = {
@@ -194625,6 +199910,67 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Rfq"> | Date | string
   }
 
+  export type PackageUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PackageWhereUniqueInput
+    update: XOR<PackageUpdateWithoutTenantInput, PackageUncheckedUpdateWithoutTenantInput>
+    create: XOR<PackageCreateWithoutTenantInput, PackageUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PackageUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PackageWhereUniqueInput
+    data: XOR<PackageUpdateWithoutTenantInput, PackageUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PackageUpdateManyWithWhereWithoutTenantInput = {
+    where: PackageScalarWhereInput
+    data: XOR<PackageUpdateManyMutationInput, PackageUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PackageScalarWhereInput = {
+    AND?: PackageScalarWhereInput | PackageScalarWhereInput[]
+    OR?: PackageScalarWhereInput[]
+    NOT?: PackageScalarWhereInput | PackageScalarWhereInput[]
+    id?: UuidFilter<"Package"> | string
+    tenantId?: UuidFilter<"Package"> | string
+    orderId?: UuidFilter<"Package"> | string
+    packageNumber?: StringFilter<"Package"> | string
+    status?: EnumPackageStatusFilter<"Package"> | $Enums.PackageStatus
+    weightKg?: DecimalNullableFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    createdBy?: StringNullableFilter<"Package"> | string | null
+    createdAt?: DateTimeFilter<"Package"> | Date | string
+    updatedAt?: DateTimeFilter<"Package"> | Date | string
+  }
+
+  export type LandedCostUpsertWithWhereUniqueWithoutTenantInput = {
+    where: LandedCostWhereUniqueInput
+    update: XOR<LandedCostUpdateWithoutTenantInput, LandedCostUncheckedUpdateWithoutTenantInput>
+    create: XOR<LandedCostCreateWithoutTenantInput, LandedCostUncheckedCreateWithoutTenantInput>
+  }
+
+  export type LandedCostUpdateWithWhereUniqueWithoutTenantInput = {
+    where: LandedCostWhereUniqueInput
+    data: XOR<LandedCostUpdateWithoutTenantInput, LandedCostUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type LandedCostUpdateManyWithWhereWithoutTenantInput = {
+    where: LandedCostScalarWhereInput
+    data: XOR<LandedCostUpdateManyMutationInput, LandedCostUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type LandedCostScalarWhereInput = {
+    AND?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
+    OR?: LandedCostScalarWhereInput[]
+    NOT?: LandedCostScalarWhereInput | LandedCostScalarWhereInput[]
+    id?: UuidFilter<"LandedCost"> | string
+    tenantId?: UuidFilter<"LandedCost"> | string
+    poId?: UuidFilter<"LandedCost"> | string
+    costType?: EnumLandedCostTypeFilter<"LandedCost"> | $Enums.LandedCostType
+    amount?: DecimalFilter<"LandedCost"> | Decimal | DecimalJsLike | number | string
+    note?: StringNullableFilter<"LandedCost"> | string | null
+    createdBy?: StringNullableFilter<"LandedCost"> | string | null
+    createdAt?: DateTimeFilter<"LandedCost"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -194731,6 +200077,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -194839,6 +200187,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -194963,6 +200313,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -195071,6 +200423,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -195179,6 +200533,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -195287,6 +200643,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -195445,6 +200803,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -195553,6 +200913,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -195677,6 +201039,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -195785,6 +201149,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -196047,6 +201413,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -196155,6 +201523,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -196375,6 +201745,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -196483,6 +201855,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -196636,6 +202010,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -196744,6 +202120,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -196887,6 +202265,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -196995,6 +202375,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -197148,6 +202530,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -197256,6 +202640,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -197399,6 +202785,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -197507,6 +202895,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -197720,6 +203110,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -197828,6 +203220,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -198005,6 +203399,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -198113,6 +203509,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -198268,6 +203666,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -198376,6 +203776,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -198521,6 +203923,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -198629,6 +204033,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -198803,6 +204209,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -198911,6 +204319,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -199117,6 +204527,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -199225,6 +204637,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -199405,6 +204819,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -199513,6 +204929,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -199689,6 +205107,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -199797,6 +205217,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -199921,6 +205343,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -200029,6 +205453,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -200137,6 +205563,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -200245,6 +205673,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -200369,6 +205799,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -200477,6 +205909,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -200585,6 +206019,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -200693,6 +206129,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -200817,6 +206255,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -200925,6 +206365,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -201033,6 +206475,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -201141,6 +206585,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -201265,6 +206711,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -201373,6 +206821,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -201481,6 +206931,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -201589,6 +207041,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -201713,6 +207167,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -201821,6 +207277,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -201929,6 +207387,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -202037,6 +207497,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -202161,6 +207623,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -202269,6 +207733,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -202377,6 +207843,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -202485,6 +207953,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -202609,6 +208079,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -202717,6 +208189,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -202825,6 +208299,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -202933,6 +208409,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -203119,6 +208597,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -203227,6 +208707,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -203593,6 +209075,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -203701,6 +209185,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -203853,6 +209339,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -203961,6 +209449,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -204142,6 +209632,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -204250,6 +209742,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -204374,6 +209868,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -204482,6 +209978,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -204590,6 +210088,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -204698,6 +210198,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -204822,6 +210324,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -204930,6 +210434,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -205038,6 +210544,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -205146,6 +210654,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -205296,6 +210806,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -205404,6 +210916,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -205438,6 +210952,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
     tenant: TenantCreateNestedOneWithoutDocumentTemplatesInput
   }
 
@@ -205446,6 +210961,7 @@ export namespace Prisma {
     tenantId: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
   }
 
   export type DocumentTemplateCreateOrConnectWithoutVersionsInput = {
@@ -205468,6 +210984,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
     tenant?: TenantUpdateOneRequiredWithoutDocumentTemplatesNestedInput
   }
 
@@ -205476,6 +210993,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
   }
 
   export type TenantCreateWithoutPartiesInput = {
@@ -205584,6 +211102,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -205692,6 +211212,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -205997,6 +211519,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -206105,6 +211629,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -206334,6 +211860,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -206442,6 +211970,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -206605,6 +212135,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -206713,6 +212245,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -206950,6 +212484,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -207058,6 +212594,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -207244,6 +212782,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -207352,6 +212892,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -208120,6 +213662,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -208228,6 +213772,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -208374,6 +213920,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -208482,6 +214030,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -208660,6 +214210,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -208768,6 +214320,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -208892,6 +214446,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -209000,6 +214556,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -209108,6 +214666,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -209216,6 +214776,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -209340,6 +214902,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -209448,6 +215012,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -209556,6 +215122,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -209664,6 +215232,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -209788,6 +215358,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -209896,6 +215468,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -210004,6 +215578,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -210112,6 +215688,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -210236,6 +215814,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -210344,6 +215924,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -210452,6 +216034,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -210560,6 +216144,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -210710,6 +216296,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -210818,6 +216406,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -210942,6 +216532,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -211050,6 +216642,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -211207,6 +216801,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -211315,6 +216911,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -211462,6 +217060,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -211570,6 +217170,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -211694,6 +217296,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -211802,6 +217406,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -211910,6 +217516,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -212018,6 +217626,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -212166,6 +217776,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -212274,6 +217886,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -212398,6 +218012,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -212506,6 +218122,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -212651,6 +218269,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -212759,6 +218379,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -212894,6 +218516,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -213002,6 +218626,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -213126,6 +218752,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -213234,6 +218862,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -213342,6 +218972,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -213450,6 +219082,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -213574,6 +219208,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -213682,6 +219318,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -213790,6 +219428,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -213898,6 +219538,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -214022,6 +219664,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -214130,6 +219774,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -214238,6 +219884,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -214346,6 +219994,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -214470,6 +220120,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -214578,6 +220230,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -214686,6 +220340,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -214794,6 +220450,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -214944,6 +220602,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -215052,6 +220712,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -215176,6 +220838,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -215284,6 +220948,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -215441,6 +221107,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -215549,6 +221217,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -215696,6 +221366,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -215804,6 +221476,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -215962,6 +221636,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -216070,6 +221746,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -216194,6 +221872,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -216302,6 +221982,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -216483,6 +222165,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -216591,6 +222275,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -216762,6 +222448,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -216870,6 +222558,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -216994,6 +222684,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -217102,6 +222794,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -217210,6 +222904,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -217318,6 +223014,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -217442,6 +223140,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -217550,6 +223250,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -217658,6 +223360,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -217766,6 +223470,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -217937,6 +223643,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -218045,6 +223753,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -218206,6 +223916,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -218314,6 +224026,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -218330,6 +224044,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
   }
 
@@ -218343,6 +224058,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineCreateOrConnectWithoutOrderInput = {
@@ -218352,6 +224068,40 @@ export namespace Prisma {
 
   export type SalesOrderLineCreateManyOrderInputEnvelope = {
     data: SalesOrderLineCreateManyOrderInput | SalesOrderLineCreateManyOrderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PackageCreateWithoutOrderInput = {
+    id?: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPackagesInput
+    lines?: PackageLineCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageUncheckedCreateWithoutOrderInput = {
+    id?: string
+    tenantId: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: PackageLineUncheckedCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageCreateOrConnectWithoutOrderInput = {
+    where: PackageWhereUniqueInput
+    create: XOR<PackageCreateWithoutOrderInput, PackageUncheckedCreateWithoutOrderInput>
+  }
+
+  export type PackageCreateManyOrderInputEnvelope = {
+    data: PackageCreateManyOrderInput | PackageCreateManyOrderInput[]
     skipDuplicates?: boolean
   }
 
@@ -218472,6 +224222,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -218580,6 +224332,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -218596,6 +224350,22 @@ export namespace Prisma {
   export type SalesOrderLineUpdateManyWithWhereWithoutOrderInput = {
     where: SalesOrderLineScalarWhereInput
     data: XOR<SalesOrderLineUpdateManyMutationInput, SalesOrderLineUncheckedUpdateManyWithoutOrderInput>
+  }
+
+  export type PackageUpsertWithWhereUniqueWithoutOrderInput = {
+    where: PackageWhereUniqueInput
+    update: XOR<PackageUpdateWithoutOrderInput, PackageUncheckedUpdateWithoutOrderInput>
+    create: XOR<PackageCreateWithoutOrderInput, PackageUncheckedCreateWithoutOrderInput>
+  }
+
+  export type PackageUpdateWithWhereUniqueWithoutOrderInput = {
+    where: PackageWhereUniqueInput
+    data: XOR<PackageUpdateWithoutOrderInput, PackageUncheckedUpdateWithoutOrderInput>
+  }
+
+  export type PackageUpdateManyWithWhereWithoutOrderInput = {
+    where: PackageScalarWhereInput
+    data: XOR<PackageUpdateManyMutationInput, PackageUncheckedUpdateManyWithoutOrderInput>
   }
 
   export type TenantCreateWithoutSalesOrderLinesInput = {
@@ -218704,6 +224474,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -218812,6 +224584,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -218829,10 +224603,13 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutSalesOrdersInput
+    packages?: PackageCreateNestedManyWithoutOrderInput
   }
 
   export type SalesOrderUncheckedCreateWithoutLinesInput = {
@@ -218846,9 +224623,12 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    packages?: PackageUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type SalesOrderCreateOrConnectWithoutLinesInput = {
@@ -218973,6 +224753,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -219081,6 +224863,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -219104,10 +224888,13 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutSalesOrdersNestedInput
+    packages?: PackageUpdateManyWithoutOrderNestedInput
   }
 
   export type SalesOrderUncheckedUpdateWithoutLinesInput = {
@@ -219121,9 +224908,12 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    packages?: PackageUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type TenantCreateWithoutOrderEventsInput = {
@@ -219232,6 +225022,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -219340,6 +225132,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -219464,6 +225258,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -219572,6 +225368,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -219680,6 +225478,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -219788,6 +225588,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -219912,6 +225714,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -220020,6 +225824,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -220128,6 +225934,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -220236,6 +226044,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -220390,6 +226200,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -220498,6 +226310,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -220622,6 +226436,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -220730,6 +226546,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -220887,6 +226705,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -220995,6 +226815,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -221142,6 +226964,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -221250,6 +227074,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -221286,6 +227112,36 @@ export namespace Prisma {
 
   export type PurchaseOrderLineCreateManyPoInputEnvelope = {
     data: PurchaseOrderLineCreateManyPoInput | PurchaseOrderLineCreateManyPoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LandedCostCreateWithoutPoInput = {
+    id?: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutLandedCostsInput
+  }
+
+  export type LandedCostUncheckedCreateWithoutPoInput = {
+    id?: string
+    tenantId: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LandedCostCreateOrConnectWithoutPoInput = {
+    where: LandedCostWhereUniqueInput
+    create: XOR<LandedCostCreateWithoutPoInput, LandedCostUncheckedCreateWithoutPoInput>
+  }
+
+  export type LandedCostCreateManyPoInputEnvelope = {
+    data: LandedCostCreateManyPoInput | LandedCostCreateManyPoInput[]
     skipDuplicates?: boolean
   }
 
@@ -221406,6 +227262,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -221514,6 +227372,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -221530,6 +227390,22 @@ export namespace Prisma {
   export type PurchaseOrderLineUpdateManyWithWhereWithoutPoInput = {
     where: PurchaseOrderLineScalarWhereInput
     data: XOR<PurchaseOrderLineUpdateManyMutationInput, PurchaseOrderLineUncheckedUpdateManyWithoutPoInput>
+  }
+
+  export type LandedCostUpsertWithWhereUniqueWithoutPoInput = {
+    where: LandedCostWhereUniqueInput
+    update: XOR<LandedCostUpdateWithoutPoInput, LandedCostUncheckedUpdateWithoutPoInput>
+    create: XOR<LandedCostCreateWithoutPoInput, LandedCostUncheckedCreateWithoutPoInput>
+  }
+
+  export type LandedCostUpdateWithWhereUniqueWithoutPoInput = {
+    where: LandedCostWhereUniqueInput
+    data: XOR<LandedCostUpdateWithoutPoInput, LandedCostUncheckedUpdateWithoutPoInput>
+  }
+
+  export type LandedCostUpdateManyWithWhereWithoutPoInput = {
+    where: LandedCostScalarWhereInput
+    data: XOR<LandedCostUpdateManyMutationInput, LandedCostUncheckedUpdateManyWithoutPoInput>
   }
 
   export type TenantCreateWithoutPurchaseOrderLinesInput = {
@@ -221638,6 +227514,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -221746,6 +227624,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -221767,6 +227647,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutPurchaseOrdersInput
+    landedCosts?: LandedCostCreateNestedManyWithoutPoInput
   }
 
   export type PurchaseOrderUncheckedCreateWithoutLinesInput = {
@@ -221783,6 +227664,7 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutPoInput
   }
 
   export type PurchaseOrderCreateOrConnectWithoutLinesInput = {
@@ -221907,6 +227789,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -222015,6 +227899,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -222042,6 +227928,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutPurchaseOrdersNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutPoNestedInput
   }
 
   export type PurchaseOrderUncheckedUpdateWithoutLinesInput = {
@@ -222058,6 +227945,7 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutPoNestedInput
   }
 
   export type TenantCreateWithoutBomsInput = {
@@ -222166,6 +228054,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -222274,6 +228164,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -222428,6 +228320,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -222536,6 +228430,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -222660,6 +228556,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -222768,6 +228666,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -222923,6 +228823,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -223031,6 +228933,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -223176,6 +229080,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -223284,6 +229190,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -223440,6 +229348,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -223548,6 +229458,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -223672,6 +229584,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -223780,6 +229694,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -223931,6 +229847,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -224039,6 +229957,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -224180,6 +230100,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -224288,6 +230210,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -224412,6 +230336,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -224520,6 +230446,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -224628,6 +230556,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -224736,6 +230666,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -224860,6 +230792,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -224968,6 +230902,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -225076,6 +231012,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -225184,6 +231122,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -225338,6 +231278,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -225446,6 +231388,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -225570,6 +231514,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -225678,6 +231624,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -225827,6 +231775,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -225935,6 +231885,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -226074,6 +232026,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -226182,6 +232136,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -226338,6 +232294,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -226446,6 +232404,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -226570,6 +232530,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -226678,6 +232640,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -226845,6 +232809,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -226953,6 +232919,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -227110,6 +233078,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -227218,6 +233188,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -227368,6 +233340,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -227476,6 +233450,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -227600,6 +233576,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -227708,6 +233686,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -227859,6 +233839,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -227967,6 +233949,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -228108,6 +234092,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -228216,6 +234202,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -228370,6 +234358,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -228478,6 +234468,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -228602,6 +234594,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -228710,6 +234704,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -228869,6 +234865,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -228977,6 +234975,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -229126,6 +235126,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -229234,6 +235236,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -229358,6 +235362,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -229466,6 +235472,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -229574,6 +235582,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -229682,6 +235692,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -229838,6 +235850,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -229946,6 +235960,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -230070,6 +236086,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -230178,6 +236196,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -230345,6 +236365,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -230453,6 +236475,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -230610,6 +236634,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -230718,6 +236744,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -230842,6 +236870,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -230950,6 +236980,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -231058,6 +237090,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -231166,6 +237200,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -231290,6 +237326,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -231398,6 +237436,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -231506,6 +237546,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -231614,6 +237656,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -231755,6 +237799,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -231863,6 +237909,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -231994,6 +238042,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -232102,6 +238152,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -232257,6 +238309,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -232365,6 +238419,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -232510,6 +238566,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -232618,6 +238676,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -232742,6 +238802,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -232850,6 +238912,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -232958,6 +239022,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -233066,6 +239132,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -233190,6 +239258,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -233298,6 +239368,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -233406,6 +239478,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -233514,6 +239588,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -233666,6 +239742,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -233774,6 +239852,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -233898,6 +239978,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -234006,6 +240088,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -234153,6 +240237,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -234261,6 +240347,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -234398,6 +240486,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -234506,6 +240596,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -234668,6 +240760,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -234776,6 +240870,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -234900,6 +240996,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -235008,6 +241106,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -235159,6 +241259,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -235267,6 +241369,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -235408,6 +241512,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -235516,6 +241622,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -235640,6 +241748,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -235748,6 +241858,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -235856,6 +241968,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -235964,6 +242078,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -236088,6 +242204,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -236196,6 +242314,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -236304,6 +242424,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -236412,6 +242534,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -236587,6 +242711,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -236695,6 +242821,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -236848,6 +242976,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -236956,6 +243086,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -237108,6 +243240,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -237216,6 +243350,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -237340,6 +243476,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -237448,6 +243586,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -237607,6 +243747,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -237715,6 +243857,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -237864,6 +244008,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -237972,6 +244118,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -238122,6 +244270,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -238230,6 +244380,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -238354,6 +244506,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -238462,6 +244616,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -238619,6 +244775,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -238727,6 +244885,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -238874,6 +245034,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -238982,6 +245144,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -239138,6 +245302,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -239246,6 +245412,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -239370,6 +245538,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -239478,6 +245648,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -239625,6 +245797,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -239733,6 +245907,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -239870,6 +246046,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -239978,6 +246156,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -240128,6 +246308,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -240236,6 +246418,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -240812,6 +246996,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -240920,6 +247106,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -241075,6 +247263,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -241183,6 +247373,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -241328,6 +247520,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -241436,6 +247630,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -241560,6 +247756,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -241668,6 +247866,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -241776,6 +247976,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -241884,6 +248086,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -242038,6 +248242,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -242146,6 +248352,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -242336,6 +248544,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -242444,6 +248654,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -242568,6 +248780,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -242676,6 +248890,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -242784,6 +249000,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -242892,6 +249110,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -243055,6 +249275,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -243163,6 +249385,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -243316,6 +249540,8 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -243424,6 +249650,8 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -243548,6 +249776,8 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -243656,6 +249886,8 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -243764,6 +249996,8 @@ export namespace Prisma {
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -243872,6 +250106,8 @@ export namespace Prisma {
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -243996,6 +250232,8 @@ export namespace Prisma {
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -244104,6 +250342,8 @@ export namespace Prisma {
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -244212,6 +250452,8 @@ export namespace Prisma {
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
     rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -244320,6 +250562,8 @@ export namespace Prisma {
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -244444,6 +250688,8 @@ export namespace Prisma {
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -244552,6 +250798,8 @@ export namespace Prisma {
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -244660,6 +250908,8 @@ export namespace Prisma {
     employees?: EmployeeCreateNestedManyWithoutTenantInput
     assets?: AssetCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -244768,6 +251018,8 @@ export namespace Prisma {
     employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
     assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
     quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -244922,6 +251174,8 @@ export namespace Prisma {
     employees?: EmployeeUpdateManyWithoutTenantNestedInput
     assets?: AssetUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -245030,6 +251284,8 @@ export namespace Prisma {
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
     assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -245132,6 +251388,1209 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutPackagesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPackagesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPackagesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPackagesInput, TenantUncheckedCreateWithoutPackagesInput>
+  }
+
+  export type SalesOrderCreateWithoutPackagesInput = {
+    id?: string
+    orderNumber: string
+    accountId: string
+    quoteId?: string | null
+    warehouseId: string
+    status?: $Enums.SalesOrderStatus
+    currency: string
+    total?: Decimal | DecimalJsLike | number | string
+    holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSalesOrdersInput
+    lines?: SalesOrderLineCreateNestedManyWithoutOrderInput
+  }
+
+  export type SalesOrderUncheckedCreateWithoutPackagesInput = {
+    id?: string
+    tenantId: string
+    orderNumber: string
+    accountId: string
+    quoteId?: string | null
+    warehouseId: string
+    status?: $Enums.SalesOrderStatus
+    currency: string
+    total?: Decimal | DecimalJsLike | number | string
+    holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: SalesOrderLineUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type SalesOrderCreateOrConnectWithoutPackagesInput = {
+    where: SalesOrderWhereUniqueInput
+    create: XOR<SalesOrderCreateWithoutPackagesInput, SalesOrderUncheckedCreateWithoutPackagesInput>
+  }
+
+  export type PackageLineCreateWithoutPackageInput = {
+    id?: string
+    tenantId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineUncheckedCreateWithoutPackageInput = {
+    id?: string
+    tenantId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineCreateOrConnectWithoutPackageInput = {
+    where: PackageLineWhereUniqueInput
+    create: XOR<PackageLineCreateWithoutPackageInput, PackageLineUncheckedCreateWithoutPackageInput>
+  }
+
+  export type PackageLineCreateManyPackageInputEnvelope = {
+    data: PackageLineCreateManyPackageInput | PackageLineCreateManyPackageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutPackagesInput = {
+    update: XOR<TenantUpdateWithoutPackagesInput, TenantUncheckedUpdateWithoutPackagesInput>
+    create: XOR<TenantCreateWithoutPackagesInput, TenantUncheckedCreateWithoutPackagesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPackagesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPackagesInput, TenantUncheckedUpdateWithoutPackagesInput>
+  }
+
+  export type TenantUpdateWithoutPackagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPackagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type SalesOrderUpsertWithoutPackagesInput = {
+    update: XOR<SalesOrderUpdateWithoutPackagesInput, SalesOrderUncheckedUpdateWithoutPackagesInput>
+    create: XOR<SalesOrderCreateWithoutPackagesInput, SalesOrderUncheckedCreateWithoutPackagesInput>
+    where?: SalesOrderWhereInput
+  }
+
+  export type SalesOrderUpdateToOneWithWhereWithoutPackagesInput = {
+    where?: SalesOrderWhereInput
+    data: XOR<SalesOrderUpdateWithoutPackagesInput, SalesOrderUncheckedUpdateWithoutPackagesInput>
+  }
+
+  export type SalesOrderUpdateWithoutPackagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    status?: EnumSalesOrderStatusFieldUpdateOperationsInput | $Enums.SalesOrderStatus
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSalesOrdersNestedInput
+    lines?: SalesOrderLineUpdateManyWithoutOrderNestedInput
+  }
+
+  export type SalesOrderUncheckedUpdateWithoutPackagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    status?: EnumSalesOrderStatusFieldUpdateOperationsInput | $Enums.SalesOrderStatus
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: SalesOrderLineUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type PackageLineUpsertWithWhereUniqueWithoutPackageInput = {
+    where: PackageLineWhereUniqueInput
+    update: XOR<PackageLineUpdateWithoutPackageInput, PackageLineUncheckedUpdateWithoutPackageInput>
+    create: XOR<PackageLineCreateWithoutPackageInput, PackageLineUncheckedCreateWithoutPackageInput>
+  }
+
+  export type PackageLineUpdateWithWhereUniqueWithoutPackageInput = {
+    where: PackageLineWhereUniqueInput
+    data: XOR<PackageLineUpdateWithoutPackageInput, PackageLineUncheckedUpdateWithoutPackageInput>
+  }
+
+  export type PackageLineUpdateManyWithWhereWithoutPackageInput = {
+    where: PackageLineScalarWhereInput
+    data: XOR<PackageLineUpdateManyMutationInput, PackageLineUncheckedUpdateManyWithoutPackageInput>
+  }
+
+  export type PackageLineScalarWhereInput = {
+    AND?: PackageLineScalarWhereInput | PackageLineScalarWhereInput[]
+    OR?: PackageLineScalarWhereInput[]
+    NOT?: PackageLineScalarWhereInput | PackageLineScalarWhereInput[]
+    id?: UuidFilter<"PackageLine"> | string
+    tenantId?: UuidFilter<"PackageLine"> | string
+    packageId?: UuidFilter<"PackageLine"> | string
+    orderLineId?: UuidFilter<"PackageLine"> | string
+    quantity?: DecimalFilter<"PackageLine"> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageCreateWithoutLinesInput = {
+    id?: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPackagesInput
+    order: SalesOrderCreateNestedOneWithoutPackagesInput
+  }
+
+  export type PackageUncheckedCreateWithoutLinesInput = {
+    id?: string
+    tenantId: string
+    orderId: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PackageCreateOrConnectWithoutLinesInput = {
+    where: PackageWhereUniqueInput
+    create: XOR<PackageCreateWithoutLinesInput, PackageUncheckedCreateWithoutLinesInput>
+  }
+
+  export type PackageUpsertWithoutLinesInput = {
+    update: XOR<PackageUpdateWithoutLinesInput, PackageUncheckedUpdateWithoutLinesInput>
+    create: XOR<PackageCreateWithoutLinesInput, PackageUncheckedCreateWithoutLinesInput>
+    where?: PackageWhereInput
+  }
+
+  export type PackageUpdateToOneWithWhereWithoutLinesInput = {
+    where?: PackageWhereInput
+    data: XOR<PackageUpdateWithoutLinesInput, PackageUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type PackageUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPackagesNestedInput
+    order?: SalesOrderUpdateOneRequiredWithoutPackagesNestedInput
+  }
+
+  export type PackageUncheckedUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutLandedCostsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutLandedCostsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutLandedCostsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutLandedCostsInput, TenantUncheckedCreateWithoutLandedCostsInput>
+  }
+
+  export type PurchaseOrderCreateWithoutLandedCostsInput = {
+    id?: string
+    poNumber: string
+    supplierId: string
+    warehouseId: string
+    requisitionId?: string | null
+    status?: $Enums.PurchaseOrderStatus
+    currency: string
+    total?: Decimal | DecimalJsLike | number | string
+    expectedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPurchaseOrdersInput
+    lines?: PurchaseOrderLineCreateNestedManyWithoutPoInput
+  }
+
+  export type PurchaseOrderUncheckedCreateWithoutLandedCostsInput = {
+    id?: string
+    tenantId: string
+    poNumber: string
+    supplierId: string
+    warehouseId: string
+    requisitionId?: string | null
+    status?: $Enums.PurchaseOrderStatus
+    currency: string
+    total?: Decimal | DecimalJsLike | number | string
+    expectedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutPoInput
+  }
+
+  export type PurchaseOrderCreateOrConnectWithoutLandedCostsInput = {
+    where: PurchaseOrderWhereUniqueInput
+    create: XOR<PurchaseOrderCreateWithoutLandedCostsInput, PurchaseOrderUncheckedCreateWithoutLandedCostsInput>
+  }
+
+  export type TenantUpsertWithoutLandedCostsInput = {
+    update: XOR<TenantUpdateWithoutLandedCostsInput, TenantUncheckedUpdateWithoutLandedCostsInput>
+    create: XOR<TenantCreateWithoutLandedCostsInput, TenantUncheckedCreateWithoutLandedCostsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutLandedCostsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutLandedCostsInput, TenantUncheckedUpdateWithoutLandedCostsInput>
+  }
+
+  export type TenantUpdateWithoutLandedCostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutLandedCostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PurchaseOrderUpsertWithoutLandedCostsInput = {
+    update: XOR<PurchaseOrderUpdateWithoutLandedCostsInput, PurchaseOrderUncheckedUpdateWithoutLandedCostsInput>
+    create: XOR<PurchaseOrderCreateWithoutLandedCostsInput, PurchaseOrderUncheckedCreateWithoutLandedCostsInput>
+    where?: PurchaseOrderWhereInput
+  }
+
+  export type PurchaseOrderUpdateToOneWithWhereWithoutLandedCostsInput = {
+    where?: PurchaseOrderWhereInput
+    data: XOR<PurchaseOrderUpdateWithoutLandedCostsInput, PurchaseOrderUncheckedUpdateWithoutLandedCostsInput>
+  }
+
+  export type PurchaseOrderUpdateWithoutLandedCostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    poNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    requisitionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPurchaseOrderStatusFieldUpdateOperationsInput | $Enums.PurchaseOrderStatus
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    expectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPurchaseOrdersNestedInput
+    lines?: PurchaseOrderLineUpdateManyWithoutPoNestedInput
+  }
+
+  export type PurchaseOrderUncheckedUpdateWithoutLandedCostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    poNumber?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    requisitionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPurchaseOrderStatusFieldUpdateOperationsInput | $Enums.PurchaseOrderStatus
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    expectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: PurchaseOrderLineUncheckedUpdateManyWithoutPoNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -245325,6 +252784,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
+    status?: $Enums.DocumentTemplateStatus
   }
 
   export type PartyCreateManyTenantInput = {
@@ -245553,6 +253013,8 @@ export namespace Prisma {
     currency: string
     total?: Decimal | DecimalJsLike | number | string
     holdReason?: string | null
+    fulfillmentType?: $Enums.FulfillmentType
+    projectRef?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -245568,6 +253030,7 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
   }
 
   export type OrderEventCreateManyTenantInput = {
@@ -246239,6 +253702,27 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PackageCreateManyTenantInput = {
+    id?: string
+    orderId: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LandedCostCreateManyTenantInput = {
+    id?: string
+    poId: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     version?: IntFieldUpdateOperationsInput | number
@@ -246828,6 +254312,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
     versions?: DocumentTemplateVersionUpdateManyWithoutTemplateNestedInput
   }
 
@@ -246835,6 +254320,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
     versions?: DocumentTemplateVersionUncheckedUpdateManyWithoutTemplateNestedInput
   }
 
@@ -246842,6 +254328,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    status?: EnumDocumentTemplateStatusFieldUpdateOperationsInput | $Enums.DocumentTemplateStatus
   }
 
   export type PartyUpdateWithoutTenantInput = {
@@ -247520,10 +255007,13 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: SalesOrderLineUpdateManyWithoutOrderNestedInput
+    packages?: PackageUpdateManyWithoutOrderNestedInput
   }
 
   export type SalesOrderUncheckedUpdateWithoutTenantInput = {
@@ -247536,10 +255026,13 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: SalesOrderLineUncheckedUpdateManyWithoutOrderNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type SalesOrderUncheckedUpdateManyWithoutTenantInput = {
@@ -247552,6 +255045,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
+    projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -247566,6 +255061,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
   }
 
@@ -247579,6 +255075,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineUncheckedUpdateManyWithoutTenantInput = {
@@ -247591,6 +255088,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type OrderEventUpdateWithoutTenantInput = {
@@ -247735,6 +255233,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: PurchaseOrderLineUpdateManyWithoutPoNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutPoNestedInput
   }
 
   export type PurchaseOrderUncheckedUpdateWithoutTenantInput = {
@@ -247751,6 +255250,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: PurchaseOrderLineUncheckedUpdateManyWithoutPoNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutPoNestedInput
   }
 
   export type PurchaseOrderUncheckedUpdateManyWithoutTenantInput = {
@@ -249640,6 +257140,71 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PackageUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: SalesOrderUpdateOneRequiredWithoutPackagesNestedInput
+    lines?: PackageLineUpdateManyWithoutPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: PackageLineUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LandedCostUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    po?: PurchaseOrderUpdateOneRequiredWithoutLandedCostsNestedInput
+  }
+
+  export type LandedCostUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    poId?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LandedCostUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    poId?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -250788,6 +258353,18 @@ export namespace Prisma {
     lineTotal: Decimal | DecimalJsLike | number | string
     reservationId?: string | null
     backordered?: boolean
+    fulfilledQty?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageCreateManyOrderInput = {
+    id?: string
+    tenantId: string
+    packageNumber: string
+    status?: $Enums.PackageStatus
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SalesOrderLineUpdateWithoutOrderInput = {
@@ -250799,6 +258376,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
   }
 
@@ -250812,6 +258390,7 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type SalesOrderLineUncheckedUpdateManyWithoutOrderInput = {
@@ -250824,6 +258403,42 @@ export namespace Prisma {
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
+    fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPackagesNestedInput
+    lines?: PackageLineUpdateManyWithoutPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: PackageLineUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateManyWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    packageNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PurchaseRequisitionLineCreateManyRequisitionInput = {
@@ -250877,6 +258492,16 @@ export namespace Prisma {
     receivedQty?: Decimal | DecimalJsLike | number | string
   }
 
+  export type LandedCostCreateManyPoInput = {
+    id?: string
+    tenantId: string
+    costType: $Enums.LandedCostType
+    amount: Decimal | DecimalJsLike | number | string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
   export type PurchaseOrderLineUpdateWithoutPoInput = {
     id?: StringFieldUpdateOperationsInput | string
     skuId?: StringFieldUpdateOperationsInput | string
@@ -250908,6 +258533,36 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     receivedQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type LandedCostUpdateWithoutPoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutLandedCostsNestedInput
+  }
+
+  export type LandedCostUncheckedUpdateWithoutPoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LandedCostUncheckedUpdateManyWithoutPoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    costType?: EnumLandedCostTypeFieldUpdateOperationsInput | $Enums.LandedCostType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BomLineCreateManyBomInput = {
@@ -251542,6 +259197,34 @@ export namespace Prisma {
     leadTimeDays?: NullableIntFieldUpdateOperationsInput | number | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageLineCreateManyPackageInput = {
+    id?: string
+    tenantId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineUpdateWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineUncheckedUpdateWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type PackageLineUncheckedUpdateManyWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
 

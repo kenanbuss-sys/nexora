@@ -139,6 +139,8 @@ model Tenant {
   assets                Asset[]
   quarantineHolds       QuarantineHold[]
   rfqs                  Rfq[]
+  packages              Package[]
+  landedCosts           LandedCost[]
 
   @@map("tenant")
 }
@@ -641,11 +643,19 @@ model ProcessedEvent {
 // Sprint 002 — DOC: document template foundation
 // ---------------------------------------------------------------------------
 
+enum DocumentTemplateStatus {
+  DRAFT
+  ACTIVE
+  RETIRED
+}
+
 model DocumentTemplate {
-  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId String @map("tenant_id") @db.Uuid
+  id       String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId String                 @map("tenant_id") @db.Uuid
   key      String
   name     String
+  /// Sprint 102 (DOC-005): lifecycle — only ACTIVE templates render.
+  status   DocumentTemplateStatus @default(ACTIVE)
 
   tenant   Tenant                    @relation(fields: [tenantId], references: [id])
   versions DocumentTemplateVersion[]
@@ -1421,22 +1431,27 @@ enum SalesOrderStatus {
 /// releasing reservations (OMS-010); fulfillment consumes them via ledger
 /// ISSUE movements (OMS-011). Never stores stock truth.
 model SalesOrder {
-  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId    String           @map("tenant_id") @db.Uuid
-  orderNumber String           @map("order_number")
-  accountId   String           @map("account_id") @db.Uuid
-  quoteId     String?          @map("quote_id") @db.Uuid
-  warehouseId String           @map("warehouse_id") @db.Uuid
-  status      SalesOrderStatus @default(DRAFT)
-  currency    String           @db.Char(3)
-  total       Decimal          @default(0) @db.Decimal(18, 2)
-  holdReason  String?          @map("hold_reason")
-  createdBy   String?          @map("created_by")
-  createdAt   DateTime         @default(now()) @map("created_at")
-  updatedAt   DateTime         @updatedAt @map("updated_at")
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String           @map("tenant_id") @db.Uuid
+  orderNumber     String           @map("order_number")
+  accountId       String           @map("account_id") @db.Uuid
+  quoteId         String?          @map("quote_id") @db.Uuid
+  warehouseId     String           @map("warehouse_id") @db.Uuid
+  status          SalesOrderStatus @default(DRAFT)
+  currency        String           @db.Char(3)
+  total           Decimal          @default(0) @db.Decimal(18, 2)
+  holdReason      String?          @map("hold_reason")
+  /// Sprint 102 (COM-007): DELIVERY ships; PICKUP is click & collect.
+  fulfillmentType FulfillmentType  @default(DELIVERY) @map("fulfillment_type")
+  /// Sprint 102 (B2B-009): customer's project/site reference.
+  projectRef      String?          @map("project_ref")
+  createdBy       String?          @map("created_by")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
 
-  tenant Tenant           @relation(fields: [tenantId], references: [id])
-  lines  SalesOrderLine[]
+  tenant   Tenant           @relation(fields: [tenantId], references: [id])
+  lines    SalesOrderLine[]
+  packages Package[]
 
   @@unique([tenantId, orderNumber])
   @@index([tenantId, status])
@@ -1456,6 +1471,8 @@ model SalesOrderLine {
   reservationId String? @map("reservation_id") @db.Uuid
   /// Sprint 018 (OMS-006): confirmed without stock; released later.
   backordered   Boolean @default(false)
+  /// Sprint 102 (OMS-005): shipped so far — split fulfillment.
+  fulfilledQty  Decimal @default(0) @map("fulfilled_qty") @db.Decimal(18, 6)
 
   tenant Tenant     @relation(fields: [tenantId], references: [id])
   order  SalesOrder @relation(fields: [orderId], references: [id])
@@ -1582,8 +1599,9 @@ model PurchaseOrder {
   createdAt     DateTime            @default(now()) @map("created_at")
   updatedAt     DateTime            @updatedAt @map("updated_at")
 
-  tenant Tenant              @relation(fields: [tenantId], references: [id])
-  lines  PurchaseOrderLine[]
+  tenant      Tenant              @relation(fields: [tenantId], references: [id])
+  lines       PurchaseOrderLine[]
+  landedCosts LandedCost[]
 
   @@unique([tenantId, poNumber])
   @@index([tenantId, status])
@@ -2875,4 +2893,81 @@ model RfqQuote {
 
   @@unique([tenantId, rfqId, supplierId])
   @@map("rfq_quote")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 102 — schema batch: packing/staging (WMS-011/012), landed cost
+// (PROC-011), split fulfillment (OMS-005), click & collect (COM-007),
+// template lifecycle (DOC-005), project ordering (B2B-009).
+
+enum FulfillmentType {
+  DELIVERY
+  PICKUP
+}
+
+enum PackageStatus {
+  PACKED
+  STAGED
+  SHIPPED
+}
+
+/// Physical package built from confirmed order lines (WMS-011). Staging
+/// and shipping only flip status — stock truth stays in the ledger.
+model Package {
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String        @map("tenant_id") @db.Uuid
+  orderId       String        @map("order_id") @db.Uuid
+  packageNumber String        @map("package_number")
+  status        PackageStatus @default(PACKED)
+  weightKg      Decimal?      @map("weight_kg") @db.Decimal(10, 3)
+  createdBy     String?       @map("created_by")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  tenant Tenant        @relation(fields: [tenantId], references: [id])
+  order  SalesOrder    @relation(fields: [orderId], references: [id])
+  lines  PackageLine[]
+
+  @@unique([tenantId, packageNumber])
+  @@index([tenantId, orderId])
+  @@map("package")
+}
+
+model PackageLine {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String  @map("tenant_id") @db.Uuid
+  packageId   String  @map("package_id") @db.Uuid
+  orderLineId String  @map("order_line_id") @db.Uuid
+  quantity    Decimal @db.Decimal(18, 6)
+
+  package Package @relation(fields: [packageId], references: [id])
+
+  @@unique([tenantId, packageId, orderLineId])
+  @@map("package_line")
+}
+
+enum LandedCostType {
+  FREIGHT
+  DUTY
+  INSURANCE
+  OTHER
+}
+
+/// Sprint 102 (PROC-011): extra acquisition costs on a purchase order,
+/// allocated over received value for true landed unit costs.
+model LandedCost {
+  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String         @map("tenant_id") @db.Uuid
+  poId      String         @map("po_id") @db.Uuid
+  costType  LandedCostType @map("cost_type")
+  amount    Decimal        @db.Decimal(18, 2)
+  note      String?
+  createdBy String?        @map("created_by")
+  createdAt DateTime       @default(now()) @map("created_at")
+
+  tenant Tenant        @relation(fields: [tenantId], references: [id])
+  po     PurchaseOrder @relation(fields: [poId], references: [id])
+
+  @@index([tenantId, poId])
+  @@map("landed_cost")
 }

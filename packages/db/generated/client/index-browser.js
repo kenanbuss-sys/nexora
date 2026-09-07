@@ -394,7 +394,8 @@ exports.Prisma.DocumentTemplateScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   key: 'key',
-  name: 'name'
+  name: 'name',
+  status: 'status'
 };
 
 exports.Prisma.DocumentTemplateVersionScalarFieldEnum = {
@@ -777,6 +778,8 @@ exports.Prisma.SalesOrderScalarFieldEnum = {
   currency: 'currency',
   total: 'total',
   holdReason: 'holdReason',
+  fulfillmentType: 'fulfillmentType',
+  projectRef: 'projectRef',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -792,7 +795,8 @@ exports.Prisma.SalesOrderLineScalarFieldEnum = {
   unitPrice: 'unitPrice',
   lineTotal: 'lineTotal',
   reservationId: 'reservationId',
-  backordered: 'backordered'
+  backordered: 'backordered',
+  fulfilledQty: 'fulfilledQty'
 };
 
 exports.Prisma.OrderEventScalarFieldEnum = {
@@ -1489,6 +1493,37 @@ exports.Prisma.RfqQuoteScalarFieldEnum = {
   receivedAt: 'receivedAt'
 };
 
+exports.Prisma.PackageScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  orderId: 'orderId',
+  packageNumber: 'packageNumber',
+  status: 'status',
+  weightKg: 'weightKg',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PackageLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  packageId: 'packageId',
+  orderLineId: 'orderLineId',
+  quantity: 'quantity'
+};
+
+exports.Prisma.LandedCostScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  poId: 'poId',
+  costType: 'costType',
+  amount: 'amount',
+  note: 'note',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1574,6 +1609,12 @@ exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
   REQUESTED: 'REQUESTED',
   GRANTED: 'GRANTED',
   REJECTED: 'REJECTED'
+};
+
+exports.DocumentTemplateStatus = exports.$Enums.DocumentTemplateStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  RETIRED: 'RETIRED'
 };
 
 exports.PartyType = exports.$Enums.PartyType = {
@@ -1711,6 +1752,11 @@ exports.SalesOrderStatus = exports.$Enums.SalesOrderStatus = {
   ON_HOLD: 'ON_HOLD',
   FULFILLED: 'FULFILLED',
   CANCELLED: 'CANCELLED'
+};
+
+exports.FulfillmentType = exports.$Enums.FulfillmentType = {
+  DELIVERY: 'DELIVERY',
+  PICKUP: 'PICKUP'
 };
 
 exports.SupplierStatus = exports.$Enums.SupplierStatus = {
@@ -1887,6 +1933,19 @@ exports.RfqStatus = exports.$Enums.RfqStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.PackageStatus = exports.$Enums.PackageStatus = {
+  PACKED: 'PACKED',
+  STAGED: 'STAGED',
+  SHIPPED: 'SHIPPED'
+};
+
+exports.LandedCostType = exports.$Enums.LandedCostType = {
+  FREIGHT: 'FREIGHT',
+  DUTY: 'DUTY',
+  INSURANCE: 'INSURANCE',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -2002,7 +2061,10 @@ exports.Prisma.ModelName = {
   Asset: 'Asset',
   QuarantineHold: 'QuarantineHold',
   Rfq: 'Rfq',
-  RfqQuote: 'RfqQuote'
+  RfqQuote: 'RfqQuote',
+  Package: 'Package',
+  PackageLine: 'PackageLine',
+  LandedCost: 'LandedCost'
 };
 
 /**
