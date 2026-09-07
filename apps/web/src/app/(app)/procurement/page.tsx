@@ -67,6 +67,31 @@ interface SkuOption {
   code: string;
 }
 
+interface RfqQuoteView {
+  id: string;
+  supplierId: string;
+  supplierName: string;
+  unitPrice: string;
+  leadTimeDays: number | null;
+  awarded: boolean;
+}
+
+interface RfqView {
+  id: string;
+  rfqNumber: string;
+  skuCode: string;
+  quantity: string;
+  status: 'DRAFT' | 'SENT' | 'AWARDED' | 'CANCELLED';
+  quotes: RfqQuoteView[];
+}
+
+const RFQ_BADGE: Record<RfqView['status'], string> = {
+  DRAFT: 'badge-warn',
+  SENT: 'badge-accent',
+  AWARDED: 'badge-ok',
+  CANCELLED: 'badge-danger',
+};
+
 const REQ_BADGE: Record<RequisitionView['status'], string> = {
   DRAFT: 'badge-warn',
   PENDING_APPROVAL: 'badge-warn',
@@ -123,6 +148,11 @@ export default function ProcurementPage() {
   const [poWarehouse, setPoWarehouse] = useState('');
   const [receivePo, setReceivePo] = useState('');
   const [receiveQty, setReceiveQty] = useState<Record<string, string>>({});
+  const [rfqs, setRfqs] = useState<RfqView[]>([]);
+  const [rfqSku, setRfqSku] = useState('');
+  const [rfqQty, setRfqQty] = useState('1');
+  const [quoteSupplier, setQuoteSupplier] = useState<Record<string, string>>({});
+  const [quotePrice, setQuotePrice] = useState<Record<string, string>>({});
 
   const load = useCallback(() => {
     api<{ suppliers: SupplierView[] }>('GET', '/api/v1/suppliers')
@@ -146,6 +176,9 @@ export default function ProcurementPage() {
     api<{ purchaseOrders: PurchaseOrderView[] }>('GET', '/api/v1/purchase-orders')
       .then((r) => setPos(r.purchaseOrders))
       .catch(() => setPos([]));
+    api<{ rfqs: RfqView[] }>('GET', '/api/v1/rfqs')
+      .then((r) => setRfqs(r.rfqs))
+      .catch(() => setRfqs([]));
     // eslint-disable-next-line
   }, []);
 
@@ -699,6 +732,148 @@ export default function ProcurementPage() {
           </table>
         </div>
       ) : null}
+
+      <div className="card" style={{ marginTop: 16 }}>
+        <h2>RFQs</h2>
+        <p className="muted" style={{ marginTop: 0 }}>
+          Request quotations from suppliers for one SKU and award the best offer.
+        </p>
+        {rfqs.length === 0 ? <div className="empty">No RFQs yet.</div> : null}
+        {rfqs.map((r) => (
+          <div key={r.id} style={{ marginBottom: 12 }}>
+            <div className="row spread">
+              <span>
+                <strong className="mono">{r.rfqNumber}</strong>{' '}
+                <span className="mono muted">
+                  {r.skuCode} × {Number(r.quantity)}
+                </span>{' '}
+                <span className={`badge ${RFQ_BADGE[r.status]}`}>{r.status}</span>
+              </span>
+              <span>
+                {can('purchase.manage') && r.status === 'DRAFT' ? (
+                  <button
+                    className="btn btn-sm"
+                    disabled={busy}
+                    onClick={() =>
+                      run(() => api('POST', `/api/v1/rfqs/${r.id}/send`), 'RFQ sent to suppliers.')
+                    }
+                    type="button"
+                  >
+                    Send
+                  </button>
+                ) : null}
+              </span>
+            </div>
+            {r.quotes.map((q) => (
+              <div key={q.id} className="row spread" style={{ marginLeft: 12, marginTop: 4 }}>
+                <span style={{ fontSize: 13 }}>
+                  {q.supplierName} <span className="mono">{q.unitPrice}</span>
+                  {q.leadTimeDays !== null ? (
+                    <span className="muted"> · {q.leadTimeDays}d</span>
+                  ) : null}
+                  {q.awarded ? <span className="badge badge-ok"> AWARDED</span> : null}
+                </span>
+                <span>
+                  {can('purchase.approve') && r.status === 'SENT' ? (
+                    <button
+                      className="btn btn-sm"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          () => api('POST', `/api/v1/rfqs/${r.id}/award`, { quoteId: q.id }),
+                          'RFQ awarded.',
+                        )
+                      }
+                      type="button"
+                    >
+                      Award
+                    </button>
+                  ) : null}
+                </span>
+              </div>
+            ))}
+            {can('purchase.manage') && r.status === 'SENT' ? (
+              <form
+                className="row"
+                style={{ marginLeft: 12, marginTop: 6 }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void run(
+                    () =>
+                      api('POST', `/api/v1/rfqs/${r.id}/quotes`, {
+                        supplierId: quoteSupplier[r.id],
+                        unitPrice: Number(quotePrice[r.id]),
+                      }),
+                    'Quote recorded.',
+                  );
+                }}
+              >
+                <select
+                  className="input"
+                  value={quoteSupplier[r.id] ?? ''}
+                  onChange={(e) => setQuoteSupplier({ ...quoteSupplier, [r.id]: e.target.value })}
+                  required
+                >
+                  <option value="">Supplier…</option>
+                  {suppliers.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.partyName}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="input"
+                  style={{ width: 110 }}
+                  placeholder="Unit price"
+                  value={quotePrice[r.id] ?? ''}
+                  onChange={(e) => setQuotePrice({ ...quotePrice, [r.id]: e.target.value })}
+                  required
+                />
+                <button className="btn btn-sm" disabled={busy} type="submit">
+                  Record quote
+                </button>
+              </form>
+            ) : null}
+          </div>
+        ))}
+        {can('purchase.manage') ? (
+          <form
+            className="row"
+            style={{ marginTop: 12 }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              void run(
+                () => api('POST', '/api/v1/rfqs', { skuId: rfqSku, quantity: Number(rfqQty) }),
+                'RFQ created.',
+              );
+            }}
+          >
+            <select
+              className="input"
+              value={rfqSku}
+              onChange={(e) => setRfqSku(e.target.value)}
+              required
+            >
+              <option value="">SKU…</option>
+              {skus.map((k) => (
+                <option key={k.id} value={k.id}>
+                  {k.code}
+                </option>
+              ))}
+            </select>
+            <input
+              className="input"
+              style={{ width: 90 }}
+              value={rfqQty}
+              onChange={(e) => setRfqQty(e.target.value)}
+              required
+            />
+            <button className="btn btn-sm" disabled={busy} type="submit">
+              New RFQ
+            </button>
+          </form>
+        ) : null}
+      </div>
 
       {discrepancies.length > 0 ? (
         <div className="card" style={{ marginTop: 16 }}>

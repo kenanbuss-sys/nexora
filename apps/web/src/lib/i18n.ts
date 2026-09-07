@@ -412,6 +412,17 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  RFQs: 'Zahtjevi za ponudu',
+  'New RFQ': 'Novi zahtjev za ponudu',
+  'Record quote': 'Zabilježi ponudu',
+  Award: 'Dodijeli',
+  'RFQ created.': 'Zahtjev za ponudu kreiran.',
+  'RFQ sent to suppliers.': 'Zahtjev poslan dobavljačima.',
+  'Quote recorded.': 'Ponuda zabilježena.',
+  'RFQ awarded.': 'Ponuda dodijeljena.',
+  'Request quotations from suppliers for one SKU and award the best offer.':
+    'Zatražite ponude dobavljača za artikal i dodijelite najbolju.',
+  'No RFQs yet.': 'Još nema zahtjeva za ponudu.',
   Label: 'Etiketa',
   'Rework scrap': 'Dorada škarta',
   'Rework order created for the scrapped quantity.':

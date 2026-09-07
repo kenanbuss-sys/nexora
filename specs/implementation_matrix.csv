@@ -130,7 +130,7 @@ B2B-014,B2B,API/EDI customer integration,P1,PLANNED,R3,,,
 PROC-001,PROC,Supplier master,P1,DONE,R1,,,
 PROC-002,PROC,Purchase requisition,P1,DONE,R1,,,
 PROC-003,PROC,Approval workflow,P1,DONE,R1,,,
-PROC-004,PROC,RFQ,P1,PLANNED,R1,,,
+PROC-004,PROC,RFQ,P1,Implemented (Sprint 088),R1,,,
 PROC-005,PROC,Purchase orders,P1,DONE,R1,,,
 PROC-006,PROC,Framework orders,P1,PLANNED,R1,,,
 PROC-007,PROC,Lead times,P1,DONE,R1,,,Sprint 063: PO expected dates default from supplier lead time; on-time delivery report per supplier.

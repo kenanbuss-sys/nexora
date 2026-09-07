@@ -38,7 +38,7 @@ import {
   PartyService,
 } from '@nexora/domain-mdm';
 import { ReturnsService, OrderService } from '@nexora/domain-oms';
-import { ProcurementService } from '@nexora/domain-proc';
+import { ProcurementService, RfqService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
@@ -193,6 +193,8 @@ import {
 } from './iam/service-accounts.controller';
 import {
   PROCUREMENT_SERVICE,
+  RFQ_SERVICE,
+  RfqsController,
   PurchaseOrdersController,
   RequisitionsController,
   SuppliersController,
@@ -304,6 +306,7 @@ export const REDIS = 'REDIS';
     SuppliersController,
     RequisitionsController,
     PurchaseOrdersController,
+    RfqsController,
     BomsController,
     RoutingsController,
     EngineeringChangesController,
@@ -570,6 +573,11 @@ export const REDIS = 'REDIS';
     {
       provide: LOYALTY_SERVICE,
       useFactory: (prisma: PrismaClient) => new LoyaltyService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: RFQ_SERVICE,
+      useFactory: (prisma: PrismaClient) => new RfqService(prisma),
       inject: [PRISMA],
     },
     {

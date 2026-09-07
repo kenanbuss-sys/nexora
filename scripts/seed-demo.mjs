@@ -137,6 +137,7 @@ const BASELINE = [
   'purchase.request',
   'purchase.manage',
   'purchase.receive',
+  'purchase.approve',
   'bom.read',
   'bom.manage',
   'bom.release',

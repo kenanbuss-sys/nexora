@@ -16,3 +16,4 @@ export {
   type SkuInfoGate,
   type SupplierView,
 } from './procurement.service';
+export { RfqService, type RfqQuoteView, type RfqView } from './rfq.service';

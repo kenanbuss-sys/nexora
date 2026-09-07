@@ -77,6 +77,7 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'purchase.request',
   'purchase.manage',
   'purchase.receive',
+  'purchase.approve',
   'bom.read',
   'bom.manage',
   'bom.release',
