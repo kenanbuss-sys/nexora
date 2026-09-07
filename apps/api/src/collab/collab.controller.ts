@@ -53,6 +53,12 @@ export class CommentsController {
 export class AttachmentsController {
   constructor(@Inject(COLLAB_SERVICE) private readonly collab: CollaborationService) {}
 
+  @Post('retention/run')
+  @RequirePermission('document.issue')
+  async runRetention(@Ctx() ctx: RequestContext) {
+    return { results: await this.collab.runRetention(ctx) };
+  }
+
   @Get()
   @RequirePermission('collab.use')
   async list(

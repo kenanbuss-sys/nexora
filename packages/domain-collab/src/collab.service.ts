@@ -65,7 +65,66 @@ export class CollaborationService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly notifier?: MentionNotifier,
+    private readonly config?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
+    },
   ) {}
+
+  /**
+   * Retention (DOC-011): attachments past the configured age per
+   * entity type (doc.retention: [{ entityType, days }]) are purged —
+   * blob first, then the record — with an audited count per run.
+   * History corrections stay compensating; retention is the one
+   * governed, configured exception that truly deletes binaries.
+   */
+  async runRetention(
+    ctx: RequestContext,
+  ): Promise<Array<{ entityType: string; days: number; purged: number }>> {
+    if (!this.config) return [];
+    let rules: Array<{ entityType: string; days: number }> = [];
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+      const raw = (config as { doc?: { retention?: unknown } })?.doc?.retention;
+      if (Array.isArray(raw)) {
+        rules = raw
+          .map((entry) => ({
+            entityType: String((entry as { entityType?: unknown })?.entityType ?? ''),
+            days: Number((entry as { days?: unknown })?.days ?? 0),
+          }))
+          .filter((r) => r.entityType && Number.isFinite(r.days) && r.days >= 30);
+      }
+    } catch {
+      rules = [];
+    }
+    const results: Array<{ entityType: string; days: number; purged: number }> = [];
+    for (const rule of rules) {
+      const cutoff = new Date(Date.now() - rule.days * 86_400_000);
+      const stale = await this.prisma.attachment.findMany({
+        where: { tenantId: ctx.tenantId, entityType: rule.entityType, createdAt: { lt: cutoff } },
+        select: { id: true },
+        take: 500,
+      });
+      if (stale.length > 0) {
+        const ids = stale.map((a) => a.id);
+        await this.prisma.attachmentBlob.deleteMany({ where: { attachmentId: { in: ids } } });
+        await this.prisma.attachment.deleteMany({
+          where: { id: { in: ids }, tenantId: ctx.tenantId },
+        });
+        await writeAudit(this.prisma, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'doc.retention.purge',
+          objectType: 'Attachment',
+          objectId: rule.entityType,
+          source: 'api',
+          newValues: { entityType: rule.entityType, days: rule.days, purged: ids.length },
+        });
+      }
+      results.push({ entityType: rule.entityType, days: rule.days, purged: stale.length });
+    }
+    return results;
+  }
 
   private assertEntityType(entityType: string): void {
     if (!(COLLAB_ENTITY_TYPES as readonly string[]).includes(entityType)) {

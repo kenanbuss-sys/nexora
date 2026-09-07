@@ -1053,20 +1053,24 @@ export const REDIS = 'REDIS';
     },
     {
       provide: COLLAB_SERVICE,
-      useFactory: (prisma: PrismaClient, tasks: TaskService) =>
-        new CollaborationService(prisma, {
-          notifyMention: async (tenantId, userId, input) => {
-            await tasks.notifyInTx(prisma, tenantId, {
-              userId,
-              type: 'mention',
-              title: input.title,
-              body: input.body,
-              relatedObjectType: input.entityType,
-              relatedObjectId: input.entityId,
-            });
+      useFactory: (prisma: PrismaClient, tasks: TaskService, tenants: TenantService) =>
+        new CollaborationService(
+          prisma,
+          {
+            notifyMention: async (tenantId, userId, input) => {
+              await tasks.notifyInTx(prisma, tenantId, {
+                userId,
+                type: 'mention',
+                title: input.title,
+                body: input.body,
+                relatedObjectType: input.entityType,
+                relatedObjectId: input.entityId,
+              });
+            },
           },
-        }),
-      inject: [PRISMA, TASK_SERVICE],
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, TASK_SERVICE, TENANT_SERVICE],
     },
     {
       provide: SEARCH_SERVICE,
