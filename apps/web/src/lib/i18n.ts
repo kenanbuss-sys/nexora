@@ -412,6 +412,12 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Material check': 'Provjera materijala',
+  'Scan-first verification: does this barcode belong to the SKU in hand? Every check is audited.':
+    'Scan-first provjera: pripada li ovaj barkod artiklu u ruci? Svaka provjera se evidentira.',
+  'Expected SKU id': 'Očekivani ID artikla',
+  'Scanned barcode': 'Skenirani barkod',
+  Check: 'Provjeri',
   'Incoming inspection queue': 'Red za ulaznu kontrolu',
   'Recently received goods whose SKU has an active QC plan.':
     'Nedavno zaprimljena roba čiji artikal ima aktivan QC plan.',

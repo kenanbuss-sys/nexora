@@ -33,6 +33,12 @@ export default function DevicesPage() {
   const [devices, setDevices] = useState<DeviceView[] | null>(null);
   const [events, setEvents] = useState<ScanEventView[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mcSku, setMcSku] = useState('');
+  const [mcBarcode, setMcBarcode] = useState('');
+  const [mcResult, setMcResult] = useState<{
+    skuMatch: boolean;
+    resolvedSkuId: string | null;
+  } | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [newToken, setNewToken] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -221,6 +227,49 @@ export default function DevicesPage() {
                 </table>
               )}
             </div>
+          ) : null}
+        </div>
+      </div>
+      <div className="card" style={{ marginTop: 16 }}>
+        <h2>Material check</h2>
+        <p className="muted" style={{ marginTop: 0 }}>
+          Scan-first verification: does this barcode belong to the SKU in hand? Every check is
+          audited.
+        </p>
+        <div className="row" style={{ flexWrap: 'wrap' }}>
+          <input
+            className="input mono"
+            style={{ maxWidth: 300 }}
+            placeholder="Expected SKU id"
+            value={mcSku}
+            onChange={(e) => setMcSku(e.target.value)}
+          />
+          <input
+            className="input mono"
+            style={{ maxWidth: 200 }}
+            placeholder="Scanned barcode"
+            value={mcBarcode}
+            onChange={(e) => setMcBarcode(e.target.value)}
+          />
+          <button
+            className="btn btn-sm btn-primary"
+            type="button"
+            disabled={!mcSku || !mcBarcode}
+            onClick={() => {
+              api<NonNullable<typeof mcResult>>('POST', '/api/v1/scan-events/material-check', {
+                expectedSkuId: mcSku,
+                barcode: mcBarcode,
+              })
+                .then((r) => setMcResult(r))
+                .catch(() => setMcResult(null));
+            }}
+          >
+            Check
+          </button>
+          {mcResult ? (
+            <span className={`badge ${mcResult.skuMatch ? 'badge-ok' : 'badge-danger'}`}>
+              {mcResult.skuMatch ? 'MATCH' : 'MISMATCH'}
+            </span>
           ) : null}
         </div>
       </div>

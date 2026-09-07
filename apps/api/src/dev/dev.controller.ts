@@ -44,6 +44,13 @@ const envelopeSchema = z.object({
     .max(500),
 });
 
+const materialCheckSchema = z.object({
+  expectedSkuId: z.string().uuid(),
+  barcode: z.string().min(1).max(128),
+  expectedQty: z.number().positive().optional(),
+  countedQty: z.number().nonnegative().optional(),
+});
+
 @Controller('api/v1/devices')
 export class DevicesController {
   constructor(@Inject(DEVICE_SERVICE) private readonly devices: DeviceService) {}
@@ -102,6 +109,14 @@ export class ScanEventsController {
   async record(@Body() body: unknown) {
     const input = parseBody(envelopeSchema, body);
     return this.verification.recordEnvelope(input.enrollmentToken, input.events);
+  }
+
+  /** Scan-first material check (VER-007/011). */
+  @Post('material-check')
+  @RequirePermission('inventory.read')
+  async materialCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(materialCheckSchema, body);
+    return this.verification.materialCheck(input, ctx);
   }
 
   @Get()

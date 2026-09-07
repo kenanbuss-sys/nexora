@@ -1,3 +1,4 @@
+import { writeAudit } from '@nexora/audit';
 import type { Prisma, PrismaClient, ScanKind } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError } from '@nexora/kernel';
@@ -135,7 +136,49 @@ export class VerificationService {
     return { accepted, duplicates, results };
   }
 
-  /** Permission: verification.audit. Newest first. */
+  /**
+   * Material check (VER-007/011): does a scanned barcode resolve to the
+   * SKU the operator is supposed to be handling, and does the quantity
+   * match what is expected? Every check is recorded as an audited
+   * verification, mismatch or not — the point is the trail.
+   */
+  async materialCheck(
+    input: {
+      expectedSkuId: string;
+      barcode: string;
+      expectedQty?: number | undefined;
+      countedQty?: number | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{
+    skuMatch: boolean;
+    resolvedSkuId: string | null;
+    qtyMatch: boolean | null;
+  }> {
+    const resolvedSkuId = await this.skus.resolveBarcode(ctx.tenantId, input.barcode.trim());
+    const skuMatch = resolvedSkuId !== null && resolvedSkuId === input.expectedSkuId;
+    const qtyMatch =
+      input.expectedQty !== undefined && input.countedQty !== undefined
+        ? Number(input.expectedQty) === Number(input.countedQty)
+        : null;
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.material_check',
+      objectType: 'Sku',
+      objectId: input.expectedSkuId,
+      source: 'api',
+      newValues: {
+        barcode: input.barcode.trim(),
+        resolvedSkuId,
+        skuMatch,
+        qtyMatch,
+      },
+    });
+    return { skuMatch, resolvedSkuId, qtyMatch };
+  }
+
   async listEvents(
     filter: { deviceId?: string | undefined },
     ctx: RequestContext,
