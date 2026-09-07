@@ -412,6 +412,10 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'My catalog': 'Moj katalog',
+  'What your agreement entitles you to buy, at your prices.':
+    'Ono što po ugovoru možeš kupiti, po tvojim cijenama.',
+  'No catalog yet.': 'Još nema kataloga.',
   'Quick order (sales rep)': 'Brza narudžba (komercijalista)',
   'One line per item:': 'Jedan red po stavci:',
   'Unknown codes are reported, prices default to 0 for repricing.':

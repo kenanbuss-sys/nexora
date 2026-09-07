@@ -139,6 +139,66 @@ export class PortalService {
     };
   }
 
+  /**
+   * Entitled catalog (B2B-003/004): what THIS customer may buy, at
+   * THEIR prices. With an active contract price list bound to the
+   * account, the catalog is exactly its priced SKUs; without one, all
+   * ACTIVE SKUs at general-list prices when resolvable (price null
+   * otherwise).
+   */
+  async myCatalog(
+    ctx: RequestContext,
+  ): Promise<Array<{ skuId: string; code: string; name: string; unitPrice: string | null }>> {
+    const portal = await this.resolvePortalContext(ctx);
+    const now = new Date();
+    const contract = await this.prisma.priceList.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        accountId: portal.accountId,
+        status: 'ACTIVE',
+        OR: [{ validFrom: null }, { validFrom: { lte: now } }],
+        AND: [{ OR: [{ validTo: null }, { validTo: { gte: now } }] }],
+      },
+      include: { entries: true },
+      orderBy: [{ createdAt: 'desc' }],
+    });
+    if (contract) {
+      const skuIds = [...new Set(contract.entries.map((e) => e.skuId))];
+      const skus = await this.prisma.sku.findMany({
+        where: { tenantId: ctx.tenantId, id: { in: skuIds }, status: 'ACTIVE' },
+        select: { id: true, code: true, name: true },
+        orderBy: { code: 'asc' },
+      });
+      const bestPrice = new Map<string, number>();
+      for (const entry of contract.entries) {
+        // Base price = the qty-1 break (lowest minQty).
+        const current = bestPrice.get(entry.skuId);
+        if (current === undefined || Number(entry.minQty) < current) {
+          bestPrice.set(entry.skuId, Number(entry.minQty));
+        }
+      }
+      const priceFor = new Map<string, string>();
+      for (const entry of contract.entries) {
+        if (Number(entry.minQty) === bestPrice.get(entry.skuId)) {
+          priceFor.set(entry.skuId, entry.unitPrice.toString());
+        }
+      }
+      return skus.map((sku) => ({
+        skuId: sku.id,
+        code: sku.code,
+        name: sku.name,
+        unitPrice: priceFor.get(sku.id) ?? null,
+      }));
+    }
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, status: 'ACTIVE' },
+      select: { id: true, code: true, name: true },
+      orderBy: { code: 'asc' },
+      take: 200,
+    });
+    return skus.map((sku) => ({ skuId: sku.id, code: sku.code, name: sku.name, unitPrice: null }));
+  }
+
   /** Own orders with lines (B2B-006). */
   async myOrders(ctx: RequestContext) {
     const portal = await this.resolvePortalContext(ctx);

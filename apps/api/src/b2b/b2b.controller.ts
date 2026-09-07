@@ -60,6 +60,12 @@ export class PortalController {
     return { ...context, credit };
   }
 
+  @Get('catalog')
+  @RequirePermission('portal.access')
+  async catalog(@Ctx() ctx: RequestContext) {
+    return { catalog: await this.portal.myCatalog(ctx) };
+  }
+
   @Get('orders')
   @RequirePermission('portal.access')
   async orders(@Ctx() ctx: RequestContext) {

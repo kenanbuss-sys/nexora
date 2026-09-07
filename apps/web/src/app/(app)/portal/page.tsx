@@ -56,6 +56,9 @@ export default function PortalPage() {
   const [me, setMe] = useState<PortalMe | null>(null);
   const [meError, setMeError] = useState<string | null>(null);
   const [orders, setOrders] = useState<PortalOrder[]>([]);
+  const [catalog, setCatalog] = useState<
+    Array<{ skuId: string; code: string; name: string; unitPrice: string | null }>
+  >([]);
   const [invoices, setInvoices] = useState<PortalInvoice[]>([]);
   const [timeline, setTimeline] = useState<Record<string, TimelineEvent[]>>({});
   const [portalUsers, setPortalUsers] = useState<PortalUserView[]>([]);
@@ -79,6 +82,9 @@ export default function PortalPage() {
           setMeError(null);
         })
         .catch((e: unknown) => setMeError(errorText(e)));
+      api<{ catalog: typeof catalog }>('GET', '/api/v1/portal/catalog')
+        .then((r) => setCatalog(r.catalog))
+        .catch(() => setCatalog([]));
       api<{ orders: PortalOrder[] }>('GET', '/api/v1/portal/orders')
         .then((r) => setOrders(r.orders))
         .catch(() => setOrders([]));
@@ -172,6 +178,21 @@ export default function PortalPage() {
             </div>
 
             <div className="grid-2">
+              <div className="card">
+                <h2>My catalog</h2>
+                <p className="muted" style={{ marginTop: 0 }}>
+                  What your agreement entitles you to buy, at your prices.
+                </p>
+                {catalog.length === 0 ? <div className="empty">No catalog yet.</div> : null}
+                <div className="row" style={{ flexWrap: 'wrap' }}>
+                  {catalog.slice(0, 30).map((c) => (
+                    <span key={c.skuId} className="badge mono" title={c.name}>
+                      {c.code}
+                      {c.unitPrice ? `: ${c.unitPrice}` : ''}
+                    </span>
+                  ))}
+                </div>
+              </div>
               <div className="card">
                 <h2>My orders</h2>
                 {orders.length === 0 ? <div className="empty">No orders yet.</div> : null}
