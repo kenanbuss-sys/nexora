@@ -67,6 +67,7 @@ export default function PortalPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  const [cart, setCart] = useState<Record<string, string>>({});
   const [newAccount, setNewAccount] = useState('');
   const [newSubject, setNewSubject] = useState('');
   const [newName, setNewName] = useState('');
@@ -184,14 +185,51 @@ export default function PortalPage() {
                   What your agreement entitles you to buy, at your prices.
                 </p>
                 {catalog.length === 0 ? <div className="empty">No catalog yet.</div> : null}
-                <div className="row" style={{ flexWrap: 'wrap' }}>
-                  {catalog.slice(0, 30).map((c) => (
-                    <span key={c.skuId} className="badge mono" title={c.name}>
-                      {c.code}
-                      {c.unitPrice ? `: ${c.unitPrice}` : ''}
-                    </span>
+                {catalog
+                  .filter((c) => c.unitPrice !== null)
+                  .slice(0, 20)
+                  .map((c) => (
+                    <div key={c.skuId} className="row spread" style={{ marginBottom: 4 }}>
+                      <span className="mono" style={{ fontSize: 13 }} title={c.name}>
+                        {c.code} <span className="muted">{c.unitPrice}</span>
+                      </span>
+                      <input
+                        className="input"
+                        style={{ width: 70 }}
+                        placeholder="0"
+                        value={cart[c.skuId] ?? ''}
+                        onChange={(e) => setCart({ ...cart, [c.skuId]: e.target.value })}
+                      />
+                    </div>
                   ))}
-                </div>
+                {catalog.some((c) => c.unitPrice !== null) ? (
+                  <button
+                    className="btn btn-primary btn-sm"
+                    style={{ marginTop: 8 }}
+                    disabled={busy || !Object.values(cart).some((v) => Number(v) > 0)}
+                    type="button"
+                    onClick={() =>
+                      run(async () => {
+                        const lines = Object.entries(cart)
+                          .filter(([, v]) => Number(v) > 0)
+                          .map(([skuId, v]) => ({ skuId, quantity: Number(v) }));
+                        await api('POST', '/api/v1/portal/orders', { lines });
+                        setCart({});
+                        setNotice('Order placed — thank you.');
+                      }, null)
+                    }
+                  >
+                    Place order
+                  </button>
+                ) : (
+                  <div className="row" style={{ flexWrap: 'wrap' }}>
+                    {catalog.slice(0, 30).map((c) => (
+                      <span key={c.skuId} className="badge mono" title={c.name}>
+                        {c.code}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="card">
                 <h2>My orders</h2>

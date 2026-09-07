@@ -35,8 +35,23 @@ export interface PortalCredit {
   openBalance: string;
 }
 
+/** Cross-domain contract: order lifecycle is owned by OMS (COM-002). */
+export interface PortalOrderGate {
+  createOrder(
+    input: { accountId: string; warehouseId: string; currency: string },
+    ctx: RequestContext,
+  ): Promise<{ id: string; orderNumber: string }>;
+  addLine(
+    input: { orderId: string; skuId: string; quantity: number; unitPrice: number },
+    ctx: RequestContext,
+  ): Promise<unknown>;
+}
+
 export class PortalService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly orders?: PortalOrderGate,
+  ) {}
 
   // ------------------------------------------------------------- management
 
@@ -197,6 +212,80 @@ export class PortalService {
       take: 200,
     });
     return skus.map((sku) => ({ skuId: sku.id, code: sku.code, name: sku.name, unitPrice: null }));
+  }
+
+  /**
+   * Self-service ordering (COM-002): a portal user places an order for
+   * their own account only, priced from their contract catalog; lines
+   * without a contract price are refused so the portal can never
+   * invent prices. The order lands as DRAFT for the seller's OMS flow.
+   */
+  async placeOrder(
+    input: {
+      warehouseId?: string | undefined;
+      currency?: string | undefined;
+      lines: Array<{ skuId: string; quantity: number }>;
+    },
+    ctx: RequestContext,
+  ): Promise<{ id: string; orderNumber: string; lines: number }> {
+    if (!this.orders) {
+      throw new DomainError('INVALID_STATE', 'Portal ordering is not configured');
+    }
+    if (input.lines.length === 0) {
+      throw new DomainError('VALIDATION_FAILED', 'An order needs at least one line');
+    }
+    const portal = await this.resolvePortalContext(ctx);
+    const catalog = await this.myCatalog(ctx);
+    const priced = new Map(
+      catalog.filter((c) => c.unitPrice !== null).map((c) => [c.skuId, Number(c.unitPrice)]),
+    );
+    for (const line of input.lines) {
+      if (!priced.has(line.skuId)) {
+        throw new DomainError(
+          'INVALID_STATE',
+          'A line is not in your contract catalog — ask your account manager for a price',
+        );
+      }
+      if (!(line.quantity > 0)) {
+        throw new DomainError('VALIDATION_FAILED', 'Quantities must be positive');
+      }
+    }
+    let warehouseId = input.warehouseId;
+    if (!warehouseId) {
+      const warehouse = await this.prisma.warehouse.findFirst({
+        where: { tenantId: ctx.tenantId },
+        orderBy: [{ code: 'asc' }],
+        select: { id: true },
+      });
+      if (!warehouse) throw new DomainError('INVALID_STATE', 'No warehouse is configured');
+      warehouseId = warehouse.id;
+    }
+    const order = await this.orders.createOrder(
+      { accountId: portal.accountId, warehouseId, currency: input.currency ?? 'EUR' },
+      ctx,
+    );
+    for (const line of input.lines) {
+      await this.orders.addLine(
+        {
+          orderId: order.id,
+          skuId: line.skuId,
+          quantity: line.quantity,
+          unitPrice: priced.get(line.skuId) ?? 0,
+        },
+        ctx,
+      );
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'b2b.portal.order',
+      objectType: 'SalesOrder',
+      objectId: order.id,
+      source: 'api',
+      newValues: { accountId: portal.accountId, lines: input.lines.length },
+    });
+    return { id: order.id, orderNumber: order.orderNumber, lines: input.lines.length };
   }
 
   /** Own orders with lines (B2B-006). */

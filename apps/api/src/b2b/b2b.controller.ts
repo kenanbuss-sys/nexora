@@ -8,6 +8,15 @@ import { parseBody } from '../common/validate';
 
 export const PORTAL_SERVICE = 'PORTAL_SERVICE';
 
+const placeOrderSchema = z.object({
+  warehouseId: z.string().uuid().optional(),
+  currency: z.string().length(3).optional(),
+  lines: z
+    .array(z.object({ skuId: z.string().uuid(), quantity: z.number().positive() }))
+    .min(1)
+    .max(50),
+});
+
 const addPortalUserSchema = z.object({
   accountId: z.string().uuid(),
   idpSubject: z.string().min(1).max(200),
@@ -64,6 +73,13 @@ export class PortalController {
   @RequirePermission('portal.access')
   async catalog(@Ctx() ctx: RequestContext) {
     return { catalog: await this.portal.myCatalog(ctx) };
+  }
+
+  @Post('orders')
+  @RequirePermission('portal.access')
+  async placeOrder(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(placeOrderSchema, body);
+    return this.portal.placeOrder(input, ctx);
   }
 
   @Get('orders')

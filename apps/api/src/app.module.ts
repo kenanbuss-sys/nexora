@@ -876,8 +876,15 @@ export const REDIS = 'REDIS';
     },
     {
       provide: PORTAL_SERVICE,
-      useFactory: (prisma: PrismaClient) => new PortalService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, orders: OrderService) =>
+        new PortalService(prisma, {
+          createOrder: async (input, ctx) => {
+            const view = await orders.createOrder(input, ctx);
+            return { id: view.id, orderNumber: view.orderNumber };
+          },
+          addLine: (input, ctx) => orders.addLine(input, ctx),
+        }),
+      inject: [PRISMA, ORDER_SERVICE],
     },
     {
       provide: COLLAB_SERVICE,
