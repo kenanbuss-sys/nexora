@@ -81,6 +81,13 @@ export default function InventoryPage() {
   const [warehouses, setWarehouses] = useState<WarehouseView[] | null>(null);
   const [skus, setSkus] = useState<SkuOption[]>([]);
   const [warehouseId, setWarehouseId] = useState('');
+  const [bins, setBins] = useState<
+    Array<{ locationId: string; locationCode: string; skuId: string; onHand: string }>
+  >([]);
+  const [locations, setLocations] = useState<Array<{ id: string; code: string }>>([]);
+  const [newBinCode, setNewBinCode] = useState('');
+  const [putawayLocation, setPutawayLocation] = useState('');
+  const [putawayQty, setPutawayQty] = useState('1');
   const [skuId, setSkuId] = useState('');
   const [position, setPosition] = useState<Position | null>(null);
   const [holds, setHolds] = useState<
@@ -149,6 +156,20 @@ export default function InventoryPage() {
         .catch(() => undefined);
     }
   }, []);
+
+  useEffect(() => {
+    if (!warehouseId) return;
+    api<{ rows: typeof bins }>('GET', `/api/v1/stock/by-location?warehouseId=${warehouseId}`)
+      .then((r) => setBins(r.rows))
+      .catch(() => setBins([]));
+    api<{ locations: Array<{ id: string; code: string }> }>(
+      'GET',
+      `/api/v1/warehouses/locations?warehouseId=${warehouseId}`,
+    )
+      .then((r) => setLocations(r.locations))
+      .catch(() => setLocations([]));
+    // eslint-disable-next-line
+  }, [warehouseId, notice]);
 
   const refresh = useCallback(() => {
     if (!warehouseId || !skuId) {
@@ -856,6 +877,105 @@ export default function InventoryPage() {
               ))}
             </div>
           )}
+        </div>
+      ) : null}
+
+      {warehouseId && can('inventory.read') ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Bins &amp; putaway</h2>
+          <p className="muted" style={{ marginTop: 0 }}>
+            Per-bin stock derived live from location-tagged ledger movements.
+          </p>
+          {bins.length === 0 ? <div className="empty">Nothing put away yet.</div> : null}
+          {bins.slice(0, 20).map((b) => (
+            <div
+              key={`${b.locationId}-${b.skuId}`}
+              className="row spread"
+              style={{ marginBottom: 4 }}
+            >
+              <span className="mono" style={{ fontSize: 13 }}>
+                {b.locationCode}
+              </span>
+              <span className="mono" style={{ fontSize: 13 }}>
+                {skus.find((k) => k.id === b.skuId)?.code ?? b.skuId.slice(0, 8)} · {b.onHand}
+              </span>
+            </div>
+          ))}
+          {can('inventory.adjust') ? (
+            <>
+              <form
+                className="row"
+                style={{ marginTop: 10 }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void run(
+                    () =>
+                      api('POST', '/api/v1/warehouses/locations', {
+                        warehouseId,
+                        code: newBinCode,
+                      }),
+                    `Bin ${newBinCode} created.`,
+                  ).then(() => setNewBinCode(''));
+                }}
+              >
+                <input
+                  className="input mono"
+                  style={{ width: 140 }}
+                  placeholder="New bin code"
+                  value={newBinCode}
+                  onChange={(e) => setNewBinCode(e.target.value)}
+                  required
+                />
+                <button className="btn btn-sm" disabled={busy} type="submit">
+                  Add bin
+                </button>
+              </form>
+              {locations.length > 0 && skuId ? (
+                <form
+                  className="row"
+                  style={{ marginTop: 8 }}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void run(
+                      () =>
+                        api('POST', '/api/v1/stock/putaway', {
+                          warehouseId,
+                          skuId,
+                          quantity: Number(putawayQty),
+                          toLocationId: putawayLocation,
+                          putawayKey: `ui-${Date.now()}`,
+                        }),
+                      'Stock put away.',
+                    );
+                  }}
+                >
+                  <select
+                    className="input"
+                    value={putawayLocation}
+                    onChange={(e) => setPutawayLocation(e.target.value)}
+                    required
+                  >
+                    <option value="">Bin…</option>
+                    {locations.map((l) => (
+                      <option key={l.id} value={l.id}>
+                        {l.code}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    className="input"
+                    style={{ width: 80 }}
+                    value={putawayQty}
+                    onChange={(e) => setPutawayQty(e.target.value)}
+                    required
+                  />
+                  <button className="btn btn-sm" disabled={busy} type="submit">
+                    Put away
+                  </button>
+                </form>
+              ) : null}
+            </>
+          ) : null}
         </div>
       ) : null}
     </main>

@@ -27,6 +27,13 @@ const createLocationSchema = z.object({
   warehouseId: z.string().uuid(),
   code: z.string().min(1).max(64),
 });
+const putawaySchema = z.object({
+  warehouseId: z.string().uuid(),
+  skuId: z.string().uuid(),
+  quantity: z.number().positive(),
+  toLocationId: z.string().uuid(),
+  putawayKey: z.string().min(6).max(64),
+});
 const movementSchema = z.object({
   warehouseId: z.string().uuid(),
   skuId: z.string().uuid(),
@@ -78,6 +85,12 @@ export class WarehousesController {
     return this.inventory.createWarehouse(parseBody(createWarehouseSchema, body), ctx);
   }
 
+  @Get('locations')
+  @RequirePermission('inventory.read')
+  async listLocations(@Query('warehouseId') warehouseId: string, @Ctx() ctx: RequestContext) {
+    return { locations: await this.inventory.listLocations(warehouseId ?? '', ctx) };
+  }
+
   @Post('locations')
   @RequirePermission('inventory.adjust')
   async createLocation(@Body() body: unknown, @Ctx() ctx: RequestContext) {
@@ -106,6 +119,18 @@ export class StockController {
   }
 
   /** Permission depends on the movement type (receive/pick/adjust/transfer). */
+  @Get('by-location')
+  @RequirePermission('inventory.read')
+  async byLocation(@Query('warehouseId') warehouseId: string, @Ctx() ctx: RequestContext) {
+    return { rows: await this.inventory.stockByLocation(warehouseId ?? '', ctx) };
+  }
+
+  @Post('putaway')
+  @RequirePermission('inventory.adjust')
+  async putaway(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.inventory.putaway(parseBody(putawaySchema, body), ctx);
+  }
+
   @Post('movements')
   async postMovement(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(movementSchema, body);

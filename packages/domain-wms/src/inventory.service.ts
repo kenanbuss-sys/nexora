@@ -600,6 +600,115 @@ export class InventoryService {
    * feeds. Derived from the ledger and open reservations; never from
    * an editable stock field.
    */
+  async listLocations(
+    warehouseId: string,
+    ctx: RequestContext,
+  ): Promise<Array<{ id: string; code: string }>> {
+    const rows = await this.prisma.warehouseLocation.findMany({
+      where: { tenantId: ctx.tenantId, warehouseId },
+      orderBy: [{ code: 'asc' }],
+      take: 500,
+    });
+    return rows.map((r) => ({ id: r.id, code: r.code }));
+  }
+
+  /**
+   * Putaway (WMS-007): move received (unassigned) stock into a bin as
+   * an idempotent TRANSFER_OUT/TRANSFER_IN pair keyed by putawayKey —
+   * the ledger stays the only truth, bins are just movement locations.
+   */
+  async putaway(
+    input: {
+      warehouseId: string;
+      skuId: string;
+      quantity: number;
+      toLocationId: string;
+      putawayKey: string;
+    },
+    ctx: RequestContext,
+  ): Promise<{ duplicate: boolean }> {
+    if (!/^[A-Za-z0-9_-]{6,64}$/.test(input.putawayKey)) {
+      throw new DomainError('VALIDATION_FAILED', 'putawayKey must be 6-64 safe characters');
+    }
+    const location = await this.prisma.warehouseLocation.findFirst({
+      where: { id: input.toLocationId, tenantId: ctx.tenantId, warehouseId: input.warehouseId },
+    });
+    if (!location) throw notFound('WarehouseLocation', input.toLocationId);
+    const out = await this.postMovement(
+      {
+        warehouseId: input.warehouseId,
+        skuId: input.skuId,
+        movementType: 'TRANSFER_OUT',
+        quantity: input.quantity,
+        idempotencyKey: `putaway:${input.putawayKey}:out`,
+        reason: `Putaway to ${location.code}`,
+      },
+      ctx,
+    );
+    await this.postMovement(
+      {
+        warehouseId: input.warehouseId,
+        skuId: input.skuId,
+        movementType: 'TRANSFER_IN',
+        quantity: input.quantity,
+        idempotencyKey: `putaway:${input.putawayKey}:in`,
+        locationId: location.id,
+        reason: `Putaway to ${location.code}`,
+      },
+      ctx,
+    );
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'wms.putaway',
+      objectType: 'WarehouseLocation',
+      objectId: location.id,
+      source: 'api',
+      newValues: { skuId: input.skuId, quantity: input.quantity, putawayKey: input.putawayKey },
+    });
+    return { duplicate: out.duplicate };
+  }
+
+  /**
+   * Per-bin stock view (WMS-007): location-tagged movements summed per
+   * bin and SKU. Stock never written anywhere — derived live.
+   */
+  async stockByLocation(
+    warehouseId: string,
+    ctx: RequestContext,
+  ): Promise<Array<{ locationId: string; locationCode: string; skuId: string; onHand: string }>> {
+    const locations = await this.prisma.warehouseLocation.findMany({
+      where: { tenantId: ctx.tenantId, warehouseId },
+      take: 500,
+    });
+    const codeOf = new Map(locations.map((l) => [l.id, l.code]));
+    const movements = await this.prisma.stockMovement.findMany({
+      where: { tenantId: ctx.tenantId, warehouseId, locationId: { not: null } },
+      select: { locationId: true, skuId: true, movementType: true, quantity: true },
+      take: 10_000,
+    });
+    const sums = new Map<string, number>();
+    for (const m of movements) {
+      const key = `${m.locationId}|${m.skuId}`;
+      const sign = INBOUND.has(m.movementType) ? 1 : -1;
+      sums.set(key, (sums.get(key) ?? 0) + sign * Number(m.quantity));
+    }
+    const rows: Array<{ locationId: string; locationCode: string; skuId: string; onHand: string }> =
+      [];
+    for (const [key, value] of sums) {
+      if (Math.abs(value) < 1e-9) continue;
+      const [locationId, skuId] = key.split('|');
+      rows.push({
+        locationId: locationId ?? '',
+        locationCode: codeOf.get(locationId ?? '') ?? '?',
+        skuId: skuId ?? '',
+        onHand: String(value),
+      });
+    }
+    return rows.sort((a, b) => a.locationCode.localeCompare(b.locationCode));
+  }
+
   async channelAvailability(
     skuIds: string[] | undefined,
     ctx: RequestContext,
