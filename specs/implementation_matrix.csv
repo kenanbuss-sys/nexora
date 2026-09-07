@@ -216,7 +216,7 @@ MES-016,MES,Digital work instructions,P1,Implemented (Sprint 130),R2,,,
 MES-017,MES,Production labels,P1,DONE,R2,,,"Sprint 086: printable A6 work-order label PDF (WO number, SKU, qty, barcode value); Production page Label button."
 MES-018,MES,Shop-floor kiosk,P1,DONE,R2,,,Shop-floor kiosk: large-type execution screen (Sprint 024)
 MES-019,MES,Mobile production,P1,PLANNED,R2,,,
-MES-020,MES,Genealogy,P1,PLANNED,R2,,,
+MES-020,MES,Genealogy,P1,Implemented (Sprint 134),R2,,,
 MES-021,MES,OEE inputs,P1,DONE,R2,,,Measured OEE inputs per work center (Sprint 031)
 MES-022,MES,Andon/alerts,P1,Implemented (Sprint 129),R2,,,
 MES-023,MES,Shift production,P1,DONE,R2,,,Sprint 081: production-by-day report (good/scrap/WO count) from completed work orders; Production page card.

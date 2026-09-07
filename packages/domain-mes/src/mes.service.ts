@@ -436,6 +436,81 @@ export class MesService {
       .sort((x, y) => y.setupMinutes - x.setupMinutes);
   }
 
+  /**
+   * Genealogy (MES-020): what a work order consumed — component
+   * movements with their lots — traced straight from the ledger.
+   */
+  async genealogy(
+    workOrderId: string,
+    ctx: RequestContext,
+  ): Promise<{
+    woNumber: string;
+    consumed: Array<{ skuId: string; code: string; quantity: string; lotNumber: string | null }>;
+  }> {
+    const wo = await this.prisma.workOrder.findFirst({
+      where: { id: workOrderId, tenantId: ctx.tenantId },
+    });
+    if (!wo) throw notFound('WorkOrder', workOrderId);
+    const movements = await this.prisma.stockMovement.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        movementType: 'ISSUE',
+        idempotencyKey: { startsWith: `wo:${wo.id}:` },
+      },
+      select: { skuId: true, quantity: true, lotNumber: true },
+      take: 1_000,
+    });
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: [...new Set(movements.map((m) => m.skuId))] } },
+      select: { id: true, code: true },
+    });
+    const codeOf = new Map(skus.map((k) => [k.id, k.code]));
+    return {
+      woNumber: wo.woNumber,
+      consumed: movements.map((m) => ({
+        skuId: m.skuId,
+        code: codeOf.get(m.skuId) ?? '',
+        quantity: m.quantity.toString(),
+        lotNumber: m.lotNumber,
+      })),
+    };
+  }
+
+  /**
+   * Where-used (MES-020): every work order that consumed a given lot —
+   * the recall question answered from the ledger.
+   */
+  async whereUsed(
+    lotNumber: string,
+    ctx: RequestContext,
+  ): Promise<Array<{ workOrderId: string; woNumber: string; quantity: string }>> {
+    const movements = await this.prisma.stockMovement.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        movementType: 'ISSUE',
+        lotNumber: lotNumber.trim(),
+        idempotencyKey: { startsWith: 'wo:' },
+      },
+      select: { idempotencyKey: true, quantity: true },
+      take: 1_000,
+    });
+    const byWo = new Map<string, number>();
+    for (const movement of movements) {
+      const woId = movement.idempotencyKey.split(':')[1] ?? '';
+      if (!woId) continue;
+      byWo.set(woId, (byWo.get(woId) ?? 0) + Number(movement.quantity));
+    }
+    const orders = await this.prisma.workOrder.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: [...byWo.keys()] } },
+      select: { id: true, woNumber: true },
+    });
+    return orders.map((wo) => ({
+      workOrderId: wo.id,
+      woNumber: wo.woNumber,
+      quantity: String(byWo.get(wo.id) ?? 0),
+    }));
+  }
+
   async releaseWorkOrder(workOrderId: string, ctx: RequestContext): Promise<WorkOrderView> {
     const wo = await this.prisma.workOrder.findFirst({
       where: { id: workOrderId, tenantId: ctx.tenantId },

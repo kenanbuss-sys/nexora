@@ -49,6 +49,18 @@ export class WorkOrdersController {
     return { rows: await this.mes.productionByDay(days ? Number(days) || 7 : 7, ctx) };
   }
 
+  @Get('where-used')
+  @RequirePermission('production.read')
+  async whereUsed(@Query('lot') lot: string, @Ctx() ctx: RequestContext) {
+    return { workOrders: await this.mes.whereUsed(lot ?? '', ctx) };
+  }
+
+  @Get(':id/genealogy')
+  @RequirePermission('production.read')
+  async genealogy(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.mes.genealogy(id, ctx);
+  }
+
   @Get('setup-report')
   @RequirePermission('production.read')
   async setupReport(@Ctx() ctx: RequestContext, @Query('days') days?: string) {
