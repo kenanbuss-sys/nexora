@@ -109,8 +109,9 @@ integration('Sprint 107 — template lifecycle', () => {
     expect(refused.status).toBe(409);
 
     // Immutable history survives retirement.
+    const tenant = await prisma.tenant.findFirst({ where: { slug: 'test-s107a' } });
     const versions = await prisma.documentTemplateVersion.count({
-      where: { tenantId: (await prisma.tenant.findFirst({ where: { slug: 'test-s107a' } }))?.id },
+      where: { tenantId: tenant?.id ?? '' },
     });
     expect(versions).toBe(1);
     const audit = await prisma.auditEvent.findFirst({
