@@ -68,6 +68,11 @@ export default function PortalPage() {
   const [busy, setBusy] = useState(false);
 
   const [cart, setCart] = useState<Record<string, string>>({});
+  const [claims, setClaims] = useState<
+    Array<{ id: string; caseNumber: string; subject: string; status: string }>
+  >([]);
+  const [claimOrder, setClaimOrder] = useState('');
+  const [claimSubject, setClaimSubject] = useState('');
   const [newAccount, setNewAccount] = useState('');
   const [newSubject, setNewSubject] = useState('');
   const [newName, setNewName] = useState('');
@@ -92,6 +97,9 @@ export default function PortalPage() {
       api<{ invoices: PortalInvoice[] }>('GET', '/api/v1/portal/invoices')
         .then((r) => setInvoices(r.invoices))
         .catch(() => setInvoices([]));
+      api<{ claims: typeof claims }>('GET', '/api/v1/portal/claims')
+        .then((r) => setClaims(r.claims))
+        .catch(() => setClaims([]));
     }
     if (isManager) {
       api<{ portalUsers: PortalUserView[] }>('GET', '/api/v1/portal-users')
@@ -272,6 +280,62 @@ export default function PortalPage() {
                     ) : null}
                   </div>
                 ))}
+              </div>
+
+              <div className="card">
+                <h2>My claims</h2>
+                {claims.length === 0 ? <div className="empty">No claims yet.</div> : null}
+                {claims.map((cl) => (
+                  <div key={cl.id} className="row spread" style={{ marginBottom: 4 }}>
+                    <span style={{ fontSize: 13 }}>
+                      <strong className="mono">{cl.caseNumber}</strong> {cl.subject}
+                    </span>
+                    <span className={`badge ${cl.status === 'OPEN' ? 'badge-warn' : 'badge-ok'}`}>
+                      {cl.status.replace('_', ' ')}
+                    </span>
+                  </div>
+                ))}
+                {orders.length > 0 ? (
+                  <form
+                    className="row"
+                    style={{ marginTop: 10 }}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      void run(async () => {
+                        await api('POST', '/api/v1/portal/claims', {
+                          orderId: claimOrder,
+                          subject: claimSubject,
+                        });
+                        setClaimSubject('');
+                        setNotice('Claim filed — our service team will follow up.');
+                      }, null);
+                    }}
+                  >
+                    <select
+                      className="input"
+                      value={claimOrder}
+                      onChange={(e) => setClaimOrder(e.target.value)}
+                      required
+                    >
+                      <option value="">Order…</option>
+                      {orders.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.orderNumber}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      className="input"
+                      placeholder="What went wrong?"
+                      value={claimSubject}
+                      onChange={(e) => setClaimSubject(e.target.value)}
+                      required
+                    />
+                    <button className="btn btn-sm" disabled={busy} type="submit">
+                      File claim
+                    </button>
+                  </form>
+                ) : null}
               </div>
 
               <div className="card">

@@ -3,6 +3,7 @@
  */
 export {
   PortalService,
+  type PortalCaseGate,
   type PortalOrderGate,
   type PortalContext,
   type PortalCredit,

@@ -913,15 +913,24 @@ export const REDIS = 'REDIS';
     },
     {
       provide: PORTAL_SERVICE,
-      useFactory: (prisma: PrismaClient, orders: OrderService) =>
-        new PortalService(prisma, {
-          createOrder: async (input, ctx) => {
-            const view = await orders.createOrder(input, ctx);
-            return { id: view.id, orderNumber: view.orderNumber };
+      useFactory: (prisma: PrismaClient, orders: OrderService, cases: SupportCaseService) =>
+        new PortalService(
+          prisma,
+          {
+            createOrder: async (input, ctx) => {
+              const view = await orders.createOrder(input, ctx);
+              return { id: view.id, orderNumber: view.orderNumber };
+            },
+            addLine: (input, ctx) => orders.addLine(input, ctx),
           },
-          addLine: (input, ctx) => orders.addLine(input, ctx),
-        }),
-      inject: [PRISMA, ORDER_SERVICE],
+          {
+            createCase: async (input, ctx) => {
+              const view = await cases.createCase(input, ctx);
+              return { id: view.id, caseNumber: view.caseNumber, status: view.status };
+            },
+          },
+        ),
+      inject: [PRISMA, ORDER_SERVICE, SUPPORT_CASE_SERVICE],
     },
     {
       provide: COLLAB_SERVICE,

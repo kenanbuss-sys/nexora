@@ -8,6 +8,11 @@ import { parseBody } from '../common/validate';
 
 export const PORTAL_SERVICE = 'PORTAL_SERVICE';
 
+const claimSchema = z.object({
+  orderId: z.string().uuid(),
+  subject: z.string().min(3).max(200),
+  description: z.string().max(2000).optional(),
+});
 const placeOrderSchema = z.object({
   warehouseId: z.string().uuid().optional(),
   currency: z.string().length(3).optional(),
@@ -92,6 +97,18 @@ export class PortalController {
   @RequirePermission('portal.access')
   async timeline(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return { events: await this.portal.myOrderTimeline(id, ctx) };
+  }
+
+  @Post('claims')
+  @RequirePermission('portal.access')
+  async fileClaim(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.portal.fileClaim(parseBody(claimSchema, body), ctx);
+  }
+
+  @Get('claims')
+  @RequirePermission('portal.access')
+  async myClaims(@Ctx() ctx: RequestContext) {
+    return { claims: await this.portal.myClaims(ctx) };
   }
 
   @Get('quotes')

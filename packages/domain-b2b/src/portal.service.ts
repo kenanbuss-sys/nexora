@@ -35,6 +35,19 @@ export interface PortalCredit {
   openBalance: string;
 }
 
+/** Cross-domain contract: support cases are owned by CRM (B2B-013). */
+export interface PortalCaseGate {
+  createCase(
+    input: {
+      subject: string;
+      description?: string | undefined;
+      accountId?: string | undefined;
+      orderId?: string | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{ id: string; caseNumber: string; status: string }>;
+}
+
 /** Cross-domain contract: order lifecycle is owned by OMS (COM-002). */
 export interface PortalOrderGate {
   createOrder(
@@ -51,6 +64,7 @@ export class PortalService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly orders?: PortalOrderGate,
+    private readonly cases?: PortalCaseGate,
   ) {}
 
   // ------------------------------------------------------------- management
@@ -286,6 +300,66 @@ export class PortalService {
       newValues: { accountId: portal.accountId, lines: input.lines.length },
     });
     return { id: order.id, orderNumber: order.orderNumber, lines: input.lines.length };
+  }
+
+  /**
+   * Claims/service (B2B-013): a portal user files a claim about their
+   * own order; it lands as a CRM support case bound to the account and
+   * order, so service works one queue. Listing shows only own claims.
+   */
+  async fileClaim(
+    input: { orderId: string; subject: string; description?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<{ id: string; caseNumber: string; status: string }> {
+    if (!this.cases) {
+      throw new DomainError('INVALID_STATE', 'Claims are not configured');
+    }
+    if (!input.subject.trim()) {
+      throw new DomainError('VALIDATION_FAILED', 'A claim needs a subject');
+    }
+    const portal = await this.resolvePortalContext(ctx);
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: input.orderId, tenantId: ctx.tenantId, accountId: portal.accountId },
+      select: { id: true },
+    });
+    if (!order) throw notFound('SalesOrder', input.orderId);
+    const created = await this.cases.createCase(
+      {
+        subject: input.subject,
+        ...(input.description !== undefined ? { description: input.description } : {}),
+        accountId: portal.accountId,
+        orderId: order.id,
+      },
+      ctx,
+    );
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'b2b.portal.claim',
+      objectType: 'SupportCase',
+      objectId: created.id,
+      source: 'api',
+      newValues: { orderId: order.id, accountId: portal.accountId },
+    });
+    return created;
+  }
+
+  async myClaims(ctx: RequestContext) {
+    const portal = await this.resolvePortalContext(ctx);
+    const rows = await this.prisma.supportCase.findMany({
+      where: { tenantId: ctx.tenantId, accountId: portal.accountId },
+      orderBy: [{ createdAt: 'desc' }],
+      take: 50,
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      caseNumber: r.caseNumber,
+      subject: r.subject,
+      status: r.status,
+      orderId: r.orderId,
+      createdAt: r.createdAt.toISOString(),
+    }));
   }
 
   /** Own orders with lines (B2B-006). */

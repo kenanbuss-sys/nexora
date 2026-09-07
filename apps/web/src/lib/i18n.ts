@@ -412,6 +412,12 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'My claims': 'Moje reklamacije',
+  'No claims yet.': 'Još nema reklamacija.',
+  'File claim': 'Podnesi reklamaciju',
+  'What went wrong?': 'Šta nije u redu?',
+  'Claim filed — our service team will follow up.':
+    'Reklamacija zaprimljena — servisni tim će se javiti.',
   'Work-center load': 'Opterećenje radnih centara',
   'Place order': 'Naruči',
   'Order placed — thank you.': 'Narudžba zaprimljena — hvala.',
