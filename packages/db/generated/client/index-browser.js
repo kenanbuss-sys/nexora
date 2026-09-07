@@ -1464,6 +1464,31 @@ exports.Prisma.QuarantineHoldScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RfqScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  rfqNumber: 'rfqNumber',
+  skuId: 'skuId',
+  quantity: 'quantity',
+  status: 'status',
+  dueAt: 'dueAt',
+  awardedQuoteId: 'awardedQuoteId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RfqQuoteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  rfqId: 'rfqId',
+  supplierId: 'supplierId',
+  unitPrice: 'unitPrice',
+  leadTimeDays: 'leadTimeDays',
+  note: 'note',
+  receivedAt: 'receivedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1855,6 +1880,13 @@ exports.QuarantineStatus = exports.$Enums.QuarantineStatus = {
   SCRAPPED: 'SCRAPPED'
 };
 
+exports.RfqStatus = exports.$Enums.RfqStatus = {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  AWARDED: 'AWARDED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1968,7 +2000,9 @@ exports.Prisma.ModelName = {
   Contract: 'Contract',
   Employee: 'Employee',
   Asset: 'Asset',
-  QuarantineHold: 'QuarantineHold'
+  QuarantineHold: 'QuarantineHold',
+  Rfq: 'Rfq',
+  RfqQuote: 'RfqQuote'
 };
 
 /**
