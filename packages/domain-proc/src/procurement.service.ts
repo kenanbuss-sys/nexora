@@ -619,6 +619,106 @@ export class ProcurementService {
    * fully received POs landed on or before their expected date. POs
    * without an expected date are counted separately, never guessed.
    */
+  /**
+   * Landed cost (PROC-011): extra acquisition costs (freight, duty,
+   * insurance) recorded against a purchase order and allocated over
+   * received line value, yielding true landed unit costs.
+   */
+  async addLandedCost(
+    input: {
+      poId: string;
+      costType: 'FREIGHT' | 'DUTY' | 'INSURANCE' | 'OTHER';
+      amount: number;
+      note?: string | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{ id: string }> {
+    if (!(input.amount > 0)) {
+      throw new DomainError('VALIDATION_FAILED', 'Amount must be positive');
+    }
+    const po = await this.prisma.purchaseOrder.findFirst({
+      where: { id: input.poId, tenantId: ctx.tenantId },
+    });
+    if (!po) throw notFound('PurchaseOrder', input.poId);
+    const cost = await this.prisma.landedCost.create({
+      data: {
+        tenantId: ctx.tenantId,
+        poId: po.id,
+        costType: input.costType,
+        amount: input.amount,
+        ...(input.note !== undefined ? { note: input.note } : {}),
+        ...(ctx.userId !== undefined ? { createdBy: ctx.userId } : {}),
+      },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'proc.landed_cost.add',
+      objectType: 'PurchaseOrder',
+      objectId: po.id,
+      source: 'api',
+      newValues: { costType: input.costType, amount: input.amount },
+    });
+    return { id: cost.id };
+  }
+
+  async landedCostReport(
+    poId: string,
+    ctx: RequestContext,
+  ): Promise<{
+    poNumber: string;
+    costs: Array<{ costType: string; amount: string; note: string | null }>;
+    totalExtra: string;
+    lines: Array<{
+      description: string;
+      receivedQty: string;
+      unitPrice: string;
+      allocatedExtra: string;
+      landedUnitCost: string;
+    }>;
+  }> {
+    const po = await this.prisma.purchaseOrder.findFirst({
+      where: { id: poId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!po) throw notFound('PurchaseOrder', poId);
+    const costs = await this.prisma.landedCost.findMany({
+      where: { tenantId: ctx.tenantId, poId: po.id },
+      orderBy: [{ createdAt: 'asc' }],
+    });
+    const totalExtra = costs.reduce((sum, c) => sum + Number(c.amount), 0);
+    const receivedValue = po.lines.reduce(
+      (sum, l) => sum + Number(l.receivedQty) * Number(l.unitPrice),
+      0,
+    );
+    const lines = po.lines.map((line) => {
+      const value = Number(line.receivedQty) * Number(line.unitPrice);
+      const share = receivedValue > 0 ? value / receivedValue : 0;
+      const allocated = totalExtra * share;
+      const received = Number(line.receivedQty);
+      const landedUnit =
+        received > 0 ? Number(line.unitPrice) + allocated / received : Number(line.unitPrice);
+      return {
+        description: line.description,
+        receivedQty: String(received),
+        unitPrice: Number(line.unitPrice).toFixed(2),
+        allocatedExtra: allocated.toFixed(2),
+        landedUnitCost: landedUnit.toFixed(4),
+      };
+    });
+    return {
+      poNumber: po.poNumber,
+      costs: costs.map((c) => ({
+        costType: c.costType,
+        amount: Number(c.amount).toFixed(2),
+        note: c.note,
+      })),
+      totalExtra: totalExtra.toFixed(2),
+      lines,
+    };
+  }
+
   async deliveryPerformance(ctx: RequestContext): Promise<
     Array<{
       supplierId: string;

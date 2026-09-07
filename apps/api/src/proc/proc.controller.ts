@@ -29,6 +29,11 @@ const createPoSchema = z.object({
   warehouseId: z.string().uuid(),
   expectedAt: z.string().datetime().optional(),
 });
+const landedCostSchema = z.object({
+  costType: z.enum(['FREIGHT', 'DUTY', 'INSURANCE', 'OTHER']),
+  amount: z.number().positive(),
+  note: z.string().max(300).optional(),
+});
 const receiveSchema = z.object({
   receiptKey: z.string().min(4).max(64),
   lines: z.array(z.object({ lineId: z.string().uuid(), quantity: z.number().positive() })).min(1),
@@ -155,6 +160,19 @@ export class PurchaseOrdersController {
   @RequirePermission('purchase.read')
   async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return this.proc.getPurchaseOrder(id, ctx);
+  }
+
+  @Get(':id/landed-costs')
+  @RequirePermission('purchase.read')
+  async landedCosts(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.proc.landedCostReport(id, ctx);
+  }
+
+  @Post(':id/landed-costs')
+  @RequirePermission('purchase.manage')
+  async addLandedCost(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(landedCostSchema, body);
+    return this.proc.addLandedCost({ poId: id, ...input }, ctx);
   }
 
   @Post(':id/receive')
