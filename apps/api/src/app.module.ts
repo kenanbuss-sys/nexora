@@ -74,6 +74,7 @@ import {
   InventoryService,
   WmsOrderService,
   PackingService,
+  LaborService,
 } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import {
@@ -145,7 +146,7 @@ import {
   QUOTE_SERVICE,
   QuotesController,
 } from './cpq/cpq.controller';
-import { WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
+import { LABOR_SERVICE, WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
 import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
 import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
 import { COUNT_SERVICE, CountsController } from './wms/counts.controller';
@@ -604,6 +605,17 @@ export const REDIS = 'REDIS';
           getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
         }),
       inject: [PRISMA, TENANT_SERVICE],
+    },
+    {
+      provide: LABOR_SERVICE,
+      useFactory: (prisma: PrismaClient, tasks: TaskService) =>
+        new LaborService(prisma, {
+          createTask: async (input, ctx) => {
+            const view = await tasks.createTask(input, ctx);
+            return { id: view.id };
+          },
+        }),
+      inject: [PRISMA, TASK_SERVICE],
     },
     {
       provide: PACKING_SERVICE,

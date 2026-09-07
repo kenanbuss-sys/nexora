@@ -165,7 +165,7 @@ WMS-020,WMS,Pallet/SSCC handling,P1,PLANNED,R1,,,
 WMS-021,WMS,Cross-docking,P1,PLANNED,R1,,,
 WMS-022,WMS,Kitting,P1,DONE,R1,,,Sprint 084: kitting — assembly consumes components and receives bundles as idempotent ledger movements; Catalog Assemble button.
 WMS-023,WMS,Returns receiving,P1,DONE,R1,,,Verified shipped earlier: approved returns receive via idempotent RECEIPT ledger movements (returns.service receiveReturn).
-WMS-024,WMS,Warehouse labor tasks,P1,PLANNED,R1,,,
+WMS-024,WMS,Warehouse labor tasks,P1,Implemented (Sprint 108),R1,,,
 WMS-025,WMS,Offline mobile execution,P1,PLANNED,R1,,,
 ENG-001,ENG,Product revisions,P2,DONE,R2,,,
 ENG-002,ENG,Engineering BOM,P2,DONE,R2,,,

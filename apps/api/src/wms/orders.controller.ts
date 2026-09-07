@@ -9,13 +9,14 @@ import {
   Query,
 } from '@nestjs/common';
 import type { RoleService } from '@nexora/domain-iam';
-import type { WmsOrderService } from '@nexora/domain-wms';
+import type { WmsOrderService, LaborService } from '@nexora/domain-wms';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission, ROLE_SERVICE } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
+export const LABOR_SERVICE = 'LABOR_SERVICE';
 export const WMS_ORDER_SERVICE = 'WMS_ORDER_SERVICE';
 
 const createOrderSchema = z.object({
@@ -47,6 +48,7 @@ export class WmsOrdersController {
   constructor(
     @Inject(WMS_ORDER_SERVICE) private readonly orders: WmsOrderService,
     @Inject(ROLE_SERVICE) private readonly roles: RoleService,
+    @Inject(LABOR_SERVICE) private readonly labor: LaborService,
   ) {}
 
   @Get()
@@ -59,6 +61,18 @@ export class WmsOrdersController {
       { ...(status ? { status } : {}) },
     );
     return { orders: await this.orders.listOrders(params, ctx) };
+  }
+
+  @Get('labor-queue')
+  @RequirePermission('inventory.read')
+  async laborQueue(@Ctx() ctx: RequestContext) {
+    return { queue: await this.labor.laborQueue(ctx) };
+  }
+
+  @Post('labor-generate')
+  @RequirePermission('inventory.adjust')
+  async generateLabor(@Ctx() ctx: RequestContext) {
+    return this.labor.generateLaborTasks(ctx);
   }
 
   @Get(':id')
