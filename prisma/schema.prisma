@@ -141,6 +141,8 @@ model Tenant {
   rfqs                  Rfq[]
   packages              Package[]
   landedCosts           LandedCost[]
+  customObjectDefinitions CustomObjectDefinition[]
+  frameworkAgreements   FrameworkAgreement[]
 
   @@map("tenant")
 }
@@ -2969,4 +2971,82 @@ model LandedCost {
 
   @@index([tenantId, poId])
   @@map("landed_cost")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 110 — schema batch: custom objects (CORE-016/017) and framework
+// agreements (PROC-006).
+
+enum CustomObjectStatus {
+  DRAFT
+  ACTIVE
+  RETIRED
+}
+
+/// Tenant-defined object type (CORE-016): fields described as data,
+/// records validated against them — extension without a code fork.
+model CustomObjectDefinition {
+  id        String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String             @map("tenant_id") @db.Uuid
+  key       String
+  name      String
+  /// Field definitions: [{ key, label, type: text|number|date|boolean|select, required, options? }]
+  fields    Json
+  status    CustomObjectStatus @default(ACTIVE)
+  createdBy String?            @map("created_by")
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+
+  tenant  Tenant               @relation(fields: [tenantId], references: [id])
+  records CustomObjectRecord[]
+
+  @@unique([tenantId, key])
+  @@map("custom_object_definition")
+}
+
+model CustomObjectRecord {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  definitionId String   @map("definition_id") @db.Uuid
+  data         Json
+  createdBy    String?  @map("created_by")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  definition CustomObjectDefinition @relation(fields: [definitionId], references: [id])
+
+  @@index([tenantId, definitionId])
+  @@map("custom_object_record")
+}
+
+enum FrameworkStatus {
+  ACTIVE
+  EXHAUSTED
+  EXPIRED
+  CANCELLED
+}
+
+/// Framework/blanket purchase agreement (PROC-006): negotiated price
+/// and ceiling quantity per SKU and supplier; call-offs draw it down.
+model FrameworkAgreement {
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String          @map("tenant_id") @db.Uuid
+  agreementNumber String          @map("agreement_number")
+  supplierId      String          @map("supplier_id") @db.Uuid
+  skuId           String          @map("sku_id") @db.Uuid
+  unitPrice       Decimal         @map("unit_price") @db.Decimal(18, 4)
+  maxQuantity     Decimal         @map("max_quantity") @db.Decimal(18, 6)
+  calledQuantity  Decimal         @default(0) @map("called_quantity") @db.Decimal(18, 6)
+  validFrom       DateTime        @default(now()) @map("valid_from")
+  validTo         DateTime?       @map("valid_to")
+  status          FrameworkStatus @default(ACTIVE)
+  createdBy       String?         @map("created_by")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, agreementNumber])
+  @@index([tenantId, supplierId])
+  @@map("framework_agreement")
 }
