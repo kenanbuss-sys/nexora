@@ -692,8 +692,26 @@ export const REDIS = 'REDIS';
     },
     {
       provide: CONTRACT_SERVICE,
-      useFactory: (prisma: PrismaClient) => new ContractService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, approvals: ApprovalService, tenants: TenantService) =>
+        new ContractService(
+          prisma,
+          {
+            requestApproval: async (input, ctx) => {
+              const view = await approvals.requestApproval(input, ctx);
+              return { id: view.id };
+            },
+            getStatusFor: async (tenantId, subjectObjectType, subjectObjectId) => {
+              const approval = await prisma.approval.findFirst({
+                where: { tenantId, subjectObjectType, subjectObjectId },
+                orderBy: { createdAt: 'desc' },
+              });
+              if (!approval) return 'NONE';
+              return approval.status as 'REQUESTED' | 'GRANTED' | 'REJECTED';
+            },
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, APPROVAL_SERVICE, TENANT_SERVICE],
     },
     {
       provide: ONBOARDING_SERVICE,

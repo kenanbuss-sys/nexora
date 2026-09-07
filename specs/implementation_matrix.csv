@@ -332,7 +332,7 @@ DOC-004,DOC,Document numbering,P1,DONE,R0/R1,,,Documents carry governed record n
 DOC-005,DOC,Document lifecycle,P1,Implemented (Sprint 107),R0/R1,,,
 DOC-006,DOC,Electronic-signature adapter,P1,PLANNED,R0/R1,,,
 DOC-007,DOC,Contract repository,P1,DONE,R0/R1,,,"Sprint 067: numbered contract repository against MDM parties, enforced lifecycle, audited."
-DOC-008,DOC,Contract approvals,P1,PLANNED,R0/R1,,,
+DOC-008,DOC,Contract approvals,P1,Implemented (Sprint 127),R0/R1,,,
 DOC-009,DOC,Obligations/renewals,P1,DONE,R0/R1,,,Sprint 067: renewal report derives live from end dates and notice windows.
 DOC-010,DOC,OCR capture hooks,P1,PLANNED,R0/R1,,,
 DOC-011,DOC,Retention,P1,PLANNED,R0/R1,,,

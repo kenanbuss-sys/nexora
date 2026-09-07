@@ -25,8 +25,42 @@ export interface ContractView {
   currency: string | null;
 }
 
+/** Cross-domain contract: approvals are owned by WF (DOC-008). */
+export interface ContractApprovalGate {
+  requestApproval(
+    input: { title: string; subjectObjectType: string; subjectObjectId: string },
+    ctx: RequestContext,
+  ): Promise<{ id: string }>;
+  getStatusFor(
+    tenantId: string,
+    subjectObjectType: string,
+    subjectObjectId: string,
+  ): Promise<'NONE' | 'REQUESTED' | 'GRANTED' | 'REJECTED'>;
+}
+
+/** Cross-domain contract: effective configuration is owned by CORE. */
+export interface ContractConfigGate {
+  getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
+}
+
 export class ContractService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly approvals?: ContractApprovalGate,
+    private readonly config?: ContractConfigGate,
+  ) {}
+
+  private async approvalThreshold(tenantId: string): Promise<number | null> {
+    if (!this.config) return null;
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(tenantId);
+      const raw = (config as { doc?: { contractApprovalThreshold?: unknown } })?.doc
+        ?.contractApprovalThreshold;
+      return typeof raw === 'number' && raw > 0 ? raw : null;
+    } catch {
+      return null;
+    }
+  }
 
   private toView(
     c: {
@@ -160,6 +194,35 @@ export class ContractService {
         'INVALID_STATE',
         `A contract cannot go from ${row.status} to ${status}`,
       );
+    }
+    // Contract approvals (DOC-008): activating a contract at or above
+    // the configured value threshold needs a granted WF approval — the
+    // first activation attempt raises the request; SoD lives in WF.
+    if (status === 'ACTIVE' && this.approvals && this.config) {
+      const threshold = await this.approvalThreshold(ctx.tenantId);
+      if (threshold !== null && row.value !== null && Number(row.value) >= threshold) {
+        const state = await this.approvals.getStatusFor(ctx.tenantId, 'contract', row.id);
+        if (state === 'NONE') {
+          await this.approvals.requestApproval(
+            {
+              title: `Contract ${row.contractNumber} (${Number(row.value).toFixed(2)})`,
+              subjectObjectType: 'contract',
+              subjectObjectId: row.id,
+            },
+            ctx,
+          );
+          throw new DomainError(
+            'INVALID_STATE',
+            'Contract activation needs approval — request raised',
+          );
+        }
+        if (state === 'REQUESTED') {
+          throw new DomainError('INVALID_STATE', 'Contract approval is still pending');
+        }
+        if (state === 'REJECTED') {
+          throw new DomainError('INVALID_STATE', 'Contract approval was rejected');
+        }
+      }
     }
     const updated = await this.prisma.contract.update({
       where: { id: row.id },
