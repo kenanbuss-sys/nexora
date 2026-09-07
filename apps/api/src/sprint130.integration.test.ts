@@ -4,16 +4,17 @@ import { DevIdentityAdapter } from '@nexora/tenancy';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 /**
- * Sprint 129 acceptance tests: andon/alerts (MES-022) — downtime at or
- * beyond the configured threshold raises a work-queue alert; the andon
- * board lists open alerts; below-threshold downtime stays quiet.
+ * Sprint 130 acceptance tests: digital work instructions (MES-016) and
+ * setup/changeover reporting (MES-015) — instructions per SKU and
+ * operation from versioned configuration; SETUP downtime aggregated
+ * per work center.
  */
 const integration = process.env.INTEGRATION === '1' ? describe : describe.skip;
 
 const DB_URL = process.env.DATABASE_URL ?? 'postgresql://app:app@localhost:5432/enterprise_os';
 const SECRET = process.env.DEV_AUTH_SECRET ?? 'dev-secret-change-me';
 
-integration('Sprint 129 — andon', () => {
+integration('Sprint 130 — work instructions', () => {
   let app: NestFastifyApplication;
   let prisma: PrismaClient;
   const identity = new DevIdentityAdapter(SECRET);
@@ -23,7 +24,10 @@ integration('Sprint 129 — andon', () => {
     subject: 'ops|provisioner',
     platformAdmin: true,
   });
-  const tokenA = identity.signToken({ tenantSlug: 'test-s129a', subject: 'idp|s129-admin' });
+  const tokenA = identity.signToken({ tenantSlug: 'test-s130a', subject: 'idp|s130-admin' });
+
+  let woId = '';
+  let opId = '';
 
   async function api(
     method: 'GET' | 'POST' | 'PUT',
@@ -74,39 +78,39 @@ integration('Sprint 129 — andon', () => {
     await app.getHttpAdapter().getInstance().ready();
 
     await api('POST', '/api/v1/tenants', platformToken, {
-      slug: 'test-s129a',
-      name: 'Sprint129 Tenant',
+      slug: 'test-s130a',
+      name: 'Sprint130 Tenant',
       initialAdmin: {
-        email: 'admin@s129a.example',
-        displayName: 'S129 Admin',
-        idpSubject: 'idp|s129-admin',
+        email: 'admin@s130a.example',
+        displayName: 'S130 Admin',
+        idpSubject: 'idp|s130-admin',
       },
     });
     await api('POST', '/api/v1/shopfloor/work-centers', tokenA, {
-      code: 'WC129A',
+      code: 'WC130A',
       name: 'Press A',
     });
     await api('POST', '/api/v1/shopfloor/work-centers', tokenA, {
-      code: 'WC129B',
+      code: 'WC130B',
       name: 'Press B',
     });
 
     const product = await api('POST', '/api/v1/products', tokenA, {
-      code: 'AN129',
-      name: 'AN129 product',
+      code: 'WI130',
+      name: 'WI130 product',
     });
     const lamp = await api('POST', '/api/v1/skus', tokenA, {
       productId: product.body.id,
-      code: 'AN129-STD',
-      name: 'AN129 Std',
+      code: 'WI130-STD',
+      name: 'WI130 Std',
       baseUom: 'pcs',
     });
     const lampId = lamp.body.id as string;
     await api('POST', `/api/v1/skus/${lampId}/activate`, tokenA);
     const bolt = await api('POST', '/api/v1/skus', tokenA, {
       productId: product.body.id,
-      code: 'AN129-BOLT',
-      name: 'AN129 Bolt',
+      code: 'WI130-BOLT',
+      name: 'WI130 Bolt',
       baseUom: 'pcs',
     });
     const boltId = bolt.body.id as string;
@@ -121,28 +125,30 @@ integration('Sprint 129 — andon', () => {
     const routing = await api('POST', '/api/v1/routings', tokenA, { skuId: lampId });
     await api('POST', `/api/v1/routings/${routing.body.id}/operations`, tokenA, {
       name: 'Press',
-      workCenter: 'WC129A',
+      workCenter: 'WC130A',
       runMinutesPerUnit: 2,
     });
     await api('POST', `/api/v1/routings/${routing.body.id}/release`, tokenA);
 
     const warehouse = await api('POST', '/api/v1/warehouses', tokenA, {
-      code: 'WH129',
-      name: 'Sprint129 warehouse',
+      code: 'WH130',
+      name: 'Sprint130 warehouse',
     });
     await api('POST', '/api/v1/stock/movements', tokenA, {
       warehouseId: warehouse.body.id,
       skuId: boltId,
       movementType: 'RECEIPT',
       quantity: 10,
-      idempotencyKey: 'receipt-s129-bolts',
+      idempotencyKey: 'receipt-s130-bolts',
     });
 
-    await api('POST', '/api/v1/work-orders', tokenA, {
+    const wo = await api('POST', '/api/v1/work-orders', tokenA, {
       skuId: lampId,
       warehouseId: warehouse.body.id,
       quantity: 2,
     });
+    woId = wo.body.id as string;
+    opId = (wo.body.operations as Array<{ id: string }>)[0]?.id as string;
   }, 120_000);
 
   afterAll(async () => {
@@ -150,62 +156,74 @@ integration('Sprint 129 — andon', () => {
     await prisma?.$disconnect();
   });
 
-  it('MES-022: threshold downtime raises an andon alert; short downtime stays quiet', async () => {
+  it('MES-016: operators see the steps for their SKU and operation', async () => {
     await api('POST', '/api/v1/tenant/configuration', tokenA, {
-      config: { mes: { andon: { downtimeMinutes: 30 } } },
+      config: {
+        mes: {
+          workInstructions: [
+            {
+              skuCode: 'WI130-STD',
+              operation: 'Press',
+              steps: ['Postavi ploču u presu', 'Pokreni ciklus 3 s', 'Vizuelno provjeri rub'],
+            },
+          ],
+        },
+      },
     });
-    const centers = await api('GET', '/api/v1/shopfloor/work-centers', tokenA);
-    const workCenterId = (centers.body.workCenters as Array<{ id: string }>)[0]?.id as string;
+    const instructions = await api(
+      'GET',
+      `/api/v1/work-orders/${woId}/operations/${opId}/instructions`,
+      tokenA,
+    );
+    expect(instructions.status).toBe(200);
+    expect(instructions.body.operation).toBe('Press');
+    expect(instructions.body.steps as string[]).toHaveLength(3);
+    expect((instructions.body.steps as string[])[0]).toContain('Postavi');
+  });
 
-    // 20 minutes — below the threshold, no alert.
+  it('MES-015: SETUP downtime aggregates into the changeover report', async () => {
+    const centers = await api('GET', '/api/v1/shopfloor/work-centers', tokenA);
+    const workCenterId = (centers.body.workCenters as Array<{ id: string; code: string }>).find(
+      (c) => c.code === 'WC130A',
+    )?.id as string;
     await api('POST', '/api/v1/shopfloor/downtime', tokenA, {
       workCenterId,
       category: 'SETUP',
-      minutes: 20,
-      reason: 'Zamjena alata',
+      minutes: 25,
+      reason: 'Zamjena alata A',
     });
-    const quiet = await api('GET', '/api/v1/shopfloor/andon', tokenA);
-    expect((quiet.body.alerts as unknown[]).length).toBe(0);
-
-    // 45 minutes — alert raised, audited.
+    await api('POST', '/api/v1/shopfloor/downtime', tokenA, {
+      workCenterId,
+      category: 'SETUP',
+      minutes: 15,
+      reason: 'Zamjena alata B',
+    });
     await api('POST', '/api/v1/shopfloor/downtime', tokenA, {
       workCenterId,
       category: 'BREAKDOWN',
-      minutes: 45,
-      reason: 'Puknuo remen',
+      minutes: 60,
+      reason: 'Ne računa se u setup',
     });
-    const board = await api('GET', '/api/v1/shopfloor/andon', tokenA);
-    const alerts = board.body.alerts as Array<{ title: string }>;
-    expect(alerts).toHaveLength(1);
-    expect(alerts[0]?.title).toContain('ANDON');
-    expect(alerts[0]?.title).toContain('BREAKDOWN');
-
-    const audit = await prisma.auditEvent.findFirst({ where: { action: 'mes.andon.raise' } });
-    expect(audit).not.toBeNull();
+    const report = await api('GET', '/api/v1/work-orders/setup-report?days=7', tokenA);
+    const row = (
+      report.body.report as Array<{ workCenter: string; changeovers: number; setupMinutes: number }>
+    ).find((r) => r.workCenter === 'WC130A');
+    expect(row?.changeovers).toBe(2);
+    expect(row?.setupMinutes).toBe(40);
   });
 
-  it('MES-022: without configuration no alerts are raised', async () => {
-    await api('POST', '/api/v1/tenant/configuration', tokenA, { config: {} });
-    const centers = await api('GET', '/api/v1/shopfloor/work-centers', tokenA);
-    const workCenterId = (centers.body.workCenters as Array<{ id: string }>)[0]?.id as string;
-    await api('POST', '/api/v1/shopfloor/downtime', tokenA, {
-      workCenterId,
-      category: 'BREAKDOWN',
-      minutes: 120,
-      reason: 'Bez konfiguracije',
-    });
-    const board = await api('GET', '/api/v1/shopfloor/andon', tokenA);
-    expect((board.body.alerts as unknown[]).length).toBe(1);
-  });
-
-  it('AUTHZ: the andon board needs production.read', async () => {
-    const stranger = identity.signToken({ tenantSlug: 'test-s129a', subject: 'idp|s129-nobody' });
+  it('AUTHZ: instructions need production.read', async () => {
+    const stranger = identity.signToken({ tenantSlug: 'test-s130a', subject: 'idp|s130-nobody' });
     await api('POST', '/api/v1/users/invite', tokenA, {
-      email: 'niko129@primjer.example',
-      displayName: 'Niko129',
-      idpSubject: 'idp|s129-nobody',
+      email: 'niko130@primjer.example',
+      displayName: 'Niko130',
+      idpSubject: 'idp|s130-nobody',
     });
-    const denied = await api('GET', '/api/v1/shopfloor/andon', stranger);
+    const denied = await api(
+      'GET',
+      `/api/v1/work-orders/${woId}/operations/${opId}/instructions`,
+      stranger,
+    );
     expect(denied.status).toBe(403);
   });
 });

@@ -211,8 +211,8 @@ MES-011,MES,Scrap,P1,DONE,R2,,,
 MES-012,MES,Rework,P1,DONE,R2,,,Sprint 085: completed scrap spawns exactly one PLANNED rework order for the scrapped quantity; Production page button.
 MES-013,MES,Co/by-products,P1,PLANNED,R2,,,
 MES-014,MES,Downtime,P1,DONE,R2,,,Downtime logging by category (Sprint 031)
-MES-015,MES,Setup/changeover,P1,PLANNED,R2,,,
-MES-016,MES,Digital work instructions,P1,PLANNED,R2,,,
+MES-015,MES,Setup/changeover,P1,Implemented (Sprint 130),R2,,,
+MES-016,MES,Digital work instructions,P1,Implemented (Sprint 130),R2,,,
 MES-017,MES,Production labels,P1,DONE,R2,,,"Sprint 086: printable A6 work-order label PDF (WO number, SKU, qty, barcode value); Production page Label button."
 MES-018,MES,Shop-floor kiosk,P1,DONE,R2,,,Shop-floor kiosk: large-type execution screen (Sprint 024)
 MES-019,MES,Mobile production,P1,PLANNED,R2,,,

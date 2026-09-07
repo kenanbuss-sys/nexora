@@ -360,6 +360,82 @@ export class MesService {
     }));
   }
 
+  /**
+   * Digital work instructions (MES-016): step-by-step instructions per
+   * SKU and operation from versioned configuration
+   * (mes.workInstructions: [{ skuCode, operation, steps }]).
+   */
+  async workInstructions(
+    input: { workOrderId: string; operationId: string },
+    ctx: RequestContext,
+  ): Promise<{ operation: string; steps: string[] }> {
+    const wo = await this.prisma.workOrder.findFirst({
+      where: { id: input.workOrderId, tenantId: ctx.tenantId },
+      include: { operations: true },
+    });
+    if (!wo) throw notFound('WorkOrder', input.workOrderId);
+    const op = wo.operations.find((o) => o.id === input.operationId);
+    if (!op) throw notFound('WorkOrderOperation', input.operationId);
+    const sku = await this.prisma.sku.findFirst({
+      where: { id: wo.skuId, tenantId: ctx.tenantId },
+      select: { code: true },
+    });
+    let steps: string[] = [];
+    if (this.config) {
+      try {
+        const { config } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+        const raw = (config as { mes?: { workInstructions?: unknown } })?.mes?.workInstructions;
+        if (Array.isArray(raw)) {
+          const match = raw.find(
+            (entry) =>
+              (entry as { skuCode?: unknown })?.skuCode === sku?.code &&
+              (entry as { operation?: unknown })?.operation === op.name,
+          );
+          const rawSteps = (match as { steps?: unknown })?.steps;
+          if (Array.isArray(rawSteps)) {
+            steps = rawSteps.filter((x): x is string => typeof x === 'string');
+          }
+        }
+      } catch {
+        steps = [];
+      }
+    }
+    return { operation: op.name, steps };
+  }
+
+  /**
+   * Setup/changeover report (MES-015): SETUP downtime per work center
+   * over the window — changeover count and total minutes.
+   */
+  async setupReport(
+    days: number,
+    ctx: RequestContext,
+  ): Promise<Array<{ workCenter: string; changeovers: number; setupMinutes: number }>> {
+    const clamped = Math.max(1, Math.min(90, days));
+    const cutoff = new Date(Date.now() - clamped * 86_400_000);
+    const events = await this.prisma.downtimeEvent.findMany({
+      where: { tenantId: ctx.tenantId, category: 'SETUP', occurredAt: { gte: cutoff } },
+      select: { workCenterId: true, minutes: true },
+      take: 5_000,
+    });
+    const centers = await this.prisma.workCenter.findMany({
+      where: { tenantId: ctx.tenantId },
+      select: { id: true, code: true },
+    });
+    const codeOf = new Map(centers.map((c) => [c.id, c.code]));
+    const byCenter = new Map<string, { changeovers: number; setupMinutes: number }>();
+    for (const event of events) {
+      const code = codeOf.get(event.workCenterId) ?? '?';
+      const bucket = byCenter.get(code) ?? { changeovers: 0, setupMinutes: 0 };
+      bucket.changeovers += 1;
+      bucket.setupMinutes += event.minutes;
+      byCenter.set(code, bucket);
+    }
+    return [...byCenter.entries()]
+      .map(([workCenter, counts]) => ({ workCenter, ...counts }))
+      .sort((x, y) => y.setupMinutes - x.setupMinutes);
+  }
+
   async releaseWorkOrder(workOrderId: string, ctx: RequestContext): Promise<WorkOrderView> {
     const wo = await this.prisma.workOrder.findFirst({
       where: { id: workOrderId, tenantId: ctx.tenantId },

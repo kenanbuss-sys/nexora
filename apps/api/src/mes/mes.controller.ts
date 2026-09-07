@@ -49,6 +49,22 @@ export class WorkOrdersController {
     return { rows: await this.mes.productionByDay(days ? Number(days) || 7 : 7, ctx) };
   }
 
+  @Get('setup-report')
+  @RequirePermission('production.read')
+  async setupReport(@Ctx() ctx: RequestContext, @Query('days') days?: string) {
+    return { report: await this.mes.setupReport(days ? Number(days) || 30 : 30, ctx) };
+  }
+
+  @Get(':id/operations/:opId/instructions')
+  @RequirePermission('production.read')
+  async instructions(
+    @Param('id') id: string,
+    @Param('opId') opId: string,
+    @Ctx() ctx: RequestContext,
+  ) {
+    return this.mes.workInstructions({ workOrderId: id, operationId: opId }, ctx);
+  }
+
   @Get('work-center-load')
   @RequirePermission('production.read')
   async workCenterLoad(@Ctx() ctx: RequestContext) {
