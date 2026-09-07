@@ -28,11 +28,108 @@ export interface BundleView {
   buildable: number;
 }
 
+/** Cross-domain contract: stock truth is owned by WMS. */
+export interface AssemblyStockGate {
+  postMovement(
+    input: {
+      warehouseId: string;
+      skuId: string;
+      movementType: 'ISSUE' | 'RECEIPT';
+      quantity: number;
+      idempotencyKey: string;
+      reason?: string | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{ movementId: string; duplicate: boolean }>;
+}
+
 export class BundleService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly availability: AvailabilityGate,
+    private readonly stock?: AssemblyStockGate,
   ) {}
+
+  /**
+   * Kitting (WMS-022): physically assemble bundles — consume the
+   * components (ISSUE per component) and receive the bundle SKU, all
+   * as idempotent ledger movements keyed by the caller's assembleKey,
+   * so a retried assembly can never double-move stock.
+   */
+  async assemble(
+    input: { bundleSkuId: string; warehouseId: string; quantity: number; assembleKey: string },
+    ctx: RequestContext,
+  ): Promise<{ assembled: number; duplicate: boolean }> {
+    if (!this.stock) {
+      throw new DomainError('INVALID_STATE', 'Assembly is not configured');
+    }
+    if (!Number.isInteger(input.quantity) || input.quantity <= 0) {
+      throw new DomainError('VALIDATION_FAILED', 'Quantity must be a positive integer');
+    }
+    if (!/^[A-Za-z0-9_-]{6,64}$/.test(input.assembleKey)) {
+      throw new DomainError('VALIDATION_FAILED', 'assembleKey must be 6-64 safe characters');
+    }
+    // Idempotent retry: if this assembleKey already produced its receipt,
+    // acknowledge without re-checking buildable (stock already moved).
+    const existing = await this.prisma.stockMovement.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        idempotencyKey: `assemble:${input.assembleKey}:receipt`,
+      },
+      select: { id: true },
+    });
+    if (existing) {
+      return { assembled: input.quantity, duplicate: true };
+    }
+    const bundle = await this.getBundle(input.bundleSkuId, ctx);
+    if (bundle.components.length === 0) {
+      throw new DomainError('INVALID_STATE', 'This SKU has no bundle composition');
+    }
+    if (bundle.buildable < input.quantity) {
+      throw new DomainError(
+        'INVALID_STATE',
+        `Only ${bundle.buildable} bundle(s) can be built from current stock`,
+      );
+    }
+    let anyFresh = false;
+    for (const component of bundle.components) {
+      const result = await this.stock.postMovement(
+        {
+          warehouseId: input.warehouseId,
+          skuId: component.componentSkuId,
+          movementType: 'ISSUE',
+          quantity: Number(component.quantity) * input.quantity,
+          idempotencyKey: `assemble:${input.assembleKey}:issue:${component.componentSkuId}`,
+          reason: 'Bundle assembly',
+        },
+        ctx,
+      );
+      if (!result.duplicate) anyFresh = true;
+    }
+    const receipt = await this.stock.postMovement(
+      {
+        warehouseId: input.warehouseId,
+        skuId: input.bundleSkuId,
+        movementType: 'RECEIPT',
+        quantity: input.quantity,
+        idempotencyKey: `assemble:${input.assembleKey}:receipt`,
+        reason: 'Bundle assembly output',
+      },
+      ctx,
+    );
+    if (!receipt.duplicate) anyFresh = true;
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'pim.bundle.assemble',
+      objectType: 'Sku',
+      objectId: input.bundleSkuId,
+      source: 'api',
+      newValues: { quantity: input.quantity, assembleKey: input.assembleKey },
+    });
+    return { assembled: input.quantity, duplicate: !anyFresh };
+  }
 
   private async requireSku(tenantId: string, skuId: string) {
     const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId } });

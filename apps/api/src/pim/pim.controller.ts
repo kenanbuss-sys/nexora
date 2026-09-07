@@ -45,6 +45,11 @@ const bundleComponentSchema = z.object({
   componentSkuId: z.string().uuid(),
   quantity: z.number().positive(),
 });
+const assembleSchema = z.object({
+  warehouseId: z.string().uuid(),
+  quantity: z.number().int().positive(),
+  assembleKey: z.string().min(6).max(64),
+});
 const serialPolicySchema = z.object({ policy: z.enum(['NONE', 'OPTIONAL', 'REQUIRED']) });
 const registerSerialsSchema = z.object({
   serials: z.array(z.string().min(1).max(64)).min(1).max(500),
@@ -185,6 +190,21 @@ export class SkusController {
   ) {
     await this.bundles.removeComponent(id, componentId, ctx);
     return { removed: true };
+  }
+
+  @Post(':id/bundle/assemble')
+  @RequirePermission('inventory.adjust')
+  async assembleBundle(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(assembleSchema, body);
+    return this.bundles.assemble(
+      {
+        bundleSkuId: id,
+        warehouseId: input.warehouseId,
+        quantity: input.quantity,
+        assembleKey: input.assembleKey,
+      },
+      ctx,
+    );
   }
 
   @Get(':id/serials')

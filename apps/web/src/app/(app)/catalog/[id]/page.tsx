@@ -852,7 +852,35 @@ export default function ProductDetailPage() {
               {bundle && bundle.components.length > 0 ? (
                 <div style={{ marginTop: 8 }}>
                   <p className="muted" style={{ marginBottom: 6 }}>
-                    Buildable now: <strong>{bundle.buildable}</strong>
+                    Buildable now: <strong>{bundle.buildable}</strong>{' '}
+                    {bundle.buildable > 0 ? (
+                      <button
+                        className="btn btn-sm"
+                        style={{ marginLeft: 8 }}
+                        disabled={busy}
+                        type="button"
+                        onClick={() => {
+                          const qty = window.prompt('How many bundles to assemble?', '1');
+                          if (!qty) return;
+                          void run(async () => {
+                            const warehouses = await api<{
+                              warehouses: Array<{ id: string }>;
+                            }>('GET', '/api/v1/warehouses');
+                            const warehouseId = warehouses.warehouses[0]?.id;
+                            if (!warehouseId) throw new Error('No warehouse');
+                            await api('POST', `/api/v1/skus/${bundleSku}/bundle/assemble`, {
+                              warehouseId,
+                              quantity: Number(qty),
+                              assembleKey: `ui-${Date.now()}-${Math.random()
+                                .toString(36)
+                                .slice(2, 8)}`,
+                            });
+                          }, 'Bundles assembled — stock moved.');
+                        }}
+                      >
+                        Assemble
+                      </button>
+                    ) : null}
                   </p>
                   <div className="row" style={{ flexWrap: 'wrap' }}>
                     {bundle.components.map((c) => (

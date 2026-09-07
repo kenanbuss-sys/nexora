@@ -887,18 +887,22 @@ export const REDIS = 'REDIS';
     {
       provide: BUNDLE_SERVICE,
       useFactory: (prisma: PrismaClient, inventory: InventoryService) =>
-        new BundleService(prisma, {
-          totalAvailability: (tenantId, skuId) =>
-            inventory.totalAvailability(skuId, {
-              tenantId,
-              tenantSlug: '',
-              tenantStatus: 'ACTIVE',
-              actorType: 'SERVICE',
-              userId: undefined,
-              userStatus: undefined,
-              platformAdmin: false,
-            }),
-        }),
+        new BundleService(
+          prisma,
+          {
+            totalAvailability: (tenantId, skuId) =>
+              inventory.totalAvailability(skuId, {
+                tenantId,
+                tenantSlug: '',
+                tenantStatus: 'ACTIVE',
+                actorType: 'SERVICE',
+                userId: undefined,
+                userStatus: undefined,
+                platformAdmin: false,
+              }),
+          },
+          { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
+        ),
       inject: [PRISMA, INVENTORY_SERVICE],
     },
     {
