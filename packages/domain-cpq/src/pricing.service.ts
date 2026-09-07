@@ -25,8 +25,99 @@ export interface PriceEntryView {
   unitPrice: string;
 }
 
+/**
+ * Formula pricing (CPQ-009): per-SKU price formulas from versioned
+ * configuration (sales.pricingFormulas: [{ skuCode, formula }]), over
+ * the variables `cost` (standard cost) and `qty`. Formulas are parsed
+ * with a strict arithmetic grammar — never evaluated as code.
+ */
+export interface PricingConfigGate {
+  getPricingFormulas(tenantId: string): Promise<Array<{ skuCode: string; formula: string }>>;
+}
+
+const FORMULA_TOKEN_RE = /^(?:\d+(?:\.\d+)?|cost|qty|[+\-*/()]|\s+)+$/;
+
+/** Strict recursive-descent evaluator for + - * / ( ) cost qty. */
+export function evaluateFormula(
+  formula: string,
+  vars: { cost: number; qty: number },
+): number | null {
+  if (formula.length > 200 || !FORMULA_TOKEN_RE.test(formula)) return null;
+  const tokens = formula.match(/\d+(?:\.\d+)?|cost|qty|[+\-*/()]/g) ?? [];
+  let pos = 0;
+  const peek = () => tokens[pos];
+  const next = () => tokens[pos++];
+  function parseExpr(): number {
+    let value = parseTerm();
+    while (peek() === '+' || peek() === '-') {
+      const op = next();
+      const rhs = parseTerm();
+      value = op === '+' ? value + rhs : value - rhs;
+    }
+    return value;
+  }
+  function parseTerm(): number {
+    let value = parseFactor();
+    while (peek() === '*' || peek() === '/') {
+      const op = next();
+      const rhs = parseFactor();
+      value = op === '*' ? value * rhs : value / rhs;
+    }
+    return value;
+  }
+  function parseFactor(): number {
+    const token = next();
+    if (token === undefined) throw new Error('unexpected end');
+    if (token === '(') {
+      const value = parseExpr();
+      if (next() !== ')') throw new Error('unbalanced');
+      return value;
+    }
+    if (token === '-') return -parseFactor();
+    if (token === 'cost') return vars.cost;
+    if (token === 'qty') return vars.qty;
+    const parsed = Number(token);
+    if (!Number.isFinite(parsed)) throw new Error('bad token');
+    return parsed;
+  }
+  try {
+    const result = parseExpr();
+    if (pos !== tokens.length) return null;
+    return Number.isFinite(result) ? result : null;
+  } catch {
+    return null;
+  }
+}
+
 export class PricingService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly config?: PricingConfigGate,
+  ) {}
+
+  /**
+   * Formula price for one SKU (CPQ-009), or null when no formula (or
+   * no evaluable formula) applies.
+   */
+  async formulaPrice(
+    skuId: string,
+    quantity: number,
+    ctx: RequestContext,
+  ): Promise<{ unitPrice: string; formula: string } | null> {
+    if (!this.config) return null;
+    const sku = await this.prisma.sku.findFirst({
+      where: { id: skuId, tenantId: ctx.tenantId },
+      select: { code: true, standardCost: true },
+    });
+    if (!sku) return null;
+    const formulas = await this.config.getPricingFormulas(ctx.tenantId);
+    const match = formulas.find((f) => f.skuCode === sku.code);
+    if (!match) return null;
+    const cost = sku.standardCost === null ? 0 : Number(sku.standardCost);
+    const value = evaluateFormula(match.formula, { cost, qty: quantity });
+    if (value === null || value < 0) return null;
+    return { unitPrice: (Math.round(value * 10000) / 10000).toFixed(4), formula: match.formula };
+  }
 
   async listPriceLists(ctx: RequestContext): Promise<PriceListView[]> {
     const lists = await this.prisma.priceList.findMany({
@@ -254,7 +345,13 @@ export class PricingService {
       },
       orderBy: { minQty: 'desc' },
     });
-    if (!entry) throw notFound('Price for SKU', skuId);
+    if (!entry) {
+      // Formula fallback (CPQ-009): a configured formula prices SKUs
+      // that carry no explicit entry on the list.
+      const formula = await this.formulaPrice(skuId, quantity, ctx);
+      if (formula) return { unitPrice: formula.unitPrice, currency: list.currency };
+      throw notFound('Price for SKU', skuId);
+    }
     return { unitPrice: entry.unitPrice.toString(), currency: list.currency };
   }
 }

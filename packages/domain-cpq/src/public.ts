@@ -1,7 +1,13 @@
 /**
  * @nexora/domain-cpq public application interface.
  */
-export { PricingService, type PriceEntryView, type PriceListView } from './pricing.service';
+export {
+  PricingService,
+  evaluateFormula,
+  type PriceEntryView,
+  type PriceListView,
+  type PricingConfigGate,
+} from './pricing.service';
 export {
   DiscountRuleService,
   type AppliedDiscount,

@@ -66,6 +66,22 @@ export class PriceListsController {
     return this.pricing.createPriceList(parseBody(createPriceListSchema, body), ctx);
   }
 
+  @Get('formula-price')
+  @RequirePermission('pricing.read')
+  async formulaPrice(
+    @Query('skuId') skuId: string,
+    @Query('qty') qty: string,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const quantity = Number(qty);
+    const price = await this.pricing.formulaPrice(
+      skuId ?? '',
+      Number.isFinite(quantity) && quantity > 0 ? quantity : 1,
+      ctx,
+    );
+    return { price };
+  }
+
   @Get('cost-suggestions')
   @RequirePermission('pricing.read')
   async costSuggestions(@Query('marginPct') marginPct: string, @Ctx() ctx: RequestContext) {

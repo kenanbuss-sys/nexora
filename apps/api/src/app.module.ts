@@ -632,8 +632,25 @@ export const REDIS = 'REDIS';
     },
     {
       provide: PRICING_SERVICE,
-      useFactory: (prisma: PrismaClient) => new PricingService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new PricingService(prisma, {
+          getPricingFormulas: async (t) => {
+            const { config } = await tenants.getEffectiveConfiguration(t);
+            const raw = (config as { sales?: { pricingFormulas?: unknown } })?.sales
+              ?.pricingFormulas;
+            if (!Array.isArray(raw)) return [];
+            const formulas: Array<{ skuCode: string; formula: string }> = [];
+            for (const entry of raw) {
+              const skuCode = (entry as { skuCode?: unknown })?.skuCode;
+              const formula = (entry as { formula?: unknown })?.formula;
+              if (typeof skuCode === 'string' && typeof formula === 'string') {
+                formulas.push({ skuCode, formula });
+              }
+            }
+            return formulas;
+          },
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: QUOTE_SERVICE,
