@@ -145,6 +145,14 @@ export interface CostGate {
   getMinMarginPct(tenantId: string): Promise<number>;
 }
 
+/**
+ * Compatibility rules (CPQ-008): pairs of SKU codes that must not be
+ * quoted together, from versioned configuration (sales.incompatibleSkuPairs).
+ */
+export interface CompatibilityGate {
+  getIncompatiblePairs(tenantId: string): Promise<Array<[string, string]>>;
+}
+
 export class QuoteService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -154,6 +162,7 @@ export class QuoteService {
     private readonly skus: SkuInfoGate,
     private readonly discounts?: DiscountGate,
     private readonly costs?: CostGate,
+    private readonly compatibility?: CompatibilityGate,
   ) {}
 
   async listQuotes(
@@ -282,6 +291,30 @@ export class QuoteService {
     const sku = await this.skus.getSkuInfo(ctx.tenantId, input.skuId);
     if (!sku || !sku.exists) throw notFound('Sku', input.skuId);
     if (!sku.active) throw new DomainError('INVALID_STATE', 'SKU is not active');
+
+    // Compatibility rules (CPQ-008): refuse combinations the tenant has
+    // declared incompatible, comparing against the lines already quoted.
+    if (this.compatibility) {
+      const pairs = await this.compatibility.getIncompatiblePairs(ctx.tenantId);
+      if (pairs.length > 0) {
+        const existing = await this.prisma.quoteLine.findMany({
+          where: { tenantId: ctx.tenantId, quoteId: quote.id },
+          select: { description: true },
+        });
+        const presentCodes = new Set(existing.map((l) => l.description.split(' — ')[0]));
+        for (const [left, right] of pairs) {
+          const clash =
+            (sku.code === left && presentCodes.has(right)) ||
+            (sku.code === right && presentCodes.has(left));
+          if (clash) {
+            throw new DomainError(
+              'INVALID_STATE',
+              `${left} and ${right} are incompatible and cannot be quoted together`,
+            );
+          }
+        }
+      }
+    }
 
     const { unitPrice } = await this.pricing.resolvePrice(
       quote.priceListId,

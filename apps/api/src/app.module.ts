@@ -672,6 +672,26 @@ export const REDIS = 'REDIS';
               return typeof pct === 'number' && pct >= 0 && pct <= 500 ? pct : 0;
             },
           },
+          {
+            getIncompatiblePairs: async (t) => {
+              const { config } = await tenants.getEffectiveConfiguration(t);
+              const raw = (config as { sales?: { incompatibleSkuPairs?: unknown } })?.sales
+                ?.incompatibleSkuPairs;
+              if (!Array.isArray(raw)) return [];
+              const pairs: Array<[string, string]> = [];
+              for (const entry of raw) {
+                if (
+                  Array.isArray(entry) &&
+                  entry.length === 2 &&
+                  typeof entry[0] === 'string' &&
+                  typeof entry[1] === 'string'
+                ) {
+                  pairs.push([entry[0], entry[1]]);
+                }
+              }
+              return pairs;
+            },
+          },
         ),
       inject: [
         PRISMA,
