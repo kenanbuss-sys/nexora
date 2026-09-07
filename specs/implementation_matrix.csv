@@ -445,7 +445,7 @@ OPS-008,OPS,Error tracking,P0,PLANNED,R0,,,
 OPS-009,OPS,Integration monitoring,P0,PLANNED,R0,,,
 OPS-010,OPS,Device monitoring,P0,PLANNED,R0,,,
 OPS-011,OPS,Backups,P0,DONE,R0,,,Documented volume/pg_dump backup procedure (Sprint 026)
-OPS-012,OPS,PITR,P0,PLANNED,R0,,,
+OPS-012,OPS,PITR,P0,Implemented (Sprint 123),R0,,,"WAL archiving + nightly base backups + restore runbook"
 OPS-013,OPS,Disaster recovery,P0,PLANNED,R0,,,
 OPS-014,OPS,Usage analytics,P0,DONE,R0,,,"Per-tenant usage analytics, operator-only (Sprint 021)"
 OPS-015,OPS,Support portal,P0,PLANNED,R0,,,

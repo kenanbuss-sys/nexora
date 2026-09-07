@@ -77,6 +77,13 @@ if [ "${SEED:-Y}" != "n" ] && [ "${SEED:-Y}" != "N" ]; then
     exec -T api node scripts/seed-demo.mjs || true
 fi
 
+# OPS-012: nightly base backup for point-in-time recovery.
+if command -v crontab >/dev/null 2>&1; then
+  CRON_LINE="17 2 * * * $(pwd)/deploy/backup.sh >> /var/log/nexora-backup.log 2>&1"
+  (crontab -l 2>/dev/null | grep -v 'deploy/backup.sh'; echo "$CRON_LINE") | crontab -
+  say "Nightly PITR base backup scheduled (02:17, /var/backups/nexora)."
+fi
+
 DOMAIN_VALUE="$(grep '^DOMAIN=' deploy/.env | cut -d= -f2)"
 say "Done. Open https://${DOMAIN_VALUE} (the certificate is issued automatically"
 say "on the first visit once the DNS record points here)."

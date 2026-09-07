@@ -11,12 +11,25 @@ services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
+    # OPS-012: WAL archiving on — every transaction lands in the archive
+    # volume, enabling point-in-time recovery between base backups.
+    command:
+      - postgres
+      - -c
+      - wal_level=replica
+      - -c
+      - archive_mode=on
+      - -c
+      - archive_timeout=300
+      - -c
+      - archive_command=test ! -f /wal_archive/%f && cp %p /wal_archive/%f
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in deploy/.env}
       POSTGRES_DB: enterprise_os
     volumes:
       - db_data:/var/lib/postgresql/data
+      - wal_archive:/wal_archive
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U app -d enterprise_os']
       interval: 5s
@@ -112,6 +125,7 @@ services:
       - web
 
 volumes:
+  wal_archive:
   db_data:
   redis_data:
   caddy_data:
