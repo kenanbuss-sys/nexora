@@ -63,6 +63,12 @@ export class WmsOrdersController {
     return { orders: await this.orders.listOrders(params, ctx) };
   }
 
+  @Get('cross-dock')
+  @RequirePermission('inventory.read')
+  async crossDock(@Query('warehouseId') warehouseId: string, @Ctx() ctx: RequestContext) {
+    return { opportunities: await this.labor.crossDockOpportunities(warehouseId ?? '', ctx) };
+  }
+
   @Get('labor-queue')
   @RequirePermission('inventory.read')
   async laborQueue(@Ctx() ctx: RequestContext) {

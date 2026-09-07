@@ -85,6 +85,75 @@ export class LaborService {
     return { created, skipped, open: openOrders.length };
   }
 
+  /**
+   * Cross-docking (WMS-021): incoming receiving lines matched against
+   * open sales demand for the same SKU in the same warehouse — flow
+   * these quantities straight from dock to staging, skipping putaway.
+   * Derived live; nothing is written.
+   */
+  async crossDockOpportunities(
+    warehouseId: string,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ skuId: string; code: string; incoming: string; demand: string; crossDock: string }>
+  > {
+    const receivingLines = await this.prisma.wmsOrderLine.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        order: {
+          tenantId: ctx.tenantId,
+          warehouseId,
+          orderType: 'RECEIVING',
+          status: { in: ['DRAFT', 'IN_PROGRESS'] },
+        },
+      },
+      select: { skuId: true, expectedQty: true, processedQty: true },
+    });
+    const incoming = new Map<string, number>();
+    for (const line of receivingLines) {
+      const open = Number(line.expectedQty) - Number(line.processedQty);
+      if (open > 0) incoming.set(line.skuId, (incoming.get(line.skuId) ?? 0) + open);
+    }
+    if (incoming.size === 0) return [];
+    const demandLines = await this.prisma.salesOrderLine.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        skuId: { in: [...incoming.keys()] },
+        order: { tenantId: ctx.tenantId, warehouseId, status: 'CONFIRMED' },
+      },
+      select: { skuId: true, quantity: true, fulfilledQty: true },
+    });
+    const demand = new Map<string, number>();
+    for (const line of demandLines) {
+      const open = Number(line.quantity) - Number(line.fulfilledQty);
+      if (open > 0) demand.set(line.skuId, (demand.get(line.skuId) ?? 0) + open);
+    }
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: [...incoming.keys()] } },
+      select: { id: true, code: true },
+    });
+    const codeOf = new Map(skus.map((k) => [k.id, k.code]));
+    const rows: Array<{
+      skuId: string;
+      code: string;
+      incoming: string;
+      demand: string;
+      crossDock: string;
+    }> = [];
+    for (const [skuId, incomingQty] of incoming) {
+      const demandQty = demand.get(skuId) ?? 0;
+      if (demandQty <= 0) continue;
+      rows.push({
+        skuId,
+        code: codeOf.get(skuId) ?? '',
+        incoming: String(incomingQty),
+        demand: String(demandQty),
+        crossDock: String(Math.min(incomingQty, demandQty)),
+      });
+    }
+    return rows.sort((a, b) => a.code.localeCompare(b.code));
+  }
+
   /** Labor queue overview: open tasks against open documents. */
   async laborQueue(ctx: RequestContext): Promise<
     Array<{
