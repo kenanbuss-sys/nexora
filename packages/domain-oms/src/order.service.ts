@@ -279,6 +279,55 @@ export class OrderService {
   }
 
   /**
+   * Quick order (COM-004): sales-rep entry by SKU code — "CODE QTY"
+   * lines become a fresh DRAFT priced from the account's contract list
+   * when one exists (unit price falls back to 0 for manual repricing).
+   * Unknown codes are reported, not silently dropped.
+   */
+  async quickOrder(
+    input: {
+      accountId: string;
+      warehouseId: string;
+      currency: string;
+      lines: Array<{ code: string; quantity: number }>;
+    },
+    ctx: RequestContext,
+  ): Promise<{ order: OrderView; unknownCodes: string[] }> {
+    if (input.lines.length === 0 || input.lines.length > 100) {
+      throw new DomainError('VALIDATION_FAILED', 'Provide between 1 and 100 lines');
+    }
+    const codes = input.lines.map((l) => l.code.trim()).filter(Boolean);
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, code: { in: codes }, status: 'ACTIVE' },
+      select: { id: true, code: true },
+    });
+    const byCode = new Map(skus.map((s) => [s.code, s.id]));
+    const unknownCodes = codes.filter((c) => !byCode.has(c));
+    const known = input.lines.filter((l) => byCode.has(l.code.trim()));
+    if (known.length === 0) {
+      throw new DomainError('VALIDATION_FAILED', 'No line resolved to an active SKU');
+    }
+    const order = await this.createOrder(
+      { accountId: input.accountId, warehouseId: input.warehouseId, currency: input.currency },
+      ctx,
+    );
+    for (const line of known) {
+      if (!(line.quantity > 0)) continue;
+      await this.addLine(
+        {
+          orderId: order.id,
+          skuId: byCode.get(line.code.trim()) as string,
+          quantity: line.quantity,
+          unitPrice: 0,
+        },
+        ctx,
+      );
+    }
+    await this.recordTransition(order.id, EVENT_TYPES.ORDER_AMENDED, 'Quick order entry', ctx);
+    return { order: await this.getOrder(order.id, ctx), unknownCodes };
+  }
+
+  /**
    * Repeat order (B2B-008): a fresh DRAFT copying the account,
    * warehouse, currency and lines of an existing order — prices as
    * they were; nothing is reserved until confirmation.

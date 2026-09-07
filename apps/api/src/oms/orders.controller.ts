@@ -60,6 +60,24 @@ export class OrdersController {
     return this.orders.createOrder(parseBody(createOrderSchema, body), ctx);
   }
 
+  @Post('quick')
+  @RequirePermission('order.create')
+  async quick(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        accountId: z.string().uuid(),
+        warehouseId: z.string().uuid(),
+        currency: z.string().length(3),
+        lines: z
+          .array(z.object({ code: z.string().min(1).max(64), quantity: z.number().positive() }))
+          .min(1)
+          .max(100),
+      }),
+      body,
+    );
+    return this.orders.quickOrder(input, ctx);
+  }
+
   @Post('from-quote')
   @RequirePermission('order.create')
   async fromQuote(@Body() body: unknown, @Ctx() ctx: RequestContext) {

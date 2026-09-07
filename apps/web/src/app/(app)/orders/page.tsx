@@ -110,6 +110,9 @@ export default function OrdersPage() {
   const [linePrice, setLinePrice] = useState('');
   const [holdOrder, setHoldOrder] = useState('');
   const [promoOrder, setPromoOrder] = useState('');
+  const [quickText, setQuickText] = useState('');
+  const [quickAccount, setQuickAccount] = useState('');
+  const [quickWarehouse, setQuickWarehouse] = useState('');
   const [promoCode, setPromoCode] = useState('');
   const [holdReason, setHoldReason] = useState('');
   const [timeline, setTimeline] = useState<Record<string, OrderEventView[]>>({});
@@ -916,6 +919,82 @@ export default function OrdersPage() {
           ) : null}
         </div>
       </div>
+      {can('order.create') ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Quick order (sales rep)</h2>
+          <p className="muted" style={{ marginTop: 0 }}>
+            One line per item: <span className="mono">SKU-CODE quantity</span>. Unknown codes are
+            reported, prices default to 0 for repricing.
+          </p>
+          <form
+            className="row"
+            style={{ flexWrap: 'wrap', alignItems: 'flex-start' }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              const lines = quickText
+                .split('\n')
+                .map((l) => l.trim())
+                .filter(Boolean)
+                .map((l) => {
+                  const [code, qty] = l.split(/\s+/);
+                  return { code: code ?? '', quantity: Number(qty ?? '1') || 1 };
+                });
+              void run(async () => {
+                const r = await api<{ unknownCodes: string[] }>('POST', '/api/v1/orders/quick', {
+                  accountId: quickAccount,
+                  warehouseId: quickWarehouse,
+                  currency: 'EUR',
+                  lines,
+                });
+                setQuickText('');
+                if (r.unknownCodes.length > 0) {
+                  setNotice(`Order created — unknown codes skipped: ${r.unknownCodes.join(', ')}`);
+                }
+              }, 'Quick order created (draft).');
+            }}
+          >
+            <textarea
+              className="input mono"
+              style={{ minWidth: 260, minHeight: 90 }}
+              placeholder={'PRO-001 5\nPRO-002 2'}
+              value={quickText}
+              onChange={(e) => setQuickText(e.target.value)}
+              required
+            />
+            <select
+              className="select"
+              style={{ maxWidth: 180 }}
+              value={quickAccount}
+              onChange={(e) => setQuickAccount(e.target.value)}
+              required
+            >
+              <option value="">Account…</option>
+              {accounts.map((a) => (
+                <option key={a.id} value={a.id}>
+                  {a.accountNumber}
+                </option>
+              ))}
+            </select>
+            <select
+              className="select"
+              style={{ maxWidth: 180 }}
+              value={quickWarehouse}
+              onChange={(e) => setQuickWarehouse(e.target.value)}
+              required
+            >
+              <option value="">Warehouse…</option>
+              {warehouses.map((w) => (
+                <option key={w.id} value={w.id}>
+                  {w.code}
+                </option>
+              ))}
+            </select>
+            <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+              Create draft
+            </button>
+          </form>
+        </div>
+      ) : null}
     </main>
   );
 }
