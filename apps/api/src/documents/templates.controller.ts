@@ -8,6 +8,7 @@ import { parseBody } from '../common/validate';
 
 export const TEMPLATE_SERVICE = 'TEMPLATE_SERVICE';
 
+const statusSchema = z.object({ status: z.enum(['DRAFT', 'ACTIVE', 'RETIRED']) });
 const publishTemplateSchema = z.object({
   key: z.string().min(2).max(64),
   name: z.string().min(1).max(200),
@@ -22,6 +23,19 @@ export class DocumentTemplatesController {
   @RequirePermission('document.issue')
   async publish(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.templates.publishTemplate(parseBody(publishTemplateSchema, body), ctx);
+  }
+
+  @Get()
+  @RequirePermission('document.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { templates: await this.templates.listTemplates(ctx) };
+  }
+
+  @Post(':key/status')
+  @RequirePermission('document.issue')
+  async setStatus(@Param('key') key: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(statusSchema, body);
+    return this.templates.setStatus({ key, status: input.status }, ctx);
   }
 
   @Get(':key')

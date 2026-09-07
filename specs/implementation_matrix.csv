@@ -329,7 +329,7 @@ DOC-001,DOC,Document templates,P1,Partially implemented (Sprint 002),R0/R1,,,Tem
 DOC-002,DOC,PDF generation,P1,DONE,R0/R1,,,"Server-side PDF: quote, invoice, delivery note (Sprint 023)"
 DOC-003,DOC,Template versioning,P1,Partially implemented (Sprint 002),R0/R1,,,Immutable template versions
 DOC-004,DOC,Document numbering,P1,DONE,R0/R1,,,Documents carry governed record numbers (Sprint 023)
-DOC-005,DOC,Document lifecycle,P1,PLANNED,R0/R1,,,
+DOC-005,DOC,Document lifecycle,P1,Implemented (Sprint 107),R0/R1,,,
 DOC-006,DOC,Electronic-signature adapter,P1,PLANNED,R0/R1,,,
 DOC-007,DOC,Contract repository,P1,DONE,R0/R1,,,"Sprint 067: numbered contract repository against MDM parties, enforced lifecycle, audited."
 DOC-008,DOC,Contract approvals,P1,PLANNED,R0/R1,,,

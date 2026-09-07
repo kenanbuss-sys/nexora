@@ -15,6 +15,7 @@ export interface TemplateView {
   name: string;
   version: number;
   content: string;
+  status: string;
 }
 
 export class DocumentTemplateService {
@@ -55,8 +56,65 @@ export class DocumentTemplateService {
         source: 'api',
         newValues: { key: input.key, version },
       });
-      return { key: input.key, name: input.name, version, content: input.content };
+      return {
+        key: input.key,
+        name: input.name,
+        version,
+        content: input.content,
+        status: template.status,
+      };
     });
+  }
+
+  /**
+   * Template lifecycle (DOC-005): DRAFT templates render only for
+   * previews, ACTIVE render everywhere, RETIRED refuse to render but
+   * keep every immutable version for history. Transitions are audited.
+   */
+  async setStatus(
+    input: { key: string; status: 'DRAFT' | 'ACTIVE' | 'RETIRED' },
+    ctx: RequestContext,
+  ): Promise<{ key: string; status: string }> {
+    const template = await this.prisma.documentTemplate.findFirst({
+      where: { tenantId: ctx.tenantId, key: input.key },
+    });
+    if (!template) throw notFound('DocumentTemplate', input.key);
+    if (template.status === input.status) {
+      return { key: template.key, status: template.status };
+    }
+    await this.prisma.documentTemplate.update({
+      where: { id: template.id },
+      data: { status: input.status },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'document.template.status',
+      objectType: 'DocumentTemplate',
+      objectId: template.id,
+      source: 'api',
+      previousValues: { status: template.status },
+      newValues: { status: input.status },
+    });
+    return { key: template.key, status: input.status };
+  }
+
+  async listTemplates(
+    ctx: RequestContext,
+  ): Promise<Array<{ key: string; name: string; status: string; latestVersion: number }>> {
+    const templates = await this.prisma.documentTemplate.findMany({
+      where: { tenantId: ctx.tenantId },
+      orderBy: [{ key: 'asc' }],
+      take: 200,
+      include: { versions: { orderBy: { version: 'desc' }, take: 1 } },
+    });
+    return templates.map((t) => ({
+      key: t.key,
+      name: t.name,
+      status: t.status,
+      latestVersion: t.versions[0]?.version ?? 0,
+    }));
   }
 
   /** Latest published version, or a specific one. */
@@ -70,6 +128,15 @@ export class DocumentTemplateService {
       orderBy: { version: 'desc' },
     });
     if (!v) throw notFound('DocumentTemplateVersion', `${key}:${version ?? 'latest'}`);
-    return { key: template.key, name: template.name, version: v.version, content: v.content };
+    if (template.status === 'RETIRED') {
+      throw new DomainError('INVALID_STATE', `Template ${key} is retired`);
+    }
+    return {
+      key: template.key,
+      name: template.name,
+      version: v.version,
+      content: v.content,
+      status: template.status,
+    };
   }
 }
