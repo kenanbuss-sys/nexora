@@ -1024,7 +1024,12 @@ export const REDIS = 'REDIS';
     },
     {
       provide: CONNECTOR_SERVICE,
-      useFactory: (prisma: PrismaClient, tenants: TenantService, inventory: InventoryService) =>
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        inventory: InventoryService,
+        omsOrders: OrderService,
+      ) =>
         new ConnectorService(
           prisma,
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
@@ -1035,8 +1040,18 @@ export const REDIS = 'REDIS';
               return rows.map((r) => ({ skuId: r.skuId, code: r.code, available: r.available }));
             },
           },
+          {
+            quickOrder: async (input, ctx) => {
+              const result = await omsOrders.quickOrder(input, ctx);
+              return {
+                orderId: result.order.id,
+                orderNumber: result.order.orderNumber,
+                unknownCodes: result.unknownCodes,
+              };
+            },
+          },
         ),
-      inject: [PRISMA, TENANT_SERVICE, INVENTORY_SERVICE],
+      inject: [PRISMA, TENANT_SERVICE, INVENTORY_SERVICE, ORDER_SERVICE],
     },
     {
       provide: SERVICE_ACCOUNT_SERVICE,

@@ -16,6 +16,7 @@ export {
   noopAdapter,
   webhookAdapter,
   type AvailabilityFeedGate,
+  type MarketplaceOrderGate,
   type ConnectorAdapter,
   type ConnectorConfigGate,
   type ConnectorKind,

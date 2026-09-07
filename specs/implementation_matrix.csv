@@ -89,7 +89,7 @@ COM-001,COM,B2C channel integration,P1,Implemented (Sprint 116),R1,,,
 COM-002,COM,B2B commerce portal,P1,Implemented (Sprint 095),R1,,,
 COM-003,COM,POS,P1,PLANNED,R1,,,
 COM-004,COM,Sales-rep ordering,P1,DONE,R1,,,Sprint 079: quick order by SKU-code lines with honest unknown-code reporting; Orders page sales-rep card.
-COM-005,COM,Marketplace adapters,P1,PLANNED,R1,,,
+COM-005,COM,Marketplace adapters,P1,Implemented (Sprint 117),R1,,,
 COM-006,COM,Unified cart/order,P1,PLANNED,R1,,,
 COM-007,COM,Click & collect,P1,Implemented (Sprint 106),R1,,,
 COM-008,COM,Ship from store,P1,PLANNED,R1,,,

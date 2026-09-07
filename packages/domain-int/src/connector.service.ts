@@ -42,6 +42,8 @@ export interface ConnectorAdapter {
     payload: Record<string, unknown>,
     config: Record<string, unknown>,
   ): Promise<{ ok: boolean; reference: string }>;
+  /** Optional: pull business objects from the external system. */
+  pull?(objectType: string, config: Record<string, unknown>): Promise<unknown[]>;
 }
 
 /** No-op adapter: accepts everything; useful for staging and tests. */
@@ -49,6 +51,11 @@ export const noopAdapter: ConnectorAdapter = {
   validate: () => null,
   test: async () => ({ ok: true, detail: 'noop adapter always connects' }),
   push: async (objectType) => ({ ok: true, reference: `noop:${objectType}:${Date.now()}` }),
+  // Staging/tests: sample objects come straight from the connector config.
+  pull: async (objectType, config) => {
+    const samples = (config as { sampleOrders?: unknown }).sampleOrders;
+    return objectType === 'Orders' && Array.isArray(samples) ? samples : [];
+  },
 };
 
 /** Webhook adapter: pushes JSON to a configured URL. */
@@ -142,6 +149,19 @@ export function applyMapping(
   return out;
 }
 
+/** Cross-domain contract: order intake is owned by OMS (COM-005). */
+export interface MarketplaceOrderGate {
+  quickOrder(
+    input: {
+      accountId: string;
+      warehouseId: string;
+      currency: string;
+      lines: Array<{ code: string; quantity: number }>;
+    },
+    ctx: RequestContext,
+  ): Promise<{ orderId: string; orderNumber: string; unknownCodes: string[] }>;
+}
+
 /** Cross-domain contract: sellable quantities are owned by WMS (COM-001). */
 export interface AvailabilityFeedGate {
   channelAvailability(
@@ -172,6 +192,7 @@ export class ConnectorService {
     private readonly config: ConnectorConfigGate,
     adapters?: Record<string, ConnectorAdapter>,
     private readonly availability?: AvailabilityFeedGate,
+    private readonly orders?: MarketplaceOrderGate,
   ) {
     this.adapters.set('noop', noopAdapter);
     for (const [name, adapter] of Object.entries(adapters ?? {})) {
@@ -323,6 +344,86 @@ export class ConnectorService {
       },
     });
     return results;
+  }
+
+  /**
+   * Marketplace order import (COM-005): pull orders through the port
+   * and land them as DRAFT sales orders, exactly once per external
+   * reference — retried imports never duplicate.
+   */
+  async importMarketplaceOrders(
+    key: string,
+    ctx: RequestContext,
+  ): Promise<{ imported: number; skipped: number; failed: number }> {
+    if (!this.orders) {
+      throw new DomainError('INVALID_STATE', 'Marketplace import is not configured');
+    }
+    const { entry, adapter } = await this.resolve(key, ctx.tenantId);
+    if (entry.kind !== 'commerce') {
+      throw new DomainError('INVALID_STATE', 'Only commerce connectors import orders');
+    }
+    if (!adapter.pull) {
+      throw new DomainError('INVALID_STATE', `Adapter '${entry.adapter}' cannot pull`);
+    }
+    const accountId = entry.config.accountId;
+    const warehouseId = entry.config.warehouseId;
+    if (typeof accountId !== 'string' || typeof warehouseId !== 'string') {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'Connector config needs accountId and warehouseId for order import',
+      );
+    }
+    const pulled = await adapter.pull('Orders', entry.config);
+    let imported = 0;
+    let skipped = 0;
+    let failed = 0;
+    for (const raw of pulled) {
+      const externalRef = (raw as { externalRef?: unknown })?.externalRef;
+      const lines = (raw as { lines?: unknown })?.lines;
+      if (typeof externalRef !== 'string' || !Array.isArray(lines)) {
+        failed += 1;
+        continue;
+      }
+      const marker = `${entry.key}:${externalRef}`;
+      const already = await this.prisma.auditEvent.findFirst({
+        where: { tenantId: ctx.tenantId, action: 'int.marketplace.import', objectId: marker },
+        select: { id: true },
+      });
+      if (already) {
+        skipped += 1;
+        continue;
+      }
+      const orderLines = lines
+        .map((l) => ({
+          code: String((l as { code?: unknown })?.code ?? ''),
+          quantity: Number((l as { quantity?: unknown })?.quantity ?? 0),
+        }))
+        .filter((l) => l.code && l.quantity > 0);
+      if (orderLines.length === 0) {
+        failed += 1;
+        continue;
+      }
+      try {
+        const created = await this.orders.quickOrder(
+          { accountId, warehouseId, currency: 'EUR', lines: orderLines },
+          ctx,
+        );
+        await writeAudit(this.prisma, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'int.marketplace.import',
+          objectType: 'SalesOrder',
+          objectId: marker,
+          source: 'api',
+          newValues: { orderId: created.orderId, orderNumber: created.orderNumber },
+        });
+        imported += 1;
+      } catch {
+        failed += 1;
+      }
+    }
+    return { imported, skipped, failed };
   }
 
   private async mappingRules(tenantId: string, connectorKey: string): Promise<MappingRule[]> {

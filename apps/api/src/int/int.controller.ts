@@ -93,6 +93,12 @@ export class ConnectorsController {
     return { connectors: await this.connectors.listConnectors(ctx) };
   }
 
+  @Post(':key/import-orders')
+  @RequirePermission('integration.manage')
+  async importOrders(@Param('key') key: string, @Ctx() ctx: RequestContext) {
+    return this.connectors.importMarketplaceOrders(key, ctx);
+  }
+
   @Post('sync-channels')
   @RequirePermission('integration.manage')
   async syncChannels(@Ctx() ctx: RequestContext) {
