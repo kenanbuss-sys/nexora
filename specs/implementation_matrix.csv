@@ -98,7 +98,7 @@ COM-010,COM,Channel availability,P1,DONE,R1,,,"Sprint 068: sellable-quantity fee
 COM-011,COM,Returns/exchanges,P1,DONE,R1,,,Returns/exchanges via governed RMA flow (Sprint 028)
 COM-012,COM,Vouchers,P1,DONE,R1,,,Sprint 053: voucher codes redeemed on DRAFT orders; idempotent per order; totals honour the discount.
 COM-013,COM,Loyalty,P1,DONE,R1,,,"Sprint 062: loyalty ledger — idempotent accrual on fulfillment (1 pt/10), audited manual adjustments, non-negative balance."
-COM-014,COM,Abandoned-order hooks,P1,PLANNED,R1,,,
+COM-014,COM,Abandoned-order hooks,P1,Implemented (Sprint 094),R1,,,
 OMS-001,OMS,Order capture,P1,DONE,R1,,,
 OMS-002,OMS,Validation,P1,DONE,R1,,,
 OMS-003,OMS,Allocation,P1,Implemented (Sprint 093),R1,,,

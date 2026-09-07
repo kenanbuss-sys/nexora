@@ -60,6 +60,22 @@ export class OrdersController {
     return this.orders.createOrder(parseBody(createOrderSchema, body), ctx);
   }
 
+  @Get('abandoned')
+  @RequirePermission('order.read')
+  async abandoned(@Query('hours') hours: string, @Ctx() ctx: RequestContext) {
+    const parsed = Number(hours);
+    return {
+      orders: await this.orders.reportAbandoned(Number.isFinite(parsed) ? parsed : 24, ctx),
+    };
+  }
+
+  @Post('abandoned/notify')
+  @RequirePermission('order.confirm')
+  async notifyAbandoned(@Query('hours') hours: string, @Ctx() ctx: RequestContext) {
+    const parsed = Number(hours);
+    return this.orders.notifyAbandoned(Number.isFinite(parsed) ? parsed : 24, ctx);
+  }
+
   @Post('allocate-backorders')
   @RequirePermission('order.confirm')
   async allocateBackorders(@Ctx() ctx: RequestContext) {

@@ -328,6 +328,83 @@ export class OrderService {
     return report;
   }
 
+  /**
+   * Abandoned-order hooks (COM-014): DRAFT orders untouched for the
+   * given number of hours. reportAbandoned lists them; notifyAbandoned
+   * publishes one order.abandoned outbox event per order, exactly once
+   * (guarded by an existing event for the same aggregate), so follow-up
+   * automation can nudge the customer without spamming.
+   */
+  async reportAbandoned(
+    hours: number,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ id: string; orderNumber: string; total: string; ageHours: number; lines: number }>
+  > {
+    const clamped = Math.max(1, Math.min(24 * 90, hours));
+    const cutoff = new Date(Date.now() - clamped * 3_600_000);
+    const rows = await this.prisma.salesOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: 'DRAFT', updatedAt: { lt: cutoff } },
+      include: { lines: { select: { id: true } } },
+      orderBy: [{ updatedAt: 'asc' }],
+      take: 100,
+    });
+    const now = Date.now();
+    return rows.map((o) => ({
+      id: o.id,
+      orderNumber: o.orderNumber,
+      total: o.total.toString(),
+      ageHours: Math.floor((now - o.updatedAt.getTime()) / 3_600_000),
+      lines: o.lines.length,
+    }));
+  }
+
+  async notifyAbandoned(
+    hours: number,
+    ctx: RequestContext,
+  ): Promise<{ notified: number; skipped: number }> {
+    const abandoned = await this.reportAbandoned(hours, ctx);
+    let notified = 0;
+    let skipped = 0;
+    for (const order of abandoned) {
+      const already = await this.prisma.outboxEvent.findFirst({
+        where: {
+          tenantId: ctx.tenantId,
+          eventType: EVENT_TYPES.ORDER_ABANDONED,
+          aggregateId: order.id,
+        },
+        select: { id: true },
+      });
+      if (already) {
+        skipped += 1;
+        continue;
+      }
+      await this.prisma.$transaction(async (tx) => {
+        await publishToOutbox(tx, {
+          tenantId: ctx.tenantId,
+          eventType: EVENT_TYPES.ORDER_ABANDONED,
+          aggregateType: 'SalesOrder',
+          aggregateId: order.id,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          payload: { orderId: order.id, orderNumber: order.orderNumber, ageHours: order.ageHours },
+        });
+        await writeAudit(tx, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'oms.abandoned.notify',
+          objectType: 'SalesOrder',
+          objectId: order.id,
+          source: 'api',
+          newValues: { ageHours: order.ageHours },
+        });
+      });
+      notified += 1;
+    }
+    return { notified, skipped };
+  }
+
   async overdueFulfillments(
     slaDays: number,
     ctx: RequestContext,

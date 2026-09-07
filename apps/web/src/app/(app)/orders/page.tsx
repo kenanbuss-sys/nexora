@@ -209,23 +209,45 @@ export default function OrdersPage() {
       {error ? <div className="alert alert-error">{error}</div> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
       {can('order.confirm') ? (
-        <button
-          className="btn btn-sm"
-          style={{ marginBottom: 12 }}
-          type="button"
-          onClick={() =>
-            run(async () => {
-              const r = await api<{ report: Array<{ allocated: boolean }> }>(
-                'POST',
-                '/api/v1/orders/allocate-backorders',
-              );
-              const done = r.report.filter((x) => x.allocated).length;
-              setNotice(`Allocation run: ${done}/${r.report.length} backordered lines allocated.`);
-            }, null)
-          }
-        >
-          Allocate backorders
-        </button>
+        <>
+          <button
+            className="btn btn-sm"
+            style={{ marginBottom: 12 }}
+            type="button"
+            onClick={() =>
+              run(async () => {
+                const r = await api<{ report: Array<{ allocated: boolean }> }>(
+                  'POST',
+                  '/api/v1/orders/allocate-backorders',
+                );
+                const done = r.report.filter((x) => x.allocated).length;
+                setNotice(
+                  `Allocation run: ${done}/${r.report.length} backordered lines allocated.`,
+                );
+              }, null)
+            }
+          >
+            Allocate backorders
+          </button>
+          <button
+            className="btn btn-sm"
+            style={{ marginBottom: 12, marginLeft: 8 }}
+            type="button"
+            onClick={() =>
+              run(async () => {
+                const r = await api<{ notified: number; skipped: number }>(
+                  'POST',
+                  '/api/v1/orders/abandoned/notify?hours=24',
+                );
+                setNotice(
+                  `Abandoned-order hooks: ${r.notified} notified, ${r.skipped} already handled.`,
+                );
+              }, null)
+            }
+          >
+            Nudge abandoned drafts
+          </button>
+        </>
       ) : null}
 
       <div className="grid-2">
