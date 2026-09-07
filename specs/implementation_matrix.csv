@@ -440,7 +440,7 @@ OPS-003,OPS,Environment management,P0,DONE,R0,,,Compose environments with env-fi
 OPS-004,OPS,Release management,P0,PLANNED,R0,,,
 OPS-005,OPS,Tenant rollout,P0,PLANNED,R0,,,
 OPS-006,OPS,Database migrations,P0,DONE,R0,,,Auto-applied tracked SQL migrations on deploy (Sprint 026)
-OPS-007,OPS,Observability,P0,PLANNED,R0,,,
+OPS-007,OPS,Observability,P0,DONE,R0,,,"Sprint 075: platform observability snapshot — outbox backlog/failures, oldest-pending age, tenant & audit volume."
 OPS-008,OPS,Error tracking,P0,PLANNED,R0,,,
 OPS-009,OPS,Integration monitoring,P0,PLANNED,R0,,,
 OPS-010,OPS,Device monitoring,P0,PLANNED,R0,,,

@@ -100,6 +100,7 @@ import {
 } from './dev/dev.controller';
 import { CONTRACT_SERVICE, ContractsController } from './documents/contracts.controller';
 import { EMPLOYEE_SERVICE, EmployeesController } from './hcm/hcm.controller';
+import { OpsController } from './health/ops.controller';
 import { ASSET_SERVICE, AssetsController } from './eam/eam.controller';
 import {
   ONBOARDING_SERVICE,
@@ -275,6 +276,7 @@ export const REDIS = 'REDIS';
     OnboardingController,
     ContractsController,
     EmployeesController,
+    OpsController,
     AssetsController,
     CrmLeadsController,
     CrmOpportunitiesController,
