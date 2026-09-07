@@ -147,7 +147,7 @@ WMS-002,WMS,Stock ledger,P1,Implemented (Sprint 004),R1,,,"Immutable movement le
 WMS-003,WMS,Stock projections,P1,Implemented (Sprint 004),R1,,,On-hand/reserved/available derived from ledger
 WMS-004,WMS,Receiving,Implemented (Sprint 005),PLANNED,R1,,,Receiving orders post RECEIPT movements
 WMS-005,WMS,Receiving discrepancies,P1,DONE,R1,,,Sprint 065: live receiving-discrepancy report — over/under receipts per PO line.
-WMS-006,WMS,Inbound QC hold,P1,PLANNED,R1,,,
+WMS-006,WMS,Inbound QC hold,P1,DONE,R1,,,Sprint 082: inbound QC hold via quarantine holds; availability subtracts active holds everywhere.
 WMS-007,WMS,Putaway,P1,PLANNED,R1,,,
 WMS-008,WMS,Replenishment,P1,DONE,R1,,,Sprint 060: live replenishment report — availability vs reorder point with suggested quantities (ledger + reservations).
 WMS-009,WMS,Reservations,P1,Implemented (Sprint 004),R1,,,Atomic reservations under stock lock; no-oversell proven by concurrency test
@@ -246,8 +246,8 @@ QMS-001,QMS,Inspection plans,P2,PLANNED,R2,,,
 QMS-002,QMS,Incoming inspection,P2,DONE,R2,,,Sprint 076: incoming inspection queue — PO receipts of QC-planned SKUs surface live for inspectors.
 QMS-003,QMS,In-process inspection,P2,PLANNED,R2,,,
 QMS-004,QMS,Final inspection,P2,PLANNED,R2,,,
-QMS-005,QMS,Disposition,P2,PLANNED,R2,,,
-QMS-006,QMS,Quarantine,P2,PLANNED,R2,,,
+QMS-005,QMS,Disposition,P2,Partially implemented (Sprint 082),R2,,,Disposition = release/scrap decisions on quarantine holds; richer dispositions pending.
+QMS-006,QMS,Quarantine,P2,DONE,R2,,,"Sprint 082: quarantine holds — block reservation, quality releases or scraps (compensating ledger adjustment), audited."
 QMS-007,QMS,NCR,P2,PLANNED,R2,,,
 QMS-008,QMS,CAPA,P2,PLANNED,R2,,,
 QMS-009,QMS,Root cause,P2,PLANNED,R2,,,

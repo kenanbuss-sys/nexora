@@ -62,7 +62,12 @@ import {
   SubstitutionService,
 } from '@nexora/domain-pim';
 import { VerificationService } from '@nexora/domain-ver';
-import { CountService, InventoryService, WmsOrderService } from '@nexora/domain-wms';
+import {
+  QuarantineService,
+  CountService,
+  InventoryService,
+  WmsOrderService,
+} from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import {
   BreakGlassService,
@@ -192,7 +197,13 @@ import {
   RequisitionsController,
   SuppliersController,
 } from './proc/proc.controller';
-import { INVENTORY_SERVICE, StockController, WarehousesController } from './wms/wms.controller';
+import {
+  QUARANTINE_SERVICE,
+  QuarantineController,
+  INVENTORY_SERVICE,
+  StockController,
+  WarehousesController,
+} from './wms/wms.controller';
 import {
   SERIAL_SERVICE,
   BUNDLE_SERVICE,
@@ -267,6 +278,7 @@ export const REDIS = 'REDIS';
     BarcodesController,
     WarehousesController,
     StockController,
+    QuarantineController,
     WmsOrdersController,
     DevicesController,
     ScanEventsController,
@@ -451,11 +463,48 @@ export const REDIS = 'REDIS';
     },
     {
       provide: INVENTORY_SERVICE,
-      useFactory: (prisma: PrismaClient, catalog: CatalogService) =>
-        new InventoryService(prisma, {
-          getSkuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId),
-        }),
+      useFactory: (prisma: PrismaClient, catalog: CatalogService) => {
+        // Late binding breaks the WMS-internal cycle: inventory consults
+        // quarantine for availability, quarantine posts through inventory.
+        const holder: { quarantine: QuarantineService | null } = { quarantine: null };
+        const inventory = new InventoryService(
+          prisma,
+          { getSkuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId) },
+          {
+            activeHeld: (t, w, sk) =>
+              holder.quarantine ? holder.quarantine.activeHeld(t, w, sk) : Promise.resolve(0),
+            activeHeldBySku: (t, ids) =>
+              holder.quarantine
+                ? holder.quarantine.activeHeldBySku(t, ids)
+                : Promise.resolve(new Map()),
+          },
+        );
+        holder.quarantine = new QuarantineService(prisma, {
+          postMovement: (input, ctx) => inventory.postMovement(input, ctx),
+          totalOnHand: async (tenantId, warehouseId, skuId) => {
+            const position = await inventory.getStockPosition(warehouseId, skuId, {
+              tenantId,
+              tenantSlug: '',
+              tenantStatus: 'ACTIVE',
+              actorType: 'SERVICE',
+              userId: undefined,
+              userStatus: undefined,
+              platformAdmin: false,
+            });
+            return Number(position.onHand);
+          },
+        });
+        (inventory as unknown as { __quarantine: QuarantineService }).__quarantine =
+          holder.quarantine;
+        return inventory;
+      },
       inject: [PRISMA, CATALOG_SERVICE],
+    },
+    {
+      provide: QUARANTINE_SERVICE,
+      useFactory: (inventory: InventoryService) =>
+        (inventory as unknown as { __quarantine: QuarantineService }).__quarantine,
+      inject: [INVENTORY_SERVICE],
     },
     {
       provide: WMS_ORDER_SERVICE,

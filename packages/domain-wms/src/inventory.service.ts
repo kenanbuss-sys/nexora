@@ -74,10 +74,17 @@ const OUTBOUND: ReadonlySet<StockMovementType> = new Set([
   'TRANSFER_OUT',
 ]);
 
+/** Quarantine holds subtract from what may be promised (QMS-006). */
+export interface HoldGate {
+  activeHeld(tenantId: string, warehouseId: string, skuId: string): Promise<number>;
+  activeHeldBySku(tenantId: string, skuIds: string[]): Promise<Map<string, number>>;
+}
+
 export class InventoryService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly skuGate: SkuGate,
+    private readonly holds?: HoldGate,
   ) {}
 
   /** Permission: inventory.read. */
@@ -491,7 +498,10 @@ export class InventoryService {
         input.warehouseId,
         input.skuId,
       );
-      const available = onHand - reserved;
+      const held = this.holds
+        ? await this.holds.activeHeld(ctx.tenantId, input.warehouseId, input.skuId)
+        : 0;
+      const available = onHand - reserved - held;
       if (available < input.quantity) {
         throw new DomainError('INVALID_STATE', 'Insufficient available stock', {
           available: available.toString(),
@@ -627,6 +637,9 @@ export class InventoryService {
       _sum: { quantity: true },
     });
     const reserved = new Map(reservations.map((r) => [r.skuId, Number(r._sum.quantity ?? 0)]));
+    const held = this.holds
+      ? await this.holds.activeHeldBySku(ctx.tenantId, ids)
+      : new Map<string, number>();
     return skus.map((sku) => {
       const oh = onHand.get(sku.id) ?? 0;
       return {
@@ -634,7 +647,7 @@ export class InventoryService {
         code: sku.code,
         name: sku.name,
         onHand: oh,
-        available: Math.max(0, oh - (reserved.get(sku.id) ?? 0)),
+        available: Math.max(0, oh - (reserved.get(sku.id) ?? 0) - (held.get(sku.id) ?? 0)),
       };
     });
   }

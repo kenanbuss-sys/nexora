@@ -1,6 +1,15 @@
-import { Body, Controller, ForbiddenException, Get, Inject, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import type { RoleService } from '@nexora/domain-iam';
-import type { InventoryService } from '@nexora/domain-wms';
+import type { QuarantineService, InventoryService } from '@nexora/domain-wms';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,6 +17,7 @@ import { RequirePermission, ROLE_SERVICE } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const INVENTORY_SERVICE = 'INVENTORY_SERVICE';
+export const QUARANTINE_SERVICE = 'QUARANTINE_SERVICE';
 
 const createWarehouseSchema = z.object({
   code: z.string().min(1).max(32),
@@ -182,5 +192,37 @@ export class StockController {
       { warehouseId, skuId },
     );
     return this.inventory.getStockPosition(params.warehouseId, params.skuId, ctx);
+  }
+}
+
+const placeHoldSchema = z.object({
+  warehouseId: z.string().uuid(),
+  skuId: z.string().uuid(),
+  quantity: z.number().positive(),
+  reason: z.string().min(1).max(300),
+});
+const decideHoldSchema = z.object({ decision: z.enum(['RELEASE', 'SCRAP']) });
+
+@Controller('api/v1/quarantine')
+export class QuarantineController {
+  constructor(@Inject(QUARANTINE_SERVICE) private readonly quarantine: QuarantineService) {}
+
+  @Get()
+  @RequirePermission('inventory.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { holds: await this.quarantine.listHolds(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('inventory.adjust')
+  async place(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.quarantine.placeHold(parseBody(placeHoldSchema, body), ctx);
+  }
+
+  @Post(':id/decide')
+  @RequirePermission('qc.approve')
+  async decide(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(decideHoldSchema, body);
+    return this.quarantine.decide(id, input.decision, ctx);
   }
 }
