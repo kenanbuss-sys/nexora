@@ -36,7 +36,7 @@ IAM-014,IAM,Break-glass access,P0,DONE,R0,,,"Sprint 056: time-boxed break-glass 
 MDM-001,MDM,Party master,P0,Implemented (Sprint 003),R1,,,"Canonical Party CRUD, search, redirects"
 MDM-002,MDM,Product master governance,P0,Partially implemented (Sprint 057),R1,,,Governed product name/description updates via approval flow; full governance policy pending.
 MDM-003,MDM,Location master,P0,PLANNED,R1,,,
-MDM-004,MDM,UOM master,P0,PLANNED,R1,,,
+MDM-004,MDM,UOM master,P0,Implemented (Sprint 090),R1,,,
 MDM-005,MDM,Duplicate detection/merge,P0,Partially implemented (Sprint 003),R1,,,Duplicate detection by normalized name + merge
 MDM-006,MDM,Master data approvals,P0,DONE,R1,,,"Sprint 057: governed change requests (party/product field allowlists), SoD on decisions, applied via owning domain, audited."
 MDM-007,MDM,Data quality rules,P0,DONE,R1,,,"Live computed data-quality report (missing e-mails, duplicate names, unassigned territories, SKUs without barcodes, empty products, suppliers without lead time) with samples; Parties UI (Sprint 043)"

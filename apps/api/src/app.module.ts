@@ -36,6 +36,7 @@ import {
   ConsentService,
   DataQualityService,
   PartyService,
+  UomService,
 } from '@nexora/domain-mdm';
 import { ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ProcurementService, RfqService } from '@nexora/domain-proc';
@@ -96,6 +97,8 @@ import {
   DATA_QUALITY_SERVICE,
   PartiesController,
   PARTY_SERVICE,
+  UOM_SERVICE,
+  UomsController,
 } from './mdm/mdm.controller';
 import {
   DEVICE_SERVICE,
@@ -275,6 +278,7 @@ export const REDIS = 'REDIS';
     DocumentTemplatesController,
     ChangeRequestsController,
     PartiesController,
+    UomsController,
     ProductsController,
     SkusController,
     BarcodesController,
@@ -461,8 +465,11 @@ export const REDIS = 'REDIS';
     },
     {
       provide: CATALOG_SERVICE,
-      useFactory: (prisma: PrismaClient) => new CatalogService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, uoms: UomService) =>
+        new CatalogService(prisma, {
+          assertValid: (tenantId, code) => uoms.assertValid(tenantId, code),
+        }),
+      inject: [PRISMA, UOM_SERVICE],
     },
     {
       provide: INVENTORY_SERVICE,
@@ -574,6 +581,14 @@ export const REDIS = 'REDIS';
       provide: LOYALTY_SERVICE,
       useFactory: (prisma: PrismaClient) => new LoyaltyService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: UOM_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new UomService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: RFQ_SERVICE,

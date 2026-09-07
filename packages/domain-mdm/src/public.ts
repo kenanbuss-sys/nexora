@@ -10,3 +10,4 @@ export {
   type PartyUpdateGate,
   type ProductUpdateGate,
 } from './approval.service';
+export { UomService, DEFAULT_UOMS, type UomConfigGate, type UomView } from './uom.service';

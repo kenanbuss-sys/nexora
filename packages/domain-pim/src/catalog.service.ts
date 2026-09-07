@@ -29,8 +29,16 @@ export interface SkuView {
 const CODE_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const UOM_RE = /^[a-zA-Z][a-zA-Z0-9]{0,15}$/;
 
+/** Cross-domain contract: the UOM catalog is owned by MDM (MDM-004). */
+export interface UomMasterGate {
+  assertValid(tenantId: string, code: string): Promise<void>;
+}
+
 export class CatalogService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly uoms?: UomMasterGate,
+  ) {}
 
   /** Permission: product.manage. Emits product.created. */
   async createProduct(
@@ -230,6 +238,7 @@ export class CatalogService {
     if (!UOM_RE.test(input.baseUom)) {
       throw new DomainError('VALIDATION_FAILED', 'Invalid base UOM');
     }
+    if (this.uoms) await this.uoms.assertValid(ctx.tenantId, input.baseUom);
     return this.prisma.$transaction(async (tx) => {
       const product = await tx.product.findFirst({
         where: { id: input.productId, tenantId: ctx.tenantId },
@@ -414,6 +423,10 @@ export class CatalogService {
   ): Promise<{ ok: true }> {
     if (!UOM_RE.test(input.fromUom) || !UOM_RE.test(input.toUom)) {
       throw new DomainError('VALIDATION_FAILED', 'Invalid UOM');
+    }
+    if (this.uoms) {
+      await this.uoms.assertValid(ctx.tenantId, input.fromUom);
+      await this.uoms.assertValid(ctx.tenantId, input.toUom);
     }
     if (!(input.factor > 0)) {
       throw new DomainError('VALIDATION_FAILED', 'Conversion factor must be positive');

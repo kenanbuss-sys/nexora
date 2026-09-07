@@ -4,6 +4,7 @@ import type {
   ConsentService,
   DataQualityService,
   PartyService,
+  UomService,
 } from '@nexora/domain-mdm';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -15,6 +16,7 @@ export const PARTY_SERVICE = 'PARTY_SERVICE';
 export const DATA_QUALITY_SERVICE = 'DATA_QUALITY_SERVICE';
 export const CONSENT_SERVICE = 'CONSENT_SERVICE';
 export const MDM_APPROVAL_SERVICE = 'MDM_APPROVAL_SERVICE';
+export const UOM_SERVICE = 'UOM_SERVICE';
 
 const consentSchema = z.object({
   channel: z.enum(['EMAIL', 'PHONE', 'SMS', 'POST']),
@@ -163,5 +165,22 @@ export class ChangeRequestsController {
   @RequirePermission('mdm.steward')
   async decide(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.approvals.decide(id, parseBody(decideChangeSchema, body), ctx);
+  }
+}
+
+@Controller('api/v1/uoms')
+export class UomsController {
+  constructor(@Inject(UOM_SERVICE) private readonly uoms: UomService) {}
+
+  @Get()
+  @RequirePermission('product.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { uoms: await this.uoms.listUoms(ctx) };
+  }
+
+  @Get(':code/usage')
+  @RequirePermission('mdm.steward')
+  async usage(@Param('code') code: string, @Ctx() ctx: RequestContext) {
+    return this.uoms.usage(code, ctx);
   }
 }

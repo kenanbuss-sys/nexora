@@ -49,6 +49,7 @@ export default function ProductDetailPage() {
   const [skuCode, setSkuCode] = useState('');
   const [skuName, setSkuName] = useState('');
   const [baseUom, setBaseUom] = useState('pcs');
+  const [uoms, setUoms] = useState<Array<{ code: string; name: string }>>([]);
   const [barcodeSku, setBarcodeSku] = useState('');
   const [barcodeValue, setBarcodeValue] = useState('');
   const [categories, setCategories] = useState<CategoryView[]>([]);
@@ -159,6 +160,12 @@ export default function ProductDetailPage() {
       .then((r) => setCategories(r.categories))
       .catch(() => setCategories([]));
   }, [notice]);
+
+  useEffect(() => {
+    api<{ uoms: Array<{ code: string; name: string }> }>('GET', '/api/v1/uoms')
+      .then((r) => setUoms(r.uoms))
+      .catch(() => setUoms([]));
+  }, []);
 
   async function run(fn: () => Promise<unknown>, successText: string) {
     setBusy(true);
@@ -354,12 +361,27 @@ export default function ProductDetailPage() {
                   required
                 />
                 <label className="label">Base unit of measure</label>
-                <input
-                  className="input"
-                  value={baseUom}
-                  onChange={(e) => setBaseUom(e.target.value)}
-                  required
-                />
+                {uoms.length > 0 ? (
+                  <select
+                    className="input"
+                    value={baseUom}
+                    onChange={(e) => setBaseUom(e.target.value)}
+                    required
+                  >
+                    {uoms.map((u) => (
+                      <option key={u.code} value={u.code}>
+                        {u.code} — {u.name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    className="input"
+                    value={baseUom}
+                    onChange={(e) => setBaseUom(e.target.value)}
+                    required
+                  />
+                )}
                 <button
                   className="btn btn-primary"
                   style={{ marginTop: 14 }}
