@@ -102,6 +102,7 @@ export default function FinancePage() {
   const [pos, setPos] = useState<PoOption[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [matchInfo, setMatchInfo] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const [valuation, setValuation] = useState<{
     rows: Array<{
@@ -413,11 +414,44 @@ export default function FinancePage() {
                       PDF
                     </button>
                   ) : null}
+                  {i.invoiceType === 'SUPPLIER' ? (
+                    <button
+                      className="btn btn-sm"
+                      style={{ marginRight: 6 }}
+                      onClick={() => {
+                        api<{
+                          matched: boolean;
+                          receivedValue: string;
+                          invoicedValue: string;
+                        }>('GET', `/api/v1/finance/invoices/${i.id}/three-way-match`)
+                          .then((m) =>
+                            setMatchInfo((prev) => ({
+                              ...prev,
+                              [i.id]: m.matched
+                                ? `Matched (received ${m.receivedValue})`
+                                : `Mismatch — invoiced ${m.invoicedValue}, received ${m.receivedValue}`,
+                            })),
+                          )
+                          .catch((e: unknown) => setError(errorText(e)));
+                      }}
+                      type="button"
+                    >
+                      3-way match
+                    </button>
+                  ) : null}
                   <span className={`badge ${INVOICE_BADGE[i.status]}`}>
                     {i.status.replace('_', ' ')}
                   </span>
                 </span>
               </div>
+              {matchInfo[i.id] ? (
+                <div
+                  className={matchInfo[i.id]?.startsWith('Matched') ? 'muted' : 'alert alert-error'}
+                  style={{ fontSize: 12, marginTop: 6 }}
+                >
+                  {matchInfo[i.id]}
+                </div>
+              ) : null}
               {i.invoiceType === 'SUPPLIER' && can('finance.manage') && costCenters.length > 0 ? (
                 <div className="row" style={{ marginTop: 6 }}>
                   <select

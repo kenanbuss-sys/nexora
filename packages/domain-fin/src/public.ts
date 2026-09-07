@@ -3,6 +3,7 @@
  */
 export {
   FinanceService,
+  type ThreeWayMatchView,
   type InvoiceView,
   type MarginRow,
   type PaymentView,

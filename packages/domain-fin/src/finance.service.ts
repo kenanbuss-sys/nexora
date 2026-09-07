@@ -59,6 +59,27 @@ export interface PnlView {
   openPayables: string;
 }
 
+/**
+ * Three-way match (PROC-014): purchase order vs goods receipt vs
+ * supplier invoice, compared by value with a small tolerance.
+ */
+export interface ThreeWayMatchView {
+  invoiceId: string;
+  poId: string;
+  poNumber: string;
+  orderedValue: string;
+  receivedValue: string;
+  invoicedValue: string;
+  matched: boolean;
+  reasons: string[];
+  lines: Array<{
+    description: string;
+    ordered: string;
+    received: string;
+    unitPrice: string;
+  }>;
+}
+
 export class FinanceService {
   constructor(private readonly prisma: PrismaClient) {}
 
@@ -130,6 +151,61 @@ export class FinanceService {
   }
 
   /**
+   * Three-way match (PROC-014): the supplier invoice may only be paid
+   * for value that was actually received against the purchase order.
+   * Tolerance: 1% of received value (rounding, freight noise).
+   */
+  async threeWayMatch(invoiceId: string, ctx: RequestContext): Promise<ThreeWayMatchView> {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id: invoiceId, tenantId: ctx.tenantId },
+    });
+    if (!invoice) throw notFound('Invoice', invoiceId);
+    if (invoice.invoiceType !== 'SUPPLIER') {
+      throw new DomainError('INVALID_STATE', 'Three-way match applies to supplier invoices');
+    }
+    const po = await this.prisma.purchaseOrder.findFirst({
+      where: { id: invoice.orderRefId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!po) throw notFound('PurchaseOrder', invoice.orderRefId);
+    let orderedValue = 0;
+    let receivedValue = 0;
+    const lines = po.lines.map((line) => {
+      const ordered = Number(line.quantity);
+      const received = Number(line.receivedQty);
+      const price = Number(line.unitPrice);
+      orderedValue += ordered * price;
+      receivedValue += received * price;
+      return {
+        description: line.description,
+        ordered: String(ordered),
+        received: String(received),
+        unitPrice: price.toFixed(2),
+      };
+    });
+    const invoicedValue = Number(invoice.total);
+    const tolerance = Math.max(0.01, receivedValue * 0.01);
+    const reasons: string[] = [];
+    if (invoicedValue > receivedValue + tolerance) {
+      reasons.push('INVOICE_EXCEEDS_RECEIVED');
+    }
+    if (receivedValue + 1e-9 < orderedValue) {
+      reasons.push('NOT_FULLY_RECEIVED');
+    }
+    return {
+      invoiceId: invoice.id,
+      poId: po.id,
+      poNumber: po.poNumber,
+      orderedValue: orderedValue.toFixed(2),
+      receivedValue: receivedValue.toFixed(2),
+      invoicedValue: invoicedValue.toFixed(2),
+      matched: !reasons.includes('INVOICE_EXCEEDS_RECEIVED'),
+      reasons,
+      lines,
+    };
+  }
+
+  /**
    * Matches a payment to an invoice (FIN-014): the payment row is
    * append-only, paidAmount moves atomically, over-payment is refused,
    * and the status derives from the new balance.
@@ -151,6 +227,27 @@ export class FinanceService {
     const open = Number(invoice.total) - Number(invoice.paidAmount);
     if (input.amount > open + 1e-9) {
       throw new DomainError('VALIDATION_FAILED', `Payment exceeds the open amount (${open})`);
+    }
+    // Three-way-match hook (PROC-014): block paying a supplier invoice
+    // whose value was not received; the refusal is audited.
+    if (invoice.invoiceType === 'SUPPLIER') {
+      const match = await this.threeWayMatch(invoice.id, ctx);
+      if (!match.matched) {
+        await writeAudit(this.prisma, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'fin.three_way.block',
+          objectType: 'Invoice',
+          objectId: invoice.id,
+          source: 'api',
+          newValues: { reasons: match.reasons, invoicedValue: match.invoicedValue },
+        });
+        throw new DomainError(
+          'INVALID_STATE',
+          'Three-way match failed — the invoice exceeds the received value',
+        );
+      }
     }
 
     await this.prisma.$transaction(async (tx) => {

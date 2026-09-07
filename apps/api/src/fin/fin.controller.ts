@@ -65,6 +65,12 @@ export class FinanceController {
     return this.finance.createSupplierInvoice(parseBody(supplierInvoiceSchema, body), ctx);
   }
 
+  @Get('invoices/:id/three-way-match')
+  @RequirePermission('finance.read')
+  async threeWayMatch(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.finance.threeWayMatch(id, ctx);
+  }
+
   @Get('invoices/:id/payments')
   @RequirePermission('finance.read')
   async payments(@Param('id') id: string, @Ctx() ctx: RequestContext) {
