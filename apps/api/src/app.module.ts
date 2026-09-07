@@ -41,7 +41,12 @@ import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { QualityService } from '@nexora/domain-qc';
-import { ExchangeRateService, FinanceService, TreasuryService } from '@nexora/domain-fin';
+import {
+  ValuationService,
+  ExchangeRateService,
+  FinanceService,
+  TreasuryService,
+} from '@nexora/domain-fin';
 import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
@@ -151,6 +156,8 @@ import {
   QUALITY_SERVICE,
 } from './qc/qc.controller';
 import {
+  VALUATION_SERVICE,
+  ValuationController,
   EXCHANGE_RATE_SERVICE,
   ExchangeRatesController,
   FINANCE_SERVICE,
@@ -288,6 +295,7 @@ export const REDIS = 'REDIS';
     FinanceController,
     TreasuryController,
     ExchangeRatesController,
+    ValuationController,
     AnalyticsController,
     PortalUsersController,
     PortalController,
@@ -735,6 +743,11 @@ export const REDIS = 'REDIS';
     {
       provide: EXCHANGE_RATE_SERVICE,
       useFactory: (prisma: PrismaClient) => new ExchangeRateService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: VALUATION_SERVICE,
+      useFactory: (prisma: PrismaClient) => new ValuationService(prisma),
       inject: [PRISMA],
     },
     {

@@ -16,3 +16,4 @@ export {
   type CostCenterView,
 } from './treasury.service';
 export { ExchangeRateService, type ExchangeRateView } from './rates.service';
+export { ValuationService, type ValuationRow } from './valuation.service';

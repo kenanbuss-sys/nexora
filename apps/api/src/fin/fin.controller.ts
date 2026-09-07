@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { ExchangeRateService, FinanceService, TreasuryService } from '@nexora/domain-fin';
+import type {
+  ValuationService,
+  ExchangeRateService,
+  FinanceService,
+  TreasuryService,
+} from '@nexora/domain-fin';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -9,6 +14,7 @@ import { parseBody } from '../common/validate';
 export const FINANCE_SERVICE = 'FINANCE_SERVICE';
 export const TREASURY_SERVICE = 'TREASURY_SERVICE';
 export const EXCHANGE_RATE_SERVICE = 'EXCHANGE_RATE_SERVICE';
+export const VALUATION_SERVICE = 'VALUATION_SERVICE';
 
 const customerInvoiceSchema = z.object({
   orderId: z.string().uuid(),
@@ -190,5 +196,26 @@ export class ExchangeRatesController {
       },
       ctx,
     );
+  }
+}
+
+const standardCostSchema = z.object({ cost: z.number().nonnegative() });
+
+@Controller('api/v1/finance/valuation')
+export class ValuationController {
+  constructor(@Inject(VALUATION_SERVICE) private readonly valuation: ValuationService) {}
+
+  @Get()
+  @RequirePermission('finance.read')
+  async report(@Ctx() ctx: RequestContext) {
+    return this.valuation.valuation(ctx);
+  }
+
+  @Post('skus/:id/cost')
+  @RequirePermission('finance.manage')
+  async setCost(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(standardCostSchema, body);
+    await this.valuation.setStandardCost(id, input.cost, ctx);
+    return { set: true };
   }
 }

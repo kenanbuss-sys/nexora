@@ -103,6 +103,19 @@ export default function FinancePage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [valuation, setValuation] = useState<{
+    rows: Array<{
+      skuId: string;
+      code: string;
+      onHand: number;
+      standardCost: string | null;
+      value: string | null;
+    }>;
+    totalValue: string;
+    unvaluedSkus: number;
+  } | null>(null);
+  const [costSku, setCostSku] = useState('');
+  const [costValue, setCostValue] = useState('');
 
   const loadRates = useCallback(() => {
     api<{
@@ -783,6 +796,88 @@ export default function FinancePage() {
               Set budget
             </button>
           </div>
+        ) : null}
+      </div>
+      <div className="card" style={{ marginTop: 16 }}>
+        <div className="spread">
+          <h2>Inventory valuation</h2>
+          <button
+            className="btn btn-sm"
+            type="button"
+            onClick={() => {
+              api<NonNullable<typeof valuation>>('GET', '/api/v1/finance/valuation')
+                .then((r) => setValuation(r))
+                .catch(() => setValuation(null));
+            }}
+          >
+            Compute
+          </button>
+        </div>
+        <p className="muted" style={{ marginTop: 0 }}>
+          Ledger on-hand × standard cost per SKU — never an editable stock figure.
+        </p>
+        {valuation ? (
+          <>
+            <p>
+              <strong>Total: {valuation.totalValue}</strong>
+              {valuation.unvaluedSkus > 0 ? (
+                <span className="muted"> · {valuation.unvaluedSkus} SKUs without a cost</span>
+              ) : null}
+            </p>
+            <div className="row" style={{ flexWrap: 'wrap' }}>
+              {valuation.rows.slice(0, 20).map((r) => (
+                <span key={r.skuId} className="badge mono" title={`on hand ${r.onHand}`}>
+                  {r.code}: {r.value ?? '—'}
+                </span>
+              ))}
+            </div>
+            <form
+              className="row"
+              style={{ marginTop: 10, flexWrap: 'wrap' }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void run(async () => {
+                  await api('POST', `/api/v1/finance/valuation/skus/${costSku}/cost`, {
+                    cost: Number(costValue),
+                  });
+                  const r = await api<NonNullable<typeof valuation>>(
+                    'GET',
+                    '/api/v1/finance/valuation',
+                  );
+                  setValuation(r);
+                }, 'Standard cost set.');
+              }}
+            >
+              <select
+                className="select"
+                style={{ maxWidth: 160 }}
+                value={costSku}
+                onChange={(e) => setCostSku(e.target.value)}
+                required
+              >
+                <option value="">SKU…</option>
+                {valuation.rows.map((r) => (
+                  <option key={r.skuId} value={r.skuId}>
+                    {r.code}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="input"
+                style={{ maxWidth: 100 }}
+                type="number"
+                min="0"
+                step="any"
+                placeholder="Cost"
+                value={costValue}
+                onChange={(e) => setCostValue(e.target.value)}
+                required
+              />
+              <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
+                Set cost
+              </button>
+            </form>
+          </>
         ) : null}
       </div>
     </main>
