@@ -431,6 +431,42 @@ export class FinanceService {
   }
 
   /**
+   * Revenue/cost capture (FIN-002): invoiced revenue and cost per
+   * calendar month over the window, with the running margin — the
+   * P&L trend at a glance.
+   */
+  async revenueCostByMonth(
+    months: number,
+    ctx: RequestContext,
+  ): Promise<Array<{ month: string; revenue: string; cost: string; margin: string }>> {
+    const clamped = Math.max(1, Math.min(24, months));
+    const cutoff = new Date();
+    cutoff.setUTCMonth(cutoff.getUTCMonth() - clamped + 1, 1);
+    cutoff.setUTCHours(0, 0, 0, 0);
+    const invoices = await this.prisma.invoice.findMany({
+      where: { tenantId: ctx.tenantId, status: { not: 'VOID' }, issuedAt: { gte: cutoff } },
+      select: { invoiceType: true, total: true, issuedAt: true },
+      take: 10_000,
+    });
+    const byMonth = new Map<string, { revenue: number; cost: number }>();
+    for (const invoice of invoices) {
+      const month = invoice.issuedAt.toISOString().slice(0, 7);
+      const bucket = byMonth.get(month) ?? { revenue: 0, cost: 0 };
+      if (invoice.invoiceType === 'CUSTOMER') bucket.revenue += Number(invoice.total);
+      else bucket.cost += Number(invoice.total);
+      byMonth.set(month, bucket);
+    }
+    return [...byMonth.entries()]
+      .sort(([a2], [b2]) => a2.localeCompare(b2))
+      .map(([month, bucket]) => ({
+        month,
+        revenue: bucket.revenue.toFixed(2),
+        cost: bucket.cost.toFixed(2),
+        margin: (bucket.revenue - bucket.cost).toFixed(2),
+      }));
+  }
+
+  /**
    * Cash-flow forecast (FIN-009): open invoice amounts bucketed by due
    * date on both sides, plus confirmed-but-uninvoiced order value as
    * the revenue pipeline.

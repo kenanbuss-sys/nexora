@@ -90,6 +90,14 @@ export class FinanceController {
     return { rows: await this.finance.marginAnalysis(ctx) };
   }
 
+  @Get('revenue-cost')
+  @RequirePermission('finance.read')
+  async revenueCost(@Ctx() ctx: RequestContext, @Query('months') months?: string) {
+    return {
+      rows: await this.finance.revenueCostByMonth(months ? Number(months) || 6 : 6, ctx),
+    };
+  }
+
   @Get('forecast')
   @RequirePermission('finance.read')
   async forecast(@Ctx() ctx: RequestContext) {

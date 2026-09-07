@@ -338,7 +338,7 @@ DOC-010,DOC,OCR capture hooks,P1,PLANNED,R0/R1,,,
 DOC-011,DOC,Retention,P1,Implemented (Sprint 135),R0/R1,,,
 DOC-012,DOC,Document access policy,P1,Implemented (Sprint 136),R0/R1,,,
 FIN-001,FIN,Financial dimensions,P1,PLANNED,R3,,,
-FIN-002,FIN,Revenue/cost capture,P1,PLANNED,R3,,,
+FIN-002,FIN,Revenue/cost capture,P1,Implemented (Sprint 137),R3,,,
 FIN-003,FIN,COGS,P1,DONE,R3,,,
 FIN-004,FIN,Inventory valuation hooks,P1,DONE,R3,,,Sprint 070: live ledger-based inventory valuation with honest unvalued reporting.
 FIN-005,FIN,Product costing,P1,DONE,R3,,,Sprint 070: audited standard costs on SKUs feeding valuation.
