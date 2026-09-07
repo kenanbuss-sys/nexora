@@ -138,6 +138,7 @@ model Tenant {
   employees             Employee[]
   assets                Asset[]
   quarantineHolds       QuarantineHold[]
+  rfqs                  Rfq[]
 
   @@map("tenant")
 }
@@ -2826,4 +2827,51 @@ model QuarantineHold {
   @@index([tenantId, status])
   @@index([tenantId, warehouseId, skuId, status])
   @@map("quarantine_hold")
+}
+
+enum RfqStatus {
+  DRAFT
+  SENT
+  AWARDED
+  CANCELLED
+}
+
+/// Sprint 088 (PROC-004): request for quotation — one SKU/quantity is
+/// put out to suppliers; their offers are recorded per supplier and
+/// one offer is awarded (decision audited, sourcing trail preserved).
+model Rfq {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String    @map("tenant_id") @db.Uuid
+  rfqNumber      String    @map("rfq_number")
+  skuId          String    @map("sku_id") @db.Uuid
+  quantity       Decimal   @db.Decimal(18, 6)
+  status         RfqStatus @default(DRAFT)
+  dueAt          DateTime? @map("due_at")
+  awardedQuoteId String?   @map("awarded_quote_id") @db.Uuid
+  createdBy      String?   @map("created_by")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant     @relation(fields: [tenantId], references: [id])
+  quotes RfqQuote[]
+
+  @@unique([tenantId, rfqNumber])
+  @@index([tenantId, status])
+  @@map("rfq")
+}
+
+model RfqQuote {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  rfqId        String   @map("rfq_id") @db.Uuid
+  supplierId   String   @map("supplier_id") @db.Uuid
+  unitPrice    Decimal  @map("unit_price") @db.Decimal(18, 4)
+  leadTimeDays Int?     @map("lead_time_days")
+  note         String?
+  receivedAt   DateTime @default(now()) @map("received_at")
+
+  rfq Rfq @relation(fields: [rfqId], references: [id])
+
+  @@unique([tenantId, rfqId, supplierId])
+  @@map("rfq_quote")
 }
