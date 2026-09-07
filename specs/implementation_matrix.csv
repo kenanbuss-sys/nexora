@@ -345,7 +345,7 @@ FIN-005,FIN,Product costing,P1,DONE,R3,,,Sprint 070: audited standard costs on S
 FIN-006,FIN,Standard vs actual,P1,Implemented (Sprint 132),R3,,,
 FIN-007,FIN,Margin analysis,P1,DONE,R3,,,
 FIN-008,FIN,Budgets,P1,DONE,R3,,,Budgets per cost center/period vs actual spend (Sprint 019)
-FIN-009,FIN,Forecast,P1,PLANNED,R3,,,
+FIN-009,FIN,Forecast,P1,Implemented (Sprint 133),R3,,,
 FIN-010,FIN,Cash flow,P1,DONE,R3,,,Monthly cash in/out/net read model (Sprint 019)
 FIN-011,FIN,AR,P1,DONE,R3,,, + aging buckets (Sprint 019)
 FIN-012,FIN,AP,P1,DONE,R3,,, + aging buckets (Sprint 019)

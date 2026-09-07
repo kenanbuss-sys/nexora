@@ -90,6 +90,12 @@ export class FinanceController {
     return { rows: await this.finance.marginAnalysis(ctx) };
   }
 
+  @Get('forecast')
+  @RequirePermission('finance.read')
+  async forecast(@Ctx() ctx: RequestContext) {
+    return this.finance.forecast(ctx);
+  }
+
   @Get('treasury')
   @RequirePermission('finance.read')
   async treasury(@Ctx() ctx: RequestContext) {

@@ -431,6 +431,71 @@ export class FinanceService {
   }
 
   /**
+   * Cash-flow forecast (FIN-009): open invoice amounts bucketed by due
+   * date on both sides, plus confirmed-but-uninvoiced order value as
+   * the revenue pipeline.
+   */
+  async forecast(ctx: RequestContext): Promise<{
+    buckets: Array<{ bucket: string; inflow: string; outflow: string; net: string }>;
+    pipeline: string;
+  }> {
+    const invoices = await this.prisma.invoice.findMany({
+      where: { tenantId: ctx.tenantId, status: { in: ['OPEN', 'PARTIALLY_PAID'] } },
+      select: { invoiceType: true, total: true, paidAmount: true, dueAt: true },
+      take: 10_000,
+    });
+    const now = Date.now();
+    const edges: Array<{ bucket: string; until: number }> = [
+      { bucket: 'overdue', until: now },
+      { bucket: '0-7d', until: now + 7 * 86_400_000 },
+      { bucket: '8-30d', until: now + 30 * 86_400_000 },
+      { bucket: '31d+', until: Number.POSITIVE_INFINITY },
+    ];
+    const sums = new Map<string, { inflow: number; outflow: number }>(
+      edges.map((e) => [e.bucket, { inflow: 0, outflow: 0 }]),
+    );
+    for (const invoice of invoices) {
+      const open = Number(invoice.total) - Number(invoice.paidAmount);
+      if (open <= 0) continue;
+      const due = invoice.dueAt ? invoice.dueAt.getTime() : now + 31 * 86_400_000;
+      const edge = edges.find((e) => due <= e.until) ?? edges[edges.length - 1];
+      const bucket = sums.get(edge?.bucket ?? '31d+');
+      if (!bucket) continue;
+      if (invoice.invoiceType === 'CUSTOMER') bucket.inflow += open;
+      else bucket.outflow += open;
+    }
+    const orders = await this.prisma.salesOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: 'CONFIRMED' },
+      select: { id: true, total: true },
+      take: 5_000,
+    });
+    const invoiced = await this.prisma.invoice.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        invoiceType: 'CUSTOMER',
+        orderRefId: { in: orders.map((o) => o.id) },
+      },
+      select: { orderRefId: true },
+    });
+    const invoicedSet = new Set(invoiced.map((i) => i.orderRefId));
+    const pipeline = orders
+      .filter((o) => !invoicedSet.has(o.id))
+      .reduce((sum, o) => sum + Number(o.total), 0);
+    return {
+      buckets: edges.map((e) => {
+        const bucket = sums.get(e.bucket) ?? { inflow: 0, outflow: 0 };
+        return {
+          bucket: e.bucket,
+          inflow: bucket.inflow.toFixed(2),
+          outflow: bucket.outflow.toFixed(2),
+          net: (bucket.inflow - bucket.outflow).toFixed(2),
+        };
+      }),
+      pipeline: pipeline.toFixed(2),
+    };
+  }
+
+  /**
    * Profit centers (FIN-017): revenue, cost and margin per cost
    * center, from invoices attributed to it (FIN-016).
    */
