@@ -620,6 +620,185 @@ export class ProcurementService {
    * without an expected date are counted separately, never guessed.
    */
   /**
+   * Framework agreements (PROC-006): negotiated blanket price and
+   * ceiling per supplier and SKU; call-offs draw the quantity down and
+   * create purchase orders at the agreed price. Draw-down is guarded
+   * so concurrent call-offs can never oversubscribe the ceiling.
+   */
+  async createFrameworkAgreement(
+    input: {
+      supplierId: string;
+      skuId: string;
+      unitPrice: number;
+      maxQuantity: number;
+      validTo?: string | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{ id: string; agreementNumber: string }> {
+    if (!(input.unitPrice > 0) || !(input.maxQuantity > 0)) {
+      throw new DomainError('VALIDATION_FAILED', 'Price and ceiling must be positive');
+    }
+    const supplier = await this.prisma.supplier.findFirst({
+      where: { id: input.supplierId, tenantId: ctx.tenantId },
+    });
+    if (!supplier) throw notFound('Supplier', input.supplierId);
+    if (supplier.status !== 'ACTIVE') {
+      throw new DomainError('INVALID_STATE', 'Supplier is blocked');
+    }
+    const sku = await this.prisma.sku.findFirst({
+      where: { id: input.skuId, tenantId: ctx.tenantId },
+    });
+    if (!sku) throw notFound('Sku', input.skuId);
+    const count = await this.prisma.frameworkAgreement.count({
+      where: { tenantId: ctx.tenantId },
+    });
+    const agreement = await this.prisma.frameworkAgreement.create({
+      data: {
+        tenantId: ctx.tenantId,
+        agreementNumber: `FA-${String(count + 1).padStart(6, '0')}`,
+        supplierId: supplier.id,
+        skuId: sku.id,
+        unitPrice: input.unitPrice,
+        maxQuantity: input.maxQuantity,
+        ...(input.validTo !== undefined ? { validTo: new Date(input.validTo) } : {}),
+        ...(ctx.userId !== undefined ? { createdBy: ctx.userId } : {}),
+      },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'proc.framework.create',
+      objectType: 'FrameworkAgreement',
+      objectId: agreement.id,
+      source: 'api',
+      newValues: {
+        agreementNumber: agreement.agreementNumber,
+        supplierId: supplier.id,
+        maxQuantity: input.maxQuantity,
+      },
+    });
+    return { id: agreement.id, agreementNumber: agreement.agreementNumber };
+  }
+
+  async listFrameworkAgreements(ctx: RequestContext) {
+    const rows = await this.prisma.frameworkAgreement.findMany({
+      where: { tenantId: ctx.tenantId },
+      orderBy: [{ createdAt: 'desc' }],
+      take: 100,
+    });
+    return rows.map((a) => ({
+      id: a.id,
+      agreementNumber: a.agreementNumber,
+      supplierId: a.supplierId,
+      skuId: a.skuId,
+      unitPrice: a.unitPrice.toString(),
+      maxQuantity: a.maxQuantity.toString(),
+      calledQuantity: a.calledQuantity.toString(),
+      status: a.status,
+      validTo: a.validTo ? a.validTo.toISOString() : null,
+    }));
+  }
+
+  /** Draw down the agreement and open a PO at the agreed price. */
+  async callOff(
+    input: { agreementId: string; warehouseId: string; quantity: number },
+    ctx: RequestContext,
+  ): Promise<PurchaseOrderView> {
+    if (!(input.quantity > 0)) {
+      throw new DomainError('VALIDATION_FAILED', 'Quantity must be positive');
+    }
+    const agreement = await this.prisma.frameworkAgreement.findFirst({
+      where: { id: input.agreementId, tenantId: ctx.tenantId },
+    });
+    if (!agreement) throw notFound('FrameworkAgreement', input.agreementId);
+    if (agreement.status !== 'ACTIVE') {
+      throw new DomainError('INVALID_STATE', `Agreement is ${agreement.status}`);
+    }
+    if (agreement.validTo && agreement.validTo.getTime() < Date.now()) {
+      await this.prisma.frameworkAgreement.update({
+        where: { id: agreement.id },
+        data: { status: 'EXPIRED' },
+      });
+      throw new DomainError('INVALID_STATE', 'Agreement has expired');
+    }
+    const warehouse = await this.prisma.warehouse.findFirst({
+      where: { id: input.warehouseId, tenantId: ctx.tenantId },
+    });
+    if (!warehouse) throw notFound('Warehouse', input.warehouseId);
+    const sku = await this.prisma.sku.findFirst({
+      where: { id: agreement.skuId, tenantId: ctx.tenantId },
+    });
+    if (!sku) throw notFound('Sku', agreement.skuId);
+
+    // Guarded draw-down: only succeeds while the ceiling holds.
+    const remaining = Number(agreement.maxQuantity) - Number(agreement.calledQuantity);
+    if (input.quantity > remaining + 1e-9) {
+      throw new DomainError('INVALID_STATE', `Only ${remaining} of the agreed quantity remains`);
+    }
+    const drawn = await this.prisma.frameworkAgreement.updateMany({
+      where: {
+        id: agreement.id,
+        tenantId: ctx.tenantId,
+        status: 'ACTIVE',
+        calledQuantity: { lte: Number(agreement.maxQuantity) - input.quantity },
+      },
+      data: { calledQuantity: { increment: input.quantity } },
+    });
+    if (drawn.count === 0) {
+      throw new DomainError('CONFLICT', 'Agreement changed concurrently — retry');
+    }
+    const nowCalled = Number(agreement.calledQuantity) + input.quantity;
+    if (nowCalled >= Number(agreement.maxQuantity) - 1e-9) {
+      await this.prisma.frameworkAgreement.update({
+        where: { id: agreement.id },
+        data: { status: 'EXHAUSTED' },
+      });
+    }
+
+    const lineTotal = Math.round(input.quantity * Number(agreement.unitPrice) * 100) / 100;
+    const po = await this.prisma.$transaction(async (tx) => {
+      const count = await tx.purchaseOrder.count({ where: { tenantId: ctx.tenantId } });
+      const created = await tx.purchaseOrder.create({
+        data: {
+          tenantId: ctx.tenantId,
+          poNumber: `PO-${String(count + 1).padStart(6, '0')}`,
+          supplierId: agreement.supplierId,
+          warehouseId: warehouse.id,
+          currency: 'EUR',
+          total: lineTotal,
+          createdBy: ctx.userId ?? null,
+          lines: {
+            create: [
+              {
+                tenantId: ctx.tenantId,
+                skuId: agreement.skuId,
+                description: `${sku.code} — call-off ${agreement.agreementNumber}`,
+                quantity: input.quantity,
+                unitPrice: agreement.unitPrice,
+                lineTotal,
+              },
+            ],
+          },
+        },
+        include: { lines: true },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'proc.framework.calloff',
+        objectType: 'FrameworkAgreement',
+        objectId: agreement.id,
+        source: 'api',
+        newValues: { poId: created.id, quantity: input.quantity },
+      });
+      return created;
+    });
+    return poView(po);
+  }
+
+  /**
    * Landed cost (PROC-011): extra acquisition costs (freight, duty,
    * insurance) recorded against a purchase order and allocated over
    * received line value, yielding true landed unit costs.

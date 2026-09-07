@@ -32,6 +32,7 @@ export const MODULE_ROUTE_MAP: Array<[string, string]> = [
   ['purchase-orders', 'procurement'],
   ['suppliers', 'procurement'],
   ['rfqs', 'procurement'],
+  ['framework-agreements', 'procurement'],
   ['boms', 'engineering'],
   ['routings', 'engineering'],
   ['engineering-changes', 'engineering'],

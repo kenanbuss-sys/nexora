@@ -132,7 +132,7 @@ PROC-002,PROC,Purchase requisition,P1,DONE,R1,,,
 PROC-003,PROC,Approval workflow,P1,DONE,R1,,,
 PROC-004,PROC,RFQ,P1,Implemented (Sprint 088),R1,,,
 PROC-005,PROC,Purchase orders,P1,DONE,R1,,,
-PROC-006,PROC,Framework orders,P1,PLANNED,R1,,,
+PROC-006,PROC,Framework orders,P1,Implemented (Sprint 112),R1,,,
 PROC-007,PROC,Lead times,P1,DONE,R1,,,Sprint 063: PO expected dates default from supplier lead time; on-time delivery report per supplier.
 PROC-008,PROC,Supplier portal,P1,PLANNED,R1,,,
 PROC-009,PROC,Inbound shipment,P1,DONE,R1,,,

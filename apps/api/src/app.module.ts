@@ -216,6 +216,7 @@ import {
   PurchaseOrdersController,
   RequisitionsController,
   SuppliersController,
+  FrameworkAgreementsController,
 } from './proc/proc.controller';
 import {
   QUARANTINE_SERVICE,
@@ -330,6 +331,7 @@ export const REDIS = 'REDIS';
     RequisitionsController,
     PurchaseOrdersController,
     RfqsController,
+    FrameworkAgreementsController,
     BomsController,
     RoutingsController,
     EngineeringChangesController,

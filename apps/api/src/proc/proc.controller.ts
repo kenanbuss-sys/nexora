@@ -189,6 +189,17 @@ export class PurchaseOrdersController {
   }
 }
 
+const createFrameworkSchema = z.object({
+  supplierId: z.string().uuid(),
+  skuId: z.string().uuid(),
+  unitPrice: z.number().positive(),
+  maxQuantity: z.number().positive(),
+  validTo: z.string().datetime().optional(),
+});
+const callOffSchema = z.object({
+  warehouseId: z.string().uuid(),
+  quantity: z.number().positive(),
+});
 const createRfqSchema = z.object({
   skuId: z.string().uuid(),
   quantity: z.number().positive(),
@@ -201,6 +212,30 @@ const recordQuoteSchema = z.object({
   note: z.string().max(500).optional(),
 });
 const awardRfqSchema = z.object({ quoteId: z.string().uuid() });
+
+@Controller('api/v1/framework-agreements')
+export class FrameworkAgreementsController {
+  constructor(@Inject(PROCUREMENT_SERVICE) private readonly proc: ProcurementService) {}
+
+  @Get()
+  @RequirePermission('purchase.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { agreements: await this.proc.listFrameworkAgreements(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('purchase.manage')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.proc.createFrameworkAgreement(parseBody(createFrameworkSchema, body), ctx);
+  }
+
+  @Post(':id/call-off')
+  @RequirePermission('purchase.manage')
+  async callOff(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(callOffSchema, body);
+    return this.proc.callOff({ agreementId: id, ...input }, ctx);
+  }
+}
 
 @Controller('api/v1/rfqs')
 export class RfqsController {
