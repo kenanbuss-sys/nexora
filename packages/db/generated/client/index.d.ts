@@ -51088,6 +51088,7 @@ export namespace Prisma {
     lengthCm: Decimal | null
     widthCm: Decimal | null
     heightCm: Decimal | null
+    standardCost: Decimal | null
   }
 
   export type SkuSumAggregateOutputType = {
@@ -51096,6 +51097,7 @@ export namespace Prisma {
     lengthCm: Decimal | null
     widthCm: Decimal | null
     heightCm: Decimal | null
+    standardCost: Decimal | null
   }
 
   export type SkuMinAggregateOutputType = {
@@ -51112,6 +51114,7 @@ export namespace Prisma {
     widthCm: Decimal | null
     heightCm: Decimal | null
     serialPolicy: $Enums.SerialPolicy | null
+    standardCost: Decimal | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -51131,6 +51134,7 @@ export namespace Prisma {
     widthCm: Decimal | null
     heightCm: Decimal | null
     serialPolicy: $Enums.SerialPolicy | null
+    standardCost: Decimal | null
     status: $Enums.SkuStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -51151,6 +51155,7 @@ export namespace Prisma {
     widthCm: number
     heightCm: number
     serialPolicy: number
+    standardCost: number
     status: number
     createdAt: number
     updatedAt: number
@@ -51164,6 +51169,7 @@ export namespace Prisma {
     lengthCm?: true
     widthCm?: true
     heightCm?: true
+    standardCost?: true
   }
 
   export type SkuSumAggregateInputType = {
@@ -51172,6 +51178,7 @@ export namespace Prisma {
     lengthCm?: true
     widthCm?: true
     heightCm?: true
+    standardCost?: true
   }
 
   export type SkuMinAggregateInputType = {
@@ -51188,6 +51195,7 @@ export namespace Prisma {
     widthCm?: true
     heightCm?: true
     serialPolicy?: true
+    standardCost?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -51207,6 +51215,7 @@ export namespace Prisma {
     widthCm?: true
     heightCm?: true
     serialPolicy?: true
+    standardCost?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -51227,6 +51236,7 @@ export namespace Prisma {
     widthCm?: true
     heightCm?: true
     serialPolicy?: true
+    standardCost?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -51334,6 +51344,7 @@ export namespace Prisma {
     widthCm: Decimal | null
     heightCm: Decimal | null
     serialPolicy: $Enums.SerialPolicy
+    standardCost: Decimal | null
     status: $Enums.SkuStatus
     createdAt: Date
     updatedAt: Date
@@ -51373,6 +51384,7 @@ export namespace Prisma {
     widthCm?: boolean
     heightCm?: boolean
     serialPolicy?: boolean
+    standardCost?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -51401,6 +51413,7 @@ export namespace Prisma {
     widthCm?: boolean
     heightCm?: boolean
     serialPolicy?: boolean
+    standardCost?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -51422,6 +51435,7 @@ export namespace Prisma {
     widthCm?: boolean
     heightCm?: boolean
     serialPolicy?: boolean
+    standardCost?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -51443,12 +51457,13 @@ export namespace Prisma {
     widthCm?: boolean
     heightCm?: boolean
     serialPolicy?: boolean
+    standardCost?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "variantValues" | "weightKg" | "lengthCm" | "widthCm" | "heightCm" | "serialPolicy" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
+  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "productId" | "code" | "name" | "baseUom" | "lotTracked" | "shelfLifeDays" | "variantValues" | "weightKg" | "lengthCm" | "widthCm" | "heightCm" | "serialPolicy" | "standardCost" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sku"]>
   export type SkuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     barcodes?: boolean | Sku$barcodesArgs<ExtArgs>
@@ -51508,6 +51523,10 @@ export namespace Prisma {
        * Sprint 055 (PIM-011): serial tracking policy for this SKU.
        */
       serialPolicy: $Enums.SerialPolicy
+      /**
+       * Sprint 070 (FIN-005): standard unit cost for valuation and margins.
+       */
+      standardCost: Prisma.Decimal | null
       status: $Enums.SkuStatus
       createdAt: Date
       updatedAt: Date
@@ -51955,6 +51974,7 @@ export namespace Prisma {
     readonly widthCm: FieldRef<"Sku", 'Decimal'>
     readonly heightCm: FieldRef<"Sku", 'Decimal'>
     readonly serialPolicy: FieldRef<"Sku", 'SerialPolicy'>
+    readonly standardCost: FieldRef<"Sku", 'Decimal'>
     readonly status: FieldRef<"Sku", 'SkuStatus'>
     readonly createdAt: FieldRef<"Sku", 'DateTime'>
     readonly updatedAt: FieldRef<"Sku", 'DateTime'>
@@ -142346,6 +142366,7 @@ export namespace Prisma {
     widthCm: 'widthCm',
     heightCm: 'heightCm',
     serialPolicy: 'serialPolicy',
+    standardCost: 'standardCost',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -146974,6 +146995,7 @@ export namespace Prisma {
     widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFilter<"Sku"> | $Enums.SerialPolicy
+    standardCost?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -147001,6 +147023,7 @@ export namespace Prisma {
     widthCm?: SortOrderInput | SortOrder
     heightCm?: SortOrderInput | SortOrder
     serialPolicy?: SortOrder
+    standardCost?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -147032,6 +147055,7 @@ export namespace Prisma {
     widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFilter<"Sku"> | $Enums.SerialPolicy
+    standardCost?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -147059,6 +147083,7 @@ export namespace Prisma {
     widthCm?: SortOrderInput | SortOrder
     heightCm?: SortOrderInput | SortOrder
     serialPolicy?: SortOrder
+    standardCost?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -147087,6 +147112,7 @@ export namespace Prisma {
     widthCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyWithAggregatesFilter<"Sku"> | $Enums.SerialPolicy
+    standardCost?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusWithAggregatesFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
@@ -156047,6 +156073,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -156074,6 +156101,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -156099,6 +156127,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -156126,6 +156155,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -156152,6 +156182,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -156171,6 +156202,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -156191,6 +156223,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -165685,6 +165718,7 @@ export namespace Prisma {
     widthCm?: SortOrder
     heightCm?: SortOrder
     serialPolicy?: SortOrder
+    standardCost?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -165696,6 +165730,7 @@ export namespace Prisma {
     lengthCm?: SortOrder
     widthCm?: SortOrder
     heightCm?: SortOrder
+    standardCost?: SortOrder
   }
 
   export type SkuMaxOrderByAggregateInput = {
@@ -165712,6 +165747,7 @@ export namespace Prisma {
     widthCm?: SortOrder
     heightCm?: SortOrder
     serialPolicy?: SortOrder
+    standardCost?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -165731,6 +165767,7 @@ export namespace Prisma {
     widthCm?: SortOrder
     heightCm?: SortOrder
     serialPolicy?: SortOrder
+    standardCost?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -165742,6 +165779,7 @@ export namespace Prisma {
     lengthCm?: SortOrder
     widthCm?: SortOrder
     heightCm?: SortOrder
+    standardCost?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -198021,6 +198059,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -198046,6 +198085,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -198320,6 +198360,7 @@ export namespace Prisma {
     widthCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     heightCm?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFilter<"Sku"> | $Enums.SerialPolicy
+    standardCost?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     createdAt?: DateTimeFilter<"Sku"> | Date | string
     updatedAt?: DateTimeFilter<"Sku"> | Date | string
@@ -198719,6 +198760,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -198745,6 +198787,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -198785,6 +198828,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -198811,6 +198855,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -198835,6 +198880,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -198861,6 +198907,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -198901,6 +198948,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -198927,6 +198975,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -206966,6 +207015,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -206992,6 +207042,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -207251,6 +207302,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -207277,6 +207329,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230223,6 +230276,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230249,6 +230303,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230278,6 +230333,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230304,6 +230360,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230344,6 +230401,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230370,6 +230428,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230405,6 +230464,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230431,6 +230491,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230455,6 +230516,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230481,6 +230543,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230521,6 +230584,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230547,6 +230611,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -237961,6 +238026,7 @@ export namespace Prisma {
     widthCm?: Decimal | DecimalJsLike | number | string | null
     heightCm?: Decimal | DecimalJsLike | number | string | null
     serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.SkuStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -237980,6 +238046,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -238005,6 +238072,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -238030,6 +238098,7 @@ export namespace Prisma {
     widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

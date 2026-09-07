@@ -469,6 +469,7 @@ exports.Prisma.SkuScalarFieldEnum = {
   widthCm: 'widthCm',
   heightCm: 'heightCm',
   serialPolicy: 'serialPolicy',
+  standardCost: 'standardCost',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
