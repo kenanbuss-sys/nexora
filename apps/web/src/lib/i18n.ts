@@ -412,6 +412,9 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Segregation of duties': 'Razdvajanje dužnosti',
+  'Users combining permissions that policy says must stay separate.':
+    'Korisnici koji kombinuju dozvole koje po politici moraju ostati razdvojene.',
   People: 'Ljudi',
   Assets: 'Sredstva',
   'Employee master with roles, skills for shop-floor assignment, and an audited lifecycle.':

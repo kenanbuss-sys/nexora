@@ -54,6 +54,9 @@ export default function UsersPage() {
   const [mfaPassword, setMfaPassword] = useState('');
 
   const [email, setEmail] = useState('');
+  const [sod, setSod] = useState<
+    Array<{ userId: string; email: string; conflicts: Array<{ a: string; b: string }> }>
+  >([]);
   const [bgGrants, setBgGrants] = useState<
     Array<{
       id: string;
@@ -113,6 +116,9 @@ export default function UsersPage() {
       api<{ grants: typeof bgGrants }>('GET', '/api/v1/break-glass')
         .then((r) => setBgGrants(r.grants))
         .catch(() => setBgGrants([]));
+      api<{ violations: typeof sod }>('GET', '/api/v1/roles/sod-violations')
+        .then((r) => setSod(r.violations))
+        .catch(() => setSod([]));
     }
     // eslint-disable-next-line
   }, []);
@@ -551,6 +557,22 @@ export default function UsersPage() {
               </button>
             </form>
           </div>
+          {sod.length > 0 ? (
+            <div className="card">
+              <h2>Segregation of duties</h2>
+              <p className="muted" style={{ marginTop: 0, fontSize: 13 }}>
+                Users combining permissions that policy says must stay separate.
+              </p>
+              {sod.map((v) => (
+                <div key={v.userId} className="row spread" style={{ marginBottom: 6 }}>
+                  <span>{v.email}</span>
+                  <span className="badge badge-danger mono" style={{ fontSize: 11 }}>
+                    {v.conflicts.map((c) => `${c.a} + ${c.b}`).join(' · ')}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : null}
           <div className="card">
             <h2>Security log</h2>
             {securityEvents.length === 0 ? (

@@ -169,6 +169,28 @@ export class RoleService {
       });
       if (!role) throw notFound('Role', input.roleId);
 
+      // IAM-011: refuse assignments that would create a SoD conflict.
+      // The built-in tenant-admin role is exempt by design — it is the
+      // governed full-access role (its use is audited elsewhere); SoD
+      // rules govern specialized operational roles.
+      if (role.name !== 'tenant-admin') {
+        const conflicts = await this.sodConflictsFor(
+          ctx.tenantId,
+          input.userId,
+          (await tx.rolePermission.findMany({ where: { roleId: role.id } })).map(
+            (p) => p.permissionKey,
+          ),
+        );
+        if (conflicts.length > 0) {
+          throw new DomainError(
+            'CONFLICT',
+            `Segregation of duties: this assignment would combine ${conflicts
+              .map((c) => `${c.a} + ${c.b}`)
+              .join(', ')}`,
+          );
+        }
+      }
+
       const scopeId = scopeType === 'TENANT' ? ctx.tenantId : (input.scopeId as string);
       if (scopeType !== 'TENANT') {
         const scopeExists = await this.scopeNodeExists(tx, ctx.tenantId, scopeType, scopeId);
@@ -234,6 +256,68 @@ export class RoleService {
       }
     }
     return grants;
+  }
+
+  /**
+   * Segregation of duties (IAM-011). Conflicting permission pairs that
+   * must never co-exist on one user; tenant configuration
+   * (iam.sodRules: [{a,b}, ...]) overrides the defaults. Enforced on
+   * role assignment and reported live.
+   */
+  static readonly DEFAULT_SOD_RULES: Array<{ a: string; b: string }> = [
+    { a: 'purchase.approve', b: 'purchase.manage' },
+    { a: 'finance.invoice', b: 'finance.pay' },
+  ];
+
+  private async sodRules(tenantId: string): Promise<Array<{ a: string; b: string }>> {
+    const version = await this.prisma.tenantConfigurationVersion.findFirst({
+      where: { tenantId },
+      orderBy: { version: 'desc' },
+    });
+    const fromConfig = (version?.config as { iam?: { sodRules?: unknown } } | null)?.iam?.sodRules;
+    if (
+      Array.isArray(fromConfig) &&
+      fromConfig.length <= 50 &&
+      fromConfig.every(
+        (r) =>
+          typeof r === 'object' &&
+          r !== null &&
+          typeof (r as { a?: unknown }).a === 'string' &&
+          typeof (r as { b?: unknown }).b === 'string',
+      )
+    ) {
+      return fromConfig as Array<{ a: string; b: string }>;
+    }
+    return RoleService.DEFAULT_SOD_RULES;
+  }
+
+  /** Conflicts this user WOULD have with the given extra permissions. */
+  private async sodConflictsFor(
+    tenantId: string,
+    userId: string,
+    extraPermissions: string[],
+  ): Promise<Array<{ a: string; b: string }>> {
+    const grants = await this.getEffectivePermissions(userId, tenantId);
+    const keys = new Set([...grants.map((g) => g.permissionKey), ...extraPermissions]);
+    const rules = await this.sodRules(tenantId);
+    return rules.filter((r) => keys.has(r.a) && keys.has(r.b));
+  }
+
+  /** Live SoD violation report across all users (IAM-011). */
+  async sodViolations(
+    ctx: RequestContext,
+  ): Promise<Array<{ userId: string; email: string; conflicts: Array<{ a: string; b: string }> }>> {
+    const users = await this.prisma.user.findMany({
+      where: { tenantId: ctx.tenantId, status: 'ACTIVE' },
+      select: { id: true, email: true },
+      take: 500,
+    });
+    const out = [];
+    for (const user of users) {
+      const conflicts = await this.sodConflictsFor(ctx.tenantId, user.id, []);
+      if (conflicts.length > 0) out.push({ userId: user.id, email: user.email, conflicts });
+    }
+    return out;
   }
 
   /** Default-deny authorization check for the API guard. */

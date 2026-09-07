@@ -70,6 +70,12 @@ export class RolesController {
     return { roles: await this.roles.listRoles(ctx) };
   }
 
+  @Get('sod-violations')
+  @RequirePermission('iam.role.manage')
+  async sodViolations(@Ctx() ctx: RequestContext) {
+    return { violations: await this.roles.sodViolations(ctx) };
+  }
+
   @Post()
   @RequirePermission('iam.role.manage')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
