@@ -48,6 +48,12 @@ export class WorkOrdersController {
     return { rows: await this.mes.productionByDay(days ? Number(days) || 7 : 7, ctx) };
   }
 
+  @Post(':id/rework')
+  @RequirePermission('production.manage')
+  async rework(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.mes.createReworkOrder(id, ctx);
+  }
+
   @Get(':id')
   @RequirePermission('production.read')
   async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {

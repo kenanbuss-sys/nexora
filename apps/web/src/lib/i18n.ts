@@ -412,6 +412,9 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Rework scrap': 'Dorada škarta',
+  'Rework order created for the scrapped quantity.':
+    'Nalog za doradu kreiran za škartiranu količinu.',
   Assemble: 'Sastavi',
   'Bundles assembled — stock moved.': 'Kompleti sastavljeni — zaliha preknjižena.',
   'How many bundles to assemble?': 'Koliko kompleta sastaviti?',

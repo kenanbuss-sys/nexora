@@ -221,6 +221,47 @@ export class MesService {
    * (e.g. insufficient stock) rolls back already-issued lines with
    * compensating receipts and the order stays PLANNED.
    */
+  /**
+   * Rework (MES-012): a completed work order with scrap spawns a fresh
+   * PLANNED work order for exactly the scrapped quantity — same SKU and
+   * warehouse, current released BOM/routing. Once per source order.
+   */
+  async createReworkOrder(workOrderId: string, ctx: RequestContext): Promise<WorkOrderView> {
+    const source = await this.prisma.workOrder.findFirst({
+      where: { id: workOrderId, tenantId: ctx.tenantId },
+    });
+    if (!source) throw notFound('WorkOrder', workOrderId);
+    if (source.status !== 'COMPLETED') {
+      throw new DomainError('INVALID_STATE', 'Only completed work orders can spawn rework');
+    }
+    const scrap = Number(source.scrapQuantity);
+    if (!(scrap > 0)) {
+      throw new DomainError('INVALID_STATE', 'No scrap to rework');
+    }
+    const marker = `rework-of:${source.id}`;
+    const already = await this.prisma.auditEvent.findFirst({
+      where: { tenantId: ctx.tenantId, action: 'mes.rework.create', objectId: source.id },
+    });
+    if (already) {
+      throw new DomainError('CONFLICT', 'Rework was already created for this work order');
+    }
+    const rework = await this.createWorkOrder(
+      { skuId: source.skuId, warehouseId: source.warehouseId, quantity: scrap },
+      ctx,
+    );
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'mes.rework.create',
+      objectType: 'WorkOrder',
+      objectId: source.id,
+      source: 'api',
+      newValues: { reworkWorkOrderId: rework.id, quantity: scrap, marker },
+    });
+    return rework;
+  }
+
   async releaseWorkOrder(workOrderId: string, ctx: RequestContext): Promise<WorkOrderView> {
     const wo = await this.prisma.workOrder.findFirst({
       where: { id: workOrderId, tenantId: ctx.tenantId },

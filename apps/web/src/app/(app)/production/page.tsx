@@ -301,6 +301,23 @@ export default function ProductionPage() {
               ) : null}
 
               <div className="row" style={{ marginTop: 8 }}>
+                {wo.status === 'COMPLETED' &&
+                Number(wo.scrapQuantity) > 0 &&
+                can('production.manage') ? (
+                  <button
+                    className="btn btn-sm"
+                    disabled={busy}
+                    onClick={() =>
+                      run(
+                        () => api('POST', `/api/v1/work-orders/${wo.id}/rework`),
+                        'Rework order created for the scrapped quantity.',
+                      )
+                    }
+                    type="button"
+                  >
+                    Rework scrap
+                  </button>
+                ) : null}
                 {wo.status === 'PLANNED' && can('production.manage') ? (
                   <button
                     className="btn btn-sm btn-primary"
