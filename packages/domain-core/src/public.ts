@@ -27,3 +27,9 @@ export {
   type ImportReport,
   type RowResult,
 } from './import.service';
+export {
+  CustomObjectService,
+  type CustomField,
+  type CustomFieldKind,
+  type CustomObjectView,
+} from './customobject.service';

@@ -11,6 +11,7 @@ import {
   OrganizationService,
   TaskService,
   TenantService,
+  CustomObjectService,
 } from '@nexora/domain-core';
 import { ContractService, PdfService, DocumentTemplateService } from '@nexora/domain-doc';
 import { EmployeeService } from '@nexora/domain-hcm';
@@ -96,6 +97,8 @@ import {
   CONFIGURATION_SERVICE,
   ConfigController,
   VocabularyController,
+  CUSTOM_OBJECT_SERVICE,
+  CustomObjectsController,
 } from './config/config.controller';
 import {
   ChangeRequestsController,
@@ -282,6 +285,7 @@ export const REDIS = 'REDIS';
     RolesController,
     MeController,
     ConfigController,
+    CustomObjectsController,
     VocabularyController,
     TasksController,
     InboxController,
@@ -616,6 +620,11 @@ export const REDIS = 'REDIS';
           },
         }),
       inject: [PRISMA, TASK_SERVICE],
+    },
+    {
+      provide: CUSTOM_OBJECT_SERVICE,
+      useFactory: (prisma: PrismaClient) => new CustomObjectService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: PACKING_SERVICE,

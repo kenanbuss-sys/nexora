@@ -14,8 +14,8 @@ CORE-012,CORE,Unified inbox,P0,Partially implemented (Sprint 002),R0,,,Unified i
 CORE-013,CORE,Notifications,P0,Partially implemented (Sprint 002),R0,,,Notification storage/read (channels later)
 CORE-014,CORE,Task engine,P0,Implemented (Sprint 002),R0,,,Task engine (create/complete/list) + audit
 CORE-015,CORE,Custom fields,P0,Partially implemented (Sprint 002),R0,,,Custom field definitions (dynamic forms later)
-CORE-016,CORE,Custom objects,P0,PLANNED,R0,,,
-CORE-017,CORE,Form builder,P0,PLANNED,R0,,,
+CORE-016,CORE,Custom objects,P0,Implemented (Sprint 111),R0,,,
+CORE-017,CORE,Form builder,P0,Implemented (Sprint 111),R0,,,
 CORE-018,CORE,Reference data,P0,DONE,R0,,,"Effective-dated exchange rates: immutable rows, as-of resolution with inverse fallback, converter; Finance UI (Sprint 047)"
 CORE-019,CORE,Import/export framework,P0,DONE,R0,,,"CSV import (products/SKUs/customers/suppliers/opening stock) via owning domains, idempotent re-runs, per-row report, CSV exports (Sprint 033)"
 CORE-020,CORE,Audit ledger,P0,Implemented (Sprint 001),R0,,,Immutable audit ledger + writer
