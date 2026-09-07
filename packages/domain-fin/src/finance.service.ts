@@ -371,6 +371,107 @@ export class FinanceService {
   }
 
   /** Operational P&L snapshot (FIN-019): derived, never stored. */
+  /**
+   * Treasury snapshot (FIN-015): cash flows to date plus what falls
+   * due in the next 7 days on both sides — one point-in-time picture.
+   */
+  async treasurySnapshot(ctx: RequestContext): Promise<{
+    cashIn: string;
+    cashOut: string;
+    netCash: string;
+    openReceivables: string;
+    openPayables: string;
+    receivablesDue7d: string;
+    payablesDue7d: string;
+  }> {
+    const invoices = await this.prisma.invoice.findMany({
+      where: { tenantId: ctx.tenantId, status: { not: 'VOID' } },
+      select: {
+        invoiceType: true,
+        total: true,
+        paidAmount: true,
+        status: true,
+        dueAt: true,
+      },
+      take: 10_000,
+    });
+    const soon = Date.now() + 7 * 86_400_000;
+    let cashIn = 0;
+    let cashOut = 0;
+    let openReceivables = 0;
+    let openPayables = 0;
+    let receivablesDue7d = 0;
+    let payablesDue7d = 0;
+    for (const invoice of invoices) {
+      const paid = Number(invoice.paidAmount);
+      const open = Number(invoice.total) - paid;
+      if (invoice.invoiceType === 'CUSTOMER') {
+        cashIn += paid;
+        if (open > 0) {
+          openReceivables += open;
+          if (invoice.dueAt && invoice.dueAt.getTime() <= soon) receivablesDue7d += open;
+        }
+      } else {
+        cashOut += paid;
+        if (open > 0) {
+          openPayables += open;
+          if (invoice.dueAt && invoice.dueAt.getTime() <= soon) payablesDue7d += open;
+        }
+      }
+    }
+    return {
+      cashIn: cashIn.toFixed(2),
+      cashOut: cashOut.toFixed(2),
+      netCash: (cashIn - cashOut).toFixed(2),
+      openReceivables: openReceivables.toFixed(2),
+      openPayables: openPayables.toFixed(2),
+      receivablesDue7d: receivablesDue7d.toFixed(2),
+      payablesDue7d: payablesDue7d.toFixed(2),
+    };
+  }
+
+  /**
+   * Profit centers (FIN-017): revenue, cost and margin per cost
+   * center, from invoices attributed to it (FIN-016).
+   */
+  async profitCenters(ctx: RequestContext): Promise<
+    Array<{
+      costCenterId: string | null;
+      code: string;
+      revenue: string;
+      cost: string;
+      margin: string;
+    }>
+  > {
+    const invoices = await this.prisma.invoice.findMany({
+      where: { tenantId: ctx.tenantId, status: { not: 'VOID' } },
+      select: { invoiceType: true, total: true, costCenterId: true },
+      take: 10_000,
+    });
+    const centers = await this.prisma.costCenter.findMany({
+      where: { tenantId: ctx.tenantId },
+      select: { id: true, code: true },
+    });
+    const codeOf = new Map(centers.map((c) => [c.id, c.code]));
+    const buckets = new Map<string, { revenue: number; cost: number }>();
+    for (const invoice of invoices) {
+      const key = invoice.costCenterId ?? 'none';
+      const bucket = buckets.get(key) ?? { revenue: 0, cost: 0 };
+      if (invoice.invoiceType === 'CUSTOMER') bucket.revenue += Number(invoice.total);
+      else bucket.cost += Number(invoice.total);
+      buckets.set(key, bucket);
+    }
+    return [...buckets.entries()]
+      .map(([key, bucket]) => ({
+        costCenterId: key === 'none' ? null : key,
+        code: key === 'none' ? '(neraspoređeno)' : (codeOf.get(key) ?? '?'),
+        revenue: bucket.revenue.toFixed(2),
+        cost: bucket.cost.toFixed(2),
+        margin: (bucket.revenue - bucket.cost).toFixed(2),
+      }))
+      .sort((x, y) => Number(y.margin) - Number(x.margin));
+  }
+
   async pnl(ctx: RequestContext): Promise<PnlView> {
     const invoices = await this.prisma.invoice.findMany({
       where: { tenantId: ctx.tenantId, status: { not: 'VOID' } },

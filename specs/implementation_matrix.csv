@@ -351,9 +351,9 @@ FIN-011,FIN,AR,P1,DONE,R3,,, + aging buckets (Sprint 019)
 FIN-012,FIN,AP,P1,DONE,R3,,, + aging buckets (Sprint 019)
 FIN-013,FIN,Bank feed hooks,P1,PLANNED,R3,,,
 FIN-014,FIN,Payment matching,P1,DONE,R3,,,
-FIN-015,FIN,Treasury snapshot,P1,PLANNED,R3,,,
+FIN-015,FIN,Treasury snapshot,P1,Implemented (Sprint 131),R3,,,
 FIN-016,FIN,Cost centers,P1,DONE,R3,,,Cost centers with invoice attribution (Sprint 019)
-FIN-017,FIN,Profit centers,P1,PLANNED,R3,,,
+FIN-017,FIN,Profit centers,P1,Implemented (Sprint 131),R3,,,
 FIN-018,FIN,Project profitability,P1,PLANNED,R3,,,
 FIN-019,FIN,Operational P&L,P1,DONE,R3,,,
 FIN-020,FIN,Accounting integration,P1,PLANNED,R3,,,
