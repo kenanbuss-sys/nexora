@@ -804,6 +804,8 @@ model Sku {
   heightCm      Decimal?  @map("height_cm") @db.Decimal(10, 1)
   /// Sprint 055 (PIM-011): serial tracking policy for this SKU.
   serialPolicy  SerialPolicy @default(NONE) @map("serial_policy")
+  /// Sprint 070 (FIN-005): standard unit cost for valuation and margins.
+  standardCost  Decimal?     @map("standard_cost") @db.Decimal(18, 4)
   status        SkuStatus @default(DRAFT)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
