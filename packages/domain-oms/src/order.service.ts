@@ -38,6 +38,8 @@ export interface OrderView {
   accountId: string;
   quoteId: string | null;
   warehouseId: string;
+  fulfillmentType: string;
+  projectRef: string | null;
   status: SalesOrderStatus;
   currency: string;
   total: string;
@@ -146,6 +148,9 @@ function toView(order: {
   currency: string;
   total: { toString(): string };
   holdReason: string | null;
+  fulfillmentType: string;
+  projectRef: string | null;
+
   createdAt: Date;
   lines: Array<{
     id: string;
@@ -169,6 +174,8 @@ function toView(order: {
     currency: order.currency,
     total: order.total.toString(),
     holdReason: order.holdReason,
+    fulfillmentType: order.fulfillmentType,
+    projectRef: order.projectRef,
     createdAt: order.createdAt.toISOString(),
     lines: order.lines.map((l) => ({
       id: l.id,
@@ -687,7 +694,13 @@ export class OrderService {
 
   /** Creates a DRAFT order (OMS-001) after account validation (OMS-002). */
   async createOrder(
-    input: { accountId: string; warehouseId: string; currency: string },
+    input: {
+      accountId: string;
+      warehouseId: string;
+      currency: string;
+      fulfillmentType?: 'DELIVERY' | 'PICKUP' | undefined;
+      projectRef?: string | undefined;
+    },
     ctx: RequestContext,
   ): Promise<OrderView> {
     const account = await this.accounts.getAccountState(ctx.tenantId, input.accountId);
@@ -710,6 +723,10 @@ export class OrderService {
           accountId: input.accountId,
           warehouseId: input.warehouseId,
           currency: input.currency,
+          ...(input.fulfillmentType !== undefined
+            ? { fulfillmentType: input.fulfillmentType }
+            : {}),
+          ...(input.projectRef !== undefined ? { projectRef: input.projectRef } : {}),
           createdBy: ctx.userId ?? null,
         },
         include: { lines: true },
@@ -1090,6 +1107,31 @@ export class OrderService {
    * and post an idempotent ISSUE ledger movement. Retrying after a crash
    * is safe: movements carry `order:{orderId}:line:{lineId}` keys.
    */
+  /**
+   * Click & collect (COM-007): flag a confirmed PICKUP order as ready
+   * for collection — audited, on the timeline, and outboxed so the
+   * customer can be notified.
+   */
+  async readyForPickup(orderId: string, ctx: RequestContext): Promise<OrderView> {
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+    });
+    if (!order) throw notFound('SalesOrder', orderId);
+    if (order.fulfillmentType !== 'PICKUP') {
+      throw new DomainError('INVALID_STATE', 'Only pickup orders can be ready for collection');
+    }
+    if (order.status !== 'CONFIRMED') {
+      throw new DomainError('INVALID_STATE', 'Only confirmed orders can be ready for collection');
+    }
+    await this.recordTransition(
+      order.id,
+      EVENT_TYPES.ORDER_PICKUP_READY,
+      'ready for customer collection',
+      ctx,
+    );
+    return this.getOrder(order.id, ctx);
+  }
+
   /**
    * Split fulfillment (OMS-005): ship part of a confirmed order.
    * Issues stock per line idempotently (keyed by shipKey), tracks

@@ -28,6 +28,8 @@ interface OrderView {
   total: string;
   holdReason: string | null;
   lines: OrderLineView[];
+  fulfillmentType?: string;
+  projectRef?: string | null;
 }
 
 interface ReturnView {
@@ -111,6 +113,8 @@ export default function OrdersPage() {
   const [newAccount, setNewAccount] = useState('');
   const [newWarehouse, setNewWarehouse] = useState('');
   const [newCurrency, setNewCurrency] = useState('EUR');
+  const [newFulfillment, setNewFulfillment] = useState<'DELIVERY' | 'PICKUP'>('DELIVERY');
+  const [newProjectRef, setNewProjectRef] = useState('');
   const [fromQuote, setFromQuote] = useState('');
   const [fromQuoteWarehouse, setFromQuoteWarehouse] = useState('');
 
@@ -277,6 +281,8 @@ export default function OrdersPage() {
                         accountId: newAccount,
                         warehouseId: newWarehouse,
                         currency: newCurrency,
+                        fulfillmentType: newFulfillment,
+                        ...(newProjectRef ? { projectRef: newProjectRef } : {}),
                       }),
                     'Order created (draft).',
                   );
@@ -311,6 +317,21 @@ export default function OrdersPage() {
                     </option>
                   ))}
                 </select>
+                <label className="label">Fulfillment</label>
+                <select
+                  className="select"
+                  value={newFulfillment}
+                  onChange={(e) => setNewFulfillment(e.target.value as 'DELIVERY' | 'PICKUP')}
+                >
+                  <option value="DELIVERY">Delivery</option>
+                  <option value="PICKUP">Pickup (click &amp; collect)</option>
+                </select>
+                <label className="label">Project reference (optional)</label>
+                <input
+                  className="input"
+                  value={newProjectRef}
+                  onChange={(e) => setNewProjectRef(e.target.value)}
+                />
                 <label className="label">Currency</label>
                 <input
                   className="input mono"
@@ -412,7 +433,19 @@ export default function OrdersPage() {
                     {o.quoteId ? ' · from quote' : ''}
                   </div>
                 </div>
-                <span className={`badge ${ORDER_BADGE[o.status]}`}>{o.status}</span>
+                <span>
+                  {o.fulfillmentType === 'PICKUP' ? (
+                    <span className="badge badge-accent" style={{ marginRight: 6 }}>
+                      PICKUP
+                    </span>
+                  ) : null}
+                  {o.projectRef ? (
+                    <span className="badge" style={{ marginRight: 6 }}>
+                      {o.projectRef}
+                    </span>
+                  ) : null}
+                  <span className={`badge ${ORDER_BADGE[o.status]}`}>{o.status}</span>
+                </span>
               </div>
               {o.status === 'ON_HOLD' && o.holdReason ? (
                 <div className="alert alert-error" style={{ marginTop: 8 }}>
@@ -682,6 +715,21 @@ export default function OrdersPage() {
                         type="button"
                       >
                         Fulfill
+                      </button>
+                    ) : null}
+                    {o.fulfillmentType === 'PICKUP' && can('order.confirm') ? (
+                      <button
+                        className="btn btn-sm"
+                        disabled={busy}
+                        onClick={() =>
+                          run(
+                            () => api('POST', `/api/v1/orders/${o.id}/ready-for-pickup`),
+                            'Order marked ready for pickup.',
+                          )
+                        }
+                        type="button"
+                      >
+                        Ready for pickup
                       </button>
                     ) : null}
                     {can('inventory.adjust') ? (

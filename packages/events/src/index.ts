@@ -47,6 +47,7 @@ export const EVENT_TYPES = {
   ORDER_CANCELLED: 'order.cancelled',
   ORDER_FULFILLMENT_PLANNED: 'order.fulfillment.planned',
   ORDER_ABANDONED: 'order.abandoned',
+  ORDER_PICKUP_READY: 'order.pickup.ready',
   PURCHASE_REQUESTED: 'purchase.requested',
   PURCHASE_APPROVED: 'purchase.approved',
   PURCHASE_ORDER_ISSUED: 'purchase_order.issued',

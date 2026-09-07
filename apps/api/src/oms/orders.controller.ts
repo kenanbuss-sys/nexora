@@ -12,6 +12,8 @@ const createOrderSchema = z.object({
   accountId: z.string().uuid(),
   warehouseId: z.string().uuid(),
   currency: z.string().length(3),
+  fulfillmentType: z.enum(['DELIVERY', 'PICKUP']).optional(),
+  projectRef: z.string().max(120).optional(),
 });
 const fromQuoteSchema = z.object({
   quoteId: z.string().uuid(),
@@ -81,6 +83,12 @@ export class OrdersController {
   async notifyAbandoned(@Query('hours') hours: string, @Ctx() ctx: RequestContext) {
     const parsed = Number(hours);
     return this.orders.notifyAbandoned(Number.isFinite(parsed) ? parsed : 24, ctx);
+  }
+
+  @Post(':id/ready-for-pickup')
+  @RequirePermission('order.confirm')
+  async readyForPickup(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.orders.readyForPickup(id, ctx);
   }
 
   @Post(':id/fulfill-lines')
