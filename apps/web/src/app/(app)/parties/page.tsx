@@ -242,7 +242,27 @@ export default function PartiesPage() {
                         }}
                       >
                         Consents
-                      </button>
+                      </button>{' '}
+                      {can('mdm.steward') && p.partyType === 'PERSON' ? (
+                        <button
+                          className="btn btn-sm"
+                          type="button"
+                          disabled={busy}
+                          title="GDPR erasure — irreversible anonymization"
+                          onClick={() => {
+                            if (
+                              window.confirm(`GDPR erasure for ${p.name}? This is irreversible.`)
+                            ) {
+                              void run(
+                                () => api('POST', `/api/v1/parties/${p.id}/anonymize`),
+                                'Party anonymized (GDPR erasure).',
+                              );
+                            }
+                          }}
+                        >
+                          GDPR
+                        </button>
+                      ) : null}
                     </td>
                   </tr>
                 ))}

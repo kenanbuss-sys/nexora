@@ -412,6 +412,8 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'GDPR erasure — irreversible anonymization': 'GDPR brisanje — nepovratna anonimizacija',
+  'Party anonymized (GDPR erasure).': 'Partner anonimiziran (GDPR brisanje).',
   'Material check': 'Provjera materijala',
   'Scan-first verification: does this barcode belong to the SKU in hand? Every check is audited.':
     'Scan-first provjera: pripada li ovaj barkod artiklu u ruci? Svaka provjera se evidentira.',

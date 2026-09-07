@@ -62,6 +62,18 @@ export class PartiesController {
   }
 
   /** Live data-quality report over master data (MDM stewardship). */
+  @Get(':id/privacy-export')
+  @RequirePermission('mdm.steward')
+  async privacyExport(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.parties.privacyExport(id, ctx);
+  }
+
+  @Post(':id/anonymize')
+  @RequirePermission('mdm.steward')
+  async anonymize(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.parties.anonymizeParty(id, ctx);
+  }
+
   @Get('quality')
   @RequirePermission('mdm.steward')
   async qualityReport(@Ctx() ctx: RequestContext) {

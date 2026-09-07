@@ -146,6 +146,100 @@ export class PartyService {
     });
   }
 
+  /**
+   * GDPR data-subject export (GRC-012): everything MDM holds about one
+   * person, audited. Server-side authorization decides who may pull it.
+   */
+  async privacyExport(
+    partyId: string,
+    ctx: RequestContext,
+  ): Promise<{
+    party: PartyView;
+    externalIdentities: Array<{ system: string; externalId: string }>;
+    consents: Array<{ channel: string; granted: boolean; recordedAt: string }>;
+  }> {
+    const party = await this.prisma.party.findFirst({
+      where: { id: partyId, tenantId: ctx.tenantId },
+    });
+    if (!party) throw notFound('Party', partyId);
+    const identities = await this.prisma.partyExternalIdentity.findMany({
+      where: { tenantId: ctx.tenantId, partyId },
+    });
+    const consents = await this.prisma.consentRecord.findMany({
+      where: { tenantId: ctx.tenantId, partyId },
+      orderBy: { recordedAt: 'desc' },
+      take: 200,
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'mdm.party.privacy_export',
+      objectType: 'Party',
+      objectId: partyId,
+      source: 'api',
+    });
+    return {
+      party: toView(party),
+      externalIdentities: identities.map((i) => ({
+        system: i.sourceSystem,
+        externalId: i.externalId,
+      })),
+      consents: consents.map((c) => ({
+        channel: c.channel,
+        granted: c.granted,
+        recordedAt: c.recordedAt.toISOString(),
+      })),
+    };
+  }
+
+  /**
+   * GDPR erasure (GRC-012): anonymize a PERSON party in place — the
+   * business records keep their referential integrity while the
+   * personal data disappears. Compensation-style, irreversible,
+   * heavily audited. Organizations are not data subjects and are
+   * refused.
+   */
+  async anonymizeParty(partyId: string, ctx: RequestContext): Promise<PartyView> {
+    const party = await this.prisma.party.findFirst({
+      where: { id: partyId, tenantId: ctx.tenantId },
+    });
+    if (!party) throw notFound('Party', partyId);
+    if (party.partyType !== 'PERSON') {
+      throw new DomainError('INVALID_STATE', 'Only PERSON parties are GDPR data subjects');
+    }
+    if (party.name.startsWith('ANONYMIZED-')) {
+      throw new DomainError('INVALID_STATE', 'Party is already anonymized');
+    }
+    const anonName = `ANONYMIZED-${party.id.slice(0, 8)}`;
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const row = await tx.party.update({
+        where: { id: party.id },
+        data: {
+          name: anonName,
+          normalizedName: normalizeName(anonName),
+          email: null,
+          taxId: null,
+        },
+      });
+      await tx.partyExternalIdentity.deleteMany({
+        where: { tenantId: ctx.tenantId, partyId: party.id },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'mdm.party.anonymize',
+        objectType: 'Party',
+        objectId: party.id,
+        source: 'api',
+        newValues: { anonymized: true },
+      });
+      return row;
+    });
+    return toView(updated);
+  }
+
   async searchParties(query: string, ctx: RequestContext): Promise<PartyView[]> {
     const parties = await this.prisma.party.findMany({
       where: {

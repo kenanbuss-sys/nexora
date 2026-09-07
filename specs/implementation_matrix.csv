@@ -463,7 +463,7 @@ GRC-008,GRC,PPE requirements,P3,PLANNED,R4+,,,
 GRC-009,GRC,Safety checklists,P3,PLANNED,R4+,,,
 GRC-010,GRC,Data governance,P3,PLANNED,R4+,,,
 GRC-011,GRC,Legal hold hooks,P3,PLANNED,R4+,,,
-GRC-012,GRC,Privacy-request workflows,P3,PLANNED,R4+,,,
+GRC-012,GRC,Privacy-request workflows,P3,DONE,R4+,,,"Sprint 078: GDPR data-subject export + irreversible PERSON anonymization (orgs refused), audited; Parties page GDPR action."
 EXT-001,EXT,Extension SDK,P2,PLANNED,R4+,,,
 EXT-002,EXT,Module manifest,P2,PLANNED,R4+,,,
 EXT-003,EXT,Custom UI slots,P2,PLANNED,R4+,,,
