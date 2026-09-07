@@ -68,7 +68,43 @@ export class CollaborationService {
     private readonly config?: {
       getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
     },
+    private readonly permissions?: {
+      getPermissionKeys(userId: string, tenantId: string): Promise<string[]>;
+    },
   ) {}
+
+  /**
+   * Document access policy (DOC-012): doc.accessPolicy
+   * ([{ entityType, permission }]) restricts reading attachments of an
+   * entity type to holders of the named permission — enforced
+   * server-side on list and download.
+   */
+  private async assertDocumentAccess(entityType: string, ctx: RequestContext): Promise<void> {
+    if (!this.config || !this.permissions) return;
+    if (ctx.platformAdmin === true) return;
+    let required: string | null = null;
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+      const raw = (config as { doc?: { accessPolicy?: unknown } })?.doc?.accessPolicy;
+      if (Array.isArray(raw)) {
+        const rule = raw.find(
+          (entry) => (entry as { entityType?: unknown })?.entityType === entityType,
+        );
+        const permission = (rule as { permission?: unknown })?.permission;
+        if (typeof permission === 'string') required = permission;
+      }
+    } catch {
+      required = null;
+    }
+    if (!required) return;
+    const keys =
+      ctx.userId !== undefined
+        ? await this.permissions.getPermissionKeys(ctx.userId, ctx.tenantId)
+        : [];
+    if (!keys.includes(required)) {
+      throw new DomainError('FORBIDDEN', `Documents of '${entityType}' need ${required}`);
+    }
+  }
 
   /**
    * Retention (DOC-011): attachments past the configured age per
@@ -300,6 +336,7 @@ export class CollaborationService {
     ctx: RequestContext,
   ): Promise<AttachmentView[]> {
     this.assertEntityType(entityType);
+    await this.assertDocumentAccess(entityType, ctx);
     const attachments = await this.prisma.attachment.findMany({
       where: { tenantId: ctx.tenantId, entityType, entityId },
       orderBy: { createdAt: 'asc' },
@@ -316,6 +353,7 @@ export class CollaborationService {
       where: { id: attachmentId, tenantId: ctx.tenantId },
     });
     if (!attachment) throw notFound('Attachment', attachmentId);
+    await this.assertDocumentAccess(attachment.entityType, ctx);
     const blob = await this.prisma.attachmentBlob.findFirst({
       where: { attachmentId: attachment.id, tenantId: ctx.tenantId },
     });

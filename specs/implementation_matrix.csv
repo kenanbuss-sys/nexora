@@ -336,7 +336,7 @@ DOC-008,DOC,Contract approvals,P1,Implemented (Sprint 127),R0/R1,,,
 DOC-009,DOC,Obligations/renewals,P1,DONE,R0/R1,,,Sprint 067: renewal report derives live from end dates and notice windows.
 DOC-010,DOC,OCR capture hooks,P1,PLANNED,R0/R1,,,
 DOC-011,DOC,Retention,P1,Implemented (Sprint 135),R0/R1,,,
-DOC-012,DOC,Document access policy,P1,PLANNED,R0/R1,,,
+DOC-012,DOC,Document access policy,P1,Implemented (Sprint 136),R0/R1,,,
 FIN-001,FIN,Financial dimensions,P1,PLANNED,R3,,,
 FIN-002,FIN,Revenue/cost capture,P1,PLANNED,R3,,,
 FIN-003,FIN,COGS,P1,DONE,R3,,,

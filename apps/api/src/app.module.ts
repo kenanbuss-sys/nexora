@@ -1053,7 +1053,12 @@ export const REDIS = 'REDIS';
     },
     {
       provide: COLLAB_SERVICE,
-      useFactory: (prisma: PrismaClient, tasks: TaskService, tenants: TenantService) =>
+      useFactory: (
+        prisma: PrismaClient,
+        tasks: TaskService,
+        tenants: TenantService,
+        collabRoles: RoleService,
+      ) =>
         new CollaborationService(
           prisma,
           {
@@ -1069,8 +1074,14 @@ export const REDIS = 'REDIS';
             },
           },
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            getPermissionKeys: async (userId, tenantId) => {
+              const grants = await collabRoles.getEffectivePermissions(userId, tenantId);
+              return grants.map((g) => g.permissionKey);
+            },
+          },
         ),
-      inject: [PRISMA, TASK_SERVICE, TENANT_SERVICE],
+      inject: [PRISMA, TASK_SERVICE, TENANT_SERVICE, ROLE_SERVICE],
     },
     {
       provide: SEARCH_SERVICE,
