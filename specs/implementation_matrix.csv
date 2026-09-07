@@ -43,16 +43,16 @@ MDM-007,MDM,Data quality rules,P0,DONE,R1,,,"Live computed data-quality report (
 MDM-008,MDM,Golden record policy,P0,DONE,R1,,,"Merge redirects to the surviving canonical party (mergedIntoId chain), getParty always resolves to the golden record, external identities move to the winner; audited (delivered with party merge, verified Sprint 051)"
 MDM-009,MDM,External ID mapping,P0,DONE,R1,,,"PartyExternalIdentity mapping + /parties/resolve/:sourceSystem/:externalId lookup (delivered with MDM base, verified Sprint 051)"
 MDM-010,MDM,Effective dating,P0,DONE,R1,,,"Effective-dating pattern established on exchange rates (immutable validFrom rows, reproducible as-of lookups) alongside versioned tenant configuration (Sprint 047)"
-CRM-001,CRM,Leads,Implemented (Sprint 006),PLANNED,R1,,,"Leads with qualify/disqualify/convert (guarded, exactly-once)"
-CRM-002,CRM,Accounts & contacts,Implemented (Sprint 006),PLANNED,R1,,,Accounts as commercial profile over MDM party
-CRM-003,CRM,Opportunities,Implemented (Sprint 006),PLANNED,R1,,,Opportunity stage machine NEW->QUALIFIED->PROPOSAL->WON/LOST
-CRM-004,CRM,Activities,Implemented (Sprint 006),PLANNED,R1,,,Activity log on accounts/opportunities
+CRM-001,CRM,Leads,P1,Implemented (Sprint 006),R1,,,"Leads with qualify/disqualify/convert (guarded, exactly-once)"
+CRM-002,CRM,Accounts & contacts,P1,Implemented (Sprint 006),R1,,,Accounts as commercial profile over MDM party
+CRM-003,CRM,Opportunities,P1,Implemented (Sprint 006),R1,,,Opportunity stage machine NEW->QUALIFIED->PROPOSAL->WON/LOST
+CRM-004,CRM,Activities,P1,Implemented (Sprint 006),R1,,,Activity log on accounts/opportunities
 CRM-005,CRM,Customer 360,P1,DONE,R1,,,Customer 360 read model (Sprint 017)
 CRM-006,CRM,Territories,P1,DONE,R1,,,"Territory master (code/name/owner), audited account assignment with per-territory counts; Sales UI (Sprint 042)"
 CRM-007,CRM,Sales teams,P1,DONE,R1,,,"Team master (uppercased unique codes), audited membership from tenant users, territory coverage counts; Sales UI (Sprint 046)"
 CRM-008,CRM,Credit profile,P1,DONE,R1,,,Credit profile with server-side enforcement on order confirm (Sprint 017)
 CRM-009,CRM,Segmentation,P1,DONE,R1,,,"Segmentation tags, validated and audited (Sprint 017)"
-CRM-010,CRM,Interaction timeline,Implemented (Sprint 006),PLANNED,R1,,,"Interaction timeline (activities, newest first)"
+CRM-010,CRM,Interaction timeline,P1,Implemented (Sprint 006),R1,,,"Interaction timeline (activities, newest first)"
 CRM-011,CRM,Consent/preferences,P1,DONE,R1,,,"Append-only consent records per party and channel (EMAIL/PHONE/SMS/POST), latest-wins state, full trail with recorder; Parties UI (Sprint 048, MDM-owned)"
 CRM-012,CRM,Customer onboarding,P1,DONE,R1,,,Sprint 066: onboarding checklist from versioned config through the CORE task engine; idempotent start; live progress.
 PIM-001,PIM,Products/SKUs,P1,Implemented (Sprint 003),R1,,,Products/SKUs with lifecycle + events
@@ -71,18 +71,18 @@ PIM-013,PIM,Dimensions/weight,P1,DONE,R1,,,"Governed weight/dimensions per SKU; 
 PIM-014,PIM,Substitutions,P1,DONE,R1,,,Directed SKU substitutions with priority; live-availability alternatives via WMS on backordered order lines; catalog management UI (Sprint 040)
 PIM-015,PIM,Bundles/kits,P1,DONE,R1,,,"Sprint 054: single-level bundle composition, live buildable qty from the stock ledger, nesting guards, audited."
 PIM-016,PIM,Lifecycle status,P1,DONE,R1,,,"Full lifecycle: product DRAFT→PUBLISHED→ARCHIVED (archive demands discontinued SKUs, archived refuse new SKUs/re-publish), SKU DRAFT→ACTIVE→DISCONTINUED; audited (Sprint 051)"
-CPQ-001,CPQ,Price lists,Implemented (Sprint 006),PLANNED,R1,,,"Versionable price lists, DRAFT->ACTIVE publish"
-CPQ-002,CPQ,Quantity breaks,Implemented (Sprint 006),PLANNED,R1,,,Quantity breaks via minQty entries
+CPQ-001,CPQ,Price lists,P1,Implemented (Sprint 006),R1,,,"Versionable price lists, DRAFT->ACTIVE publish"
+CPQ-002,CPQ,Quantity breaks,P1,Implemented (Sprint 006),R1,,,Quantity breaks via minQty entries
 CPQ-003,CPQ,Discount rules,P1,DONE,R1,,,"Rule-based automatic discounts: account/SKU scoping, qty floor, validity window, specificity-then-percentage resolution on quote lines, explicit override; Quotes UI (Sprint 039)"
-CPQ-004,CPQ,Margin floors,Implemented (Sprint 006),PLANNED,R1,,,Margin floor: discounts >20% require approval
-CPQ-005,CPQ,Discount approvals,Implemented (Sprint 006),PLANNED,R1,,,Approvals through WF service (SoD enforced)
+CPQ-004,CPQ,Margin floors,P1,Implemented (Sprint 006),R1,,,Margin floor: discounts >20% require approval
+CPQ-005,CPQ,Discount approvals,P1,Implemented (Sprint 006),R1,,,Approvals through WF service (SoD enforced)
 CPQ-006,CPQ,Promotions,P1,DONE,R1,,,"Sprint 053: promotions with % discount, validity window, min total, redemption budget; audited."
 CPQ-007,CPQ,Product configurator,P1,PLANNED,R1,,,
 CPQ-008,CPQ,Compatibility rules,P1,PLANNED,R1,,,
 CPQ-009,CPQ,Formula pricing,P1,PLANNED,R1,,,
 CPQ-010,CPQ,Cost-aware pricing,P1,PLANNED,R1,,,
-CPQ-011,CPQ,Quote generation,Implemented (Sprint 006),PLANNED,R1,,,Quote lifecycle DRAFT->...->ACCEPTED with totals
-CPQ-012,CPQ,Quote versioning,Implemented (Sprint 006),PLANNED,R1,,,New version supersedes SENT/REJECTED/EXPIRED
+CPQ-011,CPQ,Quote generation,P1,Implemented (Sprint 006),R1,,,Quote lifecycle DRAFT->...->ACCEPTED with totals
+CPQ-012,CPQ,Quote versioning,P1,Implemented (Sprint 006),R1,,,New version supersedes SENT/REJECTED/EXPIRED
 CPQ-013,CPQ,Promise-date calculation,P1,DONE,R1,,,Sprint 058: per-line promise dates from live availability + planning lead times; order promise = latest line.
 CPQ-014,CPQ,Contract pricing,P1,DONE,R1,,,Sprint 061: contract lists with validity windows feed quote prices; auto-selected on quote creation.
 COM-001,COM,B2C channel integration,P1,PLANNED,R1,,,
@@ -145,17 +145,17 @@ PROC-015,PROC,Purchase suggestions,P1,DONE,R1,,,MRP purchase suggestions -> draf
 WMS-001,WMS,Warehouse topology,P1,Implemented (Sprint 004),R1,,,Warehouse + location topology
 WMS-002,WMS,Stock ledger,P1,Implemented (Sprint 004),R1,,,"Immutable movement ledger, idempotent posting"
 WMS-003,WMS,Stock projections,P1,Implemented (Sprint 004),R1,,,On-hand/reserved/available derived from ledger
-WMS-004,WMS,Receiving,Implemented (Sprint 005),PLANNED,R1,,,Receiving orders post RECEIPT movements
+WMS-004,WMS,Receiving,P1,Implemented (Sprint 005),R1,,,Receiving orders post RECEIPT movements
 WMS-005,WMS,Receiving discrepancies,P1,DONE,R1,,,Sprint 065: live receiving-discrepancy report — over/under receipts per PO line.
 WMS-006,WMS,Inbound QC hold,P1,DONE,R1,,,Sprint 082: inbound QC hold via quarantine holds; availability subtracts active holds everywhere.
 WMS-007,WMS,Putaway,P1,PLANNED,R1,,,
 WMS-008,WMS,Replenishment,P1,DONE,R1,,,Sprint 060: live replenishment report — availability vs reorder point with suggested quantities (ledger + reservations).
 WMS-009,WMS,Reservations,P1,Implemented (Sprint 004),R1,,,Atomic reservations under stock lock; no-oversell proven by concurrency test
-WMS-010,WMS,Picking,Implemented (Sprint 005),PLANNED,R1,,,"Pick orders post ISSUE, oversell-guarded"
+WMS-010,WMS,Picking,P1,Implemented (Sprint 005),R1,,,"Pick orders post ISSUE, oversell-guarded"
 WMS-011,WMS,Packing,P1,PLANNED,R1,,,
 WMS-012,WMS,Shipping staging,P1,PLANNED,R1,,,
-WMS-013,WMS,Transfers,Implemented (Sprint 005),PLANNED,R1,,,"Transfer orders post OUT+IN, retriable"
-WMS-014,WMS,Cycle counting,Implemented (Sprint 005),PLANNED,R1,,,Cycle count adjusts ledger to counted qty
+WMS-013,WMS,Transfers,P1,Implemented (Sprint 005),R1,,,"Transfer orders post OUT+IN, retriable"
+WMS-014,WMS,Cycle counting,P1,Implemented (Sprint 005),R1,,,Cycle count adjusts ledger to counted qty
 WMS-015,WMS,Full inventory,P1,DONE,R1,,,Stock counts with snapshot/variance and idempotent posting (Sprint 030)
 WMS-016,WMS,Adjustment governance,P1,DONE,R1,,,Adjustment governance: approve permission + SoD on posting (Sprint 030)
 WMS-017,WMS,Lot control,P1,DONE,R1,,,Lot dimension on ledger with per-lot balances (Sprint 022)
@@ -174,7 +174,7 @@ ENG-004,ENG,Parametric BOM,P2,PLANNED,R2,,,
 ENG-005,ENG,BOM alternatives,P2,PLANNED,R2,,,
 ENG-006,ENG,Effective dates,P2,DONE,R2,,,
 ENG-007,ENG,Engineering change request,P2,DONE,R2,,,
-ENG-008,ENG,Engineering change order,P2,PLANNED,R2,,,
+ENG-008,ENG,Engineering change order,P2,Implemented (Sprint 010),R2,,,Verified in Sprint 087 reconciliation: ECO request/decide with BOM linkage already shipped (engineering.service).
 ENG-009,ENG,Technical drawings,P2,PLANNED,R2,,,
 ENG-010,ENG,CAD/PDM hooks,P2,PLANNED,R2,,,
 ENG-011,ENG,Routing,P2,DONE,R2,,,
@@ -222,8 +222,8 @@ MES-022,MES,Andon/alerts,P1,PLANNED,R2,,,
 MES-023,MES,Shift production,P1,DONE,R2,,,Sprint 081: production-by-day report (good/scrap/WO count) from completed work orders; Production page card.
 MES-024,MES,Production confirmations,P1,PLANNED,R2,,,
 MES-025,MES,Machine hooks,P1,PLANNED,R2,,,
-VER-001,VER,Barcode events,Implemented (Sprint 005),PLANNED,R1/R2,,,Barcode events resolved to SKUs via PIM contract
-VER-002,VER,QR workflow IDs,Implemented (Sprint 005),PLANNED,R1/R2,,,QR events with correlation ids
+VER-001,VER,Barcode events,P1,Implemented (Sprint 005),R1/R2,,,Barcode events resolved to SKUs via PIM contract
+VER-002,VER,QR workflow IDs,P1,Implemented (Sprint 005),R1/R2,,,QR events with correlation ids
 VER-003,VER,RFID support,P1,PLANNED,R1/R2,,,
 VER-004,VER,NFC verification,P1,PLANNED,R1/R2,,,
 VER-005,VER,Worker check,P1,PLANNED,R1/R2,,,
@@ -238,10 +238,10 @@ VER-013,VER,QC checkpoint,P1,DONE,R1/R2,,,
 VER-014,VER,Supervisor approval,P1,DONE,R1/R2,,,
 VER-015,VER,Photo evidence,P1,PLANNED,R1/R2,,,
 VER-016,VER,Digital signature,P1,PLANNED,R1/R2,,,
-VER-017,VER,Offline queue,Implemented (Sprint 005),PLANNED,R1/R2,,,Offline envelope upload
-VER-018,VER,Idempotent replay,Implemented (Sprint 005),PLANNED,R1/R2,,,"Exactly-once replay per (device, clientEventId)"
-VER-019,VER,Device capability detection,Implemented (Sprint 005),PLANNED,R1/R2,,,Capabilities reported at enrollment
-VER-020,VER,Event correlation,Implemented (Sprint 005),PLANNED,R1/R2,,,correlationId on events
+VER-017,VER,Offline queue,P1,Implemented (Sprint 005),R1/R2,,,Offline envelope upload
+VER-018,VER,Idempotent replay,P1,Implemented (Sprint 005),R1/R2,,,"Exactly-once replay per (device, clientEventId)"
+VER-019,VER,Device capability detection,P1,Implemented (Sprint 005),R1/R2,,,Capabilities reported at enrollment
+VER-020,VER,Event correlation,P1,Implemented (Sprint 005),R1/R2,,,correlationId on events
 QMS-001,QMS,Inspection plans,P2,PLANNED,R2,,,
 QMS-002,QMS,Incoming inspection,P2,DONE,R2,,,Sprint 076: incoming inspection queue — PO receipts of QC-planned SKUs surface live for inspectors.
 QMS-003,QMS,In-process inspection,P2,PLANNED,R2,,,
@@ -407,10 +407,10 @@ INT-016,INT,Run history,P0,DONE,R0,,,Full delivery run history (Sprint 020)
 INT-017,INT,Secrets management,P0,PLANNED,R0,,,
 INT-018,INT,Rate-limit handling,P0,PLANNED,R0,,,
 INT-019,INT,Versioned mappings,P0,PLANNED,R0,,,
-DEV-001,DEV,Device registry,Implemented (Sprint 005),PLANNED,R1,,,Device registry with tenant-scoped codes
-DEV-002,DEV,Enrollment,Implemented (Sprint 005),PLANNED,R1,,,One-time token enrollment; device-side claim
-DEV-003,DEV,Assignment,Implemented (Sprint 005),PLANNED,R1,,,User/branch assignment
-DEV-004,DEV,Health/last seen,Implemented (Sprint 005),PLANNED,R1,,,Heartbeat + last-seen
+DEV-001,DEV,Device registry,P1,Implemented (Sprint 005),R1,,,Device registry with tenant-scoped codes
+DEV-002,DEV,Enrollment,P1,Implemented (Sprint 005),R1,,,One-time token enrollment; device-side claim
+DEV-003,DEV,Assignment,P1,Implemented (Sprint 005),R1,,,User/branch assignment
+DEV-004,DEV,Health/last seen,P1,Implemented (Sprint 005),R1,,,Heartbeat + last-seen
 DEV-005,DEV,Scanner adapter,P1,PLANNED,R1,,,
 DEV-006,DEV,Printer adapter,P1,PLANNED,R1,,,
 DEV-007,DEV,RFID adapter,P1,PLANNED,R1,,,
