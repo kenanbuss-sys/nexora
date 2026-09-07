@@ -80,6 +80,68 @@ export function webhookAdapter(transport: WebhookTransport): ConnectorAdapter {
   };
 }
 
+/**
+ * Mapping engine (INT-010): declarative field mappings from versioned
+ * configuration (int.mappings: [{ key, rules: [{ from, to, transform? }] }])
+ * reshape outbound payloads per connector — integration differences
+ * stay configuration, never code.
+ */
+export interface MappingRule {
+  from: string;
+  to: string;
+  transform?: 'uppercase' | 'lowercase' | 'string' | 'number' | undefined;
+}
+
+function readPath(source: Record<string, unknown>, path: string): unknown {
+  let value: unknown = source;
+  for (const part of path.split('.')) {
+    if (value === null || typeof value !== 'object') return undefined;
+    value = (value as Record<string, unknown>)[part];
+  }
+  return value;
+}
+
+function writePath(target: Record<string, unknown>, path: string, value: unknown): void {
+  const parts = path.split('.');
+  let cursor: Record<string, unknown> = target;
+  for (let i = 0; i < parts.length - 1; i += 1) {
+    const key = parts[i] ?? '';
+    if (cursor[key] === null || typeof cursor[key] !== 'object') cursor[key] = {};
+    cursor = cursor[key] as Record<string, unknown>;
+  }
+  cursor[parts[parts.length - 1] ?? ''] = value;
+}
+
+export function applyMapping(
+  payload: Record<string, unknown>,
+  rules: MappingRule[],
+): Record<string, unknown> {
+  if (rules.length === 0) return payload;
+  const out: Record<string, unknown> = {};
+  for (const rule of rules) {
+    let value = readPath(payload, rule.from);
+    if (value === undefined) continue;
+    switch (rule.transform) {
+      case 'uppercase':
+        value = String(value).toUpperCase();
+        break;
+      case 'lowercase':
+        value = String(value).toLowerCase();
+        break;
+      case 'string':
+        value = String(value);
+        break;
+      case 'number':
+        value = Number(value);
+        break;
+      default:
+        break;
+    }
+    writePath(out, rule.to, value);
+  }
+  return out;
+}
+
 /** Cross-domain contract: effective configuration is owned by CORE. */
 export interface ConnectorConfigGate {
   getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
@@ -195,6 +257,48 @@ export class ConnectorService {
    * the adapter decides the wire format — domains never talk to
    * external systems directly.
    */
+  private async mappingRules(tenantId: string, connectorKey: string): Promise<MappingRule[]> {
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(tenantId);
+      const raw = (config as { int?: { mappings?: unknown } })?.int?.mappings;
+      if (!Array.isArray(raw)) return [];
+      const mapping = raw.find((m) => (m as { key?: unknown })?.key === connectorKey);
+      const rules = (mapping as { rules?: unknown })?.rules;
+      if (!Array.isArray(rules)) return [];
+      const out: MappingRule[] = [];
+      for (const rule of rules) {
+        const from = (rule as { from?: unknown })?.from;
+        const to = (rule as { to?: unknown })?.to;
+        const transform = (rule as { transform?: unknown })?.transform;
+        if (typeof from === 'string' && typeof to === 'string') {
+          out.push({
+            from,
+            to,
+            ...(transform === 'uppercase' ||
+            transform === 'lowercase' ||
+            transform === 'string' ||
+            transform === 'number'
+              ? { transform }
+              : {}),
+          });
+        }
+      }
+      return out;
+    } catch {
+      return [];
+    }
+  }
+
+  /** Preview the mapped payload without pushing (INT-010). */
+  async previewMapping(
+    input: { key: string; payload: Record<string, unknown> },
+    ctx: RequestContext,
+  ): Promise<{ mapped: Record<string, unknown>; rules: number }> {
+    await this.resolve(input.key, ctx.tenantId);
+    const rules = await this.mappingRules(ctx.tenantId, input.key);
+    return { mapped: applyMapping(input.payload, rules), rules: rules.length };
+  }
+
   async pushObject(
     input: {
       key: string;
@@ -205,7 +309,10 @@ export class ConnectorService {
     ctx: RequestContext,
   ): Promise<{ ok: boolean; reference: string }> {
     const { entry, adapter } = await this.resolve(input.key, ctx.tenantId);
-    const result = await adapter.push(input.objectType, input.payload, entry.config);
+    // INT-010: reshape the payload through the connector's mapping.
+    const rules = await this.mappingRules(ctx.tenantId, entry.key);
+    const mapped = rules.length > 0 ? applyMapping(input.payload, rules) : input.payload;
+    const result = await adapter.push(input.objectType, mapped, entry.config);
     await writeAudit(this.prisma, {
       tenantId: ctx.tenantId,
       actorType: ctx.actorType,

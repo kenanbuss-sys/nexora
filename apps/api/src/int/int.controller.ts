@@ -76,6 +76,7 @@ export class IntegrationsController {
   }
 }
 
+const previewSchema = z.object({ payload: z.record(z.string(), z.unknown()) });
 const pushSchema = z.object({
   objectType: z.string().min(1).max(60),
   objectId: z.string().min(1).max(80),
@@ -96,6 +97,17 @@ export class ConnectorsController {
   @RequirePermission('integration.manage')
   async test(@Param('key') key: string, @Ctx() ctx: RequestContext) {
     return this.connectors.testConnection(key, ctx);
+  }
+
+  @Post(':key/preview-mapping')
+  @RequirePermission('integration.read')
+  async previewMapping(
+    @Param('key') key: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(previewSchema, body);
+    return this.connectors.previewMapping({ key, payload: input.payload }, ctx);
   }
 
   @Post(':key/push')

@@ -11,6 +11,8 @@ export {
 } from './integration.service';
 export {
   ConnectorService,
+  applyMapping,
+  type MappingRule,
   noopAdapter,
   webhookAdapter,
   type ConnectorAdapter,
