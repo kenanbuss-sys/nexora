@@ -412,6 +412,12 @@ export const BS: Record<string, string> = {
   'Approval threshold must be a number ≥ 0': 'Prag odobrenja mora biti broj ≥ 0',
   'Discount rules': 'Pravila popusta',
   Promotions: 'Promocije',
+  'Operational pulse': 'Operativni puls',
+  'open orders:': 'otvorene narudžbe:',
+  'backorders:': 'zaostale isporuke:',
+  'open cases:': 'otvoreni slučajevi:',
+  'change requests:': 'zahtjevi za izmjene:',
+  'invoices overdue:': 'fakture u kašnjenju:',
   'Inventory valuation': 'Vrednovanje zaliha',
   'Ledger on-hand × standard cost per SKU — never an editable stock figure.':
     'Stanje iz knjige zaliha × standardna cijena po artiklu — nikad ručno upisano stanje.',

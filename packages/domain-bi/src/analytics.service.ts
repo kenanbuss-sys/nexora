@@ -268,4 +268,63 @@ export class AnalyticsService {
       .sort((a, b) => Number(b.revenue) - Number(a.revenue))
       .slice(0, 20);
   }
+
+  /**
+   * Control Center (BI-014): one call with the operational pulse —
+   * everything a manager scans first thing in the morning. Every
+   * number derives live from the transactional source of truth.
+   */
+  async controlCenter(ctx: RequestContext): Promise<{
+    openOrders: number;
+    backorderedLines: number;
+    overdueApprovals: number;
+    openCases: number;
+    pendingChangeRequests: number;
+    activeBreakGlass: number;
+    openNcrs: number;
+    draftInvoicesOverdue: number;
+  }> {
+    const t = ctx.tenantId;
+    const now = new Date();
+    const dayAgo = new Date(Date.now() - 24 * 3_600_000);
+    const [
+      openOrders,
+      backorderedLines,
+      overdueApprovals,
+      openCases,
+      pendingChangeRequests,
+      activeBreakGlass,
+      openNcrs,
+      draftInvoicesOverdue,
+    ] = await Promise.all([
+      this.prisma.salesOrder.count({
+        where: { tenantId: t, status: { in: ['DRAFT', 'CONFIRMED', 'ON_HOLD'] } },
+      }),
+      this.prisma.salesOrderLine.count({ where: { tenantId: t, backordered: true } }),
+      this.prisma.approval.count({
+        where: { tenantId: t, status: 'REQUESTED', createdAt: { lt: dayAgo } },
+      }),
+      this.prisma.supportCase.count({
+        where: { tenantId: t, status: { in: ['OPEN', 'IN_PROGRESS'] } },
+      }),
+      this.prisma.masterDataRequest.count({ where: { tenantId: t, status: 'PENDING' } }),
+      this.prisma.breakGlassGrant.count({
+        where: { tenantId: t, revokedAt: null, expiresAt: { gt: now } },
+      }),
+      this.prisma.ncr.count({ where: { tenantId: t, status: 'OPEN' } }),
+      this.prisma.invoice.count({
+        where: { tenantId: t, status: { in: ['OPEN', 'PARTIALLY_PAID'] }, dueAt: { lt: now } },
+      }),
+    ]);
+    return {
+      openOrders,
+      backorderedLines,
+      overdueApprovals,
+      openCases,
+      pendingChangeRequests,
+      activeBreakGlass,
+      openNcrs,
+      draftInvoicesOverdue,
+    };
+  }
 }

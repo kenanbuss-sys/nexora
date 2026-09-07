@@ -372,7 +372,7 @@ BI-010,BI,Manufacturing analytics,P1,DONE,R3,,,
 BI-011,BI,Customer analytics,P1,DONE,R3,,,
 BI-012,BI,Supplier analytics,P1,PLANNED,R3,,,
 BI-013,BI,Process analytics,P1,PLANNED,R3,,,
-BI-014,BI,Control Center,P1,PLANNED,R3,,,
+BI-014,BI,Control Center,P1,DONE,R3,,,"Sprint 071: Control Center pulse — live aggregate of orders, backorders, approvals, cases, change requests, break-glass, NCRs, overdue invoices."
 BI-015,BI,Governed data export,P1,PLANNED,R3,,,
 AI-001,AI,Executive copilot,P3,PLANNED,R4+,,,
 AI-002,AI,Role copilots,P3,PLANNED,R4+,,,

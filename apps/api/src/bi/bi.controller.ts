@@ -16,6 +16,12 @@ export class AnalyticsController {
     return { kpis: this.analytics.kpiCatalog() };
   }
 
+  @Get('control-center')
+  @RequirePermission('analytics.read')
+  async controlCenter(@Ctx() ctx: RequestContext) {
+    return this.analytics.controlCenter(ctx);
+  }
+
   @Get('executive')
   @RequirePermission('analytics.read')
   async executive(@Ctx() ctx: RequestContext) {

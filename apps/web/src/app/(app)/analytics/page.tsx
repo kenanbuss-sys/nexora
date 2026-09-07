@@ -58,8 +58,21 @@ export default function AnalyticsPage() {
   const [customers, setCustomers] = useState<CustomerRow[]>([]);
   const [accounts, setAccounts] = useState<AccountView[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [pulse, setPulse] = useState<{
+    openOrders: number;
+    backorderedLines: number;
+    overdueApprovals: number;
+    openCases: number;
+    pendingChangeRequests: number;
+    activeBreakGlass: number;
+    openNcrs: number;
+    draftInvoicesOverdue: number;
+  } | null>(null);
 
   useEffect(() => {
+    api<NonNullable<typeof pulse>>('GET', '/api/v1/analytics/control-center')
+      .then(setPulse)
+      .catch(() => undefined);
     api<ExecutiveSummary>('GET', '/api/v1/analytics/executive')
       .then(setSummary)
       .catch((e: unknown) => setError(errorText(e)));
@@ -125,6 +138,36 @@ export default function AnalyticsPage() {
       ) : (
         <div className="loading">Loading control center…</div>
       )}
+
+      {pulse ? (
+        <div className="card" style={{ marginBottom: 16 }}>
+          <h2>Operational pulse</h2>
+          <div className="row" style={{ flexWrap: 'wrap', gap: 8 }}>
+            <span className="badge">open orders: {pulse.openOrders}</span>
+            <span className={`badge ${pulse.backorderedLines > 0 ? 'badge-warn' : 'badge-ok'}`}>
+              backorders: {pulse.backorderedLines}
+            </span>
+            <span className={`badge ${pulse.overdueApprovals > 0 ? 'badge-danger' : 'badge-ok'}`}>
+              approvals &gt;24h: {pulse.overdueApprovals}
+            </span>
+            <span className={`badge ${pulse.openCases > 0 ? 'badge-warn' : 'badge-ok'}`}>
+              open cases: {pulse.openCases}
+            </span>
+            <span className="badge">change requests: {pulse.pendingChangeRequests}</span>
+            <span className={`badge ${pulse.activeBreakGlass > 0 ? 'badge-danger' : 'badge-ok'}`}>
+              break-glass: {pulse.activeBreakGlass}
+            </span>
+            <span className={`badge ${pulse.openNcrs > 0 ? 'badge-warn' : 'badge-ok'}`}>
+              open NCRs: {pulse.openNcrs}
+            </span>
+            <span
+              className={`badge ${pulse.draftInvoicesOverdue > 0 ? 'badge-danger' : 'badge-ok'}`}
+            >
+              invoices overdue: {pulse.draftInvoicesOverdue}
+            </span>
+          </div>
+        </div>
+      ) : null}
 
       <div className="grid-2">
         <div>
