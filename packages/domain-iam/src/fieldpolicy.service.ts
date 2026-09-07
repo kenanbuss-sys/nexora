@@ -65,6 +65,34 @@ export class FieldPolicyService {
     return new Set(rules.filter((r) => !granted.has(r.permission)).map((r) => r.field));
   }
 
+  /**
+   * Record-level access (IAM-005): iam.recordRules
+   * ([{ objectType, mode: 'owner', exemptPermission }]) restrict reads
+   * to records the caller owns unless they hold the exempt permission.
+   */
+  async recordScope(objectType: string, ctx: RequestContext): Promise<'all' | 'own'> {
+    if (ctx.platformAdmin === true) return 'all';
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+      const raw = (config as { iam?: { recordRules?: unknown } })?.iam?.recordRules;
+      if (!Array.isArray(raw)) return 'all';
+      const rule = raw.find(
+        (entry) =>
+          (entry as { objectType?: unknown })?.objectType === objectType &&
+          (entry as { mode?: unknown })?.mode === 'owner',
+      );
+      if (!rule) return 'all';
+      const exempt = (rule as { exemptPermission?: unknown })?.exemptPermission;
+      if (typeof exempt === 'string' && ctx.userId !== undefined) {
+        const keys = await this.permissions.getPermissionKeys(ctx.userId, ctx.tenantId);
+        if (keys.includes(exempt)) return 'all';
+      }
+      return 'own';
+    } catch {
+      return 'all';
+    }
+  }
+
   /** Redact the named fields on a plain view object (non-mutating). */
   redact<T extends Record<string, unknown>>(view: T, hidden: Set<string>): T {
     if (hidden.size === 0) return view;

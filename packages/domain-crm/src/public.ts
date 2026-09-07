@@ -3,6 +3,7 @@
  */
 export {
   CrmService,
+  type RecordPolicyGate,
   type AccountView,
   type ActivityView,
   type LeadView,

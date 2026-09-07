@@ -561,7 +561,7 @@ export const REDIS = 'REDIS';
     },
     {
       provide: CRM_SERVICE,
-      useFactory: (prisma: PrismaClient, party: PartyService) => {
+      useFactory: (prisma: PrismaClient, party: PartyService, fieldPolicy: FieldPolicyService) => {
         const serviceCtx = (tenantId: string) => ({
           tenantId,
           tenantSlug: '',
@@ -571,25 +571,29 @@ export const REDIS = 'REDIS';
           userStatus: undefined,
           platformAdmin: false,
         });
-        return new CrmService(prisma, {
-          getPartyState: async (tenantId, partyId) => {
-            try {
-              const view = await party.getParty(partyId, serviceCtx(tenantId));
-              return { exists: true, active: view.status === 'ACTIVE', name: view.name };
-            } catch {
-              return null;
-            }
+        return new CrmService(
+          prisma,
+          {
+            getPartyState: async (tenantId, partyId) => {
+              try {
+                const view = await party.getParty(partyId, serviceCtx(tenantId));
+                return { exists: true, active: view.status === 'ACTIVE', name: view.name };
+              } catch {
+                return null;
+              }
+            },
+            createOrganization: async (tenantId, name, email) => {
+              const view = await party.createParty(
+                { partyType: 'ORGANIZATION', name, ...(email ? { email } : {}) },
+                serviceCtx(tenantId),
+              );
+              return { partyId: view.id };
+            },
           },
-          createOrganization: async (tenantId, name, email) => {
-            const view = await party.createParty(
-              { partyType: 'ORGANIZATION', name, ...(email ? { email } : {}) },
-              serviceCtx(tenantId),
-            );
-            return { partyId: view.id };
-          },
-        });
+          { recordScope: (objectType, ctx) => fieldPolicy.recordScope(objectType, ctx) },
+        );
       },
-      inject: [PRISMA, PARTY_SERVICE],
+      inject: [PRISMA, PARTY_SERVICE, FIELD_POLICY_SERVICE],
     },
     {
       provide: CUSTOMER360_SERVICE,

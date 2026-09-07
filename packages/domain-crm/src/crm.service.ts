@@ -62,6 +62,11 @@ export interface ActivityView {
 }
 
 /** Cross-domain contract: party identity is owned by MDM. */
+/** Cross-domain contract: record-level access policy is owned by IAM. */
+export interface RecordPolicyGate {
+  recordScope(objectType: string, ctx: RequestContext): Promise<'all' | 'own'>;
+}
+
 export interface PartyGate {
   getPartyState(
     tenantId: string,
@@ -123,13 +128,24 @@ export class CrmService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly parties: PartyGate,
+    private readonly recordPolicy?: RecordPolicyGate,
   ) {}
+
+  /** IAM-005: 'own' restricts reads to records the caller owns. */
+  private async accountScope(ctx: RequestContext): Promise<'all' | 'own'> {
+    if (!this.recordPolicy) return 'all';
+    return this.recordPolicy.recordScope('crm_account', ctx);
+  }
 
   // --- Accounts (CRM-002) ---
 
   async listAccounts(ctx: RequestContext): Promise<Array<AccountView & { partyName: string }>> {
+    const scope = await this.accountScope(ctx);
     const accounts = await this.prisma.crmAccount.findMany({
-      where: { tenantId: ctx.tenantId },
+      where: {
+        tenantId: ctx.tenantId,
+        ...(scope === 'own' ? { ownerUserId: ctx.userId ?? '' } : {}),
+      },
       orderBy: { accountNumber: 'asc' },
       take: 200,
     });
@@ -147,6 +163,10 @@ export class CrmService {
       where: { id: accountId, tenantId: ctx.tenantId },
     });
     if (!account) throw notFound('CrmAccount', accountId);
+    const scope = await this.accountScope(ctx);
+    if (scope === 'own' && account.ownerUserId !== (ctx.userId ?? '')) {
+      throw notFound('CrmAccount', accountId);
+    }
     return toAccountView(account);
   }
 
