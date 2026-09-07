@@ -87,7 +87,7 @@ import {
   FieldPolicyService,
 } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
-import { DevIdentityAdapter } from '@nexora/tenancy';
+import { DevIdentityAdapter, OidcIdentityAdapter } from '@nexora/tenancy';
 import Redis from 'ioredis';
 import { SERVICE_ACCOUNT_SERVICE, AuthGuard, IDENTITY_PORT, PRISMA } from './auth/auth.guard';
 import { PermissionsGuard, ROLE_SERVICE } from './auth/permissions.guard';
@@ -386,9 +386,15 @@ export const REDIS = 'REDIS';
       provide: IDENTITY_PORT,
       useFactory: (env: Env): IdentityPort => {
         if (env.AUTH_MODE === 'oidc') {
-          throw new Error(
-            'AUTH_MODE=oidc is not implemented yet; the OIDC adapter arrives in a later sprint',
-          );
+          if (!env.OIDC_ISSUER || !env.OIDC_AUDIENCE || !env.OIDC_JWKS_URL) {
+            throw new Error('AUTH_MODE=oidc needs OIDC_ISSUER, OIDC_AUDIENCE and OIDC_JWKS_URL');
+          }
+          return new OidcIdentityAdapter({
+            issuer: env.OIDC_ISSUER,
+            audience: env.OIDC_AUDIENCE,
+            jwksUrl: env.OIDC_JWKS_URL,
+            tenantClaim: env.OIDC_TENANT_CLAIM,
+          });
         }
         return new DevIdentityAdapter(env.DEV_AUTH_SECRET);
       },
