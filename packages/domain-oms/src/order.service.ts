@@ -446,6 +446,7 @@ export class OrderService {
       warehouseId: string;
       currency: string;
       lines: Array<{ code: string; quantity: number }>;
+      fulfillmentType?: 'DELIVERY' | 'PICKUP' | undefined;
     },
     ctx: RequestContext,
   ): Promise<{ order: OrderView; unknownCodes: string[] }> {
@@ -464,7 +465,12 @@ export class OrderService {
       throw new DomainError('VALIDATION_FAILED', 'No line resolved to an active SKU');
     }
     const order = await this.createOrder(
-      { accountId: input.accountId, warehouseId: input.warehouseId, currency: input.currency },
+      {
+        accountId: input.accountId,
+        warehouseId: input.warehouseId,
+        currency: input.currency,
+        ...(input.fulfillmentType !== undefined ? { fulfillmentType: input.fulfillmentType } : {}),
+      },
       ctx,
     );
     for (const line of known) {
@@ -481,6 +487,40 @@ export class OrderService {
     }
     await this.recordTransition(order.id, EVENT_TYPES.ORDER_AMENDED, 'Quick order entry', ctx);
     return { order: await this.getOrder(order.id, ctx), unknownCodes };
+  }
+
+  /**
+   * Endless aisle (COM-009): an in-store order for what the shelf does
+   * not have — captured by SKU code, confirmed immediately with
+   * backorders allowed, flagged for pickup or delivery, audited. One
+   * call, kiosk-friendly.
+   */
+  async endlessAisle(
+    input: {
+      accountId: string;
+      warehouseId: string;
+      currency: string;
+      lines: Array<{ code: string; quantity: number }>;
+      fulfillmentType?: 'DELIVERY' | 'PICKUP' | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{ order: OrderView; unknownCodes: string[] }> {
+    const { order, unknownCodes } = await this.quickOrder(
+      { ...input, fulfillmentType: input.fulfillmentType ?? 'PICKUP' },
+      ctx,
+    );
+    const confirmed = await this.confirmOrder(order.id, ctx, { allowBackorder: true });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'com.endless_aisle',
+      objectType: 'SalesOrder',
+      objectId: order.id,
+      source: 'api',
+      newValues: { lines: input.lines.length, unknownCodes: unknownCodes.length },
+    });
+    return { order: confirmed, unknownCodes };
   }
 
   /**

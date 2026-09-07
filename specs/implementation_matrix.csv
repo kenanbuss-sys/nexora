@@ -93,7 +93,7 @@ COM-005,COM,Marketplace adapters,P1,Implemented (Sprint 117),R1,,,
 COM-006,COM,Unified cart/order,P1,PLANNED,R1,,,
 COM-007,COM,Click & collect,P1,Implemented (Sprint 106),R1,,,
 COM-008,COM,Ship from store,P1,PLANNED,R1,,,
-COM-009,COM,Endless aisle,P1,PLANNED,R1,,,
+COM-009,COM,Endless aisle,P1,Implemented (Sprint 125),R1,,,
 COM-010,COM,Channel availability,P1,DONE,R1,,,"Sprint 068: sellable-quantity feed (ledger minus reservations, non-negative), scoped or full, API-key friendly."
 COM-011,COM,Returns/exchanges,P1,DONE,R1,,,Returns/exchanges via governed RMA flow (Sprint 028)
 COM-012,COM,Vouchers,P1,DONE,R1,,,Sprint 053: voucher codes redeemed on DRAFT orders; idempotent per order; totals honour the discount.

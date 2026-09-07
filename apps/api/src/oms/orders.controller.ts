@@ -34,6 +34,16 @@ const fulfillLinesSchema = z.object({
     .max(100),
 });
 const amendSchema = z.object({ quantity: z.number().positive() });
+const endlessAisleSchema = z.object({
+  accountId: z.string().uuid(),
+  warehouseId: z.string().uuid(),
+  currency: z.string().length(3),
+  lines: z
+    .array(z.object({ code: z.string().min(1).max(64), quantity: z.number().positive() }))
+    .min(1)
+    .max(100),
+  fulfillmentType: z.enum(['DELIVERY', 'PICKUP']).optional(),
+});
 
 @Controller('api/v1/orders')
 export class OrdersController {
@@ -102,6 +112,12 @@ export class OrdersController {
   @RequirePermission('order.confirm')
   async allocateBackorders(@Ctx() ctx: RequestContext) {
     return { report: await this.orders.allocateBackorders(ctx) };
+  }
+
+  @Post('endless-aisle')
+  @RequirePermission('order.create')
+  async endlessAisle(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.orders.endlessAisle(parseBody(endlessAisleSchema, body), ctx);
   }
 
   @Post('quick')
