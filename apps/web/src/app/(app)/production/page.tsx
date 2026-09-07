@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
+import { downloadDocument } from '../../../lib/download';
 import { useApp } from '../app-shell';
 
 interface WoOperationView {
@@ -301,6 +302,16 @@ export default function ProductionPage() {
               ) : null}
 
               <div className="row" style={{ marginTop: 8 }}>
+                <button
+                  className="btn btn-sm"
+                  disabled={busy}
+                  type="button"
+                  onClick={() =>
+                    void downloadDocument(`/api/v1/documents/work-order/${wo.id}/label`)
+                  }
+                >
+                  Label
+                </button>
                 {wo.status === 'COMPLETED' &&
                 Number(wo.scrapQuantity) > 0 &&
                 can('production.manage') ? (

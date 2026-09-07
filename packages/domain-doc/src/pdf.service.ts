@@ -256,6 +256,65 @@ export class PdfService {
     });
   }
 
+  /**
+   * Production label (MES-017): a compact A6 label for one work order —
+   * WO number large, SKU code and name, quantity and its primary
+   * barcode value in high-contrast print.
+   */
+  async renderWorkOrderLabel(workOrderId: string, ctx: RequestContext): Promise<RenderedDocument> {
+    const wo = await this.prisma.workOrder.findFirst({
+      where: { id: workOrderId, tenantId: ctx.tenantId },
+    });
+    if (!wo) throw notFound('WorkOrder', workOrderId);
+    const sku = await this.prisma.sku.findFirst({ where: { id: wo.skuId } });
+    const barcode = await this.prisma.barcode.findFirst({
+      where: { tenantId: ctx.tenantId, skuId: wo.skuId },
+    });
+    const companyName = await this.tenantName(ctx.tenantId);
+    return new Promise((resolve, reject) => {
+      const doc = new PDFDocument({ size: 'A6', margin: 18, layout: 'landscape' });
+      const chunks: Buffer[] = [];
+      doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+      doc.on('error', reject);
+      doc.on('end', () =>
+        resolve({
+          fileName: `${wo.woNumber}-label.pdf`,
+          contentType: 'application/pdf',
+          dataBase64: Buffer.concat(chunks).toString('base64'),
+        }),
+      );
+      const w = doc.page.width - 36;
+      doc.font('Helvetica').fontSize(8).fill('#666666').text(companyName, 18, 16);
+      doc.font('Helvetica-Bold').fontSize(26).fill('#111111').text(wo.woNumber, 18, 32);
+      doc
+        .font('Helvetica-Bold')
+        .fontSize(13)
+        .text(sku?.code ?? '?', 18, 70);
+      doc
+        .font('Helvetica')
+        .fontSize(10)
+        .fill('#333333')
+        .text(sku?.name ?? '', 18, 88, { width: w });
+      doc
+        .font('Helvetica-Bold')
+        .fontSize(14)
+        .fill('#111111')
+        .text(`QTY ${wo.quantity.toString()}`, 18, 116);
+      if (barcode) {
+        doc
+          .font('Courier-Bold')
+          .fontSize(16)
+          .text(barcode.value, 18, 142, { width: w, characterSpacing: 2 });
+      }
+      doc
+        .font('Helvetica')
+        .fontSize(7)
+        .fill('#888888')
+        .text(new Date().toISOString().slice(0, 10), 18, doc.page.height - 26);
+      doc.end();
+    });
+  }
+
   private async partyOfAccount(accountId: string, tenantId: string): Promise<string> {
     const account = await this.prisma.crmAccount.findFirst({
       where: { id: accountId, tenantId },

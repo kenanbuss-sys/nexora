@@ -17,6 +17,12 @@ export class PdfController {
     return this.pdf.renderQuote(id, ctx);
   }
 
+  @Get('work-order/:id/label')
+  @RequirePermission('production.read')
+  async workOrderLabel(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.pdf.renderWorkOrderLabel(id, ctx);
+  }
+
   @Get('invoice/:id/pdf')
   @RequirePermission('finance.read')
   async invoice(@Param('id') id: string, @Ctx() ctx: RequestContext) {
