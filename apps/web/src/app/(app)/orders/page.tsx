@@ -15,6 +15,7 @@ interface OrderLineView {
   lineTotal: string;
   reservationId: string | null;
   backordered: boolean;
+  fulfilledQty?: string;
 }
 
 interface OrderView {
@@ -427,6 +428,11 @@ export default function OrdersPage() {
                         <td>{l.description}</td>
                         <td>
                           {l.quantity} × {l.unitPrice}
+                          {Number(l.fulfilledQty ?? 0) > 0 ? (
+                            <span className="badge badge-ok" style={{ marginLeft: 6 }}>
+                              shipped {l.fulfilledQty}
+                            </span>
+                          ) : null}
                           {l.reservationId ? (
                             <span className="badge badge-accent" style={{ marginLeft: 6 }}>
                               reserved

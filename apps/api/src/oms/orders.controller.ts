@@ -24,6 +24,13 @@ const addLineSchema = z.object({
 });
 const holdSchema = z.object({ reason: z.string().min(1).max(500) });
 const confirmSchema = z.object({ allowBackorder: z.boolean().optional() });
+const fulfillLinesSchema = z.object({
+  shipKey: z.string().min(6).max(64),
+  lines: z
+    .array(z.object({ lineId: z.string().uuid(), quantity: z.number().positive() }))
+    .min(1)
+    .max(100),
+});
 const amendSchema = z.object({ quantity: z.number().positive() });
 
 @Controller('api/v1/orders')
@@ -74,6 +81,13 @@ export class OrdersController {
   async notifyAbandoned(@Query('hours') hours: string, @Ctx() ctx: RequestContext) {
     const parsed = Number(hours);
     return this.orders.notifyAbandoned(Number.isFinite(parsed) ? parsed : 24, ctx);
+  }
+
+  @Post(':id/fulfill-lines')
+  @RequirePermission('order.confirm')
+  async fulfillLines(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(fulfillLinesSchema, body);
+    return this.orders.fulfillLines({ orderId: id, ...input }, ctx);
   }
 
   @Post('allocate-backorders')

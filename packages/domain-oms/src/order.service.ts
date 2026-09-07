@@ -29,6 +29,7 @@ export interface OrderLineView {
   lineTotal: string;
   reservationId: string | null;
   backordered: boolean;
+  fulfilledQty: string;
 }
 
 export interface OrderView {
@@ -155,6 +156,7 @@ function toView(order: {
     lineTotal: { toString(): string };
     reservationId: string | null;
     backordered: boolean;
+    fulfilledQty: { toString(): string };
   }>;
 }): OrderView {
   return {
@@ -173,6 +175,7 @@ function toView(order: {
       skuId: l.skuId,
       description: l.description,
       backordered: l.backordered,
+      fulfilledQty: l.fulfilledQty.toString(),
       quantity: l.quantity.toString(),
       unitPrice: l.unitPrice.toString(),
       lineTotal: l.lineTotal.toString(),
@@ -1087,6 +1090,114 @@ export class OrderService {
    * and post an idempotent ISSUE ledger movement. Retrying after a crash
    * is safe: movements carry `order:{orderId}:line:{lineId}` keys.
    */
+  /**
+   * Split fulfillment (OMS-005): ship part of a confirmed order.
+   * Issues stock per line idempotently (keyed by shipKey), tracks
+   * fulfilledQty on each line, and flips the order to FULFILLED only
+   * when every line is fully shipped. Backordered lines cannot ship.
+   */
+  async fulfillLines(
+    input: {
+      orderId: string;
+      shipKey: string;
+      lines: Array<{ lineId: string; quantity: number }>;
+    },
+    ctx: RequestContext,
+  ): Promise<OrderView> {
+    if (!/^[A-Za-z0-9_-]{6,64}$/.test(input.shipKey)) {
+      throw new DomainError('VALIDATION_FAILED', 'shipKey must be 6-64 safe characters');
+    }
+    if (input.lines.length === 0) {
+      throw new DomainError('VALIDATION_FAILED', 'Nothing to ship');
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: input.orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('SalesOrder', input.orderId);
+    if (order.status !== 'CONFIRMED') {
+      throw new DomainError('INVALID_STATE', 'Only confirmed orders can ship');
+    }
+    const lineOf = new Map(order.lines.map((l) => [l.id, l]));
+    for (const request of input.lines) {
+      const line = lineOf.get(request.lineId);
+      if (!line) throw notFound('SalesOrderLine', request.lineId);
+      if (line.backordered) {
+        throw new DomainError('INVALID_STATE', 'Backordered lines must be released first');
+      }
+      if (!(request.quantity > 0)) {
+        throw new DomainError('VALIDATION_FAILED', 'Ship quantity must be positive');
+      }
+      if (Number(line.fulfilledQty) + request.quantity > Number(line.quantity) + 1e-9) {
+        throw new DomainError(
+          'INVALID_STATE',
+          `Over-shipment: ordered ${line.quantity}, already shipped ${line.fulfilledQty}`,
+        );
+      }
+    }
+    for (const request of input.lines) {
+      const line = lineOf.get(request.lineId);
+      if (!line) continue;
+      // Release the full-line reservation on the first partial shipment
+      // (remaining quantity is re-reserved below).
+      if (line.reservationId) {
+        try {
+          await this.stock.releaseReservation(line.reservationId, ctx);
+        } catch {
+          // Already released by an earlier partial shipment.
+        }
+        await this.prisma.salesOrderLine.update({
+          where: { id: line.id },
+          data: { reservationId: null },
+        });
+      }
+      const movement = await this.stock.postMovement(
+        {
+          warehouseId: order.warehouseId,
+          skuId: line.skuId,
+          movementType: 'ISSUE',
+          quantity: request.quantity,
+          idempotencyKey: `split:${input.shipKey}:line:${line.id}`,
+          reason: `Partial shipment of ${order.orderNumber}`,
+        },
+        ctx,
+      );
+      if (!movement.duplicate) {
+        await this.prisma.salesOrderLine.update({
+          where: { id: line.id },
+          data: { fulfilledQty: { increment: request.quantity } },
+        });
+      }
+    }
+    const fresh = await this.prisma.salesOrderLine.findMany({
+      where: { tenantId: ctx.tenantId, orderId: order.id },
+    });
+    const allShipped = fresh.every((l) => Number(l.fulfilledQty) >= Number(l.quantity) - 1e-9);
+    if (allShipped) {
+      await this.prisma.salesOrder.updateMany({
+        where: { id: order.id, tenantId: ctx.tenantId, status: 'CONFIRMED' },
+        data: { status: 'FULFILLED' },
+      });
+      if (this.loyalty) {
+        try {
+          await this.loyalty.accrueForOrder(
+            { accountId: order.accountId, orderId: order.id, orderTotal: Number(order.total) },
+            ctx,
+          );
+        } catch {
+          // Loyalty must never block fulfillment.
+        }
+      }
+    }
+    await this.recordTransition(
+      order.id,
+      EVENT_TYPES.ORDER_FULFILLMENT_PLANNED,
+      `partial shipment ${input.shipKey}: ${input.lines.length} line(s)`,
+      ctx,
+    );
+    return this.getOrder(order.id, ctx);
+  }
+
   async fulfillOrder(orderId: string, ctx: RequestContext): Promise<OrderView> {
     const order = await this.prisma.salesOrder.findFirst({
       where: { id: orderId, tenantId: ctx.tenantId },
@@ -1129,6 +1240,12 @@ export class OrderService {
       data: { status: 'FULFILLED' },
     });
     if (flipped.count === 0) throw new DomainError('CONFLICT', 'Order changed concurrently');
+    for (const line of order.lines) {
+      await this.prisma.salesOrderLine.update({
+        where: { id: line.id },
+        data: { fulfilledQty: line.quantity },
+      });
+    }
     // COM-013: award loyalty points — idempotent per order in CRM, so a
     // retried fulfillment can never double-award.
     if (this.loyalty) {
