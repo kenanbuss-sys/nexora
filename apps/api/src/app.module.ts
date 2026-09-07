@@ -73,6 +73,7 @@ import {
   CountService,
   InventoryService,
   WmsOrderService,
+  PackingService,
 } from '@nexora/domain-wms';
 import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
 import {
@@ -218,6 +219,8 @@ import {
   INVENTORY_SERVICE,
   StockController,
   WarehousesController,
+  PACKING_SERVICE,
+  PackagesController,
 } from './wms/wms.controller';
 import {
   SERIAL_SERVICE,
@@ -294,6 +297,7 @@ export const REDIS = 'REDIS';
     BarcodesController,
     WarehousesController,
     StockController,
+    PackagesController,
     QuarantineController,
     WmsOrdersController,
     DevicesController,
@@ -600,6 +604,11 @@ export const REDIS = 'REDIS';
           getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
         }),
       inject: [PRISMA, TENANT_SERVICE],
+    },
+    {
+      provide: PACKING_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PackingService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: RFQ_SERVICE,

@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import type { RoleService } from '@nexora/domain-iam';
-import type { QuarantineService, InventoryService } from '@nexora/domain-wms';
+import type { QuarantineService, InventoryService, PackingService } from '@nexora/domain-wms';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -17,6 +17,7 @@ import { RequirePermission, ROLE_SERVICE } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const INVENTORY_SERVICE = 'INVENTORY_SERVICE';
+export const PACKING_SERVICE = 'PACKING_SERVICE';
 export const QUARANTINE_SERVICE = 'QUARANTINE_SERVICE';
 
 const createWarehouseSchema = z.object({
@@ -249,5 +250,43 @@ export class QuarantineController {
   async decide(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(decideHoldSchema, body);
     return this.quarantine.decide(id, input.decision, ctx);
+  }
+}
+
+const createPackageSchema = z.object({
+  orderId: z.string().uuid(),
+  lines: z
+    .array(z.object({ orderLineId: z.string().uuid(), quantity: z.number().positive() }))
+    .min(1)
+    .max(50),
+  weightKg: z.number().positive().max(100000).optional(),
+});
+
+@Controller('api/v1/packages')
+export class PackagesController {
+  constructor(@Inject(PACKING_SERVICE) private readonly packing: PackingService) {}
+
+  @Get()
+  @RequirePermission('inventory.read')
+  async list(@Query('orderId') orderId: string, @Ctx() ctx: RequestContext) {
+    return { packages: await this.packing.listPackages({ orderId: orderId || undefined }, ctx) };
+  }
+
+  @Post()
+  @RequirePermission('inventory.adjust')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.packing.createPackage(parseBody(createPackageSchema, body), ctx);
+  }
+
+  @Post(':id/stage')
+  @RequirePermission('inventory.adjust')
+  async stage(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.packing.transition(id, 'STAGED', ctx);
+  }
+
+  @Post(':id/ship')
+  @RequirePermission('inventory.adjust')
+  async ship(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.packing.transition(id, 'SHIPPED', ctx);
   }
 }

@@ -152,8 +152,8 @@ WMS-007,WMS,Putaway,P1,Implemented (Sprint 101),R1,,,
 WMS-008,WMS,Replenishment,P1,DONE,R1,,,Sprint 060: live replenishment report — availability vs reorder point with suggested quantities (ledger + reservations).
 WMS-009,WMS,Reservations,P1,Implemented (Sprint 004),R1,,,Atomic reservations under stock lock; no-oversell proven by concurrency test
 WMS-010,WMS,Picking,P1,Implemented (Sprint 005),R1,,,"Pick orders post ISSUE, oversell-guarded"
-WMS-011,WMS,Packing,P1,PLANNED,R1,,,
-WMS-012,WMS,Shipping staging,P1,PLANNED,R1,,,
+WMS-011,WMS,Packing,P1,Implemented (Sprint 103),R1,,,
+WMS-012,WMS,Shipping staging,P1,Implemented (Sprint 103),R1,,,
 WMS-013,WMS,Transfers,P1,Implemented (Sprint 005),R1,,,"Transfer orders post OUT+IN, retriable"
 WMS-014,WMS,Cycle counting,P1,Implemented (Sprint 005),R1,,,Cycle count adjusts ledger to counted qty
 WMS-015,WMS,Full inventory,P1,DONE,R1,,,Stock counts with snapshot/variance and idempotent posting (Sprint 030)

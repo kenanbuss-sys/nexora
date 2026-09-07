@@ -96,6 +96,15 @@ export default function OrdersPage() {
   >({});
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [packages, setPackages] = useState<
+    Array<{
+      id: string;
+      packageNumber: string;
+      orderNumber: string;
+      status: string;
+      lines: Array<{ description: string; quantity: string }>;
+    }>
+  >([]);
   const [busy, setBusy] = useState(false);
 
   const [newAccount, setNewAccount] = useState('');
@@ -120,6 +129,9 @@ export default function OrdersPage() {
   const [returns, setReturns] = useState<ReturnView[]>([]);
 
   const load = useCallback(() => {
+    api<{ packages: typeof packages }>('GET', '/api/v1/packages')
+      .then((r) => setPackages(r.packages))
+      .catch(() => setPackages([]));
     api<{ orders: OrderView[] }>('GET', '/api/v1/orders')
       .then((r) => {
         setOrders(r.orders);
@@ -666,6 +678,28 @@ export default function OrdersPage() {
                         Fulfill
                       </button>
                     ) : null}
+                    {can('inventory.adjust') ? (
+                      <button
+                        className="btn btn-sm"
+                        disabled={busy}
+                        onClick={() =>
+                          run(
+                            () =>
+                              api('POST', '/api/v1/packages', {
+                                orderId: o.id,
+                                lines: o.lines.map((l) => ({
+                                  orderLineId: l.id,
+                                  quantity: Number(l.quantity),
+                                })),
+                              }),
+                            'Package created.',
+                          )
+                        }
+                        type="button"
+                      >
+                        Pack
+                      </button>
+                    ) : null}
                     {o.lines.some((l) => l.backordered) && can('order.confirm') ? (
                       <button
                         className="btn btn-sm"
@@ -1034,6 +1068,56 @@ export default function OrdersPage() {
               Create draft
             </button>
           </form>
+        </div>
+      ) : null}
+      {packages.length > 0 ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Packages</h2>
+          {packages.slice(0, 10).map((p) => (
+            <div key={p.id} className="row spread" style={{ marginBottom: 6 }}>
+              <span style={{ fontSize: 13 }}>
+                <strong className="mono">{p.packageNumber}</strong>{' '}
+                <span className="muted mono">{p.orderNumber}</span>{' '}
+                <span
+                  className={`badge ${
+                    p.status === 'SHIPPED'
+                      ? 'badge-ok'
+                      : p.status === 'STAGED'
+                        ? 'badge-accent'
+                        : 'badge-warn'
+                  }`}
+                >
+                  {p.status}
+                </span>
+              </span>
+              <span>
+                {can('inventory.adjust') && p.status === 'PACKED' ? (
+                  <button
+                    className="btn btn-sm"
+                    disabled={busy}
+                    onClick={() =>
+                      run(() => api('POST', `/api/v1/packages/${p.id}/stage`), 'Package staged.')
+                    }
+                    type="button"
+                  >
+                    Stage
+                  </button>
+                ) : null}
+                {can('inventory.adjust') && p.status === 'STAGED' ? (
+                  <button
+                    className="btn btn-sm"
+                    disabled={busy}
+                    onClick={() =>
+                      run(() => api('POST', `/api/v1/packages/${p.id}/ship`), 'Package shipped.')
+                    }
+                    type="button"
+                  >
+                    Ship
+                  </button>
+                ) : null}
+              </span>
+            </div>
+          ))}
         </div>
       ) : null}
     </main>

@@ -42,6 +42,7 @@ export const MODULE_ROUTE_MAP: Array<[string, string]> = [
   ['finance', 'finance'],
   ['stock', 'warehouse'],
   ['warehouses', 'warehouse'],
+  ['packages', 'warehouse'],
   ['wms', 'warehouse'],
   ['devices', 'devices'],
   ['scan-events', 'devices'],
