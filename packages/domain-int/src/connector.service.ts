@@ -142,6 +142,13 @@ export function applyMapping(
   return out;
 }
 
+/** Cross-domain contract: sellable quantities are owned by WMS (COM-001). */
+export interface AvailabilityFeedGate {
+  channelAvailability(
+    ctx: RequestContext,
+  ): Promise<Array<{ skuId: string; code: string; available: number }>>;
+}
+
 /** Cross-domain contract: effective configuration is owned by CORE. */
 export interface ConnectorConfigGate {
   getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
@@ -164,6 +171,7 @@ export class ConnectorService {
     private readonly prisma: PrismaClient,
     private readonly config: ConnectorConfigGate,
     adapters?: Record<string, ConnectorAdapter>,
+    private readonly availability?: AvailabilityFeedGate,
   ) {
     this.adapters.set('noop', noopAdapter);
     for (const [name, adapter] of Object.entries(adapters ?? {})) {
@@ -257,6 +265,66 @@ export class ConnectorService {
    * the adapter decides the wire format — domains never talk to
    * external systems directly.
    */
+  /**
+   * B2C channel sync (COM-001): push the sellable-quantity feed to
+   * every valid commerce connector through the port — storefronts stay
+   * in sync without ever reading the database directly.
+   */
+  async syncChannels(
+    ctx: RequestContext,
+  ): Promise<Array<{ key: string; ok: boolean; items: number; detail: string }>> {
+    if (!this.availability) {
+      throw new DomainError('INVALID_STATE', 'Channel sync is not configured');
+    }
+    const connectors = (await this.listConnectors(ctx)).filter(
+      (c) => c.kind === 'commerce' && c.valid,
+    );
+    if (connectors.length === 0) return [];
+    const feed = await this.availability.channelAvailability(ctx);
+    const results: Array<{ key: string; ok: boolean; items: number; detail: string }> = [];
+    for (const connector of connectors) {
+      try {
+        const result = await this.pushObject(
+          {
+            key: connector.key,
+            objectType: 'AvailabilityFeed',
+            objectId: `sync:${new Date().toISOString().slice(0, 10)}`,
+            payload: { items: feed },
+          },
+          ctx,
+        );
+        results.push({
+          key: connector.key,
+          ok: result.ok,
+          items: feed.length,
+          detail: result.reference,
+        });
+      } catch (error) {
+        results.push({
+          key: connector.key,
+          ok: false,
+          items: feed.length,
+          detail: (error as Error).message,
+        });
+      }
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'int.channel.sync',
+      objectType: 'Connector',
+      objectId: 'batch',
+      source: 'api',
+      newValues: {
+        connectors: results.length,
+        succeeded: results.filter((r) => r.ok).length,
+        items: feed.length,
+      },
+    });
+    return results;
+  }
+
   private async mappingRules(tenantId: string, connectorKey: string): Promise<MappingRule[]> {
     try {
       const { config } = await this.config.getEffectiveConfiguration(tenantId);

@@ -93,6 +93,12 @@ export class ConnectorsController {
     return { connectors: await this.connectors.listConnectors(ctx) };
   }
 
+  @Post('sync-channels')
+  @RequirePermission('integration.manage')
+  async syncChannels(@Ctx() ctx: RequestContext) {
+    return { results: await this.connectors.syncChannels(ctx) };
+  }
+
   @Post(':key/test')
   @RequirePermission('integration.manage')
   async test(@Param('key') key: string, @Ctx() ctx: RequestContext) {

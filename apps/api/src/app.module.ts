@@ -1024,13 +1024,19 @@ export const REDIS = 'REDIS';
     },
     {
       provide: CONNECTOR_SERVICE,
-      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+      useFactory: (prisma: PrismaClient, tenants: TenantService, inventory: InventoryService) =>
         new ConnectorService(
           prisma,
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
           { webhook: webhookAdapter(fetchTransport) },
+          {
+            channelAvailability: async (ctx) => {
+              const rows = await inventory.channelAvailability(undefined, ctx);
+              return rows.map((r) => ({ skuId: r.skuId, code: r.code, available: r.available }));
+            },
+          },
         ),
-      inject: [PRISMA, TENANT_SERVICE],
+      inject: [PRISMA, TENANT_SERVICE, INVENTORY_SERVICE],
     },
     {
       provide: SERVICE_ACCOUNT_SERVICE,
