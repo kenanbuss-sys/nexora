@@ -22,7 +22,7 @@ CORE-020,CORE,Audit ledger,P0,Implemented (Sprint 001),R0,,,Immutable audit ledg
 IAM-001,IAM,User lifecycle,P0,Implemented (Sprint 001),R0,,,Invite/suspend/idp-linkage lifecycle
 IAM-002,IAM,RBAC,P0,Implemented (Sprint 001),R0,,,"Roles, role permissions, tenant-admin bootstrap"
 IAM-003,IAM,Scoped permissions,P0,Implemented (Sprint 001),R0,,,"Org-scoped role assignments, default-deny evaluation"
-IAM-004,IAM,Field-level permissions,P0,PLANNED,R0,,,
+IAM-004,IAM,Field-level permissions,P0,Implemented (Sprint 113),R0,,,
 IAM-005,IAM,Record-level access,P0,PLANNED,R0,,,
 IAM-006,IAM,MFA,P0,DONE,R0,,,"TOTP 2FA: self-service enroll/confirm-to-arm/disable (password-verified), MFA-gated login with ±1 step drift, security events + audit; Users/login UI (Sprint 044)"
 IAM-007,IAM,SSO/OIDC/SAML,P0,PLANNED,R0,,,

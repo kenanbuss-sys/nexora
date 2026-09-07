@@ -84,6 +84,7 @@ import {
   ServiceAccountService,
   RoleService,
   UserService,
+  FieldPolicyService,
 } from '@nexora/domain-iam';
 import type { IdentityPort } from '@nexora/tenancy';
 import { DevIdentityAdapter } from '@nexora/tenancy';
@@ -109,6 +110,7 @@ import {
   PARTY_SERVICE,
   UOM_SERVICE,
   UomsController,
+  FIELD_POLICY_SERVICE,
 } from './mdm/mdm.controller';
 import {
   DEVICE_SERVICE,
@@ -622,6 +624,20 @@ export const REDIS = 'REDIS';
           },
         }),
       inject: [PRISMA, TASK_SERVICE],
+    },
+    {
+      provide: FIELD_POLICY_SERVICE,
+      useFactory: (tenants: TenantService, roles: RoleService) =>
+        new FieldPolicyService(
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            getPermissionKeys: async (userId, tenantId) => {
+              const grants = await roles.getEffectivePermissions(userId, tenantId);
+              return grants.map((g) => g.permissionKey);
+            },
+          },
+        ),
+      inject: [TENANT_SERVICE, ROLE_SERVICE],
     },
     {
       provide: CUSTOM_OBJECT_SERVICE,

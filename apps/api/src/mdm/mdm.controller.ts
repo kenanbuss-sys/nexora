@@ -6,6 +6,7 @@ import type {
   PartyService,
   UomService,
 } from '@nexora/domain-mdm';
+import type { FieldPolicyService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -17,6 +18,7 @@ export const DATA_QUALITY_SERVICE = 'DATA_QUALITY_SERVICE';
 export const CONSENT_SERVICE = 'CONSENT_SERVICE';
 export const MDM_APPROVAL_SERVICE = 'MDM_APPROVAL_SERVICE';
 export const UOM_SERVICE = 'UOM_SERVICE';
+export const FIELD_POLICY_SERVICE = 'FIELD_POLICY_SERVICE';
 
 const consentSchema = z.object({
   channel: z.enum(['EMAIL', 'PHONE', 'SMS', 'POST']),
@@ -45,6 +47,7 @@ export class PartiesController {
     @Inject(PARTY_SERVICE) private readonly parties: PartyService,
     @Inject(DATA_QUALITY_SERVICE) private readonly quality: DataQualityService,
     @Inject(CONSENT_SERVICE) private readonly consents: ConsentService,
+    @Inject(FIELD_POLICY_SERVICE) private readonly fieldPolicy: FieldPolicyService,
   ) {}
 
   @Get(':id/consents')
@@ -107,13 +110,22 @@ export class PartiesController {
   @Get(':id')
   @RequirePermission('mdm.read')
   async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {
-    return this.parties.getParty(id, ctx);
+    const view = await this.parties.getParty(id, ctx);
+    // IAM-004: field-level permissions redact sensitive fields server-side.
+    const hidden = await this.fieldPolicy.hiddenFields('party', ctx);
+    return this.fieldPolicy.redact(view as unknown as Record<string, unknown>, hidden);
   }
 
   @Get()
   @RequirePermission('mdm.read')
   async search(@Ctx() ctx: RequestContext, @Query('q') q?: string) {
-    return { parties: await this.parties.searchParties(q ?? '', ctx) };
+    const parties = await this.parties.searchParties(q ?? '', ctx);
+    const hidden = await this.fieldPolicy.hiddenFields('party', ctx);
+    return {
+      parties: parties.map((p) =>
+        this.fieldPolicy.redact(p as unknown as Record<string, unknown>, hidden),
+      ),
+    };
   }
 
   @Post('merge')

@@ -29,3 +29,9 @@ export {
   BreakGlassService,
   type BreakGlassView,
 } from './breakglass.service';
+export {
+  FieldPolicyService,
+  REDACTED,
+  type FieldPolicyConfigGate,
+  type PermissionLookupGate,
+} from './fieldpolicy.service';
