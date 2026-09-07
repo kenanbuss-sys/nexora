@@ -1420,6 +1420,36 @@ exports.Prisma.ContractScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.EmployeeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  employeeNumber: 'employeeNumber',
+  name: 'name',
+  email: 'email',
+  title: 'title',
+  status: 'status',
+  userId: 'userId',
+  skills: 'skills',
+  hiredAt: 'hiredAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssetScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  assetNumber: 'assetNumber',
+  name: 'name',
+  category: 'category',
+  serialNumber: 'serialNumber',
+  workCenterId: 'workCenterId',
+  status: 'status',
+  value: 'value',
+  purchasedAt: 'purchasedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1794,6 +1824,17 @@ exports.ContractStatus = exports.$Enums.ContractStatus = {
   TERMINATED: 'TERMINATED'
 };
 
+exports.EmployeeStatus = exports.$Enums.EmployeeStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+};
+
+exports.AssetStatus = exports.$Enums.AssetStatus = {
+  IN_SERVICE: 'IN_SERVICE',
+  UNDER_MAINTENANCE: 'UNDER_MAINTENANCE',
+  RETIRED: 'RETIRED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -1904,7 +1945,9 @@ exports.Prisma.ModelName = {
   LoyaltyAccount: 'LoyaltyAccount',
   LoyaltyTransaction: 'LoyaltyTransaction',
   SupportCase: 'SupportCase',
-  Contract: 'Contract'
+  Contract: 'Contract',
+  Employee: 'Employee',
+  Asset: 'Asset'
 };
 
 /**

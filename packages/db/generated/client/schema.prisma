@@ -135,6 +135,8 @@ model Tenant {
   loyaltyAccounts       LoyaltyAccount[]
   supportCases          SupportCase[]
   contracts             Contract[]
+  employees             Employee[]
+  assets                Asset[]
 
   @@map("tenant")
 }
@@ -2735,4 +2737,63 @@ model Contract {
   @@index([tenantId, status])
   @@index([tenantId, endsAt])
   @@map("contract")
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+}
+
+/// Sprint 072 (HCM-001/005): employee master — numbered employees with
+/// role/title, optional link to an app user, and a validated skills
+/// list for shop-floor assignment decisions.
+model Employee {
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String         @map("tenant_id") @db.Uuid
+  employeeNumber String         @map("employee_number")
+  name           String
+  email          String?
+  title          String?
+  status         EmployeeStatus @default(ACTIVE)
+  userId         String?        @map("user_id") @db.Uuid
+  skills         Json?
+  hiredAt        DateTime?      @map("hired_at")
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, employeeNumber])
+  @@index([tenantId, status])
+  @@map("employee")
+}
+
+enum AssetStatus {
+  IN_SERVICE
+  UNDER_MAINTENANCE
+  RETIRED
+}
+
+/// Sprint 073 (EAM-001/002): asset registry — numbered physical assets
+/// with category, optional serial and work-center linkage, value and
+/// an explicit service lifecycle.
+model Asset {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String      @map("tenant_id") @db.Uuid
+  assetNumber  String      @map("asset_number")
+  name         String
+  category     String
+  serialNumber String?     @map("serial_number")
+  workCenterId String?     @map("work_center_id") @db.Uuid
+  status       AssetStatus @default(IN_SERVICE)
+  value        Decimal?    @db.Decimal(18, 2)
+  purchasedAt  DateTime?   @map("purchased_at")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, assetNumber])
+  @@index([tenantId, status])
+  @@map("asset")
 }
