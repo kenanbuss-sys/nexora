@@ -46,6 +46,7 @@ export const MODULE_ROUTE_MAP: Array<[string, string]> = [
   ['devices', 'devices'],
   ['scan-events', 'devices'],
   ['integrations', 'integrations'],
+  ['connectors', 'integrations'],
   ['portal', 'portal'],
   ['portal-users', 'portal'],
 ];

@@ -53,7 +53,12 @@ import {
 import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { CollaborationService, SearchService } from '@nexora/domain-collab';
-import { IntegrationService } from '@nexora/domain-int';
+import {
+  ConnectorService,
+  IntegrationService,
+  fetchTransport,
+  webhookAdapter,
+} from '@nexora/domain-int';
 import {
   SerialService,
   BundleService,
@@ -187,7 +192,12 @@ import {
   SEARCH_SERVICE,
   SearchController,
 } from './collab/collab.controller';
-import { INTEGRATION_SERVICE, IntegrationsController } from './int/int.controller';
+import {
+  CONNECTOR_SERVICE,
+  ConnectorsController,
+  INTEGRATION_SERVICE,
+  IntegrationsController,
+} from './int/int.controller';
 import { PDF_SERVICE, PdfController } from './documents/pdf.controller';
 import {
   PlatformUsageController,
@@ -330,6 +340,7 @@ export const REDIS = 'REDIS';
     AttachmentsController,
     SearchController,
     IntegrationsController,
+    ConnectorsController,
     ServiceAccountsController,
     TenantExportController,
     PlatformUsageController,
@@ -958,6 +969,16 @@ export const REDIS = 'REDIS';
       provide: INTEGRATION_SERVICE,
       useFactory: (prisma: PrismaClient) => new IntegrationService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: CONNECTOR_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new ConnectorService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { webhook: webhookAdapter(fetchTransport) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: SERVICE_ACCOUNT_SERVICE,

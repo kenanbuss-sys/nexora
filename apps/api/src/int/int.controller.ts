@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { IntegrationService } from '@nexora/domain-int';
+import type { IntegrationService, ConnectorService } from '@nexora/domain-int';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -7,6 +7,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const INTEGRATION_SERVICE = 'INTEGRATION_SERVICE';
+export const CONNECTOR_SERVICE = 'CONNECTOR_SERVICE';
 
 const createSubscriptionSchema = z.object({
   name: z.string().min(1).max(100),
@@ -72,5 +73,35 @@ export class IntegrationsController {
   @RequirePermission('integration.read')
   async health(@Ctx() ctx: RequestContext) {
     return { subscriptions: await this.integrations.health(ctx) };
+  }
+}
+
+const pushSchema = z.object({
+  objectType: z.string().min(1).max(60),
+  objectId: z.string().min(1).max(80),
+  payload: z.record(z.string(), z.unknown()),
+});
+
+@Controller('api/v1/connectors')
+export class ConnectorsController {
+  constructor(@Inject(CONNECTOR_SERVICE) private readonly connectors: ConnectorService) {}
+
+  @Get()
+  @RequirePermission('integration.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { connectors: await this.connectors.listConnectors(ctx) };
+  }
+
+  @Post(':key/test')
+  @RequirePermission('integration.manage')
+  async test(@Param('key') key: string, @Ctx() ctx: RequestContext) {
+    return this.connectors.testConnection(key, ctx);
+  }
+
+  @Post(':key/push')
+  @RequirePermission('integration.manage')
+  async push(@Param('key') key: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(pushSchema, body);
+    return this.connectors.pushObject({ key, ...input }, ctx);
   }
 }

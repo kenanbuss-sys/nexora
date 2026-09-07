@@ -59,6 +59,10 @@ export default function IntegrationsPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [secretOnce, setSecretOnce] = useState<string | null>(null);
+  const [connectors, setConnectors] = useState<
+    Array<{ key: string; kind: string; adapter: string; valid: boolean; problem: string | null }>
+  >([]);
+  const [testResults, setTestResults] = useState<Record<string, string>>({});
 
   const [name, setName] = useState('');
   const [url, setUrl] = useState('');
@@ -77,6 +81,9 @@ export default function IntegrationsPage() {
     api<{ deliveries: DeliveryView[] }>('GET', '/api/v1/integrations/deliveries')
       .then((r) => setDeliveries(r.deliveries))
       .catch(() => setDeliveries([]));
+    api<{ connectors: typeof connectors }>('GET', '/api/v1/connectors')
+      .then((r) => setConnectors(r.connectors))
+      .catch(() => setConnectors([]));
   }, []);
 
   useEffect(() => {
@@ -114,6 +121,53 @@ export default function IntegrationsPage() {
           Signing secret (shown once — store it now): <span className="mono">{secretOnce}</span>
         </div>
       ) : null}
+
+      <div className="card" style={{ marginBottom: 16 }}>
+        <h2>Connectors</h2>
+        <p className="muted" style={{ marginTop: 0 }}>
+          External systems behind the provider-neutral port — declared in configuration
+          (int.connectors), never in code.
+        </p>
+        {connectors.length === 0 ? <div className="empty">No connectors declared yet.</div> : null}
+        {connectors.map((c) => (
+          <div key={c.key} className="row spread" style={{ marginBottom: 6 }}>
+            <span style={{ fontSize: 13 }}>
+              <strong className="mono">{c.key}</strong> <span className="badge">{c.kind}</span>{' '}
+              <span className="muted">via {c.adapter}</span>
+              {!c.valid ? <span className="badge badge-danger"> {c.problem}</span> : null}
+              {testResults[c.key] ? (
+                <span className="muted" style={{ fontSize: 12 }}>
+                  {' '}
+                  · {testResults[c.key]}
+                </span>
+              ) : null}
+            </span>
+            <span>
+              {can('integration.manage') && c.valid ? (
+                <button
+                  className="btn btn-sm"
+                  disabled={busy}
+                  type="button"
+                  onClick={() =>
+                    run(async () => {
+                      const r = await api<{ ok: boolean; detail: string }>(
+                        'POST',
+                        `/api/v1/connectors/${c.key}/test`,
+                      );
+                      setTestResults((prev) => ({
+                        ...prev,
+                        [c.key]: r.ok ? `OK (${r.detail})` : `FAILED (${r.detail})`,
+                      }));
+                    }, null)
+                  }
+                >
+                  Test
+                </button>
+              ) : null}
+            </span>
+          </div>
+        ))}
+      </div>
 
       <div className="grid-2">
         <div className="card">

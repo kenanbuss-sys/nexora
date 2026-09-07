@@ -9,3 +9,12 @@ export {
   type SubscriptionView,
   type WebhookTransport,
 } from './integration.service';
+export {
+  ConnectorService,
+  noopAdapter,
+  webhookAdapter,
+  type ConnectorAdapter,
+  type ConnectorConfigGate,
+  type ConnectorKind,
+  type ConnectorView,
+} from './connector.service';
