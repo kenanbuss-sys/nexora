@@ -1231,6 +1231,8 @@ export class OrderService {
       orderId: string;
       shipKey: string;
       lines: Array<{ lineId: string; quantity: number }>;
+      /** COM-008: issue from this warehouse/store instead of the order's. */
+      sourceWarehouseId?: string | undefined;
     },
     ctx: RequestContext,
   ): Promise<OrderView> {
@@ -1247,6 +1249,17 @@ export class OrderService {
     if (!order) throw notFound('SalesOrder', input.orderId);
     if (order.status !== 'CONFIRMED') {
       throw new DomainError('INVALID_STATE', 'Only confirmed orders can ship');
+    }
+    // Ship from store (COM-008): a different site may fulfil the lines;
+    // reservations against the original warehouse are released below and
+    // the issue hits the source site's ledger.
+    let sourceWarehouseId = order.warehouseId;
+    if (input.sourceWarehouseId !== undefined && input.sourceWarehouseId !== order.warehouseId) {
+      const source = await this.prisma.warehouse.findFirst({
+        where: { id: input.sourceWarehouseId, tenantId: ctx.tenantId },
+      });
+      if (!source) throw notFound('Warehouse', input.sourceWarehouseId);
+      sourceWarehouseId = source.id;
     }
     const lineOf = new Map(order.lines.map((l) => [l.id, l]));
     for (const request of input.lines) {
@@ -1283,12 +1296,15 @@ export class OrderService {
       }
       const movement = await this.stock.postMovement(
         {
-          warehouseId: order.warehouseId,
+          warehouseId: sourceWarehouseId,
           skuId: line.skuId,
           movementType: 'ISSUE',
           quantity: request.quantity,
           idempotencyKey: `split:${input.shipKey}:line:${line.id}`,
-          reason: `Partial shipment of ${order.orderNumber}`,
+          reason:
+            sourceWarehouseId === order.warehouseId
+              ? `Partial shipment of ${order.orderNumber}`
+              : `Ship-from-store shipment of ${order.orderNumber}`,
         },
         ctx,
       );

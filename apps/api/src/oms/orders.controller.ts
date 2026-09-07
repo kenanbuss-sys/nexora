@@ -28,6 +28,7 @@ const holdSchema = z.object({ reason: z.string().min(1).max(500) });
 const confirmSchema = z.object({ allowBackorder: z.boolean().optional() });
 const fulfillLinesSchema = z.object({
   shipKey: z.string().min(6).max(64),
+  sourceWarehouseId: z.string().uuid().optional(),
   lines: z
     .array(z.object({ lineId: z.string().uuid(), quantity: z.number().positive() }))
     .min(1)
