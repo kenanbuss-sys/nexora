@@ -119,7 +119,7 @@ B2B-003,B2B,Entitled catalog,P1,DONE,R3,,,"Sprint 080: entitled portal catalog â
 B2B-004,B2B,Customer prices,P1,DONE,R3,,,Sprint 061: customer-bound contract price lists resolve per account and are refused for other accounts.
 B2B-005,B2B,Self-service quotes,P1,DONE,R3,,,
 B2B-006,B2B,Self-service orders,P1,DONE,R3,,,
-B2B-007,B2B,Customer-side approvals,P1,PLANNED,R3,,,
+B2B-007,B2B,Customer-side approvals,P1,Implemented (Sprint 122),R3,,,
 B2B-008,B2B,Repeat order,P1,DONE,R3,,,"Sprint 059: repeat order â€” fresh DRAFT copying account/warehouse/currency/lines, event-tracked."
 B2B-009,B2B,Project/site ordering,P1,Implemented (Sprint 106),R3,,,
 B2B-010,B2B,Production tracking,P1,DONE,R3,,,

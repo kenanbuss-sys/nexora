@@ -900,6 +900,11 @@ export class OrderService {
     if (order.status !== 'DRAFT') {
       throw new DomainError('INVALID_STATE', 'Only draft orders can be confirmed');
     }
+    // B2B-007: a draft flagged for customer-side approval cannot be
+    // confirmed until the customer's approver clears it.
+    if (order.holdReason) {
+      throw new DomainError('INVALID_STATE', `Order is held: ${order.holdReason}`);
+    }
     if (order.lines.length === 0) {
       throw new DomainError('VALIDATION_FAILED', 'An order needs at least one line');
     }
@@ -1036,6 +1041,49 @@ export class OrderService {
   }
 
   /** CONFIRMED -> ON_HOLD with a required reason (OMS-010). */
+  /**
+   * Customer-side approvals (B2B-007): flag/clear a hold reason on a
+   * DRAFT order — confirmation is refused while the flag stands.
+   */
+  async setDraftHold(orderId: string, reason: string, ctx: RequestContext): Promise<void> {
+    const flipped = await this.prisma.salesOrder.updateMany({
+      where: { id: orderId, tenantId: ctx.tenantId, status: 'DRAFT' },
+      data: { holdReason: reason.trim() },
+    });
+    if (flipped.count === 0) {
+      throw new DomainError('INVALID_STATE', 'Only draft orders can carry a draft hold');
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'oms.draft_hold.set',
+      objectType: 'SalesOrder',
+      objectId: orderId,
+      source: 'api',
+      newValues: { reason: reason.trim() },
+    });
+  }
+
+  async clearDraftHold(orderId: string, ctx: RequestContext): Promise<void> {
+    const flipped = await this.prisma.salesOrder.updateMany({
+      where: { id: orderId, tenantId: ctx.tenantId, status: 'DRAFT' },
+      data: { holdReason: null },
+    });
+    if (flipped.count === 0) {
+      throw new DomainError('INVALID_STATE', 'Only draft orders can clear a draft hold');
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'oms.draft_hold.clear',
+      objectType: 'SalesOrder',
+      objectId: orderId,
+      source: 'api',
+    });
+  }
+
   async holdOrder(orderId: string, reason: string, ctx: RequestContext): Promise<OrderView> {
     if (!reason.trim()) {
       throw new DomainError('VALIDATION_FAILED', 'A hold needs a reason');

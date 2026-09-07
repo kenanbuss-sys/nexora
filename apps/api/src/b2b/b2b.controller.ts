@@ -8,6 +8,10 @@ import { parseBody } from '../common/validate';
 
 export const PORTAL_SERVICE = 'PORTAL_SERVICE';
 
+const decideOrderSchema = z.object({
+  approve: z.boolean(),
+  reason: z.string().max(300).optional(),
+});
 const claimSchema = z.object({
   orderId: z.string().uuid(),
   subject: z.string().min(3).max(200),
@@ -103,6 +107,13 @@ export class PortalController {
   @RequirePermission('portal.access')
   async fileClaim(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.portal.fileClaim(parseBody(claimSchema, body), ctx);
+  }
+
+  @Post('orders/:id/decide')
+  @RequirePermission('portal.access')
+  async decideOrder(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(decideOrderSchema, body);
+    return this.portal.decideOrder({ orderId: id, ...input }, ctx);
   }
 
   @Get('claims')

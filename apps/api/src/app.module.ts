@@ -993,7 +993,13 @@ export const REDIS = 'REDIS';
     },
     {
       provide: PORTAL_SERVICE,
-      useFactory: (prisma: PrismaClient, orders: OrderService, cases: SupportCaseService) =>
+      useFactory: (
+        prisma: PrismaClient,
+        orders: OrderService,
+        cases: SupportCaseService,
+        approvals: ApprovalService,
+        tenants: TenantService,
+      ) =>
         new PortalService(
           prisma,
           {
@@ -1009,8 +1015,23 @@ export const REDIS = 'REDIS';
               return { id: view.id, caseNumber: view.caseNumber, status: view.status };
             },
           },
+          {
+            requestApproval: async (input, ctx) => {
+              const view = await approvals.requestApproval(input, ctx);
+              return { id: view.id };
+            },
+            decide: async (approvalId, decision, reason, ctx) => {
+              const view = await approvals.decide(approvalId, decision, reason, ctx);
+              return { status: view.status };
+            },
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            setDraftHold: (orderId, reason, ctx) => orders.setDraftHold(orderId, reason, ctx),
+            clearDraftHold: (orderId, ctx) => orders.clearDraftHold(orderId, ctx),
+          },
         ),
-      inject: [PRISMA, ORDER_SERVICE, SUPPORT_CASE_SERVICE],
+      inject: [PRISMA, ORDER_SERVICE, SUPPORT_CASE_SERVICE, APPROVAL_SERVICE, TENANT_SERVICE],
     },
     {
       provide: COLLAB_SERVICE,

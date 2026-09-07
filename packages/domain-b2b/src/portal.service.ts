@@ -35,6 +35,25 @@ export interface PortalCredit {
   openBalance: string;
 }
 
+/** Cross-domain contract: approvals are owned by WF (B2B-007). */
+export interface PortalApprovalGate {
+  requestApproval(
+    input: { title: string; subjectObjectType: string; subjectObjectId: string },
+    ctx: RequestContext,
+  ): Promise<{ id: string }>;
+  decide(
+    approvalId: string,
+    decision: 'GRANTED' | 'REJECTED',
+    reason: string | undefined,
+    ctx: RequestContext,
+  ): Promise<{ status: string }>;
+}
+
+/** Cross-domain contract: effective configuration is owned by CORE. */
+export interface PortalConfigGate {
+  getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
+}
+
 /** Cross-domain contract: support cases are owned by CRM (B2B-013). */
 export interface PortalCaseGate {
   createCase(
@@ -65,7 +84,25 @@ export class PortalService {
     private readonly prisma: PrismaClient,
     private readonly orders?: PortalOrderGate,
     private readonly cases?: PortalCaseGate,
+    private readonly approvals?: PortalApprovalGate,
+    private readonly config?: PortalConfigGate,
+    private readonly orderHolds?: {
+      setDraftHold(orderId: string, reason: string, ctx: RequestContext): Promise<void>;
+      clearDraftHold(orderId: string, ctx: RequestContext): Promise<void>;
+    },
   ) {}
+
+  private async approvalThreshold(tenantId: string): Promise<number | null> {
+    if (!this.config) return null;
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(tenantId);
+      const raw = (config as { b2b?: { customerApprovalThreshold?: unknown } })?.b2b
+        ?.customerApprovalThreshold;
+      return typeof raw === 'number' && raw > 0 ? raw : null;
+    } catch {
+      return null;
+    }
+  }
 
   // ------------------------------------------------------------- management
 
@@ -241,7 +278,7 @@ export class PortalService {
       lines: Array<{ skuId: string; quantity: number }>;
     },
     ctx: RequestContext,
-  ): Promise<{ id: string; orderNumber: string; lines: number }> {
+  ): Promise<{ id: string; orderNumber: string; lines: number; needsApproval: boolean }> {
     if (!this.orders) {
       throw new DomainError('INVALID_STATE', 'Portal ordering is not configured');
     }
@@ -299,7 +336,85 @@ export class PortalService {
       source: 'api',
       newValues: { accountId: portal.accountId, lines: input.lines.length },
     });
-    return { id: order.id, orderNumber: order.orderNumber, lines: input.lines.length };
+    // Customer-side approvals (B2B-007): above the configured
+    // threshold the draft is held until an approver from the same
+    // account clears it — SoD enforced by the approval domain.
+    let needsApproval = false;
+    const threshold = await this.approvalThreshold(ctx.tenantId);
+    if (threshold !== null && this.approvals && this.orderHolds) {
+      const total = input.lines.reduce(
+        (sum, line) => sum + line.quantity * (priced.get(line.skuId) ?? 0),
+        0,
+      );
+      if (total >= threshold) {
+        await this.orderHolds.setDraftHold(order.id, 'Customer approval pending', ctx);
+        await this.approvals.requestApproval(
+          {
+            title: `Portal order ${order.orderNumber} (${total.toFixed(2)})`,
+            subjectObjectType: 'portal_order',
+            subjectObjectId: order.id,
+          },
+          ctx,
+        );
+        needsApproval = true;
+      }
+    }
+    return {
+      id: order.id,
+      orderNumber: order.orderNumber,
+      lines: input.lines.length,
+      needsApproval,
+    };
+  }
+
+  /**
+   * Approve or reject an own-account portal order held for customer
+   * approval (B2B-007). SoD lives in the approval domain: the placer
+   * can never decide their own request.
+   */
+  async decideOrder(
+    input: { orderId: string; approve: boolean; reason?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<{ status: string }> {
+    if (!this.approvals || !this.orderHolds) {
+      throw new DomainError('INVALID_STATE', 'Customer approvals are not configured');
+    }
+    const portal = await this.resolvePortalContext(ctx);
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: input.orderId, tenantId: ctx.tenantId, accountId: portal.accountId },
+    });
+    if (!order) throw notFound('SalesOrder', input.orderId);
+    const approval = await this.prisma.approval.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        subjectObjectType: 'portal_order',
+        subjectObjectId: order.id,
+        status: 'REQUESTED',
+      },
+    });
+    if (!approval) {
+      throw new DomainError('INVALID_STATE', 'No pending customer approval on this order');
+    }
+    const decided = await this.approvals.decide(
+      approval.id,
+      input.approve ? 'GRANTED' : 'REJECTED',
+      input.reason,
+      ctx,
+    );
+    if (input.approve) {
+      await this.orderHolds.clearDraftHold(order.id, ctx);
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'b2b.portal.order_decision',
+      objectType: 'SalesOrder',
+      objectId: order.id,
+      source: 'api',
+      newValues: { approve: input.approve },
+    });
+    return decided;
   }
 
   /**
