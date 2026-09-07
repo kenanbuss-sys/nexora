@@ -121,6 +121,7 @@ import {
 import { CONTRACT_SERVICE, ContractsController } from './documents/contracts.controller';
 import { EMPLOYEE_SERVICE, EmployeesController } from './hcm/hcm.controller';
 import { OpsController } from './health/ops.controller';
+import { OpenApiController } from './health/openapi.controller';
 import { ASSET_SERVICE, AssetsController } from './eam/eam.controller';
 import {
   ONBOARDING_SERVICE,
@@ -317,6 +318,7 @@ export const REDIS = 'REDIS';
     ContractsController,
     EmployeesController,
     OpsController,
+    OpenApiController,
     AssetsController,
     CrmLeadsController,
     CrmOpportunitiesController,

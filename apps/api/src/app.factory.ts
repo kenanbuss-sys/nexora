@@ -7,6 +7,7 @@ import {
   runWithCorrelationId,
 } from '@nexora/observability';
 import { AppModule } from './app.module';
+import { registerApiRoute } from './health/openapi.controller';
 
 /**
  * Build the API application: Fastify adapter + correlation-ID hook + AppModule.
@@ -16,6 +17,15 @@ export async function createApiApp(): Promise<NestFastifyApplication> {
   // 8MB body limit: attachment uploads are base64 (~1.33×) of the 5MB
   // domain cap; the domain still enforces its own limit.
   const adapter = new FastifyAdapter({ bodyLimit: 8 * 1024 * 1024 });
+
+  // INT-009: collect the live route table for the public-API document.
+  adapter.getInstance().addHook('onRoute', (route) => {
+    const methods = Array.isArray(route.method) ? route.method : [route.method];
+    for (const method of methods) {
+      if (method === 'HEAD' || method === 'OPTIONS') continue;
+      registerApiRoute(method, route.url);
+    }
+  });
 
   // Correlation ID: accept a sane inbound header or mint a fresh UUID, expose
   // it on the async context for the whole request, and echo it in the response.
