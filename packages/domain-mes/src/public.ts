@@ -3,6 +3,7 @@
  */
 export {
   MesService,
+  type MesConfigGate,
   type QcGate,
   type StockGate,
   type WoOperationView,

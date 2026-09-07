@@ -802,13 +802,19 @@ export const REDIS = 'REDIS';
     },
     {
       provide: MES_SERVICE,
-      useFactory: (prisma: PrismaClient, inventory: InventoryService, quality: QualityService) =>
+      useFactory: (
+        prisma: PrismaClient,
+        inventory: InventoryService,
+        quality: QualityService,
+        tenants: TenantService,
+      ) =>
         new MesService(
           prisma,
           { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
           { getQcState: (t, w, s) => quality.getQcState(t, w, s) },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
         ),
-      inject: [PRISMA, INVENTORY_SERVICE, QUALITY_SERVICE],
+      inject: [PRISMA, INVENTORY_SERVICE, QUALITY_SERVICE, TENANT_SERVICE],
     },
     {
       provide: FINANCE_SERVICE,

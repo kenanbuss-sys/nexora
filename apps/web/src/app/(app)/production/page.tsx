@@ -66,6 +66,7 @@ export default function ProductionPage() {
   const [warehouses, setWarehouses] = useState<WarehouseView[]>([]);
   const [skus, setSkus] = useState<SkuOption[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [backflush, setBackflush] = useState(false);
   const [byDay, setByDay] = useState<
     Array<{ day: string; good: number; scrap: number; workOrders: number }>
   >([]);
@@ -107,6 +108,9 @@ export default function ProductionPage() {
     api<{ rows: typeof byDay }>('GET', '/api/v1/work-orders/production-by-day')
       .then((r) => setByDay(r.rows))
       .catch(() => setByDay([]));
+    api<{ config: { mes?: { issueMode?: string } } }>('GET', '/api/v1/tenant/configuration')
+      .then((r) => setBackflush(r.config?.mes?.issueMode === 'backflush'))
+      .catch(() => setBackflush(false));
     load();
     api<{ warehouses: WarehouseView[] }>('GET', '/api/v1/warehouses')
       .then((r) => {
@@ -156,6 +160,7 @@ export default function ProductionPage() {
       <p className="page-sub">
         Work orders against released BOMs — material issued from the ledger at release, good
         quantity received back at completion, scrap recorded. {wip} in WIP.
+        {backflush ? <span className="badge badge-accent"> Backflush</span> : null}
       </p>
       {error ? <div className="alert alert-error">{error}</div> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}

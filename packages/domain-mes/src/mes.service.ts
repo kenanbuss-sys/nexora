@@ -52,6 +52,11 @@ export interface QcGate {
   ): Promise<'NOT_REQUIRED' | 'PENDING' | 'PASSED' | 'FAILED'>;
 }
 
+/** Cross-domain contract: effective configuration is owned by CORE. */
+export interface MesConfigGate {
+  getEffectiveConfiguration(tenantId: string): Promise<{ version: number; config: unknown }>;
+}
+
 /** Cross-domain contract: stock truth is owned by WMS. */
 export interface StockGate {
   postMovement(
@@ -115,7 +120,25 @@ export class MesService {
     private readonly prisma: PrismaClient,
     private readonly stock: StockGate,
     private readonly qc?: QcGate,
+    private readonly config?: MesConfigGate,
   ) {}
+
+  /**
+   * Backflush (MES-007): with mes.issueMode = 'backflush' in tenant
+   * configuration, components are not issued when the order releases —
+   * they are consumed at completion, scaled to what was actually
+   * produced (good + scrap). Default stays issue-at-release.
+   */
+  private async issueMode(tenantId: string): Promise<'at_release' | 'backflush'> {
+    if (!this.config) return 'at_release';
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(tenantId);
+      const mode = (config as { mes?: { issueMode?: unknown } })?.mes?.issueMode;
+      return mode === 'backflush' ? 'backflush' : 'at_release';
+    } catch {
+      return 'at_release';
+    }
+  }
 
   async listWorkOrders(
     filter: { status?: WorkOrderStatus | undefined },
@@ -276,9 +299,10 @@ export class MesService {
     });
     if (!bom) throw notFound('Bom', wo.bomId);
 
+    const mode = await this.issueMode(ctx.tenantId);
     const issued: string[] = [];
     try {
-      for (const line of bom.lines) {
+      for (const line of mode === 'backflush' ? [] : bom.lines) {
         const gross =
           Number(wo.quantity) * Number(line.quantity) * (1 + Number(line.scrapPct) / 100);
         const quantity = Math.round(gross * 1e6) / 1e6;
@@ -439,6 +463,30 @@ export class MesService {
       }
     }
 
+    // Backflush (MES-007): consume components now, for what was
+    // actually produced, when this tenant issues at completion.
+    if ((await this.issueMode(ctx.tenantId)) === 'backflush') {
+      const bom = await this.prisma.bom.findFirst({
+        where: { id: wo.bomId, tenantId: ctx.tenantId },
+        include: { lines: true },
+      });
+      const produced = input.goodQuantity + scrap;
+      for (const line of bom?.lines ?? []) {
+        const gross = produced * Number(line.quantity) * (1 + Number(line.scrapPct) / 100);
+        await this.stock.postMovement(
+          {
+            warehouseId: wo.warehouseId,
+            skuId: line.componentSkuId,
+            movementType: 'ISSUE',
+            quantity: Math.round(gross * 1e6) / 1e6,
+            idempotencyKey: `wo:${wo.id}:backflush:${line.id}`,
+            reason: `Backflush for ${wo.woNumber}`,
+          },
+          ctx,
+        );
+      }
+    }
+
     if (input.goodQuantity > 0) {
       await this.stock.postMovement(
         {
@@ -531,6 +579,13 @@ export class MesService {
         include: { lines: true },
       });
       for (const line of bom?.lines ?? []) {
+        // Backflushed orders issued nothing at release — only return
+        // material whose issue movement actually exists in the ledger.
+        const wasIssued = await this.prisma.stockMovement.findFirst({
+          where: { tenantId: ctx.tenantId, idempotencyKey: `wo:${wo.id}:issue:${line.id}` },
+          select: { id: true },
+        });
+        if (!wasIssued) continue;
         const gross =
           Number(wo.quantity) * Number(line.quantity) * (1 + Number(line.scrapPct) / 100);
         try {
