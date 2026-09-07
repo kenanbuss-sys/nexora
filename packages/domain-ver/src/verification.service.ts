@@ -179,6 +179,114 @@ export class VerificationService {
     return { skuMatch, resolvedSkuId, qtyMatch };
   }
 
+  /**
+   * Worker check (VER-005): verify a scanned worker badge maps to an
+   * active user of this tenant. Audited pass/fail.
+   */
+  async workerCheck(
+    input: { idpSubject: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; displayName: string | null }> {
+    const user = await this.prisma.user.findFirst({
+      where: { tenantId: ctx.tenantId, idpSubject: input.idpSubject.trim() },
+    });
+    const ok = user !== null && user.status === 'ACTIVE';
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.worker_check',
+      objectType: 'User',
+      objectId: user?.id ?? input.idpSubject.trim(),
+      source: 'api',
+      newValues: { ok, idpSubject: input.idpSubject.trim() },
+    });
+    return { ok, displayName: user?.displayName ?? null };
+  }
+
+  /**
+   * Work-order check (VER-006): a scanned WO number must exist and,
+   * when an expected status is given, be in it. Audited.
+   */
+  async workOrderCheck(
+    input: { woNumber: string; expectedStatus?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; status: string | null }> {
+    const wo = await this.prisma.workOrder.findFirst({
+      where: { tenantId: ctx.tenantId, woNumber: input.woNumber.trim() },
+    });
+    const ok =
+      wo !== null && (input.expectedStatus === undefined || wo.status === input.expectedStatus);
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.work_order_check',
+      objectType: 'WorkOrder',
+      objectId: wo?.id ?? input.woNumber.trim(),
+      source: 'api',
+      newValues: { ok, expectedStatus: input.expectedStatus ?? null, status: wo?.status ?? null },
+    });
+    return { ok, status: wo?.status ?? null };
+  }
+
+  /**
+   * Location check (VER-010): a scanned bin code must exist in the
+   * given warehouse. Audited.
+   */
+  async locationCheck(
+    input: { warehouseId: string; code: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; locationId: string | null }> {
+    const location = await this.prisma.warehouseLocation.findFirst({
+      where: { tenantId: ctx.tenantId, warehouseId: input.warehouseId, code: input.code.trim() },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.location_check',
+      objectType: 'WarehouseLocation',
+      objectId: location?.id ?? input.code.trim(),
+      source: 'api',
+      newValues: { ok: location !== null, warehouseId: input.warehouseId },
+    });
+    return { ok: location !== null, locationId: location?.id ?? null };
+  }
+
+  /**
+   * Sequence check (VER-012): the operation an operator is about to
+   * work must be the next unfinished one on its work order — earlier
+   * steps first, always. Audited.
+   */
+  async sequenceCheck(
+    input: { workOrderId: string; operationId: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; expectedSeq: number | null; scannedSeq: number | null }> {
+    const operations = await this.prisma.workOrderOperation.findMany({
+      where: { tenantId: ctx.tenantId, workOrderId: input.workOrderId },
+      orderBy: [{ seq: 'asc' }],
+    });
+    const nextPending = operations.find((o) => o.status !== 'DONE');
+    const scanned = operations.find((o) => o.id === input.operationId);
+    const ok = nextPending !== undefined && scanned !== undefined && nextPending.id === scanned.id;
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.sequence_check',
+      objectType: 'WorkOrder',
+      objectId: input.workOrderId,
+      source: 'api',
+      newValues: {
+        ok,
+        expectedSeq: nextPending?.seq ?? null,
+        scannedSeq: scanned?.seq ?? null,
+      },
+    });
+    return { ok, expectedSeq: nextPending?.seq ?? null, scannedSeq: scanned?.seq ?? null };
+  }
+
   async listEvents(
     filter: { deviceId?: string | undefined },
     ctx: RequestContext,

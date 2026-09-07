@@ -119,6 +119,50 @@ export class ScanEventsController {
     return this.verification.materialCheck(input, ctx);
   }
 
+  /** Worker check (VER-005). */
+  @Post('worker-check')
+  @RequirePermission('inventory.read')
+  async workerCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ idpSubject: z.string().min(1).max(200) }), body);
+    return this.verification.workerCheck(input, ctx);
+  }
+
+  /** Work-order check (VER-006). */
+  @Post('work-order-check')
+  @RequirePermission('production.read')
+  async workOrderCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        woNumber: z.string().min(1).max(60),
+        expectedStatus: z.string().max(30).optional(),
+      }),
+      body,
+    );
+    return this.verification.workOrderCheck(input, ctx);
+  }
+
+  /** Location check (VER-010). */
+  @Post('location-check')
+  @RequirePermission('inventory.read')
+  async locationCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ warehouseId: z.string().uuid(), code: z.string().min(1).max(60) }),
+      body,
+    );
+    return this.verification.locationCheck(input, ctx);
+  }
+
+  /** Sequence check (VER-012). */
+  @Post('sequence-check')
+  @RequirePermission('production.read')
+  async sequenceCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ workOrderId: z.string().uuid(), operationId: z.string().uuid() }),
+      body,
+    );
+    return this.verification.sequenceCheck(input, ctx);
+  }
+
   @Get()
   @RequirePermission('verification.audit')
   async list(@Ctx() ctx: RequestContext) {
