@@ -198,6 +198,8 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },
   { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },
   { href: '/operations', label: 'Operations', icon: 'operations', permission: 'inventory.read' },
+  { href: '/hr', label: 'People', icon: 'users', permission: 'hcm.read' },
+  { href: '/assets', label: 'Assets', icon: 'devices', permission: 'asset.read' },
   { href: '/devices', label: 'Devices', icon: 'devices', permission: 'device.read' },
   { href: '/data', label: 'Import/export', icon: 'data', permission: 'product.read' },
   { href: '/settings', label: 'Settings', icon: 'settings', permission: 'configuration.read' },

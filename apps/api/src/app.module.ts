@@ -13,6 +13,8 @@ import {
   TenantService,
 } from '@nexora/domain-core';
 import { ContractService, PdfService, DocumentTemplateService } from '@nexora/domain-doc';
+import { EmployeeService } from '@nexora/domain-hcm';
+import { AssetService } from '@nexora/domain-eam';
 import {
   DiscountRuleService,
   PricingService,
@@ -97,6 +99,8 @@ import {
   VERIFICATION_SERVICE,
 } from './dev/dev.controller';
 import { CONTRACT_SERVICE, ContractsController } from './documents/contracts.controller';
+import { EMPLOYEE_SERVICE, EmployeesController } from './hcm/hcm.controller';
+import { ASSET_SERVICE, AssetsController } from './eam/eam.controller';
 import {
   ONBOARDING_SERVICE,
   OnboardingController,
@@ -270,6 +274,8 @@ export const REDIS = 'REDIS';
     SupportCasesController,
     OnboardingController,
     ContractsController,
+    EmployeesController,
+    AssetsController,
     CrmLeadsController,
     CrmOpportunitiesController,
     CrmActivitiesController,
@@ -518,6 +524,16 @@ export const REDIS = 'REDIS';
     {
       provide: SUPPORT_CASE_SERVICE,
       useFactory: (prisma: PrismaClient) => new SupportCaseService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: EMPLOYEE_SERVICE,
+      useFactory: (prisma: PrismaClient) => new EmployeeService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: ASSET_SERVICE,
+      useFactory: (prisma: PrismaClient) => new AssetService(prisma),
       inject: [PRISMA],
     },
     {

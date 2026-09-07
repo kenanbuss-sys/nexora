@@ -43,6 +43,8 @@
     "@nexora/domain-qc": "workspace:*",
     "@nexora/domain-fin": "workspace:*",
     "@nexora/domain-bi": "workspace:*",
+    "@nexora/domain-hcm": "workspace:*",
+    "@nexora/domain-eam": "workspace:*",
     "@nexora/domain-b2b": "workspace:*",
     "@nexora/domain-collab": "workspace:*",
     "@nexora/domain-int": "workspace:*",
