@@ -69,6 +69,18 @@ export class IntegrationsController {
     return { deliveries: await this.integrations.listDeliveries(parsed, ctx) };
   }
 
+  @Get('reconciliation')
+  @RequirePermission('integration.read')
+  async reconciliation(@Query('days') days: string, @Ctx() ctx: RequestContext) {
+    const parsed = Number(days);
+    return {
+      report: await this.integrations.reconciliation(
+        Number.isFinite(parsed) && parsed > 0 ? parsed : 7,
+        ctx,
+      ),
+    };
+  }
+
   @Get('health')
   @RequirePermission('integration.read')
   async health(@Ctx() ctx: RequestContext) {

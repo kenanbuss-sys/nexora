@@ -401,7 +401,7 @@ INT-010,INT,Mapping engine,P0,Implemented (Sprint 115),R0,,,
 INT-011,INT,Idempotency,P0,DONE,R0,,,"Exactly-once fan-out per (subscription, event) (Sprint 020)"
 INT-012,INT,Retry policy,P0,DONE,R0,,,Exponential backoff retries (Sprint 020)
 INT-013,INT,Dead-letter queue,P0,DONE,R0,,,Dead-letter after 5 attempts (Sprint 020)
-INT-014,INT,Reconciliation,P0,PLANNED,R0,,,
+INT-014,INT,Reconciliation,P0,Implemented (Sprint 118),R0,,,
 INT-015,INT,Health monitoring,P0,DONE,R0,,,Per-subscription delivery health (Sprint 020)
 INT-016,INT,Run history,P0,DONE,R0,,,Full delivery run history (Sprint 020)
 INT-017,INT,Secrets management,P0,PLANNED,R0,,,

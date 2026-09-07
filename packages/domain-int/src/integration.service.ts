@@ -309,6 +309,61 @@ export class IntegrationService {
     }));
   }
 
+  /**
+   * Reconciliation (INT-014): per event type over the window, compare
+   * published outbox events against webhook fan-out and delivery
+   * outcomes — undelivered or dead-lettered integrations surface as
+   * numbers, not surprises.
+   */
+  async reconciliation(
+    days: number,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{
+      eventType: string;
+      published: number;
+      fannedOut: number;
+      delivered: number;
+      failed: number;
+      pending: number;
+    }>
+  > {
+    const clamped = Math.max(1, Math.min(90, days));
+    const cutoff = new Date(Date.now() - clamped * 86_400_000);
+    const events = await this.prisma.outboxEvent.findMany({
+      where: { tenantId: ctx.tenantId, occurredAt: { gte: cutoff } },
+      select: { eventType: true },
+      take: 10_000,
+    });
+    const deliveries = await this.prisma.webhookDelivery.findMany({
+      where: { tenantId: ctx.tenantId, createdAt: { gte: cutoff } },
+      select: { eventType: true, status: true },
+      take: 10_000,
+    });
+    const byType = new Map<
+      string,
+      { published: number; fannedOut: number; delivered: number; failed: number; pending: number }
+    >();
+    const bucket = (eventType: string) => {
+      const existing = byType.get(eventType);
+      if (existing) return existing;
+      const fresh = { published: 0, fannedOut: 0, delivered: 0, failed: 0, pending: 0 };
+      byType.set(eventType, fresh);
+      return fresh;
+    };
+    for (const event of events) bucket(event.eventType).published += 1;
+    for (const delivery of deliveries) {
+      const b = bucket(delivery.eventType);
+      b.fannedOut += 1;
+      if (delivery.status === 'DELIVERED') b.delivered += 1;
+      else if (delivery.status === 'DEAD' || delivery.status === 'FAILED') b.failed += 1;
+      else b.pending += 1;
+    }
+    return [...byType.entries()]
+      .map(([eventType, counts]) => ({ eventType, ...counts }))
+      .sort((x, y) => x.eventType.localeCompare(y.eventType));
+  }
+
   async health(ctx: RequestContext): Promise<SubscriptionHealth[]> {
     const subscriptions = await this.prisma.webhookSubscription.findMany({
       where: { tenantId: ctx.tenantId },
