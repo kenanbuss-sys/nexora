@@ -43,6 +43,61 @@ export class ValuationService {
   }
 
   /** Live valuation: ledger on-hand × standard cost, per active SKU. */
+  /**
+   * Standard vs actual (FIN-006): per SKU, the maintained standard cost
+   * against the average actually-received purchase price, with the
+   * variance — cost drift surfaces as numbers, not surprises.
+   */
+  async varianceReport(ctx: RequestContext): Promise<
+    Array<{
+      skuId: string;
+      code: string;
+      standardCost: string;
+      actualAvgCost: string | null;
+      variance: string | null;
+      variancePct: string | null;
+    }>
+  > {
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, standardCost: { not: null } },
+      select: { id: true, code: true, standardCost: true },
+      orderBy: [{ code: 'asc' }],
+      take: 500,
+    });
+    if (skus.length === 0) return [];
+    const lines = await this.prisma.purchaseOrderLine.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        skuId: { in: skus.map((k) => k.id) },
+        receivedQty: { gt: 0 },
+      },
+      select: { skuId: true, receivedQty: true, unitPrice: true },
+      take: 10_000,
+    });
+    const totals = new Map<string, { qty: number; value: number }>();
+    for (const line of lines) {
+      const bucket = totals.get(line.skuId) ?? { qty: 0, value: 0 };
+      bucket.qty += Number(line.receivedQty);
+      bucket.value += Number(line.receivedQty) * Number(line.unitPrice);
+      totals.set(line.skuId, bucket);
+    }
+    return skus.map((sku) => {
+      const standard = Number(sku.standardCost);
+      const bucket = totals.get(sku.id);
+      const actual = bucket && bucket.qty > 0 ? bucket.value / bucket.qty : null;
+      const variance = actual === null ? null : actual - standard;
+      return {
+        skuId: sku.id,
+        code: sku.code,
+        standardCost: standard.toFixed(2),
+        actualAvgCost: actual === null ? null : actual.toFixed(4),
+        variance: variance === null ? null : variance.toFixed(4),
+        variancePct:
+          variance === null || standard === 0 ? null : ((variance / standard) * 100).toFixed(2),
+      };
+    });
+  }
+
   async valuation(ctx: RequestContext): Promise<{
     rows: ValuationRow[];
     totalValue: string;

@@ -342,7 +342,7 @@ FIN-002,FIN,Revenue/cost capture,P1,PLANNED,R3,,,
 FIN-003,FIN,COGS,P1,DONE,R3,,,
 FIN-004,FIN,Inventory valuation hooks,P1,DONE,R3,,,Sprint 070: live ledger-based inventory valuation with honest unvalued reporting.
 FIN-005,FIN,Product costing,P1,DONE,R3,,,Sprint 070: audited standard costs on SKUs feeding valuation.
-FIN-006,FIN,Standard vs actual,P1,PLANNED,R3,,,
+FIN-006,FIN,Standard vs actual,P1,Implemented (Sprint 132),R3,,,
 FIN-007,FIN,Margin analysis,P1,DONE,R3,,,
 FIN-008,FIN,Budgets,P1,DONE,R3,,,Budgets per cost center/period vs actual spend (Sprint 019)
 FIN-009,FIN,Forecast,P1,PLANNED,R3,,,

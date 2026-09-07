@@ -229,6 +229,12 @@ export class ValuationController {
     return this.valuation.valuation(ctx);
   }
 
+  @Get('variance')
+  @RequirePermission('finance.read')
+  async variance(@Ctx() ctx: RequestContext) {
+    return { report: await this.valuation.varianceReport(ctx) };
+  }
+
   @Post('skus/:id/cost')
   @RequirePermission('finance.manage')
   async setCost(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
