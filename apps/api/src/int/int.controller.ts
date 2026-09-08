@@ -165,6 +165,14 @@ export class ConnectorsController {
     return this.connectors.fiscalizeInvoice({ key, invoiceId: input.invoiceId }, ctx);
   }
 
+  /** INT-007 — EDI ORDERS out. */
+  @Post(':key/edi/orders')
+  @RequirePermission('purchase.manage')
+  async ediOrders(@Param('key') key: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ poId: z.string().uuid() }), body);
+    return this.connectors.ediSendPurchaseOrder({ key, poId: input.poId }, ctx);
+  }
+
   @Post(':key/import-orders')
   @RequirePermission('integration.manage')
   async importOrders(@Param('key') key: string, @Ctx() ctx: RequestContext) {

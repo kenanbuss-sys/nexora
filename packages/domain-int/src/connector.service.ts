@@ -13,7 +13,8 @@ import type { WebhookTransport } from './integration.service';
  * tenant's accounting system never means a code fork.
  */
 
-export type ConnectorKind = 'accounting' | 'commerce' | 'courier' | 'payment' | 'fiscal' | 'other';
+export type ConnectorKind =
+  'accounting' | 'commerce' | 'courier' | 'payment' | 'fiscal' | 'edi' | 'other';
 
 export interface ConnectorConfigEntry {
   key: string;
@@ -195,6 +196,7 @@ const KINDS: ReadonlySet<string> = new Set([
   'accounting',
   'commerce',
   'courier',
+  'edi',
   'payment',
   'fiscal',
   'other',
@@ -744,6 +746,88 @@ export class ConnectorService {
       newValues: { fiscalRef: result.reference, invoiceNumber: invoice.invoiceNumber },
     });
     return { fiscalRef: result.reference, existing: false };
+  }
+
+  /**
+   * EDI (INT-007): send a purchase order as a canonical UN/EDIFACT
+   * ORDERS document through an EDI connector — exactly once per
+   * (connector, PO); a retry returns the existing interchange
+   * reference. The generated document travels in the payload and is
+   * kept in the audit trail.
+   */
+  async ediSendPurchaseOrder(
+    input: { key: string; poId: string },
+    ctx: RequestContext,
+  ): Promise<{ interchangeRef: string; document: string; existing: boolean }> {
+    const { entry, adapter } = await this.resolve(input.key, ctx.tenantId);
+    if (entry.kind !== 'edi') {
+      throw new DomainError('INVALID_STATE', `Connector '${input.key}' is not an EDI connector`);
+    }
+    const po = await this.prisma.purchaseOrder.findFirst({
+      where: { id: input.poId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!po) throw notFound('PurchaseOrder', input.poId);
+    if (po.status === 'CANCELLED') {
+      throw new DomainError('INVALID_STATE', 'Cancelled orders are not sent');
+    }
+    const marker = `${entry.key}:${po.id}`;
+    const existing = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'int.edi.orders',
+        objectType: 'PurchaseOrder',
+        objectId: marker,
+      },
+      orderBy: { occurredAt: 'desc' },
+    });
+    if (existing) {
+      const values = existing.newValues as {
+        interchangeRef?: string;
+        document?: string;
+      } | null;
+      return {
+        interchangeRef: values?.interchangeRef ?? '',
+        document: values?.document ?? '',
+        existing: true,
+      };
+    }
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: po.lines.map((l) => l.skuId) } },
+      select: { id: true, code: true },
+    });
+    const codeOf = new Map(skus.map((s) => [s.id, s.code]));
+    const segments = [
+      `UNH+1+ORDERS:D:96A:UN'`,
+      `BGM+220+${po.poNumber}+9'`,
+      `DTM+137:${po.createdAt.toISOString().slice(0, 10).replaceAll('-', '')}:102'`,
+      ...po.lines.map(
+        (line, index) =>
+          `LIN+${index + 1}++${codeOf.get(line.skuId) ?? line.skuId}:BP'QTY+21:${line.quantity}'`,
+      ),
+      `MOA+128:${po.total}'`,
+      `UNT+${po.lines.length + 4}+1'`,
+    ];
+    const document = segments.join('\n');
+    const result = await adapter.push(
+      'edi_orders',
+      { poNumber: po.poNumber, document },
+      entry.config,
+    );
+    if (!result.ok) {
+      throw new DomainError('INVALID_STATE', 'The EDI gateway refused the interchange');
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'int.edi.orders',
+      objectType: 'PurchaseOrder',
+      objectId: marker,
+      source: 'api',
+      newValues: { interchangeRef: result.reference, document, poNumber: po.poNumber },
+    });
+    return { interchangeRef: result.reference, document, existing: false };
   }
 
   /**
