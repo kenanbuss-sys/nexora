@@ -427,13 +427,13 @@ WF-002,WF,Approval builder,P0,Partially implemented (Sprint 002),R0,,,Approval p
 WF-003,WF,Rules designer,P0,Partially implemented (Sprint 002),R0,,,Declarative rule spec + publish (designer later)
 WF-004,WF,Timers/SLA,P0,DONE,R0,,,Sprint 069: overdue-approvals SLA report with configurable hours; surfaced on Operations.
 WF-005,WF,Automation actions,P0,Partially implemented (Sprint 002),R0,,,"Automation actions: task/notify/approval, idempotent"
-WF-006,WF,Conditional forms,P0,PLANNED,R0,,,
-WF-007,WF,Validation rules,P0,PLANNED,R0,,,
+WF-006,WF,Conditional forms,P0,Implemented (Sprint 179),R0,,,Config-driven forms with showIf conditions
+WF-007,WF,Validation rules,P0,Implemented (Sprint 179),R0,,,Server-side field validation per configured rule
 WF-008,WF,Workflow versioning,P0,Implemented (Sprint 002),R0,,,Versioned workflow definitions; instances pinned to version
-WF-009,WF,Simulation/test mode,P0,PLANNED,R0,,,
+WF-009,WF,Simulation/test mode,P0,Implemented (Sprint 180),R0,,,Zero-side-effect rule dry runs
 WF-010,WF,Audit/explanation,P0,Partially implemented (Sprint 002),R0,,,Workflow/rule/approval audit trail
-WF-011,WF,Reusable templates,P0,PLANNED,R0,,,
-WF-012,WF,Override governance,P0,PLANNED,R0,,,
+WF-011,WF,Reusable templates,P0,Implemented (Sprint 180),R0,,,Publish workflows from template library
+WF-012,WF,Override governance,P0,Implemented (Sprint 181),R0,,,Reasoned audited overrides under dedicated permission
 OPS-001,OPS,Platform admin,P0,PLANNED,R0,,,
 OPS-002,OPS,Tenant provisioning,P0,DONE,R0,,,Self-hosted Docker stack: one-command provisioning (Sprint 026)
 OPS-003,OPS,Environment management,P0,DONE,R0,,,Compose environments with env-file config (Sprint 026)
