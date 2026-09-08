@@ -96,3 +96,17 @@ record the wall-clock time (target RTO ≤ 30 min, RPO ≤ 5 min via `archive_ti
 - **Disk pressure from the archive** — `archive_command` fails, PostgreSQL keeps
   WAL locally and eventually stops accepting writes: monitor the volume and the
   `/ops/observability` endpoint; free space and PostgreSQL resumes archiving.
+
+## Disaster recovery (OPS-013)
+
+Full-host loss is recovered by: provision a fresh host → run
+`deploy/install.sh` → stop the stack → restore the newest off-host base
+backup + WAL archive per the steps above → start. Keep off-host copies
+(rsync/object storage) of `/var/backups/nexora` — the local retention
+window is not a disaster plan.
+
+`deploy/dr-drill.sh` automates the quarterly drill: it restores the
+newest backup into a scratch container, verifies tenants and the audit
+trail answer queries, records the restore time against the 30-minute
+RTO target and tears the scratch instance down. Schedule it via cron
+and keep `/var/log/nexora-dr.log` as the drill evidence.

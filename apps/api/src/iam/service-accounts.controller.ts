@@ -148,4 +148,59 @@ export class PlatformUsageController {
     }
     return { tenants: rows };
   }
+
+  /** Support portal (OPS-015): open support cases across tenants. */
+  @Get('support/cases')
+  @PlatformOnly()
+  async supportCases() {
+    const cases = await this.prisma.supportCase.findMany({
+      where: { status: { in: ['OPEN', 'IN_PROGRESS'] } },
+      orderBy: { createdAt: 'asc' },
+      take: 200,
+    });
+    const tenants = await this.prisma.tenant.findMany({ select: { id: true, slug: true } });
+    const slugOf = new Map(tenants.map((t) => [t.id, t.slug]));
+    return {
+      cases: cases.map((row) => ({
+        tenant: slugOf.get(row.tenantId) ?? row.tenantId,
+        caseNumber: row.caseNumber,
+        subject: row.subject,
+        status: row.status,
+        openedAt: row.createdAt.toISOString(),
+      })),
+    };
+  }
+
+  /**
+   * Cost observability (OPS-018): estimated per-tenant platform cost
+   * from the usage footprint — unit rates are environment
+   * configuration, never code.
+   */
+  @Get('costs')
+  @PlatformOnly()
+  async costs() {
+    const perEvent = Number(process.env.NEXORA_COST_PER_1K_EVENTS ?? '0.05');
+    const perGb = Number(process.env.NEXORA_COST_PER_GB ?? '0.20');
+    const perUser = Number(process.env.NEXORA_COST_PER_USER ?? '1.00');
+    const tenants = await this.prisma.tenant.findMany({ orderBy: { createdAt: 'asc' } });
+    const rows = [];
+    for (const tenant of tenants) {
+      const where = { tenantId: tenant.id };
+      const [users, events, blobs] = await Promise.all([
+        this.prisma.user.count({ where }),
+        this.prisma.outboxEvent.count({ where }),
+        this.prisma.attachment.aggregate({ where, _sum: { sizeBytes: true } }),
+      ]);
+      const gb = Number(blobs._sum.sizeBytes ?? 0) / 1e9;
+      const estimate = users * perUser + (events / 1000) * perEvent + gb * perGb;
+      rows.push({
+        tenant: tenant.slug,
+        users,
+        events,
+        storageGb: Math.round(gb * 1000) / 1000,
+        estimatedMonthly: Math.round(estimate * 100) / 100,
+      });
+    }
+    return { rates: { perUser, perEvent1k: perEvent, perGb }, tenants: rows };
+  }
 }
