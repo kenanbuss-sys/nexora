@@ -34,4 +34,28 @@ export class InsightsController {
   async anomalies(@Ctx() ctx: RequestContext) {
     return this.insights.anomalies(ctx);
   }
+
+  @Get('cash-projection')
+  @RequirePermission('finance.read')
+  async cashProjection(@Ctx() ctx: RequestContext) {
+    return this.insights.cashProjection(ctx);
+  }
+
+  @Get('production-delays')
+  @RequirePermission('production.read')
+  async productionDelays(@Ctx() ctx: RequestContext) {
+    return this.insights.productionDelays(ctx);
+  }
+
+  @Get('process-paths')
+  @RequirePermission('analytics.read')
+  async processPaths(@Ctx() ctx: RequestContext) {
+    return this.insights.processPaths(ctx);
+  }
+
+  @Get('replenishment')
+  @RequirePermission('analytics.read')
+  async replenishment(@Ctx() ctx: RequestContext) {
+    return this.insights.replenishmentRecommendations(ctx);
+  }
 }
