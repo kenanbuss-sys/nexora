@@ -56,6 +56,7 @@ import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
 import { CopilotService, devAiAdapter, InsightsService } from '@nexora/domain-ai';
 import { EsgService } from '@nexora/domain-esg';
+import { FieldServiceService } from '@nexora/domain-svc';
 import { MarketingService } from '@nexora/domain-mkt';
 import { ProjectService } from '@nexora/domain-prj';
 import { QualityService } from '@nexora/domain-qc';
@@ -251,6 +252,7 @@ import { PROJECT_SERVICE, ProjectsController } from './prj/prj.controller';
 import { CASE_OPS_SERVICE, CaseOpsController } from './crm/caseops.controller';
 import { MARKETING_SERVICE, MarketingController } from './mkt/mkt.controller';
 import { ESG_SERVICE, EsgController } from './esg/esg.controller';
+import { FIELD_SERVICE, FieldServiceController } from './svc/svc.controller';
 import {
   COPILOT_SERVICE,
   CopilotController,
@@ -407,6 +409,7 @@ export const REDIS = 'REDIS';
     CaseOpsController,
     MarketingController,
     EsgController,
+    FieldServiceController,
     OnboardingController,
     ContractsController,
     EmployeesController,
@@ -732,6 +735,35 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, ANALYTICS_SERVICE, FINANCE_SERVICE, TASK_SERVICE, APPROVAL_SERVICE],
+    },
+    {
+      provide: FIELD_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        inventory: InventoryService,
+        approvals: ApprovalService,
+      ) =>
+        new FieldServiceService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
+          {
+            requestApproval: async (input, ctx) => {
+              const view = await approvals.requestApproval(input, ctx);
+              return { id: view.id };
+            },
+            getStatusFor: async (tenantId, subjectObjectType, subjectObjectId) => {
+              const approval = await prisma.approval.findFirst({
+                where: { tenantId, subjectObjectType, subjectObjectId },
+                orderBy: { createdAt: 'desc' },
+              });
+              if (!approval) return 'NONE';
+              return approval.status as 'REQUESTED' | 'GRANTED' | 'REJECTED';
+            },
+          },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, INVENTORY_SERVICE, APPROVAL_SERVICE],
     },
     {
       provide: ESG_SERVICE,

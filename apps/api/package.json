@@ -42,6 +42,7 @@
     "@nexora/domain-plan": "workspace:*",
     "@nexora/domain-mes": "workspace:*",
     "@nexora/domain-prj": "workspace:*",
+    "@nexora/domain-svc": "workspace:*",
     "@nexora/domain-qc": "workspace:*",
     "@nexora/domain-fin": "workspace:*",
     "@nexora/domain-bi": "workspace:*",
