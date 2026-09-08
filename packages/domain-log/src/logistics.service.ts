@@ -41,6 +41,11 @@ export interface LogisticsConfigGate {
   getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
 }
 
+/** Cross-domain contract: declared courier connectors are owned by INT. */
+export interface CourierRegistryGate {
+  courierKeys(ctx: RequestContext): Promise<string[]>;
+}
+
 const TRANSITIONS: Record<string, ShipmentStatus[]> = {
   PLANNED: ['DISPATCHED'],
   DISPATCHED: ['IN_TRANSIT', 'EXCEPTION'],
@@ -94,6 +99,7 @@ export class LogisticsService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly configuration?: LogisticsConfigGate,
+    private readonly couriers?: CourierRegistryGate,
   ) {}
 
   // ------------------------------------------------------------ fleet
@@ -170,20 +176,30 @@ export class LogisticsService {
   // ------------------------------------------------------- carriers
 
   /** LOG-002: carriers are configuration, validated on use. */
-  private async carrierKeys(tenantId: string): Promise<Set<string>> {
-    if (!this.configuration) return new Set();
-    try {
-      const { config } = await this.configuration.getEffectiveConfiguration(tenantId);
-      const log = ((config as Record<string, unknown>).log ?? {}) as Record<string, unknown>;
-      const carriers = Array.isArray(log.carriers) ? log.carriers : [];
-      return new Set(
-        carriers
-          .map((c) => (c as { key?: unknown }).key)
-          .filter((k): k is string => typeof k === 'string'),
-      );
-    } catch {
-      return new Set();
+  private async carrierKeys(ctx: RequestContext): Promise<Set<string>> {
+    const keys = new Set<string>();
+    if (this.configuration) {
+      try {
+        const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+        const log = ((config as Record<string, unknown>).log ?? {}) as Record<string, unknown>;
+        const carriers = Array.isArray(log.carriers) ? log.carriers : [];
+        for (const carrier of carriers) {
+          const key = (carrier as { key?: unknown }).key;
+          if (typeof key === 'string') keys.add(key);
+        }
+      } catch {
+        // configuration unavailable — connector couriers may still apply
+      }
     }
+    // LOG-003: declared courier connectors are carriers too.
+    if (this.couriers) {
+      try {
+        for (const key of await this.couriers.courierKeys(ctx)) keys.add(key);
+      } catch {
+        // registry unavailable
+      }
+    }
+    return keys;
   }
 
   // ------------------------------------------------------ shipments
@@ -202,7 +218,7 @@ export class LogisticsService {
       throw new DomainError('VALIDATION_FAILED', 'A shipment needs 1..100 stops');
     }
     if (input.carrierKey !== undefined) {
-      const carriers = await this.carrierKeys(ctx.tenantId);
+      const carriers = await this.carrierKeys(ctx);
       if (!carriers.has(input.carrierKey)) {
         throw new DomainError('VALIDATION_FAILED', `Unknown carrier '${input.carrierKey}'`);
       }
@@ -515,6 +531,210 @@ export class LogisticsService {
         note: stop.note,
       })),
     };
+  }
+
+  /**
+   * Reverse logistics (LOG-012): a governed return shipment for a
+   * delivered or excepted one — stops reversed back to origin, linked
+   * in the audit trail, one per original.
+   */
+  async createReturnShipment(originalId: string, ctx: RequestContext): Promise<ShipmentView> {
+    const original = await this.prisma.shipment.findFirst({
+      where: { id: originalId, tenantId: ctx.tenantId },
+      include: { stops: true },
+    });
+    if (!original) throw notFound('Shipment', originalId);
+    if (original.status !== 'DELIVERED' && original.status !== 'EXCEPTION') {
+      throw new DomainError('INVALID_STATE', 'Returns start from delivered or excepted shipments');
+    }
+    const marker = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'log.shipment.reverse',
+        objectType: 'Shipment',
+        objectId: original.id,
+      },
+      select: { id: true },
+    });
+    if (marker) {
+      throw new DomainError('CONFLICT', 'A return shipment already exists for this shipment');
+    }
+    const reversedStops = original.stops
+      .slice()
+      .sort((a, b) => b.seq - a.seq)
+      .map((stop, index) => ({
+        tenantId: ctx.tenantId,
+        seq: index + 1,
+        address: stop.address,
+        orderId: stop.orderId,
+      }));
+    const created = await this.prisma.$transaction(async (tx) => {
+      const count = await tx.shipment.count({ where: { tenantId: ctx.tenantId } });
+      const row = await tx.shipment.create({
+        data: {
+          tenantId: ctx.tenantId,
+          shipmentNumber: `SHP-${String(count + 1).padStart(6, '0')}`,
+          carrierKey: original.carrierKey,
+          vehicleId: original.vehicleId,
+          driverId: original.driverId,
+          notes: `Povrat za ${original.shipmentNumber}`,
+          createdBy: ctx.userId ?? null,
+          stops: { create: reversedStops },
+        },
+        include: { stops: true },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'log.shipment.reverse',
+        objectType: 'Shipment',
+        objectId: original.id,
+        source: 'api',
+        newValues: { returnShipmentId: row.id, returnNumber: row.shipmentNumber },
+      });
+      return row;
+    });
+    return toView(created);
+  }
+
+  /**
+   * Dock scheduling & yard events (LOG-014/015): appointments per
+   * warehouse dock with overlap protection; arrivals and departures
+   * are audited yard events on the appointment.
+   */
+  async bookDock(
+    input: {
+      warehouseId: string;
+      dockCode: string;
+      scheduledAt: string;
+      durationMin?: number | undefined;
+      reference?: string | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{ id: string; dockCode: string; scheduledAt: string }> {
+    const dockCode = input.dockCode.trim().toUpperCase();
+    if (!/^[A-Z0-9-]{1,16}$/.test(dockCode)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid dock code');
+    }
+    const scheduledAt = new Date(input.scheduledAt);
+    if (Number.isNaN(scheduledAt.getTime())) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid appointment time');
+    }
+    const durationMin = Math.max(15, Math.min(480, input.durationMin ?? 60));
+    const warehouse = await this.prisma.warehouse.findFirst({
+      where: { id: input.warehouseId, tenantId: ctx.tenantId },
+      select: { id: true },
+    });
+    if (!warehouse) throw notFound('Warehouse', input.warehouseId);
+    const windowStart = new Date(scheduledAt.getTime() - 8 * 3_600_000);
+    const windowEnd = new Date(scheduledAt.getTime() + 8 * 3_600_000);
+    const neighbours = await this.prisma.dockAppointment.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        warehouseId: warehouse.id,
+        dockCode,
+        status: 'BOOKED',
+        scheduledAt: { gte: windowStart, lte: windowEnd },
+      },
+    });
+    const start = scheduledAt.getTime();
+    const end = start + durationMin * 60_000;
+    for (const other of neighbours) {
+      const otherStart = other.scheduledAt.getTime();
+      const otherEnd = otherStart + other.durationMin * 60_000;
+      if (start < otherEnd && otherStart < end) {
+        throw new DomainError('CONFLICT', `Dock ${dockCode} is booked in that window`);
+      }
+    }
+    const created = await this.prisma.$transaction(async (tx) => {
+      const row = await tx.dockAppointment.create({
+        data: {
+          tenantId: ctx.tenantId,
+          warehouseId: warehouse.id,
+          dockCode,
+          scheduledAt,
+          durationMin,
+          reference: input.reference ?? null,
+          createdBy: ctx.userId ?? null,
+        },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'log.dock.book',
+        objectType: 'DockAppointment',
+        objectId: row.id,
+        source: 'api',
+        newValues: { dockCode, scheduledAt: scheduledAt.toISOString(), durationMin },
+      });
+      return row;
+    });
+    return { id: created.id, dockCode, scheduledAt: scheduledAt.toISOString() };
+  }
+
+  async yardEvent(
+    input: { appointmentId: string; event: 'ARRIVED' | 'DEPARTED'; note?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<{ ok: true; status: string }> {
+    const appointment = await this.prisma.dockAppointment.findFirst({
+      where: { id: input.appointmentId, tenantId: ctx.tenantId },
+    });
+    if (!appointment) throw notFound('DockAppointment', input.appointmentId);
+    const next =
+      input.event === 'ARRIVED'
+        ? { from: 'BOOKED', to: 'AT_DOCK' }
+        : { from: 'AT_DOCK', to: 'DONE' };
+    if (appointment.status !== next.from) {
+      throw new DomainError(
+        'INVALID_STATE',
+        `Cannot record ${input.event} while the appointment is ${appointment.status}`,
+      );
+    }
+    await this.prisma.$transaction(async (tx) => {
+      await tx.dockAppointment.update({
+        where: { id: appointment.id },
+        data: { status: next.to },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'log.yard.event',
+        objectType: 'DockAppointment',
+        objectId: appointment.id,
+        source: 'api',
+        newValues: { event: input.event, note: input.note ?? null },
+      });
+    });
+    return { ok: true, status: next.to };
+  }
+
+  async listDockAppointments(
+    warehouseId: string,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{
+      id: string;
+      dockCode: string;
+      scheduledAt: string;
+      durationMin: number;
+      status: string;
+    }>
+  > {
+    const rows = await this.prisma.dockAppointment.findMany({
+      where: { tenantId: ctx.tenantId, warehouseId },
+      orderBy: { scheduledAt: 'asc' },
+      take: 200,
+    });
+    return rows.map((row) => ({
+      id: row.id,
+      dockCode: row.dockCode,
+      scheduledAt: row.scheduledAt.toISOString(),
+      durationMin: row.durationMin,
+      status: row.status,
+    }));
   }
 
   /** LOG-006/009: stop progress is the trace. */

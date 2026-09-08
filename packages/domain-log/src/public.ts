@@ -3,6 +3,7 @@
  */
 export {
   LogisticsService,
+  type CourierRegistryGate,
   type LogisticsConfigGate,
   type ShipmentStatus,
   type ShipmentView,

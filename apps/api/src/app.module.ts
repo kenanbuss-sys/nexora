@@ -222,7 +222,12 @@ import {
   FinanceController,
 } from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
-import { LOGISTICS_SERVICE, LogisticsController, ShipmentsController } from './log/log.controller';
+import {
+  DocksController,
+  LOGISTICS_SERVICE,
+  LogisticsController,
+  ShipmentsController,
+} from './log/log.controller';
 import {
   CustomerApiController,
   PORTAL_SERVICE,
@@ -402,6 +407,7 @@ export const REDIS = 'REDIS';
     AnalyticsController,
     LogisticsController,
     ShipmentsController,
+    DocksController,
     PortalUsersController,
     CustomerApiController,
     PortalController,
@@ -636,11 +642,18 @@ export const REDIS = 'REDIS';
     },
     {
       provide: LOGISTICS_SERVICE,
-      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
-        new LogisticsService(prisma, {
-          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
-        }),
-      inject: [PRISMA, TENANT_SERVICE],
+      useFactory: (prisma: PrismaClient, tenants: TenantService, connectors: ConnectorService) =>
+        new LogisticsService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            courierKeys: async (ctx) =>
+              (await connectors.listConnectors(ctx))
+                .filter((c) => c.kind === 'courier')
+                .map((c) => c.key),
+          },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, CONNECTOR_SERVICE],
     },
     {
       provide: VERIFICATION_SERVICE,

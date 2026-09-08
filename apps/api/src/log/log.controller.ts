@@ -161,6 +161,13 @@ export class ShipmentsController {
     return this.logistics.exceptionsReport(ctx);
   }
 
+  /** LOG-012 — reverse logistics. */
+  @Post(':id/return')
+  @RequirePermission('inventory.adjust')
+  async createReturn(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.logistics.createReturnShipment(id, ctx);
+  }
+
   @Post(':id/stops/:stopId/complete')
   @RequirePermission('inventory.adjust')
   async completeStop(
@@ -174,5 +181,44 @@ export class ShipmentsController {
       body ?? {},
     );
     return this.logistics.completeStop({ shipmentId: id, stopId, ...input }, ctx);
+  }
+}
+
+/** Dock scheduling & yard events (LOG-014/015). */
+@Controller('api/v1/docks')
+export class DocksController {
+  constructor(@Inject(LOGISTICS_SERVICE) private readonly logistics: LogisticsService) {}
+
+  @Get()
+  @RequirePermission('inventory.read')
+  async list(@Ctx() ctx: RequestContext, @Query('warehouseId') warehouseId?: string) {
+    const input = parseBody(z.object({ warehouseId: z.string().uuid() }), { warehouseId });
+    return { appointments: await this.logistics.listDockAppointments(input.warehouseId, ctx) };
+  }
+
+  @Post()
+  @RequirePermission('inventory.adjust')
+  async book(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        warehouseId: z.string().uuid(),
+        dockCode: z.string().min(1).max(16),
+        scheduledAt: z.string().datetime(),
+        durationMin: z.number().int().min(15).max(480).optional(),
+        reference: z.string().max(120).optional(),
+      }),
+      body,
+    );
+    return this.logistics.bookDock(input, ctx);
+  }
+
+  @Post(':id/yard')
+  @RequirePermission('inventory.adjust')
+  async yard(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ event: z.enum(['ARRIVED', 'DEPARTED']), note: z.string().max(300).optional() }),
+      body,
+    );
+    return this.logistics.yardEvent({ appointmentId: id, ...input }, ctx);
   }
 }
