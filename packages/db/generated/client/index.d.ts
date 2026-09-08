@@ -720,6 +720,13 @@ export type SkuChannelContent = $Result.DefaultSelection<Prisma.$SkuChannelConte
  * through a fixed lifecycle; history lives in the audit trail.
  */
 export type Container = $Result.DefaultSelection<Prisma.$ContainerPayload>
+/**
+ * Model PosSession
+ * POS register session (COM-003). One OPEN session per register
+ * (partial unique index in the migration); sales flow through OMS
+ * orders on the pos channel, cash is reconciled at close.
+ */
+export type PosSession = $Result.DefaultSelection<Prisma.$PosSessionPayload>
 
 /**
  * Enums
@@ -2913,6 +2920,16 @@ export class PrismaClient<
     * ```
     */
   get container(): Prisma.ContainerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.posSession`: Exposes CRUD operations for the **PosSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PosSessions
+    * const posSessions = await prisma.posSession.findMany()
+    * ```
+    */
+  get posSession(): Prisma.PosSessionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3476,7 +3493,8 @@ export namespace Prisma {
     CustomObjectRecord: 'CustomObjectRecord',
     FrameworkAgreement: 'FrameworkAgreement',
     SkuChannelContent: 'SkuChannelContent',
-    Container: 'Container'
+    Container: 'Container',
+    PosSession: 'PosSession'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3495,7 +3513,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12601,6 +12619,80 @@ export namespace Prisma {
           }
         }
       }
+      PosSession: {
+        payload: Prisma.$PosSessionPayload<ExtArgs>
+        fields: Prisma.PosSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PosSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PosSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.PosSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PosSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>
+          }
+          findMany: {
+            args: Prisma.PosSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>[]
+          }
+          create: {
+            args: Prisma.PosSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>
+          }
+          createMany: {
+            args: Prisma.PosSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PosSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.PosSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>
+          }
+          update: {
+            args: Prisma.PosSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PosSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PosSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PosSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.PosSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PosSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.PosSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePosSession>
+          }
+          groupBy: {
+            args: Prisma.PosSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PosSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PosSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<PosSessionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -12820,6 +12912,7 @@ export namespace Prisma {
     frameworkAgreement?: FrameworkAgreementOmit
     skuChannelContent?: SkuChannelContentOmit
     container?: ContainerOmit
+    posSession?: PosSessionOmit
   }
 
   /* Types for Logging */
@@ -13004,6 +13097,7 @@ export namespace Prisma {
     customObjectDefinitions: number
     skuChannelContents: number
     containers: number
+    posSessions: number
     frameworkAgreements: number
   }
 
@@ -13112,6 +13206,7 @@ export namespace Prisma {
     customObjectDefinitions?: boolean | TenantCountOutputTypeCountCustomObjectDefinitionsArgs
     skuChannelContents?: boolean | TenantCountOutputTypeCountSkuChannelContentsArgs
     containers?: boolean | TenantCountOutputTypeCountContainersArgs
+    posSessions?: boolean | TenantCountOutputTypeCountPosSessionsArgs
     frameworkAgreements?: boolean | TenantCountOutputTypeCountFrameworkAgreementsArgs
   }
 
@@ -13852,6 +13947,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountContainersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ContainerWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPosSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSessionWhereInput
   }
 
   /**
@@ -15484,6 +15586,7 @@ export namespace Prisma {
     customObjectDefinitions?: boolean | Tenant$customObjectDefinitionsArgs<ExtArgs>
     skuChannelContents?: boolean | Tenant$skuChannelContentsArgs<ExtArgs>
     containers?: boolean | Tenant$containersArgs<ExtArgs>
+    posSessions?: boolean | Tenant$posSessionsArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
@@ -15624,6 +15727,7 @@ export namespace Prisma {
     customObjectDefinitions?: boolean | Tenant$customObjectDefinitionsArgs<ExtArgs>
     skuChannelContents?: boolean | Tenant$skuChannelContentsArgs<ExtArgs>
     containers?: boolean | Tenant$containersArgs<ExtArgs>
+    posSessions?: boolean | Tenant$posSessionsArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -15737,6 +15841,7 @@ export namespace Prisma {
       customObjectDefinitions: Prisma.$CustomObjectDefinitionPayload<ExtArgs>[]
       skuChannelContents: Prisma.$SkuChannelContentPayload<ExtArgs>[]
       containers: Prisma.$ContainerPayload<ExtArgs>[]
+      posSessions: Prisma.$PosSessionPayload<ExtArgs>[]
       frameworkAgreements: Prisma.$FrameworkAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -16245,6 +16350,7 @@ export namespace Prisma {
     customObjectDefinitions<T extends Tenant$customObjectDefinitionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$customObjectDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     skuChannelContents<T extends Tenant$skuChannelContentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$skuChannelContentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     containers<T extends Tenant$containersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$containersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContainerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posSessions<T extends Tenant$posSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$posSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     frameworkAgreements<T extends Tenant$frameworkAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$frameworkAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -19163,6 +19269,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ContainerScalarFieldEnum | ContainerScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.posSessions
+   */
+  export type Tenant$posSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    where?: PosSessionWhereInput
+    orderBy?: PosSessionOrderByWithRelationInput | PosSessionOrderByWithRelationInput[]
+    cursor?: PosSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PosSessionScalarFieldEnum | PosSessionScalarFieldEnum[]
   }
 
   /**
@@ -108740,6 +108870,7 @@ export namespace Prisma {
     issuedAt: number
     dueAt: number
     costCenterId: number
+    dimensions: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -108809,6 +108940,7 @@ export namespace Prisma {
     issuedAt?: true
     dueAt?: true
     costCenterId?: true
+    dimensions?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -108915,6 +109047,7 @@ export namespace Prisma {
     issuedAt: Date
     dueAt: Date | null
     costCenterId: string | null
+    dimensions: JsonValue | null
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -108953,6 +109086,7 @@ export namespace Prisma {
     issuedAt?: boolean
     dueAt?: boolean
     costCenterId?: boolean
+    dimensions?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -108975,6 +109109,7 @@ export namespace Prisma {
     issuedAt?: boolean
     dueAt?: boolean
     costCenterId?: boolean
+    dimensions?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -108995,6 +109130,7 @@ export namespace Prisma {
     issuedAt?: boolean
     dueAt?: boolean
     costCenterId?: boolean
+    dimensions?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -109015,12 +109151,13 @@ export namespace Prisma {
     issuedAt?: boolean
     dueAt?: boolean
     costCenterId?: boolean
+    dimensions?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceNumber" | "invoiceType" | "partyRefId" | "orderRefId" | "currency" | "total" | "paidAmount" | "status" | "issuedAt" | "dueAt" | "costCenterId" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceNumber" | "invoiceType" | "partyRefId" | "orderRefId" | "currency" | "total" | "paidAmount" | "status" | "issuedAt" | "dueAt" | "costCenterId" | "dimensions" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
@@ -109056,6 +109193,10 @@ export namespace Prisma {
        * Sprint 019 (FIN-016): actual spend/revenue attribution.
        */
       costCenterId: string | null
+      /**
+       * Sprint 157 (FIN-001): named financial dimensions (validated in FIN).
+       */
+      dimensions: Prisma.JsonValue | null
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -109497,6 +109638,7 @@ export namespace Prisma {
     readonly issuedAt: FieldRef<"Invoice", 'DateTime'>
     readonly dueAt: FieldRef<"Invoice", 'DateTime'>
     readonly costCenterId: FieldRef<"Invoice", 'String'>
+    readonly dimensions: FieldRef<"Invoice", 'Json'>
     readonly createdBy: FieldRef<"Invoice", 'String'>
     readonly createdAt: FieldRef<"Invoice", 'DateTime'>
     readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
@@ -158970,6 +159112,1197 @@ export namespace Prisma {
 
 
   /**
+   * Model PosSession
+   */
+
+  export type AggregatePosSession = {
+    _count: PosSessionCountAggregateOutputType | null
+    _avg: PosSessionAvgAggregateOutputType | null
+    _sum: PosSessionSumAggregateOutputType | null
+    _min: PosSessionMinAggregateOutputType | null
+    _max: PosSessionMaxAggregateOutputType | null
+  }
+
+  export type PosSessionAvgAggregateOutputType = {
+    openingFloat: Decimal | null
+    cashSales: Decimal | null
+    closingCount: Decimal | null
+  }
+
+  export type PosSessionSumAggregateOutputType = {
+    openingFloat: Decimal | null
+    cashSales: Decimal | null
+    closingCount: Decimal | null
+  }
+
+  export type PosSessionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    registerCode: string | null
+    status: string | null
+    openingFloat: Decimal | null
+    cashSales: Decimal | null
+    closingCount: Decimal | null
+    openedBy: string | null
+    openedAt: Date | null
+    closedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PosSessionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    registerCode: string | null
+    status: string | null
+    openingFloat: Decimal | null
+    cashSales: Decimal | null
+    closingCount: Decimal | null
+    openedBy: string | null
+    openedAt: Date | null
+    closedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PosSessionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    registerCode: number
+    status: number
+    openingFloat: number
+    cashSales: number
+    closingCount: number
+    openedBy: number
+    openedAt: number
+    closedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PosSessionAvgAggregateInputType = {
+    openingFloat?: true
+    cashSales?: true
+    closingCount?: true
+  }
+
+  export type PosSessionSumAggregateInputType = {
+    openingFloat?: true
+    cashSales?: true
+    closingCount?: true
+  }
+
+  export type PosSessionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    registerCode?: true
+    status?: true
+    openingFloat?: true
+    cashSales?: true
+    closingCount?: true
+    openedBy?: true
+    openedAt?: true
+    closedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PosSessionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    registerCode?: true
+    status?: true
+    openingFloat?: true
+    cashSales?: true
+    closingCount?: true
+    openedBy?: true
+    openedAt?: true
+    closedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PosSessionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    registerCode?: true
+    status?: true
+    openingFloat?: true
+    cashSales?: true
+    closingCount?: true
+    openedBy?: true
+    openedAt?: true
+    closedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PosSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PosSession to aggregate.
+     */
+    where?: PosSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSessions to fetch.
+     */
+    orderBy?: PosSessionOrderByWithRelationInput | PosSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PosSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PosSessions
+    **/
+    _count?: true | PosSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PosSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PosSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PosSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PosSessionMaxAggregateInputType
+  }
+
+  export type GetPosSessionAggregateType<T extends PosSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePosSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePosSession[P]>
+      : GetScalarType<T[P], AggregatePosSession[P]>
+  }
+
+
+
+
+  export type PosSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PosSessionWhereInput
+    orderBy?: PosSessionOrderByWithAggregationInput | PosSessionOrderByWithAggregationInput[]
+    by: PosSessionScalarFieldEnum[] | PosSessionScalarFieldEnum
+    having?: PosSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PosSessionCountAggregateInputType | true
+    _avg?: PosSessionAvgAggregateInputType
+    _sum?: PosSessionSumAggregateInputType
+    _min?: PosSessionMinAggregateInputType
+    _max?: PosSessionMaxAggregateInputType
+  }
+
+  export type PosSessionGroupByOutputType = {
+    id: string
+    tenantId: string
+    registerCode: string
+    status: string
+    openingFloat: Decimal
+    cashSales: Decimal
+    closingCount: Decimal | null
+    openedBy: string | null
+    openedAt: Date
+    closedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PosSessionCountAggregateOutputType | null
+    _avg: PosSessionAvgAggregateOutputType | null
+    _sum: PosSessionSumAggregateOutputType | null
+    _min: PosSessionMinAggregateOutputType | null
+    _max: PosSessionMaxAggregateOutputType | null
+  }
+
+  type GetPosSessionGroupByPayload<T extends PosSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PosSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PosSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PosSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], PosSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PosSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    registerCode?: boolean
+    status?: boolean
+    openingFloat?: boolean
+    cashSales?: boolean
+    closingCount?: boolean
+    openedBy?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posSession"]>
+
+  export type PosSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    registerCode?: boolean
+    status?: boolean
+    openingFloat?: boolean
+    cashSales?: boolean
+    closingCount?: boolean
+    openedBy?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posSession"]>
+
+  export type PosSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    registerCode?: boolean
+    status?: boolean
+    openingFloat?: boolean
+    cashSales?: boolean
+    closingCount?: boolean
+    openedBy?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posSession"]>
+
+  export type PosSessionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    registerCode?: boolean
+    status?: boolean
+    openingFloat?: boolean
+    cashSales?: boolean
+    closingCount?: boolean
+    openedBy?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PosSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "registerCode" | "status" | "openingFloat" | "cashSales" | "closingCount" | "openedBy" | "openedAt" | "closedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["posSession"]>
+  export type PosSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PosSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type PosSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $PosSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PosSession"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      registerCode: string
+      status: string
+      openingFloat: Prisma.Decimal
+      cashSales: Prisma.Decimal
+      closingCount: Prisma.Decimal | null
+      openedBy: string | null
+      openedAt: Date
+      closedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["posSession"]>
+    composites: {}
+  }
+
+  type PosSessionGetPayload<S extends boolean | null | undefined | PosSessionDefaultArgs> = $Result.GetResult<Prisma.$PosSessionPayload, S>
+
+  type PosSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PosSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PosSessionCountAggregateInputType | true
+    }
+
+  export interface PosSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PosSession'], meta: { name: 'PosSession' } }
+    /**
+     * Find zero or one PosSession that matches the filter.
+     * @param {PosSessionFindUniqueArgs} args - Arguments to find a PosSession
+     * @example
+     * // Get one PosSession
+     * const posSession = await prisma.posSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PosSessionFindUniqueArgs>(args: SelectSubset<T, PosSessionFindUniqueArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PosSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PosSessionFindUniqueOrThrowArgs} args - Arguments to find a PosSession
+     * @example
+     * // Get one PosSession
+     * const posSession = await prisma.posSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PosSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, PosSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PosSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSessionFindFirstArgs} args - Arguments to find a PosSession
+     * @example
+     * // Get one PosSession
+     * const posSession = await prisma.posSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PosSessionFindFirstArgs>(args?: SelectSubset<T, PosSessionFindFirstArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PosSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSessionFindFirstOrThrowArgs} args - Arguments to find a PosSession
+     * @example
+     * // Get one PosSession
+     * const posSession = await prisma.posSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PosSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, PosSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PosSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PosSessions
+     * const posSessions = await prisma.posSession.findMany()
+     * 
+     * // Get first 10 PosSessions
+     * const posSessions = await prisma.posSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const posSessionWithIdOnly = await prisma.posSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PosSessionFindManyArgs>(args?: SelectSubset<T, PosSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PosSession.
+     * @param {PosSessionCreateArgs} args - Arguments to create a PosSession.
+     * @example
+     * // Create one PosSession
+     * const PosSession = await prisma.posSession.create({
+     *   data: {
+     *     // ... data to create a PosSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends PosSessionCreateArgs>(args: SelectSubset<T, PosSessionCreateArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PosSessions.
+     * @param {PosSessionCreateManyArgs} args - Arguments to create many PosSessions.
+     * @example
+     * // Create many PosSessions
+     * const posSession = await prisma.posSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PosSessionCreateManyArgs>(args?: SelectSubset<T, PosSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PosSessions and returns the data saved in the database.
+     * @param {PosSessionCreateManyAndReturnArgs} args - Arguments to create many PosSessions.
+     * @example
+     * // Create many PosSessions
+     * const posSession = await prisma.posSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PosSessions and only return the `id`
+     * const posSessionWithIdOnly = await prisma.posSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PosSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, PosSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PosSession.
+     * @param {PosSessionDeleteArgs} args - Arguments to delete one PosSession.
+     * @example
+     * // Delete one PosSession
+     * const PosSession = await prisma.posSession.delete({
+     *   where: {
+     *     // ... filter to delete one PosSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PosSessionDeleteArgs>(args: SelectSubset<T, PosSessionDeleteArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PosSession.
+     * @param {PosSessionUpdateArgs} args - Arguments to update one PosSession.
+     * @example
+     * // Update one PosSession
+     * const posSession = await prisma.posSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PosSessionUpdateArgs>(args: SelectSubset<T, PosSessionUpdateArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PosSessions.
+     * @param {PosSessionDeleteManyArgs} args - Arguments to filter PosSessions to delete.
+     * @example
+     * // Delete a few PosSessions
+     * const { count } = await prisma.posSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PosSessionDeleteManyArgs>(args?: SelectSubset<T, PosSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PosSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PosSessions
+     * const posSession = await prisma.posSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PosSessionUpdateManyArgs>(args: SelectSubset<T, PosSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PosSessions and returns the data updated in the database.
+     * @param {PosSessionUpdateManyAndReturnArgs} args - Arguments to update many PosSessions.
+     * @example
+     * // Update many PosSessions
+     * const posSession = await prisma.posSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PosSessions and only return the `id`
+     * const posSessionWithIdOnly = await prisma.posSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PosSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, PosSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PosSession.
+     * @param {PosSessionUpsertArgs} args - Arguments to update or create a PosSession.
+     * @example
+     * // Update or create a PosSession
+     * const posSession = await prisma.posSession.upsert({
+     *   create: {
+     *     // ... data to create a PosSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PosSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PosSessionUpsertArgs>(args: SelectSubset<T, PosSessionUpsertArgs<ExtArgs>>): Prisma__PosSessionClient<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PosSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSessionCountArgs} args - Arguments to filter PosSessions to count.
+     * @example
+     * // Count the number of PosSessions
+     * const count = await prisma.posSession.count({
+     *   where: {
+     *     // ... the filter for the PosSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PosSessionCountArgs>(
+      args?: Subset<T, PosSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PosSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PosSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PosSessionAggregateArgs>(args: Subset<T, PosSessionAggregateArgs>): Prisma.PrismaPromise<GetPosSessionAggregateType<T>>
+
+    /**
+     * Group by PosSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PosSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PosSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PosSessionGroupByArgs['orderBy'] }
+        : { orderBy?: PosSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PosSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPosSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PosSession model
+   */
+  readonly fields: PosSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PosSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PosSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PosSession model
+   */
+  interface PosSessionFieldRefs {
+    readonly id: FieldRef<"PosSession", 'String'>
+    readonly tenantId: FieldRef<"PosSession", 'String'>
+    readonly registerCode: FieldRef<"PosSession", 'String'>
+    readonly status: FieldRef<"PosSession", 'String'>
+    readonly openingFloat: FieldRef<"PosSession", 'Decimal'>
+    readonly cashSales: FieldRef<"PosSession", 'Decimal'>
+    readonly closingCount: FieldRef<"PosSession", 'Decimal'>
+    readonly openedBy: FieldRef<"PosSession", 'String'>
+    readonly openedAt: FieldRef<"PosSession", 'DateTime'>
+    readonly closedAt: FieldRef<"PosSession", 'DateTime'>
+    readonly createdAt: FieldRef<"PosSession", 'DateTime'>
+    readonly updatedAt: FieldRef<"PosSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PosSession findUnique
+   */
+  export type PosSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSession to fetch.
+     */
+    where: PosSessionWhereUniqueInput
+  }
+
+  /**
+   * PosSession findUniqueOrThrow
+   */
+  export type PosSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSession to fetch.
+     */
+    where: PosSessionWhereUniqueInput
+  }
+
+  /**
+   * PosSession findFirst
+   */
+  export type PosSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSession to fetch.
+     */
+    where?: PosSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSessions to fetch.
+     */
+    orderBy?: PosSessionOrderByWithRelationInput | PosSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PosSessions.
+     */
+    cursor?: PosSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PosSessions.
+     */
+    distinct?: PosSessionScalarFieldEnum | PosSessionScalarFieldEnum[]
+  }
+
+  /**
+   * PosSession findFirstOrThrow
+   */
+  export type PosSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSession to fetch.
+     */
+    where?: PosSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSessions to fetch.
+     */
+    orderBy?: PosSessionOrderByWithRelationInput | PosSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PosSessions.
+     */
+    cursor?: PosSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PosSessions.
+     */
+    distinct?: PosSessionScalarFieldEnum | PosSessionScalarFieldEnum[]
+  }
+
+  /**
+   * PosSession findMany
+   */
+  export type PosSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PosSessions to fetch.
+     */
+    where?: PosSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PosSessions to fetch.
+     */
+    orderBy?: PosSessionOrderByWithRelationInput | PosSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PosSessions.
+     */
+    cursor?: PosSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PosSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PosSessions.
+     */
+    skip?: number
+    distinct?: PosSessionScalarFieldEnum | PosSessionScalarFieldEnum[]
+  }
+
+  /**
+   * PosSession create
+   */
+  export type PosSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PosSession.
+     */
+    data: XOR<PosSessionCreateInput, PosSessionUncheckedCreateInput>
+  }
+
+  /**
+   * PosSession createMany
+   */
+  export type PosSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PosSessions.
+     */
+    data: PosSessionCreateManyInput | PosSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PosSession createManyAndReturn
+   */
+  export type PosSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many PosSessions.
+     */
+    data: PosSessionCreateManyInput | PosSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PosSession update
+   */
+  export type PosSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PosSession.
+     */
+    data: XOR<PosSessionUpdateInput, PosSessionUncheckedUpdateInput>
+    /**
+     * Choose, which PosSession to update.
+     */
+    where: PosSessionWhereUniqueInput
+  }
+
+  /**
+   * PosSession updateMany
+   */
+  export type PosSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PosSessions.
+     */
+    data: XOR<PosSessionUpdateManyMutationInput, PosSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which PosSessions to update
+     */
+    where?: PosSessionWhereInput
+    /**
+     * Limit how many PosSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PosSession updateManyAndReturn
+   */
+  export type PosSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update PosSessions.
+     */
+    data: XOR<PosSessionUpdateManyMutationInput, PosSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which PosSessions to update
+     */
+    where?: PosSessionWhereInput
+    /**
+     * Limit how many PosSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PosSession upsert
+   */
+  export type PosSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PosSession to update in case it exists.
+     */
+    where: PosSessionWhereUniqueInput
+    /**
+     * In case the PosSession found by the `where` argument doesn't exist, create a new PosSession with this data.
+     */
+    create: XOR<PosSessionCreateInput, PosSessionUncheckedCreateInput>
+    /**
+     * In case the PosSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PosSessionUpdateInput, PosSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * PosSession delete
+   */
+  export type PosSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+    /**
+     * Filter which PosSession to delete.
+     */
+    where: PosSessionWhereUniqueInput
+  }
+
+  /**
+   * PosSession deleteMany
+   */
+  export type PosSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PosSessions to delete
+     */
+    where?: PosSessionWhereInput
+    /**
+     * Limit how many PosSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PosSession without action
+   */
+  export type PosSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PosSession
+     */
+    select?: PosSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PosSession
+     */
+    omit?: PosSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PosSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -160175,6 +161508,7 @@ export namespace Prisma {
     issuedAt: 'issuedAt',
     dueAt: 'dueAt',
     costCenterId: 'costCenterId',
+    dimensions: 'dimensions',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -160824,6 +162158,24 @@ export namespace Prisma {
   };
 
   export type ContainerScalarFieldEnum = (typeof ContainerScalarFieldEnum)[keyof typeof ContainerScalarFieldEnum]
+
+
+  export const PosSessionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    registerCode: 'registerCode',
+    status: 'status',
+    openingFloat: 'openingFloat',
+    cashSales: 'cashSales',
+    closingCount: 'closingCount',
+    openedBy: 'openedBy',
+    openedAt: 'openedAt',
+    closedAt: 'closedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PosSessionScalarFieldEnum = (typeof PosSessionScalarFieldEnum)[keyof typeof PosSessionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -161970,6 +163322,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionListRelationFilter
     skuChannelContents?: SkuChannelContentListRelationFilter
     containers?: ContainerListRelationFilter
+    posSessions?: PosSessionListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
   }
 
@@ -162085,6 +163438,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionOrderByRelationAggregateInput
     skuChannelContents?: SkuChannelContentOrderByRelationAggregateInput
     containers?: ContainerOrderByRelationAggregateInput
+    posSessions?: PosSessionOrderByRelationAggregateInput
     frameworkAgreements?: FrameworkAgreementOrderByRelationAggregateInput
   }
 
@@ -162203,6 +163557,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionListRelationFilter
     skuChannelContents?: SkuChannelContentListRelationFilter
     containers?: ContainerListRelationFilter
+    posSessions?: PosSessionListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
   }, "id" | "slug">
 
@@ -168409,6 +169764,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableFilter<"Invoice"> | string | null
+    dimensions?: JsonNullableFilter<"Invoice">
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -168430,6 +169786,7 @@ export namespace Prisma {
     issuedAt?: SortOrder
     dueAt?: SortOrderInput | SortOrder
     costCenterId?: SortOrderInput | SortOrder
+    dimensions?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -168456,6 +169813,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableFilter<"Invoice"> | string | null
+    dimensions?: JsonNullableFilter<"Invoice">
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -168477,6 +169835,7 @@ export namespace Prisma {
     issuedAt?: SortOrder
     dueAt?: SortOrderInput | SortOrder
     costCenterId?: SortOrderInput | SortOrder
+    dimensions?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -168504,6 +169863,7 @@ export namespace Prisma {
     issuedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableWithAggregatesFilter<"Invoice"> | string | null
+    dimensions?: JsonNullableWithAggregatesFilter<"Invoice">
     createdBy?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
@@ -171883,6 +173243,98 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Container"> | Date | string
   }
 
+  export type PosSessionWhereInput = {
+    AND?: PosSessionWhereInput | PosSessionWhereInput[]
+    OR?: PosSessionWhereInput[]
+    NOT?: PosSessionWhereInput | PosSessionWhereInput[]
+    id?: UuidFilter<"PosSession"> | string
+    tenantId?: UuidFilter<"PosSession"> | string
+    registerCode?: StringFilter<"PosSession"> | string
+    status?: StringFilter<"PosSession"> | string
+    openingFloat?: DecimalFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    closingCount?: DecimalNullableFilter<"PosSession"> | Decimal | DecimalJsLike | number | string | null
+    openedBy?: StringNullableFilter<"PosSession"> | string | null
+    openedAt?: DateTimeFilter<"PosSession"> | Date | string
+    closedAt?: DateTimeNullableFilter<"PosSession"> | Date | string | null
+    createdAt?: DateTimeFilter<"PosSession"> | Date | string
+    updatedAt?: DateTimeFilter<"PosSession"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type PosSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    registerCode?: SortOrder
+    status?: SortOrder
+    openingFloat?: SortOrder
+    cashSales?: SortOrder
+    closingCount?: SortOrderInput | SortOrder
+    openedBy?: SortOrderInput | SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type PosSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PosSessionWhereInput | PosSessionWhereInput[]
+    OR?: PosSessionWhereInput[]
+    NOT?: PosSessionWhereInput | PosSessionWhereInput[]
+    tenantId?: UuidFilter<"PosSession"> | string
+    registerCode?: StringFilter<"PosSession"> | string
+    status?: StringFilter<"PosSession"> | string
+    openingFloat?: DecimalFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    closingCount?: DecimalNullableFilter<"PosSession"> | Decimal | DecimalJsLike | number | string | null
+    openedBy?: StringNullableFilter<"PosSession"> | string | null
+    openedAt?: DateTimeFilter<"PosSession"> | Date | string
+    closedAt?: DateTimeNullableFilter<"PosSession"> | Date | string | null
+    createdAt?: DateTimeFilter<"PosSession"> | Date | string
+    updatedAt?: DateTimeFilter<"PosSession"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id">
+
+  export type PosSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    registerCode?: SortOrder
+    status?: SortOrder
+    openingFloat?: SortOrder
+    cashSales?: SortOrder
+    closingCount?: SortOrderInput | SortOrder
+    openedBy?: SortOrderInput | SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PosSessionCountOrderByAggregateInput
+    _avg?: PosSessionAvgOrderByAggregateInput
+    _max?: PosSessionMaxOrderByAggregateInput
+    _min?: PosSessionMinOrderByAggregateInput
+    _sum?: PosSessionSumOrderByAggregateInput
+  }
+
+  export type PosSessionScalarWhereWithAggregatesInput = {
+    AND?: PosSessionScalarWhereWithAggregatesInput | PosSessionScalarWhereWithAggregatesInput[]
+    OR?: PosSessionScalarWhereWithAggregatesInput[]
+    NOT?: PosSessionScalarWhereWithAggregatesInput | PosSessionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PosSession"> | string
+    tenantId?: UuidWithAggregatesFilter<"PosSession"> | string
+    registerCode?: StringWithAggregatesFilter<"PosSession"> | string
+    status?: StringWithAggregatesFilter<"PosSession"> | string
+    openingFloat?: DecimalWithAggregatesFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalWithAggregatesFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    closingCount?: DecimalNullableWithAggregatesFilter<"PosSession"> | Decimal | DecimalJsLike | number | string | null
+    openedBy?: StringNullableWithAggregatesFilter<"PosSession"> | string | null
+    openedAt?: DateTimeWithAggregatesFilter<"PosSession"> | Date | string
+    closedAt?: DateTimeNullableWithAggregatesFilter<"PosSession"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PosSession"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PosSession"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -171995,6 +173447,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -172110,6 +173563,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -172225,6 +173679,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -172340,6 +173795,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -178973,6 +180429,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -178994,6 +180451,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -179013,6 +180471,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -179034,6 +180493,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -179054,6 +180514,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -179072,6 +180533,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -179091,6 +180553,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -182684,6 +184147,110 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PosSessionCreateInput = {
+    id?: string
+    registerCode: string
+    status?: string
+    openingFloat?: Decimal | DecimalJsLike | number | string
+    cashSales?: Decimal | DecimalJsLike | number | string
+    closingCount?: Decimal | DecimalJsLike | number | string | null
+    openedBy?: string | null
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPosSessionsInput
+  }
+
+  export type PosSessionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    registerCode: string
+    status?: string
+    openingFloat?: Decimal | DecimalJsLike | number | string
+    cashSales?: Decimal | DecimalJsLike | number | string
+    closingCount?: Decimal | DecimalJsLike | number | string | null
+    openedBy?: string | null
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registerCode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingFloat?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingCount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    openedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPosSessionsNestedInput
+  }
+
+  export type PosSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    registerCode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingFloat?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingCount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    openedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSessionCreateManyInput = {
+    id?: string
+    tenantId: string
+    registerCode: string
+    status?: string
+    openingFloat?: Decimal | DecimalJsLike | number | string
+    cashSales?: Decimal | DecimalJsLike | number | string
+    closingCount?: Decimal | DecimalJsLike | number | string | null
+    openedBy?: string | null
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registerCode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingFloat?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingCount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    openedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    registerCode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingFloat?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingCount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    openedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -183364,6 +184931,12 @@ export namespace Prisma {
     none?: ContainerWhereInput
   }
 
+  export type PosSessionListRelationFilter = {
+    every?: PosSessionWhereInput
+    some?: PosSessionWhereInput
+    none?: PosSessionWhereInput
+  }
+
   export type FrameworkAgreementListRelationFilter = {
     every?: FrameworkAgreementWhereInput
     some?: FrameworkAgreementWhereInput
@@ -183783,6 +185356,10 @@ export namespace Prisma {
   }
 
   export type ContainerOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PosSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -188653,6 +190230,7 @@ export namespace Prisma {
     issuedAt?: SortOrder
     dueAt?: SortOrder
     costCenterId?: SortOrder
+    dimensions?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -191075,6 +192653,63 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type PosSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    registerCode?: SortOrder
+    status?: SortOrder
+    openingFloat?: SortOrder
+    cashSales?: SortOrder
+    closingCount?: SortOrder
+    openedBy?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PosSessionAvgOrderByAggregateInput = {
+    openingFloat?: SortOrder
+    cashSales?: SortOrder
+    closingCount?: SortOrder
+  }
+
+  export type PosSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    registerCode?: SortOrder
+    status?: SortOrder
+    openingFloat?: SortOrder
+    cashSales?: SortOrder
+    closingCount?: SortOrder
+    openedBy?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PosSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    registerCode?: SortOrder
+    status?: SortOrder
+    openingFloat?: SortOrder
+    cashSales?: SortOrder
+    closingCount?: SortOrder
+    openedBy?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PosSessionSumOrderByAggregateInput = {
+    openingFloat?: SortOrder
+    cashSales?: SortOrder
+    closingCount?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -191801,6 +193436,13 @@ export namespace Prisma {
     connectOrCreate?: ContainerCreateOrConnectWithoutTenantInput | ContainerCreateOrConnectWithoutTenantInput[]
     createMany?: ContainerCreateManyTenantInputEnvelope
     connect?: ContainerWhereUniqueInput | ContainerWhereUniqueInput[]
+  }
+
+  export type PosSessionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PosSessionCreateWithoutTenantInput, PosSessionUncheckedCreateWithoutTenantInput> | PosSessionCreateWithoutTenantInput[] | PosSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PosSessionCreateOrConnectWithoutTenantInput | PosSessionCreateOrConnectWithoutTenantInput[]
+    createMany?: PosSessionCreateManyTenantInputEnvelope
+    connect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
   }
 
   export type FrameworkAgreementCreateNestedManyWithoutTenantInput = {
@@ -192536,6 +194178,13 @@ export namespace Prisma {
     connectOrCreate?: ContainerCreateOrConnectWithoutTenantInput | ContainerCreateOrConnectWithoutTenantInput[]
     createMany?: ContainerCreateManyTenantInputEnvelope
     connect?: ContainerWhereUniqueInput | ContainerWhereUniqueInput[]
+  }
+
+  export type PosSessionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PosSessionCreateWithoutTenantInput, PosSessionUncheckedCreateWithoutTenantInput> | PosSessionCreateWithoutTenantInput[] | PosSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PosSessionCreateOrConnectWithoutTenantInput | PosSessionCreateOrConnectWithoutTenantInput[]
+    createMany?: PosSessionCreateManyTenantInputEnvelope
+    connect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
   }
 
   export type FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput = {
@@ -194021,6 +195670,20 @@ export namespace Prisma {
     deleteMany?: ContainerScalarWhereInput | ContainerScalarWhereInput[]
   }
 
+  export type PosSessionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PosSessionCreateWithoutTenantInput, PosSessionUncheckedCreateWithoutTenantInput> | PosSessionCreateWithoutTenantInput[] | PosSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PosSessionCreateOrConnectWithoutTenantInput | PosSessionCreateOrConnectWithoutTenantInput[]
+    upsert?: PosSessionUpsertWithWhereUniqueWithoutTenantInput | PosSessionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PosSessionCreateManyTenantInputEnvelope
+    set?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    disconnect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    delete?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    connect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    update?: PosSessionUpdateWithWhereUniqueWithoutTenantInput | PosSessionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PosSessionUpdateManyWithWhereWithoutTenantInput | PosSessionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PosSessionScalarWhereInput | PosSessionScalarWhereInput[]
+  }
+
   export type FrameworkAgreementUpdateManyWithoutTenantNestedInput = {
     create?: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput> | FrameworkAgreementCreateWithoutTenantInput[] | FrameworkAgreementUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
@@ -195489,6 +197152,20 @@ export namespace Prisma {
     update?: ContainerUpdateWithWhereUniqueWithoutTenantInput | ContainerUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: ContainerUpdateManyWithWhereWithoutTenantInput | ContainerUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: ContainerScalarWhereInput | ContainerScalarWhereInput[]
+  }
+
+  export type PosSessionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PosSessionCreateWithoutTenantInput, PosSessionUncheckedCreateWithoutTenantInput> | PosSessionCreateWithoutTenantInput[] | PosSessionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PosSessionCreateOrConnectWithoutTenantInput | PosSessionCreateOrConnectWithoutTenantInput[]
+    upsert?: PosSessionUpsertWithWhereUniqueWithoutTenantInput | PosSessionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PosSessionCreateManyTenantInputEnvelope
+    set?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    disconnect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    delete?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    connect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+    update?: PosSessionUpdateWithWhereUniqueWithoutTenantInput | PosSessionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PosSessionUpdateManyWithWhereWithoutTenantInput | PosSessionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PosSessionScalarWhereInput | PosSessionScalarWhereInput[]
   }
 
   export type FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -200434,6 +202111,20 @@ export namespace Prisma {
     update?: XOR<XOR<PurchaseOrderUpdateToOneWithWhereWithoutContainersInput, PurchaseOrderUpdateWithoutContainersInput>, PurchaseOrderUncheckedUpdateWithoutContainersInput>
   }
 
+  export type TenantCreateNestedOneWithoutPosSessionsInput = {
+    create?: XOR<TenantCreateWithoutPosSessionsInput, TenantUncheckedCreateWithoutPosSessionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPosSessionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutPosSessionsNestedInput = {
+    create?: XOR<TenantCreateWithoutPosSessionsInput, TenantUncheckedCreateWithoutPosSessionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPosSessionsInput
+    upsert?: TenantUpsertWithoutPosSessionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPosSessionsInput, TenantUpdateWithoutPosSessionsInput>, TenantUncheckedUpdateWithoutPosSessionsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -203914,6 +205605,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -203933,6 +205625,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -205344,6 +207037,44 @@ export namespace Prisma {
 
   export type ContainerCreateManyTenantInputEnvelope = {
     data: ContainerCreateManyTenantInput | ContainerCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PosSessionCreateWithoutTenantInput = {
+    id?: string
+    registerCode: string
+    status?: string
+    openingFloat?: Decimal | DecimalJsLike | number | string
+    cashSales?: Decimal | DecimalJsLike | number | string
+    closingCount?: Decimal | DecimalJsLike | number | string | null
+    openedBy?: string | null
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSessionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    registerCode: string
+    status?: string
+    openingFloat?: Decimal | DecimalJsLike | number | string
+    cashSales?: Decimal | DecimalJsLike | number | string
+    closingCount?: Decimal | DecimalJsLike | number | string | null
+    openedBy?: string | null
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSessionCreateOrConnectWithoutTenantInput = {
+    where: PosSessionWhereUniqueInput
+    create: XOR<PosSessionCreateWithoutTenantInput, PosSessionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PosSessionCreateManyTenantInputEnvelope = {
+    data: PosSessionCreateManyTenantInput | PosSessionCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -207304,6 +209035,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFilter<"Invoice"> | Date | string
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableFilter<"Invoice"> | string | null
+    dimensions?: JsonNullableFilter<"Invoice">
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -208640,6 +210372,40 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Container"> | Date | string
   }
 
+  export type PosSessionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PosSessionWhereUniqueInput
+    update: XOR<PosSessionUpdateWithoutTenantInput, PosSessionUncheckedUpdateWithoutTenantInput>
+    create: XOR<PosSessionCreateWithoutTenantInput, PosSessionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PosSessionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PosSessionWhereUniqueInput
+    data: XOR<PosSessionUpdateWithoutTenantInput, PosSessionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PosSessionUpdateManyWithWhereWithoutTenantInput = {
+    where: PosSessionScalarWhereInput
+    data: XOR<PosSessionUpdateManyMutationInput, PosSessionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PosSessionScalarWhereInput = {
+    AND?: PosSessionScalarWhereInput | PosSessionScalarWhereInput[]
+    OR?: PosSessionScalarWhereInput[]
+    NOT?: PosSessionScalarWhereInput | PosSessionScalarWhereInput[]
+    id?: UuidFilter<"PosSession"> | string
+    tenantId?: UuidFilter<"PosSession"> | string
+    registerCode?: StringFilter<"PosSession"> | string
+    status?: StringFilter<"PosSession"> | string
+    openingFloat?: DecimalFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFilter<"PosSession"> | Decimal | DecimalJsLike | number | string
+    closingCount?: DecimalNullableFilter<"PosSession"> | Decimal | DecimalJsLike | number | string | null
+    openedBy?: StringNullableFilter<"PosSession"> | string | null
+    openedAt?: DateTimeFilter<"PosSession"> | Date | string
+    closedAt?: DateTimeNullableFilter<"PosSession"> | Date | string | null
+    createdAt?: DateTimeFilter<"PosSession"> | Date | string
+    updatedAt?: DateTimeFilter<"PosSession"> | Date | string
+  }
+
   export type FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput = {
     where: FrameworkAgreementWhereUniqueInput
     update: XOR<FrameworkAgreementUpdateWithoutTenantInput, FrameworkAgreementUncheckedUpdateWithoutTenantInput>
@@ -208787,6 +210553,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -208901,6 +210668,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -209031,6 +210799,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -209145,6 +210914,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -209259,6 +211029,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -209373,6 +211144,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -209537,6 +211309,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -209651,6 +211424,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -209781,6 +211555,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -209895,6 +211670,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -210163,6 +211939,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -210277,6 +212054,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -210503,6 +212281,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -210617,6 +212396,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -210776,6 +212556,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -210890,6 +212671,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -211039,6 +212821,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -211153,6 +212936,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -211312,6 +213096,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -211426,6 +213211,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -211575,6 +213361,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -211689,6 +213476,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -211908,6 +213696,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -212022,6 +213811,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -212205,6 +213995,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -212319,6 +214110,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -212480,6 +214272,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -212594,6 +214387,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -212745,6 +214539,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -212859,6 +214654,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -213039,6 +214835,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -213153,6 +214950,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -213365,6 +215163,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -213479,6 +215278,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -213665,6 +215465,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -213779,6 +215580,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -213961,6 +215763,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -214075,6 +215878,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -214205,6 +216009,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -214319,6 +216124,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -214433,6 +216239,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -214547,6 +216354,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -214677,6 +216485,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -214791,6 +216600,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -214905,6 +216715,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -215019,6 +216830,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -215149,6 +216961,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -215263,6 +217076,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -215377,6 +217191,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -215491,6 +217306,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -215621,6 +217437,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -215735,6 +217552,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -215849,6 +217667,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -215963,6 +217782,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -216093,6 +217913,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -216207,6 +218028,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -216321,6 +218143,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -216435,6 +218258,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -216565,6 +218389,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -216679,6 +218504,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -216793,6 +218619,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -216907,6 +218734,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -217037,6 +218865,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -217151,6 +218980,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -217265,6 +219095,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -217379,6 +219210,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -217571,6 +219403,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -217685,6 +219518,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -218057,6 +219891,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -218171,6 +220006,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -218329,6 +220165,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -218443,6 +220280,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -218630,6 +220468,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -218744,6 +220583,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -218874,6 +220714,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -218988,6 +220829,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -219102,6 +220944,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -219216,6 +221059,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -219346,6 +221190,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -219460,6 +221305,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -219574,6 +221420,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -219688,6 +221535,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -219844,6 +221692,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -219958,6 +221807,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -220148,6 +221998,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -220262,6 +222113,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -220573,6 +222425,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -220687,6 +222540,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -220922,6 +222776,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -221036,6 +222891,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -221205,6 +223061,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -221319,6 +223176,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -221562,6 +223420,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -221676,6 +223535,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -221870,6 +223730,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -221984,6 +223845,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -222816,6 +224678,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -222930,6 +224793,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -223082,6 +224946,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -223196,6 +225061,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -223380,6 +225246,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -223494,6 +225361,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -223624,6 +225492,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -223738,6 +225607,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -223852,6 +225722,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -223966,6 +225837,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -224096,6 +225968,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -224210,6 +226083,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -224324,6 +226198,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -224438,6 +226313,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -224568,6 +226444,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -224682,6 +226559,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -224796,6 +226674,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -224910,6 +226789,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -225040,6 +226920,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -225154,6 +227035,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -225268,6 +227150,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -225382,6 +227265,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -225538,6 +227422,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -225652,6 +227537,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -225782,6 +227668,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -225896,6 +227783,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -226059,6 +227947,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -226173,6 +228062,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -226326,6 +228216,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -226440,6 +228331,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -226570,6 +228462,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -226684,6 +228577,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -226798,6 +228692,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -226912,6 +228807,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -227066,6 +228962,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -227180,6 +229077,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -227310,6 +229208,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -227424,6 +229323,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -227575,6 +229475,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -227689,6 +229590,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -227830,6 +229732,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -227944,6 +229847,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -228074,6 +229978,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -228188,6 +230093,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -228302,6 +230208,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -228416,6 +230323,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -228546,6 +230454,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -228660,6 +230569,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -228774,6 +230684,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -228888,6 +230799,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229018,6 +230930,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -229132,6 +231045,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -229246,6 +231160,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -229360,6 +231275,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229490,6 +231406,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -229604,6 +231521,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -229718,6 +231636,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -229832,6 +231751,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229988,6 +231908,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -230102,6 +232023,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -230232,6 +232154,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -230346,6 +232269,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -230509,6 +232433,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -230623,6 +232548,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -230776,6 +232702,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -230890,6 +232817,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -231054,6 +232982,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -231168,6 +233097,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -231298,6 +233228,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -231412,6 +233343,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -231601,6 +233533,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -231715,6 +233648,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -231894,6 +233828,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -232008,6 +233943,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -232138,6 +234074,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -232252,6 +234189,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -232366,6 +234304,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -232480,6 +234419,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -232610,6 +234550,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -232724,6 +234665,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -232838,6 +234780,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -232952,6 +234895,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -233129,6 +235073,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -233243,6 +235188,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -233410,6 +235356,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -233524,6 +235471,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -233726,6 +235674,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -233840,6 +235789,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -233986,6 +235936,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -234100,6 +236051,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -234275,6 +236227,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -234389,6 +236342,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -234554,6 +236508,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -234668,6 +236623,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -234798,6 +236754,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -234912,6 +236869,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -235026,6 +236984,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -235140,6 +237099,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -235270,6 +237230,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -235384,6 +237345,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -235498,6 +237460,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -235612,6 +237575,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -235772,6 +237736,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -235886,6 +237851,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -236016,6 +237982,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -236130,6 +238097,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -236293,6 +238261,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -236407,6 +238376,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -236560,6 +238530,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -236674,6 +238645,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -236902,6 +238874,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -237016,6 +238989,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -237178,6 +239152,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -237292,6 +239267,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -237463,6 +239439,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -237577,6 +239554,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -237738,6 +239716,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -237852,6 +239831,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -238012,6 +239992,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -238126,6 +240107,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -238256,6 +240238,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -238370,6 +240353,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -238531,6 +240515,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -238645,6 +240630,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -238796,6 +240782,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -238910,6 +240897,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -239072,6 +241060,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -239186,6 +241175,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -239316,6 +241306,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -239430,6 +241421,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -239587,6 +241579,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -239701,6 +241694,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -239848,6 +241842,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -239962,6 +241957,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -240092,6 +242088,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -240206,6 +242203,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -240320,6 +242318,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -240434,6 +242433,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -240564,6 +242564,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -240678,6 +242679,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -240792,6 +242794,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -240906,6 +242909,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -241066,6 +243070,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -241180,6 +243185,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -241310,6 +243316,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -241424,6 +243431,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -241579,6 +243587,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -241693,6 +243702,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -241838,6 +243848,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -241952,6 +243963,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -242118,6 +244130,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -242232,6 +244245,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -242362,6 +244376,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -242476,6 +244491,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -242649,6 +244665,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -242763,6 +244780,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -242926,6 +244944,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -243040,6 +245059,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -243196,6 +245216,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -243310,6 +245331,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -243440,6 +245462,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -243554,6 +245577,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -243711,6 +245735,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -243825,6 +245850,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -243972,6 +245998,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -244086,6 +246113,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -244246,6 +246274,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -244360,6 +246389,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -244490,6 +246520,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -244604,6 +246635,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -244769,6 +246801,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -244883,6 +246916,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -245038,6 +247072,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -245152,6 +247187,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -245282,6 +247318,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -245396,6 +247433,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -245510,6 +247548,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -245624,6 +247663,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -245786,6 +247826,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -245900,6 +247941,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -246030,6 +248072,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -246144,6 +248187,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -246165,6 +248209,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -246185,6 +248230,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -246317,6 +248363,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -246431,6 +248478,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -246458,6 +248506,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -246478,6 +248527,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -246594,6 +248644,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -246708,6 +248759,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -246838,6 +248890,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -246952,6 +249005,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -247066,6 +249120,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -247180,6 +249235,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -247310,6 +249366,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -247424,6 +249481,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -247538,6 +249596,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -247652,6 +249711,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -247799,6 +249859,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -247913,6 +249974,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -248050,6 +250112,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -248164,6 +250227,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -248325,6 +250389,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -248439,6 +250504,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -248590,6 +250656,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -248704,6 +250771,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -248834,6 +250902,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -248948,6 +251017,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -249062,6 +251132,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -249176,6 +251247,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249306,6 +251378,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -249420,6 +251493,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -249534,6 +251608,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -249648,6 +251723,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249806,6 +251882,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -249920,6 +251997,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250050,6 +252128,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -250164,6 +252243,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -250317,6 +252397,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -250431,6 +252512,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250574,6 +252656,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -250688,6 +252771,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -250856,6 +252940,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -250970,6 +253055,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -251100,6 +253186,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -251214,6 +253301,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251371,6 +253459,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -251485,6 +253574,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -251632,6 +253722,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -251746,6 +253837,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251876,6 +253968,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -251990,6 +254083,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -252104,6 +254198,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -252218,6 +254313,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -252348,6 +254444,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -252462,6 +254559,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -252576,6 +254674,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -252690,6 +254789,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -252871,6 +254971,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -252985,6 +255086,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -253144,6 +255246,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -253258,6 +255361,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253416,6 +255520,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -253530,6 +255635,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -253660,6 +255766,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -253774,6 +255881,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253939,6 +256047,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -254053,6 +256162,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254208,6 +256318,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -254322,6 +256433,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -254478,6 +256590,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -254592,6 +256705,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254722,6 +256836,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -254836,6 +256951,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -254999,6 +257115,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -255113,6 +257230,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255266,6 +257384,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -255380,6 +257499,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -255542,6 +257662,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -255656,6 +257777,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255786,6 +257908,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -255900,6 +258023,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256053,6 +258177,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -256167,6 +258292,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -256310,6 +258436,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -256424,6 +258551,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256580,6 +258708,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -256694,6 +258823,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257288,6 +259418,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -257402,6 +259533,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -257563,6 +259695,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -257677,6 +259810,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257828,6 +259962,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -257942,6 +260077,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -258072,6 +260208,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -258186,6 +260323,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -258300,6 +260438,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -258414,6 +260553,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -258574,6 +260714,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -258688,6 +260829,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -258884,6 +261026,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -258998,6 +261141,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -259128,6 +261272,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -259242,6 +261387,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -259356,6 +261502,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -259470,6 +261617,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -259639,6 +261787,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -259753,6 +261902,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -259912,6 +262062,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -260026,6 +262177,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -260156,6 +262308,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -260270,6 +262423,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -260384,6 +262538,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -260498,6 +262653,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -260628,6 +262784,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -260742,6 +262899,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -260856,6 +263014,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -260970,6 +263129,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -261100,6 +263260,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -261214,6 +263375,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -261328,6 +263490,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -261442,6 +263605,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -261602,6 +263766,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -261716,6 +263881,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -261932,6 +264098,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -262046,6 +264213,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -262245,6 +264413,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -262359,6 +264528,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -262619,6 +264789,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -262733,6 +264904,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -262904,6 +265076,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -263018,6 +265191,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -263179,6 +265353,7 @@ export namespace Prisma {
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -263293,6 +265468,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -263451,6 +265627,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -263565,6 +265742,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -263773,6 +265951,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -263887,6 +266066,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -264017,6 +266197,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -264131,6 +266312,7 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -264244,6 +266426,7 @@ export namespace Prisma {
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -264358,6 +266541,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -264547,6 +266731,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -264661,6 +266846,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -264840,6 +267026,7 @@ export namespace Prisma {
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -264954,6 +267141,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -265125,6 +267313,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -265239,6 +267428,7 @@ export namespace Prisma {
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -265287,6 +267477,482 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lines?: PurchaseOrderLineUncheckedUpdateManyWithoutPoNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutPoNestedInput
+  }
+
+  export type TenantCreateWithoutPosSessionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPosSessionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPosSessionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPosSessionsInput, TenantUncheckedCreateWithoutPosSessionsInput>
+  }
+
+  export type TenantUpsertWithoutPosSessionsInput = {
+    update: XOR<TenantUpdateWithoutPosSessionsInput, TenantUncheckedUpdateWithoutPosSessionsInput>
+    create: XOR<TenantCreateWithoutPosSessionsInput, TenantUncheckedCreateWithoutPosSessionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPosSessionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPosSessionsInput, TenantUncheckedUpdateWithoutPosSessionsInput>
+  }
+
+  export type TenantUpdateWithoutPosSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPosSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -265984,6 +268650,7 @@ export namespace Prisma {
     issuedAt?: Date | string
     dueAt?: Date | string | null
     costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -266456,6 +269123,20 @@ export namespace Prisma {
     eta?: Date | string | null
     notes?: string | null
     createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PosSessionCreateManyTenantInput = {
+    id?: string
+    registerCode: string
+    status?: string
+    openingFloat?: Decimal | DecimalJsLike | number | string
+    cashSales?: Decimal | DecimalJsLike | number | string
+    closingCount?: Decimal | DecimalJsLike | number | string | null
+    openedBy?: string | null
+    openedAt?: Date | string
+    closedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -268603,6 +271284,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268622,6 +271304,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268641,6 +271324,7 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -270081,6 +272765,48 @@ export namespace Prisma {
     eta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSessionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registerCode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingFloat?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingCount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    openedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSessionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registerCode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingFloat?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingCount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    openedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PosSessionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registerCode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingFloat?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cashSales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingCount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    openedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

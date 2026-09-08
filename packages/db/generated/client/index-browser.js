@@ -1076,6 +1076,7 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   issuedAt: 'issuedAt',
   dueAt: 'dueAt',
   costCenterId: 'costCenterId',
+  dimensions: 'dimensions',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1591,6 +1592,21 @@ exports.Prisma.ContainerScalarFieldEnum = {
   eta: 'eta',
   notes: 'notes',
   createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PosSessionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  registerCode: 'registerCode',
+  status: 'status',
+  openingFloat: 'openingFloat',
+  cashSales: 'cashSales',
+  closingCount: 'closingCount',
+  openedBy: 'openedBy',
+  openedAt: 'openedAt',
+  closedAt: 'closedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2153,7 +2169,8 @@ exports.Prisma.ModelName = {
   CustomObjectRecord: 'CustomObjectRecord',
   FrameworkAgreement: 'FrameworkAgreement',
   SkuChannelContent: 'SkuChannelContent',
-  Container: 'Container'
+  Container: 'Container',
+  PosSession: 'PosSession'
 };
 
 /**
