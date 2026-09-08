@@ -3227,7 +3227,7 @@ model ShipmentStop {
   tenant   Tenant   @relation(fields: [tenantId], references: [id])
   shipment Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
 
-  @@unique([tenantId, shipmentId, seq])
+  @@unique([tenantId, shipmentId, seq], map: "shipment_stop_tenant_shipment_seq_key")
   @@map("shipment_stop")
 }
 
@@ -3248,6 +3248,6 @@ model DockAppointment {
   tenant    Tenant    @relation(fields: [tenantId], references: [id])
   warehouse Warehouse @relation(fields: [warehouseId], references: [id])
 
-  @@index([tenantId, warehouseId, scheduledAt])
+  @@index([tenantId, warehouseId, scheduledAt], map: "dock_appointment_tenant_wh_idx")
   @@map("dock_appointment")
 }
