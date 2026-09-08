@@ -20,7 +20,7 @@ import {
   PdfService,
   DocumentTemplateService,
 } from '@nexora/domain-doc';
-import { EmployeeService } from '@nexora/domain-hcm';
+import { EmployeeService, WorkforceService } from '@nexora/domain-hcm';
 import { MaintenanceService, AssetService } from '@nexora/domain-eam';
 import {
   ConfiguratorService,
@@ -145,7 +145,12 @@ import {
   VERIFICATION_SERVICE,
 } from './dev/dev.controller';
 import { CONTRACT_SERVICE, ContractsController } from './documents/contracts.controller';
-import { EMPLOYEE_SERVICE, EmployeesController } from './hcm/hcm.controller';
+import {
+  EMPLOYEE_SERVICE,
+  EmployeesController,
+  WORKFORCE_SERVICE,
+  WorkforceController,
+} from './hcm/hcm.controller';
 import { OpsController } from './health/ops.controller';
 import { OpenApiController } from './health/openapi.controller';
 import {
@@ -387,6 +392,7 @@ export const REDIS = 'REDIS';
     OnboardingController,
     ContractsController,
     EmployeesController,
+    WorkforceController,
     OpsController,
     OpenApiController,
     AssetsController,
@@ -882,6 +888,35 @@ export const REDIS = 'REDIS';
       provide: EMPLOYEE_SERVICE,
       useFactory: (prisma: PrismaClient) => new EmployeeService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: WORKFORCE_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        approvals: ApprovalService,
+        connectors: ConnectorService,
+      ) =>
+        new WorkforceService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            requestApproval: async (input, ctx) => {
+              const view = await approvals.requestApproval(input, ctx);
+              return { id: view.id };
+            },
+            getStatusFor: async (tenantId, subjectObjectType, subjectObjectId) => {
+              const approval = await prisma.approval.findFirst({
+                where: { tenantId, subjectObjectType, subjectObjectId },
+                orderBy: { createdAt: 'desc' },
+              });
+              if (!approval) return 'NONE';
+              return approval.status as 'REQUESTED' | 'GRANTED' | 'REJECTED';
+            },
+          },
+          { pushObject: (input, ctx) => connectors.pushObject(input, ctx) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, APPROVAL_SERVICE, CONNECTOR_SERVICE],
     },
     {
       provide: ASSET_SERVICE,
