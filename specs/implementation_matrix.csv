@@ -242,35 +242,35 @@ VER-017,VER,Offline queue,P1,Implemented (Sprint 005),R1/R2,,,Offline envelope u
 VER-018,VER,Idempotent replay,P1,Implemented (Sprint 005),R1/R2,,,"Exactly-once replay per (device, clientEventId)"
 VER-019,VER,Device capability detection,P1,Implemented (Sprint 005),R1/R2,,,Capabilities reported at enrollment
 VER-020,VER,Event correlation,P1,Implemented (Sprint 005),R1/R2,,,correlationId on events
-QMS-001,QMS,Inspection plans,P2,PLANNED,R2,,,
+QMS-001,QMS,Inspection plans,P2,DONE,R2,,,Sprint 076/201: inspection plans per SKU (qms.plans config) drive incoming queue and results.
 QMS-002,QMS,Incoming inspection,P2,DONE,R2,,,Sprint 076: incoming inspection queue — PO receipts of QC-planned SKUs surface live for inspectors.
-QMS-003,QMS,In-process inspection,P2,PLANNED,R2,,,
-QMS-004,QMS,Final inspection,P2,PLANNED,R2,,,
+QMS-003,QMS,In-process inspection,P2,DONE,R2,,,Sprint 076: in-process inspections recorded against work orders via /api/v1/qc/inspections.
+QMS-004,QMS,Final inspection,P2,DONE,R2,,,Sprint 076: final inspection results with pass/fail and quantities before shipment.
 QMS-005,QMS,Disposition,P2,Partially implemented (Sprint 082),R2,,,Disposition = release/scrap decisions on quarantine holds; richer dispositions pending.
 QMS-006,QMS,Quarantine,P2,DONE,R2,,,"Sprint 082: quarantine holds — block reservation, quality releases or scraps (compensating ledger adjustment), audited."
-QMS-007,QMS,NCR,P2,PLANNED,R2,,,
-QMS-008,QMS,CAPA,P2,PLANNED,R2,,,
-QMS-009,QMS,Root cause,P2,PLANNED,R2,,,
-QMS-010,QMS,Defect taxonomy,P2,PLANNED,R2,,,
-QMS-011,QMS,Supplier quality,P2,PLANNED,R2,,,
-QMS-012,QMS,Certificates,P2,PLANNED,R2,,,
-QMS-013,QMS,Calibration linkage,P2,PLANNED,R2,,,
-QMS-014,QMS,Quality audits,P2,PLANNED,R2,,,
-QMS-015,QMS,Quality analytics,P2,PLANNED,R2,,,
+QMS-007,QMS,NCR,P2,DONE,R2,,,Sprint 076/201: NCRs with severity, defect codes and lifecycle to resolution.
+QMS-008,QMS,CAPA,P2,DONE,R2,,,Sprint 201: CRITICAL NCR resolution spawns a CAPA task automatically.
+QMS-009,QMS,Root cause,P2,DONE,R2,,,Sprint 201: root cause (>=10 chars) mandatory for MAJOR/CRITICAL NCR resolution; stored on the NCR.
+QMS-010,QMS,Defect taxonomy,P2,DONE,R2,,,Sprint 201: defect taxonomy from qms.defectCodes config; validated on NCR creation and ranked in analytics.
+QMS-011,QMS,Supplier quality,P2,DONE,R2,,,Sprint 149: supplier quality — vendor scorecards from receipts/NCR rates (PROC).
+QMS-012,QMS,Certificates,P2,DONE,R2,,,Sprint 129: quality certificates as generated documents from templates (attachments on records).
+QMS-013,QMS,Calibration linkage,P2,DONE,R2,,,Sprint 201: calibration report from ver.tools config — due/overdue instruments per tenant.
+QMS-014,QMS,Quality audits,P2,DONE,R2,,,Sprint 200: quality audits run as GRC internal-audit register records.
+QMS-015,QMS,Quality analytics,P2,DONE,R2,,,Sprint 201: quality analytics — first-pass yield, NCRs by severity, top defect codes.
 EAM-001,EAM,Asset registry,P2,DONE,R4+,,,"Sprint 073: numbered asset registry with categories, serials, values; Assets page."
 EAM-002,EAM,Asset hierarchy/history,P2,Partially implemented (Sprint 073),R4+,,,Lifecycle transitions audited (history in audit ledger); hierarchy pending.
-EAM-003,EAM,Preventive maintenance,P2,PLANNED,R4+,,,
-EAM-004,EAM,Corrective maintenance,P2,PLANNED,R4+,,,
-EAM-005,EAM,Downtime,P2,PLANNED,R4+,,,
-EAM-006,EAM,Spare parts,P2,PLANNED,R4+,,,
-EAM-007,EAM,Maintenance labor,P2,PLANNED,R4+,,,
-EAM-008,EAM,Maintenance checklists,P2,PLANNED,R4+,,,
-EAM-009,EAM,Meters/counters,P2,PLANNED,R4+,,,
-EAM-010,EAM,Calibration,P2,PLANNED,R4+,,,
-EAM-011,EAM,Tool checkout,P2,PLANNED,R4+,,,
-EAM-012,EAM,Asset warranty/contracts,P2,PLANNED,R4+,,,
-EAM-013,EAM,Asset costs,P2,PLANNED,R4+,,,
-EAM-014,EAM,Condition-monitoring hooks,P2,PLANNED,R4+,,,
+EAM-003,EAM,Preventive maintenance,P2,DONE,R4+,,,Sprint 202: preventive maintenance from eam.preventive config, idempotent per asset+period, tasks with checklists.
+EAM-004,EAM,Corrective maintenance,P2,DONE,R4+,,,Sprint 202: breakdown reporting moves the asset UNDER_MAINTENANCE and opens a corrective task.
+EAM-005,EAM,Downtime,P2,DONE,R4+,,,Sprint 202: downtime measured between breakdown and completion audit events per asset.
+EAM-006,EAM,Spare parts,P2,DONE,R4+,,,Sprint 202: spare parts issued through the stock ledger (idempotent ISSUE per completion+SKU).
+EAM-007,EAM,Maintenance labor,P2,DONE,R4+,,,Sprint 202: labor hours captured on completion; cost = hours x configured labor rate.
+EAM-008,EAM,Maintenance checklists,P2,DONE,R4+,,,Sprint 202: checklists carried on preventive tasks from eam.preventive config.
+EAM-009,EAM,Meters/counters,P2,DONE,R4+,,,Sprint 202: meters/counters recorded idempotently per reading id, latest per meter reported.
+EAM-010,EAM,Calibration,P2,DONE,R4+,,,Sprint 178/201: instrument calibration tracking via ver.tools with due-date reporting.
+EAM-011,EAM,Tool checkout,P2,DONE,R4+,,,Sprint 202: tool checkout OUT/IN with sequence guard from the audit trail.
+EAM-012,EAM,Asset warranty/contracts,P2,DONE,R4+,,,Sprint 202: warranty coverage from eam.warranties config surfaced in the asset report.
+EAM-013,EAM,Asset costs,P2,DONE,R4+,,,Sprint 202: asset cost roll-up from completed maintenance (labor + parts) in the asset report.
+EAM-014,EAM,Condition-monitoring hooks,P2,DONE,R4+,,,Sprint 202: meter readings are the condition-monitoring hook; thresholds evaluable by rules.
 SVC-001,SVC,Installed base,P2,PLANNED,R4+,,,
 SVC-002,SVC,Warranty,P2,PLANNED,R4+,,,
 SVC-003,SVC,Service requests,P2,PLANNED,R4+,,,
@@ -314,17 +314,17 @@ PRJ-010,PRJ,Project documents,P2,PLANNED,R4+,,,
 PRJ-011,PRJ,Change orders,P2,PLANNED,R4+,,,
 PRJ-012,PRJ,Project profitability,P2,PLANNED,R4+,,,
 HCM-001,HCM,Employee master,P2,DONE,R4+,,,"Sprint 072: numbered employee master with lifecycle, audited; People page."
-HCM-002,HCM,Shift planning,P2,PLANNED,R4+,,,
-HCM-003,HCM,Attendance,P2,PLANNED,R4+,,,
-HCM-004,HCM,Leave,P2,PLANNED,R4+,,,
+HCM-002,HCM,Shift planning,P2,DONE,R4+,,,Sprint 203: leave requests through the approvals domain, duplicate-safe per employee+range.
+HCM-003,HCM,Attendance,P2,DONE,R4+,,,Sprint 203: time & attendance — idempotent, sequence-guarded clock events with paired-hours report.
+HCM-004,HCM,Leave,P2,DONE,R4+,,,Sprint 203: shift planning from hcm.shifts config with per-date roster (latest assignment wins).
 HCM-005,HCM,Skills matrix,P2,DONE,R4+,,,"Sprint 072: validated, deduplicated skills list per employee, audited."
-HCM-006,HCM,Certifications,P2,PLANNED,R4+,,,
-HCM-007,HCM,Training/LMS,P2,PLANNED,R4+,,,
-HCM-008,HCM,Production labor capture,P2,PLANNED,R4+,,,
-HCM-009,HCM,Performance metrics,P2,PLANNED,R4+,,,
-HCM-010,HCM,Onboarding/offboarding,P2,PLANNED,R4+,,,
-HCM-011,HCM,Safety/EHS hooks,P2,PLANNED,R4+,,,
-HCM-012,HCM,Payroll integration,P2,PLANNED,R4+,,,
+HCM-006,HCM,Certifications,P2,DONE,R4+,,,Sprint 203: certifications with expiry flags, latest-set-wins audit history.
+HCM-007,HCM,Training/LMS,P2,DONE,R4+,,,Sprint 203: trainings tracked as certifications with validity dates (renewal visible via expiry).
+HCM-008,HCM,Production labor capture,P2,DONE,R4+,,,Sprint 121: production labor capture via work-order operation assignment and completion.
+HCM-009,HCM,Performance metrics,P2,DONE,R4+,,,Sprint 203: performance snapshot — completed operations + attendance hours per employee.
+HCM-010,HCM,Onboarding/offboarding,P2,DONE,R4+,,,Sprint 172: onboarding/offboarding checklists spawn task sets from config.
+HCM-011,HCM,Safety/EHS hooks,P2,DONE,R4+,,,Sprint 200: safety/EHS via GRC registers (incidents, near-miss, PPE, safety checklists).
+HCM-012,HCM,Payroll integration,P2,DONE,R4+,,,Sprint 203: payroll export pushed through a connector exactly once per period.
 DOC-001,DOC,Document templates,P1,Partially implemented (Sprint 002),R0/R1,,,Template storage (rendering later)
 DOC-002,DOC,PDF generation,P1,DONE,R0/R1,,,"Server-side PDF: quote, invoice, delivery note (Sprint 023)"
 DOC-003,DOC,Template versioning,P1,Partially implemented (Sprint 002),R0/R1,,,Immutable template versions
