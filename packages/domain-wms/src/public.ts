@@ -13,5 +13,11 @@ export {
 export { WmsOrderService, type WmsOrderLineView, type WmsOrderView } from './order.service';
 export { CountService, type CountLineView, type CountView } from './count.service';
 export { QuarantineService, type LedgerGate, type QuarantineView } from './quarantine.service';
-export { PackingService, type PackageLineView, type PackageView } from './packing.service';
+export {
+  PackingService,
+  ssccCheckDigit,
+  type PackingConfigGate,
+  type PackageLineView,
+  type PackageView,
+} from './packing.service';
 export { LaborService, type LaborTaskGate } from './labor.service';

@@ -24,6 +24,7 @@ export interface PackageView {
   orderNumber: string;
   status: string;
   weightKg: string | null;
+  ssccCode: string | null;
   lines: PackageLineView[];
 }
 
@@ -33,8 +34,26 @@ const TRANSITIONS: Record<string, string[]> = {
   SHIPPED: [],
 };
 
+/** Cross-domain contract: tenant configuration (owned by core). */
+export interface PackingConfigGate {
+  getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+}
+
+/** GS1 mod-10 check digit over the first 17 SSCC digits. */
+export function ssccCheckDigit(digits17: string): number {
+  let sum = 0;
+  for (let i = 0; i < 17; i += 1) {
+    const n = Number(digits17[i]);
+    sum += i % 2 === 0 ? n * 3 : n;
+  }
+  return (10 - (sum % 10)) % 10;
+}
+
 export class PackingService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly configuration?: PackingConfigGate,
+  ) {}
 
   private async toView(pkg: {
     id: string;
@@ -43,6 +62,7 @@ export class PackingService {
     orderId: string;
     status: string;
     weightKg: unknown;
+    ssccCode: string | null;
   }): Promise<PackageView> {
     const [order, lines] = await Promise.all([
       this.prisma.salesOrder.findFirst({
@@ -63,6 +83,7 @@ export class PackingService {
       orderNumber: order?.orderNumber ?? '',
       status: pkg.status,
       weightKg: pkg.weightKg === null ? null : String(pkg.weightKg),
+      ssccCode: pkg.ssccCode,
       lines: lines.map((l) => ({
         id: l.id,
         orderLineId: l.orderLineId,
@@ -201,6 +222,52 @@ export class PackingService {
       source: 'api',
       previousValues: { status: pkg.status },
       newValues: { status: to },
+    });
+    return this.toView(updated);
+  }
+
+  /**
+   * WMS-020 — assign a GS1 SSCC-18 to a package: extension digit '0' +
+   * company prefix (config `wms.gs1CompanyPrefix`, digits, default
+   * 9999999) + serial reference from the package number sequence +
+   * mod-10 check digit. Idempotent: an assigned code never changes.
+   */
+  async assignSscc(packageId: string, ctx: RequestContext): Promise<PackageView> {
+    const pkg = await this.prisma.package.findFirst({
+      where: { id: packageId, tenantId: ctx.tenantId },
+    });
+    if (!pkg) throw notFound('Package', packageId);
+    if (pkg.ssccCode) return this.toView(pkg);
+    if (pkg.status === 'SHIPPED') {
+      throw new DomainError('INVALID_STATE', 'Cannot label a package that already shipped');
+    }
+    let prefix = '9999999';
+    if (this.configuration) {
+      const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+      const wms = ((config as Record<string, unknown>).wms ?? {}) as Record<string, unknown>;
+      const configured = String(wms.gs1CompanyPrefix ?? '').replace(/\D/g, '');
+      if (configured.length >= 4 && configured.length <= 12) prefix = configured;
+    }
+    const serialDigits = 16 - prefix.length;
+    const serial = pkg.packageNumber.replace(/\D/g, '');
+    if (serial.length > serialDigits) {
+      throw new DomainError('VALIDATION_FAILED', 'GS1 company prefix leaves no serial capacity');
+    }
+    const body = `0${prefix}${serial.padStart(serialDigits, '0')}`;
+    const sscc = `${body}${ssccCheckDigit(body)}`;
+    const updated = await this.prisma.package.update({
+      where: { id: pkg.id },
+      data: { ssccCode: sscc },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'wms.package.sscc',
+      objectType: 'Package',
+      objectId: pkg.id,
+      source: 'api',
+      newValues: { ssccCode: sscc },
     });
     return this.toView(updated);
   }

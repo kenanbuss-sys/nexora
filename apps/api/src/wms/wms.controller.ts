@@ -289,4 +289,11 @@ export class PackagesController {
   async ship(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return this.packing.transition(id, 'SHIPPED', ctx);
   }
+
+  /** WMS-020 — assign the GS1 SSCC-18 logistics label code. */
+  @Post(':id/sscc')
+  @RequirePermission('inventory.adjust')
+  async assignSscc(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.packing.assignSscc(id, ctx);
+  }
 }

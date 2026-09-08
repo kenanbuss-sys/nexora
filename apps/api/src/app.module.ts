@@ -667,8 +667,11 @@ export const REDIS = 'REDIS';
     },
     {
       provide: PACKING_SERVICE,
-      useFactory: (prisma: PrismaClient) => new PackingService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new PackingService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: RFQ_SERVICE,
