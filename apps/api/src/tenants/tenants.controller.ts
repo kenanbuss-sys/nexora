@@ -172,11 +172,35 @@ export class TenantsAdminController {
     return { tenant, adminUserId: admin.id };
   }
 
+  @Get()
+  @PlatformOnly()
+  async list() {
+    return { tenants: await this.tenants.listTenants() };
+  }
+
   @Post(':id/suspend')
   @PlatformOnly()
   async suspend(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(suspendSchema, body);
     return this.tenants.suspendTenant(id, input.reason, ctx);
+  }
+
+  /** OPS-001 — resume a suspended tenant. */
+  @Post(':id/resume')
+  @PlatformOnly()
+  async resume(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.tenants.resumeTenant(id, ctx);
+  }
+
+  /** OPS-005 — progressive module rollout per tenant. */
+  @Post(':id/modules')
+  @PlatformOnly()
+  async setModule(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ moduleKey: z.string().min(2).max(40), enabled: z.boolean() }),
+      body,
+    );
+    return this.tenants.setModuleActivation(id, input.moduleKey, input.enabled, ctx);
   }
 }
 

@@ -104,6 +104,76 @@ export class TenantService {
     });
   }
 
+  /** OPS-001: bring a suspended tenant back. Audited. */
+  async resumeTenant(tenantId: string, ctx: RequestContext): Promise<TenantView> {
+    const tenant = await this.prisma.tenant.findUnique({ where: { id: tenantId } });
+    if (!tenant) throw notFound('Tenant', tenantId);
+    if (tenant.status === 'ACTIVE') {
+      throw new DomainError('INVALID_STATE', 'The tenant is already active');
+    }
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const row = await tx.tenant.update({
+        where: { id: tenant.id },
+        data: { status: 'ACTIVE' },
+      });
+      await writeAudit(tx, {
+        tenantId: tenant.id,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'tenant.resume',
+        objectType: 'Tenant',
+        objectId: tenant.id,
+        source: 'api',
+        previousValues: { status: tenant.status },
+        newValues: { status: 'ACTIVE' },
+      });
+      return row;
+    });
+    return toView(updated);
+  }
+
+  /**
+   * Tenant rollout (OPS-005): platform operators enable or disable a
+   * module for one tenant — progressive rollout is data, not a
+   * deployment. Audited per flip.
+   */
+  async setModuleActivation(
+    tenantId: string,
+    moduleKey: string,
+    enabled: boolean,
+    ctx: RequestContext,
+  ): Promise<{ moduleKey: string; enabled: boolean }> {
+    if (!/^[a-z][a-z0-9-]{1,40}$/.test(moduleKey)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid module key');
+    }
+    const tenant = await this.prisma.tenant.findUnique({ where: { id: tenantId } });
+    if (!tenant) throw notFound('Tenant', tenantId);
+    await this.prisma.$transaction(async (tx) => {
+      await tx.moduleActivation.upsert({
+        where: { tenantId_moduleKey: { tenantId, moduleKey } },
+        create: { tenantId, moduleKey, enabled },
+        update: { enabled },
+      });
+      await writeAudit(tx, {
+        tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'tenant.module.set',
+        objectType: 'ModuleActivation',
+        objectId: `${tenantId}:${moduleKey}`,
+        source: 'api',
+        newValues: { moduleKey, enabled },
+      });
+    });
+    return { moduleKey, enabled };
+  }
+
+  /** Platform tenant list (OPS-001). */
+  async listTenants(): Promise<TenantView[]> {
+    const tenants = await this.prisma.tenant.findMany({ orderBy: { createdAt: 'asc' }, take: 500 });
+    return tenants.map((t) => toView(t));
+  }
+
   async getTenant(tenantId: string): Promise<TenantView> {
     const tenant = await this.prisma.tenant.findUnique({ where: { id: tenantId } });
     if (!tenant) throw notFound('Tenant', tenantId);

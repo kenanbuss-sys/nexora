@@ -44,6 +44,22 @@ export class OpsController {
     };
   }
 
+  /** Release management (OPS-004): what is running and what is applied. */
+  @Get('release')
+  @PlatformOnly()
+  async release() {
+    const migrations = await this.prisma.$queryRawUnsafe<Array<{ count: bigint }>>(
+      'SELECT count(*)::bigint AS count FROM information_schema.tables WHERE table_schema = current_schema()',
+    );
+    return {
+      service: 'nexora-api',
+      version: process.env.NEXORA_VERSION ?? '0.0.0-dev',
+      node: process.version,
+      tables: Number(migrations[0]?.count ?? 0),
+      startedAt: new Date(Date.now() - Math.floor(process.uptime() * 1000)).toISOString(),
+    };
+  }
+
   /** Error tracking (OPS-008): recent unhandled API errors. */
   @Get('errors')
   @PlatformOnly()
