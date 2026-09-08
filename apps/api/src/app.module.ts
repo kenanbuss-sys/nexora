@@ -1084,8 +1084,11 @@ export const REDIS = 'REDIS';
     },
     {
       provide: ANALYTICS_SERVICE,
-      useFactory: (prisma: PrismaClient) => new AnalyticsService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new AnalyticsService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: PORTAL_SERVICE,

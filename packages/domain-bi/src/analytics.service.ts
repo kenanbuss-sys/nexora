@@ -117,7 +117,12 @@ export interface CustomerAnalyticsRow {
 }
 
 export class AnalyticsService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly configuration?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+    },
+  ) {}
 
   /**
    * Governed data export (BI-015): named datasets export as CSV under
@@ -192,6 +197,90 @@ export class AnalyticsService {
       newValues: { rows: lines.length },
     });
     return { csv, rows: lines.length };
+  }
+
+  /**
+   * Scheduled reports (BI-006): configured reports
+   * (`bi.scheduledReports`: [{ key, dataset, recipients: [emails] }])
+   * run once per report per day — a re-run the same day is a no-op —
+   * export the dataset and notify each recipient in-app; every run is
+   * audited with the row count.
+   */
+  async runScheduledReports(ctx: RequestContext): Promise<{
+    ran: number;
+    skipped: number;
+    results: Array<{ key: string; rows: number; notified: number }>;
+  }> {
+    let reports: Array<Record<string, unknown>> = [];
+    if (this.configuration) {
+      const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+      const bi = ((config as Record<string, unknown>).bi ?? {}) as Record<string, unknown>;
+      if (Array.isArray(bi.scheduledReports)) {
+        reports = bi.scheduledReports as Array<Record<string, unknown>>;
+      }
+    }
+    const today = new Date().toISOString().slice(0, 10);
+    let ran = 0;
+    let skipped = 0;
+    const results: Array<{ key: string; rows: number; notified: number }> = [];
+    for (const report of reports) {
+      const key = typeof report.key === 'string' ? report.key : null;
+      const dataset = report.dataset;
+      if (
+        !key ||
+        (dataset !== 'orders' && dataset !== 'invoices' && dataset !== 'stock_movements')
+      ) {
+        continue;
+      }
+      const marker = `${key}:${today}`;
+      const already = await this.prisma.auditEvent.findFirst({
+        where: {
+          tenantId: ctx.tenantId,
+          action: 'bi.report.run',
+          objectType: 'ScheduledReport',
+          objectId: marker,
+        },
+        select: { id: true },
+      });
+      if (already) {
+        skipped += 1;
+        continue;
+      }
+      const exported = await this.exportDataset(dataset, ctx);
+      const recipients = Array.isArray(report.recipients)
+        ? (report.recipients as unknown[]).filter((r): r is string => typeof r === 'string')
+        : [];
+      const users = await this.prisma.user.findMany({
+        where: { tenantId: ctx.tenantId, email: { in: recipients }, status: 'ACTIVE' },
+        select: { id: true },
+      });
+      for (const user of users) {
+        await this.prisma.notification.create({
+          data: {
+            tenantId: ctx.tenantId,
+            userId: user.id,
+            type: 'scheduled_report',
+            title: `Izvještaj '${key}' (${dataset})`,
+            body: `${exported.rows} redova — ${today}`,
+            relatedObjectType: 'ScheduledReport',
+            relatedObjectId: marker,
+          },
+        });
+      }
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'bi.report.run',
+        objectType: 'ScheduledReport',
+        objectId: marker,
+        source: 'api',
+        newValues: { dataset, rows: exported.rows, notified: users.length },
+      });
+      ran += 1;
+      results.push({ key, rows: exported.rows, notified: users.length });
+    }
+    return { ran, skipped, results };
   }
 
   kpiCatalog(): KpiDefinition[] {

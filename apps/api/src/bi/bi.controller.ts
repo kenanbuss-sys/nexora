@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Query } from '@nestjs/common';
+import { Controller, Get, Inject, Post, Query } from '@nestjs/common';
 import type { AnalyticsService } from '@nexora/domain-bi';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -72,6 +72,13 @@ export class AnalyticsController {
   @RequirePermission('analytics.read')
   async profitability(@Ctx() ctx: RequestContext) {
     return { rows: await this.analytics.profitabilityAnalytics(ctx) };
+  }
+
+  /** BI-006 — run configured scheduled reports (cron/worker or manual). */
+  @Post('reports/run')
+  @RequirePermission('analytics.export')
+  async runReports(@Ctx() ctx: RequestContext) {
+    return this.analytics.runScheduledReports(ctx);
   }
 
   @Get('customers')
