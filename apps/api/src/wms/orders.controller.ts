@@ -95,6 +95,13 @@ export class WmsOrdersController {
     return this.orders.createOrder(input, ctx);
   }
 
+  /** WMS-025 — drain offline-queued line confirmations. */
+  @Post('offline/apply')
+  @RequirePermission('inventory.adjust')
+  async applyOffline(@Ctx() ctx: RequestContext) {
+    return this.orders.applyOfflineExecution(ctx);
+  }
+
   @Post(':id/start')
   @RequirePermission('inventory.read')
   async start(@Param('id') id: string, @Ctx() ctx: RequestContext) {

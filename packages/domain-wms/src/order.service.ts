@@ -298,6 +298,56 @@ export class WmsOrderService {
   }
 
   /** Guarded IN_PROGRESS -> COMPLETED. Emits the type's completion event. */
+  /**
+   * Offline mobile execution (WMS-025): devices queue line
+   * confirmations offline as scan events (`wms-exec:<orderId>:<lineId>:<qty>`)
+   * and replay them later; this drains the queue into processLine —
+   * idempotent per scan event (the event id is the idempotency key),
+   * so replays and double-drains never double-post.
+   */
+  async applyOfflineExecution(
+    ctx: RequestContext,
+  ): Promise<{
+    scanned: number;
+    applied: number;
+    failed: Array<{ value: string; reason: string }>;
+  }> {
+    const events = await this.prisma.scanEvent.findMany({
+      where: { tenantId: ctx.tenantId, value: { startsWith: 'wms-exec:' } },
+      orderBy: [{ capturedAt: 'asc' }],
+      take: 500,
+    });
+    let applied = 0;
+    const failed: Array<{ value: string; reason: string }> = [];
+    for (const event of events) {
+      const parts = event.value.split(':');
+      const orderId = parts[1];
+      const lineId = parts[2];
+      const quantity = Number(parts[3]);
+      if (!orderId || !lineId || !(quantity > 0)) {
+        failed.push({ value: event.value, reason: 'MALFORMED' });
+        continue;
+      }
+      try {
+        const before = await this.prisma.stockMovement.findFirst({
+          where: { tenantId: ctx.tenantId, idempotencyKey: `offline:${event.id}` },
+          select: { id: true },
+        });
+        await this.processLine(
+          { orderId, lineId, quantity, idempotencyKey: `offline:${event.id}` },
+          ctx,
+        );
+        if (!before) applied += 1;
+      } catch (error) {
+        failed.push({
+          value: event.value,
+          reason: (error as { code?: string }).code ?? 'FAILED',
+        });
+      }
+    }
+    return { scanned: events.length, applied, failed };
+  }
+
   async completeOrder(orderId: string, ctx: RequestContext): Promise<WmsOrderView> {
     const order = await this.prisma.wmsOrder.findFirst({
       where: { id: orderId, tenantId: ctx.tenantId },
