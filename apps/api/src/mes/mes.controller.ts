@@ -120,6 +120,25 @@ export class WorkOrdersController {
     return { operations: await this.mes.myOperations(ctx) };
   }
 
+  /** MES-024 — production confirmations. */
+  @Post(':id/operations/:opId/confirm')
+  @RequirePermission('production.execute')
+  async confirmOperation(
+    @Param('id') id: string,
+    @Param('opId') opId: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(
+      z.object({
+        quantity: z.number().positive(),
+        confirmationKey: z.string().min(1).max(64),
+      }),
+      body,
+    );
+    return this.mes.confirmOperation({ workOrderId: id, operationId: opId, ...input }, ctx);
+  }
+
   @Post(':id/rework')
   @RequirePermission('production.manage')
   async rework(@Param('id') id: string, @Ctx() ctx: RequestContext) {

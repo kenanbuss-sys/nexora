@@ -734,6 +734,77 @@ export class MesService {
   }
 
   /**
+   * Production confirmations (MES-024): operators report produced
+   * quantity per operation as work progresses. Confirmations
+   * accumulate on the operation, never exceed the ordered quantity,
+   * and are idempotent per confirmation key (a retry is a no-op that
+   * returns current state).
+   */
+  async confirmOperation(
+    input: {
+      workOrderId: string;
+      operationId: string;
+      quantity: number;
+      confirmationKey: string;
+    },
+    ctx: RequestContext,
+  ): Promise<WorkOrderView> {
+    if (!(input.quantity > 0)) {
+      throw new DomainError('VALIDATION_FAILED', 'Confirmed quantity must be positive');
+    }
+    if (!/^[A-Za-z0-9._:-]{1,64}$/.test(input.confirmationKey)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid confirmation key');
+    }
+    const wo = await this.prisma.workOrder.findFirst({
+      where: { id: input.workOrderId, tenantId: ctx.tenantId },
+      include: { operations: true },
+    });
+    if (!wo) throw notFound('WorkOrder', input.workOrderId);
+    if (wo.status !== 'IN_PROGRESS') {
+      throw new DomainError('INVALID_STATE', 'Confirmations require a running work order');
+    }
+    const op = wo.operations.find((o) => o.id === input.operationId);
+    if (!op) throw notFound('WorkOrderOperation', input.operationId);
+    if (op.status === 'DONE') {
+      throw new DomainError('INVALID_STATE', 'The operation is already done');
+    }
+    const marker = `wo:${wo.id}:op:${op.id}:confirm:${input.confirmationKey}`;
+    const already = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'mes.operation.confirm',
+        objectType: 'WorkOrderOperation',
+        objectId: marker,
+      },
+      select: { id: true },
+    });
+    if (already) return this.getWorkOrder(wo.id, ctx);
+    if (Number(op.confirmedQty) + input.quantity > Number(wo.quantity) + 1e-9) {
+      throw new DomainError(
+        'INVALID_STATE',
+        `Confirmations exceed the ordered quantity (${wo.quantity})`,
+      );
+    }
+    await this.prisma.$transaction(async (tx) => {
+      await tx.workOrderOperation.update({
+        where: { id: op.id },
+        data: { confirmedQty: { increment: input.quantity } },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'mes.operation.confirm',
+        objectType: 'WorkOrderOperation',
+        objectId: marker,
+        source: 'api',
+        newValues: { operationId: op.id, quantity: input.quantity },
+      });
+    });
+    return this.getWorkOrder(wo.id, ctx);
+  }
+
+  /**
    * IN_PROGRESS -> COMPLETED (MES-010/011): receipts the good quantity
    * into the ledger idempotently and records scrap. good + scrap must
    * not exceed the ordered quantity, and all operations must be done.
