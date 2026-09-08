@@ -1,4 +1,5 @@
 import { writeAudit } from '@nexora/audit';
+import { DomainError } from '@nexora/kernel';
 import type { PrismaClient } from '@nexora/db';
 import type { RequestContext } from '@nexora/tenancy';
 
@@ -123,6 +124,99 @@ export class AnalyticsService {
       getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
     },
   ) {}
+
+  /**
+   * Semantic layer & report builder (BI-004/005): every ad-hoc report
+   * runs against the governed semantic model — named dimensions and
+   * measures per dataset, never raw SQL from the client. Drill-through
+   * (BI-007) returns the underlying records behind one grouped row,
+   * capped and limited to modeled fields.
+   */
+  semanticModel(): Record<string, { dimensions: string[]; measures: string[] }> {
+    return {
+      orders: {
+        dimensions: ['status', 'channel', 'currency', 'fulfillmentType'],
+        measures: ['count', 'sum:total'],
+      },
+      invoices: {
+        dimensions: ['invoiceType', 'status', 'currency'],
+        measures: ['count', 'sum:total', 'sum:paidAmount'],
+      },
+    };
+  }
+
+  private async reportRows(
+    dataset: 'orders' | 'invoices',
+    ctx: RequestContext,
+  ): Promise<Array<Record<string, unknown>>> {
+    if (dataset === 'orders') {
+      return this.prisma.salesOrder.findMany({
+        where: { tenantId: ctx.tenantId },
+        select: {
+          id: true,
+          orderNumber: true,
+          status: true,
+          channel: true,
+          currency: true,
+          fulfillmentType: true,
+          total: true,
+        },
+        take: 5000,
+      });
+    }
+    return this.prisma.invoice.findMany({
+      where: { tenantId: ctx.tenantId },
+      select: {
+        id: true,
+        invoiceNumber: true,
+        invoiceType: true,
+        status: true,
+        currency: true,
+        total: true,
+        paidAmount: true,
+      },
+      take: 5000,
+    });
+  }
+
+  async runReport(
+    input: { dataset: 'orders' | 'invoices'; groupBy: string; measure: string },
+    ctx: RequestContext,
+  ): Promise<Array<{ group: string; value: number }>> {
+    const model = this.semanticModel()[input.dataset];
+    if (!model || !model.dimensions.includes(input.groupBy)) {
+      throw new DomainError('VALIDATION_FAILED', `'${input.groupBy}' is not a modeled dimension`);
+    }
+    if (!model.measures.includes(input.measure)) {
+      throw new DomainError('VALIDATION_FAILED', `'${input.measure}' is not a modeled measure`);
+    }
+    const rows = await this.reportRows(input.dataset, ctx);
+    const grouped = new Map<string, number>();
+    const sumField = input.measure.startsWith('sum:') ? input.measure.slice(4) : null;
+    for (const row of rows) {
+      const group = String(row[input.groupBy] ?? '(none)');
+      const increment = sumField ? Number(row[sumField] ?? 0) : 1;
+      grouped.set(group, (grouped.get(group) ?? 0) + increment);
+    }
+    return [...grouped.entries()]
+      .map(([group, value]) => ({ group, value: Math.round(value * 100) / 100 }))
+      .sort((a, b) => b.value - a.value);
+  }
+
+  async drillThrough(
+    input: { dataset: 'orders' | 'invoices'; groupBy: string; groupValue: string },
+    ctx: RequestContext,
+  ): Promise<Array<Record<string, unknown>>> {
+    const model = this.semanticModel()[input.dataset];
+    if (!model || !model.dimensions.includes(input.groupBy)) {
+      throw new DomainError('VALIDATION_FAILED', `'${input.groupBy}' is not a modeled dimension`);
+    }
+    const rows = await this.reportRows(input.dataset, ctx);
+    return rows
+      .filter((row) => String(row[input.groupBy] ?? '(none)') === input.groupValue)
+      .slice(0, 100)
+      .map((row) => ({ ...row, total: String(row.total) }));
+  }
 
   /**
    * Governed data export (BI-015): named datasets export as CSV under

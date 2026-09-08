@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
 import type { AnalyticsService } from '@nexora/domain-bi';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -79,6 +79,43 @@ export class AnalyticsController {
   @RequirePermission('analytics.export')
   async runReports(@Ctx() ctx: RequestContext) {
     return this.analytics.runScheduledReports(ctx);
+  }
+
+  /** BI-004 — the governed semantic model. */
+  @Get('semantic-model')
+  @RequirePermission('analytics.read')
+  semanticModel() {
+    return { model: this.analytics.semanticModel() };
+  }
+
+  /** BI-005 — report builder over modeled dimensions and measures. */
+  @Post('reports')
+  @RequirePermission('analytics.read')
+  async runReport(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        dataset: z.enum(['orders', 'invoices']),
+        groupBy: z.string().min(1).max(40),
+        measure: z.string().min(1).max(40),
+      }),
+      body,
+    );
+    return { rows: await this.analytics.runReport(input, ctx) };
+  }
+
+  /** BI-007 — drill-through to the records behind one grouped row. */
+  @Post('reports/drill')
+  @RequirePermission('analytics.read')
+  async drill(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        dataset: z.enum(['orders', 'invoices']),
+        groupBy: z.string().min(1).max(40),
+        groupValue: z.string().min(1).max(100),
+      }),
+      body,
+    );
+    return { rows: await this.analytics.drillThrough(input, ctx) };
   }
 
   @Get('customers')
