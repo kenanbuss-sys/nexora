@@ -90,6 +90,7 @@ const BASELINE = [
   'workflow.read',
   'workflow.design',
   'workflow.publish',
+  'workflow.override',
   'approval.act',
   'automation.manage',
   'document.read',

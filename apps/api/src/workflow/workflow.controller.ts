@@ -67,6 +67,17 @@ export class WorkflowsController {
     );
   }
 
+  /** WF-012 — governed override with a mandatory reason. */
+  @Post('instances/:id/override')
+  @RequirePermission('workflow.override')
+  async override(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ toState: z.string().min(1).max(64), reason: z.string().min(1).max(500) }),
+      body,
+    );
+    return this.workflows.overrideTransition({ instanceId: id, ...input }, ctx);
+  }
+
   @Post('publish')
   @RequirePermission('workflow.publish')
   async publish(@Body() body: unknown, @Ctx() ctx: RequestContext) {

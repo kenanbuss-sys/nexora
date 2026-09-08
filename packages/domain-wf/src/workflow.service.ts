@@ -217,6 +217,70 @@ export class WorkflowService {
     });
   }
 
+  /**
+   * Override governance (WF-012): a privileged user may move an
+   * instance to a state outside the declared transitions — only with
+   * a substantive reason, only to a state the pinned version knows,
+   * always audited with the reason and flagged as an override. The
+   * escape hatch exists, and it is never silent.
+   */
+  async overrideTransition(
+    input: { instanceId: string; toState: string; reason: string },
+    ctx: RequestContext,
+  ): Promise<WorkflowInstanceView> {
+    if (input.reason.trim().length < 10) {
+      throw new DomainError('VALIDATION_FAILED', 'An override needs a substantive reason');
+    }
+    const instance = await this.prisma.workflowInstance.findFirst({
+      where: { id: input.instanceId, tenantId: ctx.tenantId },
+      include: { version: true, definition: true },
+    });
+    if (!instance) throw notFound('WorkflowInstance', input.instanceId);
+    if (instance.status !== 'RUNNING') {
+      throw new DomainError('INVALID_STATE', `Workflow instance is ${instance.status}`);
+    }
+    const spec = instance.version.spec as unknown as WorkflowSpec;
+    const target = spec.states.find((state) => state.name === input.toState);
+    if (!target) {
+      throw new DomainError('VALIDATION_FAILED', `Unknown state '${input.toState}'`);
+    }
+    if (instance.currentState === input.toState) {
+      throw new DomainError('INVALID_STATE', 'The instance is already in that state');
+    }
+    return this.prisma.$transaction(async (tx) => {
+      const moved = await tx.workflowInstance.updateMany({
+        where: { id: instance.id, currentState: instance.currentState, status: 'RUNNING' },
+        data: {
+          currentState: target.name,
+          ...(target.terminal ? { status: 'COMPLETED' } : {}),
+        },
+      });
+      if (moved.count === 0) {
+        throw new DomainError('CONFLICT', 'Workflow instance changed concurrently; retry');
+      }
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'workflow.override',
+        objectType: 'WorkflowInstance',
+        objectId: instance.id,
+        source: 'api',
+        previousValues: { state: instance.currentState },
+        newValues: { state: target.name, override: true },
+        reason: input.reason.trim(),
+      });
+      const updated = await tx.workflowInstance.findFirst({ where: { id: instance.id } });
+      return {
+        id: instance.id,
+        definitionKey: instance.definition.key,
+        version: instance.version.version,
+        currentState: updated?.currentState ?? target.name,
+        status: updated?.status ?? instance.status,
+      };
+    });
+  }
+
   async getInstance(instanceId: string, ctx: RequestContext): Promise<WorkflowInstanceView> {
     const instance = await this.prisma.workflowInstance.findFirst({
       where: { id: instanceId, tenantId: ctx.tenantId },

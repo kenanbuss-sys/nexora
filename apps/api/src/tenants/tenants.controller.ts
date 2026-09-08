@@ -30,6 +30,7 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'workflow.read',
   'workflow.design',
   'workflow.publish',
+  'workflow.override',
   'approval.act',
   'automation.manage',
   'document.read',
