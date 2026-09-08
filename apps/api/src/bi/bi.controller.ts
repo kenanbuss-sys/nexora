@@ -1,14 +1,27 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
 import type { AnalyticsService } from '@nexora/domain-bi';
 import type { RequestContext } from '@nexora/tenancy';
+import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission } from '../auth/permissions.guard';
+import { parseBody } from '../common/validate';
 
 export const ANALYTICS_SERVICE = 'ANALYTICS_SERVICE';
 
 @Controller('api/v1/analytics')
 export class AnalyticsController {
   constructor(@Inject(ANALYTICS_SERVICE) private readonly analytics: AnalyticsService) {}
+
+  /** BI-015 — governed data export (audited, permissioned). */
+  @Get('export')
+  @RequirePermission('analytics.export')
+  async exportDataset(@Ctx() ctx: RequestContext, @Query('dataset') dataset?: string) {
+    const input = parseBody(
+      z.object({ dataset: z.enum(['orders', 'invoices', 'stock_movements']) }),
+      { dataset },
+    );
+    return this.analytics.exportDataset(input.dataset, ctx);
+  }
 
   @Get('kpis')
   @RequirePermission('analytics.read')

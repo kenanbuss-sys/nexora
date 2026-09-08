@@ -94,6 +94,7 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'finance.invoice',
   'finance.pay',
   'analytics.read',
+  'analytics.export',
   'hcm.read',
   'hcm.manage',
   'asset.read',

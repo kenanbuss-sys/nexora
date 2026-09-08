@@ -1,3 +1,4 @@
+import { writeAudit } from '@nexora/audit';
 import type { PrismaClient } from '@nexora/db';
 import type { RequestContext } from '@nexora/tenancy';
 
@@ -117,6 +118,81 @@ export interface CustomerAnalyticsRow {
 
 export class AnalyticsService {
   constructor(private readonly prisma: PrismaClient) {}
+
+  /**
+   * Governed data export (BI-015): named datasets export as CSV under
+   * a dedicated permission, capped, and every export is audited with
+   * who took what and how many rows — sensitive exports are never
+   * silent.
+   */
+  async exportDataset(
+    dataset: 'orders' | 'invoices' | 'stock_movements',
+    ctx: RequestContext,
+  ): Promise<{ csv: string; rows: number }> {
+    const escape = (value: unknown): string => {
+      const text = value === null || value === undefined ? '' : String(value);
+      return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+    };
+    let header: string[] = [];
+    let lines: unknown[][] = [];
+    if (dataset === 'orders') {
+      const rows = await this.prisma.salesOrder.findMany({
+        where: { tenantId: ctx.tenantId },
+        orderBy: { createdAt: 'desc' },
+        take: 5000,
+      });
+      header = ['orderNumber', 'status', 'channel', 'currency', 'total', 'createdAt'];
+      lines = rows.map((r) => [
+        r.orderNumber,
+        r.status,
+        r.channel,
+        r.currency,
+        r.total.toString(),
+        r.createdAt.toISOString(),
+      ]);
+    } else if (dataset === 'invoices') {
+      const rows = await this.prisma.invoice.findMany({
+        where: { tenantId: ctx.tenantId },
+        orderBy: { issuedAt: 'desc' },
+        take: 5000,
+      });
+      header = ['invoiceNumber', 'invoiceType', 'status', 'currency', 'total', 'paidAmount'];
+      lines = rows.map((r) => [
+        r.invoiceNumber,
+        r.invoiceType,
+        r.status,
+        r.currency,
+        r.total.toString(),
+        r.paidAmount.toString(),
+      ]);
+    } else {
+      const rows = await this.prisma.stockMovement.findMany({
+        where: { tenantId: ctx.tenantId },
+        orderBy: { occurredAt: 'desc' },
+        take: 5000,
+      });
+      header = ['movementType', 'skuId', 'warehouseId', 'quantity', 'occurredAt'];
+      lines = rows.map((r) => [
+        r.movementType,
+        r.skuId,
+        r.warehouseId,
+        r.quantity.toString(),
+        r.occurredAt.toISOString(),
+      ]);
+    }
+    const csv = [header.join(','), ...lines.map((l) => l.map(escape).join(','))].join('\n');
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'bi.export',
+      objectType: 'Dataset',
+      objectId: dataset,
+      source: 'api',
+      newValues: { rows: lines.length },
+    });
+    return { csv, rows: lines.length };
+  }
 
   kpiCatalog(): KpiDefinition[] {
     return KPI_CATALOG;
