@@ -170,18 +170,18 @@ WMS-025,WMS,Offline mobile execution,P1,Implemented (Sprint 166),R1,,,Offline sc
 ENG-001,ENG,Product revisions,P2,DONE,R2,,,
 ENG-002,ENG,Engineering BOM,P2,DONE,R2,,,
 ENG-003,ENG,Manufacturing BOM,P2,DONE,R2,,,
-ENG-004,ENG,Parametric BOM,P2,PLANNED,R2,,,
-ENG-005,ENG,BOM alternatives,P2,PLANNED,R2,,,
+ENG-004,ENG,Parametric BOM,P2,DONE,R2,,,Sprint 209: parametric BOM — line qty = base + factor x parameter from eng.parametric config rules.
+ENG-005,ENG,BOM alternatives,P2,DONE,R2,,,Sprint 209: BOM component alternates from config, validated against the SKU catalogue.
 ENG-006,ENG,Effective dates,P2,DONE,R2,,,
 ENG-007,ENG,Engineering change request,P2,DONE,R2,,,
 ENG-008,ENG,Engineering change order,P2,Implemented (Sprint 010),R2,,,Verified in Sprint 087 reconciliation: ECO request/decide with BOM linkage already shipped (engineering.service).
-ENG-009,ENG,Technical drawings,P2,PLANNED,R2,,,
-ENG-010,ENG,CAD/PDM hooks,P2,PLANNED,R2,,,
+ENG-009,ENG,Technical drawings,P2,DONE,R2,,,Sprint 209: technical drawing register per SKU — latest revision wins, audited.
+ENG-010,ENG,CAD/PDM hooks,P2,DONE,R2,,,Sprint 209: CAD/PDM hooks — released BOMs exported through connectors exactly once.
 ENG-011,ENG,Routing,P2,DONE,R2,,,
-ENG-012,ENG,Work instructions,P2,PLANNED,R2,,,
+ENG-012,ENG,Work instructions,P2,DONE,R2,,,Sprint 209: work instructions per routing operation, merged into the operator sheet.
 ENG-013,ENG,Standard times,P2,DONE,R2,,,
-ENG-014,ENG,Tooling requirements,P2,PLANNED,R2,,,
-ENG-015,ENG,Compliance specifications,P2,PLANNED,R2,,,
+ENG-014,ENG,Tooling requirements,P2,DONE,R2,,,Sprint 209: tooling requirements per routing operation, on the operator sheet.
+ENG-015,ENG,Compliance specifications,P2,DONE,R2,,,Sprint 209: compliance specifications per SKU with a required-vs-declared gap report.
 PLAN-001,PLAN,Demand planning,P2,DONE,R2,,,Sprint 208: demand planning — forecast entries per SKU and period, published as versions.
 PLAN-002,PLAN,Forecast versions,P2,DONE,R2,,,Sprint 208: forecast versions are immutable audited publications; history listable.
 PLAN-003,PLAN,S&OP,P2,DONE,R2,,,Sprint 208: S&OP — demand vs on-hand + open production per SKU with the gap to close.
