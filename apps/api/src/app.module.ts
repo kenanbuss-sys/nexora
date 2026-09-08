@@ -46,7 +46,7 @@ import {
   UomService,
   LocationMasterService,
 } from '@nexora/domain-mdm';
-import { ReturnsService, OrderService } from '@nexora/domain-oms';
+import { PosService, ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ContainerService, ProcurementService, RfqService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
@@ -165,7 +165,12 @@ import {
   QuotesController,
 } from './cpq/cpq.controller';
 import { LABOR_SERVICE, WMS_ORDER_SERVICE, WmsOrdersController } from './wms/orders.controller';
-import { ORDER_SERVICE, OrdersController } from './oms/orders.controller';
+import {
+  POS_SERVICE,
+  PosController,
+  ORDER_SERVICE,
+  OrdersController,
+} from './oms/orders.controller';
 import { RETURNS_SERVICE, ReturnsController } from './oms/returns.controller';
 import { COUNT_SERVICE, CountsController } from './wms/counts.controller';
 import { DataController, IMPORT_EXPORT_SERVICE } from './data/data.controller';
@@ -353,6 +358,7 @@ export const REDIS = 'REDIS';
     DiscountRulesController,
     PromotionsController,
     OrdersController,
+    PosController,
     SuppliersController,
     RequisitionsController,
     PurchaseOrdersController,
@@ -1242,6 +1248,11 @@ export const REDIS = 'REDIS';
             }),
         }),
       inject: [PRISMA, INVENTORY_SERVICE],
+    },
+    {
+      provide: POS_SERVICE,
+      useFactory: (prisma: PrismaClient, orders: OrderService) => new PosService(prisma, orders),
+      inject: [PRISMA, ORDER_SERVICE],
     },
     {
       provide: RETURNS_SERVICE,

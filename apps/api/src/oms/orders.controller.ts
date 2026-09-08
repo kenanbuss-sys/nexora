@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { OrderService } from '@nexora/domain-oms';
+import type { PosService, OrderService } from '@nexora/domain-oms';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -7,6 +7,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const ORDER_SERVICE = 'ORDER_SERVICE';
+export const POS_SERVICE = 'POS_SERVICE';
 
 const createOrderSchema = z.object({
   accountId: z.string().uuid(),
@@ -259,5 +260,55 @@ export class OrdersController {
   @RequirePermission('order.confirm')
   async fulfill(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return this.orders.fulfillOrder(id, ctx);
+  }
+}
+
+const posSaleSchema = z.object({
+  accountId: z.string().uuid(),
+  warehouseId: z.string().uuid(),
+  currency: z.string().length(3),
+  lines: z
+    .array(z.object({ code: z.string().min(1).max(64), quantity: z.number().positive() }))
+    .min(1)
+    .max(100),
+  cashAmount: z.number().nonnegative(),
+});
+
+/** Point of sale (COM-003). */
+@Controller('api/v1/pos/sessions')
+export class PosController {
+  constructor(@Inject(POS_SERVICE) private readonly pos: PosService) {}
+
+  @Get()
+  @RequirePermission('order.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { sessions: await this.pos.listSessions(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('order.create')
+  async open(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        registerCode: z.string().min(2).max(32),
+        openingFloat: z.number().nonnegative().optional(),
+      }),
+      body,
+    );
+    return this.pos.openSession(input, ctx);
+  }
+
+  @Post(':id/sales')
+  @RequirePermission('order.create')
+  async sale(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(posSaleSchema, body);
+    return this.pos.recordSale({ sessionId: id, ...input }, ctx);
+  }
+
+  @Post(':id/close')
+  @RequirePermission('order.create')
+  async close(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ closingCount: z.number().nonnegative() }), body);
+    return this.pos.closeSession({ sessionId: id, ...input }, ctx);
   }
 }

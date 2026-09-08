@@ -17,3 +17,4 @@ export {
   type SubstitutionGate,
 } from './order.service';
 export { ReturnsService, type ReturnLineView, type ReturnView } from './returns.service';
+export { PosService, type PosSessionView } from './pos.service';
