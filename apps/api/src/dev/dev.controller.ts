@@ -174,6 +174,45 @@ export class ScanEventsController {
     return this.verification.toolCheck(input, ctx);
   }
 
+  /** Photo evidence link (VER-015). */
+  @Post(':id/evidence')
+  @RequirePermission('collab.use')
+  async linkEvidence(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ attachmentId: z.string().uuid() }), body);
+    return this.verification.linkEvidence({ scanEventId: id, ...input }, ctx);
+  }
+
+  /** Digital signature (VER-016). */
+  @Post('signatures')
+  @RequirePermission('production.execute')
+  async recordSignature(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        objectType: z.string().min(2).max(40),
+        objectId: z.string().min(1).max(80),
+        signerName: z.string().min(2).max(120),
+        pin: z.string().min(4).max(12),
+      }),
+      body,
+    );
+    return this.verification.recordSignature(input, ctx);
+  }
+
+  @Post('signatures/verify')
+  @RequirePermission('production.read')
+  async verifySignature(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        objectType: z.string().min(2).max(40),
+        objectId: z.string().min(1).max(80),
+        signerName: z.string().min(2).max(120),
+        pin: z.string().min(4).max(12),
+      }),
+      body,
+    );
+    return this.verification.verifySignature(input, ctx);
+  }
+
   /** Sequence check (VER-012). */
   @Post('sequence-check')
   @RequirePermission('production.read')

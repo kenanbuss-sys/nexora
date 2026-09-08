@@ -1,7 +1,8 @@
 import { writeAudit } from '@nexora/audit';
 import type { Prisma, PrismaClient, ScanKind } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
-import { DomainError } from '@nexora/kernel';
+import { DomainError, notFound } from '@nexora/kernel';
+import { createHash } from 'node:crypto';
 import type { RequestContext } from '@nexora/tenancy';
 
 /**
@@ -376,6 +377,95 @@ export class VerificationService {
       newValues: { ok, reason, operation: input.operation ?? null },
     });
     return { ok, reason, name: (tool?.name as string | undefined) ?? null };
+  }
+
+  /**
+   * Photo evidence (VER-015): binary evidence is stored through the
+   * document domain (attachments on the scan event); this method
+   * validates the scan event and audits the link so verification has
+   * one evidence trail.
+   */
+  async linkEvidence(
+    input: { scanEventId: string; attachmentId: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: true }> {
+    const event = await this.prisma.scanEvent.findFirst({
+      where: { id: input.scanEventId, tenantId: ctx.tenantId },
+      select: { id: true },
+    });
+    if (!event) throw notFound('ScanEvent', input.scanEventId);
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.evidence.link',
+      objectType: 'ScanEvent',
+      objectId: event.id,
+      source: 'api',
+      newValues: { attachmentId: input.attachmentId },
+    });
+    return { ok: true };
+  }
+
+  /**
+   * Digital signature (VER-016): a named signer countersigns a
+   * business object with a PIN; only the salted hash is stored, in
+   * the append-only audit trail, and verification recomputes it.
+   */
+  async recordSignature(
+    input: { objectType: string; objectId: string; signerName: string; pin: string },
+    ctx: RequestContext,
+  ): Promise<{ signatureHash: string }> {
+    if (input.signerName.trim().length < 2) {
+      throw new DomainError('VALIDATION_FAILED', 'Signer name is required');
+    }
+    if (!/^\d{4,12}$/.test(input.pin)) {
+      throw new DomainError('VALIDATION_FAILED', 'PIN must be 4-12 digits');
+    }
+    if (!/^[a-z_]{2,40}$/.test(input.objectType)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid object type');
+    }
+    const signatureHash = createHash('sha256')
+      .update(`${ctx.tenantId}:${input.objectType}:${input.objectId}`)
+      .update(`:${input.signerName.trim()}:${input.pin}`)
+      .digest('hex');
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.signature',
+      objectType: 'Signature',
+      objectId: `${input.objectType}:${input.objectId}`,
+      source: 'api',
+      newValues: { signerName: input.signerName.trim(), signatureHash },
+    });
+    return { signatureHash };
+  }
+
+  /** Verify a countersignature without ever exposing the PIN. */
+  async verifySignature(
+    input: { objectType: string; objectId: string; signerName: string; pin: string },
+    ctx: RequestContext,
+  ): Promise<{ valid: boolean; signedAt: string | null }> {
+    const expected = createHash('sha256')
+      .update(`${ctx.tenantId}:${input.objectType}:${input.objectId}`)
+      .update(`:${input.signerName.trim()}:${input.pin}`)
+      .digest('hex');
+    const signatures = await this.prisma.auditEvent.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'ver.signature',
+        objectType: 'Signature',
+        objectId: `${input.objectType}:${input.objectId}`,
+      },
+    });
+    const match = signatures.find(
+      (event) => (event.newValues as { signatureHash?: string } | null)?.signatureHash === expected,
+    );
+    return {
+      valid: match !== undefined,
+      signedAt: match ? match.occurredAt.toISOString() : null,
+    };
   }
 
   async listEvents(
