@@ -107,6 +107,8 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'integration.read',
   'integration.manage',
   'search.read',
+  'project.read',
+  'project.manage',
 ];
 
 const createTenantSchema = z.object({

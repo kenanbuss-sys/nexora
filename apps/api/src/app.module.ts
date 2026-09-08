@@ -54,6 +54,7 @@ import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
 import { CopilotService, devAiAdapter, InsightsService } from '@nexora/domain-ai';
+import { ProjectService } from '@nexora/domain-prj';
 import { QualityService } from '@nexora/domain-qc';
 import {
   DevBankFeedAdapter,
@@ -236,6 +237,7 @@ import {
 } from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
 import { GRC_SERVICE, GrcController } from './grc/grc.controller';
+import { PROJECT_SERVICE, ProjectsController } from './prj/prj.controller';
 import {
   COPILOT_SERVICE,
   CopilotController,
@@ -433,6 +435,7 @@ export const REDIS = 'REDIS';
     LogisticsController,
     InsightsController,
     GrcController,
+    ProjectsController,
     CopilotController,
     ShipmentsController,
     DocksController,
@@ -711,6 +714,25 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, ANALYTICS_SERVICE, FINANCE_SERVICE, TASK_SERVICE, APPROVAL_SERVICE],
+    },
+    {
+      provide: PROJECT_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        objects: CustomObjectService,
+        tenants: TenantService,
+        inventory: InventoryService,
+      ) =>
+        new ProjectService(
+          prisma,
+          {
+            defineObject: (input, ctx) => objects.defineObject(input, ctx),
+            listRecords: (key, ctx) => objects.listRecords(key, ctx),
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
+        ),
+      inject: [PRISMA, CUSTOM_OBJECT_SERVICE, TENANT_SERVICE, INVENTORY_SERVICE],
     },
     {
       provide: GRC_SERVICE,
