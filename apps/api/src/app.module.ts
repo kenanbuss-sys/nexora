@@ -1038,6 +1038,7 @@ export const REDIS = 'REDIS';
           new DevBankFeedAdapter({
             getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
           }),
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
         ),
       inject: [PRISMA, TENANT_SERVICE],
     },

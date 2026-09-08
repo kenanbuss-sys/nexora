@@ -1,5 +1,5 @@
 import { writeAudit } from '@nexora/audit';
-import type { InvoiceStatus, InvoiceType, PrismaClient } from '@nexora/db';
+import type { InvoiceStatus, InvoiceType, Prisma, PrismaClient } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
@@ -85,7 +85,27 @@ export class FinanceService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly bankFeed?: BankFeedPort,
+    private readonly configuration?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+    },
   ) {}
+
+  private async dimensionSpecs(
+    tenantId: string,
+  ): Promise<Array<{ key: string; values: string[] | null; required: boolean }>> {
+    if (!this.configuration) return [];
+    const { config } = await this.configuration.getEffectiveConfiguration(tenantId);
+    const fin = ((config as Record<string, unknown>).fin ?? {}) as Record<string, unknown>;
+    const raw = Array.isArray(fin.dimensions) ? fin.dimensions : [];
+    return raw
+      .map((entry) => entry as Record<string, unknown>)
+      .filter((d) => typeof d.key === 'string' && /^[a-z][a-zA-Z0-9_]{1,30}$/.test(d.key))
+      .map((d) => ({
+        key: d.key as string,
+        values: Array.isArray(d.values) ? (d.values as unknown[]).map(String) : null,
+        required: d.required === true,
+      }));
+  }
 
   // --------------------------------------------------------------- invoices
 
@@ -426,6 +446,91 @@ export class FinanceService {
       });
     }
     return { fetched: transactions.length, imported, matched, unmatched };
+  }
+
+  /**
+   * Financial dimensions (FIN-001): named analytic dimensions
+   * (`fin.dimensions`: [{ key, values?, required? }]) attach to
+   * invoices — validated against the tenant's chart, required ones
+   * enforced, audited — and totals report per dimension value.
+   */
+  async setDimensions(
+    invoiceId: string,
+    dimensions: Record<string, string>,
+    ctx: RequestContext,
+  ): Promise<{ dimensions: Record<string, string> }> {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id: invoiceId, tenantId: ctx.tenantId },
+    });
+    if (!invoice) throw notFound('Invoice', invoiceId);
+    const specs = await this.dimensionSpecs(ctx.tenantId);
+    if (specs.length === 0) {
+      throw new DomainError('INVALID_STATE', 'No financial dimensions are configured');
+    }
+    const specOf = new Map(specs.map((spec) => [spec.key, spec]));
+    for (const [key, value] of Object.entries(dimensions)) {
+      const spec = specOf.get(key);
+      if (!spec) throw new DomainError('VALIDATION_FAILED', `Unknown dimension '${key}'`);
+      if (spec.values && !spec.values.includes(value)) {
+        throw new DomainError(
+          'VALIDATION_FAILED',
+          `'${value}' is not a valid value for dimension '${key}'`,
+        );
+      }
+    }
+    for (const spec of specs) {
+      if (spec.required && !(spec.key in dimensions)) {
+        throw new DomainError('VALIDATION_FAILED', `Dimension '${spec.key}' is required`);
+      }
+    }
+    await this.prisma.$transaction(async (tx) => {
+      await tx.invoice.update({
+        where: { id: invoice.id },
+        data: { dimensions: dimensions as Prisma.InputJsonValue },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'fin.dimensions.set',
+        objectType: 'Invoice',
+        objectId: invoice.id,
+        source: 'api',
+        previousValues: { dimensions: invoice.dimensions ?? null },
+        newValues: { dimensions },
+      });
+    });
+    return { dimensions };
+  }
+
+  /** Totals per value of one dimension, customer vs supplier split. */
+  async byDimension(
+    key: string,
+    ctx: RequestContext,
+  ): Promise<Array<{ value: string; revenue: string; cost: string; invoices: number }>> {
+    const invoices = await this.prisma.invoice.findMany({
+      where: { tenantId: ctx.tenantId, status: { not: 'VOID' } },
+      select: { invoiceType: true, total: true, dimensions: true },
+      take: 5000,
+    });
+    const rows = new Map<string, { revenue: number; cost: number; invoices: number }>();
+    for (const invoice of invoices) {
+      const dims = (invoice.dimensions ?? {}) as Record<string, unknown>;
+      const value = typeof dims[key] === 'string' ? (dims[key] as string) : '(none)';
+      const entry = rows.get(value) ?? { revenue: 0, cost: 0, invoices: 0 };
+      if (invoice.invoiceType === 'CUSTOMER') entry.revenue += Number(invoice.total);
+      else entry.cost += Number(invoice.total);
+      entry.invoices += 1;
+      rows.set(value, entry);
+    }
+    return [...rows.entries()]
+      .map(([value, v]) => ({
+        value,
+        revenue: v.revenue.toFixed(2),
+        cost: v.cost.toFixed(2),
+        invoices: v.invoices,
+      }))
+      .sort((a, b) => a.value.localeCompare(b.value));
   }
 
   async marginAnalysis(ctx: RequestContext): Promise<MarginRow[]> {

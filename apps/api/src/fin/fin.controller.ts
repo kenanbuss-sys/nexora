@@ -91,6 +91,20 @@ export class FinanceController {
     return this.finance.importBankFeed(ctx);
   }
 
+  /** FIN-001 — financial dimensions. */
+  @Post('invoices/:id/dimensions')
+  @RequirePermission('finance.invoice')
+  async setDimensions(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ dimensions: z.record(z.string().max(100)) }), body);
+    return this.finance.setDimensions(id, input.dimensions, ctx);
+  }
+
+  @Get('by-dimension')
+  @RequirePermission('finance.read')
+  async byDimension(@Ctx() ctx: RequestContext, @Query('key') key?: string) {
+    return { rows: await this.finance.byDimension(key ?? '', ctx) };
+  }
+
   @Get('margin')
   @RequirePermission('finance.read')
   async margin(@Ctx() ctx: RequestContext) {
