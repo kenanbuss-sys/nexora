@@ -4,17 +4,15 @@ import { DevIdentityAdapter } from '@nexora/tenancy';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 /**
- * Sprint 190 acceptance tests: logistics core (LOG-001/002/004/005/
- * 006/008/009) — fleet & drivers, configured carriers, shipment
- * planning with sequenced stops, dispatch guards and stop-by-stop
- * trace to delivery.
+ * Sprint 191 acceptance tests: load planning, POD, freight cost and
+ * delivery exceptions (LOG-007/010/011/013).
  */
 const integration = process.env.INTEGRATION === '1' ? describe : describe.skip;
 
 const DB_URL = process.env.DATABASE_URL ?? 'postgresql://app:app@localhost:5432/enterprise_os';
 const SECRET = process.env.DEV_AUTH_SECRET ?? 'dev-secret-change-me';
 
-integration('Sprint 190 — logistics core', () => {
+integration('Sprint 191 — load, POD & freight', () => {
   let app: NestFastifyApplication;
   let prisma: PrismaClient;
   const identity = new DevIdentityAdapter(SECRET);
@@ -24,7 +22,7 @@ integration('Sprint 190 — logistics core', () => {
     subject: 'ops|provisioner',
     platformAdmin: true,
   });
-  const tokenA = identity.signToken({ tenantSlug: 'test-s190a', subject: 'idp|s190-admin' });
+  const tokenA = identity.signToken({ tenantSlug: 'test-s191a', subject: 'idp|s191-admin' });
 
   let orderId = '';
   let accountId = '';
@@ -76,26 +74,26 @@ integration('Sprint 190 — logistics core', () => {
     await app.getHttpAdapter().getInstance().ready();
 
     await api('POST', '/api/v1/tenants', platformToken, {
-      slug: 'test-s190a',
-      name: 'Sprint190 Tenant',
+      slug: 'test-s191a',
+      name: 'Sprint191 Tenant',
       initialAdmin: {
-        email: 'admin@s190a.example',
-        displayName: 'S190 Admin',
-        idpSubject: 'idp|s190-admin',
+        email: 'admin@s191a.example',
+        displayName: 'S191 Admin',
+        idpSubject: 'idp|s191-admin',
       },
     });
     const warehouse = await api('POST', '/api/v1/warehouses', tokenA, {
-      code: 'WH190',
-      name: 'Sprint190 warehouse',
+      code: 'WH191',
+      name: 'Sprint191 warehouse',
     });
     const product = await api('POST', '/api/v1/products', tokenA, {
-      code: 'PAK190',
-      name: 'PAK190 product',
+      code: 'PAK191',
+      name: 'PAK191 product',
     });
     const sku = await api('POST', '/api/v1/skus', tokenA, {
       productId: product.body.id,
-      code: 'PAK190-STD',
-      name: 'PAK190 Std',
+      code: 'PAK191-STD',
+      name: 'PAK191 Std',
       baseUom: 'pcs',
     });
     await api('POST', `/api/v1/skus/${sku.body.id}/activate`, tokenA);
@@ -104,7 +102,7 @@ integration('Sprint 190 — logistics core', () => {
       skuId: sku.body.id,
       movementType: 'RECEIPT',
       quantity: 20,
-      idempotencyKey: 'receipt-s190',
+      idempotencyKey: 'receipt-s191',
     });
     const lead = await api('POST', '/api/v1/crm/leads', tokenA, {
       name: 'Kupac Stotri',
@@ -137,108 +135,91 @@ integration('Sprint 190 — logistics core', () => {
   let driverId = '';
   let shipmentId = '';
 
-  it('LOG-004/005: fleet and drivers register with governed validation', async () => {
+  it('LOG-007: the load plan compares packed weight to vehicle capacity', async () => {
     const vehicle = await api('POST', '/api/v1/logistics/vehicles', tokenA, {
-      plate: 'A12-K-345',
-      name: 'Kombi 1',
-      capacityKg: 1200,
+      plate: 'K19-M-001',
+      name: 'Mali kombi',
+      capacityKg: 10,
     });
-    expect(vehicle.status).toBe(201);
     vehicleId = vehicle.body.id as string;
-
-    const duplicate = await api('POST', '/api/v1/logistics/vehicles', tokenA, {
-      plate: 'a12-k-345',
-      name: 'Kombi duplikat',
-    });
-    expect(duplicate.status).toBe(409);
-
-    const driver = await api('POST', '/api/v1/logistics/drivers', tokenA, {
-      name: 'Vozač Jedan',
-      licenseNo: 'C1-556677',
-    });
-    expect(driver.status).toBe(201);
+    const driver = await api('POST', '/api/v1/logistics/drivers', tokenA, { name: 'Vozač 191' });
     driverId = driver.body.id as string;
-  });
 
-  it('LOG-001/002/006: shipments plan with sequenced stops and validated carriers', async () => {
-    const badCarrier = await api('POST', '/api/v1/shipments', tokenA, {
-      carrierKey: 'nepoznat',
-      stops: [{ address: 'Sarajevo, Titova 1' }],
+    const withLine = await api('GET', `/api/v1/orders/${orderId}`, tokenA);
+    const lineId = (withLine.body.lines as Array<{ id: string }>)[0]?.id as string;
+    const pkg = await api('POST', '/api/v1/packages', tokenA, {
+      orderId,
+      lines: [{ orderLineId: lineId, quantity: 2 }],
+      weightKg: 14.5,
     });
-    expect(badCarrier.status).toBe(400);
+    expect(pkg.status).toBe(201);
 
-    const created = await api('POST', '/api/v1/shipments', tokenA, {
+    const shipment = await api('POST', '/api/v1/shipments', tokenA, {
       vehicleId,
       driverId,
-      stops: [{ address: 'Sarajevo, Titova 1', orderId }, { address: 'Zenica, Bulevar 5' }],
+      stops: [{ address: 'Sarajevo, Obala 10', orderId }],
     });
-    expect(created.status).toBe(201);
-    shipmentId = created.body.id as string;
-    expect(created.body.shipmentNumber).toBe('SHP-000001');
-    const stops = created.body.stops as Array<{ seq: number }>;
-    expect(stops.map((st) => st.seq)).toEqual([1, 2]);
+    shipmentId = shipment.body.id as string;
 
-    const ghostOrder = await api('POST', '/api/v1/shipments', tokenA, {
-      stops: [{ address: 'Mostar', orderId: '00000000-0000-0000-0000-000000000000' }],
-    });
-    expect(ghostOrder.status).toBe(404);
+    const plan = await api('GET', `/api/v1/shipments/${shipmentId}/load-plan`, tokenA);
+    expect(plan.status).toBe(200);
+    expect(plan.body.totalKg).toBe('14.50');
+    expect(plan.body.capacityKg).toBe('10.00');
+    expect(plan.body.overloaded).toBe(true);
+    expect(plan.body.packages).toBe(1);
   });
 
-  it('LOG-008/009: dispatch guards hold and stops trace to delivery in order', async () => {
-    const bare = await api('POST', '/api/v1/shipments', tokenA, {
-      stops: [{ address: 'Tuzla' }],
+  it('LOG-013: freight cost records and reports per carrier', async () => {
+    const set = await api('POST', `/api/v1/shipments/${shipmentId}/freight`, tokenA, {
+      cost: 85.5,
+      currency: 'EUR',
     });
-    const undispatchable = await api('POST', `/api/v1/shipments/${bare.body.id}/dispatch`, tokenA);
-    expect(undispatchable.status).toBe(409);
+    expect(set.status).toBe(201);
+    expect(set.body.freightCost).toBe('85.5');
+
+    const report = await api('GET', '/api/v1/shipments/reports/freight', tokenA);
+    const rows = report.body.rows as Array<Record<string, unknown>>;
+    expect(rows[0]?.carrier).toBe('(vlastita flota)');
+    expect(rows[0]?.totalCost).toBe('85.50');
+  });
+
+  it('LOG-010: POD countersigns once, at or after delivery', async () => {
+    const early = await api('POST', `/api/v1/shipments/${shipmentId}/pod`, tokenA, {
+      name: 'Primalac Rani',
+      pin: '1234',
+    });
+    expect(early.status).toBe(409);
 
     await api('POST', `/api/v1/shipments/${shipmentId}/dispatch`, tokenA);
     await api('POST', `/api/v1/shipments/${shipmentId}/depart`, tokenA);
+    const pod = await api('POST', `/api/v1/shipments/${shipmentId}/pod`, tokenA, {
+      name: 'Amira Primalac',
+      pin: '4711',
+    });
+    expect(pod.status).toBe(201);
 
-    const early = await api('POST', `/api/v1/shipments/${shipmentId}/deliver`, tokenA);
-    expect(early.status).toBe(409);
+    const again = await api('POST', `/api/v1/shipments/${shipmentId}/pod`, tokenA, {
+      name: 'Amira Primalac',
+      pin: '4711',
+    });
+    expect(again.status).toBe(409);
+  });
 
+  it('LOG-011: the exceptions desk lists excepted shipments and failed stops', async () => {
     const shipment = await api('GET', `/api/v1/shipments/${shipmentId}`, tokenA);
-    const stops = shipment.body.stops as Array<{ id: string; seq: number }>;
-    const outOfOrder = await api(
-      'POST',
-      `/api/v1/shipments/${shipmentId}/stops/${stops[1]?.id}/complete`,
-      tokenA,
-    );
-    expect(outOfOrder.status).toBe(409);
+    const stopId = (shipment.body.stops as Array<{ id: string }>)[0]?.id as string;
+    await api('POST', `/api/v1/shipments/${shipmentId}/stops/${stopId}/complete`, tokenA, {
+      failed: true,
+      note: 'Niko na adresi.',
+    });
+    await api('POST', `/api/v1/shipments/${shipmentId}/exception`, tokenA, {
+      reason: 'Neuspjela dostava, vraćanje u skladište.',
+    });
 
-    await api('POST', `/api/v1/shipments/${shipmentId}/stops/${stops[0]?.id}/complete`, tokenA);
-    await api('POST', `/api/v1/shipments/${shipmentId}/stops/${stops[1]?.id}/complete`, tokenA, {
-      note: 'Ostavljeno na porti.',
-    });
-    const delivered = await api('POST', `/api/v1/shipments/${shipmentId}/deliver`, tokenA);
-    expect(delivered.status).toBe(201);
-    expect(delivered.body.status).toBe('DELIVERED');
-    expect(delivered.body.deliveredAt).toBeTruthy();
-  });
-
-  it('LOG-008: exceptions need a reason and resume back to transit', async () => {
-    const second = await api('POST', '/api/v1/shipments', tokenA, {
-      vehicleId,
-      driverId,
-      stops: [{ address: 'Bihać' }],
-    });
-    const id = second.body.id as string;
-    await api('POST', `/api/v1/shipments/${id}/dispatch`, tokenA);
-    const noReason = await api('POST', `/api/v1/shipments/${id}/exception`, tokenA, {
-      reason: 'x',
-    });
-    expect(noReason.status).toBe(400);
-    const excepted = await api('POST', `/api/v1/shipments/${id}/exception`, tokenA, {
-      reason: 'Kvar na vozilu kod Kaknja.',
-    });
-    expect(excepted.body.status).toBe('EXCEPTION');
-    const resumed = await api('POST', `/api/v1/shipments/${id}/resume`, tokenA);
-    expect(resumed.body.status).toBe('IN_TRANSIT');
-  });
-
-  it('AUTHZ: logistics needs inventory permissions', async () => {
-    const stranger = identity.signToken({ tenantSlug: 'test-s190a', subject: 'idp|s190-nobody' });
-    const denied = await api('GET', '/api/v1/shipments', stranger);
-    expect([401, 403]).toContain(denied.status);
+    const desk = await api('GET', '/api/v1/shipments/reports/exceptions', tokenA);
+    expect(desk.status).toBe(200);
+    expect((desk.body.exceptedShipments as unknown[]).length).toBe(1);
+    const failedStops = desk.body.failedStops as Array<Record<string, unknown>>;
+    expect(failedStops[0]?.note).toBe('Niko na adresi.');
   });
 });

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { writeAudit } from '@nexora/audit';
 import type { PrismaClient } from '@nexora/db';
 import { DomainError, notFound } from '@nexora/kernel';
@@ -334,6 +335,186 @@ export class LogisticsService {
       return changed;
     });
     return toView(updated);
+  }
+
+  /**
+   * Load planning (LOG-007): the packed weight of every order on the
+   * route against the vehicle's capacity — overload is visible before
+   * the truck rolls.
+   */
+  async loadPlan(
+    shipmentId: string,
+    ctx: RequestContext,
+  ): Promise<{
+    totalKg: string;
+    capacityKg: string | null;
+    overloaded: boolean;
+    packages: number;
+  }> {
+    const row = await this.prisma.shipment.findFirst({
+      where: { id: shipmentId, tenantId: ctx.tenantId },
+      include: { stops: true, vehicle: true },
+    });
+    if (!row) throw notFound('Shipment', shipmentId);
+    const orderIds = row.stops.map((s) => s.orderId).filter((id): id is string => id !== null);
+    const packages = orderIds.length
+      ? await this.prisma.package.findMany({
+          where: { tenantId: ctx.tenantId, orderId: { in: orderIds } },
+          select: { weightKg: true },
+        })
+      : [];
+    const totalKg = packages.reduce((acc, pkg) => acc + Number(pkg.weightKg ?? 0), 0);
+    const capacity = row.vehicle ? Number(row.vehicle.capacityKg) : null;
+    return {
+      totalKg: totalKg.toFixed(2),
+      capacityKg: capacity === null ? null : capacity.toFixed(2),
+      overloaded: capacity !== null && capacity > 0 && totalKg > capacity,
+      packages: packages.length,
+    };
+  }
+
+  /**
+   * Proof of delivery (LOG-010): the recipient countersigns with a
+   * PIN — only the salted hash is stored, once per shipment.
+   */
+  async recordPod(
+    input: { shipmentId: string; name: string; pin: string },
+    ctx: RequestContext,
+  ): Promise<ShipmentView> {
+    if (input.name.trim().length < 2) {
+      throw new DomainError('VALIDATION_FAILED', 'Recipient name is required');
+    }
+    if (!/^\d{4,12}$/.test(input.pin)) {
+      throw new DomainError('VALIDATION_FAILED', 'PIN must be 4-12 digits');
+    }
+    const row = await this.prisma.shipment.findFirst({
+      where: { id: input.shipmentId, tenantId: ctx.tenantId },
+      include: { stops: true },
+    });
+    if (!row) throw notFound('Shipment', input.shipmentId);
+    if (row.status !== 'IN_TRANSIT' && row.status !== 'DELIVERED') {
+      throw new DomainError('INVALID_STATE', 'POD is captured at or after delivery');
+    }
+    if (row.podSignatureHash) {
+      throw new DomainError('CONFLICT', 'POD is already recorded for this shipment');
+    }
+    const hash = createHash('sha256')
+      .update(`${ctx.tenantId}:${row.id}:${input.name.trim()}:${input.pin}`)
+      .digest('hex');
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const changed = await tx.shipment.update({
+        where: { id: row.id },
+        data: { podName: input.name.trim(), podSignatureHash: hash },
+        include: { stops: true },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'log.shipment.pod',
+        objectType: 'Shipment',
+        objectId: row.id,
+        source: 'api',
+        newValues: { podName: input.name.trim(), signatureHash: hash },
+      });
+      return changed;
+    });
+    return toView(updated);
+  }
+
+  /** Freight cost (LOG-013), audited; report totals per carrier. */
+  async setFreightCost(
+    input: { shipmentId: string; cost: number; currency: string },
+    ctx: RequestContext,
+  ): Promise<ShipmentView> {
+    if (!(input.cost >= 0)) {
+      throw new DomainError('VALIDATION_FAILED', 'Freight cost cannot be negative');
+    }
+    if (!/^[A-Z]{3}$/.test(input.currency)) {
+      throw new DomainError('VALIDATION_FAILED', 'Currency must be a 3-letter ISO code');
+    }
+    const row = await this.prisma.shipment.findFirst({
+      where: { id: input.shipmentId, tenantId: ctx.tenantId },
+    });
+    if (!row) throw notFound('Shipment', input.shipmentId);
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const changed = await tx.shipment.update({
+        where: { id: row.id },
+        data: { freightCost: input.cost, currency: input.currency },
+        include: { stops: true },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'log.shipment.freight',
+        objectType: 'Shipment',
+        objectId: row.id,
+        source: 'api',
+        previousValues: { freightCost: row.freightCost === null ? null : String(row.freightCost) },
+        newValues: { freightCost: input.cost, currency: input.currency },
+      });
+      return changed;
+    });
+    return toView(updated);
+  }
+
+  async freightReport(
+    ctx: RequestContext,
+  ): Promise<Array<{ carrier: string; shipments: number; totalCost: string }>> {
+    const rows = await this.prisma.shipment.findMany({
+      where: { tenantId: ctx.tenantId, freightCost: { not: null } },
+      select: { carrierKey: true, freightCost: true },
+      take: 2000,
+    });
+    const grouped = new Map<string, { shipments: number; totalCost: number }>();
+    for (const row of rows) {
+      const carrier = row.carrierKey ?? '(vlastita flota)';
+      const entry = grouped.get(carrier) ?? { shipments: 0, totalCost: 0 };
+      entry.shipments += 1;
+      entry.totalCost += Number(row.freightCost);
+      grouped.set(carrier, entry);
+    }
+    return [...grouped.entries()]
+      .map(([carrier, v]) => ({
+        carrier,
+        shipments: v.shipments,
+        totalCost: v.totalCost.toFixed(2),
+      }))
+      .sort((a, b) => Number(b.totalCost) - Number(a.totalCost));
+  }
+
+  /** Delivery exceptions (LOG-011): the desk of what went wrong. */
+  async exceptionsReport(ctx: RequestContext): Promise<{
+    exceptedShipments: Array<{ shipmentNumber: string; status: string }>;
+    failedStops: Array<{
+      shipmentNumber: string;
+      seq: number;
+      address: string;
+      note: string | null;
+    }>;
+  }> {
+    const [excepted, failed] = await Promise.all([
+      this.prisma.shipment.findMany({
+        where: { tenantId: ctx.tenantId, status: 'EXCEPTION' },
+        select: { shipmentNumber: true, status: true },
+        take: 200,
+      }),
+      this.prisma.shipmentStop.findMany({
+        where: { tenantId: ctx.tenantId, status: 'FAILED' },
+        include: { shipment: { select: { shipmentNumber: true } } },
+        take: 200,
+      }),
+    ]);
+    return {
+      exceptedShipments: excepted,
+      failedStops: failed.map((stop) => ({
+        shipmentNumber: stop.shipment.shipmentNumber,
+        seq: stop.seq,
+        address: stop.address,
+        note: stop.note,
+      })),
+    };
   }
 
   /** LOG-006/009: stop progress is the trace. */

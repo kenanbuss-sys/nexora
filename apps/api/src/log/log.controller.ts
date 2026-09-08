@@ -120,6 +120,47 @@ export class ShipmentsController {
     return this.logistics.transition(id, 'IN_TRANSIT', {}, ctx);
   }
 
+  /** LOG-007 — load plan vs vehicle capacity. */
+  @Get(':id/load-plan')
+  @RequirePermission('inventory.read')
+  async loadPlan(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.logistics.loadPlan(id, ctx);
+  }
+
+  /** LOG-010 — proof of delivery. */
+  @Post(':id/pod')
+  @RequirePermission('inventory.adjust')
+  async pod(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ name: z.string().min(2).max(120), pin: z.string().min(4).max(12) }),
+      body,
+    );
+    return this.logistics.recordPod({ shipmentId: id, ...input }, ctx);
+  }
+
+  /** LOG-013 — freight cost. */
+  @Post(':id/freight')
+  @RequirePermission('inventory.adjust')
+  async freight(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ cost: z.number().nonnegative(), currency: z.string().length(3) }),
+      body,
+    );
+    return this.logistics.setFreightCost({ shipmentId: id, ...input }, ctx);
+  }
+
+  @Get('reports/freight')
+  @RequirePermission('inventory.read')
+  async freightReport(@Ctx() ctx: RequestContext) {
+    return { rows: await this.logistics.freightReport(ctx) };
+  }
+
+  @Get('reports/exceptions')
+  @RequirePermission('inventory.read')
+  async exceptions(@Ctx() ctx: RequestContext) {
+    return this.logistics.exceptionsReport(ctx);
+  }
+
   @Post(':id/stops/:stopId/complete')
   @RequirePermission('inventory.adjust')
   async completeStop(
