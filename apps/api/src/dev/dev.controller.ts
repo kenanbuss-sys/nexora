@@ -9,6 +9,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import type { DeviceService, PrintService, ScaleService } from '@nexora/domain-dev';
+import type { ShopFloorService } from '@nexora/domain-mes';
+import { SHOPFLOOR_SERVICE } from '../mes/shopfloor.controller';
 import type { VerificationService } from '@nexora/domain-ver';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -343,5 +345,55 @@ export class WeightsController {
       weightKg: input.weightKg,
       captureId: input.captureId,
     });
+  }
+}
+
+/**
+ * Machine gateway (DEV-013/014): edge gateways authenticate as
+ * registered devices and push machine events; the shop-floor domain
+ * owns the effects (counters, auto-downtime) through its public
+ * interface.
+ */
+@Controller('api/v1/devices/machine-events')
+export class MachineGatewayController {
+  constructor(
+    @Inject(DEVICE_SERVICE) private readonly devices: DeviceService,
+    @Inject(SHOPFLOOR_SERVICE) private readonly shopFloor: ShopFloorService,
+  ) {}
+
+  @Post()
+  @Public()
+  async ingest(@Body() body: unknown) {
+    const input = parseBody(
+      z.object({
+        enrollmentToken: z.string().min(8),
+        workCenterCode: z.string().min(1).max(60),
+        eventId: z.string().min(1).max(64),
+        eventType: z.enum(['COUNT', 'DOWN', 'UP']),
+        value: z.number().optional(),
+      }),
+      body,
+    );
+    const device = await this.devices.resolveByToken(input.enrollmentToken);
+    if (!device || !device.active) {
+      throw new UnauthorizedException({ code: 'UNAUTHENTICATED', message: 'Unknown device token' });
+    }
+    return this.shopFloor.recordMachineEvent(
+      {
+        workCenterCode: input.workCenterCode,
+        eventId: `gw:${device.deviceId}:${input.eventId}`,
+        eventType: input.eventType,
+        ...(input.value !== undefined ? { value: input.value } : {}),
+      },
+      {
+        tenantId: device.tenantId,
+        tenantSlug: '',
+        tenantStatus: 'ACTIVE',
+        actorType: 'SERVICE',
+        userId: undefined,
+        userStatus: undefined,
+        platformAdmin: false,
+      },
+    );
   }
 }
