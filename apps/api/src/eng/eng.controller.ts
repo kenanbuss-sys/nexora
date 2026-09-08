@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { EngineeringService } from '@nexora/domain-eng';
+import type { EngineeringService, EngOpsService } from '@nexora/domain-eng';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -7,6 +7,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const ENGINEERING_SERVICE = 'ENGINEERING_SERVICE';
+export const ENG_OPS_SERVICE = 'ENG_OPS_SERVICE';
 
 const createBomSchema = z.object({
   skuId: z.string().uuid(),
@@ -151,5 +152,105 @@ export class EngineeringChangesController {
   @RequirePermission('bom.release')
   async reject(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return this.eng.decideChange(id, false, ctx);
+  }
+}
+
+const parametricSchema = z.object({
+  skuCode: z.string().min(1).max(60),
+  parameters: z.record(z.string(), z.number()),
+});
+const drawingSchema = z.object({
+  skuCode: z.string().min(1).max(60),
+  drawingNumber: z.string().min(1).max(64),
+  revision: z.string().min(1).max(64),
+});
+const pdmExportSchema = z.object({
+  bomId: z.string().min(1),
+  connectorKey: z.string().min(1).max(60),
+});
+const instructionSchema = z.object({
+  skuCode: z.string().min(1).max(60),
+  seq: z.number().int().min(1),
+  text: z.string().min(5).max(4000),
+});
+const toolingSchema = z.object({
+  skuCode: z.string().min(1).max(60),
+  seq: z.number().int().min(1),
+  tools: z.array(z.string().min(1).max(80)).min(1).max(30),
+});
+const complianceSchema = z.object({
+  skuCode: z.string().min(1).max(60),
+  standards: z
+    .array(z.object({ name: z.string().min(1).max(120), until: z.string().max(10).optional() }))
+    .max(50),
+});
+
+/**
+ * Engineering operations (ENG-004/005/009/010/012/014/015):
+ * parametric BOMs, alternates, drawings, PDM export, work
+ * instructions, tooling and compliance specifications.
+ */
+@Controller('api/v1/engineering/ops')
+export class EngOpsController {
+  constructor(@Inject(ENG_OPS_SERVICE) private readonly ops: EngOpsService) {}
+
+  @Post('parametric/resolve')
+  @RequirePermission('bom.read')
+  async resolveParametric(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.ops.resolveParametric(parseBody(parametricSchema, body), ctx);
+  }
+
+  @Get('alternates')
+  @RequirePermission('bom.read')
+  async alternates(@Ctx() ctx: RequestContext) {
+    return { alternates: await this.ops.alternates(ctx) };
+  }
+
+  @Post('drawings')
+  @RequirePermission('bom.manage')
+  async registerDrawing(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.ops.registerDrawing(parseBody(drawingSchema, body), ctx);
+  }
+
+  @Get('drawings/:skuCode')
+  @RequirePermission('bom.read')
+  async drawings(@Param('skuCode') skuCode: string, @Ctx() ctx: RequestContext) {
+    return { drawings: await this.ops.drawings(skuCode, ctx) };
+  }
+
+  @Post('pdm/export')
+  @RequirePermission('bom.manage')
+  async exportBom(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.ops.exportBom(parseBody(pdmExportSchema, body), ctx);
+  }
+
+  @Post('instructions')
+  @RequirePermission('bom.manage')
+  async setInstruction(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.ops.setWorkInstruction(parseBody(instructionSchema, body), ctx);
+  }
+
+  @Post('tooling')
+  @RequirePermission('bom.manage')
+  async setTooling(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.ops.setTooling(parseBody(toolingSchema, body), ctx);
+  }
+
+  @Get('operator-sheet/:skuCode')
+  @RequirePermission('production.read')
+  async operatorSheet(@Param('skuCode') skuCode: string, @Ctx() ctx: RequestContext) {
+    return { operations: await this.ops.operatorSheet(skuCode, ctx) };
+  }
+
+  @Post('compliance')
+  @RequirePermission('bom.manage')
+  async setCompliance(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.ops.setCompliance(parseBody(complianceSchema, body), ctx);
+  }
+
+  @Get('compliance/report')
+  @RequirePermission('bom.read')
+  async complianceReport(@Ctx() ctx: RequestContext) {
+    return { rows: await this.ops.complianceReport(ctx) };
   }
 }

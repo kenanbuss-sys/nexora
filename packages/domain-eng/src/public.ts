@@ -12,3 +12,4 @@ export {
   type RoutingView,
   type SkuInfoGate,
 } from './engineering.service';
+export { EngOpsService, type EngOpsConfigGate, type EngOpsConnectorGate } from './engops.service';

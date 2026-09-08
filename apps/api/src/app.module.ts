@@ -50,7 +50,7 @@ import {
 } from '@nexora/domain-mdm';
 import { PosService, ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ContainerService, ProcurementService, RfqService } from '@nexora/domain-proc';
-import { EngineeringService } from '@nexora/domain-eng';
+import { EngOpsService, EngineeringService } from '@nexora/domain-eng';
 import { AdvancedPlanningService, PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
@@ -217,6 +217,8 @@ import { SHOPFLOOR_SERVICE, ShopFloorController } from './mes/shopfloor.controll
 import {
   BomsController,
   ENGINEERING_SERVICE,
+  ENG_OPS_SERVICE,
+  EngOpsController,
   EngineeringChangesController,
   RoutingsController,
 } from './eng/eng.controller';
@@ -436,6 +438,7 @@ export const REDIS = 'REDIS';
     BomsController,
     RoutingsController,
     EngineeringChangesController,
+    EngOpsController,
     PlanningController,
     AdvancedPlanningController,
     WorkOrdersController,
@@ -1302,6 +1305,16 @@ export const REDIS = 'REDIS';
       useFactory: (prisma: PrismaClient, catalog: CatalogService) =>
         new EngineeringService(prisma, { getSkuInfo: (t, s) => catalog.getSkuInfo(t, s) }),
       inject: [PRISMA, CATALOG_SERVICE],
+    },
+    {
+      provide: ENG_OPS_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService, connectors: ConnectorService) =>
+        new EngOpsService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { pushObject: (input, ctx) => connectors.pushObject(input, ctx) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, CONNECTOR_SERVICE],
     },
     {
       provide: PLANNING_SERVICE,
