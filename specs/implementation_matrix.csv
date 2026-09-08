@@ -182,20 +182,20 @@ ENG-012,ENG,Work instructions,P2,PLANNED,R2,,,
 ENG-013,ENG,Standard times,P2,DONE,R2,,,
 ENG-014,ENG,Tooling requirements,P2,PLANNED,R2,,,
 ENG-015,ENG,Compliance specifications,P2,PLANNED,R2,,,
-PLAN-001,PLAN,Demand planning,P2,PLANNED,R2,,,
-PLAN-002,PLAN,Forecast versions,P2,PLANNED,R2,,,
-PLAN-003,PLAN,S&OP,P2,PLANNED,R2,,,
+PLAN-001,PLAN,Demand planning,P2,DONE,R2,,,Sprint 208: demand planning — forecast entries per SKU and period, published as versions.
+PLAN-002,PLAN,Forecast versions,P2,DONE,R2,,,Sprint 208: forecast versions are immutable audited publications; history listable.
+PLAN-003,PLAN,S&OP,P2,DONE,R2,,,Sprint 208: S&OP — demand vs on-hand + open production per SKU with the gap to close.
 PLAN-004,PLAN,Safety stock,P2,DONE,R2,,,
 PLAN-005,PLAN,Reorder policies,P2,DONE,R2,,,
 PLAN-006,PLAN,MRP explosion,P2,DONE,R2,,,
 PLAN-007,PLAN,Net requirements,P2,DONE,R2,,,
 PLAN-008,PLAN,Planned orders,P2,DONE,R2,,,
 PLAN-009,PLAN,Lead-time planning,P2,DONE,R2,,,
-PLAN-010,PLAN,Capacity requirements,P2,PLANNED,R2,,,
-PLAN-011,PLAN,Finite scheduling,P2,PLANNED,R2,,,
-PLAN-012,PLAN,Sequence optimization,P2,PLANNED,R2,,,
-PLAN-013,PLAN,Constraint management,P2,PLANNED,R2,,,
-PLAN-014,PLAN,What-if scenarios,P2,PLANNED,R2,,,
+PLAN-010,PLAN,Capacity requirements,P2,DONE,R2,,,Sprint 208: capacity requirements — routing minutes of open operations vs plan.capacity per work center.
+PLAN-011,PLAN,Finite scheduling,P2,DONE,R2,,,Sprint 208: finite scheduling — operations packed into capacity days per work center.
+PLAN-012,PLAN,Sequence optimization,P2,DONE,R2,,,Sprint 208: sequence optimization — configurable FIFO/SPT rule per tenant.
+PLAN-013,PLAN,Constraint management,P2,DONE,R2,,,Sprint 208: constraint management — bottleneck and overloaded centers with suggestions.
+PLAN-014,PLAN,What-if scenarios,P2,DONE,R2,,,Sprint 208: what-if scenarios — extra capacity or demand factor simulated read-only.
 PLAN-015,PLAN,Promise-date engine,P2,Partially implemented (Sprint 058),R2,,,Order promise-date endpoint from availability + lead times; full engine (capacity-aware) pending.
 MES-001,MES,Work orders,P1,DONE,R2,,,
 MES-002,MES,Operations,P1,DONE,R2,,,
