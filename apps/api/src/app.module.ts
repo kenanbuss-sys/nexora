@@ -1153,6 +1153,7 @@ export const REDIS = 'REDIS';
         tenants: TenantService,
         inventory: InventoryService,
         omsOrders: OrderService,
+        finance: FinanceService,
       ) =>
         new ConnectorService(
           prisma,
@@ -1174,8 +1175,9 @@ export const REDIS = 'REDIS';
               };
             },
           },
+          { listInvoices: (ctx) => finance.listInvoices({}, ctx) },
         ),
-      inject: [PRISMA, TENANT_SERVICE, INVENTORY_SERVICE, ORDER_SERVICE],
+      inject: [PRISMA, TENANT_SERVICE, INVENTORY_SERVICE, ORDER_SERVICE, FINANCE_SERVICE],
     },
     {
       provide: SERVICE_ACCOUNT_SERVICE,

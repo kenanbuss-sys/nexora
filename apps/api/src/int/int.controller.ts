@@ -105,6 +105,13 @@ export class ConnectorsController {
     return { connectors: await this.connectors.listConnectors(ctx) };
   }
 
+  /** INT-002 — export issued invoices to an accounting connector. */
+  @Post(':key/export-invoices')
+  @RequirePermission('finance.read')
+  async exportInvoices(@Param('key') key: string, @Ctx() ctx: RequestContext) {
+    return this.connectors.exportInvoices(key, ctx);
+  }
+
   @Post(':key/import-orders')
   @RequirePermission('integration.manage')
   async importOrders(@Param('key') key: string, @Ctx() ctx: RequestContext) {

@@ -163,6 +163,21 @@ export interface MarketplaceOrderGate {
   ): Promise<{ orderId: string; orderNumber: string; unknownCodes: string[] }>;
 }
 
+/** Cross-domain contract: invoices are owned by FIN (INT-002). */
+export interface AccountingExportGate {
+  listInvoices(ctx: RequestContext): Promise<
+    Array<{
+      id: string;
+      invoiceNumber: string;
+      invoiceType: string;
+      status: string;
+      currency: string;
+      total: string;
+      paidAmount: string;
+    }>
+  >;
+}
+
 /** Cross-domain contract: sellable quantities are owned by WMS (COM-001). */
 export interface AvailabilityFeedGate {
   channelAvailability(
@@ -194,6 +209,7 @@ export class ConnectorService {
     adapters?: Record<string, ConnectorAdapter>,
     private readonly availability?: AvailabilityFeedGate,
     private readonly orders?: MarketplaceOrderGate,
+    private readonly invoices?: AccountingExportGate,
   ) {
     this.adapters.set('noop', noopAdapter);
     for (const [name, adapter] of Object.entries(adapters ?? {})) {
@@ -467,6 +483,76 @@ export class ConnectorService {
     await this.resolve(input.key, ctx.tenantId);
     const rules = await this.mappingRules(ctx.tenantId, input.key);
     return { mapped: applyMapping(input.payload, rules), rules: rules.length };
+  }
+
+  /**
+   * Accounting export (INT-002): push issued invoices to an
+   * accounting connector exactly once each. Only connectors of kind
+   * 'accounting' qualify; VOID and DRAFT invoices never leave.
+   */
+  async exportInvoices(
+    key: string,
+    ctx: RequestContext,
+  ): Promise<{ exported: number; skipped: number; references: string[] }> {
+    if (!this.invoices) {
+      throw new DomainError('INVALID_STATE', 'Invoice export is not wired');
+    }
+    const { entry, adapter } = await this.resolve(key, ctx.tenantId);
+    if (entry.kind !== 'accounting') {
+      throw new DomainError('INVALID_STATE', `Connector '${key}' is not an accounting connector`);
+    }
+    const rules = await this.mappingRules(ctx.tenantId, entry.key);
+    const invoices = await this.invoices.listInvoices(ctx);
+    let exported = 0;
+    let skipped = 0;
+    const references: string[] = [];
+    for (const invoice of invoices) {
+      if (invoice.status === 'VOID' || invoice.status === 'DRAFT') {
+        skipped += 1;
+        continue;
+      }
+      const marker = `${entry.key}:${invoice.id}`;
+      const already = await this.prisma.auditEvent.findFirst({
+        where: {
+          tenantId: ctx.tenantId,
+          action: 'int.accounting.export',
+          objectType: 'Invoice',
+          objectId: marker,
+        },
+        select: { id: true },
+      });
+      if (already) {
+        skipped += 1;
+        continue;
+      }
+      const payload: Record<string, unknown> = {
+        invoiceNumber: invoice.invoiceNumber,
+        invoiceType: invoice.invoiceType,
+        status: invoice.status,
+        currency: invoice.currency,
+        total: invoice.total,
+        paidAmount: invoice.paidAmount,
+      };
+      const mapped = rules.length > 0 ? applyMapping(payload, rules) : payload;
+      const result = await adapter.push('invoice', mapped, entry.config);
+      if (!result.ok) {
+        skipped += 1;
+        continue;
+      }
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'int.accounting.export',
+        objectType: 'Invoice',
+        objectId: marker,
+        source: 'api',
+        newValues: { invoiceNumber: invoice.invoiceNumber, reference: result.reference },
+      });
+      references.push(result.reference);
+      exported += 1;
+    }
+    return { exported, skipped, references };
   }
 
   async pushObject(
