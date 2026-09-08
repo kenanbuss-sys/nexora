@@ -21,7 +21,7 @@ import {
   DocumentTemplateService,
 } from '@nexora/domain-doc';
 import { EmployeeService } from '@nexora/domain-hcm';
-import { AssetService } from '@nexora/domain-eam';
+import { MaintenanceService, AssetService } from '@nexora/domain-eam';
 import {
   ConfiguratorService,
   DiscountRuleService,
@@ -148,7 +148,12 @@ import { CONTRACT_SERVICE, ContractsController } from './documents/contracts.con
 import { EMPLOYEE_SERVICE, EmployeesController } from './hcm/hcm.controller';
 import { OpsController } from './health/ops.controller';
 import { OpenApiController } from './health/openapi.controller';
-import { ASSET_SERVICE, AssetsController } from './eam/eam.controller';
+import {
+  MAINTENANCE_SERVICE,
+  MaintenanceController,
+  ASSET_SERVICE,
+  AssetsController,
+} from './eam/eam.controller';
 import {
   ONBOARDING_SERVICE,
   OnboardingController,
@@ -385,6 +390,7 @@ export const REDIS = 'REDIS';
     OpsController,
     OpenApiController,
     AssetsController,
+    MaintenanceController,
     CrmLeadsController,
     CrmOpportunitiesController,
     CrmActivitiesController,
@@ -707,6 +713,22 @@ export const REDIS = 'REDIS';
           getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
         }),
       inject: [PRISMA, CUSTOM_OBJECT_SERVICE, TENANT_SERVICE],
+    },
+    {
+      provide: MAINTENANCE_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        tasks: TaskService,
+        inventory: InventoryService,
+      ) =>
+        new MaintenanceService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { createTask: async (input, ctx) => ({ id: (await tasks.createTask(input, ctx)).id }) },
+          { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, TASK_SERVICE, INVENTORY_SERVICE],
     },
     {
       provide: LOGISTICS_SERVICE,
